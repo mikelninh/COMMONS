@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07100d">
+<title>COMMONS — Scam Intercept</title>
+<style>
+:root{
+  color-scheme:dark;--bg:#060907;--panel:#0b100d;--panel2:#0e1511;--line:#1f2d25;
+  --text:#f1f5f2;--muted:#89978f;--green:#b8ff7a;--cyan:#78d8ff;--amber:#ffd17a;
+  --red:#ff8f86;--violet:#b9a0ff;--shadow:0 22px 70px rgba(0,0,0,.32)
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{background:
+radial-gradient(circle at 50% -5%,rgba(65,133,83,.11),transparent 30%),
+linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px),var(--bg);
+background-size:auto,44px 44px,44px 44px}
+button,input,select{font:inherit}
+main{max-width:1440px;margin:auto;padding:18px 18px 52px}
+nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:34px}
+.brand{font-size:12px;letter-spacing:.18em;font-weight:900}.brand b{color:var(--green)}
+.badges{display:flex;gap:7px;flex-wrap:wrap}.badge{font-size:8px;letter-spacing:.1em;text-transform:uppercase;border:1px solid #31423a;background:#0a0f0c;border-radius:999px;padding:6px 8px;color:#9eaba3}.badge.live{color:var(--green);border-color:#3d573f}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:30px;align-items:end;margin-bottom:20px}
+.eyebrow{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--green);font-weight:850}
+h1{font-size:clamp(40px,6vw,76px);letter-spacing:-.058em;line-height:.93;margin:10px 0 12px;font-weight:900}
+.lede{font-size:15px;line-height:1.55;color:#bdc7c0;max-width:720px}
+.heroStat{text-align:right}.heroStat span{display:block;color:var(--muted);font-size:8px;text-transform:uppercase;letter-spacing:.1em}.heroStat b{font-size:28px}
+.layout{display:grid;grid-template-columns:370px minmax(0,1fr);gap:14px;align-items:start}
+.card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(12,17,14,.98),rgba(8,12,9,.98));border-radius:20px;box-shadow:var(--shadow)}
+.controls{padding:17px;position:sticky;top:14px}.sectionTitle{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:850;margin:0 0 12px}
+.presetGrid{display:grid;grid-template-columns:1fr;gap:6px;margin-bottom:15px}.preset{border:1px solid #293831;background:#0a0f0c;color:#d5ddd8;border-radius:11px;padding:10px;text-align:left;cursor:pointer}.preset:hover,.preset.on{border-color:#496049;background:#0c140e}.preset b{display:block;font-size:11px}.preset span{display:block;font-size:9.5px;color:var(--muted);line-height:1.35;margin-top:3px}
+.field{margin-top:12px}.field label{display:flex;justify-content:space-between;gap:8px;font-size:10.5px;font-weight:800;margin-bottom:6px}.field label span{color:var(--muted);font-weight:600}
+input[type=number],select{width:100%;border:1px solid #2b3932;background:#070a08;color:var(--text);border-radius:11px;padding:10px 11px;outline:none}
+.toggle{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:10.5px}.toggle:first-of-type{border-top:0}.toggle input{width:18px;height:18px}
+.primary{width:100%;border:0;background:var(--green);color:#071006;border-radius:12px;padding:12px 14px;font-weight:900;margin-top:14px;cursor:pointer}.secondary{border:1px solid #3e5044;background:#0b120e;color:#e9efeb;border-radius:999px;padding:8px 10px;font-size:9px;font-weight:850;cursor:pointer}.status{font-size:9.5px;color:var(--muted);line-height:1.45;margin-top:9px}
+.stage{padding:14px;min-height:700px}.topbar{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;padding:4px 2px 14px}.decisionLabel{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}.decision{font-size:28px;font-weight:900;letter-spacing:-.035em;margin-top:3px}.decision.allow{color:var(--green)}.decision.confirm{color:var(--cyan)}.decision.pause{color:var(--amber)}.decision.review{color:var(--red)}.why{font-size:10.5px;color:#b6c0ba;line-height:1.45;margin-top:5px;max-width:660px}.decisionMeta{text-align:right;font-size:9px;color:var(--muted);line-height:1.5}.decisionMeta b{color:#dbe4de}
+.mesh{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:4px}.agent{border:1px solid var(--line);border-radius:14px;padding:10px;background:#090d0a;position:relative;min-height:128px}.agent.high{border-color:#5b3b36;background:#110b0a}.agent.watch{border-color:#5f5234;background:#120f09}.agent.clear{border-color:#2d4433}.agentName{font-size:9.5px;font-weight:850;line-height:1.25}.agentState{display:inline-block;margin-top:7px;border-radius:999px;padding:4px 6px;font-size:7.5px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}.high .agentState{background:#2a1311;color:var(--red)}.watch .agentState{background:#251d0d;color:var(--amber)}.clear .agentState{background:#0e1b11;color:var(--green)}.claim{font-size:8.7px;color:#aab5ae;line-height:1.38;margin-top:7px}.evidence{font-size:7.8px;color:#6f7d75;line-height:1.35;margin-top:5px}.dataMin{font-size:7px;color:#647068;line-height:1.3;margin-top:7px;border-top:1px solid #1c2821;padding-top:6px}
+.traceTitle{font-size:9px;text-transform:uppercase;letter-spacing:.11em;color:var(--muted);font-weight:850;margin:18px 0 8px}.trace{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.traceNode{border:1px solid var(--line);border-radius:12px;padding:9px;background:#090c0a}.traceNode b{font-size:9px}.traceNode p{font-size:8px;color:var(--muted);line-height:1.35;margin:4px 0 0}.traceNode.active{border-color:#515a36;background:#101307}.traceNode.active b{color:var(--amber)}
+.compare{margin-top:17px;border:1px solid #34473a;border-radius:16px;background:#09100b;padding:13px}.compareTop{display:flex;justify-content:space-between;align-items:center;gap:10px}.compareTitle{font-size:11px;font-weight:850}.compareCopy{font-size:9px;color:var(--muted);line-height:1.4;margin-top:4px}.comparison{display:none;margin-top:11px}.comparison.show{display:grid;grid-template-columns:1fr 28px 1fr;gap:8px;align-items:stretch}.cmpBox{border:1px solid var(--line);border-radius:12px;padding:10px;background:#080c09}.cmpBox span{font-size:7px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}.cmpBox b{display:block;font-size:14px;margin-top:3px}.arrow{display:grid;place-items:center;color:var(--green);font-size:20px}
+.disclaimer{margin-top:15px;font-size:8px;color:#6f7d75;line-height:1.4}
+@media(max-width:1050px){.mesh{grid-template-columns:repeat(3,1fr)}.layout{grid-template-columns:330px 1fr}}
+@media(max-width:780px){.layout{grid-template-columns:1fr}.controls{position:static}.mesh{grid-template-columns:1fr 1fr}.hero{grid-template-columns:1fr}.heroStat{text-align:left}.trace{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){main{padding:12px}.mesh,.trace,.comparison.show{grid-template-columns:1fr}.arrow{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+<main>
+<nav>
+  <div class="brand"><b>COMMONS</b> / SCAM INTERCEPT</div>
+  <div class="badges"><span class="badge live">synthetic defense lab</span><span class="badge">5 agents</span><span class="badge">€0 model spend</span></div>
+</nav>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">fraud defense through coordination</div>
+    <h1>One payment.<br>Five partial truths.</h1>
+    <div class="lede">No agent gets to call someone a fraudster. Each shares one narrow assertion. COMMONS combines only the evidence needed to recommend a reversible intervention.</div>
+  </div>
+  <div class="heroStat"><span>current action</span><b id="heroAction">—</b></div>
+</section>
+
+<section class="layout">
+  <aside class="card controls">
+    <div class="sectionTitle">Scenario</div>
+    <div id="presets" class="presetGrid"></div>
+
+    <div class="field"><label>Amount <span>EUR</span></label><input id="amount" type="number" min="0" step="100" value="8400"></div>
+
+    <div class="field">
+      <label>SIM swap <span>minutes ago · blank = none</span></label>
+      <input id="sim" type="number" min="0" step="1" value="43">
+    </div>
+
+    <div class="field">
+      <label>Independent reports <span>receiving bank</span></label>
+      <input id="reports" type="number" min="0" step="1" value="3">
+    </div>
+
+    <div class="field">
+      <label>Recipient relationship <span>years</span></label>
+      <input id="years" type="number" min="0" step=".5" value="0">
+    </div>
+
+    <div style="margin-top:12px">
+      <div class="toggle"><span>New beneficiary</span><input id="newBeneficiary" type="checkbox" checked></div>
+      <div class="toggle"><span>Known device</span><input id="deviceKnown" type="checkbox" checked></div>
+      <div class="toggle"><span>Scam campaign match</span><input id="campaign" type="checkbox" checked></div>
+      <div class="toggle"><span>User says payment is expected</span><input id="expected" type="checkbox"></div>
+    </div>
+
+    <button id="evaluate" class="primary">Ask the fraud mesh →</button>
+    <div id="status" class="status">All data is synthetic. No bank, telecom, device or customer data is being accessed.</div>
+  </aside>
+
+  <section class="card stage">
+    <div class="topbar">
+      <div>
+        <div class="decisionLabel">COMMONS recommendation</div>
+        <div id="decision" class="decision">Waiting for signals</div>
+        <div id="why" class="why">Run the synthetic case to see how independent evidence changes the intervention.</div>
+      </div>
+      <div id="decisionMeta" class="decisionMeta"></div>
+    </div>
+
+    <div id="mesh" class="mesh"></div>
+
+    <div class="traceTitle">Decision path</div>
+    <div id="trace" class="trace">
+      <div class="traceNode"><b>1 · Observe</b><p>Agents expose narrow assertions, not raw histories.</p></div>
+      <div class="traceNode"><b>2 · Corroborate</b><p>Independent sources matter more than repeated claims from one source.</p></div>
+      <div class="traceNode"><b>3 · Intervene reversibly</b><p>Prefer confirmation, pause, or human review over irreversible action.</p></div>
+      <div class="traceNode"><b>4 · Learn</b><p>Later confirmed fraud or false positive becomes calibration evidence.</p></div>
+    </div>
+
+    <div class="compare">
+      <div class="compareTop">
+        <div><div class="compareTitle">What if new evidence arrives?</div><div class="compareCopy">Simulate the receiving bank confirming a five-year legitimate relationship and zero scam reports. The system must recompute, not cling to its earlier suspicion.</div></div>
+        <button id="compareBtn" class="secondary">Inject new evidence →</button>
+      </div>
+      <div id="comparison" class="comparison"></div>
+    </div>
+
+    <div class="disclaimer">This is a defensive synthetic experiment. It is designed to explore safer fraud coordination, false-positive reduction, privacy minimization, and reversible intervention—not automated accusation, law-enforcement action, or real-world financial blocking.</div>
+  </section>
+</section>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+let scenarios=[],lastPayment=null,lastDecision=null;
+const names={
+  "sending-bank-agent":"Sending bank",
+  "device-agent":"Device",
+  "telco-agent":"Telco",
+  "beneficiary-bank-agent":"Beneficiary bank",
+  "scam-intel-agent":"Scam intelligence"
+};
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+
+function paymentFromForm(){
+  return {
+    amount_eur:Number($("amount").value||0),
+    new_beneficiary:$("newBeneficiary").checked,
+    device_known:$("deviceKnown").checked,
+    sim_swap_minutes_ago:$("sim").value===""?null:Number($("sim").value),
+    beneficiary_independent_reports:Number($("reports").value||0),
+    beneficiary_relationship_years:Number($("years").value||0),
+    scam_campaign_match:$("campaign").checked,
+    user_confirms_expected_payment:$("expected").checked
+  };
+}
+function loadPayment(p){
+  $("amount").value=p.amount_eur;
+  $("newBeneficiary").checked=p.new_beneficiary;
+  $("deviceKnown").checked=p.device_known;
+  $("sim").value=p.sim_swap_minutes_ago==null?"":p.sim_swap_minutes_ago;
+  $("reports").value=p.beneficiary_independent_reports;
+  $("years").value=p.beneficiary_relationship_years;
+  $("campaign").checked=p.scam_campaign_match;
+  $("expected").checked=p.user_confirms_expected_payment;
+}
+function actionClass(a){return a==="ALLOW"?"allow":a==="CONFIRM"?"confirm":a==="PAUSE_AND_VERIFY"?"pause":"review"}
+function prettyAction(a){return a.replaceAll("_"," & ")}
+function renderDecision(d){
+  lastDecision=d;
+  $("decision").className="decision "+actionClass(d.action);
+  $("decision").textContent=prettyAction(d.action);
+  $("heroAction").textContent=prettyAction(d.action);
+  $("why").textContent=d.reasons.join(" ");
+  $("decisionMeta").innerHTML='<b>'+d.high_concern_agents.length+'</b> high-concern agents<br><b>'+d.watch_agents.length+'</b> watch agents<br>'+(d.human_authority_required?"human authority required":"no human escalation required");
+  $("mesh").innerHTML=d.signals.map(s=>'<article class="agent '+esc(s.concern)+'"><div class="agentName">'+esc(names[s.agent_id]||s.agent_id)+'</div><div class="agentState">'+esc(s.concern)+'</div><div class="claim">'+esc(s.claim)+'</div><div class="evidence">'+esc(s.evidence.join(" · "))+'</div><div class="dataMin">shared: '+esc(s.data_shared.join(", "))+'</div></article>').join("");
+  const nodes=$("trace").children;
+  [...nodes].forEach((n,i)=>n.classList.toggle("active",i===(d.action==="ALLOW"?0:d.action==="CONFIRM"?1:d.action==="PAUSE_AND_VERIFY"?2:2)));
+}
+async function evaluate(){
+  const payment=paymentFromForm();lastPayment=payment;
+  $("status").textContent="Querying five synthetic defense agents…";
+  const r=await fetch("/fraud/evaluate",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(payment)});
+  const d=await r.json();if(!r.ok){$("status").textContent=d.detail||"Evaluation failed.";return}
+  renderDecision(d);
+  $("comparison").classList.remove("show");$("comparison").innerHTML="";
+  $("status").textContent="Decision recomputed from five independent synthetic signals.";
+}
+async function compare(){
+  if(!lastPayment)await evaluate();
+  const r=await fetch("/fraud/compare-established-recipient",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(lastPayment||paymentFromForm())});
+  const c=await r.json();if(!r.ok)return;
+  $("comparison").innerHTML='<div class="cmpBox"><span>before</span><b class="'+actionClass(c.before.action)+'">'+esc(prettyAction(c.before.action))+'</b></div><div class="arrow">→</div><div class="cmpBox"><span>after receiving-bank evidence</span><b class="'+actionClass(c.after.action)+'">'+esc(prettyAction(c.after.action))+'</b><div class="compareCopy">'+esc(c.explanation)+'</div></div>';
+  $("comparison").classList.add("show");
+}
+async function loadScenarios(){
+  const r=await fetch("/fraud/scenarios");scenarios=await r.json();
+  $("presets").innerHTML=scenarios.map((s,i)=>'<button class="preset '+(i===0?"on":"")+'" data-id="'+esc(s.scenario_id)+'"><b>'+esc(s.name)+'</b><span>'+esc(s.description)+'</span></button>').join("");
+  $("presets").querySelectorAll("[data-id]").forEach(btn=>btn.onclick=()=>{
+    $("presets").querySelectorAll(".preset").forEach(x=>x.classList.toggle("on",x===btn));
+    const s=scenarios.find(x=>x.scenario_id===btn.dataset.id);loadPayment(s.payment);evaluate();
+  });
+  if(scenarios[0]){loadPayment(scenarios[0].payment);evaluate()}
+}
+$("evaluate").onclick=evaluate;$("compareBtn").onclick=compare;loadScenarios();
+</script>
+</body>
+</html>

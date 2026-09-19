@@ -39,6 +39,16 @@ from commons.models import (
     ProviderProfile,
 )
 from commons.a2a_procurement import AgentCard, ProcurementRequest, ProcurementResult, list_agent_cards, run_procurement
+from commons.scam_intercept import (
+    FraudDecision,
+    FraudScenario,
+    PaymentIntent,
+    ScenarioComparison,
+    compare_established_recipient,
+    evaluate_payment,
+    list_fraud_agent_cards,
+    list_scenarios,
+)
 from commons.builtins import seed_builtin_capabilities
 from commons.proof import ProofLedger
 from commons.pulse_decision import (
@@ -64,6 +74,7 @@ _persistent_service: CommonsService | None = None
 _demo_path = Path(__file__).parent / "static" / "index.html"
 _help_path = Path(__file__).parent / "static" / "help.html"
 _a2a_path = Path(__file__).parent / "static" / "a2a.html"
+_fraud_path = Path(__file__).parent / "static" / "fraud.html"
 _join_path = Path(__file__).parent / "static" / "join.html"
 _civic_path = Path(__file__).parent / "static" / "civic.html"
 _civic_report_path = Path(__file__).parent / "static" / "civic_report.html"
@@ -124,6 +135,33 @@ def a2a_agent_card(agent_id: str) -> AgentCard:
 @app.post("/a2a/procure", response_model=ProcurementResult)
 def a2a_procure(request: ProcurementRequest) -> ProcurementResult:
     return run_procurement(request)
+
+
+
+
+@app.get("/fraud", response_class=HTMLResponse, include_in_schema=False)
+def fraud_lab() -> HTMLResponse:
+    return HTMLResponse(_fraud_path.read_text(encoding="utf-8"))
+
+
+@app.get("/fraud/agents", response_model=list[AgentCard])
+def fraud_agents() -> list[AgentCard]:
+    return list_fraud_agent_cards()
+
+
+@app.get("/fraud/scenarios", response_model=list[FraudScenario])
+def fraud_scenarios() -> list[FraudScenario]:
+    return list_scenarios()
+
+
+@app.post("/fraud/evaluate", response_model=FraudDecision)
+def fraud_evaluate(payment: PaymentIntent) -> FraudDecision:
+    return evaluate_payment(payment)
+
+
+@app.post("/fraud/compare-established-recipient", response_model=ScenarioComparison)
+def fraud_compare_established_recipient(payment: PaymentIntent) -> ScenarioComparison:
+    return compare_established_recipient(payment)
 
 
 @app.get("/civic", response_class=HTMLResponse, include_in_schema=False)
