@@ -326,6 +326,64 @@ function setHomeGlobe(){
   updateAtlasLayers(false);
 }
 
+function flattenCoordinateRings(geometry){
+  if(!geometry)return[];
+  if(geometry.type==="Polygon")return geometry.coordinates;
+  if(geometry.type==="MultiPolygon")return geometry.coordinates.flat();
+  return[];
+}
+
+function buildTerrainMap(){
+  const nepal=countries.find(d=>String(d?.id)==="524");
+  if(!nepal)return;
+
+  const rings=flattenCoordinateRings(nepal.geometry);
+  const points=rings.flat();
+  if(!points.length)return;
+
+  const lons=points.map(p=>p[0]);
+  const lats=points.map(p=>p[1]);
+  const minLon=Math.min(...lons),maxLon=Math.max(...lons);
+  const minLat=Math.min(...lats),maxLat=Math.max(...lats);
+  const pad=65;
+  const width=1000-pad*2;
+  const height=640-pad*2;
+  const spanLon=Math.max(.001,maxLon-minLon);
+  const spanLat=Math.max(.001,maxLat-minLat);
+  const scale=Math.min(width/spanLon,height/spanLat);
+  const drawnW=spanLon*scale,drawnH=spanLat*scale;
+  const ox=(1000-drawnW)/2;
+  const oy=(640-drawnH)/2;
+
+  const project=([lon,lat])=>[
+    ox+(lon-minLon)*scale,
+    oy+(maxLat-lat)*scale
+  ];
+
+  const path=rings.map(ring=>{
+    if(!ring.length)return"";
+    const [x0,y0]=project(ring[0]);
+    const tail=ring.slice(1).map(p=>{
+      const [x,y]=project(p);
+      return `L${x.toFixed(1)} ${y.toFixed(1)}`;
+    }).join(" ");
+    return `M${x0.toFixed(1)} ${y0.toFixed(1)} ${tail} Z`;
+  }).join(" ");
+
+  $("nepalCountry").setAttribute("d",path);
+  $("nepalClipPath").setAttribute("d",path);
+
+  const contourMarkup=Array.from({length:27},(_,i)=>{
+    const y=58+i*21.5;
+    const amp=16+(i%5)*5;
+    const phase=(i%4)*37;
+    const y1=y+Math.sin((i+1)*.81)*amp;
+    const y2=y-Math.cos((i+2)*.63)*amp;
+    return `<path d="M-80 ${y.toFixed(1)} C180 ${(y1-phase*.07).toFixed(1)} 325 ${(y2+phase*.04).toFixed(1)} 520 ${y.toFixed(1)} S820 ${(y1+12).toFixed(1)} 1080 ${(y2-8).toFixed(1)}"></path>`;
+  }).join("");
+  $("terrainContours").innerHTML=contourMarkup;
+}
+
 async function loadCountries(){
   try{
     const r=await fetch(WORLD_ATLAS,{cache:"force-cache"});
@@ -334,6 +392,7 @@ async function loadCountries(){
     if(!window.topojson) throw new Error("topojson unavailable");
     countries=window.topojson.feature(topo,topo.objects.countries).features;
     world.polygonsData(countries);
+    buildTerrainMap();
   }catch(e){
     countries=[];
   }
