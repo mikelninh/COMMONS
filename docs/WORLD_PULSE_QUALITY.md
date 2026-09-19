@@ -92,29 +92,32 @@ Before a new signal enters production:
 - [ ] license / reuse terms acceptable
 - [ ] reason this signal helps a human understand or act
 
-## v0.1 signal set
+## Current live-event signal set
 
-| Signal | Source | Freshness | Important caveat |
+| Signal family | Source | Freshness | Important caveat |
 |---|---|---|---|
-| Open natural events | NASA EONET | near-real-time | curated event tracker, not a complete census |
-| Open wildfire events | NASA EONET | near-real-time | events, not satellite hotspot detections |
-| M4.5+ earthquakes / 24h | USGS | live | count changes as the rolling 24h window moves |
-| Estimated births / day | World Bank + UN inputs | modelled | annual-rate estimate, not a live birth feed |
-| Renewable electricity share | OWID / Ember + sources | periodic | annual structural indicator |
-| Global life expectancy | OWID + source datasets | periodic | annual structural indicator |
+| Earthquakes | USGS | live | rolling event feed; magnitude is not a measure of human impact |
+| Natural events | NASA EONET | near-real-time | curated open-event tracker, not a complete census |
+| Disaster alerts | GDACS | near-real-time | alerts support situational awareness; alert presence is not a casualty or need estimate |
+
+The cinematic public edition intentionally focuses on **events that can change between observations**. Slow structural indicators such as energy transition, health, demography or food security belong in a separate context layer and must remain clearly labelled as periodic or modelled rather than being animated as if they were live.
 
 ## Reliability architecture
 
-v0.1:
+Current architecture:
 
 - fetch independent sources in parallel,
 - hard timeout per upstream request,
-- five-minute in-memory cache,
-- partial response when one provider fails,
-- explicit warning listing unavailable providers,
-- no API key required for the core six signals.
+- tolerate partial provider failure,
+- first observation is a baseline rather than a fake burst of "new" events,
+- compare later observations using stable event fingerprints,
+- conservative cross-source overlap detection never upgrades correlation into confirmation,
+- zero paid AI by default,
+- no API key required for the public event feeds.
 
-Later:
+The public static edition stores its previous observation in the visitor's browser. The backend prototype currently stores fingerprints in process memory, so a process restart resets its baseline; production change detection should use durable snapshot storage.
+
+Next:
 
 - persistent cache with last-known-good timestamp,
 - source health monitoring,
@@ -195,11 +198,11 @@ It is the transition from **traceable world state → accountable action → mea
 
 ## Next milestone: ACTION v0.1
 
-Choose one signal where useful action can be specific and measurable.
+Choose one surfaced event where useful action can be specific and measurable.
 
 Candidate:
 
-> A current natural disaster with a credible humanitarian response.
+> A current natural disaster with a credible humanitarian response and independently verifiable responder information.
 
 For one event, COMMONS should show:
 
