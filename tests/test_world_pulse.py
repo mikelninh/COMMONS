@@ -96,3 +96,16 @@ def test_large_quake_has_visible_attention_reason() -> None:
     )
     reasons = world_pulse._attention_for(quake)
     assert "earthquake magnitude ≥ 6.0" in reasons
+
+
+def test_source_states_expose_freshness_and_scope(monkeypatch) -> None:
+    assert world_pulse.SourceState(
+        source="USGS",
+        ok=True,
+        fetched_at=datetime.now(timezone.utc),
+        count=1,
+        freshness="live",
+        cadence="feed updated about every minute",
+        source_url="https://earthquake.usgs.gov/earthquakes/feed/",
+        scope_note="Rolling earthquake feed.",
+    ).freshness == "live"
