@@ -57,6 +57,7 @@ _demo_path = Path(__file__).parent / "static" / "index.html"
 _join_path = Path(__file__).parent / "static" / "join.html"
 _civic_path = Path(__file__).parent / "static" / "civic.html"
 _civic_report_path = Path(__file__).parent / "static" / "civic_report.html"
+_live_demo_path = Path(__file__).parent / "static" / "live_demo.html"
 registry = CapabilityRegistry()
 seed_builtin_capabilities(registry)
 proof_ledger = ProofLedger()
@@ -94,6 +95,11 @@ def civic_action(need: CivicNeedInput) -> CivicActionResult:
 @app.get("/civic/report", response_class=HTMLResponse, include_in_schema=False)
 def civic_public_space_report() -> HTMLResponse:
     return HTMLResponse(_civic_report_path.read_text(encoding="utf-8"))
+
+
+@app.get("/live", response_class=HTMLResponse, include_in_schema=False)
+def live_demo() -> HTMLResponse:
+    return HTMLResponse(_live_demo_path.read_text(encoding="utf-8"))
 
 
 @app.post("/civic/cases/public-space", response_model=PublicSpaceCase)
