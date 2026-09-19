@@ -144,30 +144,39 @@ const world = Globe({rendererConfig:{antialias:true,alpha:true}})($("globe"))
   .pointLat(d=>d.lat)
   .pointLng(d=>d.lon)
   .pointColor(d=>{
-    if(d.kind==="bloom") return `rgba(154,203,151,${(0.05 + bloomStrength * 0.38).toFixed(3)})`;
-    if(d.kind==="action") return "#d2b06d";
-    if(d.kind==="memory") return `rgba(154,203,151,${(0.42+memoryStrength*.52).toFixed(3)})`;
+    if(d.kind==="bloom") return hexToRgba(activeStory.colors.outcome,0.05+bloomStrength*.38);
+    if(d.kind==="action") return activeStory.colors.attention;
+    if(d.kind==="memory") return hexToRgba(activeStory.colors.memory,0.42+memoryStrength*.52);
+    if(d.kind==="story") return d.color;
     return sourceColor(d.source);
   })
-  .pointAltitude(d=>d.kind==="bloom"?.0015:d.kind==="action"?.016:d.kind==="memory"?.012:.012)
-  .pointRadius(d=>d.kind==="bloom"?d.radius*(0.18+bloomStrength*.82):d.kind==="action"?.15:d.kind==="memory"?(.06+memoryStrength*.08):Math.max(.05,Math.min(.13,.045+(Number(d.magnitude)||1)*.012)))
+  .pointAltitude(d=>d.kind==="bloom"?.0015:d.kind==="action"?.016:d.kind==="memory"?.012:d.kind==="story"?.012:.012)
+  .pointRadius(d=>d.kind==="bloom"?d.radius*(0.18+bloomStrength*.82):d.kind==="action"?.15:d.kind==="memory"?(.06+memoryStrength*.08):d.kind==="story"?.085:Math.max(.05,Math.min(.13,.045+(Number(d.magnitude)||1)*.012)))
   .pointResolution(16)
   .pointLabel(()=>"")
-  .onPointClick(d=>d.kind==="action"?startStory(0):d.kind==="bloom"?null:focusSignal(d))
+  .onPointClick(d=>{
+    if(d.kind==="action") return startStory(0);
+    if(d.kind==="story") return enterStory(d.storyId,0);
+    if(d.kind==="bloom"||d.kind==="memory") return;
+    focusSignal(d);
+  })
   .ringsData([])
   .ringLat(d=>d.lat)
   .ringLng(d=>d.lon)
   .ringAltitude(.003)
-  .ringColor(d=>()=>d.kind==="memory"?"rgba(154,203,151,.38)":d.kind==="action"?"rgba(210,176,109,.58)":"rgba(197,201,192,.18)")
-  .ringMaxRadius(d=>d.kind==="memory"?2.2:d.kind==="action"?5.4:2.25)
-  .ringPropagationSpeed(d=>d.kind==="memory"?.26:d.kind==="action"?.62:.42)
-  .ringRepeatPeriod(d=>d.kind==="memory"?4200:d.kind==="action"?2500:3900)
+  .ringColor(d=>()=>d.kind==="memory"?hexToRgba(activeStory.colors.memory,.38):d.kind==="action"?hexToRgba(activeStory.colors.attention,.58):d.kind==="story"?hexToRgba(d.color,.26):"rgba(197,201,192,.18)")
+  .ringMaxRadius(d=>d.kind==="memory"?2.2:d.kind==="action"?5.4:d.kind==="story"?1.8:2.25)
+  .ringPropagationSpeed(d=>d.kind==="memory"?.26:d.kind==="action"?.62:d.kind==="story"?.22:.42)
+  .ringRepeatPeriod(d=>d.kind==="memory"?4200:d.kind==="action"?2500:d.kind==="story"?5200:3900)
   .arcsData([])
   .arcStartLat("startLat")
   .arcStartLng("startLng")
   .arcEndLat("endLat")
   .arcEndLng("endLng")
-  .arcColor(()=>[`rgba(210,176,109,${(0.015 + threadStrength*.06).toFixed(3)})`,`rgba(210,176,109,${(threadStrength*.9).toFixed(3)})`])
+  .arcColor(()=>[
+    hexToRgba(activeStory.colors.attention,0.015+threadStrength*.06),
+    hexToRgba(activeStory.colors.attention,threadStrength*.9)
+  ])
   .arcAltitude(.035)
   .arcStroke(()=>.06+threadStrength*.42)
   .arcDashLength(.28)
@@ -194,9 +203,10 @@ window.addEventListener("resize",resize);
 resize();
 
 function countryColor(d){
-  const nepal = String(d?.id)==="524";
-  if(nepal && currentMilestone>=2) return "rgba(154,203,151,.25)";
-  if(nepal) return "rgba(210,176,109,.18)";
+  const id=String(d?.id??"").padStart(3,"0");
+  const selected=id===activeStory.countryId;
+  if(selected && currentMilestone>=2) return hexToRgba(activeStory.colors.outcome,.24);
+  if(selected) return hexToRgba(activeStory.colors.attention,.18);
   return "rgba(139,142,130,.145)";
 }
 
@@ -230,10 +240,10 @@ function flattenCoordinateRings(geometry){
 }
 
 function buildTerrainMap(){
-  const nepal=countries.find(d=>String(d?.id)==="524");
-  if(!nepal)return;
+  const country=countries.find(d=>String(d?.id??"").padStart(3,"0")===activeStory.countryId);
+  if(!country)return;
 
-  const rings=flattenCoordinateRings(nepal.geometry);
+  const rings=flattenCoordinateRings(country.geometry);
   const points=rings.flat();
   if(!points.length)return;
 
@@ -266,8 +276,8 @@ function buildTerrainMap(){
     return `M${x0.toFixed(1)} ${y0.toFixed(1)} ${tail} Z`;
   }).join(" ");
 
-  $("nepalCountry").setAttribute("d",path);
-  $("nepalClipPath").setAttribute("d",path);
+  $("terrainCountry").setAttribute("d",path);
+  $("terrainClipPath").setAttribute("d",path);
 
   const contourMarkup=Array.from({length:27},(_,i)=>{
     const y=58+i*21.5;
@@ -396,7 +406,7 @@ function updateAtlasLayers(storyMode=$("story").classList.contains("active")){
     points=[actionPoint];
     if(currentMilestone>=2)points.push(...BLOOM);
   }else{
-    points=[...signals.slice(0,150),actionPoint];
+    points=[...signals.slice(0,150),...storyPoints];
   }
   world.pointsData(points);
 
@@ -404,7 +414,7 @@ function updateAtlasLayers(storyMode=$("story").classList.contains("active")){
     .sort((a,b)=>priority(b)-priority(a))
     .filter(s=>priority(s)>=5)
     .slice(0,14);
-  world.ringsData(storyMode?[actionPoint]:[...surfaced,actionPoint]);
+  world.ringsData(storyMode?[actionPoint]:[...surfaced,...storyPoints]);
   world.arcsData(storyMode&&currentMilestone>=1?THREADS:[]);
   world.polygonCapColor(countryColor);
   if(countries.length)world.polygonsData([...countries]);
