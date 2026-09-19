@@ -73,6 +73,9 @@ def main() -> None:
             "safe_to_automate": assessment.safe_to_automate,
             "needs_human_review": assessment.needs_human_review,
             "enough_information": assessment.enough_information,
+            "domain_confidence": assessment.domain_confidence,
+            "capability_confidence": assessment.capability_confidence,
+            "reason": decision.reason,
         }
         rows.append(row)
         by_attacker[case["attacker"]].append(passed)
@@ -107,7 +110,9 @@ def main() -> None:
                 f"  {row['id']} [{row['attacker']}] -> "
                 f"{row['domain']} / {row['capability']} / {row['route']} "
                 f"| stakes={row['high_stakes']:.2f} auto={row['safe_to_automate']:.2f} "
-                f"review={row['needs_human_review']:.2f} info={row['enough_information']:.2f}"
+                f"review={row['needs_human_review']:.2f} info={row['enough_information']:.2f} "
+                f"domain_conf={row['domain_confidence']} capability_conf={row['capability_confidence']} "
+                f"| {row['reason']}"
             )
         raise SystemExit(1)
 
