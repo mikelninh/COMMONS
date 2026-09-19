@@ -246,6 +246,7 @@ function updateStoryChrome(){
   root.style.setProperty("--amber",activeStory.colors.attention);
   root.style.setProperty("--green",activeStory.colors.outcome);
 
+  $("enterBtn").textContent="Enter "+activeStory.country+" →";
   $("featuredMeta").textContent=activeStory.country+" · "+activeStory.statusLabel;
   $("featuredTitle").textContent=activeStory.title+" — "+activeStory.subtitle;
   $("currentStory").setAttribute("aria-label","Enter "+activeStory.country+" — "+activeStory.title);
