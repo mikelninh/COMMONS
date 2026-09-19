@@ -6,6 +6,7 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 
+from commons.civic_router import CivicActionResult, CivicNeedInput, route_civic_need
 from commons.models import (
     ActorRef,
     CapabilityMatch,
@@ -42,6 +43,7 @@ analysis_service = CommonsService(persist=False)
 _persistent_service: CommonsService | None = None
 _demo_path = Path(__file__).parent / "static" / "index.html"
 _join_path = Path(__file__).parent / "static" / "join.html"
+_civic_path = Path(__file__).parent / "static" / "civic.html"
 registry = CapabilityRegistry()
 seed_builtin_capabilities(registry)
 proof_ledger = ProofLedger()
@@ -64,6 +66,16 @@ def demo() -> HTMLResponse:
 @app.get("/join", response_class=HTMLResponse, include_in_schema=False)
 def join_capabilities() -> HTMLResponse:
     return HTMLResponse(_join_path.read_text(encoding="utf-8"))
+
+
+@app.get("/civic", response_class=HTMLResponse, include_in_schema=False)
+def civic_action_os() -> HTMLResponse:
+    return HTMLResponse(_civic_path.read_text(encoding="utf-8"))
+
+
+@app.post("/civic/action", response_model=CivicActionResult)
+def civic_action(need: CivicNeedInput) -> CivicActionResult:
+    return route_civic_need(need)
 
 
 @app.post("/founding-capabilities", response_model=FoundingCapabilitySubmission)
