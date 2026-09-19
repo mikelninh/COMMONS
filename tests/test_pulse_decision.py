@@ -113,3 +113,31 @@ def test_world_ui_explains_zero_cost_sleep_state() -> None:
     assert "intelligence stayed asleep" in response.text
     assert "0 inference calls" in response.text
     assert "TRACE DECISION" in response.text
+
+
+def test_world_brief_explains_sleep_state_without_inventing_importance() -> None:
+    signal = quake(
+        state="known",
+        magnitude=6.4,
+        attention=["earthquake magnitude ≥ 6.0"],
+    )
+    pulse = pulse_with(signal)
+    decisions = build_decision_batch(pulse)
+
+    from commons.pulse_decision import build_world_brief
+
+    brief = build_world_brief(pulse, decisions)
+
+    assert "Nothing crossed the wake gate." in brief.headline
+    assert brief.items
+    assert brief.items[0].status == "review"
+    assert "Keep monitoring" in brief.items[0].next_step
+
+
+def test_world_ui_contains_brief_filters_and_shareable_focus() -> None:
+    response = client.get("/world")
+
+    assert response.status_code == 200
+    assert "WORLD BRIEF" in response.text
+    assert 'data-filter="changed"' in response.text
+    assert "COPY FOCUS LINK" in response.text
