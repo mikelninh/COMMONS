@@ -457,3 +457,233 @@ body.story-mode .legend{opacity:0;visibility:hidden}
 @media(prefers-reduced-motion:reduce){
   *,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
+
+
+/* ─────────────────────────────────────────────────────────────
+   SCROLL CINEMA
+   The page becomes a scroll instrument only while a story is open.
+   Earth and interface stay fixed; scroll becomes time.
+   ───────────────────────────────────────────────────────────── */
+.scroll-film{display:none}
+html.story-mode,
+body.story-mode{
+  height:auto;
+  min-height:100%;
+  overflow-x:hidden;
+  overflow-y:auto;
+  scroll-behavior:smooth;
+  overscroll-behavior-y:none;
+}
+html.story-mode #app,
+body.story-mode #app{
+  height:auto;
+  min-height:100vh;
+  overflow:visible;
+}
+body.story-mode .scroll-film{
+  display:block;
+  position:relative;
+  width:1px;
+  height:900vh;
+  pointer-events:none;
+  opacity:0;
+}
+body.story-mode .shell{position:fixed}
+
+.scroll-narrative{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  overflow:hidden;
+}
+.scroll-scene{
+  position:absolute;
+  inset:0;
+  display:flex;
+  opacity:0;
+  transform:translate3d(0,44px,0) scale(.985);
+  filter:blur(5px);
+  will-change:opacity,transform,filter;
+  pointer-events:none;
+}
+.scroll-scene.is-interactive{pointer-events:auto}
+.scroll-scene .scene{
+  pointer-events:auto;
+}
+.scroll-scene .scene-kicker,
+.scroll-scene .scene-headline,
+.scroll-scene .scene-number,
+.scroll-scene .scene-label,
+.scroll-scene .scene-copy,
+.scroll-scene .scene-source,
+.scroll-scene .scene-actions{
+  opacity:1;
+  transform:none;
+  animation:none!important;
+}
+.scroll-scene.left-monument{
+  align-items:center;
+  justify-content:flex-start;
+  padding:72px 34px 132px;
+}
+.scroll-scene.metric-left{
+  align-items:center;
+  justify-content:flex-start;
+  padding:80px 34px 132px;
+}
+.scroll-scene.right-whisper{
+  align-items:center;
+  justify-content:flex-end;
+  padding:80px 6vw 132px;
+}
+.scroll-scene.center-monument{
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:86px 34px 136px;
+}
+.scroll-scene.low-left{
+  align-items:flex-end;
+  justify-content:flex-start;
+  padding:90px 34px 154px;
+}
+.scroll-scene.metric-right{
+  align-items:center;
+  justify-content:flex-end;
+  padding:80px 5vw 132px;
+}
+.scroll-scene.final-center{
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:90px 34px 150px;
+}
+.scroll-scene.center-monument .scene,
+.scroll-scene.final-center .scene{
+  width:min(920px,82vw);
+}
+.scroll-scene.center-monument .scene-label,
+.scroll-scene.final-center .scene-label,
+.scroll-scene.center-monument .scene-copy,
+.scroll-scene.final-center .scene-copy{
+  margin-left:auto;
+  margin-right:auto;
+}
+.scroll-scene.center-monument .scene-actions,
+.scroll-scene.final-center .scene-actions{
+  justify-content:center;
+}
+
+.scroll-cue{
+  position:absolute;
+  z-index:8;
+  left:50%;
+  bottom:96px;
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:7px;
+  color:#7b8179;
+  transition:opacity .35s ease,transform .35s var(--ease);
+  pointer-events:none;
+}
+.scroll-cue span{
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.22em;
+}
+.scroll-cue small{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:11px;
+  color:#555b55;
+}
+.scroll-cue i{
+  width:1px;
+  height:34px;
+  background:linear-gradient(to bottom,rgba(239,238,231,.65),rgba(239,238,231,0));
+  animation:scrollCue 1.8s ease-in-out infinite;
+  transform-origin:top;
+}
+.scroll-cue.hidden{
+  opacity:0;
+  transform:translate(-50%,10px);
+}
+@keyframes scrollCue{
+  0%,100%{transform:scaleY(.35);opacity:.3}
+  50%{transform:scaleY(1);opacity:.9}
+}
+
+.time-rail{overflow:visible}
+.time-fill{
+  position:absolute;
+  left:0;
+  top:50%;
+  width:0%;
+  height:1px;
+  transform:translateY(-50%);
+  background:linear-gradient(90deg,var(--amber),var(--green));
+  box-shadow:0 0 12px rgba(210,176,109,.12);
+  pointer-events:none;
+  z-index:1;
+}
+.time-rail input{
+  z-index:3;
+}
+body.story-mode .story-vignette{
+  opacity:var(--vignette-opacity,.92);
+}
+body.story-mode #globe{
+  transform:scale(var(--globe-scale,1));
+  transform-origin:center;
+  transition:none;
+}
+
+@media(max-width:650px){
+  body.story-mode .scroll-film{height:820vh}
+  .scroll-scene.left-monument,
+  .scroll-scene.metric-left,
+  .scroll-scene.right-whisper,
+  .scroll-scene.center-monument,
+  .scroll-scene.low-left,
+  .scroll-scene.metric-right,
+  .scroll-scene.final-center{
+    align-items:flex-end;
+    justify-content:flex-start;
+    text-align:left;
+    padding:88px 18px 150px;
+  }
+  .scroll-scene .scene,
+  .scroll-scene.center-monument .scene,
+  .scroll-scene.final-center .scene{
+    width:100%;
+  }
+  .scroll-scene.center-monument .scene-label,
+  .scroll-scene.final-center .scene-label,
+  .scroll-scene.center-monument .scene-copy,
+  .scroll-scene.final-center .scene-copy{
+    margin-left:0;
+    margin-right:0;
+  }
+  .scroll-scene.center-monument .scene-actions,
+  .scroll-scene.final-center .scene-actions{
+    justify-content:flex-start;
+  }
+  .scroll-cue{
+    bottom:106px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  html.story-mode,
+  body.story-mode{
+    scroll-behavior:auto;
+  }
+  .scroll-scene{
+    filter:none!important;
+    transform:none!important;
+  }
+  .scroll-cue i{animation:none!important}
+}
