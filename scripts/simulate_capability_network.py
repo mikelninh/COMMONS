@@ -14,6 +14,7 @@ from commons.models import (
     ProofRecord,
     ProviderKind,
     ProviderProfile,
+    ResourceBudget,
     VerificationStatus,
 )
 from commons.proof import ProofLedger
@@ -109,10 +110,19 @@ def main() -> None:
         ),
     ]
 
-    matches = [registry.match(r, limit=1) for r in requirements]
-    assert all(matches), "Every required capability should have at least one safe match."
+    plan = registry.plan(
+        requirements,
+        ResourceBudget(max_cost_eur=5.0, max_capabilities=3, prefer_verified=True),
+    )
+    assert plan.within_budget is True
+    assert len(plan.matches) == 3
+    assert plan.total_cost_eur == 4.0
 
-    transport = matches[2][0].capability
+    transport = next(
+        match.capability
+        for match in plan.matches
+        if match.capability.capability_type == "transport"
+    )
     assert transport.provider_id == driver.provider_id
     assert transport.price_eur == 4
 
@@ -141,7 +151,8 @@ def main() -> None:
     print("COMMONS v0.3 capability-network simulation")
     print("need: move surplus food to verified recipient")
     print("matched: food supply + recipient capacity + transport")
-    print("transport price: €4.00")
+    print("hard budget: €5.00")
+    print(f"selected plan cost: €{plan.total_cost_eur:.2f}")
     print("strongest proof:", ledger.strongest_level(case_id).value)
     print("authority: verified reversible execution only")
     print("result: PASS")
