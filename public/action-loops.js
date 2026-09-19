@@ -43,7 +43,7 @@ window.WORLD_PULSE_ACTION_LOOPS = {
         uncertainty: "Funds are pooled across the operation. WORLD PULSE cannot verify your payment or attribute later outcomes to your individual contribution.",
         measure: "Later official IFRC / Nepal Red Cross response outcomes",
         cta: "Open official donation path ↗",
-        url: "https://www.ifrc.org/donate"
+        url: "https://donate.redcrossredcrescent.org/ifrc/nepal-flash-floods/?_cv=1&cid=1186&lang=en_EN"
       },
       {
         id: "follow-nepal-response",
