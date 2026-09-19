@@ -5,7 +5,7 @@ import os
 import sqlite3
 from pathlib import Path
 
-from commons.models import CaseRecord, OutcomeInput, OutcomeRecord
+from commons.models import CaseRecord, FoundingCapabilitySubmission, OutcomeInput, OutcomeRecord
 
 
 class CaseStore:
@@ -24,6 +24,15 @@ class CaseStore:
                 """
                 CREATE TABLE IF NOT EXISTS cases (
                     case_id TEXT PRIMARY KEY,
+                    created_at TEXT NOT NULL,
+                    record_json TEXT NOT NULL
+                )
+                """
+            )
+            conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS founding_capabilities (
+                    submission_id TEXT PRIMARY KEY,
                     created_at TEXT NOT NULL,
                     record_json TEXT NOT NULL
                 )
@@ -83,3 +92,36 @@ class CaseStore:
                 "SELECT record_json FROM outcomes WHERE case_id = ?", (case_id,)
             ).fetchone()
         return OutcomeRecord.model_validate_json(row["record_json"]) if row else None
+
+
+    def save_founding_capability(
+        self,
+        submission: FoundingCapabilitySubmission,
+    ) -> FoundingCapabilitySubmission:
+        with self._connect() as conn:
+            conn.execute(
+                """
+                INSERT INTO founding_capabilities(submission_id, created_at, record_json)
+                VALUES (?, ?, ?)
+                """,
+                (
+                    submission.submission_id,
+                    submission.created_at.isoformat(),
+                    submission.model_dump_json(),
+                ),
+            )
+        return submission
+
+    def list_founding_capabilities(self) -> list[FoundingCapabilitySubmission]:
+        with self._connect() as conn:
+            rows = conn.execute(
+                """
+                SELECT record_json
+                FROM founding_capabilities
+                ORDER BY created_at ASC
+                """
+            ).fetchall()
+        return [
+            FoundingCapabilitySubmission.model_validate_json(row["record_json"])
+            for row in rows
+        ]
