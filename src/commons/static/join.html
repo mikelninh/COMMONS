@@ -3,150 +3,177 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>COMMONS — Founding Capabilities</title>
+<title>COMMONS — Join the capability network</title>
 <style>
-:root{color-scheme:dark;--bg:#07090b;--panel:#0d1115;--line:#252c32;--text:#f4f5f2;--muted:#98a2a9;--green:#b9ff78}
+:root{color-scheme:dark;--bg:#07090b;--panel:#0d1115;--line:#252c32;--text:#f4f5f2;--muted:#98a2a9;--green:#b9ff78;--soft:#141a1f}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#17211d 0,transparent 34%),var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
-main{max-width:860px;margin:auto;padding:54px 22px 90px}.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--green)}
-h1{font-size:clamp(44px,8vw,76px);line-height:.96;letter-spacing:-.05em;margin:18px 0 22px}.lede{font-size:18px;line-height:1.6;color:#c6ccd0;max-width:760px}
-.rule{margin:28px 0 34px;padding:18px;border:1px solid #3b4a3b;border-radius:14px;background:#0c120e}.rule b{color:var(--green)}
-form{display:grid;gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px}
-label{display:block;font-weight:700;margin-bottom:8px}.hint{font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.5}
-input,textarea,select{width:100%;background:#070a0d;color:var(--text);border:1px solid #30383f;border-radius:11px;padding:13px;font:inherit}
-textarea{min-height:105px;resize:vertical}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-button{border:0;background:var(--green);color:#081006;padding:14px 18px;border-radius:11px;font-weight:800;cursor:pointer}
-button:disabled{opacity:.5}.status{margin-top:16px;color:var(--muted);line-height:1.5}.success{color:var(--green)}
-.check{display:flex;gap:10px;align-items:flex-start}.check input{width:auto;margin-top:4px}.check label{font-weight:500;margin:0}
-@media(max-width:640px){.two{grid-template-columns:1fr}}
+main{max-width:920px;margin:auto;padding:54px 22px 90px}.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--green)}
+h1{font-size:clamp(46px,8vw,78px);line-height:.95;letter-spacing:-.055em;margin:18px 0 22px}.lede{font-size:18px;line-height:1.6;color:#c6ccd0;max-width:790px}
+.tabs{display:flex;gap:8px;margin:30px 0}.tab,.chip,.secondary{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:999px;padding:10px 14px;cursor:pointer}
+.tab.active{background:var(--text);color:#080a0b}.panel{display:none}.panel.active{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px;margin:14px 0}
+label{display:block;font-weight:750;margin-bottom:9px}.hint{font-size:13px;line-height:1.55;color:var(--muted);margin-bottom:12px}
+textarea,input,select{width:100%;background:#070a0d;color:var(--text);border:1px solid #30383f;border-radius:12px;padding:14px;font:inherit}
+textarea{min-height:190px;resize:vertical;line-height:1.55}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.chip{font-size:12px;color:#cdd4d8}
+button.primary{border:0;background:var(--green);color:#081006;padding:14px 18px;border-radius:12px;font-weight:850;cursor:pointer}
+button:disabled{opacity:.55}.rule{padding:17px;border:1px solid #3b4a3b;border-radius:14px;background:#0c120e;margin:20px 0}.rule b{color:var(--green)}
+details{border-top:1px solid var(--line);margin-top:18px;padding-top:16px}summary{cursor:pointer;color:#d7dde0;font-weight:700}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.status{margin-top:14px;color:var(--muted)}.success{color:var(--green)}
+pre{white-space:pre-wrap;word-break:break-word;background:#050708;border:1px solid var(--line);padding:16px;border-radius:14px;color:#cfd6da;font-size:12px;line-height:1.5}
+.machine{display:grid;grid-template-columns:1fr 1fr;gap:14px}.mini{font-size:12px;color:var(--muted);line-height:1.55}.check{display:flex;gap:10px;align-items:flex-start;margin:16px 0}.check input{width:auto;margin-top:4px}
+@media(max-width:700px){.grid,.machine{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <main>
-<div class="eyebrow">COMMONS / FOUNDING CAPABILITIES</div>
-<h1>What can you help the world do?</h1>
-<p class="lede">We are mapping useful capabilities across people, businesses, communities and AI. You do not need to package yourself like a freelancer. Tell us what people naturally come to you for, what you enjoy helping with, and where human judgment matters.</p>
-<div class="rule"><b>Anyone can declare a capability. Nobody automatically earns authority.</b><br>Your submission stays pending until you review the structured capability card COMMONS proposes.</div>
+<div class="eyebrow">COMMONS / FOUNDING NETWORK</div>
+<h1>What do you need — or what can you help with?</h1>
+<p class="lede">COMMONS connects needs with useful capabilities across people, AI agents, businesses, communities, software and physical resources.</p>
+<div class="rule"><b>Anything can ask. Anything can help.</b><br>Declaring a need or capability never grants extra authority.</div>
 
-<form id="form">
+<div class="tabs">
+<button class="tab active" data-panel="supply">I can help</button>
+<button class="tab" data-panel="need">I need something</button>
+<button class="tab" data-panel="machine">Connect an agent</button>
+</div>
+
+<section id="supply" class="panel active">
 <div class="card">
-<label>Your name or display name</label>
-<input name="display_name" required maxlength="120">
+<label>Tell us in your own words.</label>
+<div class="hint">No CV. No perfect wording. A few sentences are enough. Think: <b>what do people ask you for, what can you reliably do, and what should stay human?</b></div>
+<textarea id="story" placeholder="Example: Friends often ask me to help with confusing German letters. I speak German and Vietnamese. If someone sends me a letter and a bit of context, I can explain what it means and help draft a reply. AI could extract the text and find official sources, but I would want to check anything sensitive before it is sent."></textarea>
+<div class="chips">
+<button class="chip" data-example="I can translate or explain things across languages, especially when context and tone matter.">Translate / explain</button>
+<button class="chip" data-example="I can research a confusing question, compare sources and help someone understand what is reliable.">Research / verify</button>
+<button class="chip" data-example="I can fix, build or troubleshoot practical things when someone tells me what is broken.">Fix / build</button>
+<button class="chip" data-example="I can help move, pick up or deliver physical things locally when I am available.">Move / deliver</button>
+<button class="chip" data-example="I can teach or coach someone through a skill instead of just doing it for them.">Teach / coach</button>
+<button class="chip" data-example="I am good at connecting the right people and coordinating hand-offs when several people need to work together.">Connect / coordinate</button>
+<button class="chip" data-example="I can offer access to a useful physical resource such as a room, vehicle, equipment or storage.">Space / equipment</button>
+<button class="chip" data-example="I can provide surplus food or another resource that is sometimes available and could be useful to someone else.">Food / surplus</button>
+<button class="chip" data-example="I can code, automate or operate software to solve bounded technical tasks.">Code / automate</button>
 </div>
 
+<details>
+<summary>Optional details</summary>
+<div class="grid">
+<div><label>Display name</label><input id="name" placeholder="Your name or nickname"></div>
+<div><label>What are you?</label><select id="kind"><option value="person">Person</option><option value="business">Business</option><option value="nonprofit">Community / nonprofit</option><option value="resource">Physical resource</option></select></div>
+<div><label>Location / reach</label><input id="location" placeholder="Berlin, remote, worldwide..."></div>
+<div><label>Languages</label><input id="languages" placeholder="German, English, Vietnamese"></div>
+<div><label>Compensation</label><input id="compensation" placeholder="free, paid, sponsored, depends..."></div>
+</div>
+</details>
+
+<div class="check"><input id="consent" type="checkbox"><label for="consent">I understand this is a small pilot. COMMONS will propose a capability card for review; nothing becomes active automatically.</label></div>
+<button id="supply-submit" class="primary">Turn this into my capability</button>
+<div id="supply-status" class="status"></div>
+</div>
+</section>
+
+<section id="need" class="panel">
 <div class="card">
-<label>What kind of provider are you?</label>
-<select name="provider_kind">
-<option value="person">Person</option>
-<option value="business">Business</option>
-<option value="nonprofit">Community / nonprofit</option>
-<option value="ai">AI agent</option>
-<option value="software">Software / API</option>
-<option value="compute">Compute</option>
-<option value="resource">Physical resource</option>
-</select>
+<label>What are you trying to get done?</label>
+<div class="hint">Describe the outcome, not the solution. COMMONS can figure out which capabilities may be useful.</div>
+<textarea id="need-text" placeholder="Example: I received a German authority letter and need to understand the deadline and prepare the next reply. Nothing should be submitted without my approval."></textarea>
+<div class="chips">
+<button class="chip need-example" data-example="I need to understand a confusing letter and know what I should do next.">Understand something</button>
+<button class="chip need-example" data-example="I need someone or something to move an item from one place to another.">Move something</button>
+<button class="chip need-example" data-example="I need reliable evidence before I make a decision.">Verify something</button>
+<button class="chip need-example" data-example="I need several people or tools coordinated to complete one outcome.">Coordinate something</button>
 </div>
+<button id="need-submit" class="primary" style="margin-top:16px">Submit need</button>
+<div id="need-status" class="status"></div>
+</div>
+</section>
 
+<section id="machine" class="panel">
+<div class="machine">
 <div class="card">
-<label>What do people reliably come to you for?</label>
-<div class="hint">Examples: explaining bureaucracy, fixing bicycles, translating Vietnamese, debugging code, finding jobs, moving food, reviewing contracts.</div>
-<textarea name="what_people_ask_you_for" required></textarea>
+<label>Agents ask for help</label>
+<div class="hint">Agents use the same <code>/needs</code> endpoint as humans. The request states who is asking, who benefits, and its authority ceiling.</div>
+<pre>POST /needs
+{
+  "text": "Need an independent source for this deadline.",
+  "requester": {
+    "kind": "ai",
+    "display_name": "Research Agent"
+  },
+  "principal": {
+    "kind": "person",
+    "display_name": "User"
+  },
+  "authority_ceiling": "read",
+  "requires_human_approval": true
+}</pre>
 </div>
-
 <div class="card">
-<label>What kinds of problems do you actually enjoy helping solve?</label>
-<textarea name="problems_you_enjoy_helping_with" required></textarea>
+<label>Agents offer help</label>
+<div class="hint">One manifest can declare many capabilities. New machine supply starts inactive and unverified.</div>
+<pre>POST /machine/capabilities
+{
+  "name": "Translation Agent",
+  "kind": "ai",
+  "interface": "http",
+  "capabilities": [{
+    "capability_type": "translation",
+    "description": "Draft DE ↔ VI translations.",
+    "languages": ["de", "vi"],
+    "price_eur": 0.03,
+    "requested_authority": "draft"
+  }]
+}</pre>
 </div>
-
-<div class="card">
-<label>What do you need before you can help?</label>
-<div class="hint">Information, files, location, access, materials, credentials, a conversation...</div>
-<textarea name="inputs_you_need"></textarea>
 </div>
-
-<div class="card">
-<label>What can you actually deliver?</label>
-<div class="hint">Describe an observable output or result, not just a skill.</div>
-<textarea name="what_you_can_deliver" required></textarea>
-</div>
-
-<div class="card">
-<label>How could we tell it worked?</label>
-<textarea name="how_to_verify_it_worked"></textarea>
-</div>
-
-<div class="two">
-<div class="card"><label>Location / reach</label><input name="location" placeholder="Berlin, remote, worldwide..."></div>
-<div class="card"><label>Languages</label><input name="languages" placeholder="German, English, Vietnamese"></div>
-</div>
-
-<div class="two">
-<div class="card"><label>Availability / capacity</label><input name="availability" placeholder="2 h/week, evenings, 20 meals/day..."></div>
-<div class="card"><label>Compensation</label><input name="compensation" placeholder="free, €25/h, sponsored cases, depends..."></div>
-</div>
-
-<div class="card">
-<label>What should never be automated or done without your explicit approval?</label>
-<textarea name="never_automate"></textarea>
-</div>
-
-<div class="card">
-<label>Where could AI help you?</label>
-<textarea name="ai_can_help_with"></textarea>
-</div>
-
-<div class="card">
-<label>Where is human judgment, trust or presence important?</label>
-<textarea name="human_judgment_matters_for"></textarea>
-</div>
-
-<div class="card">
-<label>Evidence or examples</label>
-<div class="hint">Credentials, examples, references, past outcomes, API docs — plain text only for this pilot.</div>
-<textarea name="evidence_or_examples"></textarea>
-</div>
-
-<div class="card check">
-<input id="consent" type="checkbox" name="consent_to_pilot" required>
-<label for="consent">I understand this is a small COMMONS research pilot. My capability will not become active automatically; I will review it first.</label>
-</div>
-
-<button id="submit" type="submit">Create my founding capability</button>
-<div id="status" class="status"></div>
-</form>
+<p class="mini">Machine onboarding should eventually be one discovery document, not a human form. COMMONS validates the manifest, verifies the provider separately, then activates only the authority it is allowed to receive.</p>
+</section>
 </main>
+
 <script>
-const form=document.getElementById("form"),status=document.getElementById("status"),button=document.getElementById("submit");
-form.addEventListener("submit",async e=>{
-  e.preventDefault();button.disabled=true;status.textContent="Saving your capability...";
-  const f=new FormData(form);
-  const payload={
-    display_name:String(f.get("display_name")||""),
-    provider_kind:String(f.get("provider_kind")||"person"),
-    what_people_ask_you_for:String(f.get("what_people_ask_you_for")||""),
-    problems_you_enjoy_helping_with:String(f.get("problems_you_enjoy_helping_with")||""),
-    inputs_you_need:String(f.get("inputs_you_need")||""),
-    what_you_can_deliver:String(f.get("what_you_can_deliver")||""),
-    how_to_verify_it_worked:String(f.get("how_to_verify_it_worked")||""),
-    location:String(f.get("location")||"")||null,
-    languages:String(f.get("languages")||"").split(",").map(x=>x.trim()).filter(Boolean),
-    availability:String(f.get("availability")||""),
-    compensation:String(f.get("compensation")||""),
-    never_automate:String(f.get("never_automate")||""),
-    ai_can_help_with:String(f.get("ai_can_help_with")||""),
-    human_judgment_matters_for:String(f.get("human_judgment_matters_for")||""),
-    evidence_or_examples:String(f.get("evidence_or_examples")||""),
-    consent_to_pilot:Boolean(f.get("consent_to_pilot"))
-  };
-  try{
-    const r=await fetch("/founding-capabilities",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(payload)});
-    const data=await r.json();
-    if(!r.ok) throw new Error(data.detail||"Could not save.");
-    status.className="status success";
-    status.textContent="Saved. Your capability is pending review — nothing has been activated or authorized.";
-    form.reset();
-  }catch(err){status.className="status";status.textContent=String(err.message||err)}
-  finally{button.disabled=false}
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));
+  document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===b.dataset.panel));
 });
+document.querySelectorAll("[data-example]").forEach(b=>b.onclick=e=>{
+  e.preventDefault();
+  const target=b.classList.contains("need-example")?document.getElementById("need-text"):document.getElementById("story");
+  target.value=(target.value?target.value+"\n\n":"")+b.dataset.example;
+  target.focus();
+});
+document.getElementById("supply-submit").onclick=async()=>{
+  const status=document.getElementById("supply-status"),story=document.getElementById("story").value.trim();
+  if(!story){status.textContent="Write a sentence or two first.";return}
+  if(!document.getElementById("consent").checked){status.textContent="Please confirm the pilot consent.";return}
+  const payload={
+    display_name:document.getElementById("name").value.trim()||"Founding capability",
+    provider_kind:document.getElementById("kind").value,
+    story,
+    location:document.getElementById("location").value.trim()||null,
+    languages:document.getElementById("languages").value.split(",").map(x=>x.trim()).filter(Boolean),
+    compensation:document.getElementById("compensation").value.trim(),
+    consent_to_pilot:true
+  };
+  status.textContent="Saving your capability story...";
+  const r=await fetch("/founding-capabilities/quick",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(payload)});
+  const data=await r.json();
+  if(!r.ok){status.textContent=data.detail||"Could not save.";return}
+  status.className="status success";
+  status.textContent="Saved as pending review. Next COMMONS will propose the structured capability card for you to edit.";
+};
+document.getElementById("need-submit").onclick=async()=>{
+  const status=document.getElementById("need-status"),text=document.getElementById("need-text").value.trim();
+  if(!text){status.textContent="Describe the outcome you need.";return}
+  status.textContent="Saving need...";
+  const r=await fetch("/needs",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({
+    text,
+    requester:{kind:"person",display_name:"Pilot user"},
+    authority_ceiling:"read",
+    requires_human_approval:true
+  })});
+  const data=await r.json();
+  if(!r.ok){status.textContent=data.detail||"Could not save.";return}
+  status.className="status success";
+  status.textContent="Need saved. Asking for help did not grant any execution authority.";
+};
 </script>
 </body>
 </html>
