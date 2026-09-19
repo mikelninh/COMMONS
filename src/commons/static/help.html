@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f5f3ee">
+<meta name="description" content="COMMONS hilft dir, einen Hinweis für Ordnungsamt-Online in Berlin klar vorzubereiten und den Nachweis zu verfolgen.">
+<title>COMMONS — Berlin melden</title>
+<style>
+:root{
+  --bg:#f5f3ee;--paper:#fffefb;--ink:#121513;--muted:#6c746f;--line:#dcded8;
+  --green:#225f3c;--green2:#eaf3ec;--amber:#8a5a12;--amber2:#fff4dd;--shadow:0 18px 60px rgba(26,34,29,.08)
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{min-height:100vh}
+main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
+nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:54px}
+.brand{font-size:12px;letter-spacing:.18em;font-weight:900}.brand b{color:var(--green)}
+.live{font-size:11px;color:var(--muted)}
+.hero{max-width:760px;margin-bottom:30px}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--green);font-weight:800}
+h1{font-size:clamp(42px,7vw,78px);line-height:.96;letter-spacing:-.055em;margin:13px 0 18px;font-weight:900}
+.lede{font-size:18px;line-height:1.55;color:#4c5550;max-width:690px}
+.promise{display:inline-flex;gap:8px;align-items:center;margin-top:14px;padding:7px 10px;border-radius:999px;background:var(--green2);color:var(--green);font-size:12px;font-weight:750}
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:18px;align-items:start}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
+.card h2{font-size:18px;margin:0 0 6px;letter-spacing:-.02em}.sub{font-size:13px;line-height:1.5;color:var(--muted);margin-bottom:18px}
+label{display:block;font-size:12px;font-weight:800;margin:15px 0 7px}
+.row{display:grid;grid-template-columns:1fr 140px;gap:10px}
+input,select,textarea{width:100%;border:1px solid #ccd1cc;background:#fff;color:var(--ink);border-radius:12px;padding:12px 13px;font:inherit;outline:none}
+input:focus,select:focus,textarea:focus{border-color:#6f957d;box-shadow:0 0 0 3px rgba(34,95,60,.08)}
+textarea{min-height:118px;resize:vertical;line-height:1.5}
+.check{display:flex;gap:10px;align-items:flex-start;margin-top:14px;color:#4f5852;font-size:12px;line-height:1.45}
+.check input{width:17px;height:17px;margin-top:1px}
+.emailWrap{display:none}.emailWrap.show{display:block}
+.primary,.secondary{border-radius:12px;padding:13px 15px;font-weight:850;cursor:pointer;font:inherit}
+.primary{border:0;background:var(--green);color:#fff;width:100%;margin-top:18px}
+.primary:disabled{opacity:.5;cursor:wait}
+.secondary{border:1px solid #bdc6bf;background:#fff;color:var(--ink)}
+.note{margin-top:12px;color:var(--muted);font-size:11px;line-height:1.45}
+.sideTitle{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:850;margin-bottom:12px}
+.step{display:grid;grid-template-columns:30px 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.step:first-of-type{border-top:0}
+.num{width:26px;height:26px;border-radius:8px;background:var(--green2);display:grid;place-items:center;color:var(--green);font-size:11px;font-weight:900}
+.step b{font-size:13px}.step p{margin:3px 0 0;color:var(--muted);font-size:11px;line-height:1.45}
+.emergency{margin-top:14px;border:1px solid #ecd5a8;background:var(--amber2);color:#65450e;border-radius:14px;padding:12px;font-size:11.5px;line-height:1.45}
+#result{display:none;margin-top:18px}#result.show{display:block}
+.resultTop{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.statusPill{font-size:10px;font-weight:850;color:var(--green);background:var(--green2);border-radius:999px;padding:6px 8px;white-space:nowrap}
+.preview{margin-top:16px;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.previewRow{display:grid;grid-template-columns:120px 1fr;gap:10px;padding:11px 13px;border-top:1px solid var(--line);font-size:12px}
+.previewRow:first-child{border-top:0}.previewKey{color:var(--muted)}.previewVal{font-weight:650;white-space:pre-wrap}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}.actions .primary{width:auto;margin-top:0}.actions .secondary{margin:0}
+.proof{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
+.proof h3{font-size:14px;margin:0 0 4px}.proof p{font-size:11.5px;color:var(--muted);line-height:1.45;margin:0 0 11px}
+.receipt{display:grid;grid-template-columns:1fr auto;gap:8px}.receipt button{margin:0}
+.good{color:var(--green);font-size:12px;font-weight:800;margin-top:10px}
+.error{color:#9d2f24;font-size:12px;margin-top:10px}
+.resume{display:none;margin-bottom:18px;background:#edf4ee;border:1px solid #cadbce;border-radius:14px;padding:12px 14px;font-size:12px;color:#31543c;line-height:1.45}.resume.show{display:block}
+footer{margin-top:26px;color:var(--muted);font-size:11px;line-height:1.5;text-align:center}
+@media(max-width:780px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr 110px}nav{margin-bottom:38px}}
+@media(max-width:520px){main{padding:20px 14px 60px}.row,.receipt{grid-template-columns:1fr}h1{font-size:48px}.card{padding:18px}}
+</style>
+</head>
+<body>
+<main>
+<nav>
+  <div class="brand"><b>COMMONS</b> / BERLIN</div>
+  <div class="live">ein Problem · ein nächster Schritt</div>
+</nav>
+
+<section class="hero">
+  <div class="eyebrow">Öffentlicher Raum</div>
+  <h1>Was ist kaputt?</h1>
+  <div class="lede">Beschreibe ein Problem im öffentlichen Raum. COMMONS bereitet daraus einen klaren Hinweis für <b>Ordnungsamt-Online</b> vor.</div>
+  <div class="promise">Nichts wird ohne dich abgeschickt.</div>
+</section>
+
+<div id="resume" class="resume"></div>
+
+<section class="grid">
+  <div>
+    <div class="card">
+      <h2>Hinweis vorbereiten</h2>
+      <div class="sub">Ein Problem pro Meldung. So wenig Bürokratie wie möglich.</div>
+
+      <label for="district">Bezirk *</label>
+      <select id="district">
+        <option value="">Bezirk wählen</option>
+        <option>Charlottenburg-Wilmersdorf</option>
+        <option>Friedrichshain-Kreuzberg</option>
+        <option>Lichtenberg</option>
+        <option>Marzahn-Hellersdorf</option>
+        <option>Mitte</option>
+        <option>Neukölln</option>
+        <option>Pankow</option>
+        <option>Reinickendorf</option>
+        <option>Spandau</option>
+        <option>Steglitz-Zehlendorf</option>
+        <option>Tempelhof-Schöneberg</option>
+        <option>Treptow-Köpenick</option>
+      </select>
+
+      <label>Ort</label>
+      <div class="row">
+        <input id="street" placeholder="Straße (optional)">
+        <input id="house" placeholder="Nr.">
+      </div>
+
+      <label for="subject">Was ist das Problem? *</label>
+      <input id="subject" maxlength="240" placeholder="z. B. Schlagloch auf dem Radweg">
+
+      <label for="description">Was sollte die Behörde wissen?</label>
+      <textarea id="description" maxlength="3000" placeholder="Kurz und sachlich: Was ist zu sehen? Wo genau? Seit wann ungefähr?"></textarea>
+
+      <div class="check">
+        <input id="updates" type="checkbox">
+        <label for="updates" style="margin:0;font-weight:650">Ich möchte Status-Updates per E-Mail erhalten.</label>
+      </div>
+      <div id="emailWrap" class="emailWrap">
+        <label for="email">E-Mail *</label>
+        <input id="email" type="email" placeholder="name@beispiel.de">
+      </div>
+
+      <button id="prepare" class="primary">Meldung vorbereiten →</button>
+      <div id="formMsg"></div>
+      <div class="note">COMMONS übermittelt hier nichts an eine Behörde. Du prüfst den vorbereiteten Inhalt und öffnest danach selbst den offiziellen Meldeweg.</div>
+    </div>
+
+    <div id="result" class="card">
+      <div class="resultTop">
+        <div>
+          <div class="sideTitle">Vorbereitet</div>
+          <h2 style="margin-bottom:0">Deine Meldung</h2>
+        </div>
+        <div id="proofPill" class="statusPill">Quelle geprüft</div>
+      </div>
+      <div id="preview" class="preview"></div>
+      <div class="actions">
+        <button id="handoff" class="primary">Offizielles Berlin-Formular öffnen ↗</button>
+        <button id="edit" class="secondary">Bearbeiten</button>
+      </div>
+
+      <div class="proof">
+        <h3>Schon abgeschickt?</h3>
+        <p>Wenn du vom Ordnungsamt eine Meldungsnummer bekommen hast, speichert COMMONS sie als Nachweis dafür, dass die Meldung tatsächlich abgeschickt wurde.</p>
+        <div class="receipt">
+          <input id="reportNumber" placeholder="Meldungsnummer">
+          <button id="saveReceipt" class="secondary">Nachweis speichern</button>
+        </div>
+        <div id="receiptMsg"></div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="card">
+    <div class="sideTitle">So funktioniert es</div>
+    <div class="step"><div class="num">1</div><div><b>Du beschreibst das Problem.</b><p>Ort + kurze sachliche Beschreibung reichen für den Start.</p></div></div>
+    <div class="step"><div class="num">2</div><div><b>COMMONS bereitet es vor.</b><p>Wir prüfen, ob die Pflichtangaben für den vorbereiteten Fall vorhanden sind.</p></div></div>
+    <div class="step"><div class="num">3</div><div><b>Du entscheidest.</b><p>Erst dann öffnest du das offizielle Ordnungsamt-Online-Formular.</p></div></div>
+    <div class="step"><div class="num">4</div><div><b>Wir unterscheiden Vorbereitung von Erfolg.</b><p>Ohne Meldungsnummer behaupten wir nicht, dass etwas abgeschickt oder gelöst wurde.</p></div></div>
+    <div class="emergency"><b>Nicht für akute Gefahren.</b><br>Bei Notfällen: Polizei 110 oder Feuerwehr/Rettungsdienst 112. Für Situationen, die sofortiges Einschreiten erfordern, ist Ordnungsamt-Online nicht der richtige Weg.</div>
+  </aside>
+</section>
+
+<footer>May this increase our capacity to care for one another.</footer>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+let currentCase=null;
+const savedKey="commons_public_space_case_id";
+
+$("updates").onchange=()=>$("emailWrap").classList.toggle("show",$("updates").checked);
+$("edit").onclick=()=>{window.scrollTo({top:0,behavior:"smooth"});$("subject").focus()};
+
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+function setMsg(id,text,kind="error"){const el=$(id);el.className=kind;el.textContent=text}
+function rawNeed(){return [$("subject").value.trim(),$("description").value.trim()].filter(Boolean).join(". ")}
+function renderCase(c){
+  currentCase=c;
+  localStorage.setItem(savedKey,c.case_id);
+  $("district").value=c.district||$("district").value;
+  $("street").value=c.street||$("street").value;
+  $("house").value=c.house_number||$("house").value;
+  $("subject").value=c.subject||$("subject").value;
+  $("description").value=c.description||$("description").value;
+  $("updates").checked=!!c.wants_status_updates;
+  $("emailWrap").classList.toggle("show",!!c.wants_status_updates);
+  $("email").value=c.email||$("email").value;
+  $("preview").innerHTML=
+    '<div class="previewRow"><div class="previewKey">Bezirk</div><div class="previewVal">'+esc(c.district||"—")+'</div></div>'+
+    '<div class="previewRow"><div class="previewKey">Ort</div><div class="previewVal">'+esc([c.street,c.house_number].filter(Boolean).join(" ")||"—")+'</div></div>'+
+    '<div class="previewRow"><div class="previewKey">Betreff</div><div class="previewVal">'+esc(c.subject||"—")+'</div></div>'+
+    '<div class="previewRow"><div class="previewKey">Beschreibung</div><div class="previewVal">'+esc(c.description||"—")+'</div></div>';
+  $("proofPill").textContent=c.proof_stage==="action_confirmed"?"Abschicken bestätigt":c.proof_stage==="action_prepared"?"Meldung vorbereitet":"Quelle geprüft";
+  $("result").classList.add("show");
+}
+async function loadSaved(){
+  const id=localStorage.getItem(savedKey);
+  if(!id)return;
+  try{
+    const r=await fetch("/civic/cases/public-space/"+encodeURIComponent(id));
+    if(!r.ok){localStorage.removeItem(savedKey);return}
+    const c=await r.json();renderCase(c);
+    $("resume").classList.add("show");
+    $("resume").textContent=c.report_number
+      ?"Letzte Meldung: "+c.report_number+" · Nachweis gespeichert."
+      :"Du hast eine vorbereitete Meldung. Du kannst sie hier weiterbearbeiten oder nach dem Abschicken die Meldungsnummer ergänzen.";
+  }catch(e){}
+}
+
+$("prepare").onclick=async()=>{
+  setMsg("formMsg","");
+  const district=$("district").value, subject=$("subject").value.trim(), description=$("description").value.trim();
+  if(!district){setMsg("formMsg","Bitte Bezirk wählen.");$("district").focus();return}
+  if(!subject){setMsg("formMsg","Bitte das Problem kurz benennen.");$("subject").focus();return}
+  if($("updates").checked&&!$("email").value.trim()){setMsg("formMsg","Für Status-Updates fehlt noch deine E-Mail.");$("email").focus();return}
+
+  const btn=$("prepare");btn.disabled=true;btn.textContent="Bereite vor …";
+  try{
+    let id=currentCase?.case_id;
+    if(!id){
+      const create=await fetch("/civic/cases/public-space",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({raw_need:rawNeed()})});
+      if(!create.ok)throw new Error("Fall konnte nicht angelegt werden.");
+      const created=await create.json();id=created.case_id;
+    }
+    const patch=await fetch("/civic/cases/public-space/"+encodeURIComponent(id),{
+      method:"PATCH",headers:{"content-type":"application/json"},
+      body:JSON.stringify({
+        district,
+        street:$("street").value.trim()||null,
+        house_number:$("house").value.trim()||null,
+        subject,
+        description:description||null,
+        wants_status_updates:$("updates").checked,
+        email:$("updates").checked?$("email").value.trim():null
+      })
+    });
+    const patched=await patch.json();
+    if(!patch.ok)throw new Error(typeof patched.detail==="string"?patched.detail:"Bitte Angaben prüfen.");
+
+    const prep=await fetch("/civic/cases/public-space/"+encodeURIComponent(id)+"/prepare",{method:"POST"});
+    const packet=await prep.json();
+    if(!prep.ok)throw new Error("Meldung konnte nicht vorbereitet werden.");
+    if(!packet.ready)throw new Error(packet.blockers.join(" "));
+    const fresh=await fetch("/civic/cases/public-space/"+encodeURIComponent(id));
+    const c=await fresh.json();renderCase(c);
+    setMsg("formMsg","Vorbereitet. Prüfe die Meldung unten.","good");
+    $("result").scrollIntoView({behavior:"smooth",block:"start"});
+  }catch(e){setMsg("formMsg",e.message||String(e))}
+  finally{btn.disabled=false;btn.textContent="Meldung vorbereiten →"}
+};
+
+$("handoff").onclick=async()=>{
+  if(!currentCase)return;
+  const popup=window.open("about:blank","_blank");
+  try{
+    const r=await fetch("/civic/cases/public-space/"+encodeURIComponent(currentCase.case_id)+"/handoff",{method:"POST"});
+    const packet=await r.json();
+    if(!r.ok)throw new Error("Offizieller Übergang konnte nicht vorbereitet werden.");
+    if(popup)popup.location=packet.official_report_url;
+    else window.location.href=packet.official_report_url;
+  }catch(e){if(popup)popup.close();setMsg("receiptMsg",e.message||String(e))}
+};
+
+$("saveReceipt").onclick=async()=>{
+  if(!currentCase){setMsg("receiptMsg","Bitte zuerst eine Meldung vorbereiten.");return}
+  const report=$("reportNumber").value.trim();
+  if(!report){setMsg("receiptMsg","Bitte Meldungsnummer eintragen.");return}
+  try{
+    const r=await fetch("/civic/cases/public-space/"+encodeURIComponent(currentCase.case_id)+"/receipt",{
+      method:"POST",headers:{"content-type":"application/json"},
+      body:JSON.stringify({report_number:report})
+    });
+    const c=await r.json();
+    if(!r.ok)throw new Error("Nachweis konnte nicht gespeichert werden.");
+    renderCase(c);
+    setMsg("receiptMsg","Gespeichert. COMMONS kann jetzt belegen, dass du die Meldung abgeschickt hast.","good");
+  }catch(e){setMsg("receiptMsg",e.message||String(e))}
+};
+
+loadSaved();
+</script>
+</body>
+</html>
