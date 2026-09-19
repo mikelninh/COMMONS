@@ -40,7 +40,12 @@ from commons.models import (
 )
 from commons.builtins import seed_builtin_capabilities
 from commons.proof import ProofLedger
-from commons.pulse_decision import PulseDecisionBatch, WorldPulseLiveEnvelope, build_decision_batch
+from commons.pulse_decision import (
+    PulseDecisionBatch,
+    WorldPulseLiveEnvelope,
+    build_decision_batch,
+    build_world_brief,
+)
 from commons.registry import CapabilityRegistry
 from commons.selector import JevCapabilitySelector
 from commons.service import CommonsService
@@ -124,9 +129,11 @@ async def world_pulse_decisions() -> PulseDecisionBatch:
 @app.get("/pulse/world/live", response_model=WorldPulseLiveEnvelope)
 async def world_pulse_live() -> WorldPulseLiveEnvelope:
     pulse = await collect_world_pulse()
+    decisions = build_decision_batch(pulse)
     return WorldPulseLiveEnvelope(
         pulse=pulse,
-        decisions=build_decision_batch(pulse),
+        decisions=decisions,
+        brief=build_world_brief(pulse, decisions),
     )
 
 
