@@ -103,39 +103,124 @@ a{color:var(--green)}.footer{margin-top:28px;color:var(--muted);font-size:13px;l
 <script>
 const need=document.getElementById("need"),result=document.getElementById("result"),status=document.getElementById("status");
 document.querySelectorAll("[data-example]").forEach(b=>b.onclick=()=>{need.value=b.dataset.example;need.focus();status.textContent="Example loaded. Nothing has been sent yet.";});
+
+const esc=(value)=>String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+const pretty=(value)=>String(value??"").replaceAll("_"," ").replace(/\b\w/g,m=>m.toUpperCase());
+
+function traceHtml(steps){
+  return (steps||[]).map(s=>
+    '<div class="trace-step">'+
+      '<div class="trace-dot '+(s.status==="warning"?"warning":"")+'">'+(s.status==="warning"?"!":"✓")+'</div>'+
+      '<div><div class="trace-label">'+esc(s.label)+'</div><div class="trace-detail">'+esc(s.detail)+'</div></div>'+
+    '</div>'
+  ).join("");
+}
+
+function proofHtml(){
+  const stages=[
+    ["SOURCE VERIFIED","Official route checked",true],
+    ["ACTION PREPARED","Usable draft/checklist exists",false],
+    ["CITIZEN CONFIRMED","You approve or submit",false],
+    ["INSTITUTION ACK","Receipt / case number",false],
+    ["OUTCOME VERIFIED","Observable result",false]
+  ];
+  return stages.map(s=>
+    '<div class="proof-stage '+(s[2]?"active":"")+'">'+
+      '<div class="proof-state">'+(s[2]?"current":"not yet")+'</div>'+
+      '<div class="proof-name">'+s[0]+'</div>'+
+      '<div class="proof-copy">'+s[1]+'</div>'+
+    '</div>'
+  ).join("");
+}
+
+function actionWorkspace(channel){
+  const commons=channel.what_commons_can_do||[];
+  const citizen=channel.citizen_must_do||[];
+  return '<div class="action-workspace" id="workspace-'+esc(channel.channel_id)+'">'+
+    '<div class="action-title">If you choose this path, here is what happens next</div>'+
+    '<div class="action-sub">Still no external submission. This is the preparation workflow.</div>'+
+    '<div class="action-step"><div class="action-step-num">1</div><div><div class="action-step-title">Verify the official route</div><div class="action-step-copy">Already done for this prototype. The source and responsible body are shown above.</div></div></div>'+
+    '<div class="action-step"><div class="action-step-num">2</div><div><div class="action-step-title">Gather what is needed</div><div class="action-step-copy">'+esc(commons[0]||"Collect the facts needed for the official process.")+'</div></div></div>'+
+    '<div class="action-step"><div class="action-step-num">3</div><div><div class="action-step-title">Prepare the action</div><div class="action-step-copy">'+esc(commons[1]||"COMMONS prepares a citizen-reviewable draft or checklist.")+'</div></div></div>'+
+    '<div class="action-step"><div class="action-step-num">4</div><div><div class="action-step-title">You review and decide</div><div class="action-step-copy">'+esc(citizen[0]||"You approve the substantive content and decide whether to proceed.")+'</div></div></div>'+
+    '<div class="action-step"><div class="action-step-num">5</div><div><div class="action-step-title">Submit through the official channel</div><div class="action-step-copy">This prototype only links to the official source. Future execution must be an explicit, separate approval.</div></div></div>'+
+    '<div class="action-step"><div class="action-step-num">6</div><div><div class="action-step-title">Bring back proof</div><div class="action-step-copy">A receipt, reference number or official response advances the proof ladder. Without it, COMMONS does not claim the action happened.</div></div></div>'+
+  '</div>';
+}
+
+function pathHtml(channel,primary){
+  const caveats=channel.caveats||[];
+  return '<article class="card path-card '+(primary?"primary-path":"")+'">'+
+    '<div style="display:flex;justify-content:space-between;gap:14px;align-items:flex-start">'+
+      '<div><div class="kicker">'+esc(pretty(channel.channel_type))+(primary?" · PRIMARY PATH":"")+'</div>'+
+      '<div class="title">'+esc(channel.name)+'</div>'+
+      '<div class="meta">'+esc(channel.why_it_fits)+'</div></div>'+
+      '<span class="badge">'+esc(pretty(channel.proof_stage))+'</span>'+
+    '</div>'+
+    '<div class="row"><div class="meta"><b>Responsible:</b> '+esc(channel.responsible_body)+' · <b>Verified:</b> '+esc(channel.last_verified)+'</div></div>'+
+    (channel.deadline?'<div class="deadline">Deadline: '+esc(channel.deadline)+'</div>':"")+
+    '<div class="cols">'+
+      '<div class="mini-card"><div class="mini-title">COMMONS CAN PREPARE</div><ul>'+(channel.what_commons_can_do||[]).map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul></div>'+
+      '<div class="mini-card"><div class="mini-title">YOU STILL CONTROL</div><ul>'+(channel.citizen_must_do||[]).map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul></div>'+
+    '</div>'+
+    (caveats.length?'<div class="warning-box"><b>Important limits</b><br>'+caveats.map(esc).join("<br>")+'</div>':"")+
+    '<div class="path-actions"><button class="primary small" style="margin-top:0" data-use="'+esc(channel.channel_id)+'">Use this path →</button>'+
+    '<a class="secondary" href="'+esc(channel.official_source)+'" target="_blank" rel="noreferrer" style="text-decoration:none">Open official source ↗</a></div>'+
+    actionWorkspace(channel)+
+  '</article>';
+}
+
 document.getElementById("go").onclick=async()=>{
   const text=need.value.trim();
-  if(!text){status.textContent="Describe what you want to change or understand.";return}
-  status.textContent="Finding the safest verified path…";result.className="result";result.innerHTML="";
+  if(!text){status.textContent="Describe what you want to change or understand first.";need.focus();return}
+  const button=document.getElementById("go");
+  button.disabled=true;
+  status.textContent="Sending your goal to the local COMMONS civic router…";
+  result.className="result";result.innerHTML="";
   try{
     const r=await fetch("/civic/action",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({text,location:"Berlin"})});
     const data=await r.json();
     if(!r.ok) throw new Error(data.detail||"Could not route this need.");
-    status.textContent="";
-    const channels=(data.channels||[]).map(c=>`
-      <div class="card">
-        <div class="kicker">${c.channel_type.replaceAll("_"," ")}</div>
-        <div class="title">${c.name}</div>
-        <div class="meta"><span class="badge">${c.proof_stage.replaceAll("_"," ")}</span> Responsible: ${c.responsible_body}</div>
-        <div class="row"><h3>Why this may fit</h3><div class="meta">${c.why_it_fits}</div></div>
-        ${c.deadline?`<div class="row"><h3>Deadline</h3><div class="meta">${c.deadline}</div></div>`:""}
-        <div class="row"><h3>COMMONS can help</h3><ul>${c.what_commons_can_do.map(x=>`<li>${x}</li>`).join("")}</ul></div>
-        <div class="row"><h3>You still control</h3><ul>${c.citizen_must_do.map(x=>`<li>${x}</li>`).join("")}</ul></div>
-        ${c.caveats.length?`<div class="row warn"><h3>Important limits</h3><ul>${c.caveats.map(x=>`<li>${x}</li>`).join("")}</ul></div>`:""}
-        <div class="row"><a href="${c.official_source}" target="_blank" rel="noreferrer">Open official source ↗</a></div>
-      </div>`).join("");
-    const missing=(data.missing_information||[]).map(x=>`<li>${x}</li>`).join("");
-    result.innerHTML=`
-      <div class="card">
-        <div class="kicker">COMMONS interpretation</div>
-        <div class="title">${data.interpreted_as}</div>
-        <div class="meta">Citizen voice retained. Political recommendation: no.</div>
-        ${missing?`<div class="row warn"><h3>Before acting</h3><ul>${missing}</ul></div>`:""}
-      </div>
-      ${channels}`;
+    status.textContent="Done. "+data.checked_channels+" verified channels were evaluated; no external action occurred.";
+
+    const warnings=data.missing_information||[];
+    result.innerHTML=
+      '<div class="result-grid">'+
+        '<aside class="card trace">'+
+          '<div class="trace-head"><div class="trace-title">What COMMONS just did</div><div class="trace-pill">transparent trace</div></div>'+
+          traceHtml(data.routing_trace)+
+        '</aside>'+
+        '<div>'+
+          '<div class="card">'+
+            '<div class="kicker">What COMMONS understood</div>'+
+            '<div class="title">'+esc(pretty(data.interpreted_as))+'</div>'+
+            '<div class="meta">Location: '+esc(data.location)+' · Checked '+esc(data.checked_channels)+' verified civic channels · No political recommendation generated.</div>'+
+            '<div class="signals">'+(data.matched_signals||[]).map(s=>'<span class="signal">'+esc(s)+'</span>').join("")+'</div>'+
+            (warnings.length?'<div class="warning-box"><b>Before acting</b><br>'+warnings.map(esc).join("<br>")+'</div>':"")+
+          '</div>'+
+          '<div style="display:flex;justify-content:space-between;align-items:end;gap:10px;margin:22px 0 8px"><h3 style="margin:0">Your possible paths</h3><span class="meta">'+(data.channels||[]).length+' returned · one primary</span></div>'+
+          (data.channels||[]).map(c=>pathHtml(c,c.channel_id===data.primary_channel_id)).join("")+
+          '<div class="card">'+
+            '<div class="kicker">Proof ladder</div>'+
+            '<div class="title" style="font-size:23px">Finding a path is only step one.</div>'+
+            '<div class="meta">COMMONS currently has enough evidence to say the source exists. Nothing stronger is claimed yet.</div>'+
+            '<div class="proof-track">'+proofHtml()+'</div>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
     result.className="result show";
+    result.scrollIntoView({behavior:"smooth",block:"start"});
+
+    result.querySelectorAll("[data-use]").forEach(btn=>btn.onclick=()=>{
+      const workspace=document.getElementById("workspace-"+btn.dataset.use);
+      const opening=!workspace.classList.contains("open");
+      result.querySelectorAll(".action-workspace").forEach(x=>x.classList.remove("open"));
+      if(opening){workspace.classList.add("open");workspace.scrollIntoView({behavior:"smooth",block:"center"});}
+    });
   }catch(e){status.textContent=e.message||String(e)}
+  finally{button.disabled=false}
 };
+
 </script>
 </body>
 </html>
