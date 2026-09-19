@@ -43,3 +43,29 @@ def test_unsafe_workflow_does_not_execute() -> None:
 def test_safe_reasoning_routes_normally() -> None:
     decision = choose_route(base_assessment(capability="reason"))
     assert decision.route is Route.REASON
+
+
+def test_civic_value_conflict_routes_to_deliberation_not_execution() -> None:
+    decision = choose_route(
+        base_assessment(
+            domain="democracy",
+            capability="deliberate",
+            contested_values_present=0.91,
+            affected_groups_present=0.97,
+            high_stakes=0.82,
+            needs_human_review=0.88,
+        )
+    )
+    assert decision.route is Route.DELIBERATE
+    assert "may not make the political choice" in decision.reason
+
+
+def test_civic_deliberation_requests_missing_information_first() -> None:
+    decision = choose_route(
+        base_assessment(
+            domain="community",
+            contested_values_present=0.90,
+            enough_information=0.20,
+        )
+    )
+    assert decision.route is Route.REQUEST_INFO
