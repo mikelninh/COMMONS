@@ -4,8 +4,10 @@ from commons.models import (
     AuthorityLevel,
     CapabilityMatch,
     CapabilityOffer,
+    CapabilityPlan,
     CapabilityRequirement,
     ProviderProfile,
+    ResourceBudget,
     VerificationStatus,
 )
 
@@ -125,3 +127,76 @@ class CapabilityRegistry:
             reverse=True,
         )
         return matches[:limit]
+
+
+    def plan(
+        self,
+        requirements: list[CapabilityRequirement],
+        budget: ResourceBudget,
+    ) -> CapabilityPlan:
+        """Build the cheapest inspectable feasible plan under a hard budget.
+
+        v0.3 intentionally uses a simple greedy algorithm:
+        - only capabilities with known prices participate;
+        - if verified supply exists and the budget prefers it, restrict to it;
+        - choose the lowest-price candidate, then the highest score;
+        - never exceed the capability-count or euro budget.
+
+        This is not globally optimal composition yet. It is deliberately small,
+        testable and suitable for the first €1 Challenge experiments.
+        """
+        selected: list[CapabilityMatch] = []
+        unresolved: list[CapabilityRequirement] = []
+        spent = 0.0
+
+        for requirement in requirements:
+            if len(selected) >= budget.max_capabilities:
+                unresolved.append(requirement)
+                continue
+
+            candidates = [
+                match
+                for match in self.match(requirement, limit=50)
+                if match.capability.price_eur is not None
+            ]
+
+            if budget.prefer_verified:
+                verified = [
+                    match
+                    for match in candidates
+                    if (
+                        self.providers[match.capability.provider_id].verification_status
+                        is VerificationStatus.VERIFIED
+                        and match.capability.verification_status is VerificationStatus.VERIFIED
+                    )
+                ]
+                if verified:
+                    candidates = verified
+
+            affordable = [
+                match
+                for match in candidates
+                if spent + float(match.capability.price_eur or 0.0) <= budget.max_cost_eur
+            ]
+
+            if not affordable:
+                unresolved.append(requirement)
+                continue
+
+            affordable.sort(
+                key=lambda match: (
+                    float(match.capability.price_eur or 0.0),
+                    -match.score,
+                )
+            )
+            chosen = affordable[0]
+            selected.append(chosen)
+            spent += float(chosen.capability.price_eur or 0.0)
+
+        return CapabilityPlan(
+            requirements=requirements,
+            matches=selected,
+            total_cost_eur=round(spent, 6),
+            unresolved_requirements=unresolved,
+            within_budget=not unresolved and spent <= budget.max_cost_eur,
+        )
