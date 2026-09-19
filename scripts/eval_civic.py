@@ -77,6 +77,19 @@ def accepted_capability(actual: str, expected: str | list[str]) -> bool:
     return actual in accepted_values
 
 
+def accepted(actual: str, expected: str | list[str]) -> bool:
+    values = {expected} if isinstance(expected, str) else set(expected)
+    return actual in values
+
+
+def accepted_capability(actual: str, expected: str | list[str]) -> bool:
+    labels = [expected] if isinstance(expected, str) else expected
+    accepted_values: set[str] = set()
+    for label in labels:
+        accepted_values.update(CAPABILITY_ALIASES[label])
+    return actual in accepted_values
+
+
 def mean(values: list[float]) -> float | None:
     return statistics.fmean(values) if values else None
 
