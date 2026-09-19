@@ -48,7 +48,7 @@ h1{font-size:clamp(30px,4vw,58px);line-height:.95;letter-spacing:-.055em;margin:
 .focus{position:absolute;z-index:10;left:50%;bottom:13px;transform:translateX(-50%) translateY(10px);width:min(610px,72%);border:1px solid #34483a;background:rgba(8,13,10,.92);backdrop-filter:blur(15px);border-radius:15px;padding:11px 13px;opacity:0;pointer-events:none;transition:.3s all}.focus.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}
 .focusTop{display:flex;justify-content:space-between;gap:10px}.focusSource{font-size:8px;text-transform:uppercase;letter-spacing:.12em;color:var(--green)}.focusState{font-size:8px;color:var(--muted)}.focusTitle{font-size:14px;font-weight:900;line-height:1.25;margin-top:4px}.focusMeta{font-size:9px;color:var(--muted);margin-top:5px}.reasons{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.reason{font-size:8px;border:1px solid #3e523f;border-radius:999px;color:#c9dec7;padding:4px 6px}.focus a{color:var(--green);font-size:9px;text-decoration:none}
 .rail{display:grid;grid-template-rows:auto auto 1fr auto}.railHead{height:42px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;padding:0 12px}.railHead b{font-size:9px;text-transform:uppercase;letter-spacing:.12em}.railHead span{font-size:8px;color:var(--muted)}
-.pipeline{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:9px;border-bottom:1px solid var(--line)}.pipe{border:1px solid #1f2b26;border-radius:9px;padding:6px;text-align:center}.pipe .num{font-size:13px;font-weight:850}.pipe .lab{font-size:6.8px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-top:2px}.pipe.active{border-color:#38513c;background:#09110b}.pipe.active .num{color:var(--green)}
+.brief{padding:9px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(10,16,11,.72),rgba(8,11,9,.35))}.briefEyebrow{font-size:7px;letter-spacing:.13em;text-transform:uppercase;color:var(--green);font-weight:850}.briefHeadline{font-size:13px;font-weight:900;line-height:1.2;margin-top:4px}.briefSummary{font-size:8.5px;line-height:1.45;color:var(--muted);margin-top:4px}.briefItems{display:flex;flex-direction:column;gap:5px;margin-top:8px}.briefItem{border:1px solid #233027;border-radius:9px;padding:7px;background:#080d09;cursor:pointer}.briefItem:hover{border-color:#3c5140}.briefItem.wake{border-color:#495d34;background:#0c1208}.briefItem.review{border-color:#3f3c58;background:#0d0b12}.briefRow{display:flex;justify-content:space-between;gap:8px}.briefStatus{font-size:7px;text-transform:uppercase;letter-spacing:.1em;color:var(--green)}.briefSource{font-size:7px;color:var(--muted)}.briefTitle{font-size:9.5px;font-weight:850;line-height:1.3;margin-top:3px}.briefNext{font-size:7.8px;color:#97a49c;margin-top:4px;line-height:1.35}.filters{display:flex;gap:5px;flex-wrap:wrap;padding:7px 9px;border-bottom:1px solid var(--line)}.filter{border:1px solid #27352e;background:#090e0b;color:#82908a;border-radius:999px;padding:5px 7px;font-size:7.5px;cursor:pointer}.filter.on{border-color:#496049;color:var(--green);background:#0a120b}.pipeline{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:9px;border-bottom:1px solid var(--line)}.pipe{border:1px solid #1f2b26;border-radius:9px;padding:6px;text-align:center}.pipe .num{font-size:13px;font-weight:850}.pipe .lab{font-size:6.8px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-top:2px}.pipe.active{border-color:#38513c;background:#09110b}.pipe.active .num{color:var(--green)}
 .feed{padding:8px;overflow:auto;display:flex;flex-direction:column;gap:6px}.card{border:1px solid var(--line);background:#080c0a;border-radius:11px;padding:9px;cursor:pointer;transition:.2s all}.card:hover{border-color:#34493b}.card.attn{border-color:#344b39;background:#09110b}.card.cluster{border-color:#423d61;background:#0d0b14}
 .cardTop{display:flex;justify-content:space-between;gap:8px;align-items:center}.cardSource{font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:var(--green)}.cardTime{font-size:7px;color:var(--muted)}.cardTitle{font-size:10.5px;line-height:1.35;font-weight:800;margin-top:4px}.cardWhy{font-size:8.5px;color:#9aa6a0;line-height:1.35;margin-top:5px}.cardWhy b{color:#cad6ce}.cluster .cardSource{color:var(--violet)}
 .status{border-top:1px solid var(--line);padding:8px 10px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:8px;color:var(--muted)}.status strong{color:#bfc9c2}.refresh{border:1px solid #314139;background:#0b110e;color:#d8e0db;border-radius:999px;padding:6px 8px;font-size:8px;font-weight:800}.refresh:disabled{opacity:.4}
@@ -106,11 +106,23 @@ h1{font-size:clamp(30px,4vw,58px);line-height:.95;letter-spacing:-.055em;margin:
 
     <aside class="rail">
       <div class="railHead"><b>What surfaced</b><span id="lastPoll">not observed yet</span></div>
+      <div class="brief" id="brief">
+        <div class="briefEyebrow">WORLD BRIEF</div>
+        <div class="briefHeadline">Waiting for the live world…</div>
+      </div>
+      <div class="filters">
+        <button class="filter on" data-filter="all">ALL</button>
+        <button class="filter" data-filter="changed">CHANGED</button>
+        <button class="filter" data-filter="attention">SURFACED</button>
+        <button class="filter" data-filter="USGS">USGS</button>
+        <button class="filter" data-filter="GDACS">GDACS</button>
+        <button class="filter" data-filter="NASA EONET">NASA</button>
+      </div>
       <div class="pipeline">
         <div class="pipe active"><div class="num" id="pObserve">—</div><div class="lab">observe</div></div>
         <div class="pipe"><div class="num" id="pChanged">—</div><div class="lab">changed</div></div>
         <div class="pipe"><div class="num" id="pCorroborate">—</div><div class="lab">corroborate</div></div>
-        <div class="pipe"><div class="num" id="pWake">—</div><div class="lab">surface</div></div>
+        <div class="pipe"><div class="num" id="pWake">—</div><div class="lab">wake</div></div>
       </div>
       <div class="feed" id="feed"></div>
       <div class="status"><span id="status">Waiting for first observation…</span><button class="refresh" id="refresh">REFRESH NOW</button></div>
@@ -126,7 +138,7 @@ h1{font-size:clamp(30px,4vw,58px);line-height:.95;letter-spacing:-.055em;margin:
 
 <script>
 const $=id=>document.getElementById(id);
-let world=null,selected=null,timer=null,decisionBatch=null;
+let world=null,selected=null,timer=null,decisionBatch=null,worldBrief=null,activeFilter="all";
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 const colors={"USGS":"#73d8ff","GDACS":"#ffd17a","NASA EONET":"#b7ff7a"};
 const landShapes=[
@@ -153,8 +165,8 @@ function magnitudeSize(s){
   if(s.magnitude==null)return 4;
   return Math.max(4,Math.min(10,3+Number(s.magnitude)*.85));
 }
-function drawWorld(data,batch){
-  world=data;decisionBatch=batch||null;
+function drawWorld(data,batch,brief){
+  world=data;decisionBatch=batch||null;worldBrief=brief||null;
   $("total").textContent=data.stats.total_signals;
   $("changed").textContent=data.stats.new_signals+data.stats.updated_signals;
   $("clusters").textContent=data.stats.possible_multi_source_clusters;
@@ -172,7 +184,9 @@ function drawWorld(data,batch){
     g.innerHTML='<circle class="ripple" cx="'+x+'" cy="'+y+'" r="'+(r+2)+'" stroke="'+color+'"/><circle class="core" cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+color+'"/>';
     g.onclick=()=>focusSignal(s);signalLayer.appendChild(g);
   });
+  renderBrief(brief,data);
   renderFeed(data);
+  applyFocusFromUrl(data);
 }
 function decisionForSignal(id){
   if(!decisionBatch)return null;
@@ -192,6 +206,7 @@ function showCascade(decision,manual=false){
 }
 function focusSignal(s){
   selected=s;
+  const url=new URL(location.href);url.searchParams.set("signal",s.signal_id);history.replaceState(null,"",url);
   const f=$("focus");f.classList.add("show");
   const reasons=s.attention_reasons?.length?s.attention_reasons:["live source signal"];
   f.innerHTML='<div class="focusTop"><div class="focusSource">'+esc(s.source)+' · '+esc(s.kind.replaceAll("_"," "))+'</div><div class="focusState">'+esc(s.state.toUpperCase())+' · '+esc(ageText(s.updated_at||s.occurred_at))+'</div></div>'+
@@ -199,14 +214,33 @@ function focusSignal(s){
     '<div class="focusMeta">'+s.latitude.toFixed(2)+', '+s.longitude.toFixed(2)+(s.magnitude!=null?' · magnitude '+esc(s.magnitude):'')+(s.severity?' · '+esc(s.severity):'')+'</div>'+
     '<div class="reasons">'+reasons.map(r=>'<span class="reason">'+esc(r)+'</span>').join("")+'</div>'+
     (s.source_url?'<div style="margin-top:7px"><a href="'+esc(s.source_url)+'" target="_blank" rel="noreferrer">OPEN SOURCE ↗</a></div>':"")+
-    (decisionForSignal(s.signal_id)?'<button class="traceBtn" id="traceDecision">TRACE DECISION →</button>':"");
+    (decisionForSignal(s.signal_id)?'<button class="traceBtn" id="traceDecision">TRACE DECISION →</button>':"")+
+    '<button class="traceBtn" id="shareSignal" style="margin-left:5px">COPY FOCUS LINK</button>';
   const trace=$("traceDecision");if(trace)trace.onclick=()=>showCascade(decisionForSignal(s.signal_id),true);
+  const share=$("shareSignal");if(share)share.onclick=async()=>{try{await navigator.clipboard.writeText(location.href);share.textContent="COPIED ✓"}catch(e){share.textContent="COPY URL MANUALLY"}};
+}
+function renderBrief(brief,data){
+  const el=$("brief");
+  if(!brief){el.innerHTML='<div class="briefEyebrow">WORLD BRIEF</div><div class="briefHeadline">No brief available.</div>';return}
+  el.innerHTML='<div class="briefEyebrow">WORLD BRIEF</div><div class="briefHeadline">'+esc(brief.headline)+'</div><div class="briefSummary">'+esc(brief.summary)+'</div>'+
+    '<div class="briefItems">'+(brief.items||[]).map(item=>'<div class="briefItem '+esc(item.status)+'" data-brief="'+esc(item.subject_id)+'"><div class="briefRow"><div class="briefStatus">'+esc(item.status)+'</div><div class="briefSource">'+esc(item.source_label)+'</div></div><div class="briefTitle">'+esc(item.title)+'</div><div class="briefNext">'+esc(item.next_step)+'</div></div>').join("")+'</div>';
+  el.querySelectorAll("[data-brief]").forEach(node=>node.onclick=()=>{const s=data.signals.find(x=>x.signal_id===node.dataset.brief);if(s)focusSignal(s)});
+}
+function applyFocusFromUrl(data){
+  const id=new URLSearchParams(location.search).get("signal");if(!id)return;const s=data.signals.find(x=>x.signal_id===id);if(s)focusSignal(s)
+}
+function signalMatchesFilter(s){
+  if(activeFilter==="all")return true;
+  if(activeFilter==="changed")return s.state==="new"||s.state==="updated";
+  if(activeFilter==="attention")return !!(s.attention_reasons&&s.attention_reasons.length);
+  return s.source===activeFilter;
 }
 function renderFeed(data){
   const items=[];
   data.clusters.slice(0,5).forEach(c=>items.push({type:"cluster",obj:c}));
-  data.signals.filter(s=>s.attention_reasons?.length||s.state!=="known").slice(0,18).forEach(s=>items.push({type:"signal",obj:s}));
-  if(items.length<8)data.signals.slice(0,8-items.length).forEach(s=>items.push({type:"signal",obj:s}));
+  const filtered=data.signals.filter(signalMatchesFilter);
+  filtered.filter(s=>s.attention_reasons?.length||s.state!=="known").slice(0,18).forEach(s=>items.push({type:"signal",obj:s}));
+  if(items.length<8)filtered.slice(0,8-items.length).forEach(s=>items.push({type:"signal",obj:s}));
   $("feed").innerHTML=items.map(item=>{
     if(item.type==="cluster"){
       const c=item.obj;return '<div class="card cluster" data-cluster="'+esc(c.cluster_id)+'"><div class="cardTop"><div class="cardSource">MULTI-SOURCE POSSIBILITY</div><div class="cardTime">'+esc(c.sources.join(" + "))+'</div></div><div class="cardTitle">Signals overlap in space and time</div><div class="cardWhy">'+esc(c.reason)+'</div></div>';
@@ -221,8 +255,8 @@ async function refresh(){
   $("refresh").disabled=true;$("status").textContent="Observing USGS + GDACS + NASA…";
   try{
     const r=await fetch("/pulse/world/live",{cache:"no-store"});if(!r.ok)throw new Error("HTTP "+r.status);const envelope=await r.json();
-    const data=envelope.pulse,batch=envelope.decisions;
-    drawWorld(data,batch);$("loading").classList.add("hide");
+    const data=envelope.pulse,batch=envelope.decisions,brief=envelope.brief;
+    drawWorld(data,batch,brief);$("loading").classList.add("hide");
     const changed=data.stats.new_signals+data.stats.updated_signals;
     if(batch.auto_wakes.length){
       $("status").innerHTML='<strong>'+batch.auto_wakes.length+' automatic wake'+(batch.auto_wakes.length===1?"":"s")+'</strong> from '+changed+' changed signal'+(changed===1?"":"s")+'.';
@@ -237,6 +271,7 @@ async function refresh(){
   }finally{$("refresh").disabled=false}
 }
 $("refresh").onclick=refresh;
+document.querySelectorAll("[data-filter]").forEach(btn=>btn.onclick=()=>{activeFilter=btn.dataset.filter;document.querySelectorAll("[data-filter]").forEach(x=>x.classList.toggle("on",x===btn));if(world)renderFeed(world)});
 function tick(){const d=new Date();$("clock").textContent="UTC "+d.toISOString().slice(11,19)}
 drawBase();tick();setInterval(tick,1000);refresh();timer=setInterval(refresh,45000);
 </script>
