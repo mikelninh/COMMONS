@@ -235,3 +235,66 @@ def test_story_mode_owns_the_viewport() -> None:
     assert "body.story-mode .legend" in styles
     assert 'document.body.classList.add("story-mode")' in app
     assert 'document.body.classList.remove("story-mode")' in app
+
+
+def test_scroll_cinema_surface_and_progress_contract() -> None:
+    page, styles, app = read_public()
+
+    assert "scrollNarrative" in page
+    assert "scrollFilm" in page
+    assert "timeFill" in page
+    assert 'id="timeScrubber" type="range" min="0" max="1"' in page
+
+    assert "SCROLL CINEMA" in styles
+    assert "html.story-mode" in styles
+    assert "body.story-mode .scroll-film" in styles
+    assert ".scroll-scene.is-interactive .scene" in styles
+    assert ".time-fill" in styles
+
+    assert "function syncScrollCinema" in app
+    assert "function requestScrollCinema" in app
+    assert "function storyProgress" in app
+    assert "function jumpToScene" in app
+    assert "function autoScrollTick" in app
+    assert 'window.addEventListener("scroll",requestScrollCinema' in app
+
+
+def test_scroll_cinema_interpolates_camera_and_semantic_layers() -> None:
+    _, _, app = read_public()
+
+    assert "const position=progress*maxIndex" in app
+    assert "const cam={" in app
+    assert "lat:lerp(a.camera.lat,b.camera.lat,t)" in app
+    assert "lng:lerp(a.camera.lng,b.camera.lng,t)" in app
+    assert "altitude:lerp(a.camera.altitude,b.camera.altitude,t)" in app
+    assert "world.pointOfView(cam,0)" in app
+    assert "world.globeOffset([" in app
+
+    assert "const thread=smoothstep(1.25,2.25,position)" in app
+    assert "const bloom=smoothstep(3.55,4.55,position)" in app
+    assert "updateSemanticVisuals(thread,bloom)" in app
+    assert "threadStrength" in app
+    assert "bloomStrength" in app
+
+
+def test_scroll_story_crossfades_and_respects_reduced_motion() -> None:
+    _, styles, app = read_public()
+
+    assert "filter:blur(5px)" in styles
+    assert "will-change:opacity,transform,filter" in styles
+    assert "@media(prefers-reduced-motion:reduce)" in styles
+    assert "scroll-behavior:auto" in styles
+
+    assert "const distance=Math.abs(delta)" in app
+    assert "const opacity=clamp01(1-smoothstep(.12,1.02,distance))" in app
+    assert "el.style.opacity=opacity.toFixed(3)" in app
+    assert 'el.setAttribute("aria-hidden",interactive?"false":"true")' in app
+
+
+def test_scroll_story_manual_input_takes_control_from_auto_play() -> None:
+    _, _, app = read_public()
+
+    assert "function stopAutoScroll" in app
+    assert 'window.addEventListener("wheel",()=>{if(storyPlaying)stopAutoScroll()}' in app
+    assert 'window.addEventListener("touchstart",()=>{if(storyPlaying)stopAutoScroll()}' in app
+    assert 'storyPlaying?"Pause":"Auto"' in app

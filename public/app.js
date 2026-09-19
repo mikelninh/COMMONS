@@ -170,6 +170,12 @@ let sourceStates = [];
 let storyIndex = 0;
 let storyPlaying = false;
 let storyTimer = null;
+let scrollRAF = null;
+let autoScrollRAF = null;
+let lastAutoTime = 0;
+let threadStrength = 0;
+let bloomStrength = 0;
+let lastSemanticFrame = "";
 let currentMilestone = 0;
 let currentSignal = null;
 let initialized = false;
@@ -193,12 +199,12 @@ const world = Globe({rendererConfig:{antialias:true,alpha:true}})($("globe"))
   .pointLat(d=>d.lat)
   .pointLng(d=>d.lon)
   .pointColor(d=>{
-    if(d.kind==="bloom") return "rgba(154,203,151,.18)";
+    if(d.kind==="bloom") return `rgba(154,203,151,${(0.05 + bloomStrength * 0.38).toFixed(3)})`;
     if(d.kind==="action") return "#d2b06d";
     return sourceColor(d.source);
   })
   .pointAltitude(d=>d.kind==="bloom"?.0015:d.kind==="action"?.016:.012)
-  .pointRadius(d=>d.kind==="bloom"?d.radius:d.kind==="action"?.15:Math.max(.05,Math.min(.13,.045+(Number(d.magnitude)||1)*.012)))
+  .pointRadius(d=>d.kind==="bloom"?d.radius*(0.18+bloomStrength*.82):d.kind==="action"?.15:Math.max(.05,Math.min(.13,.045+(Number(d.magnitude)||1)*.012)))
   .pointResolution(16)
   .pointLabel(()=>"")
   .onPointClick(d=>d.kind==="action"?startStory(0):d.kind==="bloom"?null:focusSignal(d))
@@ -215,9 +221,9 @@ const world = Globe({rendererConfig:{antialias:true,alpha:true}})($("globe"))
   .arcStartLng("startLng")
   .arcEndLat("endLat")
   .arcEndLng("endLng")
-  .arcColor(()=>["rgba(210,176,109,.03)","rgba(210,176,109,.88)"])
+  .arcColor(()=>[`rgba(210,176,109,${(0.015 + threadStrength*.06).toFixed(3)})`,`rgba(210,176,109,${(threadStrength*.9).toFixed(3)})`])
   .arcAltitude(.035)
-  .arcStroke(.38)
+  .arcStroke(()=>.06+threadStrength*.42)
   .arcDashLength(.28)
   .arcDashGap(1.05)
   .arcDashAnimateTime(3300)
@@ -494,68 +500,24 @@ function hideOpening(){
   $("opening").classList.add("hidden");
 }
 
-function startStory(index=0){
-  document.body.classList.add("story-mode");
-  hideOpening();
-  closeAuxiliaryLayers();
-  $("home").classList.add("hidden");
-  $("story").classList.add("active");
-  world.controls().autoRotate=false;
-  storyIndex=Math.max(0,Math.min(ACTION.scenes.length-1,index));
-  storyPlaying=!reduceMotion;
-  renderScene(storyIndex);
+function clamp01(v){return Math.max(0,Math.min(1,v))}
+function lerp(a,b,t){return a+(b-a)*t}
+function smoothstep(a,b,v){
+  const t=clamp01((v-a)/(b-a));
+  return t*t*(3-2*t);
+}
+function easeCinema(t){
+  return t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
 }
 
-function stopStory(returnHome=true){
-  document.body.classList.remove("story-mode");
-  clearTimeout(storyTimer);
-  storyTimer=null;
-  storyPlaying=false;
-  $("story").classList.remove("active");
-  if(returnHome){
-    $("home").classList.remove("hidden");
-    const u=new URL(location.href);
-    u.searchParams.delete("action");
-    u.searchParams.delete("scene");
-    history.replaceState(null,"",u);
-    setHomeGlobe();
-  }
-}
-
-function renderScene(index){
-  clearTimeout(storyTimer);
-  storyIndex=Math.max(0,Math.min(ACTION.scenes.length-1,index));
-  const scene=ACTION.scenes[storyIndex];
-  setMilestone(scene.milestone);
-
-  $("story").dataset.composition=scene.composition;
-  $("sceneStage").className="scene-stage "+scene.composition;
-  $("scene").classList.remove("enter");
-  void $("scene").offsetWidth;
-  $("scene").innerHTML=sceneMarkup(scene);
-  $("scene").classList.add("enter");
-
-  world.globeOffset(sceneOffset(scene));
-  world.pointOfView(scene.camera,reduceMotion?0:1200);
-
-  const u=new URL(location.href);
-  u.searchParams.delete("signal");
-  u.searchParams.set("action",ACTION.id);
-  u.searchParams.set("scene",scene.id);
-  history.replaceState(null,"",u);
-
-  bindSceneActions();
-  updatePlayLabel();
-
-  if(storyPlaying&&!reduceMotion){
-    storyTimer=setTimeout(()=>{
-      if(storyIndex<ACTION.scenes.length-1)renderScene(storyIndex+1);
-      else{
-        storyPlaying=false;
-        updatePlayLabel();
-      }
-    },scene.duration);
-  }
+function buildScrollNarrative(){
+  if($("scrollNarrative").children.length)return;
+  $("scrollNarrative").innerHTML=ACTION.scenes.map((scene,index)=>`
+    <div class="scroll-scene ${escapeHtml(scene.composition)}" data-scene-index="${index}" aria-hidden="true">
+      <article class="scene">${sceneMarkup(scene)}</article>
+    </div>
+  `).join("");
+  bindScrollSceneActions();
 }
 
 function sceneMarkup(scene){
@@ -580,8 +542,8 @@ function sceneMarkup(scene){
   `;
 }
 
-function bindSceneActions(){
-  qsa("[data-action]",$("scene")).forEach(btn=>{
+function bindScrollSceneActions(){
+  qsa("[data-action]",$("scrollNarrative")).forEach(btn=>{
     btn.onclick=()=>{
       if(btn.dataset.action==="help")window.open(ACTION.donate,"_blank","noopener");
       if(btn.dataset.action==="belief")openEvidence();
@@ -590,29 +552,212 @@ function bindSceneActions(){
   });
 }
 
-function nextScene(){
+function storyMaxScroll(){
+  return Math.max(1,document.documentElement.scrollHeight-innerHeight);
+}
+
+function storyProgress(){
+  return clamp01(window.scrollY/storyMaxScroll());
+}
+
+function updateSemanticVisuals(thread,bloom){
+  threadStrength=clamp01(thread);
+  bloomStrength=clamp01(bloom);
+  const key=Math.round(threadStrength*24)+"|"+Math.round(bloomStrength*24);
+  if(key===lastSemanticFrame)return;
+  lastSemanticFrame=key;
+
+  const points=[actionPoint];
+  if(bloomStrength>.01)points.push(...BLOOM);
+  world.pointsData(points);
+  world.arcsData(threadStrength>.01?THREADS:[]);
+}
+
+function syncScrollCinema(){
+  scrollRAF=null;
+  if(!$("story").classList.contains("active"))return;
+
+  const progress=storyProgress();
+  const maxIndex=ACTION.scenes.length-1;
+  const position=progress*maxIndex;
+  const floorIndex=Math.min(maxIndex,Math.floor(position));
+  const ceilIndex=Math.min(maxIndex,floorIndex+1);
+  const rawT=position-floorIndex;
+  const t=easeCinema(rawT);
+  const a=ACTION.scenes[floorIndex];
+  const b=ACTION.scenes[ceilIndex];
+  const nearest=Math.max(0,Math.min(maxIndex,Math.round(position)));
+
+  qsa(".scroll-scene",$("scrollNarrative")).forEach((el,index)=>{
+    const delta=index-position;
+    const distance=Math.abs(delta);
+    const opacity=clamp01(1-smoothstep(.12,1.02,distance));
+    const translate=delta*74;
+    const scale=1-Math.min(distance,1)*.018;
+    const blur=reduceMotion?0:Math.min(7,distance*6.5);
+    el.style.opacity=opacity.toFixed(3);
+    el.style.transform=`translate3d(0,${translate.toFixed(1)}px,0) scale(${scale.toFixed(4)})`;
+    el.style.filter=`blur(${blur.toFixed(2)}px)`;
+    const interactive=distance<.3;
+    el.classList.toggle("is-interactive",interactive);
+    el.setAttribute("aria-hidden",interactive?"false":"true");
+  });
+
+  const cam={
+    lat:lerp(a.camera.lat,b.camera.lat,t),
+    lng:lerp(a.camera.lng,b.camera.lng,t),
+    altitude:lerp(a.camera.altitude,b.camera.altitude,t)
+  };
+  const ao=sceneOffset(a),bo=sceneOffset(b);
+  world.globeOffset([
+    lerp(ao[0],bo[0],t),
+    lerp(ao[1],bo[1],t)
+  ]);
+  world.pointOfView(cam,0);
+
+  const thread=smoothstep(1.25,2.25,position);
+  const bloom=smoothstep(3.55,4.55,position);
+  updateSemanticVisuals(thread,bloom);
+
+  const milestone=position<1.55?0:position<3.55?1:position<6.35?2:3;
+  if(milestone!==currentMilestone){
+    currentMilestone=milestone;
+    updateSignature();
+  }
+
+  $("timeScrubber").value=progress.toFixed(3);
+  $("timeFill").style.width=(progress*100).toFixed(2)+"%";
+  $("scrollCue").classList.toggle("hidden",progress>.025);
+  document.documentElement.style.setProperty("--globe-scale",(1+Math.sin(progress*Math.PI*3)*.0035).toFixed(4));
+  document.documentElement.style.setProperty("--vignette-opacity",(0.82+Math.sin(progress*Math.PI)*.12).toFixed(3));
+
+  qsa(".time-labels span").forEach((el,index)=>{
+    el.style.color=index===milestone?"#bfc1b9":"";
+  });
+
+  if(nearest!==storyIndex){
+    storyIndex=nearest;
+    const scene=ACTION.scenes[storyIndex];
+    $("story").dataset.composition=scene.composition;
+    const u=new URL(location.href);
+    u.searchParams.delete("signal");
+    u.searchParams.set("action",ACTION.id);
+    u.searchParams.set("scene",scene.id);
+    history.replaceState(null,"",u);
+  }
+}
+
+function requestScrollCinema(){
+  if(scrollRAF!==null)return;
+  scrollRAF=requestAnimationFrame(syncScrollCinema);
+}
+
+function jumpToScene(index,smooth=true){
+  const target=Math.max(0,Math.min(ACTION.scenes.length-1,index));
+  const p=target/(ACTION.scenes.length-1);
+  window.scrollTo({top:p*storyMaxScroll(),behavior:smooth&&!reduceMotion?"smooth":"auto"});
+}
+
+function startStory(index=0){
+  document.documentElement.classList.add("story-mode");
+  document.body.classList.add("story-mode");
+  hideOpening();
+  closeAuxiliaryLayers();
+  $("home").classList.add("hidden");
+  $("story").classList.add("active");
+  world.controls().autoRotate=false;
+  buildScrollNarrative();
+  storyIndex=Math.max(0,Math.min(ACTION.scenes.length-1,index));
   storyPlaying=false;
-  renderScene(Math.min(ACTION.scenes.length-1,storyIndex+1));
+  stopAutoScroll();
+  updatePlayLabel();
+
+  requestAnimationFrame(()=>{
+    jumpToScene(storyIndex,false);
+    requestScrollCinema();
+  });
+}
+
+function stopStory(returnHome=true){
+  stopAutoScroll();
+  cancelAnimationFrame(scrollRAF);
+  scrollRAF=null;
+  clearTimeout(storyTimer);
+  storyTimer=null;
+  storyPlaying=false;
+  $("story").classList.remove("active");
+  document.documentElement.classList.remove("story-mode");
+  document.body.classList.remove("story-mode");
+  window.scrollTo(0,0);
+  lastSemanticFrame="";
+  threadStrength=0;
+  bloomStrength=0;
+
+  if(returnHome){
+    $("home").classList.remove("hidden");
+    const u=new URL(location.href);
+    u.searchParams.delete("action");
+    u.searchParams.delete("scene");
+    history.replaceState(null,"",u);
+    setHomeGlobe();
+  }
+}
+
+function nextScene(){
+  stopAutoScroll();
+  jumpToScene(Math.min(ACTION.scenes.length-1,storyIndex+1));
 }
 function prevScene(){
+  stopAutoScroll();
+  jumpToScene(Math.max(0,storyIndex-1));
+}
+
+function autoScrollTick(now){
+  if(!storyPlaying)return;
+  if(!lastAutoTime)lastAutoTime=now;
+  const dt=Math.min(50,now-lastAutoTime);
+  lastAutoTime=now;
+  const pxPerMs=storyMaxScroll()/44000;
+  const next=Math.min(storyMaxScroll(),window.scrollY+dt*pxPerMs);
+  window.scrollTo(0,next);
+  requestScrollCinema();
+  if(next>=storyMaxScroll()-2){
+    stopAutoScroll();
+    return;
+  }
+  autoScrollRAF=requestAnimationFrame(autoScrollTick);
+}
+
+function stopAutoScroll(){
   storyPlaying=false;
-  renderScene(Math.max(0,storyIndex-1));
+  lastAutoTime=0;
+  if(autoScrollRAF!==null)cancelAnimationFrame(autoScrollRAF);
+  autoScrollRAF=null;
+  updatePlayLabel();
 }
+
 function togglePlay(){
-  storyPlaying=!storyPlaying;
-  renderScene(storyIndex);
+  if(storyPlaying){
+    stopAutoScroll();
+    return;
+  }
+  storyPlaying=true;
+  lastAutoTime=0;
+  updatePlayLabel();
+  autoScrollRAF=requestAnimationFrame(autoScrollTick);
 }
+
 function updatePlayLabel(){
-  $("playToggle").textContent=storyPlaying?"Pause":"Play";
-  $("playToggle").setAttribute("aria-label",storyPlaying?"Pause story":"Play story");
+  if(!$("playToggle"))return;
+  $("playToggle").textContent=storyPlaying?"Pause":"Auto";
+  $("playToggle").setAttribute("aria-label",storyPlaying?"Pause auto-scroll":"Auto-play scroll story");
 }
 
 function scrubTime(value){
-  storyPlaying=false;
-  clearTimeout(storyTimer);
-  const milestone=Math.max(0,Math.min(3,Number(value)||0));
-  setMilestone(milestone);
-  renderScene(TIME_SCENES[milestone]);
+  stopAutoScroll();
+  const progress=clamp01(Number(value)||0);
+  window.scrollTo(0,progress*storyMaxScroll());
+  requestScrollCinema();
 }
 
 function openEvidence(){
@@ -872,6 +1017,11 @@ function bindEvents(){
   $("nextScene").onclick=nextScene;
   $("playToggle").onclick=togglePlay;
   $("timeScrubber").oninput=e=>scrubTime(e.target.value);
+
+  window.addEventListener("scroll",requestScrollCinema,{passive:true});
+  window.addEventListener("resize",requestScrollCinema,{passive:true});
+  window.addEventListener("wheel",()=>{if(storyPlaying)stopAutoScroll()},{passive:true});
+  window.addEventListener("touchstart",()=>{if(storyPlaying)stopAutoScroll()},{passive:true});
 
   $("share").addEventListener("click",e=>{if(e.target===$("share"))closeShare();});
 

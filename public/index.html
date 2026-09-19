@@ -71,8 +71,12 @@
         </div>
       </div>
 
-      <div class="scene-stage left-monument" id="sceneStage">
-        <article class="scene" id="scene" aria-live="polite"></article>
+      <div class="scroll-narrative" id="scrollNarrative" aria-live="polite"></div>
+
+      <div class="scroll-cue" id="scrollCue" aria-hidden="true">
+        <span>SCROLL</span>
+        <i></i>
+        <small>move through the response</small>
       </div>
 
       <div class="signature" aria-label="Current story grammar">
@@ -90,17 +94,20 @@
             <span>Now · open loop</span>
           </div>
           <div class="time-rail">
-            <input id="timeScrubber" type="range" min="0" max="3" step="1" value="0" aria-label="Drag through the response timeline">
+            <span class="time-fill" id="timeFill"></span>
+            <input id="timeScrubber" type="range" min="0" max="1" step="0.001" value="0" aria-label="Scrub through the response timeline">
           </div>
         </div>
         <div class="story-controls">
           <button id="prevScene" aria-label="Previous scene">←</button>
-          <button class="play" id="playToggle" aria-label="Pause story">Pause</button>
+          <button class="play" id="playToggle" aria-label="Auto-play scroll story">Auto</button>
           <button id="nextScene" aria-label="Next scene">→</button>
         </div>
       </div>
     </section>
   </main>
+
+  <div class="scroll-film" id="scrollFilm" aria-hidden="true"></div>
 
   <section class="opening" id="opening" aria-label="Enter WORLD PULSE">
     <div class="opening-copy">
