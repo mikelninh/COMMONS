@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from commons.models import Assessment, Route, RouteDecision
 
-POLICY_VERSION = "0.2.0"
+POLICY_VERSION = "0.2.1"
 
 HIGH_STAKES_THRESHOLD = 0.70
 HUMAN_REVIEW_THRESHOLD = 0.70
@@ -10,6 +10,12 @@ ENOUGH_INFORMATION_THRESHOLD = 0.45
 MIN_CHOICE_CONFIDENCE = 0.55
 CONTESTED_VALUES_THRESHOLD = 0.65
 AUTOMATION_SAFETY_THRESHOLD = 0.65
+
+# A high-stakes *case* is not automatically a high-authority *action*.
+# Informational support can remain useful in consequential situations.
+# These domains are the v0.2.1 exception: when the underlying domain itself
+# is health/legal/finance and stakes are high, route to accountable human help.
+HIGH_STAKES_ESCALATION_DOMAINS = {"health", "legal", "finance"}
 
 CAPABILITY_ROUTES = {
     "retrieve": Route.RETRIEVE,
@@ -29,6 +35,11 @@ CAPABILITY_ROUTES = {
 
 def choose_route(a: Assessment) -> RouteDecision:
     """Apply inspectable authority rules to model judgments.
+
+    v0.2.1 separates *stakes* from *authority*. A consequential situation may
+    still safely receive read/explain/translate support. The policy becomes
+    stricter when the selected route itself can execute or when the underlying
+    domain requires accountable professional review.
 
     DELIBERATE is intentionally non-executive: the system may structure evidence,
     affected groups, uncertainty and trade-offs, but the contested value choice
@@ -74,20 +85,6 @@ def choose_route(a: Assessment) -> RouteDecision:
             policy_version=POLICY_VERSION,
         )
 
-    if a.high_stakes >= HIGH_STAKES_THRESHOLD:
-        return RouteDecision(
-            route=Route.HUMAN,
-            reason=f"High-stakes probability {a.high_stakes:.2f} exceeds policy threshold.",
-            policy_version=POLICY_VERSION,
-        )
-
-    if a.needs_human_review >= HUMAN_REVIEW_THRESHOLD:
-        return RouteDecision(
-            route=Route.HUMAN,
-            reason=f"Human-review probability {a.needs_human_review:.2f} exceeds policy threshold.",
-            policy_version=POLICY_VERSION,
-        )
-
     if a.enough_information <= ENOUGH_INFORMATION_THRESHOLD:
         return RouteDecision(
             route=Route.REQUEST_INFO,
@@ -104,12 +101,52 @@ def choose_route(a: Assessment) -> RouteDecision:
 
     route = CAPABILITY_ROUTES.get(a.capability, Route.REASON)
 
-    if route is Route.WORKFLOW and a.safe_to_automate < AUTOMATION_SAFETY_THRESHOLD:
+    if (
+        a.high_stakes >= HIGH_STAKES_THRESHOLD
+        and a.domain in HIGH_STAKES_ESCALATION_DOMAINS
+    ):
         return RouteDecision(
             route=Route.HUMAN,
             reason=(
-                f"Workflow was selected but automation-safety probability "
-                f"{a.safe_to_automate:.2f} is below policy threshold."
+                f"High-stakes probability {a.high_stakes:.2f} in '{a.domain}' "
+                "requires accountable human review before consequential guidance."
+            ),
+            policy_version=POLICY_VERSION,
+        )
+
+    if route in {Route.HUMAN, Route.SPECIALIST}:
+        return RouteDecision(
+            route=Route.HUMAN,
+            reason=f"Selected capability '{a.capability}' requires accountable human help.",
+            policy_version=POLICY_VERSION,
+        )
+
+    if route is Route.WORKFLOW:
+        if a.needs_human_review >= HUMAN_REVIEW_THRESHOLD:
+            return RouteDecision(
+                route=Route.HUMAN,
+                reason=(
+                    f"Workflow was selected but human-review probability "
+                    f"{a.needs_human_review:.2f} exceeds policy threshold."
+                ),
+                policy_version=POLICY_VERSION,
+            )
+        if a.safe_to_automate < AUTOMATION_SAFETY_THRESHOLD:
+            return RouteDecision(
+                route=Route.HUMAN,
+                reason=(
+                    f"Workflow was selected but automation-safety probability "
+                    f"{a.safe_to_automate:.2f} is below policy threshold."
+                ),
+                policy_version=POLICY_VERSION,
+            )
+
+    if a.high_stakes >= HIGH_STAKES_THRESHOLD:
+        return RouteDecision(
+            route=route,
+            reason=(
+                f"Case stakes are high ({a.high_stakes:.2f}), but the selected route "
+                f"'{route.value}' is non-executive. COMMONS may assist without granting execution authority."
             ),
             policy_version=POLICY_VERSION,
         )
