@@ -151,9 +151,13 @@ def prepare_public_space_submission(case_id: str) -> CivicSubmissionPacket:
         raise HTTPException(status_code=404, detail="Civic case not found.")
     packet = prepare_submission_packet(record)
     record.status = PublicSpaceCaseStatus.READY if packet.ready else PublicSpaceCaseStatus.DRAFT
+    if packet.ready:
+        record.proof_stage = CivicProofStage.ACTION_PREPARED
+        if "Submission packet validated and ready for citizen review." not in record.proof_notes:
+            record.proof_notes.append("Submission packet validated and ready for citizen review.")
     record.updated_at = datetime.now(timezone.utc)
     founding_store.save_public_space_case(record)
-    return packet
+    return prepare_submission_packet(record)
 
 
 @app.post(
@@ -168,6 +172,7 @@ def handoff_public_space_submission(case_id: str) -> CivicSubmissionPacket:
     if not packet.ready:
         raise HTTPException(status_code=400, detail={"blockers": packet.blockers})
     record.status = PublicSpaceCaseStatus.HANDED_OFF
+    record.proof_stage = CivicProofStage.ACTION_PREPARED
     record.updated_at = datetime.now(timezone.utc)
     record.proof_notes.append("Official Ordnungsamt-Online handoff opened; submission not yet proven.")
     founding_store.save_public_space_case(record)
