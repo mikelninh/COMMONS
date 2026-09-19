@@ -1041,6 +1041,396 @@ function resetCinematicVisuals(){
   }
 }
 
+function actionLoopForStory(story=activeStory){
+  return ACTION_LOOPS[story.id] || null;
+}
+
+function loadActionLedger(){
+  try{
+    const parsed=JSON.parse(localStorage.getItem(ACTION_LEDGER_KEY)||"[]");
+    return Array.isArray(parsed)?parsed:[];
+  }catch(e){
+    return [];
+  }
+}
+
+function saveActionLedger(entries){
+  try{
+    localStorage.setItem(ACTION_LEDGER_KEY,JSON.stringify(entries));
+  }catch(e){}
+  updateLedgerCount();
+  renderStoryLibrary();
+}
+
+function updateLedgerCount(){
+  const count=loadActionLedger().length;
+  if($("ledgerCount"))$("ledgerCount").textContent=String(count);
+  if($("actionLedgerBtn"))$("actionLedgerBtn").textContent=count?"My actions · "+count:"My actions";
+}
+
+function storyForReceipt(receipt){
+  return storyById(receipt.storyId);
+}
+
+function interventionForReceipt(receipt){
+  const loop=ACTION_LOOPS[receipt.storyId];
+  return loop?.interventions?.find(item=>item.id===receipt.interventionId) || null;
+}
+
+function ledgerForStory(storyId){
+  return loadActionLedger().filter(entry=>entry.storyId===storyId);
+}
+
+function hasNewEvidence(receipt){
+  const story=storyForReceipt(receipt);
+  return Boolean(story && receipt.evidenceAsOf && story.updatedAt!==receipt.evidenceAsOf);
+}
+
+function receiptTime(value){
+  const date=new Date(value);
+  if(Number.isNaN(date.getTime()))return "time unavailable";
+  return new Intl.DateTimeFormat("en",{dateStyle:"medium",timeStyle:"short"}).format(date);
+}
+
+function statusLabel(status){
+  return ({
+    external_opened:"Official path opened",
+    self_reported_complete:"Self-reported complete",
+    following:"Following",
+    share_completed:"Share completed",
+    share_prepared:"Share prepared"
+  })[status] || String(status||"Recorded");
+}
+
+function addLedgerReceipt(intervention,status,verification){
+  const entries=loadActionLedger();
+  const now=new Date().toISOString();
+  const existingIndex=entries.findIndex(entry=>
+    entry.storyId===activeStory.id &&
+    entry.interventionId===intervention.id &&
+    (intervention.type==="follow" || entry.status==="external_opened")
+  );
+
+  const receipt={
+    id:existingIndex>=0?entries[existingIndex].id:"act-"+Date.now()+"-"+Math.random().toString(36).slice(2,7),
+    storyId:activeStory.id,
+    storyTitle:activeStory.country+" — "+activeStory.title,
+    interventionId:intervention.id,
+    interventionTitle:intervention.title,
+    interventionType:intervention.type,
+    status,
+    verification,
+    evidenceAsOf:activeStory.updatedAt,
+    startedAt:existingIndex>=0?entries[existingIndex].startedAt||now:now,
+    updatedAt:now
+  };
+
+  if(status==="self_reported_complete" || status==="following" || status==="share_completed" || status==="share_prepared"){
+    receipt.completedAt=now;
+  }
+
+  if(existingIndex>=0)entries[existingIndex]=receipt;
+  else entries.unshift(receipt);
+  saveActionLedger(entries);
+  return receipt;
+}
+
+function updateLedgerReceipt(id,patch){
+  const entries=loadActionLedger();
+  const index=entries.findIndex(entry=>entry.id===id);
+  if(index<0)return null;
+  entries[index]={...entries[index],...patch,updatedAt:new Date().toISOString()};
+  saveActionLedger(entries);
+  return entries[index];
+}
+
+function clearActionLedger(){
+  if(!window.confirm("Clear the local COMMONS action ledger from this browser?"))return;
+  try{localStorage.removeItem(ACTION_LEDGER_KEY)}catch(e){}
+  updateLedgerCount();
+  renderActionLab("ledger");
+  toast("Local action ledger cleared");
+}
+
+function loopProgress(entries){
+  const acted=entries.some(entry=>["self_reported_complete","share_completed","share_prepared"].includes(entry.status));
+  const followed=entries.some(entry=>entry.status==="following");
+  const learned=entries.some(hasNewEvidence);
+  return [
+    {label:"Understand",done:true},
+    {label:"Decide",done:true},
+    {label:"Coordinate",done:true},
+    {label:"Act",done:acted},
+    {label:"Follow",done:followed},
+    {label:"Learn",done:learned}
+  ];
+}
+
+function renderLoopChain(entries){
+  return `<div class="loop-chain">${loopProgress(entries).map(step=>`
+    <div class="loop-step ${step.done?"done":"future"}"><i></i>${escapeHtml(step.label)}</div>
+  `).join("")}</div>`;
+}
+
+function renderActionLabCurrent(){
+  const loop=actionLoopForStory();
+  if(!loop){
+    $("actionLabBody").innerHTML='<div class="ledger-empty">No accountable action loop has been defined for this story yet.</div>';
+    return;
+  }
+
+  const entries=ledgerForStory(activeStory.id);
+  const pending=entries.find(entry=>entry.status==="external_opened");
+  const actorCards=loop.actors.map(actor=>`
+    <a class="actor-card" href="${actor.url}" target="_blank" rel="noopener">
+      <div class="actor-name">${escapeHtml(actor.name)}</div>
+      <div class="actor-role">${escapeHtml(actor.role)}</div>
+      <div class="actor-evidence">${escapeHtml(actor.evidence)}</div>
+    </a>
+  `).join("");
+
+  const interventions=loop.interventions.map(item=>{
+    const existing=entries.find(entry=>entry.interventionId===item.id);
+    const state=existing?statusLabel(existing.status):item.actionability;
+    return `
+      <article class="intervention-card">
+        <div class="intervention-head">
+          <div>
+            <div class="intervention-tag">${escapeHtml(item.actionability)} · ${escapeHtml(item.evidenceStrength)}</div>
+            <div class="intervention-title">${escapeHtml(item.title)}</div>
+            <div class="intervention-actor">${escapeHtml(item.actor)}</div>
+          </div>
+          <div class="intervention-state">${escapeHtml(state)}</div>
+        </div>
+        <p class="intervention-why">${escapeHtml(item.why)}</p>
+        <div class="intervention-details">
+          <div class="intervention-detail"><b>Evidence</b><span>${escapeHtml(item.evidenceStrength)}</span></div>
+          <div class="intervention-detail"><b>Uncertainty</b><span>${escapeHtml(item.uncertainty)}</span></div>
+          <div class="intervention-detail"><b>Measure next</b><span>${escapeHtml(item.measure)}</span></div>
+        </div>
+        <div class="intervention-actions">
+          <button class="word-button" data-intervention-id="${escapeHtml(item.id)}">${escapeHtml(item.cta)}</button>
+        </div>
+      </article>
+    `;
+  }).join("");
+
+  const prompt=pending?`
+    <div class="receipt-prompt">
+      <b>Did you complete “${escapeHtml(pending.interventionTitle)}” outside WORLD PULSE?</b>
+      <p>WORLD PULSE cannot see the external transaction. Only mark it complete if you actually completed it. The receipt will remain explicitly self-reported.</p>
+      <div class="receipt-actions">
+        <button class="word-button" data-confirm-receipt="${escapeHtml(pending.id)}">I completed it</button>
+        <button class="word-button muted" data-opened-only="${escapeHtml(pending.id)}">I only opened the link</button>
+      </div>
+    </div>
+  `:"";
+
+  $("actionLabTitle").textContent=activeStory.country+" — "+activeStory.title;
+  $("actionLabBody").innerHTML=`
+    <div class="loop-status">
+      <div class="loop-status-left">
+        <i class="loop-status-dot"></i>
+        <div><b>${escapeHtml(loop.statusLabel)}</b><small>${escapeHtml(activeStory.statusLabel)}</small></div>
+      </div>
+      <div class="loop-evidence-date">Evidence as of<br>${escapeHtml(activeStory.updatedAt)}</div>
+    </div>
+
+    ${renderLoopChain(entries)}
+
+    <section class="loop-section">
+      <div class="loop-section-label">01 · Problem</div>
+      <h3>${escapeHtml(loop.problem)}</h3>
+    </section>
+
+    <section class="loop-section">
+      <div class="loop-section-label">02 · Goal</div>
+      <h3>${escapeHtml(loop.goal)}</h3>
+      <div class="loop-note">${escapeHtml(loop.decisionNote)}</div>
+    </section>
+
+    <section class="loop-section">
+      <div class="loop-section-label">03 · Who can act?</div>
+      <div class="actor-grid">${actorCards}</div>
+    </section>
+
+    <section class="loop-section">
+      <div class="loop-section-label">04 · What can actually happen next?</div>
+      <div class="intervention-list">${interventions}</div>
+      ${prompt}
+    </section>
+
+    <section class="loop-section">
+      <div class="loop-section-label">05 · What would we measure?</div>
+      <p>${loop.measures.map(item=>"• "+escapeHtml(item)).join("<br>")}</p>
+      <div class="outcome-card">
+        <div class="outcome-asof">Latest verified outcome · ${escapeHtml(loop.latestOutcome.asOf)}</div>
+        <h4>${escapeHtml(loop.latestOutcome.headline)}</h4>
+        <p>${escapeHtml(loop.latestOutcome.detail)}</p>
+        <a href="${loop.latestOutcome.url}" target="_blank" rel="noopener">Inspect official evidence ↗</a>
+      </div>
+    </section>
+
+    <section class="loop-section">
+      <div class="loop-section-label">06 · Feedback rule</div>
+      <p>When a newer official evidence date is added to this story, receipts created before that update are flagged in your local ledger. WORLD PULSE will say <strong>“evidence after your action”</strong>, never <strong>“evidence caused by your action”</strong> unless causal evidence exists.</p>
+    </section>
+
+    <div class="privacy-note">ACTION LEDGER V1 · stored only in this browser · no amount, payment information or identity is collected.</div>
+  `;
+
+  bindActionLabControls();
+}
+
+function renderActionLedger(){
+  const entries=loadActionLedger().sort((a,b)=>String(b.updatedAt).localeCompare(String(a.updatedAt)));
+  $("actionLabTitle").textContent="My action ledger";
+
+  if(!entries.length){
+    $("actionLabBody").innerHTML=`
+      <div class="ledger-empty">Nothing recorded yet.<br>Open a story and choose an accountable next action.</div>
+      <div class="privacy-note">The ledger lives only in this browser.</div>
+    `;
+    return;
+  }
+
+  $("actionLabBody").innerHTML=`
+    <div class="ledger-list">
+      ${entries.map(entry=>{
+        const story=storyForReceipt(entry);
+        const intervention=interventionForReceipt(entry);
+        const newer=hasNewEvidence(entry);
+        const loop=story?ACTION_LOOPS[story.id]:null;
+        const outcome=loop?.latestOutcome;
+        return `
+          <article class="ledger-card">
+            <div class="ledger-top">
+              <div>
+                <div class="ledger-story">${escapeHtml(entry.storyTitle||story?.title||"WORLD PULSE")}</div>
+                <div class="ledger-title">${escapeHtml(entry.interventionTitle||intervention?.title||"Recorded action")}</div>
+              </div>
+              <div class="ledger-status">${escapeHtml(statusLabel(entry.status))}</div>
+            </div>
+            <div class="ledger-meta">
+              <div><b>Recorded</b><span>${escapeHtml(receiptTime(entry.completedAt||entry.startedAt))}</span></div>
+              <div><b>Verification</b><span>${escapeHtml(entry.verification==="self_reported"?"Self-reported by you":entry.verification==="browser_local"?"Recorded in this browser":entry.verification==="browser_share"?"Browser share completed":"External completion not verified")}</span></div>
+              <div><b>Evidence snapshot</b><span>${escapeHtml(entry.evidenceAsOf||"unknown")}</span></div>
+              <div><b>Current story evidence</b><span>${escapeHtml(story?.updatedAt||"story unavailable")}</span></div>
+            </div>
+            <div class="ledger-update">
+              ${newer && outcome
+                ? `<strong>NEWER OFFICIAL EVIDENCE</strong><br>${escapeHtml(outcome.headline)}<br><br>This evidence came after your recorded action. It does not prove your action caused the outcome.`
+                : `No newer official outcome is recorded in WORLD PULSE yet. The loop remains open for follow-up.`
+              }
+            </div>
+            ${story?`<div class="intervention-actions" style="margin-top:13px"><button class="word-button muted" data-open-ledger-story="${escapeHtml(story.id)}">Open story →</button></div>`:""}
+          </article>
+        `;
+      }).join("")}
+    </div>
+    <div class="intervention-actions" style="margin-top:24px"><button class="word-button muted" data-clear-ledger>Clear local ledger</button></div>
+    <div class="privacy-note">This ledger is a private browser-side prototype. It is not a receipt from an NGO, payment provider or health authority.</div>
+  `;
+
+  bindActionLabControls();
+}
+
+function renderActionLab(mode=actionLabMode){
+  actionLabMode=mode;
+  const current=mode==="current";
+  $("actionCurrentTab").classList.toggle("active",current);
+  $("actionLedgerTab").classList.toggle("active",!current);
+  $("actionCurrentTab").setAttribute("aria-selected",current?"true":"false");
+  $("actionLedgerTab").setAttribute("aria-selected",current?"false":"true");
+  updateLedgerCount();
+  if(current)renderActionLabCurrent();
+  else renderActionLedger();
+}
+
+function openActionLab(mode="current"){
+  closeAuxiliaryLayers("actionLab");
+  actionLabMode=mode;
+  renderActionLab(mode);
+  $("actionLab").classList.add("open");
+  $("actionLab").setAttribute("aria-hidden","false");
+}
+
+function closeActionLab(){
+  if(!$("actionLab"))return;
+  $("actionLab").classList.remove("open");
+  $("actionLab").setAttribute("aria-hidden","true");
+}
+
+function beginExternalAction(intervention){
+  addLedgerReceipt(intervention,"external_opened","external_unverified");
+  renderActionLab("current");
+  window.open(intervention.url,"_blank","noopener");
+}
+
+function followAction(intervention){
+  addLedgerReceipt(intervention,"following","browser_local");
+  renderActionLab("current");
+  toast("Following this loop in this browser");
+}
+
+let pendingShareInterventionId=null;
+
+function prepareActionShare(intervention){
+  pendingShareInterventionId=intervention.id;
+  openShare();
+}
+
+function confirmExternalAction(id,completed){
+  if(completed){
+    updateLedgerReceipt(id,{
+      status:"self_reported_complete",
+      verification:"self_reported",
+      completedAt:new Date().toISOString()
+    });
+    toast("Self-reported action recorded");
+  }else{
+    updateLedgerReceipt(id,{status:"external_opened",verification:"external_unverified"});
+    toast("Kept as link opened only");
+  }
+  renderActionLab("current");
+}
+
+function recordActionShare(status,verification){
+  if(!pendingShareInterventionId)return;
+  const loop=actionLoopForStory();
+  const intervention=loop?.interventions.find(item=>item.id===pendingShareInterventionId);
+  if(intervention)addLedgerReceipt(intervention,status,verification);
+  pendingShareInterventionId=null;
+}
+
+function bindActionLabControls(){
+  qsa("[data-intervention-id]",$("actionLabBody")).forEach(button=>{
+    button.onclick=()=>{
+      const loop=actionLoopForStory();
+      const intervention=loop?.interventions.find(item=>item.id===button.dataset.interventionId);
+      if(!intervention)return;
+      if(intervention.type==="external")beginExternalAction(intervention);
+      else if(intervention.type==="follow")followAction(intervention);
+      else if(intervention.type==="share")prepareActionShare(intervention);
+    };
+  });
+
+  qsa("[data-confirm-receipt]",$("actionLabBody")).forEach(button=>{
+    button.onclick=()=>confirmExternalAction(button.dataset.confirmReceipt,true);
+  });
+  qsa("[data-opened-only]",$("actionLabBody")).forEach(button=>{
+    button.onclick=()=>confirmExternalAction(button.dataset.openedOnly,false);
+  });
+  qsa("[data-open-ledger-story]",$("actionLabBody")).forEach(button=>{
+    button.onclick=()=>{
+      closeActionLab();
+      enterStory(button.dataset.openLedgerStory,0);
+    };
+  });
+  const clear=qs("[data-clear-ledger]",$("actionLabBody"));
+  if(clear)clear.onclick=clearActionLedger;
+}
+
 function openEvidence(){
   closeAuxiliaryLayers("evidence");
   renderEvidence();
