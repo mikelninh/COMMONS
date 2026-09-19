@@ -82,3 +82,18 @@ def test_high_stakes_public_service_can_still_read_without_execution() -> None:
         )
     )
     assert d.route is Route.RETRIEVE
+
+
+def test_verification_is_nonexecutive_even_when_payment_depends_on_it() -> None:
+    d = choose_route(
+        assessment(
+            domain="logistics",
+            capability="verify",
+            capability_confidence=0.90,
+            enough_information=0.80,
+            high_stakes=0.60,
+            needs_human_review=0.90,
+            safe_to_automate=0.10,
+        )
+    )
+    assert d.route is Route.VERIFY
