@@ -36,7 +36,7 @@ def test_join_page_is_available() -> None:
     response = client.get("/join")
     assert response.status_code == 200
     assert "What do you need — or what can you help with?" in response.text
-    assert "Nobody automatically earns authority" in response.text
+    assert "Declaring a need or capability never grants extra authority." in response.text
 
 
 def test_founding_submission_requires_consent() -> None:
