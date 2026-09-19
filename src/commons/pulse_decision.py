@@ -17,6 +17,11 @@ class PulseActionNode(BaseModel):
     detail: str
 
 
+class WorldPulseLiveEnvelope(BaseModel):
+    pulse: WorldPulseResponse
+    decisions: "PulseDecisionBatch"
+
+
 class PulseDecisionBatch(BaseModel):
     jev_enabled: bool
     changed_subjects: int
