@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>COMMONS — A2A Procurement Lab</title>
+<style>
+:root{color-scheme:dark;--bg:#070807;--panel:#0c0f0d;--panel2:#111512;--line:#222b25;--text:#f3f6f1;--muted:#8e9992;--green:#b8ff7a;--amber:#ffd07a;--red:#ff8d86;--cyan:#78d8ff}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{background:radial-gradient(circle at 50% -5%,rgba(112,170,100,.09),transparent 30%),linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px),var(--bg);background-size:auto,42px 42px,42px 42px}
+main{max-width:1200px;margin:auto;padding:24px 18px 70px}
+nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:48px}.brand{font-size:12px;letter-spacing:.18em;font-weight:900}.brand b{color:var(--green)}.pill{font-size:9px;border:1px solid #314037;border-radius:999px;padding:6px 8px;color:#a4b0a8;background:#0a0f0b}
+.hero{max-width:860px}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--green);font-weight:850}h1{font-size:clamp(46px,8vw,86px);line-height:.92;letter-spacing:-.06em;margin:14px 0 18px}.lede{font-size:18px;line-height:1.55;color:#c4cbc6;max-width:780px}
+.layout{display:grid;grid-template-columns:360px 1fr;gap:16px;align-items:start;margin-top:34px}.card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(14,18,15,.96),rgba(9,12,10,.96));border-radius:20px;padding:18px}.side{position:sticky;top:16px}
+label{display:block;font-size:11px;font-weight:850;margin:0 0 7px}.hint{font-size:10.5px;color:var(--muted);line-height:1.45;margin-bottom:10px}textarea,input{width:100%;border:1px solid #303a33;background:#070a08;color:var(--text);border-radius:12px;padding:12px;font:inherit;outline:none}textarea{min-height:145px;resize:vertical;line-height:1.45}textarea:focus,input:focus{border-color:#526a56;box-shadow:0 0 0 3px rgba(184,255,122,.05)}
+.row{display:grid;grid-template-columns:1fr 90px;gap:9px;margin-top:13px}.switch{display:flex;gap:9px;align-items:flex-start;margin-top:13px;font-size:11px;color:#b9c2bc;line-height:1.4}.switch input{width:16px;height:16px;margin-top:1px}
+button{font:inherit}.primary{width:100%;border:0;border-radius:12px;background:var(--green);color:#081006;padding:13px 15px;font-weight:900;cursor:pointer;margin-top:16px}.primary:disabled{opacity:.55}.status{font-size:10.5px;color:var(--muted);line-height:1.45;margin-top:10px}
+.micro{border-top:1px solid var(--line);margin-top:16px;padding-top:13px}.micro b{font-size:11px}.micro p{font-size:10.5px;color:var(--muted);line-height:1.45;margin:5px 0 0}
+.stage{min-height:560px}.empty{height:100%;min-height:520px;display:grid;place-items:center;text-align:center;color:var(--muted)}.empty b{display:block;color:#d8dfda;font-size:18px;margin-bottom:7px}
+.summary{display:none}.summary.show{display:block}.topline{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.kicker{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--green);font-weight:850}.headline{font-size:24px;font-weight:900;letter-spacing:-.03em;margin-top:5px}.cost{font-size:11px;color:var(--muted);text-align:right}.cost b{font-size:20px;color:var(--text);display:block}.verified{display:inline-block;font-size:9px;color:var(--green);border:1px solid #40543f;background:#0c140d;border-radius:999px;padding:5px 7px;margin-top:8px}
+.network{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px}.agent{border:1px solid var(--line);border-radius:14px;padding:11px;background:#090d0a}.agent .name{font-size:11px;font-weight:850}.agent .skill{font-size:9px;color:var(--muted);margin-top:4px;line-height:1.35}.agent .price{font-size:10px;color:var(--green);margin-top:8px}
+.flowTitle{font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:var(--muted);font-weight:850;margin:22px 0 9px}.timeline{display:flex;flex-direction:column;gap:7px}.event{display:grid;grid-template-columns:28px 1fr auto;gap:10px;border:1px solid var(--line);border-radius:13px;padding:10px;background:#090c0a;align-items:start}.event.ok{border-color:#334638}.event.fail{border-color:#5a3734;background:#100b0a}.event.reroute{border-color:#5a4b2f;background:#120f08}.icon{width:25px;height:25px;border-radius:8px;background:#111713;display:grid;place-items:center;font-size:11px;font-weight:900;color:var(--green)}.fail .icon{color:var(--red)}.reroute .icon{color:var(--amber)}.event b{font-size:11.5px}.event p{font-size:10px;color:var(--muted);line-height:1.4;margin:3px 0 0}.evtCost{font-size:9px;color:var(--muted);white-space:nowrap}
+.artifact{margin-top:20px;border:1px solid #35483a;background:linear-gradient(180deg,#0d140e,#090d0a);border-radius:16px;padding:15px}.artifact h3{margin:0;font-size:15px}.artifactGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:11px}.box{border:1px solid var(--line);border-radius:12px;padding:11px;background:#090c0a}.boxKey{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}.boxVal{font-size:12px;line-height:1.45;margin-top:4px}.heroCopy{grid-column:1/-1}.heroCopy .boxVal{font-size:20px;font-weight:900;letter-spacing:-.03em}.subcopy{font-size:11px;color:#b7c0ba;line-height:1.45;margin-top:5px}.cta{display:inline-block;margin-top:9px;border-radius:999px;background:var(--green);color:#081006;font-size:9px;font-weight:900;padding:7px 9px}
+.receipts{margin-top:18px}.receipt{display:grid;grid-template-columns:1fr auto;gap:10px;padding:9px 0;border-top:1px solid var(--line)}.receipt:first-child{border-top:0}.receipt b{font-size:10.5px}.receipt p{font-size:9.5px;color:var(--muted);margin:3px 0 0;line-height:1.35}.receiptState{font-size:9px;color:var(--green);white-space:nowrap}
+footer{margin-top:26px;text-align:center;color:var(--muted);font-size:10px}
+@media(max-width:860px){.layout{grid-template-columns:1fr}.side{position:static}.network{grid-template-columns:1fr 1fr}.artifactGrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<nav><div class="brand"><b>COMMONS</b> / A2A LAB</div><div class="pill">A2A-shaped · deterministic · €0 model spend</div></nav>
+<section class="hero">
+<div class="eyebrow">agent procurement experiment</div>
+<h1>Give the network a job.</h1>
+<div class="lede">One agent starts the work, requests another capability, a provider fails, COMMONS reroutes, and an independent agent verifies the result.</div>
+</section>
+
+<section class="layout">
+<aside class="card side">
+  <label for="objective">Objective</label>
+  <div class="hint">Try a real product idea. This lab turns it into a tiny launch kit while exposing every agent handoff.</div>
+  <textarea id="objective">COMMONS Care: help people turn a real need into one safe, useful next action.</textarea>
+
+  <div class="row">
+    <div><label for="budget">Budget (€)</label><input id="budget" type="number" min="0.01" step="0.01" value="0.25"></div>
+    <div><label for="failure">Failure</label><input id="failure" type="text" value="ON" readonly></div>
+  </div>
+  <div class="switch"><input id="simulate" type="checkbox" checked><label for="simulate" style="margin:0">Force the primary copy agent to fail so we can prove rerouting works.</label></div>
+
+  <button id="run" class="primary">Run the agent network →</button>
+  <div id="status" class="status">No external money or APIs are used in this experiment.</div>
+
+  <div class="micro"><b>What this proves</b><p>Discovery, delegation, failure handling, budget enforcement, independent verification, and receipts. It does not prove that these local test agents are production-grade external services.</p></div>
+</aside>
+
+<div class="card stage">
+  <div id="empty" class="empty"><div><b>Agents are waiting.</b>Run a real objective and watch the handoffs.</div></div>
+  <div id="summary" class="summary">
+    <div class="topline">
+      <div><div class="kicker">RESULT</div><div id="headline" class="headline"></div><div id="verified"></div></div>
+      <div class="cost"><span>network spend</span><b id="spent">€0.00</b><span id="budgetLabel"></span></div>
+    </div>
+
+    <div id="network" class="network"></div>
+
+    <div class="flowTitle">Agent trace</div>
+    <div id="timeline" class="timeline"></div>
+
+    <div id="artifact"></div>
+
+    <div class="flowTitle">Handoff receipts</div>
+    <div id="receipts" class="receipts"></div>
+  </div>
+</div>
+</section>
+<footer>May this increase our capacity to care for one another.</footer>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+$("simulate").onchange=()=>$("failure").value=$("simulate").checked?"ON":"OFF";
+
+function renderAgents(cards){
+  $("network").innerHTML=cards.map(c=>'<div class="agent"><div class="name">'+esc(c.name)+'</div><div class="skill">'+esc(c.skills.map(s=>s.name).join(", "))+'</div><div class="price">€'+Number(c.price_eur).toFixed(2)+' / task</div></div>').join("");
+}
+function renderTasks(tasks){
+  const events=[];
+  tasks.forEach((t,i)=>{
+    const failed=t.state==="TASK_STATE_FAILED";
+    events.push('<div class="event '+(failed?"fail":"ok")+'"><div class="icon">'+(failed?"×":"✓")+'</div><div><b>'+esc(t.agent_id)+' · '+esc(t.skill_id)+'</b><p>'+(failed?esc(t.error):'Task completed and artifact returned.')+'</p></div><div class="evtCost">€'+Number(t.cost_eur).toFixed(2)+'</div></div>');
+    if(failed && i<tasks.length-1){
+      const next=tasks[i+1];
+      if(next.skill_id===t.skill_id)events.push('<div class="event reroute"><div class="icon">↻</div><div><b>COMMONS rerouted the failed task</b><p>'+esc(t.agent_id)+' → '+esc(next.agent_id)+' while preserving the same requested skill.</p></div><div class="evtCost">reroute</div></div>');
+    }
+  });
+  $("timeline").innerHTML=events.join("");
+}
+function renderArtifact(a){
+  if(!a){$("artifact").innerHTML="";return}
+  const s=a.data.strategy||{},c=a.data.landing_copy||{},v=a.data.verification||{};
+  $("artifact").innerHTML='<div class="artifact"><h3>Verified launch kit</h3><div class="artifactGrid">'+
+    '<div class="box"><div class="boxKey">Audience</div><div class="boxVal">'+esc(s.audience||"—")+'</div></div>'+
+    '<div class="box"><div class="boxKey">Promise</div><div class="boxVal">'+esc(s.promise||"—")+'</div></div>'+
+    '<div class="box heroCopy"><div class="boxKey">Landing hero</div><div class="boxVal">'+esc(c.headline||"—")+'</div><div class="subcopy">'+esc(c.subheadline||"")+'</div><span class="cta">'+esc(c.cta||"")+'</span></div>'+
+    '<div class="box"><div class="boxKey">Verifier</div><div class="boxVal">'+(v.independent_verifier?"Independent ✓":"Not independent")+'</div></div>'+
+    '<div class="box"><div class="boxKey">Verification</div><div class="boxVal">'+(v.passed?"Passed ✓":"Failed")+'</div></div>'+
+    '</div></div>';
+}
+function renderReceipts(rows){
+  $("receipts").innerHTML=rows.map(r=>'<div class="receipt"><div><b>'+esc(r.requested_by)+' requested '+esc(r.skill_id)+'</b><p>Selected '+esc(r.selected_agent_id)+' from '+esc(r.candidate_agent_ids.join(", "))+' · '+esc(r.reason)+'</p></div><div class="receiptState">'+esc(r.state.replace("TASK_STATE_",""))+'</div></div>').join("");
+}
+
+$("run").onclick=async()=>{
+  const objective=$("objective").value.trim(),budget=Number($("budget").value);
+  if(objective.length<8){$("status").textContent="Give the network a slightly more specific objective.";return}
+  const btn=$("run");btn.disabled=true;btn.textContent="Agents working …";$("status").textContent="Discovering cards and delegating tasks…";
+  try{
+    const r=await fetch("/a2a/procure",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({objective,budget_eur:budget,simulate_primary_failure:$("simulate").checked})});
+    const data=await r.json();if(!r.ok)throw new Error(data.detail||"A2A run failed.");
+    $("empty").style.display="none";$("summary").classList.add("show");
+    $("headline").textContent=data.summary;
+    $("spent").textContent="€"+Number(data.spent_eur).toFixed(2);
+    $("budgetLabel").textContent="of €"+Number(data.budget_eur).toFixed(2)+" budget";
+    $("verified").innerHTML=data.verified?'<span class="verified">independently verified ✓</span>':'<span class="verified" style="color:var(--amber);border-color:#5c4d2f">not verified</span>';
+    renderAgents(data.agent_cards);renderTasks(data.tasks);renderArtifact(data.final_artifact);renderReceipts(data.handoffs);
+    $("status").textContent=data.verified?"Done. The final artifact passed independent verification.":"Run completed without a verified final artifact.";
+  }catch(e){$("status").textContent=e.message||String(e)}
+  finally{btn.disabled=false;btn.textContent="Run the agent network →"}
+};
+</script>
+</body>
+</html>
