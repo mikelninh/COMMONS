@@ -20,7 +20,7 @@
     <div class="terrain-world" id="terrainWorld">
       <svg class="terrain-svg" id="terrainSvg" viewBox="0 0 1000 640" role="img" aria-label="Stylized geographic field of Nepal">
         <defs>
-          <clipPath id="nepalClip"><path id="nepalClipPath"></path></clipPath>
+          <clipPath id="storyCountryClip"><path id="terrainClipPath"></path></clipPath>
           <radialGradient id="terrainBloomGradient">
             <stop offset="0%" stop-color="#9acb97" stop-opacity=".48"></stop>
             <stop offset="70%" stop-color="#9acb97" stop-opacity=".08"></stop>
@@ -35,21 +35,21 @@
             <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
           </filter>
         </defs>
-        <path class="terrain-country" id="nepalCountry"></path>
-        <g class="terrain-contours" id="terrainContours" clip-path="url(#nepalClip)"></g>
-        <g class="terrain-response" clip-path="url(#nepalClip)">
+        <path class="terrain-country" id="terrainCountry"></path>
+        <g class="terrain-contours" id="terrainContours" clip-path="url(#storyCountryClip)"></g>
+        <g class="terrain-response" clip-path="url(#storyCountryClip)">
           <path class="terrain-thread" id="terrainThread" pathLength="1" d="M210 390 C390 250 590 420 790 245"></path>
           <circle class="terrain-bloom terrain-bloom-a" cx="720" cy="290" r="105" fill="url(#terrainBloomGradient)"></circle>
           <circle class="terrain-bloom terrain-bloom-b" cx="645" cy="355" r="72" fill="url(#terrainBloomGradient)"></circle>
         </g>
-        <g class="terrain-nodes" id="terrainNodes" clip-path="url(#nepalClip)">
+        <g class="terrain-nodes" id="terrainNodes" clip-path="url(#storyCountryClip)">
           <circle cx="212" cy="390" r="4"></circle>
           <circle cx="790" cy="245" r="5"></circle>
         </g>
       </svg>
       <div class="terrain-caption">
-        <span>NEPAL · GEOGRAPHIC DESCENT</span>
-        <small>country outline is geographic · relief field is stylized, not elevation data</small>
+        <span id="terrainCaption">GEOGRAPHIC DESCENT</span>
+        <small id="terrainDisclosure">country outline is geographic · internal field is stylized</small>
       </div>
     </div>
   </div>
@@ -58,7 +58,7 @@
     <i></i>
     <div>
       <b>MEMORY OF EARTH</b>
-      <span>Nepal · 2026 · response evidence recorded</span>
+      <span id="memoryText">response evidence recorded</span>
     </div>
   </div>
 
@@ -75,6 +75,7 @@
       </a>
 
       <nav class="top-actions" aria-label="Living Atlas controls">
+        <button class="text-nav mobile-hide" id="storiesBtn">Stories</button>
         <button class="text-nav mobile-hide" id="lookBtn">Look around</button>
         <button class="text-nav mobile-hide" id="beliefBtn">Why we believe this</button>
         <button class="text-nav strong" id="passBtn">Pass this on</button>
@@ -82,6 +83,7 @@
     </header>
 
     <section class="home" id="home" aria-labelledby="homeTitle">
+      <div class="home-layout">
       <div class="home-copy">
         <div class="home-kicker"><span class="pulse-mini"></span>A living atlas of accountable action</div>
         <h1 id="homeTitle">What changes.<br><span>What humans do next.</span></h1>
@@ -90,14 +92,21 @@
           <button class="word-button" id="enterBtn">Enter Nepal →</button>
           <button class="word-button muted" id="homeLookBtn">Look around</button>
         </div>
-        <button class="current-story" id="currentStory" aria-label="Enter the Nepal verified response">
+        <button class="current-story" id="currentStory" aria-label="Enter the featured response story">
           <span class="current-symbol"></span>
           <span>
-            <span class="current-meta">Open response · Nepal</span>
-            <span class="current-title">Flash floods → response → outcome evidence</span>
+            <span class="current-meta" id="featuredMeta">Featured story</span>
+            <span class="current-title" id="featuredTitle">Water Returns</span>
           </span>
           <span class="current-arrow">→</span>
         </button>
+      </div>
+
+      <aside class="story-library" id="storyLibrary" aria-label="Stories of Response">
+        <div class="library-kicker">STORIES OF RESPONSE · VOL. 01</div>
+        <h2>Three ways reality changes.</h2>
+        <div class="story-cards" id="storyCards"></div>
+      </aside>
       </div>
     </section>
 
@@ -110,7 +119,7 @@
     <section class="story" id="story" data-composition="left-monument" aria-label="Nepal living atlas story">
       <div class="story-vignette"></div>
       <div class="story-head">
-        <div class="story-index"><b>NEPAL</b> · FLASH FLOODS 2026 · LOOP OPEN</div>
+        <div class="story-index" id="storyIndex"><b>STORY</b> · WORLD PULSE</div>
         <div class="story-head-actions">
           <button class="text-nav mobile-hide" id="storyBelief">Why we believe this</button>
           <button class="text-nav mobile-hide" id="soundBtn" aria-pressed="false">Sound off</button>
@@ -135,11 +144,8 @@
 
       <div class="time-instrument">
         <div class="time-wrap">
-          <div class="time-labels">
-            <span>26 Aug · pulse</span>
-            <span>27 Aug · response</span>
-            <span>08 Sep · outcome</span>
-            <span>Now · open loop</span>
+          <div class="time-labels" id="timeLabels">
+            <span>Start</span><span>Response</span><span>Evidence</span><span>Now</span>
           </div>
           <div class="time-rail">
             <span class="time-fill" id="timeFill"></span>
@@ -161,8 +167,11 @@
     <div class="opening-copy">
       <div class="opening-date" id="openingDate">SEPTEMBER 2026</div>
       <h2 class="opening-line">Earth is <em>not quiet.</em></h2>
-      <p class="opening-note">A verified response is still unfolding in Nepal. Watch the disturbance become action — and action become evidence of change.</p>
-      <div class="opening-enter"><button class="word-button" id="openingEnter">Enter Nepal →</button></div>
+      <p class="opening-note">Three verified stories. Three different shapes of human response: recovery, elimination, and an epidemic still being fought.</p>
+      <div class="opening-enter opening-actions">
+        <button class="word-button" id="openingEnter">Enter featured story →</button>
+        <button class="word-button muted" id="openingBrowse">Browse stories</button>
+      </div>
     </div>
   </section>
 
@@ -205,6 +214,7 @@
   <div class="loading" id="loading"><div class="loading-mark"></div></div>
 </div>
 
+<script src="./stories.js"></script>
 <script src="./app.js"></script>
 </body>
 </html>

@@ -29,174 +29,88 @@ const sourceMeta = {
   }
 };
 
-const ACTION = {
-  id: "nepal-flash-floods-2026",
-  title: "Nepal · Flash Floods 2026",
-  lat: 28.15,
-  lon: 85.3,
-  status: "OPEN LOOP",
-  updatedAt: "8 Sep 2026",
-  responder: "IFRC + Nepal Red Cross Society",
-  appeal: "https://www.ifrc.org/press-release/ifrc-launches-chf-25-million-emergency-appeal-response-devastating-nepal-flash-floods",
-  outcome: "https://www.ifrc.org/press-release/nepal-floods-ifrc-delivers-safe-water-and-health-care-affected-communities",
-  directory: "https://www.ifrc.org/national-societies-directory/nepal-red-cross-society",
-  donate: "https://www.ifrc.org/donate",
-  scenes: [
-    {
-      id: "signal",
-      milestone: 0,
-      terrain: 0,
-      kicker: "26 Aug 2026 · Pulse",
-      composition: "left-monument",
-      camera: {lat: 22, lng: 79, altitude: 1.78},
-      offset: [245, -8],
-      headline: "Flash floods struck <span class='attention'>northern Nepal.</span>",
-      copy: "Homes, roads and bridges were damaged and communities were isolated. The first visual state is intentionally simple: a disturbance, not a conclusion.",
-      source: "IFRC · 27 Aug 2026",
-      duration: 5200
-    },
-    {
-      id: "impact",
-      milestone: 0,
-      terrain: .08,
-      kicker: "Early estimate · Human impact",
-      composition: "metric-left",
-      camera: {lat: 28.1, lng: 85.3, altitude: 1.28},
-      offset: [280, 0],
-      value: "~93,000",
-      tone: "attention",
-      label: "people may have been affected",
-      copy: "An early IFRC estimate while assessments were continuing. It is not presented as a final affected-population count.",
-      source: "IFRC Emergency Appeal · 27 Aug 2026",
-      duration: 5700
-    },
-    {
-      id: "descent",
-      milestone: 1,
-      terrain: .58,
-      kicker: "27 Aug 2026 · Descent",
-      composition: "right-whisper",
-      camera: {lat: 27.9, lng: 84.8, altitude: 1.14},
-      offset: [-235, -8],
-      headline: "Move closer. <span class='human'>The response becomes visible.</span>",
-      copy: "The globe gives way to a geographic field of Nepal. The country outline is geographic; the relief treatment is intentionally stylized and is not elevation data.",
-      source: "Geographic outline · World Atlas · visual relief treatment · COMMONS",
-      duration: 5200
-    },
-    {
-      id: "verify",
-      milestone: 1,
-      terrain: 1,
-      kicker: "Verified response · Thread",
-      composition: "right-whisper",
-      camera: {lat: 27.9, lng: 84.8, altitude: 1.08},
-      offset: [-250, -8],
-      headline: "The signal became <span class='human'>a verified response.</span>",
-      copy: "IFRC launched a formal Emergency Appeal alongside Nepal Red Cross Society operations. The luminous thread is a semantic response pathway — not a tracked shipment route.",
-      source: "Primary evidence · IFRC",
-      duration: 5400
-    },
-    {
-      id: "response",
-      milestone: 1,
-      terrain: 1,
-      kicker: "Verified response",
-      composition: "center-monument",
-      camera: {lat: 27.9, lng: 84.9, altitude: 1.08},
-      offset: [0, 70],
-      value: "CHF 25M",
-      tone: "attention",
-      label: "Emergency Appeal",
-      copy: "Shelter, health, clean water, sanitation, cash assistance and recovery were named response priorities.",
-      source: "IFRC + Nepal Red Cross Society",
-      duration: 5600
-    },
-    {
-      id: "silence",
-      milestone: 2,
-      terrain: 1,
-      kicker: "08 Sep 2026",
-      composition: "silence-scene",
-      camera: {lat: 28.03, lng: 85.16, altitude: 1.04},
-      offset: [0, -20],
-      value: "~2,000",
-      tone: "outcome",
-      label: "people",
-      copy: "",
-      source: "",
-      silent: true,
-      duration: 6100
-    },
-    {
-      id: "outcome",
-      milestone: 2,
-      terrain: 1,
-      kicker: "08 Sep 2026 · Bloom",
-      composition: "low-left",
-      camera: {lat: 28.03, lng: 85.16, altitude: 1.04},
-      offset: [250, -60],
-      headline: "<span class='outcome'>Safe drinking water</span> was restored for around 2,000 people in Nuwakot.",
-      copy: "This is evidence that the response reached people. It is not proof that any one contribution caused the outcome.",
-      source: "IFRC outcome update · 8 Sep 2026",
-      duration: 6500
-    },
-    {
-      id: "capacity",
-      milestone: 2,
-      terrain: .82,
-      kicker: "Response capacity",
-      composition: "metric-right",
-      camera: {lat: 28.03, lng: 85.16, altitude: 1.1},
-      offset: [-250, -10],
-      value: "100/day",
-      tone: "outcome",
-      label: "mobile primary clinic capacity",
-      copy: "A concrete piece of response capacity reported in the same IFRC update.",
-      source: "IFRC · 8 Sep 2026",
-      duration: 5200
-    },
-    {
-      id: "memory",
-      milestone: 3,
-      terrain: .08,
-      kicker: "Memory of Earth",
-      composition: "right-whisper",
-      camera: {lat: 25.5, lng: 82.5, altitude: 1.64},
-      offset: [-220, 15],
-      headline: "The planet keeps <span class='outcome'>a memory of response.</span>",
-      copy: "This mark represents this documented Nepal response only. Over time, verified actions can leave a truthful visual memory without turning suffering into a leaderboard.",
-      source: "COMMONS · one recorded response story",
-      duration: 5400
-    },
-    {
-      id: "you",
-      milestone: 3,
-      terrain: 0,
-      kicker: "Now · Open loop",
-      composition: "final-center",
-      camera: {lat: 18, lng: 74, altitude: 2.05},
-      offset: [0, 25],
-      headline: "What happens next is <span class='human'>still being written.</span>",
-      copy: "Help through the verified response, inspect the evidence, or pass the story on with its provenance intact.",
-      source: "Last outcome evidence in this story · 8 Sep 2026",
-      duration: 12000,
-      actions: true
-    }
-  ]};
+const STORIES = Array.isArray(window.WORLD_PULSE_STORIES) ? window.WORLD_PULSE_STORIES : [];
+if(!STORIES.length) throw new Error("WORLD PULSE story catalog is missing");
 
-const TIME_SCENES = [0,3,6,9];
-const THREADS = [
-  {
-    startLat: 27.7172, startLng: 85.3240,
-    endLat: 27.95, endLng: 85.18,
-    note: "Visual response pathway inside Nepal; not a tracked logistics route."
-  }
-];
-const BLOOM = [
-  [27.94,85.13,.64],[27.97,85.17,.52],[27.92,85.20,.46],[28.00,85.10,.38],
-  [27.90,85.15,.33],[27.96,85.24,.29],[28.03,85.18,.25],[27.88,85.09,.24],
-  [28.01,85.27,.22],[27.86,85.22,.2]
-].map(([lat,lon,radius],i)=>({kind:"bloom",id:"bloom-"+i,lat,lon,radius}));
+let activeStory = STORIES[0];
+let TIME_SCENES = [];
+let THREADS = [];
+let BLOOM = [];
+
+function storyById(id){
+  return STORIES.find(story=>story.id===id || story.slug===id) || null;
+}
+
+function nextStory(){
+  const index=STORIES.findIndex(story=>story.id===activeStory.id);
+  return STORIES[(index+1)%STORIES.length];
+}
+
+function hexToRgba(hex,alpha=1){
+  const clean=String(hex||"#ffffff").replace("#","");
+  const value=parseInt(clean.length===3?clean.split("").map(c=>c+c).join(""):clean,16);
+  const r=(value>>16)&255,g=(value>>8)&255,b=value&255;
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function rebuildStoryAssets(){
+  TIME_SCENES=[
+    0,
+    Math.max(1,Math.round((activeStory.scenes.length-1)*.34)),
+    Math.max(2,Math.round((activeStory.scenes.length-1)*.67)),
+    activeStory.scenes.length-1
+  ];
+
+  THREADS=activeStory.thread?[{
+    startLat:activeStory.thread.startLat,
+    startLng:activeStory.thread.startLng,
+    endLat:activeStory.thread.endLat,
+    endLng:activeStory.thread.endLng,
+    note:"Semantic response pathway; not a literal tracked route."
+  }]:[];
+
+  BLOOM=(activeStory.bloom||[]).map(([lat,lon,radius],i)=>({
+    kind:"bloom",
+    id:"bloom:"+activeStory.id+":"+i,
+    lat,lon,radius
+  }));
+
+  actionPoint={
+    kind:"action",
+    action:true,
+    storyId:activeStory.id,
+    id:activeStory.id,
+    lat:activeStory.lat,
+    lon:activeStory.lon,
+    source:"COMMONS STORY",
+    title:activeStory.country+" · "+activeStory.title
+  };
+
+  memoryPoint={
+    kind:"memory",
+    storyId:activeStory.id,
+    id:"memory:"+activeStory.id,
+    lat:activeStory.lat,
+    lon:activeStory.lon,
+    source:"COMMONS MEMORY",
+    title:activeStory.country+" · "+activeStory.statusLabel
+  };
+}
+
+let actionPoint;
+let memoryPoint;
+rebuildStoryAssets();
+
+const storyPoints=STORIES.map(story=>({
+  kind:"story",
+  storyId:story.id,
+  id:"story:"+story.id,
+  lat:story.lat,
+  lon:story.lon,
+  source:"WORLD PULSE STORY",
+  title:story.country+" · "+story.title,
+  color:story.colors?.memory||story.colors?.attention||"#d2b06d"
+}));
 
 let countries = [];
 let signals = [];
@@ -221,25 +135,6 @@ let currentMilestone = 0;
 let currentSignal = null;
 let initialized = false;
 
-const actionPoint = {
-  kind:"action",
-  action:true,
-  id:ACTION.id,
-  lat:ACTION.lat,
-  lon:ACTION.lon,
-  source:"COMMONS ACTION",
-  title:ACTION.title
-};
-
-const memoryPoint = {
-  kind:"memory",
-  id:"memory:"+ACTION.id,
-  lat:ACTION.lat,
-  lon:ACTION.lon,
-  source:"COMMONS MEMORY",
-  title:"Nepal · response evidence recorded"
-};
-
 const world = Globe({rendererConfig:{antialias:true,alpha:true}})($("globe"))
   .backgroundColor("rgba(0,0,0,0)")
   .showAtmosphere(true)
@@ -249,30 +144,39 @@ const world = Globe({rendererConfig:{antialias:true,alpha:true}})($("globe"))
   .pointLat(d=>d.lat)
   .pointLng(d=>d.lon)
   .pointColor(d=>{
-    if(d.kind==="bloom") return `rgba(154,203,151,${(0.05 + bloomStrength * 0.38).toFixed(3)})`;
-    if(d.kind==="action") return "#d2b06d";
-    if(d.kind==="memory") return `rgba(154,203,151,${(0.42+memoryStrength*.52).toFixed(3)})`;
+    if(d.kind==="bloom") return hexToRgba(activeStory.colors.outcome,0.05+bloomStrength*.38);
+    if(d.kind==="action") return activeStory.colors.attention;
+    if(d.kind==="memory") return hexToRgba(activeStory.colors.memory,0.42+memoryStrength*.52);
+    if(d.kind==="story") return d.color;
     return sourceColor(d.source);
   })
-  .pointAltitude(d=>d.kind==="bloom"?.0015:d.kind==="action"?.016:d.kind==="memory"?.012:.012)
-  .pointRadius(d=>d.kind==="bloom"?d.radius*(0.18+bloomStrength*.82):d.kind==="action"?.15:d.kind==="memory"?(.06+memoryStrength*.08):Math.max(.05,Math.min(.13,.045+(Number(d.magnitude)||1)*.012)))
+  .pointAltitude(d=>d.kind==="bloom"?.0015:d.kind==="action"?.016:d.kind==="memory"?.012:d.kind==="story"?.012:.012)
+  .pointRadius(d=>d.kind==="bloom"?d.radius*(0.18+bloomStrength*.82):d.kind==="action"?.15:d.kind==="memory"?(.06+memoryStrength*.08):d.kind==="story"?.085:Math.max(.05,Math.min(.13,.045+(Number(d.magnitude)||1)*.012)))
   .pointResolution(16)
   .pointLabel(()=>"")
-  .onPointClick(d=>d.kind==="action"?startStory(0):d.kind==="bloom"?null:focusSignal(d))
+  .onPointClick(d=>{
+    if(d.kind==="action") return startStory(0);
+    if(d.kind==="story") return enterStory(d.storyId,0);
+    if(d.kind==="bloom"||d.kind==="memory") return;
+    focusSignal(d);
+  })
   .ringsData([])
   .ringLat(d=>d.lat)
   .ringLng(d=>d.lon)
   .ringAltitude(.003)
-  .ringColor(d=>()=>d.kind==="memory"?"rgba(154,203,151,.38)":d.kind==="action"?"rgba(210,176,109,.58)":"rgba(197,201,192,.18)")
-  .ringMaxRadius(d=>d.kind==="memory"?2.2:d.kind==="action"?5.4:2.25)
-  .ringPropagationSpeed(d=>d.kind==="memory"?.26:d.kind==="action"?.62:.42)
-  .ringRepeatPeriod(d=>d.kind==="memory"?4200:d.kind==="action"?2500:3900)
+  .ringColor(d=>()=>d.kind==="memory"?hexToRgba(activeStory.colors.memory,.38):d.kind==="action"?hexToRgba(activeStory.colors.attention,.58):d.kind==="story"?hexToRgba(d.color,.26):"rgba(197,201,192,.18)")
+  .ringMaxRadius(d=>d.kind==="memory"?2.2:d.kind==="action"?5.4:d.kind==="story"?1.8:2.25)
+  .ringPropagationSpeed(d=>d.kind==="memory"?.26:d.kind==="action"?.62:d.kind==="story"?.22:.42)
+  .ringRepeatPeriod(d=>d.kind==="memory"?4200:d.kind==="action"?2500:d.kind==="story"?5200:3900)
   .arcsData([])
   .arcStartLat("startLat")
   .arcStartLng("startLng")
   .arcEndLat("endLat")
   .arcEndLng("endLng")
-  .arcColor(()=>[`rgba(210,176,109,${(0.015 + threadStrength*.06).toFixed(3)})`,`rgba(210,176,109,${(threadStrength*.9).toFixed(3)})`])
+  .arcColor(()=>[
+    hexToRgba(activeStory.colors.attention,0.015+threadStrength*.06),
+    hexToRgba(activeStory.colors.attention,threadStrength*.9)
+  ])
   .arcAltitude(.035)
   .arcStroke(()=>.06+threadStrength*.42)
   .arcDashLength(.28)
@@ -299,9 +203,10 @@ window.addEventListener("resize",resize);
 resize();
 
 function countryColor(d){
-  const nepal = String(d?.id)==="524";
-  if(nepal && currentMilestone>=2) return "rgba(154,203,151,.25)";
-  if(nepal) return "rgba(210,176,109,.18)";
+  const id=String(d?.id??"").padStart(3,"0");
+  const selected=id===activeStory.countryId;
+  if(selected && currentMilestone>=2) return hexToRgba(activeStory.colors.outcome,.24);
+  if(selected) return hexToRgba(activeStory.colors.attention,.18);
   return "rgba(139,142,130,.145)";
 }
 
@@ -316,6 +221,90 @@ function sourceColor(source){
 function sceneOffset(scene){
   if(innerWidth<650) return [0,-105];
   return scene.offset || [0,0];
+}
+
+function renderStoryLibrary(){
+  $("storyCards").innerHTML=STORIES.map(story=>`
+    <button class="story-card ${story.id===activeStory.id?"active":""}" data-story-id="${escapeHtml(story.id)}" style="--card-accent:${escapeHtml(story.colors.memory||story.colors.attention)}">
+      <span class="story-card-number">${String(story.order).padStart(2,"0")}</span>
+      <span class="story-card-body">
+        <span class="story-card-country">${escapeHtml(story.country)} · ${escapeHtml(story.statusLabel)}</span>
+        <span class="story-card-title">${escapeHtml(story.title)}</span>
+        <span class="story-card-subtitle">${escapeHtml(story.subtitle)}</span>
+      </span>
+      <span class="story-card-status">${escapeHtml(story.updatedAt)}<span class="story-card-arrow">→</span></span>
+    </button>
+  `).join("");
+
+  qsa(".story-card",$("storyCards")).forEach(card=>{
+    card.onclick=()=>enterStory(card.dataset.storyId,0);
+  });
+}
+
+function updateStoryChrome(){
+  const root=document.documentElement;
+  root.style.setProperty("--amber",activeStory.colors.attention);
+  root.style.setProperty("--green",activeStory.colors.outcome);
+
+  $("enterBtn").textContent="Enter "+activeStory.country+" →";
+  $("featuredMeta").textContent=activeStory.country+" · "+activeStory.statusLabel;
+  $("featuredTitle").textContent=activeStory.title+" — "+activeStory.subtitle;
+  $("currentStory").setAttribute("aria-label","Enter "+activeStory.country+" — "+activeStory.title);
+
+  $("storyIndex").innerHTML=`<b>${escapeHtml(activeStory.country.toUpperCase())}</b> · ${escapeHtml(activeStory.title.toUpperCase())} · ${escapeHtml(activeStory.status)}`;
+  $("story").dataset.status=activeStory.status.includes("ELIMINATION")?"elimination":"open";
+
+  $("timeLabels").innerHTML=activeStory.timeLabels.map(label=>`<span>${escapeHtml(label)}</span>`).join("");
+  const sig=qsa(".signature span");
+  activeStory.grammar.forEach((label,index)=>{
+    if(sig[index]){
+      const i=sig[index].querySelector("i");
+      sig[index].innerHTML="";
+      if(i)sig[index].appendChild(i);
+      sig[index].append(document.createTextNode(label));
+    }
+  });
+
+  $("terrainCaption").textContent=activeStory.terrain.caption;
+  $("terrainDisclosure").textContent=activeStory.terrain.disclosure;
+  $("memoryText").textContent=activeStory.country+" · 2026 · "+activeStory.statusLabel.toLowerCase();
+
+  renderStoryLibrary();
+  renderEvidence();
+}
+
+function selectStory(id){
+  const story=storyById(id);
+  if(!story)return false;
+  activeStory=story;
+  rebuildStoryAssets();
+  storyIndex=0;
+  currentMilestone=0;
+  threadStrength=0;
+  bloomStrength=0;
+  memoryStrength=0;
+  lastSemanticFrame="";
+  $("scrollNarrative").innerHTML="";
+  updateStoryChrome();
+  if(countries.length)buildTerrainMap();
+  world.polygonCapColor(countryColor);
+  if(countries.length)world.polygonsData([...countries]);
+  updateAtlasLayers($("story").classList.contains("active"));
+  return true;
+}
+
+function enterStory(id,index=0){
+  if(!selectStory(id))return;
+  startStory(index);
+}
+
+function openStories(){
+  hideOpening();
+  if($("story").classList.contains("active"))stopStory(true);
+  closeAuxiliaryLayers();
+  $("home").classList.remove("hidden");
+  setHomeGlobe();
+  requestAnimationFrame(()=>$("storyLibrary")?.scrollIntoView({behavior:reduceMotion?"auto":"smooth",block:"end"}));
 }
 
 function setHomeGlobe(){
@@ -335,10 +324,10 @@ function flattenCoordinateRings(geometry){
 }
 
 function buildTerrainMap(){
-  const nepal=countries.find(d=>String(d?.id)==="524");
-  if(!nepal)return;
+  const country=countries.find(d=>String(d?.id??"").padStart(3,"0")===activeStory.countryId);
+  if(!country)return;
 
-  const rings=flattenCoordinateRings(nepal.geometry);
+  const rings=flattenCoordinateRings(country.geometry);
   const points=rings.flat();
   if(!points.length)return;
 
@@ -371,8 +360,8 @@ function buildTerrainMap(){
     return `M${x0.toFixed(1)} ${y0.toFixed(1)} ${tail} Z`;
   }).join(" ");
 
-  $("nepalCountry").setAttribute("d",path);
-  $("nepalClipPath").setAttribute("d",path);
+  $("terrainCountry").setAttribute("d",path);
+  $("terrainClipPath").setAttribute("d",path);
 
   const contourMarkup=Array.from({length:27},(_,i)=>{
     const y=58+i*21.5;
@@ -501,7 +490,7 @@ function updateAtlasLayers(storyMode=$("story").classList.contains("active")){
     points=[actionPoint];
     if(currentMilestone>=2)points.push(...BLOOM);
   }else{
-    points=[...signals.slice(0,150),actionPoint];
+    points=[...signals.slice(0,150),...storyPoints];
   }
   world.pointsData(points);
 
@@ -509,7 +498,7 @@ function updateAtlasLayers(storyMode=$("story").classList.contains("active")){
     .sort((a,b)=>priority(b)-priority(a))
     .filter(s=>priority(s)>=5)
     .slice(0,14);
-  world.ringsData(storyMode?[actionPoint]:[...surfaced,actionPoint]);
+  world.ringsData(storyMode?[actionPoint]:[...surfaced,...storyPoints]);
   world.arcsData(storyMode&&currentMilestone>=1?THREADS:[]);
   world.polygonCapColor(countryColor);
   if(countries.length)world.polygonsData([...countries]);
@@ -517,7 +506,7 @@ function updateAtlasLayers(storyMode=$("story").classList.contains("active")){
 
 function setMilestone(milestone){
   currentMilestone=Math.max(0,Math.min(3,Number(milestone)||0));
-  $("timeScrubber").value=String(currentMilestone);
+  $("timeScrubber").value=(currentMilestone/3).toFixed(3);
   updateSignature();
   updateAtlasLayers(true);
 }
@@ -623,7 +612,7 @@ function easeCinema(t){
 
 function buildScrollNarrative(){
   if($("scrollNarrative").children.length)return;
-  $("scrollNarrative").innerHTML=ACTION.scenes.map((scene,index)=>`
+  $("scrollNarrative").innerHTML=activeStory.scenes.map((scene,index)=>`
     <div class="scroll-scene ${escapeHtml(scene.composition)}" data-scene-index="${index}" aria-hidden="true">
       <article class="scene">${sceneMarkup(scene)}</article>
     </div>
@@ -637,11 +626,13 @@ function sceneMarkup(scene){
        <div class="scene-label">${escapeHtml(scene.label)}</div>`
     : `<h2 class="scene-headline">${scene.headline}</h2>`;
 
+  const following=nextStory();
   const actions=scene.actions?`
     <div class="scene-actions">
-      <button class="word-button" data-action="help">Help through IFRC ↗</button>
+      <button class="word-button" data-action="primary">${escapeHtml(activeStory.primaryAction.label)}</button>
       <button class="word-button muted" data-action="belief">Why we believe this</button>
       <button class="word-button muted" data-action="pass">Pass this on</button>
+      <button class="word-button muted" data-action="next">Next: ${escapeHtml(following.country)} →</button>
     </div>`:"";
 
   return `
@@ -656,9 +647,13 @@ function sceneMarkup(scene){
 function bindScrollSceneActions(){
   qsa("[data-action]",$("scrollNarrative")).forEach(btn=>{
     btn.onclick=()=>{
-      if(btn.dataset.action==="help")window.open(ACTION.donate,"_blank","noopener");
+      if(btn.dataset.action==="primary")window.open(activeStory.primaryAction.url,"_blank","noopener");
       if(btn.dataset.action==="belief")openEvidence();
       if(btn.dataset.action==="pass")openShare();
+      if(btn.dataset.action==="next"){
+        const following=nextStory();
+        enterStory(following.id,0);
+      }
     };
   });
 }
@@ -697,14 +692,14 @@ function syncScrollCinema(){
   if(!$("story").classList.contains("active"))return;
 
   const progress=storyProgress();
-  const maxIndex=ACTION.scenes.length-1;
+  const maxIndex=activeStory.scenes.length-1;
   const position=progress*maxIndex;
   const floorIndex=Math.min(maxIndex,Math.floor(position));
   const ceilIndex=Math.min(maxIndex,floorIndex+1);
   const rawT=position-floorIndex;
   const t=easeCinema(rawT);
-  const a=ACTION.scenes[floorIndex];
-  const b=ACTION.scenes[ceilIndex];
+  const a=activeStory.scenes[floorIndex];
+  const b=activeStory.scenes[ceilIndex];
   const nearest=Math.max(0,Math.min(maxIndex,Math.round(position)));
 
   qsa(".scroll-scene",$("scrollNarrative")).forEach((el,index)=>{
@@ -748,26 +743,28 @@ function syncScrollCinema(){
   document.documentElement.style.setProperty("--terrain-y",lerp(80,-5,easeCinema(terrainMix)).toFixed(1)+"px");
   document.documentElement.style.setProperty("--terrain-blur",(reduceMotion?0:lerp(14,0,easeCinema(terrainMix))).toFixed(2)+"px");
 
-  const thread=smoothstep(2.3,3.35,position);
-  const bloom=smoothstep(4.85,6.15,position);
-  const memory=smoothstep(7.55,8.35,position);
+  const semantic=activeStory.semantic;
+  const thread=smoothstep(semantic.threadStart,semantic.threadEnd,position);
+  const bloom=BLOOM.length?smoothstep(semantic.bloomStart,semantic.bloomEnd,position):0;
+  const memory=smoothstep(semantic.memoryStart,semantic.memoryEnd,position);
   updateSemanticVisuals(thread,bloom,memory);
 
   document.documentElement.style.setProperty("--terrain-thread-opacity",(thread*terrainOpacity).toFixed(3));
   document.documentElement.style.setProperty("--terrain-thread-offset",(1-thread).toFixed(4));
-  document.documentElement.style.setProperty("--terrain-bloom-opacity",(bloom*terrainOpacity).toFixed(3));
+  document.documentElement.style.setProperty("--terrain-bloom-opacity",((BLOOM.length?bloom:0)*terrainOpacity).toFixed(3));
   document.documentElement.style.setProperty("--terrain-bloom-scale",lerp(.62,1,bloom).toFixed(3));
   document.documentElement.style.setProperty("--memory-opacity",memory.toFixed(3));
 
-  const silenceDistance=Math.abs(position-5);
+  const silenceDistance=Math.abs(position-activeStory.semantic.silenceIndex);
   const silence=1-smoothstep(.12,.76,silenceDistance);
   const chrome=1-silence*.94;
   document.documentElement.style.setProperty("--cinema-chrome-opacity",chrome.toFixed(3));
   document.documentElement.style.setProperty("--cinema-header-opacity",(1-silence*.78).toFixed(3));
-  document.documentElement.style.setProperty("--silence-label-opacity",smoothstep(.08,.55,Math.abs(position-5)).toFixed(3));
+  document.documentElement.style.setProperty("--silence-label-opacity",smoothstep(.08,.55,Math.abs(position-activeStory.semantic.silenceIndex)).toFixed(3));
   document.documentElement.style.setProperty("--silence-detail-opacity","0");
 
-  const milestone=position<1.7?0:position<4.7?1:position<7.55?2:3;
+  const [m1,m2,m3]=activeStory.semantic.milestones;
+  const milestone=position<m1?0:position<m2?1:position<m3?2:3;
   if(milestone!==currentMilestone){
     currentMilestone=milestone;
     updateSignature();
@@ -792,11 +789,12 @@ function syncScrollCinema(){
 
   if(nearest!==storyIndex){
     storyIndex=nearest;
-    const scene=ACTION.scenes[storyIndex];
+    const scene=activeStory.scenes[storyIndex];
     $("story").dataset.composition=scene.composition;
     const u=new URL(location.href);
     u.searchParams.delete("signal");
-    u.searchParams.set("action",ACTION.id);
+    u.searchParams.delete("action");
+    u.searchParams.set("story",activeStory.id);
     u.searchParams.set("scene",scene.id);
     history.replaceState(null,"",u);
   }
@@ -808,8 +806,8 @@ function requestScrollCinema(){
 }
 
 function jumpToScene(index,smooth=true){
-  const target=Math.max(0,Math.min(ACTION.scenes.length-1,index));
-  const p=target/(ACTION.scenes.length-1);
+  const target=Math.max(0,Math.min(activeStory.scenes.length-1,index));
+  const p=target/(activeStory.scenes.length-1);
   window.scrollTo({top:p*storyMaxScroll(),behavior:smooth&&!reduceMotion?"smooth":"auto"});
 }
 
@@ -822,7 +820,7 @@ function startStory(index=0){
   $("story").classList.add("active");
   world.controls().autoRotate=false;
   buildScrollNarrative();
-  storyIndex=Math.max(0,Math.min(ACTION.scenes.length-1,index));
+  storyIndex=Math.max(0,Math.min(activeStory.scenes.length-1,index));
   storyPlaying=false;
   stopAutoScroll();
   updatePlayLabel();
@@ -847,11 +845,14 @@ function stopStory(returnHome=true){
   lastSemanticFrame="";
   threadStrength=0;
   bloomStrength=0;
+  memoryStrength=0;
+  resetCinematicVisuals();
 
   if(returnHome){
     $("home").classList.remove("hidden");
     const u=new URL(location.href);
     u.searchParams.delete("action");
+    u.searchParams.delete("story");
     u.searchParams.delete("scene");
     history.replaceState(null,"",u);
     setHomeGlobe();
@@ -860,7 +861,7 @@ function stopStory(returnHome=true){
 
 function nextScene(){
   stopAutoScroll();
-  jumpToScene(Math.min(ACTION.scenes.length-1,storyIndex+1));
+  jumpToScene(Math.min(activeStory.scenes.length-1,storyIndex+1));
 }
 function prevScene(){
   stopAutoScroll();
@@ -1057,53 +1058,45 @@ function renderEvidence(){
       </div>`;
   }).join("");
 
+  const evidenceRows=activeStory.evidence.map(item=>`
+    <div class="evidence-row">
+      <div class="evidence-date">${escapeHtml(item.date).replace(" ","<br>")}</div>
+      <a href="${item.url}" target="_blank" rel="noopener"><strong>${escapeHtml(item.label)}</strong> — ${escapeHtml(item.note)}</a>
+    </div>
+  `).join("");
+
+  const guardrails=activeStory.guardrails.map(item=>`<div class="guardrail">${escapeHtml(item)}</div>`).join("");
+
   $("evidenceBody").innerHTML=`
     <p class="evidence-intro">Beauty is allowed to move you. It is not allowed to hide where a claim came from.</p>
 
     <section class="evidence-section">
-      <h3>Nepal · evidence chain</h3>
-      <div class="evidence-row">
-        <div class="evidence-date">27 Aug<br>2026</div>
-        <a href="${ACTION.appeal}" target="_blank" rel="noopener">IFRC Emergency Appeal — early affected-population estimate, appeal amount and named response priorities.</a>
-      </div>
-      <div class="evidence-row">
-        <div class="evidence-date">08 Sep<br>2026</div>
-        <a href="${ACTION.outcome}" target="_blank" rel="noopener">IFRC response update — safe drinking water restored for around 2,000 people and mobile primary clinic capacity.</a>
-      </div>
-      <div class="evidence-row">
-        <div class="evidence-date">Responder</div>
-        <a href="${ACTION.directory}" target="_blank" rel="noopener">Nepal Red Cross Society — IFRC National Society directory.</a>
-      </div>
+      <h3>${escapeHtml(activeStory.country)} · evidence chain</h3>
+      ${evidenceRows}
     </section>
 
     <section class="evidence-section">
-      <h3>What the visual language means</h3>
+      <h3>This story’s visual grammar</h3>
       <div class="grammar-note">
-        <div><b>◉ Pulse</b><span>A sourced disturbance or signal. It does not by itself establish human impact.</span></div>
-        <div><b>— Thread</b><span>A verified response pathway. The line is a visual grammar, not a tracked shipment or causal trace.</span></div>
-        <div><b>✦ Bloom</b><span>Documented improvement or response evidence. It appears only after a dated source supports it.</span></div>
+        <div><b>◉ ${escapeHtml(activeStory.grammar[0])}</b><span>The sourced condition or change that begins this story.</span></div>
+        <div><b>— ${escapeHtml(activeStory.grammar[1])}</b><span>The human system responding. Visual paths are semantic, not literal tracked routes.</span></div>
+        <div><b>✦ ${escapeHtml(activeStory.grammar[2])}</b><span>The story’s evidence state: improvement, elimination, or an explicitly unresolved loop.</span></div>
       </div>
     </section>
 
     <section class="evidence-section">
       <h3>About the geographic descent</h3>
-      <p>The Nepal country outline is projected from the public World Atlas geometry used by the globe. The internal contour field is a stylized visual treatment for depth and is not elevation, flood extent, damage mapping, or a factual topographic model. The response thread is also semantic rather than a literal route.</p>
+      <p>The ${escapeHtml(activeStory.country)} country outline is projected from the public World Atlas geometry used by the globe. ${escapeHtml(activeStory.terrain.disclosure)}. Internal contour lines are a cinematic depth treatment, not a factual topographic, damage, transmission-intensity or intervention map. Response threads are semantic rather than literal routes.</p>
     </section>
 
     <section class="evidence-section">
       <h3>Memory of Earth</h3>
-      <p>The memory mark represents only this documented Nepal response story. It is not a score, rank, completion badge, or claim that the wider humanitarian operation is resolved.</p>
+      <p>The mark records this one documented story with its current state: <strong>${escapeHtml(activeStory.statusLabel)}</strong>. It is not a score, rank, completion badge or claim beyond the evidence above.</p>
     </section>
 
     <section class="evidence-section">
       <h3>Claims deliberately not made</h3>
-      <div class="guardrails">
-        <div class="guardrail">~93,000 is not presented as a final affected-population count.</div>
-        <div class="guardrail">We do not claim every affected person has been reached.</div>
-        <div class="guardrail">We do not show a funding percentage without a current authoritative source.</div>
-        <div class="guardrail">We do not imply that a particular donation caused the displayed outcomes.</div>
-        <div class="guardrail">The loop remains open. Newer evidence should extend the timeline instead of rewriting history.</div>
-      </div>
+      <div class="guardrails">${guardrails}</div>
     </section>
 
     <section class="evidence-section">
@@ -1143,54 +1136,58 @@ function drawShareCard(){
   ctx.strokeStyle="rgba(239,238,231,.08)";ctx.lineWidth=1;
   for(let r=95;r<=280;r+=62){ctx.beginPath();ctx.arc(1210,415,r,0,Math.PI*2);ctx.stroke();}
 
-  ctx.fillStyle="#d2b06d";
+  ctx.fillStyle=activeStory.colors.attention;
   ctx.beginPath();ctx.arc(1295,335,6,0,Math.PI*2);ctx.fill();
-  ctx.strokeStyle="rgba(210,176,109,.5)";
+  ctx.strokeStyle=hexToRgba(activeStory.colors.attention,.5);
   ctx.beginPath();ctx.arc(1295,335,28,0,Math.PI*2);ctx.stroke();
 
-  ctx.strokeStyle="rgba(210,176,109,.68)";ctx.lineWidth=2;
+  ctx.strokeStyle=hexToRgba(activeStory.colors.attention,.68);ctx.lineWidth=2;
   ctx.beginPath();ctx.moveTo(1208,392);ctx.quadraticCurveTo(1246,350,1295,335);ctx.stroke();
 
-  const bloom=ctx.createRadialGradient(1320,373,0,1320,373,68);
-  bloom.addColorStop(0,"rgba(154,203,151,.4)");
-  bloom.addColorStop(1,"rgba(154,203,151,0)");
-  ctx.fillStyle=bloom;ctx.beginPath();ctx.arc(1320,373,68,0,Math.PI*2);ctx.fill();
+  if((activeStory.bloom||[]).length){
+    const bloom=ctx.createRadialGradient(1320,373,0,1320,373,68);
+    bloom.addColorStop(0,hexToRgba(activeStory.colors.outcome,.4));
+    bloom.addColorStop(1,hexToRgba(activeStory.colors.outcome,0));
+    ctx.fillStyle=bloom;ctx.beginPath();ctx.arc(1320,373,68,0,Math.PI*2);ctx.fill();
+  }
 
   ctx.fillStyle="#efeee7";
   ctx.font="700 24px Helvetica Neue, Arial";
   ctx.fillText("COMMONS / WORLD PULSE",82,78);
   ctx.fillStyle="#686d67";
   ctx.font="600 18px Helvetica Neue, Arial";
-  ctx.fillText("LIVING ATLAS",82,110);
+  ctx.fillText("STORIES OF RESPONSE · VOL. 01",82,110);
 
-  ctx.fillStyle="#d2b06d";
+  ctx.fillStyle=activeStory.colors.attention;
   ctx.font="600 20px Helvetica Neue, Arial";
-  ctx.fillText("NEPAL · FLASH FLOODS 2026",82,187);
+  ctx.fillText((activeStory.country+" · "+activeStory.title).toUpperCase(),82,187);
 
   ctx.fillStyle="#efeee7";
   ctx.font="500 112px Helvetica Neue, Arial";
-  ctx.fillText("~2,000",76,360);
+  ctx.fillText(activeStory.share.value,76,360);
 
   ctx.fillStyle="#c7c5bb";
   ctx.font="italic 38px Georgia, serif";
-  wrapText(ctx,"people with safe drinking water restored in Nuwakot",82,420,710,48);
+  wrapText(ctx,activeStory.share.label,82,420,710,48);
 
   ctx.fillStyle="#71766f";
   ctx.font="400 22px Helvetica Neue, Arial";
-  wrapText(ctx,"A documented response outcome. Not a claim that any single contribution caused it.",82,560,660,34);
+  wrapText(ctx,activeStory.share.note,82,560,690,34);
 
-  ctx.fillStyle="#d2b06d";ctx.font="600 18px Helvetica Neue, Arial";
-  ctx.fillText("◉ PULSE",82,720);
-  ctx.fillText("— THREAD",210,720);
-  ctx.fillStyle="#9acb97";ctx.fillText("✦ BLOOM",370,720);
+  const grammarX=[82,255,455];
+  activeStory.grammar.forEach((label,index)=>{
+    ctx.fillStyle=index===2?activeStory.colors.outcome:activeStory.colors.attention;
+    ctx.font="600 18px Helvetica Neue, Arial";
+    ctx.fillText((index===0?"◉ ":index===1?"— ":"✦ ")+label.toUpperCase(),grammarX[index],720);
+  });
 
   ctx.fillStyle="#5d635c";ctx.font="400 18px Helvetica Neue, Arial";
-  ctx.fillText("Outcome evidence · IFRC · 8 Sep 2026 · Loop open",82,783);
+  ctx.fillText(activeStory.share.evidenceLine,82,783);
   ctx.fillText("mikelninh.github.io/COMMONS",82,824);
 }
 
 function wrapText(ctx,text,x,y,maxWidth,lineHeight){
-  const words=text.split(" ");
+  const words=String(text).split(" ");
   let line="";
   for(let i=0;i<words.length;i++){
     const test=line+words[i]+" ";
@@ -1206,30 +1203,30 @@ function wrapText(ctx,text,x,y,maxWidth,lineHeight){
 function actionUrl(){
   const u=new URL(location.href);
   u.searchParams.delete("signal");
-  u.searchParams.set("action",ACTION.id);
+  u.searchParams.delete("action");
+  u.searchParams.set("story",activeStory.id);
   u.searchParams.set("scene","signal");
   return u.toString();
 }
 
 async function shareAction(){
+  const sourceLines=activeStory.evidence.slice(0,2).map(item=>item.date+" · "+item.label);
   const text=[
-    "WORLD PULSE / LIVING ATLAS",
-    "Nepal · Flash Floods 2026",
+    "WORLD PULSE / STORIES OF RESPONSE",
+    activeStory.country+" — "+activeStory.title,
     "",
-    "~93,000 people may have been affected · IFRC estimate, 27 Aug 2026",
-    "CHF 25M Emergency Appeal",
-    "~2,000 people with safe drinking water restored · IFRC, 8 Sep 2026",
-    "Mobile clinic capacity: 100/day",
+    activeStory.share.value+" · "+activeStory.share.label,
+    activeStory.share.note,
     "",
-    "Pulse → Thread → Bloom",
-    "Signal → response → outcome evidence",
+    activeStory.grammar.join(" → "),
+    ...sourceLines,
     actionUrl()
   ].join("\n");
   try{
-    if(navigator.share)await navigator.share({title:"WORLD PULSE / LIVING ATLAS",text,url:actionUrl()});
+    if(navigator.share)await navigator.share({title:"WORLD PULSE — "+activeStory.title,text,url:actionUrl()});
     else{
       await navigator.clipboard.writeText(text);
-      toast("Evidence chain copied");
+      toast("Story copied with provenance");
     }
   }catch(e){}
 }
@@ -1238,14 +1235,14 @@ async function shareCardImage(){
   const canvas=$("shareCanvas");
   const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/png",.94));
   if(!blob)return;
-  const file=new File([blob],"world-pulse-living-atlas-nepal.png",{type:"image/png"});
+  const file=new File([blob],"world-pulse-"+activeStory.slug+".png",{type:"image/png"});
   try{
     if(navigator.canShare?.({files:[file]})&&navigator.share){
-      await navigator.share({files:[file],title:"WORLD PULSE / LIVING ATLAS",text:"Pulse → Thread → Bloom"});
+      await navigator.share({files:[file],title:"WORLD PULSE — "+activeStory.title,text:activeStory.grammar.join(" → ")});
     }else{
       const a=document.createElement("a");
       a.href=URL.createObjectURL(blob);
-      a.download="world-pulse-living-atlas-nepal.png";
+      a.download="world-pulse-"+activeStory.slug+".png";
       a.click();
       setTimeout(()=>URL.revokeObjectURL(a.href),1000);
       toast("Share image created");
@@ -1284,9 +1281,11 @@ function escapeHtml(v){
 }
 
 function bindEvents(){
-  $("openingEnter").onclick=()=>startStory(0);
+  $("openingEnter").onclick=()=>enterStory(STORIES[0].id,0);
+  $("openingBrowse").onclick=openStories;
   $("enterBtn").onclick=()=>startStory(0);
   $("currentStory").onclick=()=>startStory(0);
+  $("storiesBtn").onclick=openStories;
   $("homeLookBtn").onclick=openLook;
   $("lookBtn").onclick=openLook;
   $("lookClose").onclick=closeLook;
@@ -1329,29 +1328,35 @@ function bindEvents(){
 
 function routeFromUrl(){
   const params=new URLSearchParams(location.search);
-  if(params.get("action")===ACTION.id){
+  const storyId=params.get("story")||params.get("action");
+  const routedStory=storyId?storyById(storyId):null;
+
+  if(routedStory){
+    selectStory(routedStory.id);
     hideOpening();
     const id=params.get("scene");
-    const index=Math.max(0,ACTION.scenes.findIndex(s=>s.id===id));
+    const index=Math.max(0,activeStory.scenes.findIndex(scene=>scene.id===id));
     startStory(index);
     return;
   }
+
   const signalId=params.get("signal");
   if(signalId){
     hideOpening();
     openLook();
-    const s=signals.find(x=>x.id===signalId);
-    if(s)focusSignal(s);
+    const signal=signals.find(item=>item.id===signalId);
+    if(signal)focusSignal(signal);
   }
 }
 
 async function init(){
   $("openingDate").textContent=new Intl.DateTimeFormat("en",{month:"long",year:"numeric"}).format(new Date()).toUpperCase();
   bindEvents();
-  renderEvidence();
+  updateStoryChrome();
   updateSignature();
   await Promise.allSettled([loadCountries(),refreshSignals()]);
   initialized=true;
+  buildTerrainMap();
   setHomeGlobe();
   $("loading").classList.add("hide");
   routeFromUrl();
