@@ -39,6 +39,7 @@ from commons.models import (
     ProviderProfile,
 )
 from commons.a2a_procurement import AgentCard, ProcurementRequest, ProcurementResult, list_agent_cards, run_procurement
+from commons.fraud_mesh import FraudMeshResult, evaluate_via_mesh
 from commons.scam_intercept import (
     FraudDecision,
     FraudScenario,
@@ -75,6 +76,7 @@ _demo_path = Path(__file__).parent / "static" / "index.html"
 _help_path = Path(__file__).parent / "static" / "help.html"
 _a2a_path = Path(__file__).parent / "static" / "a2a.html"
 _fraud_path = Path(__file__).parent / "static" / "fraud.html"
+_fraud_mesh_path = Path(__file__).parent / "static" / "fraud_mesh.html"
 _join_path = Path(__file__).parent / "static" / "join.html"
 _civic_path = Path(__file__).parent / "static" / "civic.html"
 _civic_report_path = Path(__file__).parent / "static" / "civic_report.html"
@@ -144,6 +146,11 @@ def fraud_lab() -> HTMLResponse:
     return HTMLResponse(_fraud_path.read_text(encoding="utf-8"))
 
 
+@app.get("/fraud/mesh", response_class=HTMLResponse, include_in_schema=False)
+def fraud_mesh_lab() -> HTMLResponse:
+    return HTMLResponse(_fraud_mesh_path.read_text(encoding="utf-8"))
+
+
 @app.get("/fraud/agents", response_model=list[AgentCard])
 def fraud_agents() -> list[AgentCard]:
     return list_fraud_agent_cards()
@@ -157,6 +164,11 @@ def fraud_scenarios() -> list[FraudScenario]:
 @app.post("/fraud/evaluate", response_model=FraudDecision)
 def fraud_evaluate(payment: PaymentIntent) -> FraudDecision:
     return evaluate_payment(payment)
+
+
+@app.post("/fraud/mesh/evaluate", response_model=FraudMeshResult)
+async def fraud_mesh_evaluate(payment: PaymentIntent) -> FraudMeshResult:
+    return await evaluate_via_mesh(payment)
 
 
 @app.post("/fraud/compare-established-recipient", response_model=ScenarioComparison)

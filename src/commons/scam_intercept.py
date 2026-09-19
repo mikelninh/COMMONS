@@ -268,15 +268,7 @@ def scam_intel_signal(payment: PaymentIntent) -> FraudSignal:
     )
 
 
-def evaluate_payment(payment: PaymentIntent) -> FraudDecision:
-    signals = [
-        sending_bank_signal(payment),
-        device_signal(payment),
-        telco_signal(payment),
-        beneficiary_bank_signal(payment),
-        scam_intel_signal(payment),
-    ]
-
+def evaluate_signals(payment: PaymentIntent, signals: list[FraudSignal]) -> FraudDecision:
     high = [signal.agent_id for signal in signals if signal.concern == "high"]
     watch = [signal.agent_id for signal in signals if signal.concern == "watch"]
     reasons: list[str] = []
@@ -324,6 +316,19 @@ def evaluate_payment(payment: PaymentIntent) -> FraudDecision:
         reversible=action in {"CONFIRM", "PAUSE_AND_VERIFY", "HUMAN_REVIEW"},
         human_authority_required=action in {"PAUSE_AND_VERIFY", "HUMAN_REVIEW"},
         signals=signals,
+    )
+
+
+def evaluate_payment(payment: PaymentIntent) -> FraudDecision:
+    return evaluate_signals(
+        payment,
+        [
+            sending_bank_signal(payment),
+            device_signal(payment),
+            telco_signal(payment),
+            beneficiary_bank_signal(payment),
+            scam_intel_signal(payment),
+        ],
     )
 
 
