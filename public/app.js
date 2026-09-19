@@ -1053,53 +1053,45 @@ function renderEvidence(){
       </div>`;
   }).join("");
 
+  const evidenceRows=activeStory.evidence.map(item=>`
+    <div class="evidence-row">
+      <div class="evidence-date">${escapeHtml(item.date).replace(" ","<br>")}</div>
+      <a href="${item.url}" target="_blank" rel="noopener"><strong>${escapeHtml(item.label)}</strong> — ${escapeHtml(item.note)}</a>
+    </div>
+  `).join("");
+
+  const guardrails=activeStory.guardrails.map(item=>`<div class="guardrail">${escapeHtml(item)}</div>`).join("");
+
   $("evidenceBody").innerHTML=`
     <p class="evidence-intro">Beauty is allowed to move you. It is not allowed to hide where a claim came from.</p>
 
     <section class="evidence-section">
-      <h3>Nepal · evidence chain</h3>
-      <div class="evidence-row">
-        <div class="evidence-date">27 Aug<br>2026</div>
-        <a href="${activeStory.appeal}" target="_blank" rel="noopener">IFRC Emergency Appeal — early affected-population estimate, appeal amount and named response priorities.</a>
-      </div>
-      <div class="evidence-row">
-        <div class="evidence-date">08 Sep<br>2026</div>
-        <a href="${activeStory.outcome}" target="_blank" rel="noopener">IFRC response update — safe drinking water restored for around 2,000 people and mobile primary clinic capacity.</a>
-      </div>
-      <div class="evidence-row">
-        <div class="evidence-date">Responder</div>
-        <a href="${activeStory.directory}" target="_blank" rel="noopener">Nepal Red Cross Society — IFRC National Society directory.</a>
-      </div>
+      <h3>${escapeHtml(activeStory.country)} · evidence chain</h3>
+      ${evidenceRows}
     </section>
 
     <section class="evidence-section">
-      <h3>What the visual language means</h3>
+      <h3>This story’s visual grammar</h3>
       <div class="grammar-note">
-        <div><b>◉ Pulse</b><span>A sourced disturbance or signal. It does not by itself establish human impact.</span></div>
-        <div><b>— Thread</b><span>A verified response pathway. The line is a visual grammar, not a tracked shipment or causal trace.</span></div>
-        <div><b>✦ Bloom</b><span>Documented improvement or response evidence. It appears only after a dated source supports it.</span></div>
+        <div><b>◉ ${escapeHtml(activeStory.grammar[0])}</b><span>The sourced condition or change that begins this story.</span></div>
+        <div><b>— ${escapeHtml(activeStory.grammar[1])}</b><span>The human system responding. Visual paths are semantic, not literal tracked routes.</span></div>
+        <div><b>✦ ${escapeHtml(activeStory.grammar[2])}</b><span>The story’s evidence state: improvement, elimination, or an explicitly unresolved loop.</span></div>
       </div>
     </section>
 
     <section class="evidence-section">
       <h3>About the geographic descent</h3>
-      <p>The Nepal country outline is projected from the public World Atlas geometry used by the globe. The internal contour field is a stylized visual treatment for depth and is not elevation, flood extent, damage mapping, or a factual topographic model. The response thread is also semantic rather than a literal route.</p>
+      <p>The ${escapeHtml(activeStory.country)} country outline is projected from the public World Atlas geometry used by the globe. ${escapeHtml(activeStory.terrain.disclosure)}. Internal contour lines are a cinematic depth treatment, not a factual topographic, damage, transmission-intensity or intervention map. Response threads are semantic rather than literal routes.</p>
     </section>
 
     <section class="evidence-section">
       <h3>Memory of Earth</h3>
-      <p>The memory mark represents only this documented Nepal response story. It is not a score, rank, completion badge, or claim that the wider humanitarian operation is resolved.</p>
+      <p>The mark records this one documented story with its current state: <strong>${escapeHtml(activeStory.statusLabel)}</strong>. It is not a score, rank, completion badge or claim beyond the evidence above.</p>
     </section>
 
     <section class="evidence-section">
       <h3>Claims deliberately not made</h3>
-      <div class="guardrails">
-        <div class="guardrail">~93,000 is not presented as a final affected-population count.</div>
-        <div class="guardrail">We do not claim every affected person has been reached.</div>
-        <div class="guardrail">We do not show a funding percentage without a current authoritative source.</div>
-        <div class="guardrail">We do not imply that a particular donation caused the displayed outcomes.</div>
-        <div class="guardrail">The loop remains open. Newer evidence should extend the timeline instead of rewriting history.</div>
-      </div>
+      <div class="guardrails">${guardrails}</div>
     </section>
 
     <section class="evidence-section">
@@ -1139,54 +1131,58 @@ function drawShareCard(){
   ctx.strokeStyle="rgba(239,238,231,.08)";ctx.lineWidth=1;
   for(let r=95;r<=280;r+=62){ctx.beginPath();ctx.arc(1210,415,r,0,Math.PI*2);ctx.stroke();}
 
-  ctx.fillStyle="#d2b06d";
+  ctx.fillStyle=activeStory.colors.attention;
   ctx.beginPath();ctx.arc(1295,335,6,0,Math.PI*2);ctx.fill();
-  ctx.strokeStyle="rgba(210,176,109,.5)";
+  ctx.strokeStyle=hexToRgba(activeStory.colors.attention,.5);
   ctx.beginPath();ctx.arc(1295,335,28,0,Math.PI*2);ctx.stroke();
 
-  ctx.strokeStyle="rgba(210,176,109,.68)";ctx.lineWidth=2;
+  ctx.strokeStyle=hexToRgba(activeStory.colors.attention,.68);ctx.lineWidth=2;
   ctx.beginPath();ctx.moveTo(1208,392);ctx.quadraticCurveTo(1246,350,1295,335);ctx.stroke();
 
-  const bloom=ctx.createRadialGradient(1320,373,0,1320,373,68);
-  bloom.addColorStop(0,"rgba(154,203,151,.4)");
-  bloom.addColorStop(1,"rgba(154,203,151,0)");
-  ctx.fillStyle=bloom;ctx.beginPath();ctx.arc(1320,373,68,0,Math.PI*2);ctx.fill();
+  if((activeStory.bloom||[]).length){
+    const bloom=ctx.createRadialGradient(1320,373,0,1320,373,68);
+    bloom.addColorStop(0,hexToRgba(activeStory.colors.outcome,.4));
+    bloom.addColorStop(1,hexToRgba(activeStory.colors.outcome,0));
+    ctx.fillStyle=bloom;ctx.beginPath();ctx.arc(1320,373,68,0,Math.PI*2);ctx.fill();
+  }
 
   ctx.fillStyle="#efeee7";
   ctx.font="700 24px Helvetica Neue, Arial";
   ctx.fillText("COMMONS / WORLD PULSE",82,78);
   ctx.fillStyle="#686d67";
   ctx.font="600 18px Helvetica Neue, Arial";
-  ctx.fillText("LIVING ATLAS",82,110);
+  ctx.fillText("STORIES OF RESPONSE · VOL. 01",82,110);
 
-  ctx.fillStyle="#d2b06d";
+  ctx.fillStyle=activeStory.colors.attention;
   ctx.font="600 20px Helvetica Neue, Arial";
-  ctx.fillText("NEPAL · FLASH FLOODS 2026",82,187);
+  ctx.fillText((activeStory.country+" · "+activeStory.title).toUpperCase(),82,187);
 
   ctx.fillStyle="#efeee7";
   ctx.font="500 112px Helvetica Neue, Arial";
-  ctx.fillText("~2,000",76,360);
+  ctx.fillText(activeStory.share.value,76,360);
 
   ctx.fillStyle="#c7c5bb";
   ctx.font="italic 38px Georgia, serif";
-  wrapText(ctx,"people with safe drinking water restored in Nuwakot",82,420,710,48);
+  wrapText(ctx,activeStory.share.label,82,420,710,48);
 
   ctx.fillStyle="#71766f";
   ctx.font="400 22px Helvetica Neue, Arial";
-  wrapText(ctx,"A documented response outcome. Not a claim that any single contribution caused it.",82,560,660,34);
+  wrapText(ctx,activeStory.share.note,82,560,690,34);
 
-  ctx.fillStyle="#d2b06d";ctx.font="600 18px Helvetica Neue, Arial";
-  ctx.fillText("◉ PULSE",82,720);
-  ctx.fillText("— THREAD",210,720);
-  ctx.fillStyle="#9acb97";ctx.fillText("✦ BLOOM",370,720);
+  const grammarX=[82,255,455];
+  activeStory.grammar.forEach((label,index)=>{
+    ctx.fillStyle=index===2?activeStory.colors.outcome:activeStory.colors.attention;
+    ctx.font="600 18px Helvetica Neue, Arial";
+    ctx.fillText((index===0?"◉ ":index===1?"— ":"✦ ")+label.toUpperCase(),grammarX[index],720);
+  });
 
   ctx.fillStyle="#5d635c";ctx.font="400 18px Helvetica Neue, Arial";
-  ctx.fillText("Outcome evidence · IFRC · 8 Sep 2026 · Loop open",82,783);
+  ctx.fillText(activeStory.share.evidenceLine,82,783);
   ctx.fillText("mikelninh.github.io/COMMONS",82,824);
 }
 
 function wrapText(ctx,text,x,y,maxWidth,lineHeight){
-  const words=text.split(" ");
+  const words=String(text).split(" ");
   let line="";
   for(let i=0;i<words.length;i++){
     const test=line+words[i]+" ";
@@ -1202,30 +1198,30 @@ function wrapText(ctx,text,x,y,maxWidth,lineHeight){
 function actionUrl(){
   const u=new URL(location.href);
   u.searchParams.delete("signal");
-  u.searchParams.set("action",activeStory.id);
+  u.searchParams.delete("action");
+  u.searchParams.set("story",activeStory.id);
   u.searchParams.set("scene","signal");
   return u.toString();
 }
 
 async function shareAction(){
+  const sourceLines=activeStory.evidence.slice(0,2).map(item=>item.date+" · "+item.label);
   const text=[
-    "WORLD PULSE / LIVING ATLAS",
-    "Nepal · Flash Floods 2026",
+    "WORLD PULSE / STORIES OF RESPONSE",
+    activeStory.country+" — "+activeStory.title,
     "",
-    "~93,000 people may have been affected · IFRC estimate, 27 Aug 2026",
-    "CHF 25M Emergency Appeal",
-    "~2,000 people with safe drinking water restored · IFRC, 8 Sep 2026",
-    "Mobile clinic capacity: 100/day",
+    activeStory.share.value+" · "+activeStory.share.label,
+    activeStory.share.note,
     "",
-    "Pulse → Thread → Bloom",
-    "Signal → response → outcome evidence",
+    activeStory.grammar.join(" → "),
+    ...sourceLines,
     actionUrl()
   ].join("\n");
   try{
-    if(navigator.share)await navigator.share({title:"WORLD PULSE / LIVING ATLAS",text,url:actionUrl()});
+    if(navigator.share)await navigator.share({title:"WORLD PULSE — "+activeStory.title,text,url:actionUrl()});
     else{
       await navigator.clipboard.writeText(text);
-      toast("Evidence chain copied");
+      toast("Story copied with provenance");
     }
   }catch(e){}
 }
@@ -1234,14 +1230,14 @@ async function shareCardImage(){
   const canvas=$("shareCanvas");
   const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/png",.94));
   if(!blob)return;
-  const file=new File([blob],"world-pulse-living-atlas-nepal.png",{type:"image/png"});
+  const file=new File([blob],"world-pulse-"+activeStory.slug+".png",{type:"image/png"});
   try{
     if(navigator.canShare?.({files:[file]})&&navigator.share){
-      await navigator.share({files:[file],title:"WORLD PULSE / LIVING ATLAS",text:"Pulse → Thread → Bloom"});
+      await navigator.share({files:[file],title:"WORLD PULSE — "+activeStory.title,text:activeStory.grammar.join(" → ")});
     }else{
       const a=document.createElement("a");
       a.href=URL.createObjectURL(blob);
-      a.download="world-pulse-living-atlas-nepal.png";
+      a.download="world-pulse-"+activeStory.slug+".png";
       a.click();
       setTimeout(()=>URL.revokeObjectURL(a.href),1000);
       toast("Share image created");
