@@ -1,0 +1,34 @@
+services:
+  commons:
+    build:
+      context: .
+      dockerfile: Dockerfile.fraud
+    command: uvicorn commons.app:app --host 0.0.0.0 --port 8000
+    ports: ["8000:8000"]
+    environment:
+      FRAUD_SENDING_BANK_URL: http://sending-bank:8101
+      FRAUD_DEVICE_URL: http://device:8102
+      FRAUD_TELCO_URL: http://telco:8103
+      FRAUD_BENEFICIARY_BANK_URL: http://beneficiary-bank:8104
+      FRAUD_SCAM_INTEL_URL: http://scam-intel:8105
+    depends_on: [sending-bank, device, telco, beneficiary-bank, scam-intel]
+
+  sending-bank:
+    build: {context: ., dockerfile: Dockerfile.fraud}
+    command: uvicorn commons.fraud_agents.sending_bank:app --host 0.0.0.0 --port 8101
+
+  device:
+    build: {context: ., dockerfile: Dockerfile.fraud}
+    command: uvicorn commons.fraud_agents.device:app --host 0.0.0.0 --port 8102
+
+  telco:
+    build: {context: ., dockerfile: Dockerfile.fraud}
+    command: uvicorn commons.fraud_agents.telco:app --host 0.0.0.0 --port 8103
+
+  beneficiary-bank:
+    build: {context: ., dockerfile: Dockerfile.fraud}
+    command: uvicorn commons.fraud_agents.beneficiary_bank:app --host 0.0.0.0 --port 8104
+
+  scam-intel:
+    build: {context: ., dockerfile: Dockerfile.fraud}
+    command: uvicorn commons.fraud_agents.scam_intel:app --host 0.0.0.0 --port 8105
