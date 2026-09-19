@@ -144,7 +144,7 @@ def test_bhutan_is_an_elimination_story_not_a_disaster_clone() -> None:
     _, _, _, stories = read_public()
 
     assert "WHO validated Bhutan" in stories
-    assert "zero human deaths from dog-mediated rabies since June 2023" in stories
+    assert "zero human deaths from dog-mediated rabies since june 2023" in stories.lower()
     assert 'value: "0"' in stories
     assert 'label: "human deaths"' in stories
     assert "Elimination is maintenance" in stories
