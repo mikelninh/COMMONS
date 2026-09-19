@@ -1,11 +1,12 @@
 [project]
 name = "commons-intelligence"
-version = "0.2.0"
+version = "0.3.0"
 description = "Open intelligence infrastructure for turning human needs into accountable action."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
   "fastapi>=0.116",
+  "httpx>=0.28",
   "pydantic>=2.11",
   "typesafe-sdk",
   "uvicorn>=0.35",
@@ -14,7 +15,6 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
   "pytest>=8.4",
-  "httpx>=0.28",
 ]
 
 [project.scripts]
