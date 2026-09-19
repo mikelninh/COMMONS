@@ -71,17 +71,30 @@ a{color:var(--green)}.footer{margin-top:28px;color:var(--muted);font-size:13px;l
   <div class="flow-step"><div class="flow-num">05</div><div class="flow-title">You choose whether to act</div><div class="flow-copy">Finding a path never submits anything.</div></div>
 </section>
 
+<section class="workspace">
 <div class="card">
-<textarea id="need" placeholder="Example: There is a dangerous pothole on my street and I want to report it properly."></textarea>
+<div class="label">What would you like to change, understand, or make happen?</div>
+<div class="hint">Describe the outcome in your own words. You do not need to know the agency, program or legal name.</div>
+<textarea id="need" placeholder="Example: There is rubbish and road damage near my street and I want the right Berlin authority to know about it."></textarea>
 <div class="examples">
 <button class="chip" data-example="I have an idea for improving my neighborhood and want to know whether there is a public participation or funding route.">Improve my neighborhood</button>
 <button class="chip" data-example="There is rubbish and road damage in public space near me and I want the responsible authority to know about it.">Report a public-space problem</button>
-<button class="chip" data-example="A Berlin authority made a decision I do not understand and I want to know what legitimate complaint or review channels exist.">Problem with an authority</button>
+<button class="chip" data-example="A Berlin authority sent me a Bescheid that I do not understand and I want to know what legitimate next channels exist.">Problem with an authority</button>
 <button class="chip" data-example="I have a project idea in Helle Mitte and want to know if there is current public funding available.">Helle Mitte project</button>
 </div>
-<button id="go" class="primary">Find a legitimate action path</button>
+<button id="go" class="primary">Show me what COMMONS does →</button>
 <div id="status" class="status"></div>
 </div>
+
+<aside class="card">
+<div class="label">What happens when you click?</div>
+<div class="data-node"><div class="data-num">1</div><div><div class="data-title">Your text goes to COMMONS</div><div class="data-copy">The page sends your text + “Berlin” to the local <code>/civic/action</code> endpoint.</div></div></div>
+<div class="data-node"><div class="data-num">2</div><div><div class="data-title">COMMONS checks the civic map</div><div class="data-copy">This prototype evaluates four verified Berlin channel types. It does not search the whole internet at click time.</div></div></div>
+<div class="data-node"><div class="data-num">3</div><div><div class="data-title">You get a route, not execution</div><div class="data-copy">The result contains a primary path, alternatives, matched signals and warnings.</div></div></div>
+<div class="data-node"><div class="data-num">4</div><div><div class="data-title">External action is separate</div><div class="data-copy">No petition, report, grant application or government form is submitted here.</div></div></div>
+<div class="never"><b>Find a path ≠ send to government.</b> Any future execution must have its own explicit approval step.</div>
+</aside>
+</section>
 
 <div id="result" class="result"></div>
 
@@ -89,7 +102,7 @@ a{color:var(--green)}.footer{margin-top:28px;color:var(--muted);font-size:13px;l
 </main>
 <script>
 const need=document.getElementById("need"),result=document.getElementById("result"),status=document.getElementById("status");
-document.querySelectorAll("[data-example]").forEach(b=>b.onclick=()=>{need.value=b.dataset.example;need.focus()});
+document.querySelectorAll("[data-example]").forEach(b=>b.onclick=()=>{need.value=b.dataset.example;need.focus();status.textContent="Example loaded. Nothing has been sent yet.";});
 document.getElementById("go").onclick=async()=>{
   const text=need.value.trim();
   if(!text){status.textContent="Describe what you want to change or understand.";return}
