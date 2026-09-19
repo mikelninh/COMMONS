@@ -212,7 +212,7 @@ async def _fetch_usgs(client: httpx.AsyncClient) -> tuple[list[WorldSignal], Sou
                 occurred_at=_utc_from_ms(props.get("time")),
                 updated_at=_utc_from_ms(props.get("updated")),
                 magnitude=float(props["mag"]) if props.get("mag") is not None else None,
-                magnitude_unit="Mw/Ml/Md",
+                magnitude_unit=str(props.get("magType")) if props.get("magType") else None,
                 severity=str(props.get("alert")) if props.get("alert") else None,
                 source_url=props.get("url"),
             )
@@ -285,6 +285,14 @@ async def _fetch_gdacs(client: httpx.AsyncClient) -> tuple[list[WorldSignal], So
                 continue
             source_id = hashlib.sha1(guid.encode("utf-8")).hexdigest()[:16]
             event_type = (_child_text(item, {"eventtype"}) or "disaster").strip()
+            normalized_event_type = {
+                "EQ": "earthquake",
+                "TC": "cyclone",
+                "FL": "flood",
+                "VO": "volcano",
+                "WF": "wildfire",
+                "DR": "drought",
+            }.get(event_type.upper(), event_type.lower())
             alert = _child_text(item, {"alertlevel", "alertscore"})
             title = _child_text(item, {"title"}) or event_type
             magnitude_text = _child_text(item, {"severity", "magnitude"})
@@ -298,7 +306,7 @@ async def _fetch_gdacs(client: httpx.AsyncClient) -> tuple[list[WorldSignal], So
                 signal_id=f"gdacs:{source_id}",
                 source="GDACS",
                 source_event_id=source_id,
-                kind=event_type.lower().replace(" ", "_"),
+                kind=normalized_event_type.replace(" ", "_"),
                 title=title,
                 latitude=point[0],
                 longitude=point[1],
@@ -432,12 +440,13 @@ async def collect_world_pulse() -> WorldPulseResponse:
     clustered_ids = {signal_id for cluster in clusters for signal_id in cluster.signal_ids}
     for signal in signals:
         if signal.signal_id in clustered_ids:
-            signal.attention_reasons.append("possible multi-source cluster")
+            if "possible multi-source cluster" not in signal.attention_reasons:
+                signal.attention_reasons.append("possible multi-source cluster")
 
     signals.sort(
         key=lambda signal: (
             0 if signal.state == "new" else 1 if signal.state == "updated" else 2,
-            -(signal.updated_at or signal.occurred_at or datetime.min.replace(tzinfo=timezone.utc)).timestamp(),
+            -(signal.updated_at or signal.occurred_at or datetime(1970, 1, 1, tzinfo=timezone.utc)).timestamp(),
         )
     )
 
