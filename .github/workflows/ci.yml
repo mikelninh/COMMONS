@@ -25,3 +25,5 @@ jobs:
         run: python scripts/simulate_capability_network.py
       - name: Simulate mixed human-AI network
         run: python scripts/simulate_mixed_capabilities.py
+      - name: Simulate freight coordination edge cases
+        run: python scripts/simulate_freight_coordination.py
