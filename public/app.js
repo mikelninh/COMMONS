@@ -437,6 +437,7 @@ function closeAuxiliaryLayers(except=null){
 }
 
 function openLook(){
+  document.body.classList.remove("story-mode");
   stopStory(false);
   closeAuxiliaryLayers("look");
   $("home").classList.add("hidden");
@@ -494,6 +495,7 @@ function hideOpening(){
 }
 
 function startStory(index=0){
+  document.body.classList.add("story-mode");
   hideOpening();
   closeAuxiliaryLayers();
   $("home").classList.add("hidden");
@@ -505,6 +507,7 @@ function startStory(index=0){
 }
 
 function stopStory(returnHome=true){
+  document.body.classList.remove("story-mode");
   clearTimeout(storyTimer);
   storyTimer=null;
   storyPlaying=false;

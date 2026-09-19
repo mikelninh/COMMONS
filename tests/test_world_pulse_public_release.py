@@ -226,3 +226,12 @@ def test_auxiliary_ui_modes_are_mutually_exclusive() -> None:
     assert 'closeAuxiliaryLayers("look")' in app
     assert 'closeAuxiliaryLayers("evidence")' in app
     assert 'closeAuxiliaryLayers("share")' in app
+
+
+def test_story_mode_owns_the_viewport() -> None:
+    _, styles, app = read_public()
+
+    assert "body.story-mode .topbar" in styles
+    assert "body.story-mode .legend" in styles
+    assert 'document.body.classList.add("story-mode")' in app
+    assert 'document.body.classList.remove("story-mode")' in app
