@@ -26,9 +26,9 @@ class SourceState(BaseModel):
     count: int = 0
     detail: str | None = None
     freshness: Literal["live", "near_real_time"] = "near_real_time"
-    cadence: str
-    source_url: str
-    scope_note: str
+    cadence: str = "unspecified"
+    source_url: str = ""
+    scope_note: str = ""
 
 
 class WorldSignal(BaseModel):
