@@ -15,6 +15,53 @@
 <body>
 <div id="app">
   <div id="globe" aria-hidden="true"></div>
+
+  <div class="descent-layer" id="descentLayer" aria-hidden="true">
+    <div class="terrain-world" id="terrainWorld">
+      <svg class="terrain-svg" id="terrainSvg" viewBox="0 0 1000 640" role="img" aria-label="Stylized geographic field of Nepal">
+        <defs>
+          <clipPath id="nepalClip"><path id="nepalClipPath"></path></clipPath>
+          <radialGradient id="terrainBloomGradient">
+            <stop offset="0%" stop-color="#9acb97" stop-opacity=".48"></stop>
+            <stop offset="70%" stop-color="#9acb97" stop-opacity=".08"></stop>
+            <stop offset="100%" stop-color="#9acb97" stop-opacity="0"></stop>
+          </radialGradient>
+          <linearGradient id="terrainThreadGradient" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#d2b06d" stop-opacity=".12"></stop>
+            <stop offset="100%" stop-color="#d2b06d" stop-opacity=".92"></stop>
+          </linearGradient>
+          <filter id="terrainGlow">
+            <feGaussianBlur stdDeviation="7" result="blur"></feGaussianBlur>
+            <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+          </filter>
+        </defs>
+        <path class="terrain-country" id="nepalCountry"></path>
+        <g class="terrain-contours" id="terrainContours" clip-path="url(#nepalClip)"></g>
+        <g class="terrain-response" clip-path="url(#nepalClip)">
+          <path class="terrain-thread" id="terrainThread" pathLength="1" d="M210 390 C390 250 590 420 790 245"></path>
+          <circle class="terrain-bloom terrain-bloom-a" cx="720" cy="290" r="105" fill="url(#terrainBloomGradient)"></circle>
+          <circle class="terrain-bloom terrain-bloom-b" cx="645" cy="355" r="72" fill="url(#terrainBloomGradient)"></circle>
+        </g>
+        <g class="terrain-nodes" id="terrainNodes" clip-path="url(#nepalClip)">
+          <circle cx="212" cy="390" r="4"></circle>
+          <circle cx="790" cy="245" r="5"></circle>
+        </g>
+      </svg>
+      <div class="terrain-caption">
+        <span>NEPAL · GEOGRAPHIC DESCENT</span>
+        <small>country outline is geographic · relief field is stylized, not elevation data</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="memory-mark" id="memoryMark" aria-hidden="true">
+    <i></i>
+    <div>
+      <b>MEMORY OF EARTH</b>
+      <span>Nepal · 2026 · response evidence recorded</span>
+    </div>
+  </div>
+
   <div class="void"></div>
   <div class="grain"></div>
 
@@ -66,6 +113,7 @@
         <div class="story-index"><b>NEPAL</b> · FLASH FLOODS 2026 · LOOP OPEN</div>
         <div class="story-head-actions">
           <button class="text-nav mobile-hide" id="storyBelief">Why we believe this</button>
+          <button class="text-nav mobile-hide" id="soundBtn" aria-pressed="false">Sound off</button>
           <button class="text-nav mobile-hide" id="storyPass">Pass this on</button>
           <button class="iconless" id="storyClose" aria-label="Close story">×</button>
         </div>

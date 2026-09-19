@@ -45,6 +45,7 @@ const ACTION = {
     {
       id: "signal",
       milestone: 0,
+      terrain: 0,
       kicker: "26 Aug 2026 · Pulse",
       composition: "left-monument",
       camera: {lat: 22, lng: 79, altitude: 1.78},
@@ -57,6 +58,7 @@ const ACTION = {
     {
       id: "impact",
       milestone: 0,
+      terrain: .08,
       kicker: "Early estimate · Human impact",
       composition: "metric-left",
       camera: {lat: 28.1, lng: 85.3, altitude: 1.28},
@@ -69,24 +71,39 @@ const ACTION = {
       duration: 5700
     },
     {
+      id: "descent",
+      milestone: 1,
+      terrain: .58,
+      kicker: "27 Aug 2026 · Descent",
+      composition: "right-whisper",
+      camera: {lat: 27.9, lng: 84.8, altitude: 1.14},
+      offset: [-235, -8],
+      headline: "Move closer. <span class='human'>The response becomes visible.</span>",
+      copy: "The globe gives way to a geographic field of Nepal. The country outline is geographic; the relief treatment is intentionally stylized and is not elevation data.",
+      source: "Geographic outline · World Atlas · visual relief treatment · COMMONS",
+      duration: 5200
+    },
+    {
       id: "verify",
       milestone: 1,
-      kicker: "27 Aug 2026 · Thread",
+      terrain: 1,
+      kicker: "Verified response · Thread",
       composition: "right-whisper",
-      camera: {lat: 27.9, lng: 84.8, altitude: 1.2},
-      offset: [-250, -4],
+      camera: {lat: 27.9, lng: 84.8, altitude: 1.08},
+      offset: [-250, -8],
       headline: "The signal became <span class='human'>a verified response.</span>",
-      copy: "IFRC launched a formal Emergency Appeal alongside Nepal Red Cross Society operations. The luminous thread represents an accountable response pathway — not a tracked shipment route.",
+      copy: "IFRC launched a formal Emergency Appeal alongside Nepal Red Cross Society operations. The luminous thread is a semantic response pathway — not a tracked shipment route.",
       source: "Primary evidence · IFRC",
       duration: 5400
     },
     {
       id: "response",
       milestone: 1,
+      terrain: 1,
       kicker: "Verified response",
       composition: "center-monument",
-      camera: {lat: 27.9, lng: 84.9, altitude: 1.34},
-      offset: [0, 65],
+      camera: {lat: 27.9, lng: 84.9, altitude: 1.08},
+      offset: [0, 70],
       value: "CHF 25M",
       tone: "attention",
       label: "Emergency Appeal",
@@ -95,15 +112,30 @@ const ACTION = {
       duration: 5600
     },
     {
+      id: "silence",
+      milestone: 2,
+      terrain: 1,
+      kicker: "08 Sep 2026",
+      composition: "silence-scene",
+      camera: {lat: 28.03, lng: 85.16, altitude: 1.04},
+      offset: [0, -20],
+      value: "~2,000",
+      tone: "outcome",
+      label: "people",
+      copy: "",
+      source: "",
+      silent: true,
+      duration: 6100
+    },
+    {
       id: "outcome",
       milestone: 2,
+      terrain: 1,
       kicker: "08 Sep 2026 · Bloom",
       composition: "low-left",
       camera: {lat: 28.03, lng: 85.16, altitude: 1.04},
-      offset: [260, -58],
-      value: "~2,000",
-      tone: "outcome",
-      label: "people with safe drinking water restored in Nuwakot",
+      offset: [250, -60],
+      headline: "<span class='outcome'>Safe drinking water</span> was restored for around 2,000 people in Nuwakot.",
       copy: "This is evidence that the response reached people. It is not proof that any one contribution caused the outcome.",
       source: "IFRC outcome update · 8 Sep 2026",
       duration: 6500
@@ -111,10 +143,11 @@ const ACTION = {
     {
       id: "capacity",
       milestone: 2,
+      terrain: .82,
       kicker: "Response capacity",
       composition: "metric-right",
       camera: {lat: 28.03, lng: 85.16, altitude: 1.1},
-      offset: [-255, -10],
+      offset: [-250, -10],
       value: "100/day",
       tone: "outcome",
       label: "mobile primary clinic capacity",
@@ -123,34 +156,35 @@ const ACTION = {
       duration: 5200
     },
     {
-      id: "meaning",
+      id: "memory",
       milestone: 3,
-      kicker: "Now · Open loop",
-      composition: "center-monument",
-      camera: {lat: 25.5, lng: 82.5, altitude: 1.58},
-      offset: [0, 25],
-      headline: "Pulse. Thread. <span class='outcome'>Bloom.</span>",
-      copy: "Disturbance becomes legible. Response becomes visible. Improvement is only shown when evidence supports it.",
-      source: "COMMONS visual grammar",
-      duration: 5200
+      terrain: .08,
+      kicker: "Memory of Earth",
+      composition: "right-whisper",
+      camera: {lat: 25.5, lng: 82.5, altitude: 1.64},
+      offset: [-220, 15],
+      headline: "The planet keeps <span class='outcome'>a memory of response.</span>",
+      copy: "This mark represents this documented Nepal response only. Over time, verified actions can leave a truthful visual memory without turning suffering into a leaderboard.",
+      source: "COMMONS · one recorded response story",
+      duration: 5400
     },
     {
       id: "you",
       milestone: 3,
-      kicker: "The loop remains open",
+      terrain: 0,
+      kicker: "Now · Open loop",
       composition: "final-center",
-      camera: {lat: 24, lng: 78, altitude: 1.92},
-      offset: [0, 30],
+      camera: {lat: 18, lng: 74, altitude: 2.05},
+      offset: [0, 25],
       headline: "What happens next is <span class='human'>still being written.</span>",
       copy: "Help through the verified response, inspect the evidence, or pass the story on with its provenance intact.",
       source: "Last outcome evidence in this story · 8 Sep 2026",
       duration: 12000,
       actions: true
     }
-  ]
-};
+  ]};
 
-const TIME_SCENES = [0,2,4,7];
+const TIME_SCENES = [0,3,6,9];
 const THREADS = [
   {
     startLat: 27.7172, startLng: 85.3240,
@@ -175,7 +209,14 @@ let autoScrollRAF = null;
 let lastAutoTime = 0;
 let threadStrength = 0;
 let bloomStrength = 0;
+let memoryStrength = 0;
 let lastSemanticFrame = "";
+let lastScrollProgress = 0;
+let lastScrollTime = performance.now();
+let audioCtx = null;
+let audioNodes = null;
+let soundEnabled = false;
+let lastSoundMilestone = -1;
 let currentMilestone = 0;
 let currentSignal = null;
 let initialized = false;
@@ -190,6 +231,15 @@ const actionPoint = {
   title:ACTION.title
 };
 
+const memoryPoint = {
+  kind:"memory",
+  id:"memory:"+ACTION.id,
+  lat:ACTION.lat,
+  lon:ACTION.lon,
+  source:"COMMONS MEMORY",
+  title:"Nepal · response evidence recorded"
+};
+
 const world = Globe({rendererConfig:{antialias:true,alpha:true}})($("globe"))
   .backgroundColor("rgba(0,0,0,0)")
   .showAtmosphere(true)
@@ -201,10 +251,11 @@ const world = Globe({rendererConfig:{antialias:true,alpha:true}})($("globe"))
   .pointColor(d=>{
     if(d.kind==="bloom") return `rgba(154,203,151,${(0.05 + bloomStrength * 0.38).toFixed(3)})`;
     if(d.kind==="action") return "#d2b06d";
+    if(d.kind==="memory") return `rgba(154,203,151,${(0.42+memoryStrength*.52).toFixed(3)})`;
     return sourceColor(d.source);
   })
-  .pointAltitude(d=>d.kind==="bloom"?.0015:d.kind==="action"?.016:.012)
-  .pointRadius(d=>d.kind==="bloom"?d.radius*(0.18+bloomStrength*.82):d.kind==="action"?.15:Math.max(.05,Math.min(.13,.045+(Number(d.magnitude)||1)*.012)))
+  .pointAltitude(d=>d.kind==="bloom"?.0015:d.kind==="action"?.016:d.kind==="memory"?.012:.012)
+  .pointRadius(d=>d.kind==="bloom"?d.radius*(0.18+bloomStrength*.82):d.kind==="action"?.15:d.kind==="memory"?(.06+memoryStrength*.08):Math.max(.05,Math.min(.13,.045+(Number(d.magnitude)||1)*.012)))
   .pointResolution(16)
   .pointLabel(()=>"")
   .onPointClick(d=>d.kind==="action"?startStory(0):d.kind==="bloom"?null:focusSignal(d))
@@ -212,10 +263,10 @@ const world = Globe({rendererConfig:{antialias:true,alpha:true}})($("globe"))
   .ringLat(d=>d.lat)
   .ringLng(d=>d.lon)
   .ringAltitude(.003)
-  .ringColor(d=>()=>d.kind==="action"?"rgba(210,176,109,.58)":"rgba(197,201,192,.18)")
-  .ringMaxRadius(d=>d.kind==="action"?5.4:2.25)
-  .ringPropagationSpeed(d=>d.kind==="action"?.62:.42)
-  .ringRepeatPeriod(d=>d.kind==="action"?2500:3900)
+  .ringColor(d=>()=>d.kind==="memory"?"rgba(154,203,151,.38)":d.kind==="action"?"rgba(210,176,109,.58)":"rgba(197,201,192,.18)")
+  .ringMaxRadius(d=>d.kind==="memory"?2.2:d.kind==="action"?5.4:2.25)
+  .ringPropagationSpeed(d=>d.kind==="memory"?.26:d.kind==="action"?.62:.42)
+  .ringRepeatPeriod(d=>d.kind==="memory"?4200:d.kind==="action"?2500:3900)
   .arcsData([])
   .arcStartLat("startLat")
   .arcStartLng("startLng")
@@ -268,11 +319,70 @@ function sceneOffset(scene){
 }
 
 function setHomeGlobe(){
+  resetCinematicVisuals();
   currentMilestone=0;
   world.controls().autoRotate=!reduceMotion;
   world.globeOffset(innerWidth<650?[0,-90]:[250,-5]);
   world.pointOfView({lat:14,lng:35,altitude:2.08},reduceMotion?0:950);
   updateAtlasLayers(false);
+}
+
+function flattenCoordinateRings(geometry){
+  if(!geometry)return[];
+  if(geometry.type==="Polygon")return geometry.coordinates;
+  if(geometry.type==="MultiPolygon")return geometry.coordinates.flat();
+  return[];
+}
+
+function buildTerrainMap(){
+  const nepal=countries.find(d=>String(d?.id)==="524");
+  if(!nepal)return;
+
+  const rings=flattenCoordinateRings(nepal.geometry);
+  const points=rings.flat();
+  if(!points.length)return;
+
+  const lons=points.map(p=>p[0]);
+  const lats=points.map(p=>p[1]);
+  const minLon=Math.min(...lons),maxLon=Math.max(...lons);
+  const minLat=Math.min(...lats),maxLat=Math.max(...lats);
+  const pad=65;
+  const width=1000-pad*2;
+  const height=640-pad*2;
+  const spanLon=Math.max(.001,maxLon-minLon);
+  const spanLat=Math.max(.001,maxLat-minLat);
+  const scale=Math.min(width/spanLon,height/spanLat);
+  const drawnW=spanLon*scale,drawnH=spanLat*scale;
+  const ox=(1000-drawnW)/2;
+  const oy=(640-drawnH)/2;
+
+  const project=([lon,lat])=>[
+    ox+(lon-minLon)*scale,
+    oy+(maxLat-lat)*scale
+  ];
+
+  const path=rings.map(ring=>{
+    if(!ring.length)return"";
+    const [x0,y0]=project(ring[0]);
+    const tail=ring.slice(1).map(p=>{
+      const [x,y]=project(p);
+      return `L${x.toFixed(1)} ${y.toFixed(1)}`;
+    }).join(" ");
+    return `M${x0.toFixed(1)} ${y0.toFixed(1)} ${tail} Z`;
+  }).join(" ");
+
+  $("nepalCountry").setAttribute("d",path);
+  $("nepalClipPath").setAttribute("d",path);
+
+  const contourMarkup=Array.from({length:27},(_,i)=>{
+    const y=58+i*21.5;
+    const amp=16+(i%5)*5;
+    const phase=(i%4)*37;
+    const y1=y+Math.sin((i+1)*.81)*amp;
+    const y2=y-Math.cos((i+2)*.63)*amp;
+    return `<path d="M-80 ${y.toFixed(1)} C180 ${(y1-phase*.07).toFixed(1)} 325 ${(y2+phase*.04).toFixed(1)} 520 ${y.toFixed(1)} S820 ${(y1+12).toFixed(1)} 1080 ${(y2-8).toFixed(1)}"></path>`;
+  }).join("");
+  $("terrainContours").innerHTML=contourMarkup;
 }
 
 async function loadCountries(){
@@ -283,6 +393,7 @@ async function loadCountries(){
     if(!window.topojson) throw new Error("topojson unavailable");
     countries=window.topojson.feature(topo,topo.objects.countries).features;
     world.polygonsData(countries);
+    buildTerrainMap();
   }catch(e){
     countries=[];
   }
@@ -560,17 +671,25 @@ function storyProgress(){
   return clamp01(window.scrollY/storyMaxScroll());
 }
 
-function updateSemanticVisuals(thread,bloom){
+function updateSemanticVisuals(thread,bloom,memory){
   threadStrength=clamp01(thread);
   bloomStrength=clamp01(bloom);
-  const key=Math.round(threadStrength*24)+"|"+Math.round(bloomStrength*24);
+  memoryStrength=clamp01(memory);
+  const key=[
+    Math.round(threadStrength*24),
+    Math.round(bloomStrength*24),
+    Math.round(memoryStrength*24)
+  ].join("|");
   if(key===lastSemanticFrame)return;
   lastSemanticFrame=key;
 
-  const points=[actionPoint];
-  if(bloomStrength>.01)points.push(...BLOOM);
+  const points=[];
+  if(memoryStrength<.55)points.push(actionPoint);
+  if(bloomStrength>.01&&memoryStrength<.6)points.push(...BLOOM);
+  if(memoryStrength>.02)points.push(memoryPoint);
   world.pointsData(points);
-  world.arcsData(threadStrength>.01?THREADS:[]);
+  world.arcsData(threadStrength>.01&&memoryStrength<.5?THREADS:[]);
+  world.ringsData(memoryStrength>.18?[memoryPoint]:[actionPoint]);
 }
 
 function syncScrollCinema(){
@@ -598,6 +717,7 @@ function syncScrollCinema(){
     el.style.opacity=opacity.toFixed(3);
     el.style.transform=`translate3d(0,${translate.toFixed(1)}px,0) scale(${scale.toFixed(4)})`;
     el.style.filter=`blur(${blur.toFixed(2)}px)`;
+    el.style.setProperty("--scene-depth",delta.toFixed(4));
     const interactive=distance<.3;
     el.classList.toggle("is-interactive",interactive);
     el.setAttribute("aria-hidden",interactive?"false":"true");
@@ -615,11 +735,39 @@ function syncScrollCinema(){
   ]);
   world.pointOfView(cam,0);
 
-  const thread=smoothstep(1.25,2.25,position);
-  const bloom=smoothstep(3.55,4.55,position);
-  updateSemanticVisuals(thread,bloom);
+  const terrainMix=clamp01(lerp(a.terrain||0,b.terrain||0,t));
+  const globeOpacity=1-smoothstep(.18,.9,terrainMix)*.94;
+  const terrainOpacity=smoothstep(.08,.72,terrainMix);
+  document.documentElement.style.setProperty("--globe-opacity",globeOpacity.toFixed(3));
+  document.documentElement.style.setProperty("--globe-blur",(terrainMix*4.5).toFixed(2)+"px");
+  document.documentElement.style.setProperty("--terrain-opacity",terrainOpacity.toFixed(3));
+  document.documentElement.style.setProperty("--terrain-content-opacity",smoothstep(.18,.62,terrainMix).toFixed(3));
+  document.documentElement.style.setProperty("--terrain-scale",lerp(.7,1.04,easeCinema(terrainMix)).toFixed(4));
+  document.documentElement.style.setProperty("--terrain-tilt",lerp(46,8,easeCinema(terrainMix)).toFixed(2)+"deg");
+  document.documentElement.style.setProperty("--terrain-rotate",lerp(-5,-1,easeCinema(terrainMix)).toFixed(2)+"deg");
+  document.documentElement.style.setProperty("--terrain-y",lerp(80,-5,easeCinema(terrainMix)).toFixed(1)+"px");
+  document.documentElement.style.setProperty("--terrain-blur",(reduceMotion?0:lerp(14,0,easeCinema(terrainMix))).toFixed(2)+"px");
 
-  const milestone=position<1.55?0:position<3.55?1:position<6.35?2:3;
+  const thread=smoothstep(2.3,3.35,position);
+  const bloom=smoothstep(4.85,6.15,position);
+  const memory=smoothstep(7.55,8.35,position);
+  updateSemanticVisuals(thread,bloom,memory);
+
+  document.documentElement.style.setProperty("--terrain-thread-opacity",(thread*terrainOpacity).toFixed(3));
+  document.documentElement.style.setProperty("--terrain-thread-offset",(1-thread).toFixed(4));
+  document.documentElement.style.setProperty("--terrain-bloom-opacity",(bloom*terrainOpacity).toFixed(3));
+  document.documentElement.style.setProperty("--terrain-bloom-scale",lerp(.62,1,bloom).toFixed(3));
+  document.documentElement.style.setProperty("--memory-opacity",memory.toFixed(3));
+
+  const silenceDistance=Math.abs(position-5);
+  const silence=1-smoothstep(.12,.76,silenceDistance);
+  const chrome=1-silence*.94;
+  document.documentElement.style.setProperty("--cinema-chrome-opacity",chrome.toFixed(3));
+  document.documentElement.style.setProperty("--cinema-header-opacity",(1-silence*.78).toFixed(3));
+  document.documentElement.style.setProperty("--silence-label-opacity",smoothstep(.08,.55,Math.abs(position-5)).toFixed(3));
+  document.documentElement.style.setProperty("--silence-detail-opacity","0");
+
+  const milestone=position<1.7?0:position<4.7?1:position<7.55?2:3;
   if(milestone!==currentMilestone){
     currentMilestone=milestone;
     updateSignature();
@@ -630,6 +778,13 @@ function syncScrollCinema(){
   $("scrollCue").classList.toggle("hidden",progress>.025);
   document.documentElement.style.setProperty("--globe-scale",(1+Math.sin(progress*Math.PI*3)*.0035).toFixed(4));
   document.documentElement.style.setProperty("--vignette-opacity",(0.82+Math.sin(progress*Math.PI)*.12).toFixed(3));
+
+  const now=performance.now();
+  const dt=Math.max(16,now-lastScrollTime);
+  const velocity=Math.min(1.5,Math.abs(progress-lastScrollProgress)/(dt/1000));
+  updateSoundscape(progress,velocity,milestone);
+  lastScrollProgress=progress;
+  lastScrollTime=now;
 
   qsa(".time-labels span").forEach((el,index)=>{
     el.style.color=index===milestone?"#bfc1b9":"";
@@ -717,7 +872,7 @@ function autoScrollTick(now){
   if(!lastAutoTime)lastAutoTime=now;
   const dt=Math.min(50,now-lastAutoTime);
   lastAutoTime=now;
-  const pxPerMs=storyMaxScroll()/44000;
+  const pxPerMs=storyMaxScroll()/52000;
   const next=Math.min(storyMaxScroll(),window.scrollY+dt*pxPerMs);
   window.scrollTo(0,next);
   requestScrollCinema();
@@ -758,6 +913,127 @@ function scrubTime(value){
   const progress=clamp01(Number(value)||0);
   window.scrollTo(0,progress*storyMaxScroll());
   requestScrollCinema();
+}
+
+function createAudioNodeGraph(){
+  if(audioCtx&&audioNodes)return true;
+  const Ctx=window.AudioContext||window.webkitAudioContext;
+  if(!Ctx)return false;
+
+  audioCtx=new Ctx();
+  const master=audioCtx.createGain();
+  const filter=audioCtx.createBiquadFilter();
+  const air=audioCtx.createBiquadFilter();
+  const low=audioCtx.createOscillator();
+  const fifth=audioCtx.createOscillator();
+  const shimmer=audioCtx.createOscillator();
+
+  master.gain.value=0;
+  filter.type="lowpass";
+  filter.frequency.value=260;
+  filter.Q.value=.35;
+  air.type="highpass";
+  air.frequency.value=28;
+
+  low.type="sine";
+  fifth.type="sine";
+  shimmer.type="triangle";
+  low.frequency.value=48;
+  fifth.frequency.value=72;
+  shimmer.frequency.value=144;
+
+  const lowGain=audioCtx.createGain();
+  const fifthGain=audioCtx.createGain();
+  const shimmerGain=audioCtx.createGain();
+  lowGain.gain.value=.64;
+  fifthGain.gain.value=.19;
+  shimmerGain.gain.value=.028;
+
+  low.connect(lowGain).connect(filter);
+  fifth.connect(fifthGain).connect(filter);
+  shimmer.connect(shimmerGain).connect(filter);
+  filter.connect(air).connect(master).connect(audioCtx.destination);
+
+  low.start();
+  fifth.start();
+  shimmer.start();
+
+  audioNodes={master,filter,air,low,fifth,shimmer};
+  return true;
+}
+
+function soundAccent(freq=120,amount=.035){
+  if(!soundEnabled||!audioCtx)return;
+  const osc=audioCtx.createOscillator();
+  const gain=audioCtx.createGain();
+  const now=audioCtx.currentTime;
+  osc.type="sine";
+  osc.frequency.setValueAtTime(freq,now);
+  osc.frequency.exponentialRampToValueAtTime(freq*.78,now+.7);
+  gain.gain.setValueAtTime(.0001,now);
+  gain.gain.exponentialRampToValueAtTime(Math.max(.001,amount),now+.035);
+  gain.gain.exponentialRampToValueAtTime(.0001,now+.9);
+  osc.connect(gain).connect(audioNodes.master);
+  osc.start(now);
+  osc.stop(now+.95);
+}
+
+async function toggleSound(){
+  if(!soundEnabled){
+    if(!createAudioNodeGraph()){
+      toast("Sound is not supported in this browser");
+      return;
+    }
+    if(audioCtx.state==="suspended")await audioCtx.resume();
+    soundEnabled=true;
+    lastSoundMilestone=-1;
+  }else{
+    soundEnabled=false;
+    if(audioNodes&&audioCtx){
+      audioNodes.master.gain.setTargetAtTime(.0001,audioCtx.currentTime,.08);
+    }
+  }
+  updateSoundButton();
+}
+
+function updateSoundButton(){
+  if(!$("soundBtn"))return;
+  $("soundBtn").textContent=soundEnabled?"Sound on":"Sound off";
+  $("soundBtn").setAttribute("aria-pressed",soundEnabled?"true":"false");
+}
+
+function updateSoundscape(progress,velocity,milestone){
+  if(!soundEnabled||!audioCtx||!audioNodes)return;
+  const now=audioCtx.currentTime;
+  const movement=Math.min(1,velocity*.85);
+  const terrain=Number(getComputedStyle(document.documentElement).getPropertyValue("--terrain-opacity"))||0;
+  const baseGain=.008+movement*.012+terrain*.004;
+
+  audioNodes.master.gain.setTargetAtTime(baseGain,now,.12);
+  audioNodes.filter.frequency.setTargetAtTime(190+progress*180+movement*1100,now,.12);
+  audioNodes.low.frequency.setTargetAtTime(46+progress*9,now,.2);
+  audioNodes.fifth.frequency.setTargetAtTime(69+progress*14,now,.2);
+  audioNodes.shimmer.frequency.setTargetAtTime(138+progress*36+movement*70,now,.18);
+
+  if(milestone!==lastSoundMilestone){
+    lastSoundMilestone=milestone;
+    const tones=[72,96,132,166];
+    soundAccent(tones[milestone]||110,milestone===2?.052:.027);
+  }
+}
+
+function resetCinematicVisuals(){
+  const root=document.documentElement;
+  [
+    "--globe-opacity","--globe-blur","--terrain-opacity","--terrain-content-opacity",
+    "--terrain-scale","--terrain-tilt","--terrain-rotate","--terrain-y","--terrain-blur",
+    "--terrain-thread-opacity","--terrain-thread-offset","--terrain-bloom-opacity",
+    "--terrain-bloom-scale","--memory-opacity","--cinema-chrome-opacity",
+    "--cinema-header-opacity","--silence-label-opacity","--silence-detail-opacity"
+  ].forEach(name=>root.style.removeProperty(name));
+  if(soundEnabled&&audioNodes&&audioCtx){
+    audioNodes.master.gain.setTargetAtTime(.0001,audioCtx.currentTime,.1);
+  }
 }
 
 function openEvidence(){
@@ -807,6 +1083,16 @@ function renderEvidence(){
         <div><b>— Thread</b><span>A verified response pathway. The line is a visual grammar, not a tracked shipment or causal trace.</span></div>
         <div><b>✦ Bloom</b><span>Documented improvement or response evidence. It appears only after a dated source supports it.</span></div>
       </div>
+    </section>
+
+    <section class="evidence-section">
+      <h3>About the geographic descent</h3>
+      <p>The Nepal country outline is projected from the public World Atlas geometry used by the globe. The internal contour field is a stylized visual treatment for depth and is not elevation, flood extent, damage mapping, or a factual topographic model. The response thread is also semantic rather than a literal route.</p>
+    </section>
+
+    <section class="evidence-section">
+      <h3>Memory of Earth</h3>
+      <p>The memory mark represents only this documented Nepal response story. It is not a score, rank, completion badge, or claim that the wider humanitarian operation is resolved.</p>
     </section>
 
     <section class="evidence-section">
@@ -1008,6 +1294,7 @@ function bindEvents(){
   $("storyBelief").onclick=openEvidence;
   $("evidenceClose").onclick=closeEvidence;
   $("passBtn").onclick=openShare;
+  $("soundBtn").onclick=toggleSound;
   $("storyPass").onclick=openShare;
   $("shareClose").onclick=closeShare;
   $("shareStory").onclick=shareAction;
