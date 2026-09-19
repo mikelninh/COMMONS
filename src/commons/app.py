@@ -44,6 +44,7 @@ from commons.registry import CapabilityRegistry
 from commons.selector import JevCapabilitySelector
 from commons.service import CommonsService
 from commons.store import CaseStore
+from commons.world_pulse import WorldPulseResponse, collect_world_pulse
 
 app = FastAPI(
     title="COMMONS",
@@ -58,6 +59,7 @@ _join_path = Path(__file__).parent / "static" / "join.html"
 _civic_path = Path(__file__).parent / "static" / "civic.html"
 _civic_report_path = Path(__file__).parent / "static" / "civic_report.html"
 _live_demo_path = Path(__file__).parent / "static" / "live_demo.html"
+_world_pulse_path = Path(__file__).parent / "static" / "world_pulse.html"
 registry = CapabilityRegistry()
 seed_builtin_capabilities(registry)
 proof_ledger = ProofLedger()
@@ -100,6 +102,16 @@ def civic_public_space_report() -> HTMLResponse:
 @app.get("/live", response_class=HTMLResponse, include_in_schema=False)
 def live_demo() -> HTMLResponse:
     return HTMLResponse(_live_demo_path.read_text(encoding="utf-8"))
+
+
+@app.get("/world", response_class=HTMLResponse, include_in_schema=False)
+def world_pulse_page() -> HTMLResponse:
+    return HTMLResponse(_world_pulse_path.read_text(encoding="utf-8"))
+
+
+@app.get("/pulse/world", response_model=WorldPulseResponse)
+async def world_pulse() -> WorldPulseResponse:
+    return await collect_world_pulse()
 
 
 @app.post("/civic/cases/public-space", response_model=PublicSpaceCase)
