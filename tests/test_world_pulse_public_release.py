@@ -1,77 +1,113 @@
-import re
 import shutil
 import subprocess
 from pathlib import Path
 
 
-def test_world_pulse_public_release_contract() -> None:
+def test_world_pulse_v2_public_contract() -> None:
     page = Path("public/index.html").read_text(encoding="utf-8")
+    styles = Path("public/styles.css").read_text(encoding="utf-8")
+    app = Path("public/app.js").read_text(encoding="utf-8")
 
-    assert "COMMONS</b> / WORLD PULSE" in page
-    assert "Most of Earth is quiet." in page
-    assert "LIVE + NEAR-REAL-TIME PUBLIC DATA" in page
-    assert '"USGS":{freshness:"LIVE"' in page
-    assert '"NASA EONET":{freshness:"NEAR-REAL-TIME"' in page
-    assert '"GDACS":{freshness:"NEAR-REAL-TIME"' in page
-    assert "First observation is a baseline, not a fake burst" in page
-    assert "Correlation does not become confirmation." in page
+    assert "COMMONS / WORLD PULSE" in page
+    assert "Earth, <em>with a pulse.</em>" in page
+    assert "Watch Action 001" in page
+    assert "Explore Earth" in page
+    assert "Evidence / trust" in page
+    assert "shareCanvas" in page
+
     assert "globe.gl@2.46.2" in page
-    assert "three-globe@2.45.2" in page
-    assert "prefers-reduced-motion" in page
-    assert 'PAID AI <b id="paidAI">OFF' in page
+    assert "earth-night.jpg" in app
+    assert "night-sky.png" in app
+    assert "showAtmosphere(true)" in app
+    assert "prefers-reduced-motion" in styles
+    assert "film-grain" in styles
 
 
-def test_netlify_release_is_zero_backend() -> None:
-    config = Path("netlify.toml").read_text(encoding="utf-8")
-    assert 'publish = "public"' in config
-    assert 'from = "/world"' in config
+def test_action_001_is_a_reusable_cinematic_story() -> None:
+    app = Path("public/app.js").read_text(encoding="utf-8")
+
+    assert 'id: "nepal-flash-floods-2026"' in app
+    assert 'id: "signal"' in app
+    assert 'id: "impact"' in app
+    assert 'id: "verify"' in app
+    assert 'id: "response"' in app
+    assert 'id: "outcome"' in app
+    assert 'id: "clinic"' in app
+    assert 'id: "you"' in app
+
+    assert "~93,000" in app
+    assert "CHF 25M" in app
+    assert "~2,000" in app
+    assert "100/day" in app
+    assert "The loop is still open." in app
+
+    assert "startActionStory" in app
+    assert "renderScene" in app
+    assert "sceneMarkup" in app
+    assert "progressTrack" in Path("public/index.html").read_text(encoding="utf-8")
 
 
-def test_world_pulse_sharing_preserves_provenance() -> None:
-    page = Path("public/index.html").read_text(encoding="utf-8")
+def test_trust_layer_preserves_uncertainty_and_provenance() -> None:
+    app = Path("public/app.js").read_text(encoding="utf-8")
 
-    assert "function sharePayload()" in page
-    assert "Primary source:" in page
-    assert "Surfaced because:" in page
-    assert "provenance travels with the signal" in page
-    assert "PROVENANCE COPIED" in page
+    assert "not a final affected-population count" in app
+    assert "We do not claim every affected person has been reached." in app
+    assert "We do not show a funding percentage without a current authoritative source." in app
+    assert "We do not imply that a specific user's donation caused the displayed outcomes." in app
+    assert "Historical facts retain their original date." in app
 
+    assert "Primary evidence · IFRC" in app
+    assert "Outcome evidence · IFRC" in app
+    assert "Responder identity" in app
 
-def test_action_card_closes_the_first_real_world_loop() -> None:
-    page = Path("public/index.html").read_text(encoding="utf-8")
-
-    assert "COMMONS / ACTION 001" in page
-    assert "Nepal: Flash Floods 2026" in page
-    assert "ACT · 1 VERIFIED LOOP" in page
-    assert "~93,000 people may have been affected" in page
-    assert "CHF 25M Emergency Appeal" in page
-    assert "safe drinking water restored for around" in page
-    assert "2,000 people" in page
-    assert "100 patients/day" in page
-    assert "LOOP STATUS · OPEN" in page
-    assert "SUPPORT VIA IFRC" in page
-    assert "VERIFY THE EVIDENCE" in page
-    assert "SEE LATEST OUTCOME" in page
-    assert 'id:"nepal-flash-floods-2026"' in page
-    assert "function actionSharePayload()" in page
-    assert "Watch the loop:" in page
+    assert "Primary source:" in app
+    assert "Surfaced because:" in app
 
 
-def test_inline_javascript_parses_with_node(tmp_path: Path) -> None:
+def test_sharing_creates_story_and_visual_artifact() -> None:
+    app = Path("public/app.js").read_text(encoding="utf-8")
+
+    assert "drawShareCard" in app
+    assert "shareCardImage" in app
+    assert "shareAction" in app
+    assert "world-pulse-nepal.png" in app
+    assert "SIGNAL  →  RESPONSE  →  OUTCOME" in app
+    assert 'u.searchParams.set("action",ACTION.id)' in app
+    assert 'u.searchParams.set("scene","signal")' in app
+
+
+def test_live_world_sources_remain_explicit_about_freshness() -> None:
+    app = Path("public/app.js").read_text(encoding="utf-8")
+
+    assert '"USGS": {' in app
+    assert 'freshness: "LIVE"' in app
+    assert '"NASA EONET": {' in app
+    assert 'freshness: "NEAR-REAL-TIME"' in app
+    assert '"GDACS": {' in app
+    assert "Magnitude is not a measure of human impact." in app
+    assert "not a complete census" in app
+    assert "An alert is not itself a casualty or need estimate." in app
+
+
+def test_static_javascript_parses_with_node() -> None:
     node = shutil.which("node")
     if node is None:
         return
 
-    page = Path("public/index.html").read_text(encoding="utf-8")
-    inline_scripts = re.findall(r"<script(?:\s[^>]*)?>(.*?)</script>", page, flags=re.DOTALL)
-    script = "\n".join(part for part in inline_scripts if part.strip())
-    target = tmp_path / "world-pulse.js"
-    target.write_text(script, encoding="utf-8")
-
     result = subprocess.run(
-        [node, "--check", str(target)],
+        [node, "--check", "public/app.js"],
         capture_output=True,
         text=True,
         check=False,
     )
     assert result.returncode == 0, result.stderr
+
+
+def test_pages_and_zero_backend_release_config() -> None:
+    config = Path("netlify.toml").read_text(encoding="utf-8")
+    pages = Path(".github/workflows/pages.yml").read_text(encoding="utf-8")
+
+    assert 'publish = "public"' in config
+    assert 'from = "/world"' in config
+    assert 'path: public' in pages
+    assert "actions/deploy-pages@v4" in pages
