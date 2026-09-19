@@ -44,8 +44,20 @@ def test_missing_information_abstains() -> None:
     assert decision.route is Route.REQUEST_INFO
 
 
-def test_low_confidence_abstains() -> None:
+def test_low_confidence_low_stakes_reasoning_stays_nonexecutive() -> None:
     decision = choose_route(base_assessment(capability_confidence=0.31))
+    assert decision.route is Route.REASON
+
+
+def test_low_confidence_high_stakes_still_abstains() -> None:
+    decision = choose_route(
+        base_assessment(
+            domain="other",
+            high_stakes=0.90,
+            capability="reason",
+            capability_confidence=0.31,
+        )
+    )
     assert decision.route is Route.REQUEST_INFO
 
 
