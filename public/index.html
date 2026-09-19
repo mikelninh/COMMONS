@@ -356,10 +356,25 @@ async function refresh(){
 }
 $("storyBtn").onclick=()=>{storyPaused=!storyPaused;$("storyBtn").textContent=storyPaused?"PLAY STORY":"PAUSE STORY";if(!storyPaused)startStory()};
 $("exploreBtn").onclick=()=>{storyPaused=true;$("storyBtn").textContent="PLAY STORY";world.controls().autoRotate=true;world.pointOfView({lat:18,lng:10,altitude:2.25},850);$("storyCard").classList.remove("show")};
-$("shareBtn").onclick=async()=>{const shareData={title:"COMMONS WORLD PULSE",text:"Watch what changes on Earth.",url:location.href};try{if(navigator.share)await navigator.share(shareData);else{await navigator.clipboard.writeText(location.href);$("shareBtn").textContent="LINK COPIED ✓"}}catch(e){}};
+function sharePayload(){
+  if(!current)return{title:"COMMONS WORLD PULSE",text:"Watch what changes on Earth — with source freshness and transparent attention rules.",url:location.href};
+  const m=sourceMeta[current.source]||{freshness:"PUBLIC FEED"};
+  const overlap=clusters.find(c=>c.a.id===current.id||c.b.id===current.id);
+  const why=[...current.reasons];if(overlap)why.push("possible multi-source overlap");
+  const lines=[
+    current.title,
+    current.source+" · "+m.freshness+" · "+age(current.time),
+    why.length?"Surfaced because: "+why.join(" · "):"No automatic attention rule fired.",
+    current.url?"Primary source: "+current.url:"",
+    "",
+    "COMMONS WORLD PULSE · provenance travels with the signal"
+  ].filter(Boolean);
+  return{title:"COMMONS WORLD PULSE",text:lines.join("\n"),url:location.href};
+}
+$("shareBtn").onclick=async()=>{const shareData=sharePayload();try{if(navigator.share)await navigator.share(shareData);else{await navigator.clipboard.writeText(shareData.text+"\n"+shareData.url);$("shareBtn").textContent="PROVENANCE COPIED ✓"}}catch(e){}};
 $("sourceBtn").onclick=()=>{if(current?.url)window.open(current.url,"_blank","noopener")};
 $("traceBtn").onclick=()=>current&&renderGraph(current);
-$("copyBtn").onclick=async()=>{try{await navigator.clipboard.writeText(location.href);$("copyBtn").textContent="COPIED ✓"}catch(e){}};
+$("copyBtn").onclick=async()=>{try{const p=sharePayload();await navigator.clipboard.writeText(p.text+"\n"+p.url);$("copyBtn").textContent="PROVENANCE COPIED ✓"}catch(e){}};
 $("sheetClose").onclick=()=>$("sheet").classList.remove("show");
 const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 if(reduceMotion){world.controls().autoRotate=false;storyPaused=true;$("storyBtn").textContent="PLAY STORY"}
