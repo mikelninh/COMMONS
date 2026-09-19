@@ -78,6 +78,7 @@
         <button class="text-nav mobile-hide" id="storiesBtn">Stories</button>
         <button class="text-nav mobile-hide" id="lookBtn">Look around</button>
         <button class="text-nav mobile-hide" id="beliefBtn">Why we believe this</button>
+        <button class="text-nav mobile-hide" id="actionLedgerBtn">My actions</button>
         <button class="text-nav strong" id="passBtn">Pass this on</button>
       </nav>
     </header>
@@ -122,6 +123,7 @@
         <div class="story-index" id="storyIndex"><b>STORY</b> · WORLD PULSE</div>
         <div class="story-head-actions">
           <button class="text-nav mobile-hide" id="storyBelief">Why we believe this</button>
+          <button class="text-nav strong" id="storyActionBtn">Act</button>
           <button class="text-nav mobile-hide" id="soundBtn" aria-pressed="false">Sound off</button>
           <button class="text-nav mobile-hide" id="storyPass">Pass this on</button>
           <button class="iconless" id="storyClose" aria-label="Close story">×</button>
@@ -183,6 +185,21 @@
     <div class="evidence-body" id="evidenceBody"></div>
   </aside>
 
+  <aside class="action-lab" id="actionLab" aria-hidden="true" aria-label="COMMONS Action Loop">
+    <div class="action-lab-head">
+      <div>
+        <div class="action-lab-kicker">COMMONS · ACTION LOOP</div>
+        <div class="action-lab-title" id="actionLabTitle">From understanding to accountable action</div>
+      </div>
+      <button class="iconless" id="actionLabClose" aria-label="Close Action Loop">×</button>
+    </div>
+    <div class="action-lab-tabs" role="tablist" aria-label="Action Loop views">
+      <button class="action-tab active" id="actionCurrentTab" role="tab" aria-selected="true">Current loop</button>
+      <button class="action-tab" id="actionLedgerTab" role="tab" aria-selected="false">My action ledger <span id="ledgerCount">0</span></button>
+    </div>
+    <div class="action-lab-body" id="actionLabBody"></div>
+  </aside>
+
   <section class="look" id="look" aria-label="Look around current Earth signals">
     <div class="look-inner">
       <div id="signalFocus"></div>
@@ -215,6 +232,7 @@
 </div>
 
 <script src="./stories.js"></script>
+<script src="./action-loops.js"></script>
 <script src="./app.js"></script>
 </body>
 </html>
