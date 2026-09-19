@@ -202,3 +202,10 @@ class LiveCapabilitySelection(BaseModel):
     confidence: float | None = Field(default=None, ge=0, le=1)
     probabilities: dict[str, float] = Field(default_factory=dict)
     candidate_count: int = Field(ge=1)
+
+
+class CapabilitySelectionRequest(BaseModel):
+    need: str = Field(min_length=1, max_length=4000)
+    requirement: CapabilityRequirement
+    context: dict[str, Any] = Field(default_factory=dict)
+    max_candidates: int = Field(default=8, ge=1, le=50)
