@@ -144,8 +144,6 @@ button,input,select,textarea{font:inherit}
 </div>
 
 <script type="module">
-import { pipeline, env } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1";
-env.allowLocalModels = false;
 
 const $=id=>document.getElementById(id);
 const LABELS=[
@@ -249,6 +247,9 @@ async function fallbackVisualCueDetector(imageUrl){
 async function loadClassifier(){
   if(classifier)return classifier;
   $("photoState").textContent="loading vision";log("loading MobileCLIP q8 into browser cache","sys");
+  const mod=await import("https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1");
+  const pipeline=mod.pipeline, env=mod.env;
+  env.allowLocalModels=false;
   const opts={dtype:"q8",progress_callback:(p)=>{if(p.status==="progress"&&p.progress)$("photoState").textContent="vision "+Math.round(p.progress)+"%"}};
   try{if(navigator.gpu)opts.device="webgpu";classifier=await pipeline("zero-shot-image-classification","Xenova/mobileclip_s0",opts)}
   catch(err){log("WebGPU unavailable/failed → falling back to WASM","wait");delete opts.device;classifier=await pipeline("zero-shot-image-classification","Xenova/mobileclip_s0",opts)}
