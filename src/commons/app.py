@@ -12,6 +12,7 @@ from commons.models import (
     CapabilityRequirement,
     CapabilitySelectionRequest,
     CaseRecord,
+    FoundingCapabilitySubmission,
     OutcomeInput,
     OutcomeRecord,
     ProblemInput,
@@ -23,6 +24,7 @@ from commons.proof import ProofLedger
 from commons.registry import CapabilityRegistry
 from commons.selector import JevCapabilitySelector
 from commons.service import CommonsService
+from commons.store import CaseStore
 
 app = FastAPI(
     title="COMMONS",
@@ -33,9 +35,11 @@ app = FastAPI(
 analysis_service = CommonsService(persist=False)
 _persistent_service: CommonsService | None = None
 _demo_path = Path(__file__).parent / "static" / "index.html"
+_join_path = Path(__file__).parent / "static" / "join.html"
 registry = CapabilityRegistry()
 proof_ledger = ProofLedger()
 capability_selector = JevCapabilitySelector()
+founding_store = CaseStore()
 
 
 def persistent_service() -> CommonsService:
@@ -48,6 +52,20 @@ def persistent_service() -> CommonsService:
 @app.get("/", response_class=HTMLResponse, include_in_schema=False)
 def demo() -> HTMLResponse:
     return HTMLResponse(_demo_path.read_text(encoding="utf-8"))
+
+
+@app.get("/join", response_class=HTMLResponse, include_in_schema=False)
+def join_capabilities() -> HTMLResponse:
+    return HTMLResponse(_join_path.read_text(encoding="utf-8"))
+
+
+@app.post("/founding-capabilities", response_model=FoundingCapabilitySubmission)
+def submit_founding_capability(
+    submission: FoundingCapabilitySubmission,
+) -> FoundingCapabilitySubmission:
+    if not submission.consent_to_pilot:
+        raise HTTPException(status_code=400, detail="Pilot consent is required.")
+    return founding_store.save_founding_capability(submission)
 
 
 @app.get("/health")
