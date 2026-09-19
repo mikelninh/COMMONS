@@ -117,6 +117,7 @@ def select_live_capability(request: CapabilitySelectionRequest) -> LiveCapabilit
             request.need,
             candidates,
             context=request.context,
+            providers=registry.providers,
         )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
