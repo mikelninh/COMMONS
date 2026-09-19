@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from commons.models import Assessment, Route, RouteDecision
 
-POLICY_VERSION = "0.2.1"
+POLICY_VERSION = "0.2.2"
 
 HIGH_STAKES_THRESHOLD = 0.70
 HUMAN_REVIEW_THRESHOLD = 0.70
@@ -85,17 +85,26 @@ def choose_route(a: Assessment) -> RouteDecision:
             policy_version=POLICY_VERSION,
         )
 
-    if a.enough_information <= ENOUGH_INFORMATION_THRESHOLD:
+    if a.enough_information < ENOUGH_INFORMATION_THRESHOLD:
         return RouteDecision(
             route=Route.REQUEST_INFO,
-            reason=f"Information sufficiency {a.enough_information:.2f} is too low to route safely.",
+            reason=f"Information sufficiency {a.enough_information:.2f} is below policy threshold.",
             policy_version=POLICY_VERSION,
         )
 
-    if confidences and min(confidences) < MIN_CHOICE_CONFIDENCE:
+    # Route confidence should follow the selected capability. Domain ambiguity can
+    # be harmless when multiple plausible domains lead to the same next action.
+    # We still keep domain confidence for diagnostics and stricter civic policy.
+    if (
+        a.capability_confidence is not None
+        and a.capability_confidence < MIN_CHOICE_CONFIDENCE
+    ):
         return RouteDecision(
             route=Route.REQUEST_INFO,
-            reason=f"Decision confidence {min(confidences):.2f} is below policy threshold.",
+            reason=(
+                f"Capability confidence {a.capability_confidence:.2f} is below "
+                "policy threshold."
+            ),
             policy_version=POLICY_VERSION,
         )
 
