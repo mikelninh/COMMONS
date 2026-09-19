@@ -110,12 +110,13 @@ async def evaluate_via_mesh(
     *,
     agent_urls: dict[str, str] | None = None,
     timeout_seconds: float = 1.5,
+    transport: httpx.AsyncBaseTransport | None = None,
 ) -> FraudMeshResult:
     urls = agent_urls or configured_agent_urls()
     started = perf_counter()
 
     timeout = httpx.Timeout(timeout_seconds)
-    async with httpx.AsyncClient(timeout=timeout) as client:
+    async with httpx.AsyncClient(timeout=timeout, transport=transport) as client:
         traces = await asyncio.gather(
             *[
                 _query_agent(client, agent_id, base_url, payment)
