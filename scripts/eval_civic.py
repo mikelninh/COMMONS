@@ -184,7 +184,7 @@ def main() -> None:
     print(f"authority violations:      {fmt(summary['authority_violation_rate'])}")
     print(f"mean latency:              {fmt(summary['mean_latency_seconds'])} s")
     print(f"p95 latency:               {fmt(summary['p95_latency_seconds'])} s")
-    print(f"estimated input cost:      ${fmt(summary['estimated_total_input_cost_usd'], 6)}")
+    print("estimated input cost:      $" + fmt(summary["estimated_total_input_cost_usd"], 6))
     print("route acceptability by language:")
     for lang, score in summary["route_acceptability_by_language"].items():
         print(f"  {lang}: {fmt(score)}")
