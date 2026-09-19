@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>COMMONS — Civic Action</title>
+<style>
+:root{color-scheme:dark;--bg:#07090b;--panel:#0d1115;--line:#252c32;--text:#f4f5f2;--muted:#98a2a9;--green:#b9ff78;--amber:#ffd38a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -15%,#17211d 0,transparent 34%),var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+main{max-width:920px;margin:auto;padding:56px 22px 90px}.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--green)}
+h1{font-size:clamp(48px,8vw,82px);line-height:.94;letter-spacing:-.055em;margin:18px 0 22px}
+.lede{font-size:19px;line-height:1.6;color:#c6ccd0;max-width:760px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px;margin:18px 0}
+textarea{width:100%;min-height:180px;resize:vertical;background:#070a0d;color:var(--text);border:1px solid #30383f;border-radius:14px;padding:16px;font:inherit;line-height:1.55}
+.examples{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.chip{border:1px solid var(--line);background:#11171c;color:#d6dde0;border-radius:999px;padding:9px 12px;font-size:12px;cursor:pointer}
+button.primary{border:0;background:var(--green);color:#081006;padding:14px 18px;border-radius:12px;font-weight:850;cursor:pointer;margin-top:14px}
+.status{color:var(--muted);margin-top:12px}.result{display:none}.result.show{display:block}
+.kicker{color:var(--green);font-size:12px;text-transform:uppercase;letter-spacing:.14em}.title{font-size:28px;font-weight:800;margin:8px 0 14px}
+.meta{color:#c8d0d4;line-height:1.5}.row{border-top:1px solid var(--line);padding-top:16px;margin-top:16px}
+h3{font-size:14px;margin:0 0 8px;color:#f1f4f5}ul{margin:8px 0 0;padding-left:20px;color:#c6cdd1;line-height:1.55}
+.badge{display:inline-block;border:1px solid #36503b;background:#0d150f;color:var(--green);padding:5px 8px;border-radius:999px;font-size:11px;margin-right:6px}
+.warn{border-color:#4b4130;background:#15120c;color:#eed9ad}.warn .kicker{color:var(--amber)}
+a{color:var(--green)}.footer{margin-top:28px;color:var(--muted);font-size:13px;line-height:1.6}
+
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:28px 0 40px}
+.flow-step{border:1px solid var(--line);border-radius:16px;padding:15px;background:#0b0f12;min-height:112px}
+.flow-num{font-size:10px;color:var(--green);font-weight:900;letter-spacing:.12em}
+.flow-title{font-size:13px;font-weight:850;margin:9px 0 5px}
+.flow-copy{font-size:11.5px;color:var(--muted);line-height:1.45}
+.workspace{display:grid;grid-template-columns:1.35fr .65fr;gap:16px;align-items:start}
+.data-node{padding:13px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:27px 1fr;gap:10px}
+.data-node:last-child{border-bottom:0}
+.data-num{width:23px;height:23px;border:1px solid #3b4a41;border-radius:7px;display:grid;place-items:center;color:var(--green);font-size:10px;font-weight:900}
+.data-title{font-size:12.5px;font-weight:850}
+.data-copy{font-size:11.5px;color:var(--muted);line-height:1.45;margin-top:3px}
+.never{margin-top:14px;border:1px solid #3d4536;background:#0d130d;border-radius:13px;padding:12px;font-size:11.5px;color:#cfe0c7;line-height:1.5}
+.result-grid{display:grid;grid-template-columns:320px 1fr;gap:16px;align-items:start}
+.trace{position:sticky;top:16px}
+.trace-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.trace-title{font-size:13px;font-weight:850}.trace-pill{font-size:9px;color:var(--green);border:1px solid #36503b;background:#0d150f;border-radius:999px;padding:5px 7px}
+.trace-step{display:grid;grid-template-columns:25px 1fr;gap:10px;padding:10px 0;position:relative}
+.trace-step:not(:last-child):before{content:"";position:absolute;left:12px;top:33px;bottom:-1px;width:1px;background:#273138}
+.trace-dot{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;border:1px solid #3a4b41;background:#0b120d;color:var(--green);font-size:10px;font-weight:900;z-index:1}
+.trace-dot.warning{border-color:#584a2e;background:#171208;color:var(--amber)}
+.trace-label{font-size:12.5px;font-weight:850}.trace-detail{font-size:11px;color:var(--muted);line-height:1.45;margin-top:3px}
+.signals{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}.signal{font-size:10.5px;border:1px solid #334039;background:#0c120f;border-radius:999px;padding:5px 7px;color:#cfe0c8}
+.path-card.primary-path{border-color:#425542}
+.path-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.secondary{border:1px solid #344047;background:#11171b;color:#eef1ef;border-radius:10px;padding:9px 11px;font-weight:750;font-size:11.5px}
+.action-workspace{display:none;margin-top:14px;border:1px solid #3b4d3e;background:#0a100c;border-radius:16px;padding:16px}.action-workspace.open{display:block}
+.action-title{font-size:16px;font-weight:900}.action-sub{font-size:11px;color:var(--muted);margin-top:4px}
+.action-step{display:grid;grid-template-columns:31px 1fr;gap:10px;padding:9px 0}
+.action-step-num{width:28px;height:28px;border-radius:8px;border:1px solid #3b4a40;display:grid;place-items:center;color:var(--green);font-weight:900;font-size:11px}
+.action-step-title{font-size:12.5px;font-weight:850}.action-step-copy{font-size:11.5px;color:var(--muted);line-height:1.45;margin-top:2px}
+.proof-track{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:14px}.proof-stage{border:1px solid var(--line);border-radius:12px;padding:10px;min-height:84px}.proof-stage.active{border-color:#456044;background:#0d150f}.proof-state{font-size:8.5px;color:var(--green);text-transform:uppercase;letter-spacing:.1em}.proof-name{font-size:11px;font-weight:850;margin-top:6px}.proof-copy{font-size:10px;color:var(--muted);line-height:1.35;margin-top:4px}
+@media(max-width:900px){.workspace,.result-grid{grid-template-columns:1fr}.trace{position:static}.flow{grid-template-columns:repeat(3,1fr)}.proof-track{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:620px){.flow{grid-template-columns:1fr 1fr}.proof-track{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<div class="eyebrow">COMMONS / CIVIC ACTION OS</div>
+<h1>What would you like to change, understand, or make happen?</h1>
+<p class="lede">Describe the outcome in your own words. COMMONS shows <b>what it understood</b>, <b>which official routes it checked</b>, <b>why a path may fit</b>, and exactly where your approval is still required.</p>
+
+<section class="flow">
+  <div class="flow-step"><div class="flow-num">01</div><div class="flow-title">Describe the goal</div><div class="flow-copy">Natural language. No bureaucracy vocabulary needed.</div></div>
+  <div class="flow-step"><div class="flow-num">02</div><div class="flow-title">See the interpretation</div><div class="flow-copy">Matched signals are shown instead of hidden.</div></div>
+  <div class="flow-step"><div class="flow-num">03</div><div class="flow-title">Check official paths</div><div class="flow-copy">Only the verified Berlin catalog is eligible here.</div></div>
+  <div class="flow-step"><div class="flow-num">04</div><div class="flow-title">Apply boundaries</div><div class="flow-copy">Emergency, legal and authority warnings remain visible.</div></div>
+  <div class="flow-step"><div class="flow-num">05</div><div class="flow-title">You choose whether to act</div><div class="flow-copy">Finding a path never submits anything.</div></div>
+</section>
+
+<section class="workspace">
+<div class="card">
+<div class="label">What would you like to change, understand, or make happen?</div>
+<div class="hint">Describe the outcome in your own words. You do not need to know the agency, program or legal name.</div>
+<textarea id="need" placeholder="Example: There is rubbish and road damage near my street and I want the right Berlin authority to know about it."></textarea>
+<div class="examples">
+<button class="chip" data-example="I have an idea for improving my neighborhood and want to know whether there is a public participation or funding route.">Improve my neighborhood</button>
+<button class="chip" data-example="There is rubbish and road damage in public space near me and I want the responsible authority to know about it.">Report a public-space problem</button>
+<button class="chip" data-example="A Berlin authority sent me a Bescheid that I do not understand and I want to know what legitimate next channels exist.">Problem with an authority</button>
+<button class="chip" data-example="I have a project idea in Helle Mitte and want to know if there is current public funding available.">Helle Mitte project</button>
+</div>
+<button id="go" class="primary">Show me what COMMONS does →</button>
+<div id="status" class="status"></div>
+</div>
+
+<aside class="card">
+<div class="label">What happens when you click?</div>
+<div class="data-node"><div class="data-num">1</div><div><div class="data-title">Your text goes to COMMONS</div><div class="data-copy">The page sends your text + “Berlin” to the local <code>/civic/action</code> endpoint.</div></div></div>
+<div class="data-node"><div class="data-num">2</div><div><div class="data-title">COMMONS checks the civic map</div><div class="data-copy">This prototype evaluates four verified Berlin channel types. It does not search the whole internet at click time.</div></div></div>
+<div class="data-node"><div class="data-num">3</div><div><div class="data-title">You get a route, not execution</div><div class="data-copy">The result contains a primary path, alternatives, matched signals and warnings.</div></div></div>
+<div class="data-node"><div class="data-num">4</div><div><div class="data-title">External action is separate</div><div class="data-copy">No petition, report, grant application or government form is submitted here.</div></div></div>
+<div class="never"><b>Find a path ≠ send to government.</b> Any future execution must have its own explicit approval step.</div>
+</aside>
+</section>
+
+<div id="result" class="result"></div>
+
+<p class="footer">COMMONS does not choose your political position, fabricate eligibility, or claim success because it found a webpage. Current proof starts at <b>source verified</b>; stronger claims require an external receipt, acknowledgement, or observable outcome.</p>
+</main>
+<script>
+const need=document.getElementById("need"),result=document.getElementById("result"),status=document.getElementById("status");
+document.querySelectorAll("[data-example]").forEach(b=>b.onclick=()=>{need.value=b.dataset.example;need.focus();status.textContent="Example loaded. Nothing has been sent yet.";});
+
+const esc=(value)=>String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+const pretty=(value)=>String(value??"").replaceAll("_"," ").replace(/\b\w/g,m=>m.toUpperCase());
+
+function traceHtml(steps){
+  return (steps||[]).map(s=>
+    '<div class="trace-step">'+
+      '<div class="trace-dot '+(s.status==="warning"?"warning":"")+'">'+(s.status==="warning"?"!":"✓")+'</div>'+
+      '<div><div class="trace-label">'+esc(s.label)+'</div><div class="trace-detail">'+esc(s.detail)+'</div></div>'+
+    '</div>'
+  ).join("");
+}
+
+function proofHtml(){
+  const stages=[
+    ["SOURCE VERIFIED","Official route checked",true],
+    ["ACTION PREPARED","Usable draft/checklist exists",false],
+    ["CITIZEN CONFIRMED","You approve or submit",false],
+    ["INSTITUTION ACK","Receipt / case number",false],
+    ["OUTCOME VERIFIED","Observable result",false]
+  ];
+  return stages.map(s=>
+    '<div class="proof-stage '+(s[2]?"active":"")+'">'+
+      '<div class="proof-state">'+(s[2]?"current":"not yet")+'</div>'+
+      '<div class="proof-name">'+s[0]+'</div>'+
+      '<div class="proof-copy">'+s[1]+'</div>'+
+    '</div>'
+  ).join("");
+}
+
+function actionWorkspace(channel){
+  const commons=channel.what_commons_can_do||[];
+  const citizen=channel.citizen_must_do||[];
+  return '<div class="action-workspace" id="workspace-'+esc(channel.channel_id)+'">'+
+    '<div class="action-title">If you choose this path, here is what happens next</div>'+
+    '<div class="action-sub">Still no external submission. This is the preparation workflow.</div>'+
+    '<div class="action-step"><div class="action-step-num">1</div><div><div class="action-step-title">Verify the official route</div><div class="action-step-copy">Already done for this prototype. The source and responsible body are shown above.</div></div></div>'+
+    '<div class="action-step"><div class="action-step-num">2</div><div><div class="action-step-title">Gather what is needed</div><div class="action-step-copy">'+esc(commons[0]||"Collect the facts needed for the official process.")+'</div></div></div>'+
+    '<div class="action-step"><div class="action-step-num">3</div><div><div class="action-step-title">Prepare the action</div><div class="action-step-copy">'+esc(commons[1]||"COMMONS prepares a citizen-reviewable draft or checklist.")+'</div></div></div>'+
+    '<div class="action-step"><div class="action-step-num">4</div><div><div class="action-step-title">You review and decide</div><div class="action-step-copy">'+esc(citizen[0]||"You approve the substantive content and decide whether to proceed.")+'</div></div></div>'+
+    '<div class="action-step"><div class="action-step-num">5</div><div><div class="action-step-title">Submit through the official channel</div><div class="action-step-copy">This prototype only links to the official source. Future execution must be an explicit, separate approval.</div></div></div>'+
+    '<div class="action-step"><div class="action-step-num">6</div><div><div class="action-step-title">Bring back proof</div><div class="action-step-copy">A receipt, reference number or official response advances the proof ladder. Without it, COMMONS does not claim the action happened.</div></div></div>'+
+  '</div>';
+}
+
+function pathHtml(channel,primary){
+  const caveats=channel.caveats||[];
+  return '<article class="card path-card '+(primary?"primary-path":"")+'">'+
+    '<div style="display:flex;justify-content:space-between;gap:14px;align-items:flex-start">'+
+      '<div><div class="kicker">'+esc(pretty(channel.channel_type))+(primary?" · PRIMARY PATH":"")+'</div>'+
+      '<div class="title">'+esc(channel.name)+'</div>'+
+      '<div class="meta">'+esc(channel.why_it_fits)+'</div></div>'+
+      '<span class="badge">'+esc(pretty(channel.proof_stage))+'</span>'+
+    '</div>'+
+    '<div class="row"><div class="meta"><b>Responsible:</b> '+esc(channel.responsible_body)+' · <b>Verified:</b> '+esc(channel.last_verified)+'</div></div>'+
+    (channel.deadline?'<div class="deadline">Deadline: '+esc(channel.deadline)+'</div>':"")+
+    '<div class="cols">'+
+      '<div class="mini-card"><div class="mini-title">COMMONS CAN PREPARE</div><ul>'+(channel.what_commons_can_do||[]).map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul></div>'+
+      '<div class="mini-card"><div class="mini-title">YOU STILL CONTROL</div><ul>'+(channel.citizen_must_do||[]).map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul></div>'+
+    '</div>'+
+    (caveats.length?'<div class="warning-box"><b>Important limits</b><br>'+caveats.map(esc).join("<br>")+'</div>':"")+
+    '<div class="path-actions"><button class="primary small" style="margin-top:0" data-use="'+esc(channel.channel_id)+'">Use this path →</button>'+
+    '<a class="secondary" href="'+esc(channel.official_source)+'" target="_blank" rel="noreferrer" style="text-decoration:none">Open official source ↗</a></div>'+
+    actionWorkspace(channel)+
+  '</article>';
+}
+
+document.getElementById("go").onclick=async()=>{
+  const text=need.value.trim();
+  if(!text){status.textContent="Describe what you want to change or understand first.";need.focus();return}
+  const button=document.getElementById("go");
+  button.disabled=true;
+  status.textContent="Sending your goal to the local COMMONS civic router…";
+  result.className="result";result.innerHTML="";
+  try{
+    const r=await fetch("/civic/action",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({text,location:"Berlin"})});
+    const data=await r.json();
+    if(!r.ok) throw new Error(data.detail||"Could not route this need.");
+    status.textContent="Done. "+data.checked_channels+" verified channels were evaluated; no external action occurred.";
+
+    const warnings=data.missing_information||[];
+    result.innerHTML=
+      '<div class="result-grid">'+
+        '<aside class="card trace">'+
+          '<div class="trace-head"><div class="trace-title">What COMMONS just did</div><div class="trace-pill">transparent trace</div></div>'+
+          traceHtml(data.routing_trace)+
+        '</aside>'+
+        '<div>'+
+          '<div class="card">'+
+            '<div class="kicker">What COMMONS understood</div>'+
+            '<div class="title">'+esc(pretty(data.interpreted_as))+'</div>'+
+            '<div class="meta">Location: '+esc(data.location)+' · Checked '+esc(data.checked_channels)+' verified civic channels · No political recommendation generated.</div>'+
+            '<div class="signals">'+(data.matched_signals||[]).map(s=>'<span class="signal">'+esc(s)+'</span>').join("")+'</div>'+
+            (warnings.length?'<div class="warning-box"><b>Before acting</b><br>'+warnings.map(esc).join("<br>")+'</div>':"")+
+          '</div>'+
+          '<div style="display:flex;justify-content:space-between;align-items:end;gap:10px;margin:22px 0 8px"><h3 style="margin:0">Your possible paths</h3><span class="meta">'+(data.channels||[]).length+' returned · one primary</span></div>'+
+          (data.channels||[]).map(c=>pathHtml(c,c.channel_id===data.primary_channel_id)).join("")+
+          '<div class="card">'+
+            '<div class="kicker">Proof ladder</div>'+
+            '<div class="title" style="font-size:23px">Finding a path is only step one.</div>'+
+            '<div class="meta">COMMONS currently has enough evidence to say the source exists. Nothing stronger is claimed yet.</div>'+
+            '<div class="proof-track">'+proofHtml()+'</div>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
+    result.className="result show";
+    result.scrollIntoView({behavior:"smooth",block:"start"});
+
+    result.querySelectorAll("[data-use]").forEach(btn=>btn.onclick=()=>{
+      const workspace=document.getElementById("workspace-"+btn.dataset.use);
+      const opening=!workspace.classList.contains("open");
+      result.querySelectorAll(".action-workspace").forEach(x=>x.classList.remove("open"));
+      if(opening){workspace.classList.add("open");workspace.scrollIntoView({behavior:"smooth",block:"center"});}
+    });
+  }catch(e){status.textContent=e.message||String(e)}
+  finally{button.disabled=false}
+};
+
+</script>
+</body>
+</html>
