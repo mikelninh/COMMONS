@@ -5,6 +5,7 @@ import os
 import sqlite3
 from pathlib import Path
 
+from commons.civic_case import PublicSpaceCase
 from commons.models import CaseRecord, FoundingCapabilitySubmission, NeedRequest, OutcomeInput, OutcomeRecord
 
 
@@ -43,6 +44,16 @@ class CaseStore:
                 CREATE TABLE IF NOT EXISTS needs (
                     need_id TEXT PRIMARY KEY,
                     created_at TEXT NOT NULL,
+                    record_json TEXT NOT NULL
+                )
+                """
+            )
+            conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS civic_public_space_cases (
+                    case_id TEXT PRIMARY KEY,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL,
                     record_json TEXT NOT NULL
                 )
                 """
@@ -157,3 +168,45 @@ class CaseStore:
                 "SELECT record_json FROM needs ORDER BY created_at ASC"
             ).fetchall()
         return [NeedRequest.model_validate_json(row["record_json"]) for row in rows]
+
+
+    def save_public_space_case(self, record: PublicSpaceCase) -> PublicSpaceCase:
+        with self._connect() as conn:
+            conn.execute(
+                """
+                INSERT INTO civic_public_space_cases(case_id, created_at, updated_at, record_json)
+                VALUES (?, ?, ?, ?)
+                ON CONFLICT(case_id) DO UPDATE SET
+                    updated_at = excluded.updated_at,
+                    record_json = excluded.record_json
+                """,
+                (
+                    record.case_id,
+                    record.created_at.isoformat(),
+                    record.updated_at.isoformat(),
+                    record.model_dump_json(),
+                ),
+            )
+        return record
+
+    def get_public_space_case(self, case_id: str) -> PublicSpaceCase | None:
+        with self._connect() as conn:
+            row = conn.execute(
+                "SELECT record_json FROM civic_public_space_cases WHERE case_id = ?",
+                (case_id,),
+            ).fetchone()
+        return PublicSpaceCase.model_validate_json(row["record_json"]) if row else None
+
+    def list_public_space_cases(self) -> list[PublicSpaceCase]:
+        with self._connect() as conn:
+            rows = conn.execute(
+                """
+                SELECT record_json
+                FROM civic_public_space_cases
+                ORDER BY updated_at DESC
+                """
+            ).fetchall()
+        return [
+            PublicSpaceCase.model_validate_json(row["record_json"])
+            for row in rows
+        ]
