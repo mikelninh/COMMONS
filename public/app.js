@@ -45,6 +45,7 @@ const ACTION = {
     {
       id: "signal",
       milestone: 0,
+      terrain: 0,
       kicker: "26 Aug 2026 · Pulse",
       composition: "left-monument",
       camera: {lat: 22, lng: 79, altitude: 1.78},
@@ -57,6 +58,7 @@ const ACTION = {
     {
       id: "impact",
       milestone: 0,
+      terrain: .08,
       kicker: "Early estimate · Human impact",
       composition: "metric-left",
       camera: {lat: 28.1, lng: 85.3, altitude: 1.28},
@@ -69,24 +71,39 @@ const ACTION = {
       duration: 5700
     },
     {
+      id: "descent",
+      milestone: 1,
+      terrain: .58,
+      kicker: "27 Aug 2026 · Descent",
+      composition: "right-whisper",
+      camera: {lat: 27.9, lng: 84.8, altitude: 1.14},
+      offset: [-235, -8],
+      headline: "Move closer. <span class='human'>The response becomes visible.</span>",
+      copy: "The globe gives way to a geographic field of Nepal. The country outline is geographic; the relief treatment is intentionally stylized and is not elevation data.",
+      source: "Geographic outline · World Atlas · visual relief treatment · COMMONS",
+      duration: 5200
+    },
+    {
       id: "verify",
       milestone: 1,
-      kicker: "27 Aug 2026 · Thread",
+      terrain: 1,
+      kicker: "Verified response · Thread",
       composition: "right-whisper",
-      camera: {lat: 27.9, lng: 84.8, altitude: 1.2},
-      offset: [-250, -4],
+      camera: {lat: 27.9, lng: 84.8, altitude: 1.08},
+      offset: [-250, -8],
       headline: "The signal became <span class='human'>a verified response.</span>",
-      copy: "IFRC launched a formal Emergency Appeal alongside Nepal Red Cross Society operations. The luminous thread represents an accountable response pathway — not a tracked shipment route.",
+      copy: "IFRC launched a formal Emergency Appeal alongside Nepal Red Cross Society operations. The luminous thread is a semantic response pathway — not a tracked shipment route.",
       source: "Primary evidence · IFRC",
       duration: 5400
     },
     {
       id: "response",
       milestone: 1,
+      terrain: 1,
       kicker: "Verified response",
       composition: "center-monument",
-      camera: {lat: 27.9, lng: 84.9, altitude: 1.34},
-      offset: [0, 65],
+      camera: {lat: 27.9, lng: 84.9, altitude: 1.08},
+      offset: [0, 70],
       value: "CHF 25M",
       tone: "attention",
       label: "Emergency Appeal",
@@ -95,15 +112,30 @@ const ACTION = {
       duration: 5600
     },
     {
+      id: "silence",
+      milestone: 2,
+      terrain: 1,
+      kicker: "08 Sep 2026",
+      composition: "silence-scene",
+      camera: {lat: 28.03, lng: 85.16, altitude: 1.04},
+      offset: [0, -20],
+      value: "~2,000",
+      tone: "outcome",
+      label: "people",
+      copy: "",
+      source: "",
+      silent: true,
+      duration: 6100
+    },
+    {
       id: "outcome",
       milestone: 2,
+      terrain: 1,
       kicker: "08 Sep 2026 · Bloom",
       composition: "low-left",
       camera: {lat: 28.03, lng: 85.16, altitude: 1.04},
-      offset: [260, -58],
-      value: "~2,000",
-      tone: "outcome",
-      label: "people with safe drinking water restored in Nuwakot",
+      offset: [250, -60],
+      headline: "<span class='outcome'>Safe drinking water</span> was restored for around 2,000 people in Nuwakot.",
       copy: "This is evidence that the response reached people. It is not proof that any one contribution caused the outcome.",
       source: "IFRC outcome update · 8 Sep 2026",
       duration: 6500
@@ -111,10 +143,11 @@ const ACTION = {
     {
       id: "capacity",
       milestone: 2,
+      terrain: .82,
       kicker: "Response capacity",
       composition: "metric-right",
       camera: {lat: 28.03, lng: 85.16, altitude: 1.1},
-      offset: [-255, -10],
+      offset: [-250, -10],
       value: "100/day",
       tone: "outcome",
       label: "mobile primary clinic capacity",
@@ -123,34 +156,35 @@ const ACTION = {
       duration: 5200
     },
     {
-      id: "meaning",
+      id: "memory",
       milestone: 3,
-      kicker: "Now · Open loop",
-      composition: "center-monument",
-      camera: {lat: 25.5, lng: 82.5, altitude: 1.58},
-      offset: [0, 25],
-      headline: "Pulse. Thread. <span class='outcome'>Bloom.</span>",
-      copy: "Disturbance becomes legible. Response becomes visible. Improvement is only shown when evidence supports it.",
-      source: "COMMONS visual grammar",
-      duration: 5200
+      terrain: .08,
+      kicker: "Memory of Earth",
+      composition: "right-whisper",
+      camera: {lat: 25.5, lng: 82.5, altitude: 1.64},
+      offset: [-220, 15],
+      headline: "The planet keeps <span class='outcome'>a memory of response.</span>",
+      copy: "This mark represents this documented Nepal response only. Over time, verified actions can leave a truthful visual memory without turning suffering into a leaderboard.",
+      source: "COMMONS · one recorded response story",
+      duration: 5400
     },
     {
       id: "you",
       milestone: 3,
-      kicker: "The loop remains open",
+      terrain: 0,
+      kicker: "Now · Open loop",
       composition: "final-center",
-      camera: {lat: 24, lng: 78, altitude: 1.92},
-      offset: [0, 30],
+      camera: {lat: 18, lng: 74, altitude: 2.05},
+      offset: [0, 25],
       headline: "What happens next is <span class='human'>still being written.</span>",
       copy: "Help through the verified response, inspect the evidence, or pass the story on with its provenance intact.",
       source: "Last outcome evidence in this story · 8 Sep 2026",
       duration: 12000,
       actions: true
     }
-  ]
-};
+  ]};
 
-const TIME_SCENES = [0,2,4,7];
+const TIME_SCENES = [0,3,6,9];
 const THREADS = [
   {
     startLat: 27.7172, startLng: 85.3240,
