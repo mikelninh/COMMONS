@@ -14,7 +14,7 @@ def test_cinematic_world_pulse_public_contract() -> None:
     assert "EXPLORE" in page
     assert "SHARE" in page
     assert "possible multi-source overlap" in page
-    assert "Reality > model opinion." in page
+    assert "Reality &gt; model opinion." in page
     assert "PAID AI <b id=\"paidAI\">OFF" in page
 
 
