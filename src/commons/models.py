@@ -15,6 +15,7 @@ class Route(StrEnum):
     REASON = "reason"
     DELIBERATE = "deliberate"
     TRANSLATE = "translate"
+    VERIFY = "verify"
     SPECIALIST = "specialist"
     WORKFLOW = "workflow"
     HUMAN = "human"
