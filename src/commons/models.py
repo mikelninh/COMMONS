@@ -159,6 +159,8 @@ class CapabilityRequirement(BaseModel):
     max_price_eur: float | None = Field(default=None, ge=0)
     required_authority: AuthorityLevel = AuthorityLevel.READ
     require_verified_provider: bool = False
+    allowed_provider_kinds: list[ProviderKind] = Field(default_factory=list)
+    preferred_provider_kinds: list[ProviderKind] = Field(default_factory=list)
 
 
 class CapabilityMatch(BaseModel):
@@ -183,6 +185,7 @@ class ResourceBudget(BaseModel):
     max_cost_eur: float = Field(ge=0)
     max_capabilities: int = Field(default=5, ge=1, le=50)
     prefer_verified: bool = True
+    selection_mode: Literal["best_fit", "cost_efficiency"] = "best_fit"
 
 
 class CapabilityPlan(BaseModel):
