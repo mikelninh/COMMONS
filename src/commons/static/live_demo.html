@@ -193,6 +193,59 @@ $("file").onchange=()=>{
   $("preview").src=objectUrl;$("phone").classList.add("has");$("empty").style.display="none";$("photoState").textContent="photo local";$("analyze").disabled=false;$("locate").disabled=false;
   log("real photo loaded locally — 0 bytes sent to COMMONS","real");caption("<b>Photo captured.</b><br>Nothing has left this browser.");
 };
+async function fallbackVisualCueDetector(imageUrl){
+  const img=new Image();
+  img.src=imageUrl;
+  await img.decode();
+  const canvas=document.createElement("canvas");
+  const width=320;
+  const scale=width/img.naturalWidth;
+  canvas.width=width;
+  canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));
+  const ctx=canvas.getContext("2d",{willReadFrequently:true});
+  ctx.drawImage(img,0,0,canvas.width,canvas.height);
+  const data=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+
+  const y0=Math.floor(canvas.height*0.45);
+  const y1=Math.floor(canvas.height*0.95);
+  const row=[];
+  for(let x=0;x<canvas.width;x++){
+    let sum=0,count=0;
+    for(let y=y0;y<y1;y+=4){
+      const i=(y*canvas.width+x)*4;
+      sum+=(data[i]+data[i+1]+data[i+2])/3;
+      count++;
+    }
+    row.push(sum/Math.max(1,count));
+  }
+  const smooth=row.map((_,i)=>{
+    let s=0,n=0;
+    for(let j=Math.max(0,i-3);j<=Math.min(row.length-1,i+3);j++){s+=row[j];n++}
+    return s/n;
+  });
+  const threshold=smooth.reduce((a,b)=>a+b,0)/smooth.length+18;
+  let transitions=0,brightRuns=0,inBright=false,run=0;
+  for(const v of smooth){
+    const bright=v>threshold;
+    if(bright!==inBright){transitions++;inBright=bright}
+    if(bright){run++}else if(run>=5){brightRuns++;run=0}else{run=0}
+  }
+  if(run>=5)brightRuns++;
+  const stripeScore=Math.min(0.92,Math.max(0.18,(brightRuns/9)*0.78+(transitions/24)*0.22));
+  if(brightRuns>=4){
+    return [
+      {label:LABELS[0].label,score:stripeScore},
+      {label:LABELS[3].label,score:Math.max(0.08,stripeScore*0.36)},
+      {label:LABELS[5].label,score:Math.max(0.05,1-stripeScore)}
+    ];
+  }
+  return [
+    {label:LABELS[5].label,score:0.58},
+    {label:LABELS[4].label,score:0.22},
+    {label:LABELS[3].label,score:0.20}
+  ];
+}
+
 async function loadClassifier(){
   if(classifier)return classifier;
   $("photoState").textContent="loading vision";log("loading MobileCLIP q8 into browser cache","sys");
@@ -212,7 +265,33 @@ $("analyze").onclick=async()=>{
     log("vision suggestion → "+mapped.title+" ("+Math.round(top.score*100)+"%)","ok");log("authority check → citizen confirmation required","wait");
     node("guard","on","confirmation required");node("human","on","waiting for you");caption("<b>The model suggests. You decide.</b><br>A similarity score cannot create civic authority.");
     renderChoices();$("approval").classList.add("show");
-  }catch(e){$("phone").classList.remove("scanning");$("photoState").textContent="vision error";log("vision failed: "+e.message,"wait");$("analyze").disabled=false}
+  }catch(e){
+    log("MobileCLIP unavailable → running deterministic local visual-cue fallback","wait");
+    try{
+      const output=await fallbackVisualCueDetector(objectUrl);
+      visionResults=output.slice(0,4);
+      const top=visionResults[0],mapped=LABELS.find(x=>x.label===top.label)||LABELS[5];
+      selectedKey=mapped.key;
+      node("vision","done","local fallback ready");
+      $("phone").classList.remove("scanning");
+      $("photoState").textContent="fallback analyzed locally";
+      $("visionTitle").textContent=mapped.title;
+      $("visionScore").textContent=Math.round(top.score*100)+"% visual-cue score · deterministic fallback";
+      $("photoOverlay").classList.add("show");
+      log("local fallback → "+mapped.title+" ("+Math.round(top.score*100)+"%)","ok");
+      log("authority check → citizen confirmation required","wait");
+      node("guard","on","confirmation required");
+      node("human","on","waiting for you");
+      caption("<b>Local visual cues found.</b><br>You still decide what the image actually means.");
+      renderChoices();
+      $("approval").classList.add("show");
+    }catch(fallbackError){
+      $("phone").classList.remove("scanning");
+      $("photoState").textContent="vision unavailable";
+      log("vision unavailable: "+fallbackError.message,"wait");
+      $("analyze").disabled=false;
+    }
+  }
 };
 function renderChoices(){
   const ordered=[...visionResults.map(r=>LABELS.find(x=>x.label===r.label)).filter(Boolean),...LABELS].filter((x,i,a)=>a.findIndex(y=>y.key===x.key)===i).slice(0,6);
