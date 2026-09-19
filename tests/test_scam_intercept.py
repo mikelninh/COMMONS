@@ -81,7 +81,7 @@ def test_established_recipient_evidence_can_deescalate() -> None:
         amount_eur=9000,
         new_beneficiary=True,
         device_known=False,
-        sim_swap_minutes_ago=100,
+        sim_swap_minutes_ago=600,
         beneficiary_independent_reports=3,
         beneficiary_relationship_years=0,
         scam_campaign_match=False,
