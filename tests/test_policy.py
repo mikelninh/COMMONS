@@ -120,3 +120,30 @@ def test_information_at_threshold_is_not_automatically_rejected() -> None:
         )
     )
     assert decision.route is Route.RETRIEVE
+
+
+def test_low_confidence_low_stakes_coordination_falls_back_to_nonexecutive_help() -> None:
+    decision = choose_route(
+        base_assessment(
+            domain="community",
+            capability="coordinate",
+            capability_confidence=0.40,
+            enough_information=0.79,
+            high_stakes=0.10,
+            contested_values_present=0.10,
+        )
+    )
+    assert decision.route is Route.REASON
+
+
+def test_low_confidence_workflow_is_downgraded_not_executed() -> None:
+    decision = choose_route(
+        base_assessment(
+            capability="workflow",
+            capability_confidence=0.40,
+            enough_information=0.80,
+            high_stakes=0.10,
+            safe_to_automate=0.99,
+        )
+    )
+    assert decision.route is Route.REASON
