@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>COMMONS — Civic Action</title>
+<style>
+:root{color-scheme:dark;--bg:#07090b;--panel:#0d1115;--line:#252c32;--text:#f4f5f2;--muted:#98a2a9;--green:#b9ff78;--amber:#ffd38a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -15%,#17211d 0,transparent 34%),var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+main{max-width:920px;margin:auto;padding:56px 22px 90px}.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--green)}
+h1{font-size:clamp(48px,8vw,82px);line-height:.94;letter-spacing:-.055em;margin:18px 0 22px}
+.lede{font-size:19px;line-height:1.6;color:#c6ccd0;max-width:760px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px;margin:18px 0}
+textarea{width:100%;min-height:180px;resize:vertical;background:#070a0d;color:var(--text);border:1px solid #30383f;border-radius:14px;padding:16px;font:inherit;line-height:1.55}
+.examples{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.chip{border:1px solid var(--line);background:#11171c;color:#d6dde0;border-radius:999px;padding:9px 12px;font-size:12px;cursor:pointer}
+button.primary{border:0;background:var(--green);color:#081006;padding:14px 18px;border-radius:12px;font-weight:850;cursor:pointer;margin-top:14px}
+.status{color:var(--muted);margin-top:12px}.result{display:none}.result.show{display:block}
+.kicker{color:var(--green);font-size:12px;text-transform:uppercase;letter-spacing:.14em}.title{font-size:28px;font-weight:800;margin:8px 0 14px}
+.meta{color:#c8d0d4;line-height:1.5}.row{border-top:1px solid var(--line);padding-top:16px;margin-top:16px}
+h3{font-size:14px;margin:0 0 8px;color:#f1f4f5}ul{margin:8px 0 0;padding-left:20px;color:#c6cdd1;line-height:1.55}
+.badge{display:inline-block;border:1px solid #36503b;background:#0d150f;color:var(--green);padding:5px 8px;border-radius:999px;font-size:11px;margin-right:6px}
+.warn{border-color:#4b4130;background:#15120c;color:#eed9ad}.warn .kicker{color:var(--amber)}
+a{color:var(--green)}.footer{margin-top:28px;color:var(--muted);font-size:13px;line-height:1.6}
+</style>
+</head>
+<body>
+<main>
+<div class="eyebrow">COMMONS / CIVIC ACTION OS</div>
+<h1>What would you like to change, understand, or make happen?</h1>
+<p class="lede">Describe the outcome in your own words. COMMONS looks for a legitimate public channel, keeps your voice yours, and separates <b>finding a path</b> from <b>proving an outcome</b>.</p>
+
+<div class="card">
+<textarea id="need" placeholder="Example: There is a dangerous pothole on my street and I want to report it properly."></textarea>
+<div class="examples">
+<button class="chip" data-example="I have an idea for improving my neighborhood and want to know whether there is a public participation or funding route.">Improve my neighborhood</button>
+<button class="chip" data-example="There is rubbish and road damage in public space near me and I want the responsible authority to know about it.">Report a public-space problem</button>
+<button class="chip" data-example="A Berlin authority made a decision I do not understand and I want to know what legitimate complaint or review channels exist.">Problem with an authority</button>
+<button class="chip" data-example="I have a project idea in Helle Mitte and want to know if there is current public funding available.">Helle Mitte project</button>
+</div>
+<button id="go" class="primary">Find a legitimate action path</button>
+<div id="status" class="status"></div>
+</div>
+
+<div id="result" class="result"></div>
+
+<p class="footer">COMMONS does not choose your political position, fabricate eligibility, or claim success because it found a webpage. Current proof starts at <b>source verified</b>; stronger claims require an external receipt, acknowledgement, or observable outcome.</p>
+</main>
+<script>
+const need=document.getElementById("need"),result=document.getElementById("result"),status=document.getElementById("status");
+document.querySelectorAll("[data-example]").forEach(b=>b.onclick=()=>{need.value=b.dataset.example;need.focus()});
+document.getElementById("go").onclick=async()=>{
+  const text=need.value.trim();
+  if(!text){status.textContent="Describe what you want to change or understand.";return}
+  status.textContent="Finding the safest verified path…";result.className="result";result.innerHTML="";
+  try{
+    const r=await fetch("/civic/action",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({text,location:"Berlin"})});
+    const data=await r.json();
+    if(!r.ok) throw new Error(data.detail||"Could not route this need.");
+    status.textContent="";
+    const channels=(data.channels||[]).map(c=>`
+      <div class="card">
+        <div class="kicker">${c.channel_type.replaceAll("_"," ")}</div>
+        <div class="title">${c.name}</div>
+        <div class="meta"><span class="badge">${c.proof_stage.replaceAll("_"," ")}</span> Responsible: ${c.responsible_body}</div>
+        <div class="row"><h3>Why this may fit</h3><div class="meta">${c.why_it_fits}</div></div>
+        ${c.deadline?`<div class="row"><h3>Deadline</h3><div class="meta">${c.deadline}</div></div>`:""}
+        <div class="row"><h3>COMMONS can help</h3><ul>${c.what_commons_can_do.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+        <div class="row"><h3>You still control</h3><ul>${c.citizen_must_do.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+        ${c.caveats.length?`<div class="row warn"><h3>Important limits</h3><ul>${c.caveats.map(x=>`<li>${x}</li>`).join("")}</ul></div>`:""}
+        <div class="row"><a href="${c.official_source}" target="_blank" rel="noreferrer">Open official source ↗</a></div>
+      </div>`).join("");
+    const missing=(data.missing_information||[]).map(x=>`<li>${x}</li>`).join("");
+    result.innerHTML=`
+      <div class="card">
+        <div class="kicker">COMMONS interpretation</div>
+        <div class="title">${data.interpreted_as}</div>
+        <div class="meta">Citizen voice retained. Political recommendation: no.</div>
+        ${missing?`<div class="row warn"><h3>Before acting</h3><ul>${missing}</ul></div>`:""}
+      </div>
+      ${channels}`;
+    result.className="result show";
+  }catch(e){status.textContent=e.message||String(e)}
+};
+</script>
+</body>
+</html>
