@@ -227,17 +227,25 @@ function sceneOffset(scene){
 }
 
 function renderStoryLibrary(){
-  $("storyCards").innerHTML=STORIES.map(story=>`
-    <button class="story-card ${story.id===activeStory.id?"active":""}" data-story-id="${escapeHtml(story.id)}" style="--card-accent:${escapeHtml(story.colors.memory||story.colors.attention)}">
-      <span class="story-card-number">${String(story.order).padStart(2,"0")}</span>
-      <span class="story-card-body">
-        <span class="story-card-country">${escapeHtml(story.country)} · ${escapeHtml(story.statusLabel)}</span>
-        <span class="story-card-title">${escapeHtml(story.title)}</span>
-        <span class="story-card-subtitle">${escapeHtml(story.subtitle)}</span>
-      </span>
-      <span class="story-card-status">${escapeHtml(story.updatedAt)}<span class="story-card-arrow">→</span></span>
-    </button>
-  `).join("");
+  $("storyCards").innerHTML=STORIES.map(story=>{
+    const receipts=ledgerForStory(story.id);
+    const newer=receipts.some(hasNewEvidence);
+    const following=receipts.some(entry=>entry.status==="following");
+    const acted=receipts.some(entry=>["self_reported_complete","share_completed","share_prepared"].includes(entry.status));
+    const localState=newer?"NEW EVIDENCE":following?"FOLLOWING":acted?"ACTION RECORDED":story.updatedAt;
+
+    return `
+      <button class="story-card ${story.id===activeStory.id?"active":""}" data-story-id="${escapeHtml(story.id)}" style="--card-accent:${escapeHtml(story.colors.memory||story.colors.attention)}">
+        <span class="story-card-number">${String(story.order).padStart(2,"0")}</span>
+        <span class="story-card-body">
+          <span class="story-card-country">${escapeHtml(story.country)} · ${escapeHtml(story.statusLabel)}</span>
+          <span class="story-card-title">${escapeHtml(story.title)}</span>
+          <span class="story-card-subtitle">${escapeHtml(story.subtitle)}</span>
+        </span>
+        <span class="story-card-status">${escapeHtml(localState)}<span class="story-card-arrow">→</span></span>
+      </button>
+    `;
+  }).join("");
 
   qsa(".story-card",$("storyCards")).forEach(card=>{
     card.onclick=()=>enterStory(card.dataset.storyId,0);
