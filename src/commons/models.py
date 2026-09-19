@@ -177,3 +177,17 @@ class ProofRecord(BaseModel):
     evidence_ref: str | None = Field(default=None, max_length=1000)
     notes: str | None = Field(default=None, max_length=2000)
     recorded_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+class ResourceBudget(BaseModel):
+    max_cost_eur: float = Field(ge=0)
+    max_capabilities: int = Field(default=5, ge=1, le=50)
+    prefer_verified: bool = True
+
+
+class CapabilityPlan(BaseModel):
+    requirements: list[CapabilityRequirement]
+    matches: list[CapabilityMatch]
+    total_cost_eur: float = Field(ge=0)
+    unresolved_requirements: list[CapabilityRequirement] = Field(default_factory=list)
+    within_budget: bool
