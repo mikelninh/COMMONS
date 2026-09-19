@@ -1617,12 +1617,18 @@ async function shareAction(){
     actionUrl()
   ].join("\n");
   try{
-    if(navigator.share)await navigator.share({title:"WORLD PULSE — "+activeStory.title,text,url:actionUrl()});
-    else{
+    if(navigator.share){
+      await navigator.share({title:"WORLD PULSE — "+activeStory.title,text,url:actionUrl()});
+      recordActionShare("share_completed","browser_share");
+      toast("Share completed");
+    }else{
       await navigator.clipboard.writeText(text);
+      recordActionShare("share_prepared","browser_local");
       toast("Story copied with provenance");
     }
-  }catch(e){}
+  }catch(e){
+    pendingShareInterventionId=null;
+  }
 }
 
 async function shareCardImage(){
@@ -1633,15 +1639,20 @@ async function shareCardImage(){
   try{
     if(navigator.canShare?.({files:[file]})&&navigator.share){
       await navigator.share({files:[file],title:"WORLD PULSE — "+activeStory.title,text:activeStory.grammar.join(" → ")});
+      recordActionShare("share_completed","browser_share");
+      toast("Share completed");
     }else{
       const a=document.createElement("a");
       a.href=URL.createObjectURL(blob);
       a.download="world-pulse-"+activeStory.slug+".png";
       a.click();
       setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+      recordActionShare("share_prepared","browser_local");
       toast("Share image created");
     }
-  }catch(e){}
+  }catch(e){
+    pendingShareInterventionId=null;
+  }
 }
 
 async function shareSignal(s){
@@ -1685,6 +1696,11 @@ function bindEvents(){
   $("lookClose").onclick=closeLook;
   $("beliefBtn").onclick=openEvidence;
   $("storyBelief").onclick=openEvidence;
+  $("storyActionBtn").onclick=()=>openActionLab("current");
+  $("actionLedgerBtn").onclick=()=>openActionLab("ledger");
+  $("actionLabClose").onclick=closeActionLab;
+  $("actionCurrentTab").onclick=()=>renderActionLab("current");
+  $("actionLedgerTab").onclick=()=>renderActionLab("ledger");
   $("evidenceClose").onclick=closeEvidence;
   $("passBtn").onclick=openShare;
   $("soundBtn").onclick=toggleSound;
@@ -1708,6 +1724,7 @@ function bindEvents(){
   document.addEventListener("keydown",e=>{
     if(e.key==="Escape"){
       if($("share").classList.contains("open"))return closeShare();
+      if($("actionLab").classList.contains("open"))return closeActionLab();
       if($("evidence").classList.contains("open"))return closeEvidence();
       if($("look").classList.contains("open"))return closeLook();
       if($("story").classList.contains("active"))return stopStory(true);
@@ -1746,6 +1763,7 @@ function routeFromUrl(){
 async function init(){
   $("openingDate").textContent=new Intl.DateTimeFormat("en",{month:"long",year:"numeric"}).format(new Date()).toUpperCase();
   bindEvents();
+  updateLedgerCount();
   updateStoryChrome();
   updateSignature();
   await Promise.allSettled([loadCountries(),refreshSignals()]);
