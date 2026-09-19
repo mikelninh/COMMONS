@@ -3,145 +3,151 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#050605">
-<meta name="description" content="COMMONS WORLD PULSE — a cinematic window into Earth where verified human response becomes visible.">
-<meta property="og:title" content="COMMONS / WORLD PULSE">
-<meta property="og:description" content="Watch a verified chain from world signal to human response to measurable outcome.">
-<title>COMMONS / WORLD PULSE</title>
+<meta name="theme-color" content="#030403">
+<meta name="description" content="WORLD PULSE / LIVING ATLAS — a living atlas of what changes, and what humans do next.">
+<meta property="og:title" content="WORLD PULSE / LIVING ATLAS">
+<meta property="og:description" content="Signal → response → outcome. A verified humanitarian story made visible on Earth.">
+<title>WORLD PULSE / LIVING ATLAS</title>
 <link rel="stylesheet" href="./styles.css">
-<script src="https://unpkg.com/globe.gl@2.46.2"></script>
+<script src="https://cdn.jsdelivr.net/npm/globe.gl@2.46.2"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 </head>
 <body>
 <div id="app">
   <div id="globe" aria-hidden="true"></div>
-  <div class="atmosphere-wash"></div>
-  <div class="film-grain"></div>
+  <div class="void"></div>
+  <div class="grain"></div>
 
   <main class="shell">
     <header class="topbar">
       <a class="brand" href="./" aria-label="WORLD PULSE home">
-        <span class="brand-mark"></span>
+        <span class="brand-sigil"></span>
         <span class="brand-name">COMMONS</span>
-        <span class="brand-divider">/</span>
-        <span class="brand-product">WORLD PULSE</span>
+        <span class="brand-slash">/</span>
+        <span class="brand-product">WORLD PULSE · LIVING ATLAS</span>
       </a>
 
-      <nav class="top-actions" aria-label="WORLD PULSE controls">
-        <button class="nav-button hide-mobile" id="exploreBtn">Explore Earth</button>
-        <button class="nav-button hide-mobile" id="detailsBtn">Evidence</button>
-        <button class="nav-button primary" id="homeShareBtn">Share</button>
+      <nav class="top-actions" aria-label="Living Atlas controls">
+        <button class="text-nav mobile-hide" id="lookBtn">Look around</button>
+        <button class="text-nav mobile-hide" id="beliefBtn">Why we believe this</button>
+        <button class="text-nav strong" id="passBtn">Pass this on</button>
       </nav>
     </header>
 
-    <section class="landing" id="landing" aria-labelledby="heroTitle">
-      <div class="hero">
-        <div class="eyebrow"><span class="eyebrow-dot"></span>Earth · observed through public evidence</div>
-        <h1 id="heroTitle">Earth, <em>with a pulse.</em></h1>
-        <p class="hero-copy">A cinematic window into what changes — and what people do next. WORLD PULSE keeps the evidence chain visible from signal to response to outcome.</p>
-
-        <div class="hero-actions">
-          <button class="cta light" id="watchBtn">Watch Action 001</button>
-          <button class="cta dark" onclick="document.getElementById('exploreBtn').click()">Explore Earth</button>
+    <section class="home" id="home" aria-labelledby="homeTitle">
+      <div class="home-copy">
+        <div class="home-kicker"><span class="pulse-mini"></span>A living atlas of accountable action</div>
+        <h1 id="homeTitle">What changes.<br><span>What humans do next.</span></h1>
+        <p class="home-deck">WORLD PULSE turns public evidence into a visible chain: disturbance, response, measurable change. The planet stays primary. The claims stay inspectable.</p>
+        <div class="home-actions">
+          <button class="word-button" id="enterBtn">Enter Nepal →</button>
+          <button class="word-button muted" id="homeLookBtn">Look around</button>
         </div>
-
-        <button class="action-peek" id="actionPeek" aria-label="Open Nepal Action 001">
-          <span class="peek-beacon"></span>
+        <button class="current-story" id="currentStory" aria-label="Enter the Nepal verified response">
+          <span class="current-symbol"></span>
           <span>
-            <span class="peek-kicker">Verified response · Nepal</span>
-            <span class="peek-title">Flash floods → humanitarian response → outcome evidence</span>
+            <span class="current-meta">Open response · Nepal</span>
+            <span class="current-title">Flash floods → response → outcome evidence</span>
           </span>
-          <span class="peek-arrow">→</span>
+          <span class="current-arrow">→</span>
         </button>
       </div>
     </section>
 
-    <div class="source-health" id="sourceHealth" title="Live source health">
-      <span class="source-health-dot"></span>
-      <span id="sourceHealthText">Checking public Earth feeds…</span>
+    <div class="legend" aria-label="Living Atlas visual grammar">
+      <span class="legend-item"><i class="legend-pulse"></i>Pulse</span>
+      <span class="legend-item"><i class="legend-thread"></i>Thread</span>
+      <span class="legend-item"><i class="legend-bloom"></i>Bloom</span>
     </div>
 
-    <section class="story" id="story" aria-label="Action 001 cinematic story">
-      <div class="story-shade"></div>
-
-      <div class="story-top">
-        <div class="story-id"><strong>Action 001</strong> · Nepal · Loop open</div>
-        <div class="story-top-actions">
-          <button class="icon-button" id="storyDetails" aria-label="Open evidence">i</button>
-          <button class="icon-button" id="storyShare" aria-label="Share story">↗</button>
-          <button class="icon-button" id="storyClose" aria-label="Close story">×</button>
+    <section class="story" id="story" data-composition="left-monument" aria-label="Nepal living atlas story">
+      <div class="story-vignette"></div>
+      <div class="story-head">
+        <div class="story-index"><b>NEPAL</b> · FLASH FLOODS 2026 · LOOP OPEN</div>
+        <div class="story-head-actions">
+          <button class="text-nav mobile-hide" id="storyBelief">Why we believe this</button>
+          <button class="text-nav mobile-hide" id="storyPass">Pass this on</button>
+          <button class="iconless" id="storyClose" aria-label="Close story">×</button>
         </div>
       </div>
 
-      <div class="story-frame">
+      <div class="scene-stage left-monument" id="sceneStage">
         <article class="scene" id="scene" aria-live="polite"></article>
       </div>
 
-      <div class="story-bottom">
-        <div class="progress-wrap">
-          <div class="progress-meta">
-            <span>Signal → response → outcome</span>
-            <span><b id="progressCurrent">01</b> / <span id="progressTotal">07</span></span>
-          </div>
-          <div class="progress-track" id="progressTrack" aria-label="Story progress"></div>
-        </div>
+      <div class="signature" aria-label="Current story grammar">
+        <span class="p"><i></i>Pulse</span>
+        <span class="t"><i></i>Thread</span>
+        <span class="b"><i></i>Bloom</span>
+      </div>
 
+      <div class="time-instrument">
+        <div class="time-wrap">
+          <div class="time-labels">
+            <span>26 Aug · pulse</span>
+            <span>27 Aug · response</span>
+            <span>08 Sep · outcome</span>
+            <span>Now · open loop</span>
+          </div>
+          <div class="time-rail">
+            <input id="timeScrubber" type="range" min="0" max="3" step="1" value="0" aria-label="Drag through the response timeline">
+          </div>
+        </div>
         <div class="story-controls">
-          <button class="icon-button" id="prevScene" aria-label="Previous scene">←</button>
-          <button class="icon-button" id="playToggle" aria-label="Pause story">Ⅱ</button>
-          <button class="icon-button" id="nextScene" aria-label="Next scene">→</button>
+          <button id="prevScene" aria-label="Previous scene">←</button>
+          <button class="play" id="playToggle" aria-label="Pause story">Pause</button>
+          <button id="nextScene" aria-label="Next scene">→</button>
         </div>
       </div>
     </section>
   </main>
 
-  <aside class="detail-drawer" id="drawer" aria-hidden="true" aria-label="Evidence and trust notes">
-    <div class="drawer-head">
-      <div class="drawer-title">Evidence / trust</div>
-      <button class="icon-button" id="drawerClose" aria-label="Close evidence drawer">×</button>
+  <section class="opening" id="opening" aria-label="Enter WORLD PULSE">
+    <div class="opening-copy">
+      <div class="opening-date" id="openingDate">SEPTEMBER 2026</div>
+      <h2 class="opening-line">Earth is <em>not quiet.</em></h2>
+      <p class="opening-note">A verified response is still unfolding in Nepal. Watch the disturbance become action — and action become evidence of change.</p>
+      <div class="opening-enter"><button class="word-button" id="openingEnter">Enter Nepal →</button></div>
     </div>
-    <div class="drawer-body" id="drawerBody"></div>
+  </section>
+
+  <aside class="evidence" id="evidence" aria-hidden="true" aria-label="Why we believe this">
+    <div class="evidence-head">
+      <div class="evidence-title">Why we believe this</div>
+      <button class="iconless" id="evidenceClose" aria-label="Close evidence">×</button>
+    </div>
+    <div class="evidence-body" id="evidenceBody"></div>
   </aside>
 
-  <section class="explore-panel" id="explorePanel" aria-label="Explore live Earth signals">
-    <div class="explore-card">
+  <section class="look" id="look" aria-label="Look around current Earth signals">
+    <div class="look-inner">
       <div id="signalFocus"></div>
-      <div id="signalListWrap">
-        <div class="explore-head">
-          <span>Current public signals worth a look</span>
-          <button class="icon-button" aria-label="Return home" onclick="location.reload()">×</button>
+      <div id="signalListArea">
+        <div class="look-head">
+          <div class="look-title">Current public signals worth attention</div>
+          <button class="text-nav" id="lookClose">Return to atlas</button>
         </div>
         <div class="signal-list" id="signalList"></div>
       </div>
     </div>
   </section>
 
-  <section class="share-preview" id="sharePreview" aria-label="Share WORLD PULSE">
-    <div class="share-sheet">
-      <div class="share-canvas-wrap">
-        <canvas id="shareCanvas" width="1600" height="900" aria-label="WORLD PULSE share card preview"></canvas>
-      </div>
-      <div class="share-actions">
-        <div class="share-actions-left">
-          <strong style="display:block;color:#c7c9c1;margin-bottom:3px">Share the evidence chain.</strong>
-          The visual is deliberately dated and keeps the loop status visible.
-        </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="cta dark" id="shareImageBtn">Share image</button>
-          <button class="cta light" id="shareLinkBtn">Share story</button>
-          <button class="icon-button" id="shareClose" aria-label="Close share preview">×</button>
+  <section class="share" id="share" aria-label="Pass this on">
+    <div class="share-shell">
+      <div class="share-frame"><canvas id="shareCanvas" width="1600" height="900" aria-label="WORLD PULSE share card preview"></canvas></div>
+      <div class="share-footer">
+        <div class="share-note">Pass on the evidence chain, not just the emotion. The artifact keeps the date, loop state and outcome claim visible.</div>
+        <div class="share-actions">
+          <button class="word-button muted" id="shareImage">Share image</button>
+          <button class="word-button" id="shareStory">Pass this on →</button>
+          <button class="iconless" id="shareClose" aria-label="Close share">×</button>
         </div>
       </div>
     </div>
   </section>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-  <div class="loading" id="loading">
-    <div class="loading-inner">
-      <div class="loading-word">COMMONS / WORLD PULSE</div>
-      <div class="loading-line"></div>
-    </div>
-  </div>
+  <div class="loading" id="loading"><div class="loading-mark"></div></div>
 </div>
 
 <script src="./app.js"></script>
