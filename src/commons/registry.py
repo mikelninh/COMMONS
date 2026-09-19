@@ -68,6 +68,8 @@ class CapabilityRegistry:
                 continue
             if offer.capability_type != requirement.capability_type:
                 continue
+            if requirement.allowed_provider_kinds and provider.kind not in requirement.allowed_provider_kinds:
+                continue
             if AUTHORITY_RANK[offer.authority_ceiling] < AUTHORITY_RANK[requirement.required_authority]:
                 continue
             if requirement.require_verified_provider and (
@@ -105,6 +107,10 @@ class CapabilityRegistry:
                 score += 0.05
                 reasons.append("verified provider + capability")
 
+            if requirement.preferred_provider_kinds and provider.kind in requirement.preferred_provider_kinds:
+                score += 0.08
+                reasons.append(f"preferred provider kind: {provider.kind.value}")
+
             total_history = offer.success_count + offer.failure_count
             if total_history:
                 success_rate = offer.success_count / total_history
@@ -134,12 +140,13 @@ class CapabilityRegistry:
         requirements: list[CapabilityRequirement],
         budget: ResourceBudget,
     ) -> CapabilityPlan:
-        """Build the cheapest inspectable feasible plan under a hard budget.
+        """Build an inspectable feasible plan under a hard budget.
 
         v0.3 intentionally uses a simple greedy algorithm:
         - only capabilities with known prices participate;
         - if verified supply exists and the budget prefers it, restrict to it;
-        - choose the lowest-price candidate, then the highest score;
+        - default to best fit within budget, with price as a tie-breaker;
+        - an explicit cost_efficiency experiment may optimize fit per euro;
         - never exceed the capability-count or euro budget.
 
         This is not globally optimal composition yet. It is deliberately small,
@@ -183,12 +190,23 @@ class CapabilityRegistry:
                 unresolved.append(requirement)
                 continue
 
-            affordable.sort(
-                key=lambda match: (
-                    float(match.capability.price_eur or 0.0),
-                    -match.score,
+            if budget.selection_mode == "cost_efficiency":
+                affordable.sort(
+                    key=lambda match: (
+                        -(
+                            match.score
+                            / max(float(match.capability.price_eur or 0.0), 0.01)
+                        ),
+                        float(match.capability.price_eur or 0.0),
+                    )
                 )
-            )
+            else:
+                affordable.sort(
+                    key=lambda match: (
+                        -match.score,
+                        float(match.capability.price_eur or 0.0),
+                    )
+                )
             chosen = affordable[0]
             selected.append(chosen)
             spent += float(chosen.capability.price_eur or 0.0)
