@@ -1,4 +1,4 @@
-const $ = (id) => document.getElementById(id);
+const $ = id => document.getElementById(id);
 const qs = (sel, root=document) => root.querySelector(sel);
 const qsa = (sel, root=document) => [...root.querySelectorAll(sel)];
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -6,17 +6,18 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 const USGS = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
 const EONET = "https://eonet.gsfc.nasa.gov/api/v3/events/geojson?status=open&limit=120";
 const GDACS = "https://gdacs.org/xml/rss_7d.xml";
+const WORLD_ATLAS = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
 const sourceMeta = {
   "USGS": {
     freshness: "LIVE",
-    cadence: "Updated about every minute",
+    cadence: "updated about every minute",
     url: "https://earthquake.usgs.gov/earthquakes/feed/",
     scope: "Rolling public earthquake feed. Magnitude is not a measure of human impact."
   },
   "NASA EONET": {
     freshness: "NEAR-REAL-TIME",
-    cadence: "Curated open-event feed",
+    cadence: "curated open-event feed",
     url: "https://eonet.gsfc.nasa.gov/",
     scope: "Curated natural-event tracking, not a complete census of every event on Earth."
   },
@@ -43,696 +44,751 @@ const ACTION = {
   scenes: [
     {
       id: "signal",
-      kicker: "01 · Signal",
-      type: "headline",
-      title: "Something changed in Nepal.",
-      copy: "Flash floods struck northern Nepal on 26 August 2026, damaging homes, roads and bridges and isolating communities.",
+      milestone: 0,
+      kicker: "26 Aug 2026 · Pulse",
+      composition: "left-monument",
+      camera: {lat: 22, lng: 79, altitude: 1.78},
+      offset: [245, -8],
+      headline: "Flash floods struck <span class='attention'>northern Nepal.</span>",
+      copy: "Homes, roads and bridges were damaged and communities were isolated. The first visual state is intentionally simple: a disturbance, not a conclusion.",
       source: "IFRC · 27 Aug 2026",
-      camera: {lat: 24, lng: 78, altitude: 1.95},
       duration: 5200
     },
     {
       id: "impact",
-      kicker: "02 · Human impact",
-      type: "metric",
+      milestone: 0,
+      kicker: "Early estimate · Human impact",
+      composition: "metric-left",
+      camera: {lat: 28.1, lng: 85.3, altitude: 1.28},
+      offset: [280, 0],
       value: "~93,000",
       tone: "attention",
       label: "people may have been affected",
-      copy: "This was an early IFRC estimate while assessments were still continuing — not a final affected-population count.",
+      copy: "An early IFRC estimate while assessments were continuing. It is not presented as a final affected-population count.",
       source: "IFRC Emergency Appeal · 27 Aug 2026",
-      camera: {lat: 28.1, lng: 85.3, altitude: 1.35},
-      duration: 5600
+      duration: 5700
     },
     {
       id: "verify",
-      kicker: "03 · Verify",
-      type: "headline",
-      title: "A verified humanitarian response began.",
-      copy: "IFRC launched a formal Emergency Appeal alongside Nepal Red Cross Society operations on the ground.",
-      source: "Primary source · IFRC",
-      camera: {lat: 28.1, lng: 85.3, altitude: 1.18},
-      duration: 5100
+      milestone: 1,
+      kicker: "27 Aug 2026 · Thread",
+      composition: "right-whisper",
+      camera: {lat: 27.9, lng: 84.8, altitude: 1.2},
+      offset: [-250, -4],
+      headline: "The signal became <span class='human'>a verified response.</span>",
+      copy: "IFRC launched a formal Emergency Appeal alongside Nepal Red Cross Society operations. The luminous thread represents an accountable response pathway — not a tracked shipment route.",
+      source: "Primary evidence · IFRC",
+      duration: 5400
     },
     {
       id: "response",
-      kicker: "04 · Response",
-      type: "metric",
+      milestone: 1,
+      kicker: "Verified response",
+      composition: "center-monument",
+      camera: {lat: 27.9, lng: 84.9, altitude: 1.34},
+      offset: [0, 65],
       value: "CHF 25M",
       tone: "attention",
       label: "Emergency Appeal",
-      copy: "The response includes shelter, health, clean water, sanitation, cash assistance and longer-term recovery.",
-      source: "IFRC · Nepal Red Cross Society",
-      camera: {lat: 28.2, lng: 84.4, altitude: 1.28},
+      copy: "Shelter, health, clean water, sanitation, cash assistance and recovery were named response priorities.",
+      source: "IFRC + Nepal Red Cross Society",
       duration: 5600
     },
     {
       id: "outcome",
-      kicker: "05 · Evidence of response",
-      type: "metric",
+      milestone: 2,
+      kicker: "08 Sep 2026 · Bloom",
+      composition: "low-left",
+      camera: {lat: 28.03, lng: 85.16, altitude: 1.04},
+      offset: [260, -58],
       value: "~2,000",
       tone: "outcome",
       label: "people with safe drinking water restored in Nuwakot",
-      copy: "IFRC reported this on 8 September. This is evidence that the response reached people — not proof that any one donation caused the outcome.",
-      source: "IFRC update · 8 Sep 2026",
-      camera: {lat: 28.05, lng: 85.15, altitude: 1.08},
+      copy: "This is evidence that the response reached people. It is not proof that any one contribution caused the outcome.",
+      source: "IFRC outcome update · 8 Sep 2026",
       duration: 6500
     },
     {
-      id: "clinic",
-      kicker: "06 · Capacity",
-      type: "metric",
+      id: "capacity",
+      milestone: 2,
+      kicker: "Response capacity",
+      composition: "metric-right",
+      camera: {lat: 28.03, lng: 85.16, altitude: 1.1},
+      offset: [-255, -10],
       value: "100/day",
       tone: "outcome",
       label: "mobile primary clinic capacity",
-      copy: "A concrete piece of response capacity, reported by IFRC on 8 September.",
-      source: "IFRC update · 8 Sep 2026",
-      camera: {lat: 28.05, lng: 85.15, altitude: 1.06},
+      copy: "A concrete piece of response capacity reported in the same IFRC update.",
+      source: "IFRC · 8 Sep 2026",
+      duration: 5200
+    },
+    {
+      id: "meaning",
+      milestone: 3,
+      kicker: "Now · Open loop",
+      composition: "center-monument",
+      camera: {lat: 25.5, lng: 82.5, altitude: 1.58},
+      offset: [0, 25],
+      headline: "Pulse. Thread. <span class='outcome'>Bloom.</span>",
+      copy: "Disturbance becomes legible. Response becomes visible. Improvement is only shown when evidence supports it.",
+      source: "COMMONS visual grammar",
       duration: 5200
     },
     {
       id: "you",
-      kicker: "07 · You",
-      type: "cta",
-      title: "The loop is still open.",
-      copy: "You can help through the verified response, inspect every important claim, or follow this operation as newer outcome evidence appears.",
-      source: "COMMONS keeps historical claims dated instead of silently rewriting them.",
-      camera: {lat: 27.8, lng: 84.8, altitude: 1.26},
-      duration: 12000
+      milestone: 3,
+      kicker: "The loop remains open",
+      composition: "final-center",
+      camera: {lat: 24, lng: 78, altitude: 1.92},
+      offset: [0, 30],
+      headline: "What happens next is <span class='human'>still being written.</span>",
+      copy: "Help through the verified response, inspect the evidence, or pass the story on with its provenance intact.",
+      source: "Last outcome evidence in this story · 8 Sep 2026",
+      duration: 12000,
+      actions: true
     }
   ]
 };
 
-const globeEl = $("globe");
+const TIME_SCENES = [0,2,4,7];
+const THREADS = [
+  {
+    startLat: 27.7172, startLng: 85.3240,
+    endLat: 27.95, endLng: 85.18,
+    note: "Visual response pathway inside Nepal; not a tracked logistics route."
+  }
+];
+const BLOOM = [
+  [27.94,85.13,.64],[27.97,85.17,.52],[27.92,85.20,.46],[28.00,85.10,.38],
+  [27.90,85.15,.33],[27.96,85.24,.29],[28.03,85.18,.25],[27.88,85.09,.24],
+  [28.01,85.27,.22],[27.86,85.22,.2]
+].map(([lat,lon,radius],i)=>({kind:"bloom",id:"bloom-"+i,lat,lon,radius}));
+
+let countries = [];
 let signals = [];
 let sourceStates = [];
 let storyIndex = 0;
-let storyTimer = null;
 let storyPlaying = false;
+let storyTimer = null;
+let currentMilestone = 0;
 let currentSignal = null;
-let currentSceneStartedAt = 0;
-let progressRAF = null;
+let initialized = false;
 
-const world = Globe()(globeEl)
+const actionPoint = {
+  kind:"action",
+  action:true,
+  id:ACTION.id,
+  lat:ACTION.lat,
+  lon:ACTION.lon,
+  source:"COMMONS ACTION",
+  title:ACTION.title
+};
+
+const world = Globe({rendererConfig:{antialias:true,alpha:true}})($("globe"))
   .backgroundColor("rgba(0,0,0,0)")
-  .globeImageUrl("https://unpkg.com/three-globe@2.45.2/example/img/earth-night.jpg")
-  .backgroundImageUrl("https://unpkg.com/three-globe@2.45.2/example/img/night-sky.png")
   .showAtmosphere(true)
-  .atmosphereColor("#7f9383")
-  .atmosphereAltitude(.12)
-  .pointLat(d => d.lat)
-  .pointLng(d => d.lon)
-  .pointColor(d => d.action ? "#d9bb7a" : sourceColor(d.source))
-  .pointAltitude(d => d.action ? .055 : .025)
-  .pointRadius(d => d.action ? .28 : Math.max(.08, Math.min(.22, .07 + (Number(d.magnitude)||1) * .02)))
-  .pointLabel(() => "")
+  .atmosphereColor("#667267")
+  .atmosphereAltitude(.105)
+  .showGraticules(true)
+  .pointLat(d=>d.lat)
+  .pointLng(d=>d.lon)
+  .pointColor(d=>{
+    if(d.kind==="bloom") return "rgba(154,203,151,.18)";
+    if(d.kind==="action") return "#d2b06d";
+    return sourceColor(d.source);
+  })
+  .pointAltitude(d=>d.kind==="bloom"?.0015:d.kind==="action"?.016:.012)
+  .pointRadius(d=>d.kind==="bloom"?d.radius:d.kind==="action"?.15:Math.max(.05,Math.min(.13,.045+(Number(d.magnitude)||1)*.012)))
+  .pointResolution(16)
+  .pointLabel(()=>"")
+  .onPointClick(d=>d.kind==="action"?startStory(0):d.kind==="bloom"?null:focusSignal(d))
   .ringsData([])
-  .ringLat(d => d.lat)
-  .ringLng(d => d.lon)
-  .ringColor(d => () => d.action ? "rgba(217,187,122,.68)" : "rgba(200,205,199,.28)")
-  .ringMaxRadius(d => d.action ? 4.6 : 2.4)
-  .ringPropagationSpeed(d => d.action ? .72 : .46)
-  .ringRepeatPeriod(d => d.action ? 2400 : 3400)
-  .onPointClick(d => d.action ? startActionStory() : focusSignal(d));
+  .ringLat(d=>d.lat)
+  .ringLng(d=>d.lon)
+  .ringAltitude(.003)
+  .ringColor(d=>()=>d.kind==="action"?"rgba(210,176,109,.58)":"rgba(197,201,192,.18)")
+  .ringMaxRadius(d=>d.kind==="action"?5.4:2.25)
+  .ringPropagationSpeed(d=>d.kind==="action"?.62:.42)
+  .ringRepeatPeriod(d=>d.kind==="action"?2500:3900)
+  .arcsData([])
+  .arcStartLat("startLat")
+  .arcStartLng("startLng")
+  .arcEndLat("endLat")
+  .arcEndLng("endLng")
+  .arcColor(()=>["rgba(210,176,109,.03)","rgba(210,176,109,.88)"])
+  .arcAltitude(.035)
+  .arcStroke(.38)
+  .arcDashLength(.28)
+  .arcDashGap(1.05)
+  .arcDashAnimateTime(3300)
+  .polygonsData([])
+  .polygonCapColor(countryColor)
+  .polygonSideColor(()=>"rgba(20,22,19,.15)")
+  .polygonStrokeColor(()=>"rgba(239,238,231,.055)")
+  .polygonAltitude(.004)
+  .polygonLabel(()=>"");
 
 world.controls().autoRotate = !reduceMotion;
-world.controls().autoRotateSpeed = .055;
+world.controls().autoRotateSpeed = .032;
 world.controls().enablePan = false;
-world.controls().minDistance = 135;
-world.controls().maxDistance = 520;
-world.pointOfView({lat: 15, lng: 22, altitude: 2.15}, 0);
+world.controls().minDistance = 125;
+world.controls().maxDistance = 560;
+world.pointOfView({lat:14,lng:35,altitude:2.08},0);
 
 function resize(){
   world.width(innerWidth).height(innerHeight);
 }
-window.addEventListener("resize", resize);
+window.addEventListener("resize",resize);
 resize();
+
+function countryColor(d){
+  const nepal = String(d?.id)==="524";
+  if(nepal && currentMilestone>=2) return "rgba(154,203,151,.25)";
+  if(nepal) return "rgba(210,176,109,.18)";
+  return "rgba(139,142,130,.145)";
+}
 
 function sourceColor(source){
   return ({
-    "USGS":"#9eb8c9",
-    "NASA EONET":"#9fd59d",
-    "GDACS":"#d9bb7a"
-  })[source] || "#c7c9c1";
+    "USGS":"rgba(143,170,183,.72)",
+    "NASA EONET":"rgba(154,203,151,.67)",
+    "GDACS":"rgba(210,176,109,.73)"
+  })[source] || "rgba(199,197,187,.55)";
+}
+
+function sceneOffset(scene){
+  if(innerWidth<650) return [0,-105];
+  return scene.offset || [0,0];
+}
+
+function setHomeGlobe(){
+  currentMilestone=0;
+  world.controls().autoRotate=!reduceMotion;
+  world.globeOffset(innerWidth<650?[0,-90]:[250,-5]);
+  world.pointOfView({lat:14,lng:35,altitude:2.08},reduceMotion?0:950);
+  updateAtlasLayers(false);
+}
+
+async function loadCountries(){
+  try{
+    const r=await fetch(WORLD_ATLAS,{cache:"force-cache"});
+    if(!r.ok) throw new Error("world atlas "+r.status);
+    const topo=await r.json();
+    if(!window.topojson) throw new Error("topojson unavailable");
+    countries=window.topojson.feature(topo,topo.objects.countries).features;
+    world.polygonsData(countries);
+  }catch(e){
+    countries=[];
+  }
 }
 
 function iso(v){
-  if(!v) return null;
-  const d = new Date(v);
-  return Number.isNaN(d.getTime()) ? null : d.toISOString();
+  if(!v)return null;
+  const d=new Date(v);
+  return Number.isNaN(d.getTime())?null:d.toISOString();
 }
 
 function age(v){
-  if(!v) return "time unknown";
-  const m = Math.max(0, Math.round((Date.now()-new Date(v))/60000));
-  if(m < 60) return m + "m ago";
-  const h = Math.round(m/60);
-  if(h < 48) return h + "h ago";
-  return Math.round(h/24) + "d ago";
+  if(!v)return "time unknown";
+  const m=Math.max(0,Math.round((Date.now()-new Date(v))/60000));
+  if(m<60)return m+"m ago";
+  const h=Math.round(m/60);
+  if(h<48)return h+"h ago";
+  return Math.round(h/24)+"d ago";
 }
 
 function attentionReasons(s){
-  const r = [];
-  if(s.source === "USGS" && Number(s.magnitude) >= 6) r.push("USGS magnitude ≥ 6.0");
-  else if(s.source === "USGS" && Number(s.magnitude) >= 5) r.push("USGS magnitude ≥ 5.0");
-  if(s.source === "GDACS" && /red/i.test(s.severity || "")) r.push("GDACS red alert");
-  else if(s.source === "GDACS" && /orange/i.test(s.severity || "")) r.push("GDACS orange alert");
+  const r=[];
+  if(s.source==="USGS"&&Number(s.magnitude)>=6)r.push("USGS magnitude ≥ 6.0");
+  else if(s.source==="USGS"&&Number(s.magnitude)>=5)r.push("USGS magnitude ≥ 5.0");
+  if(s.source==="GDACS"&&/red/i.test(s.severity||""))r.push("GDACS red alert");
+  else if(s.source==="GDACS"&&/orange/i.test(s.severity||""))r.push("GDACS orange alert");
   return r;
 }
 
 async function fetchUSGS(){
-  const r = await fetch(USGS,{cache:"no-store"});
-  if(!r.ok) throw new Error("USGS " + r.status);
-  const j = await r.json();
-  return j.features.map(f => ({
-    id:"usgs:"+f.id,
-    source:"USGS",
-    title:f.properties.title || "Earthquake",
-    lat:f.geometry.coordinates[1],
-    lon:f.geometry.coordinates[0],
-    time:iso(f.properties.updated || f.properties.time),
-    magnitude:f.properties.mag,
-    severity:f.properties.alert || null,
-    url:f.properties.url || null
+  const r=await fetch(USGS,{cache:"no-store"});
+  if(!r.ok)throw new Error("USGS "+r.status);
+  const j=await r.json();
+  return j.features.map(f=>({
+    id:"usgs:"+f.id,source:"USGS",title:f.properties.title||"Earthquake",
+    lat:f.geometry.coordinates[1],lon:f.geometry.coordinates[0],
+    time:iso(f.properties.updated||f.properties.time),
+    magnitude:f.properties.mag,severity:f.properties.alert||null,url:f.properties.url||null
   }));
 }
 
 async function fetchEONET(){
-  const r = await fetch(EONET,{cache:"no-store"});
-  if(!r.ok) throw new Error("NASA " + r.status);
-  const j = await r.json();
-  return j.features.map(f => {
-    const p=f.properties||{}, g=f.geometry||{}, c=g.coordinates||[];
-    if(g.type!=="Point" || c.length<2) return null;
-    return {
-      id:"eonet:"+(p.id||f.id),
-      source:"NASA EONET",
-      title:p.title || "Natural event",
-      lat:c[1], lon:c[0],
-      time:iso(p.date),
-      magnitude:p.magnitudeValue ?? null,
-      severity:null,
-      url:p.sources?.[0]?.url || null
+  const r=await fetch(EONET,{cache:"no-store"});
+  if(!r.ok)throw new Error("NASA "+r.status);
+  const j=await r.json();
+  return j.features.map(f=>{
+    const p=f.properties||{},g=f.geometry||{},c=g.coordinates||[];
+    if(g.type!=="Point"||c.length<2)return null;
+    return{
+      id:"eonet:"+(p.id||f.id),source:"NASA EONET",title:p.title||"Natural event",
+      lat:c[1],lon:c[0],time:iso(p.date),magnitude:p.magnitudeValue??null,
+      severity:null,url:p.sources?.[0]?.url||null
     };
   }).filter(Boolean);
 }
 
 async function fetchGDACS(){
-  const r = await fetch(GDACS,{cache:"no-store"});
-  if(!r.ok) throw new Error("GDACS " + r.status);
-  const txt = await r.text();
-  const doc = new DOMParser().parseFromString(txt,"application/xml");
-  return [...doc.querySelectorAll("item")].map((it,i) => {
-    const local = name => [...it.getElementsByTagName("*")].find(n => n.localName?.toLowerCase()===name.toLowerCase())?.textContent?.trim() || null;
-    const point = local("point");
-    if(!point) return null;
-    const p = point.replace(","," ").split(/\s+/).map(Number);
-    if(p.length<2 || !Number.isFinite(p[0]) || !Number.isFinite(p[1])) return null;
-    return {
-      id:"gdacs:"+(local("guid")||i),
-      source:"GDACS",
-      title:local("title") || "Disaster alert",
-      lat:p[0], lon:p[1],
-      time:iso(local("pubDate") || Date.now()),
-      magnitude:null,
-      severity:local("alertlevel"),
-      url:local("link")
+  const r=await fetch(GDACS,{cache:"no-store"});
+  if(!r.ok)throw new Error("GDACS "+r.status);
+  const txt=await r.text();
+  const doc=new DOMParser().parseFromString(txt,"application/xml");
+  return [...doc.querySelectorAll("item")].map((it,i)=>{
+    const local=name=>[...it.getElementsByTagName("*")].find(n=>n.localName?.toLowerCase()===name.toLowerCase())?.textContent?.trim()||null;
+    const point=local("point");
+    if(!point)return null;
+    const p=point.replace(","," ").split(/\s+/).map(Number);
+    if(p.length<2||!Number.isFinite(p[0])||!Number.isFinite(p[1]))return null;
+    return{
+      id:"gdacs:"+(local("guid")||i),source:"GDACS",title:local("title")||"Disaster alert",
+      lat:p[0],lon:p[1],time:iso(local("pubDate")||Date.now()),
+      magnitude:null,severity:local("alertlevel"),url:local("link")
     };
   }).filter(Boolean);
 }
 
 function priority(s){
-  let p = 0;
-  const reasons = attentionReasons(s);
-  p += reasons.length * 8;
-  if(s.source==="USGS" && Number.isFinite(Number(s.magnitude))) p += Number(s.magnitude);
-  if(/red/i.test(s.severity||"")) p += 7;
-  else if(/orange/i.test(s.severity||"")) p += 4;
-  if(s.time) p += Math.max(0, 5 - ((Date.now()-new Date(s.time))/864e5));
+  let p=0;
+  const reasons=attentionReasons(s);
+  p+=reasons.length*8;
+  if(s.source==="USGS"&&Number.isFinite(Number(s.magnitude)))p+=Number(s.magnitude);
+  if(/red/i.test(s.severity||""))p+=7;
+  else if(/orange/i.test(s.severity||""))p+=4;
+  if(s.time)p+=Math.max(0,5-((Date.now()-new Date(s.time))/864e5));
   return p;
 }
 
 async function refreshSignals(){
-  $("sourceHealthText").textContent = "Checking public Earth feeds…";
-  $("sourceHealth").classList.remove("online");
-
-  const results = await Promise.allSettled([fetchUSGS(),fetchEONET(),fetchGDACS()]);
-  const entries = [["USGS",results[0]],["NASA EONET",results[1]],["GDACS",results[2]]];
-  signals = [];
-  sourceStates = [];
-
-  entries.forEach(([name,res]) => {
+  const results=await Promise.allSettled([fetchUSGS(),fetchEONET(),fetchGDACS()]);
+  const entries=[["USGS",results[0]],["NASA EONET",results[1]],["GDACS",results[2]]];
+  signals=[];sourceStates=[];
+  entries.forEach(([name,res])=>{
     if(res.status==="fulfilled"){
-      const enriched = res.value.map(s => ({...s,reasons:attentionReasons(s)}));
+      const enriched=res.value.map(s=>({...s,kind:"signal",reasons:attentionReasons(s)}));
       signals.push(...enriched);
       sourceStates.push({name,ok:true,count:enriched.length});
-    } else {
-      sourceStates.push({name,ok:false,count:0});
-    }
+    }else sourceStates.push({name,ok:false,count:0});
   });
-
-  const healthy = sourceStates.filter(s=>s.ok).length;
-  $("sourceHealthText").textContent = healthy + "/3 public sources responding";
-  if(healthy) $("sourceHealth").classList.add("online");
-
-  renderGlobe();
-  renderSignals();
-  setTimeout(() => $("loading").classList.add("hide"), 500);
+  renderSignalList();
+  if(!$("story").classList.contains("active"))updateAtlasLayers(false);
 }
 
-function renderGlobe(){
-  const actionPoint = {
-    id:ACTION.id, action:true, lat:ACTION.lat, lon:ACTION.lon,
-    source:"COMMONS ACTION", title:ACTION.title
-  };
-  world.pointsData([...signals.slice(0,160),actionPoint]);
-  const surfaced = [...signals]
+function updateAtlasLayers(storyMode=$("story").classList.contains("active")){
+  let points;
+  if(storyMode){
+    points=[actionPoint];
+    if(currentMilestone>=2)points.push(...BLOOM);
+  }else{
+    points=[...signals.slice(0,150),actionPoint];
+  }
+  world.pointsData(points);
+
+  const surfaced=[...signals]
     .sort((a,b)=>priority(b)-priority(a))
     .filter(s=>priority(s)>=5)
-    .slice(0,18);
-  world.ringsData([...surfaced, actionPoint]);
+    .slice(0,14);
+  world.ringsData(storyMode?[actionPoint]:[...surfaced,actionPoint]);
+  world.arcsData(storyMode&&currentMilestone>=1?THREADS:[]);
+  world.polygonCapColor(countryColor);
+  if(countries.length)world.polygonsData([...countries]);
 }
 
-function renderSignals(){
-  const top = [...signals].sort((a,b)=>priority(b)-priority(a)).slice(0,3);
-  $("signalList").innerHTML = top.map(s => `
+function setMilestone(milestone){
+  currentMilestone=Math.max(0,Math.min(3,Number(milestone)||0));
+  $("timeScrubber").value=String(currentMilestone);
+  updateSignature();
+  updateAtlasLayers(true);
+}
+
+function updateSignature(){
+  const spans=qsa(".signature span");
+  spans.forEach((el,i)=>{
+    const on=(i===0)||(i===1&&currentMilestone>=1)||(i===2&&currentMilestone>=2);
+    el.style.opacity=on?"1":".24";
+  });
+}
+
+function renderSignalList(){
+  const top=[...signals].sort((a,b)=>priority(b)-priority(a)).slice(0,3);
+  $("signalList").innerHTML=top.map(s=>`
     <button class="signal" data-id="${escapeHtml(s.id)}">
-      <div class="signal-source">${escapeHtml(s.source)}</div>
+      <div class="signal-source">${escapeHtml(s.source)} · ${escapeHtml(sourceMeta[s.source]?.freshness||"PUBLIC")}</div>
       <div class="signal-title">${escapeHtml(s.title)}</div>
       <div class="signal-time">${escapeHtml(age(s.time))}</div>
     </button>
   `).join("");
-  qsa(".signal", $("signalList")).forEach(el => {
-    el.addEventListener("click", () => {
-      const s = signals.find(x=>x.id===el.dataset.id);
-      if(s) focusSignal(s);
-    });
+  qsa(".signal",$("signalList")).forEach(el=>{
+    el.onclick=()=>{
+      const s=signals.find(x=>x.id===el.dataset.id);
+      if(s)focusSignal(s);
+    };
   });
 }
 
-function focusSignal(s){
-  currentSignal = s;
+function openLook(){
   stopStory(false);
-  $("landing").classList.add("hidden");
-  $("explorePanel").classList.add("open");
-  world.controls().autoRotate = false;
-  world.pointOfView({lat:s.lat,lng:s.lon,altitude:1.35}, reduceMotion?0:900);
+  closeEvidence();
+  $("home").classList.add("hidden");
+  $("look").classList.add("open");
+  $("signalListArea").style.display="";
+  $("signalFocus").innerHTML="";
+  currentSignal=null;
+  world.controls().autoRotate=!reduceMotion;
+  world.globeOffset([0,-70]);
+  world.pointOfView({lat:12,lng:18,altitude:2.02},reduceMotion?0:900);
+  updateAtlasLayers(false);
+}
 
-  const detail = $("signalFocus");
-  const why = s.reasons?.length ? s.reasons.join(" · ") : "Current source signal";
-  detail.innerHTML = `
-    <div class="explore-head">
-      <span>${escapeHtml(s.source)} · ${escapeHtml(sourceMeta[s.source]?.freshness || "PUBLIC")}</span>
-      <button class="icon-button" id="signalClose" aria-label="Close signal">×</button>
+function closeLook(){
+  $("look").classList.remove("open");
+  $("signalFocus").innerHTML="";
+  $("signalListArea").style.display="";
+  $("home").classList.remove("hidden");
+  setHomeGlobe();
+}
+
+function focusSignal(s){
+  currentSignal=s;
+  $("signalListArea").style.display="none";
+  world.controls().autoRotate=false;
+  world.globeOffset(innerWidth<650?[0,-100]:[240,-20]);
+  world.pointOfView({lat:s.lat,lng:s.lon,altitude:1.35},reduceMotion?0:850);
+  const why=s.reasons?.length?s.reasons.join(" · "):"Current public source signal";
+  $("signalFocus").innerHTML=`
+    <div class="look-head">
+      <div class="look-title">${escapeHtml(s.source)} · ${escapeHtml(sourceMeta[s.source]?.freshness||"PUBLIC")}</div>
+      <button class="text-nav" id="signalBack">Back to signals</button>
     </div>
-    <div style="padding:2px 2px 4px">
-      <div style="font-size:24px;line-height:1.08;letter-spacing:-.035em;font-weight:520">${escapeHtml(s.title)}</div>
-      <div style="margin-top:8px;color:#7f867f;font-size:10px;line-height:1.5">${escapeHtml(why)} · ${escapeHtml(age(s.time))}</div>
-      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
-        <button class="cta dark" id="signalSource">Open source ↗</button>
-        <button class="cta dark" id="signalShare">Share provenance</button>
+    <div class="signal-focus">
+      <h2>${escapeHtml(s.title)}</h2>
+      <p>${escapeHtml(why)} · ${escapeHtml(age(s.time))}. WORLD PULSE shows the source signal; it does not infer human impact from event size alone.</p>
+      <div class="signal-focus-actions">
+        <button class="word-button" id="signalSource">Open source ↗</button>
+        <button class="word-button muted" id="signalShare">Pass signal on</button>
       </div>
     </div>
   `;
-  $("signalClose").onclick = exitExplore;
-  $("signalSource").onclick = () => s.url && window.open(s.url,"_blank","noopener");
-  $("signalShare").onclick = () => shareSignal(s);
+  $("signalBack").onclick=()=>{
+    $("signalFocus").innerHTML="";
+    $("signalListArea").style.display="";
+    world.controls().autoRotate=!reduceMotion;
+    world.pointOfView({lat:12,lng:18,altitude:2.02},reduceMotion?0:800);
+  };
+  $("signalSource").onclick=()=>s.url&&window.open(s.url,"_blank","noopener");
+  $("signalShare").onclick=()=>shareSignal(s);
 }
 
-function exitExplore(){
-  $("explorePanel").classList.remove("open");
-  $("signalFocus").innerHTML = "";
-  $("landing").classList.remove("hidden");
-  world.controls().autoRotate = !reduceMotion;
-  world.pointOfView({lat:15,lng:22,altitude:2.15},reduceMotion?0:850);
-  const u = new URL(location.href);
-  u.searchParams.delete("signal");
-  history.replaceState(null,"",u);
+function hideOpening(){
+  $("opening").classList.add("hidden");
 }
 
-function startActionStory(scene=0){
-  closeDrawer();
-  $("explorePanel").classList.remove("open");
-  $("landing").classList.add("hidden");
+function startStory(index=0){
+  hideOpening();
+  closeEvidence();
+  $("look").classList.remove("open");
+  $("home").classList.add("hidden");
   $("story").classList.add("active");
-  world.controls().autoRotate = false;
-  storyPlaying = !reduceMotion;
-  storyIndex = clamp(scene,0,ACTION.scenes.length-1);
-
-  const u = new URL(location.href);
-  u.searchParams.delete("signal");
-  u.searchParams.set("action",ACTION.id);
-  u.searchParams.set("scene",ACTION.scenes[storyIndex].id);
-  history.replaceState(null,"",u);
-
-  renderProgress();
+  world.controls().autoRotate=false;
+  storyIndex=Math.max(0,Math.min(ACTION.scenes.length-1,index));
+  storyPlaying=!reduceMotion;
   renderScene(storyIndex);
 }
 
 function stopStory(returnHome=true){
   clearTimeout(storyTimer);
-  cancelAnimationFrame(progressRAF);
-  storyTimer = null;
-  progressRAF = null;
-  storyPlaying = false;
+  storyTimer=null;
+  storyPlaying=false;
   $("story").classList.remove("active");
   if(returnHome){
-    $("landing").classList.remove("hidden");
-    world.controls().autoRotate = !reduceMotion;
-    world.pointOfView({lat:15,lng:22,altitude:2.15},reduceMotion?0:900);
-    const u = new URL(location.href);
+    $("home").classList.remove("hidden");
+    const u=new URL(location.href);
     u.searchParams.delete("action");
     u.searchParams.delete("scene");
     history.replaceState(null,"",u);
+    setHomeGlobe();
   }
 }
 
 function renderScene(index){
   clearTimeout(storyTimer);
-  cancelAnimationFrame(progressRAF);
-  storyIndex = clamp(index,0,ACTION.scenes.length-1);
-  const scene = ACTION.scenes[storyIndex];
+  storyIndex=Math.max(0,Math.min(ACTION.scenes.length-1,index));
+  const scene=ACTION.scenes[storyIndex];
+  setMilestone(scene.milestone);
 
-  qsa(".progress-segment").forEach((el,i)=>{
-    el.classList.toggle("past",i<storyIndex);
-    el.classList.toggle("current",i===storyIndex);
-  });
-
-  $("progressCurrent").textContent = String(storyIndex+1).padStart(2,"0");
-  $("progressTotal").textContent = String(ACTION.scenes.length).padStart(2,"0");
-
+  $("story").dataset.composition=scene.composition;
+  $("sceneStage").className="scene-stage "+scene.composition;
   $("scene").classList.remove("enter");
   void $("scene").offsetWidth;
-  $("scene").innerHTML = sceneMarkup(scene);
+  $("scene").innerHTML=sceneMarkup(scene);
   $("scene").classList.add("enter");
 
-  world.pointOfView(scene.camera, reduceMotion?0:1250);
+  world.globeOffset(sceneOffset(scene));
+  world.pointOfView(scene.camera,reduceMotion?0:1200);
 
-  const u = new URL(location.href);
+  const u=new URL(location.href);
+  u.searchParams.delete("signal");
   u.searchParams.set("action",ACTION.id);
   u.searchParams.set("scene",scene.id);
   history.replaceState(null,"",u);
 
   bindSceneActions();
+  updatePlayLabel();
 
-  if(storyPlaying && !reduceMotion){
-    currentSceneStartedAt = performance.now();
-    animateProgress(scene.duration);
-    storyTimer = setTimeout(() => {
-      if(storyIndex < ACTION.scenes.length-1) renderScene(storyIndex+1);
-      else {
-        storyPlaying = false;
-        renderProgress();
+  if(storyPlaying&&!reduceMotion){
+    storyTimer=setTimeout(()=>{
+      if(storyIndex<ACTION.scenes.length-1)renderScene(storyIndex+1);
+      else{
+        storyPlaying=false;
+        updatePlayLabel();
       }
-    }, scene.duration);
-  } else {
-    renderProgress();
+    },scene.duration);
   }
 }
 
 function sceneMarkup(scene){
-  if(scene.type==="metric"){
-    return `
-      <div class="scene-kicker">${escapeHtml(scene.kicker)}</div>
-      <div class="scene-value ${escapeHtml(scene.tone||"")}">${escapeHtml(scene.value)}</div>
-      <div class="scene-label">${escapeHtml(scene.label)}</div>
-      <div class="scene-copy">${escapeHtml(scene.copy)}</div>
-      <div class="scene-source"><i></i><span>${escapeHtml(scene.source)}</span></div>
-      ${storySceneActions(scene)}
-    `;
-  }
-  const title = scene.title
-    .replace("Something changed","<span class='attention'>Something changed</span>")
-    .replace("verified humanitarian response","<span class='soft'>verified humanitarian response</span>")
-    .replace("The loop is still open.","The loop is <span class='accent'>still open.</span>");
+  const body=scene.value
+    ? `<div class="scene-number ${escapeHtml(scene.tone||"")}">${escapeHtml(scene.value)}</div>
+       <div class="scene-label">${escapeHtml(scene.label)}</div>`
+    : `<h2 class="scene-headline">${scene.headline}</h2>`;
+
+  const actions=scene.actions?`
+    <div class="scene-actions">
+      <button class="word-button" data-action="help">Help through IFRC ↗</button>
+      <button class="word-button muted" data-action="belief">Why we believe this</button>
+      <button class="word-button muted" data-action="pass">Pass this on</button>
+    </div>`:"";
 
   return `
     <div class="scene-kicker">${escapeHtml(scene.kicker)}</div>
-    <h2 class="scene-title">${title}</h2>
+    ${body}
     <div class="scene-copy">${escapeHtml(scene.copy)}</div>
-    <div class="scene-source"><i></i><span>${escapeHtml(scene.source)}</span></div>
-    ${storySceneActions(scene)}
+    <div class="scene-source">${escapeHtml(scene.source)}</div>
+    ${actions}
   `;
 }
 
-function storySceneActions(scene){
-  if(scene.id==="you"){
-    return `
-      <div class="scene-actions">
-        <button class="cta light" data-action="help">Help through IFRC ↗</button>
-        <button class="cta dark" data-action="verify">Verify</button>
-        <button class="cta dark" data-action="follow">Follow</button>
-        <button class="cta dark" data-action="share">Share</button>
-      </div>
-    `;
-  }
-  if(scene.id==="verify"){
-    return `
-      <div class="scene-actions">
-        <button class="cta dark" data-action="verify">Inspect primary source ↗</button>
-        <button class="cta dark" data-action="details">Evidence notes</button>
-      </div>
-    `;
-  }
-  if(scene.id==="outcome"){
-    return `
-      <div class="scene-actions">
-        <button class="cta dark" data-action="outcome">Read outcome update ↗</button>
-      </div>
-    `;
-  }
-  return "";
-}
-
 function bindSceneActions(){
-  qsa("[data-action]", $("scene")).forEach(btn => {
-    btn.addEventListener("click", () => {
-      const action = btn.dataset.action;
-      if(action==="help") window.open(ACTION.donate,"_blank","noopener");
-      if(action==="verify") window.open(ACTION.appeal,"_blank","noopener");
-      if(action==="outcome") window.open(ACTION.outcome,"_blank","noopener");
-      if(action==="details" || action==="follow") openDrawer();
-      if(action==="share") openSharePreview();
-    });
-  });
-}
-
-function animateProgress(duration){
-  const fill = qs(".progress-segment.current span");
-  if(!fill) return;
-  fill.style.width = "0%";
-  const tick = now => {
-    if(!storyPlaying || !qs(".progress-segment.current")) return;
-    const p = Math.min(1,(now-currentSceneStartedAt)/duration);
-    fill.style.width = (p*100).toFixed(2)+"%";
-    if(p<1) progressRAF=requestAnimationFrame(tick);
-  };
-  progressRAF=requestAnimationFrame(tick);
-}
-
-function renderProgress(){
-  qsa(".progress-segment").forEach((el,i)=>{
-    const fill=qs("span",el);
-    if(fill) fill.style.width = i<=storyIndex ? "100%" : "0%";
-  });
-  $("playToggle").textContent = storyPlaying ? "Ⅱ" : "▶";
-  $("playToggle").setAttribute("aria-label",storyPlaying?"Pause story":"Play story");
-}
-
-function buildProgress(){
-  $("progressTrack").innerHTML = ACTION.scenes.map((s,i)=>`
-    <button class="progress-segment" data-index="${i}" aria-label="Go to ${escapeHtml(s.kicker)}"><span></span></button>
-  `).join("");
-  qsa(".progress-segment").forEach(el => el.onclick = () => {
-    storyPlaying = false;
-    renderScene(Number(el.dataset.index));
+  qsa("[data-action]",$("scene")).forEach(btn=>{
+    btn.onclick=()=>{
+      if(btn.dataset.action==="help")window.open(ACTION.donate,"_blank","noopener");
+      if(btn.dataset.action==="belief")openEvidence();
+      if(btn.dataset.action==="pass")openShare();
+    };
   });
 }
 
 function nextScene(){
-  storyPlaying = false;
+  storyPlaying=false;
   renderScene(Math.min(ACTION.scenes.length-1,storyIndex+1));
 }
 function prevScene(){
-  storyPlaying = false;
+  storyPlaying=false;
   renderScene(Math.max(0,storyIndex-1));
 }
-function toggleStory(){
-  if(storyPlaying){
-    storyPlaying=false;
-    clearTimeout(storyTimer);
-    cancelAnimationFrame(progressRAF);
-    renderProgress();
-  } else {
-    storyPlaying=true;
-    renderScene(storyIndex);
-  }
+function togglePlay(){
+  storyPlaying=!storyPlaying;
+  renderScene(storyIndex);
+}
+function updatePlayLabel(){
+  $("playToggle").textContent=storyPlaying?"Pause":"Play";
+  $("playToggle").setAttribute("aria-label",storyPlaying?"Pause story":"Play story");
 }
 
-function openDrawer(){
-  renderDrawer();
-  $("drawer").classList.add("open");
-  $("drawer").setAttribute("aria-hidden","false");
-}
-function closeDrawer(){
-  $("drawer").classList.remove("open");
-  $("drawer").setAttribute("aria-hidden","true");
+function scrubTime(value){
+  storyPlaying=false;
+  clearTimeout(storyTimer);
+  const milestone=Math.max(0,Math.min(3,Number(value)||0));
+  setMilestone(milestone);
+  renderScene(TIME_SCENES[milestone]);
 }
 
-function renderDrawer(){
-  const liveSources = sourceStates.map(s => {
+function openEvidence(){
+  renderEvidence();
+  $("evidence").classList.add("open");
+  $("evidence").setAttribute("aria-hidden","false");
+}
+function closeEvidence(){
+  $("evidence").classList.remove("open");
+  $("evidence").setAttribute("aria-hidden","true");
+}
+
+function renderEvidence(){
+  const live=sourceStates.map(s=>{
     const m=sourceMeta[s.name];
     return `
-      <a class="source-link" href="${m.url}" target="_blank" rel="noopener">
-        <small>${escapeHtml(s.name)} · ${escapeHtml(m.freshness)} · ${s.ok?"responding":"unavailable"}</small>
-        <span>${escapeHtml(m.scope)}</span>
-      </a>
-    `;
+      <div class="evidence-row">
+        <div class="evidence-date">${escapeHtml(m.freshness)}<br>${s.ok?"responding":"unavailable"}</div>
+        <a href="${m.url}" target="_blank" rel="noopener">${escapeHtml(s.name)} — ${escapeHtml(m.scope)}</a>
+      </div>`;
   }).join("");
 
-  $("drawerBody").innerHTML = `
-    <p class="trust-intro">Every important claim should have somewhere you can go to inspect it.</p>
+  $("evidenceBody").innerHTML=`
+    <p class="evidence-intro">Beauty is allowed to move you. It is not allowed to hide where a claim came from.</p>
 
-    <section class="trust-section">
-      <h3>Action 001 · Nepal</h3>
-      <div class="source-list">
-        <a class="source-link" href="${ACTION.appeal}" target="_blank" rel="noopener">
-          <small>Primary evidence · IFRC · 27 Aug 2026</small>
-          <span>Emergency Appeal, early affected-population estimate and response priorities.</span>
-        </a>
-        <a class="source-link" href="${ACTION.outcome}" target="_blank" rel="noopener">
-          <small>Outcome evidence · IFRC · 8 Sep 2026</small>
-          <span>Safe-water restoration for around 2,000 people and mobile clinic capacity.</span>
-        </a>
-        <a class="source-link" href="${ACTION.directory}" target="_blank" rel="noopener">
-          <small>Responder identity</small>
-          <span>Nepal Red Cross Society in the IFRC National Society directory.</span>
-        </a>
+    <section class="evidence-section">
+      <h3>Nepal · evidence chain</h3>
+      <div class="evidence-row">
+        <div class="evidence-date">27 Aug<br>2026</div>
+        <a href="${ACTION.appeal}" target="_blank" rel="noopener">IFRC Emergency Appeal — early affected-population estimate, appeal amount and named response priorities.</a>
+      </div>
+      <div class="evidence-row">
+        <div class="evidence-date">08 Sep<br>2026</div>
+        <a href="${ACTION.outcome}" target="_blank" rel="noopener">IFRC response update — safe drinking water restored for around 2,000 people and mobile primary clinic capacity.</a>
+      </div>
+      <div class="evidence-row">
+        <div class="evidence-date">Responder</div>
+        <a href="${ACTION.directory}" target="_blank" rel="noopener">Nepal Red Cross Society — IFRC National Society directory.</a>
       </div>
     </section>
 
-    <section class="trust-section">
-      <h3>What we are not claiming</h3>
-      <div class="not-claiming">
-        <div><b>—</b><span>~93,000 is not presented as a final affected-population count.</span></div>
-        <div><b>—</b><span>We do not claim every affected person has been reached.</span></div>
-        <div><b>—</b><span>We do not show a funding percentage without a current authoritative source.</span></div>
-        <div><b>—</b><span>We do not imply that a specific user's donation caused the displayed outcomes.</span></div>
-        <div><b>—</b><span>The loop remains open; newer dated evidence should update the story.</span></div>
+    <section class="evidence-section">
+      <h3>What the visual language means</h3>
+      <div class="grammar-note">
+        <div><b>◉ Pulse</b><span>A sourced disturbance or signal. It does not by itself establish human impact.</span></div>
+        <div><b>— Thread</b><span>A verified response pathway. The line is a visual grammar, not a tracked shipment or causal trace.</span></div>
+        <div><b>✦ Bloom</b><span>Documented improvement or response evidence. It appears only after a dated source supports it.</span></div>
       </div>
     </section>
 
-    <section class="trust-section">
-      <h3>Live Earth layer</h3>
-      <div class="source-list">${liveSources || "<p>Source status will appear after the feeds respond.</p>"}</div>
+    <section class="evidence-section">
+      <h3>Claims deliberately not made</h3>
+      <div class="guardrails">
+        <div class="guardrail">~93,000 is not presented as a final affected-population count.</div>
+        <div class="guardrail">We do not claim every affected person has been reached.</div>
+        <div class="guardrail">We do not show a funding percentage without a current authoritative source.</div>
+        <div class="guardrail">We do not imply that a particular donation caused the displayed outcomes.</div>
+        <div class="guardrail">The loop remains open. Newer evidence should extend the timeline instead of rewriting history.</div>
+      </div>
     </section>
 
-    <section class="trust-section">
-      <h3>Update contract</h3>
-      <p>Historical facts retain their original date. Newer outcome evidence is added only when it is attributable to the operation, dated, specific enough to interpret, and supported by a primary or first-party source.</p>
+    <section class="evidence-section">
+      <h3>Current Earth layer</h3>
+      ${live||"<p>Source health appears after the public feeds respond.</p>"}
     </section>
   `;
 }
 
-function openExplore(){
-  stopStory(false);
-  closeDrawer();
-  $("landing").classList.add("hidden");
-  $("explorePanel").classList.add("open");
-  $("signalFocus").innerHTML = "";
-  world.controls().autoRotate = !reduceMotion;
-  world.pointOfView({lat:12,lng:15,altitude:2.0},reduceMotion?0:800);
-}
-
-function openSharePreview(){
+function openShare(){
   drawShareCard();
-  $("sharePreview").classList.add("open");
+  $("share").classList.add("open");
 }
-function closeSharePreview(){
-  $("sharePreview").classList.remove("open");
+function closeShare(){
+  $("share").classList.remove("open");
 }
 
 function drawShareCard(){
-  const canvas = $("shareCanvas");
+  const canvas=$("shareCanvas");
   const scale=2;
   canvas.width=1600*scale;
   canvas.height=900*scale;
   const ctx=canvas.getContext("2d");
-  ctx.scale(scale,scale);
+  ctx.setTransform(scale,0,0,scale,0,0);
 
-  const g=ctx.createLinearGradient(0,0,1600,900);
-  g.addColorStop(0,"#050605");
-  g.addColorStop(.62,"#0b0d0b");
-  g.addColorStop(1,"#12130f");
-  ctx.fillStyle=g;ctx.fillRect(0,0,1600,900);
+  ctx.fillStyle="#030403";
+  ctx.fillRect(0,0,1600,900);
 
-  const earth=ctx.createRadialGradient(1250,390,40,1250,390,420);
-  earth.addColorStop(0,"rgba(159,213,157,.18)");
-  earth.addColorStop(.48,"rgba(90,110,96,.11)");
-  earth.addColorStop(.73,"rgba(217,187,122,.06)");
-  earth.addColorStop(1,"rgba(0,0,0,0)");
-  ctx.fillStyle=earth;ctx.beginPath();ctx.arc(1250,390,420,0,Math.PI*2);ctx.fill();
-  ctx.strokeStyle="rgba(242,241,235,.12)";ctx.lineWidth=1.5;
-  ctx.beginPath();ctx.arc(1250,390,260,0,Math.PI*2);ctx.stroke();
-  ctx.strokeStyle="rgba(217,187,122,.44)";ctx.lineWidth=3;
-  ctx.beginPath();ctx.arc(1325,325,10,0,Math.PI*2);ctx.stroke();
+  const earth=ctx.createRadialGradient(1210,415,40,1210,415,365);
+  earth.addColorStop(0,"#171a15");
+  earth.addColorStop(.67,"#0b0d0a");
+  earth.addColorStop(1,"#050605");
+  ctx.fillStyle=earth;
+  ctx.beginPath();ctx.arc(1210,415,330,0,Math.PI*2);ctx.fill();
 
-  ctx.fillStyle="#f2f1eb";ctx.font="700 28px Helvetica Neue, Arial";
-  ctx.fillText("COMMONS / WORLD PULSE",90,86);
+  ctx.strokeStyle="rgba(239,238,231,.08)";ctx.lineWidth=1;
+  for(let r=95;r<=280;r+=62){ctx.beginPath();ctx.arc(1210,415,r,0,Math.PI*2);ctx.stroke();}
 
-  ctx.fillStyle="#d9bb7a";ctx.font="600 22px Helvetica Neue, Arial";
-  ctx.fillText("NEPAL · FLASH FLOODS 2026",90,170);
+  ctx.fillStyle="#d2b06d";
+  ctx.beginPath();ctx.arc(1295,335,6,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle="rgba(210,176,109,.5)";
+  ctx.beginPath();ctx.arc(1295,335,28,0,Math.PI*2);ctx.stroke();
 
-  ctx.fillStyle="#f2f1eb";ctx.font="600 118px Helvetica Neue, Arial";
-  ctx.fillText("~2,000",86,340);
+  ctx.strokeStyle="rgba(210,176,109,.68)";ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(1208,392);ctx.quadraticCurveTo(1246,350,1295,335);ctx.stroke();
 
-  ctx.fillStyle="#c7c9c1";ctx.font="400 43px Helvetica Neue, Arial";
-  ctx.fillText("people with safe drinking water restored",90,405);
+  const bloom=ctx.createRadialGradient(1320,373,0,1320,373,68);
+  bloom.addColorStop(0,"rgba(154,203,151,.4)");
+  bloom.addColorStop(1,"rgba(154,203,151,0)");
+  ctx.fillStyle=bloom;ctx.beginPath();ctx.arc(1320,373,68,0,Math.PI*2);ctx.fill();
 
-  ctx.fillStyle="#8d948d";ctx.font="400 26px Helvetica Neue, Arial";
-  wrapText(ctx,"A verified humanitarian response, with the evidence chain kept visible.",90,500,720,40);
+  ctx.fillStyle="#efeee7";
+  ctx.font="700 24px Helvetica Neue, Arial";
+  ctx.fillText("COMMONS / WORLD PULSE",82,78);
+  ctx.fillStyle="#686d67";
+  ctx.font="600 18px Helvetica Neue, Arial";
+  ctx.fillText("LIVING ATLAS",82,110);
 
-  ctx.fillStyle="#9fd59d";ctx.font="600 24px Helvetica Neue, Arial";
-  ctx.fillText("SIGNAL  →  RESPONSE  →  OUTCOME",90,690);
+  ctx.fillStyle="#d2b06d";
+  ctx.font="600 20px Helvetica Neue, Arial";
+  ctx.fillText("NEPAL · FLASH FLOODS 2026",82,187);
 
-  ctx.fillStyle="#767d76";ctx.font="400 21px Helvetica Neue, Arial";
-  ctx.fillText("Evidence update · 8 Sep 2026 · Loop status: OPEN",90,750);
-  ctx.fillText("mikelninh.github.io/COMMONS",90,806);
+  ctx.fillStyle="#efeee7";
+  ctx.font="500 112px Helvetica Neue, Arial";
+  ctx.fillText("~2,000",76,360);
+
+  ctx.fillStyle="#c7c5bb";
+  ctx.font="italic 38px Georgia, serif";
+  wrapText(ctx,"people with safe drinking water restored in Nuwakot",82,420,710,48);
+
+  ctx.fillStyle="#71766f";
+  ctx.font="400 22px Helvetica Neue, Arial";
+  wrapText(ctx,"A documented response outcome. Not a claim that any single contribution caused it.",82,560,660,34);
+
+  ctx.fillStyle="#d2b06d";ctx.font="600 18px Helvetica Neue, Arial";
+  ctx.fillText("◉ PULSE",82,720);
+  ctx.fillText("— THREAD",210,720);
+  ctx.fillStyle="#9acb97";ctx.fillText("✦ BLOOM",370,720);
+
+  ctx.fillStyle="#5d635c";ctx.font="400 18px Helvetica Neue, Arial";
+  ctx.fillText("Outcome evidence · IFRC · 8 Sep 2026 · Loop open",82,783);
+  ctx.fillText("mikelninh.github.io/COMMONS",82,824);
 }
 
 function wrapText(ctx,text,x,y,maxWidth,lineHeight){
   const words=text.split(" ");
   let line="";
-  words.forEach((word,i)=>{
-    const test=line+word+" ";
-    if(ctx.measureText(test).width>maxWidth && i>0){
+  for(let i=0;i<words.length;i++){
+    const test=line+words[i]+" ";
+    if(ctx.measureText(test).width>maxWidth&&i>0){
       ctx.fillText(line,x,y);
-      line=word+" ";
+      line=words[i]+" ";
       y+=lineHeight;
-    } else line=test;
-  });
+    }else line=test;
+  }
   ctx.fillText(line,x,y);
 }
 
+function actionUrl(){
+  const u=new URL(location.href);
+  u.searchParams.delete("signal");
+  u.searchParams.set("action",ACTION.id);
+  u.searchParams.set("scene","signal");
+  return u.toString();
+}
+
 async function shareAction(){
-  const text = [
-    "COMMONS / WORLD PULSE",
+  const text=[
+    "WORLD PULSE / LIVING ATLAS",
     "Nepal · Flash Floods 2026",
     "",
     "~93,000 people may have been affected · IFRC estimate, 27 Aug 2026",
-    "CHF 25M Emergency Appeal · IFRC + Nepal Red Cross Society",
-    "By 8 Sep: safe drinking water restored for ~2,000 people",
-    "Mobile clinic capacity: 100 patients/day",
+    "CHF 25M Emergency Appeal",
+    "~2,000 people with safe drinking water restored · IFRC, 8 Sep 2026",
+    "Mobile clinic capacity: 100/day",
     "",
-    "Signal → verified response → outcome evidence",
+    "Pulse → Thread → Bloom",
+    "Signal → response → outcome evidence",
     actionUrl()
   ].join("\n");
-
-  const shareData={title:"WORLD PULSE — Nepal",text,url:actionUrl()};
   try{
-    if(navigator.share) await navigator.share(shareData);
+    if(navigator.share)await navigator.share({title:"WORLD PULSE / LIVING ATLAS",text,url:actionUrl()});
     else{
       await navigator.clipboard.writeText(text);
-      toast("Share story copied with provenance");
+      toast("Evidence chain copied");
     }
   }catch(e){}
 }
@@ -740,15 +796,15 @@ async function shareAction(){
 async function shareCardImage(){
   const canvas=$("shareCanvas");
   const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/png",.94));
-  if(!blob) return;
-  const file=new File([blob],"world-pulse-nepal.png",{type:"image/png"});
+  if(!blob)return;
+  const file=new File([blob],"world-pulse-living-atlas-nepal.png",{type:"image/png"});
   try{
-    if(navigator.canShare?.({files:[file]}) && navigator.share){
-      await navigator.share({files:[file],title:"WORLD PULSE — Nepal",text:"Signal → response → outcome"});
-    } else {
+    if(navigator.canShare?.({files:[file]})&&navigator.share){
+      await navigator.share({files:[file],title:"WORLD PULSE / LIVING ATLAS",text:"Pulse → Thread → Bloom"});
+    }else{
       const a=document.createElement("a");
       a.href=URL.createObjectURL(blob);
-      a.download="world-pulse-nepal.png";
+      a.download="world-pulse-living-atlas-nepal.png";
       a.click();
       setTimeout(()=>URL.revokeObjectURL(a.href),1000);
       toast("Share image created");
@@ -761,100 +817,98 @@ async function shareSignal(s){
   const text=[
     s.title,
     s.source+" · "+m.freshness+" · "+age(s.time),
-    s.reasons?.length ? "Surfaced because: "+s.reasons.join(" · ") : "Current source signal",
-    s.url ? "Primary source: "+s.url : "",
+    s.reasons?.length?"Surfaced because: "+s.reasons.join(" · "):"Current public source signal",
+    s.url?"Primary source: "+s.url:"",
     "",
     "COMMONS / WORLD PULSE"
   ].filter(Boolean).join("\n");
-  const u=new URL(location.href);
-  u.searchParams.set("signal",s.id);
   try{
-    if(navigator.share) await navigator.share({title:"WORLD PULSE",text,url:u.toString()});
+    if(navigator.share)await navigator.share({title:"WORLD PULSE signal",text,url:s.url||location.href});
     else{
-      await navigator.clipboard.writeText(text+"\n"+u);
+      await navigator.clipboard.writeText(text);
       toast("Signal copied with provenance");
     }
   }catch(e){}
-}
-
-function actionUrl(){
-  const u=new URL(location.href);
-  u.searchParams.delete("signal");
-  u.searchParams.set("action",ACTION.id);
-  u.searchParams.set("scene","signal");
-  return u.toString();
 }
 
 function toast(message){
   $("toast").textContent=message;
   $("toast").classList.add("show");
   clearTimeout(toast._t);
-  toast._t=setTimeout(()=>$("toast").classList.remove("show"),2200);
+  toast._t=setTimeout(()=>$("toast").classList.remove("show"),2100);
 }
 
 function escapeHtml(v){
   return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 }
-function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
 
-function initEvents(){
-  $("watchBtn").onclick=()=>startActionStory(0);
-  $("actionPeek").onclick=()=>startActionStory(0);
-  $("exploreBtn").onclick=openExplore;
-  $("detailsBtn").onclick=openDrawer;
-  $("drawerClose").onclick=closeDrawer;
+function bindEvents(){
+  $("openingEnter").onclick=()=>startStory(0);
+  $("enterBtn").onclick=()=>startStory(0);
+  $("currentStory").onclick=()=>startStory(0);
+  $("homeLookBtn").onclick=openLook;
+  $("lookBtn").onclick=openLook;
+  $("lookClose").onclick=closeLook;
+  $("beliefBtn").onclick=openEvidence;
+  $("storyBelief").onclick=openEvidence;
+  $("evidenceClose").onclick=closeEvidence;
+  $("passBtn").onclick=openShare;
+  $("storyPass").onclick=openShare;
+  $("shareClose").onclick=closeShare;
+  $("shareStory").onclick=shareAction;
+  $("shareImage").onclick=shareCardImage;
   $("storyClose").onclick=()=>stopStory(true);
-  $("storyDetails").onclick=openDrawer;
-  $("storyShare").onclick=openSharePreview;
   $("prevScene").onclick=prevScene;
   $("nextScene").onclick=nextScene;
-  $("playToggle").onclick=toggleStory;
-  $("shareClose").onclick=closeSharePreview;
-  $("shareLinkBtn").onclick=shareAction;
-  $("shareImageBtn").onclick=shareCardImage;
-  $("homeShareBtn").onclick=openSharePreview;
+  $("playToggle").onclick=togglePlay;
+  $("timeScrubber").oninput=e=>scrubTime(e.target.value);
+
+  $("share").addEventListener("click",e=>{if(e.target===$("share"))closeShare();});
 
   document.addEventListener("keydown",e=>{
     if(e.key==="Escape"){
-      if($("sharePreview").classList.contains("open")) return closeSharePreview();
-      if($("drawer").classList.contains("open")) return closeDrawer();
-      if($("story").classList.contains("active")) return stopStory(true);
-      if($("explorePanel").classList.contains("open")) return exitExplore();
+      if($("share").classList.contains("open"))return closeShare();
+      if($("evidence").classList.contains("open"))return closeEvidence();
+      if($("look").classList.contains("open"))return closeLook();
+      if($("story").classList.contains("active"))return stopStory(true);
+      if(!$("opening").classList.contains("hidden"))return hideOpening();
     }
-    if(!$("story").classList.contains("active")) return;
-    if(e.key==="ArrowRight") nextScene();
-    if(e.key==="ArrowLeft") prevScene();
-    if(e.key===" "){e.preventDefault();toggleStory();}
-  });
-
-  $("sharePreview").addEventListener("click",e=>{
-    if(e.target===$("sharePreview")) closeSharePreview();
+    if(!$("story").classList.contains("active"))return;
+    if(e.key==="ArrowRight")nextScene();
+    if(e.key==="ArrowLeft")prevScene();
+    if(e.key===" "){e.preventDefault();togglePlay();}
   });
 }
 
 function routeFromUrl(){
   const params=new URLSearchParams(location.search);
-  const action=params.get("action");
-  const sceneId=params.get("scene");
-  const signalId=params.get("signal");
-
-  if(action===ACTION.id){
-    const i=Math.max(0,ACTION.scenes.findIndex(s=>s.id===sceneId));
-    setTimeout(()=>startActionStory(i),650);
+  if(params.get("action")===ACTION.id){
+    hideOpening();
+    const id=params.get("scene");
+    const index=Math.max(0,ACTION.scenes.findIndex(s=>s.id===id));
+    startStory(index);
     return;
   }
+  const signalId=params.get("signal");
   if(signalId){
-    const findAndFocus=()=>{
-      const s=signals.find(x=>x.id===signalId);
-      if(s) focusSignal(s);
-      else setTimeout(findAndFocus,400);
-    };
-    findAndFocus();
+    hideOpening();
+    openLook();
+    const s=signals.find(x=>x.id===signalId);
+    if(s)focusSignal(s);
   }
 }
 
-buildProgress();
-initEvents();
-renderDrawer();
-refreshSignals().finally(routeFromUrl);
-setInterval(refreshSignals,60000);
+async function init(){
+  $("openingDate").textContent=new Intl.DateTimeFormat("en",{month:"long",year:"numeric"}).format(new Date()).toUpperCase();
+  bindEvents();
+  renderEvidence();
+  updateSignature();
+  await Promise.allSettled([loadCountries(),refreshSignals()]);
+  initialized=true;
+  setHomeGlobe();
+  $("loading").classList.add("hide");
+  routeFromUrl();
+}
+
+init();
+setInterval(()=>{if(initialized)refreshSignals();},60000);
