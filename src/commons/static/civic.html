@@ -164,7 +164,7 @@ function pathHtml(channel,primary){
       '<div class="mini-card"><div class="mini-title">YOU STILL CONTROL</div><ul>'+(channel.citizen_must_do||[]).map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul></div>'+
     '</div>'+
     (caveats.length?'<div class="warning-box"><b>Important limits</b><br>'+caveats.map(esc).join("<br>")+'</div>':"")+
-    '<div class="path-actions"><button class="primary small" style="margin-top:0" data-use="'+esc(channel.channel_id)+'">Use this path →</button>'+
+    '<div class="path-actions"><button class="primary small" style="margin-top:0" data-use="'+esc(channel.channel_id)+'">'+(channel.channel_id==="berlin-ordnungsamt-online"?"Start real case →":"Use this path →")+'</button>'+
     '<a class="secondary" href="'+esc(channel.official_source)+'" target="_blank" rel="noreferrer" style="text-decoration:none">Open official source ↗</a></div>'+
     actionWorkspace(channel)+
   '</article>';
@@ -212,6 +212,10 @@ document.getElementById("go").onclick=async()=>{
     result.scrollIntoView({behavior:"smooth",block:"start"});
 
     result.querySelectorAll("[data-use]").forEach(btn=>btn.onclick=()=>{
+      if(btn.dataset.use==="berlin-ordnungsamt-online"){
+        window.location.href="/civic/report?need="+encodeURIComponent(need.value.trim());
+        return;
+      }
       const workspace=document.getElementById("workspace-"+btn.dataset.use);
       const opening=!workspace.classList.contains("open");
       result.querySelectorAll(".action-workspace").forEach(x=>x.classList.remove("open"));
