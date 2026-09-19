@@ -2,8 +2,11 @@ from __future__ import annotations
 
 import csv
 import io
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
-from typing import Literal
+from threading import Lock
+from typing import Any, Callable, Literal
 
 import httpx
 from pydantic import BaseModel, Field
@@ -35,11 +38,15 @@ class PulseSnapshot(BaseModel):
     warnings: list[str] = Field(default_factory=list)
 
 
-TIMEOUT = 10.0
+TIMEOUT = 8.0
+CACHE_SECONDS = 300
 UA = {"User-Agent": "COMMONS-WORLD-PULSE/0.1 (+https://github.com/mikelninh/COMMONS)"}
+_cache_lock = Lock()
+_cache_until = 0.0
+_cache_snapshot: PulseSnapshot | None = None
 
 
-def _json(url: str) -> dict:
+def _json(url: str) -> Any:
     with httpx.Client(timeout=TIMEOUT, headers=UA, follow_redirects=True) as client:
         response = client.get(url)
         response.raise_for_status()
@@ -72,8 +79,13 @@ def _latest_world_csv(url: str) -> tuple[int, float, str]:
 def eonet_signals() -> list[PulseSignal]:
     data = _json("https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=500")
     events = data.get("events", [])
-    wildfires = [e for e in events if any(c.get("id") == "wildfires" for c in e.get("categories", []))]
-    non_fire = [e for e in events if e not in wildfires]
+    wildfires = [
+        event
+        for event in events
+        if any(category.get("id") == "wildfires" for category in event.get("categories", []))
+    ]
+    wildfire_ids = {event.get("id") for event in wildfires}
+    non_fire = [event for event in events if event.get("id") not in wildfire_ids]
     now = datetime.now(timezone.utc).date().isoformat()
     return [
         PulseSignal(
@@ -111,10 +123,11 @@ def usgs_signal() -> PulseSignal:
     data = _json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson")
     count = int(data.get("metadata", {}).get("count", len(data.get("features", []))))
     generated_ms = data.get("metadata", {}).get("generated")
-    if generated_ms:
-        as_of = datetime.fromtimestamp(generated_ms / 1000, tz=timezone.utc).isoformat()
-    else:
-        as_of = datetime.now(timezone.utc).isoformat()
+    as_of = (
+        datetime.fromtimestamp(generated_ms / 1000, tz=timezone.utc).isoformat()
+        if generated_ms
+        else datetime.now(timezone.utc).isoformat()
+    )
     return PulseSignal(
         id="earthquakes-45-day",
         category="planet",
@@ -197,19 +210,50 @@ def life_expectancy_signal() -> PulseSignal:
     )
 
 
-def build_snapshot() -> PulseSnapshot:
-    signals: list[PulseSignal] = []
-    warnings: list[str] = []
-    producers = [
+def _producers() -> list[tuple[str, Callable[[], list[PulseSignal]]]]:
+    return [
         ("NASA EONET", eonet_signals),
         ("USGS", lambda: [usgs_signal()]),
         ("World Bank births model", lambda: [world_bank_births_signal()]),
         ("OWID renewables", lambda: [renewable_electricity_signal()]),
         ("OWID life expectancy", lambda: [life_expectancy_signal()]),
     ]
-    for name, producer in producers:
-        try:
-            signals.extend(producer())
-        except Exception as exc:
-            warnings.append(f"{name} unavailable: {type(exc).__name__}")
+
+
+def _fresh_snapshot() -> PulseSnapshot:
+    signals: list[PulseSignal] = []
+    warnings: list[str] = []
+    producers = _producers()
+    with ThreadPoolExecutor(max_workers=len(producers)) as pool:
+        future_to_name = {pool.submit(producer): name for name, producer in producers}
+        for future in as_completed(future_to_name):
+            name = future_to_name[future]
+            try:
+                signals.extend(future.result())
+            except Exception as exc:
+                warnings.append(f"{name} unavailable: {type(exc).__name__}")
+    order = {
+        "open-natural-events": 0,
+        "open-wildfires": 1,
+        "earthquakes-45-day": 2,
+        "births-per-day-model": 3,
+        "renewable-electricity-share": 4,
+        "life-expectancy": 5,
+    }
+    signals.sort(key=lambda signal: order.get(signal.id, 99))
     return PulseSnapshot(signals=signals, warnings=warnings)
+
+
+def build_snapshot(force: bool = False) -> PulseSnapshot:
+    global _cache_snapshot, _cache_until
+    now = time.monotonic()
+    with _cache_lock:
+        if not force and _cache_snapshot is not None and now < _cache_until:
+            return _cache_snapshot.model_copy(deep=True)
+
+    snapshot = _fresh_snapshot()
+
+    with _cache_lock:
+        _cache_snapshot = snapshot
+        _cache_until = time.monotonic() + CACHE_SECONDS
+    return snapshot.model_copy(deep=True)
