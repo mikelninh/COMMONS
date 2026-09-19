@@ -29,6 +29,22 @@ button,a,input{font:inherit}
 button{color:inherit}
 button:focus-visible,a:focus-visible,input:focus-visible{outline:1px solid var(--bone);outline-offset:4px}
 ::selection{background:rgba(210,176,109,.24)}
+
+/* Critical mode containment: keep inactive application layers out of the visual and tab flow.
+   These rules intentionally live before decorative CSS so a later styling error cannot expose raw UI. */
+.story:not(.active),
+.evidence:not(.open),
+.look:not(.open),
+.share:not(.open){
+  visibility:hidden;
+  pointer-events:none;
+}
+.story.active,
+.evidence.open,
+.look.open,
+.share.open{
+  visibility:visible;
+}
 #globe{position:fixed;inset:0;z-index:0}
 #globe canvas{outline:none}
 .void{
@@ -39,7 +55,7 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:1px solid var(-
 }
 .grain{
   position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.025;mix-blend-mode:screen;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter id='x'/%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
 }
 .shell{position:fixed;inset:0;z-index:5;pointer-events:none}
 .topbar{
@@ -139,7 +155,7 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:1px solid var(-
 .current-symbol:after{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid rgba(210,176,109,.3)}
 .current-meta{display:block;color:#797e77;font-size:8px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
 .current-title{display:block;font-size:14px;font-weight:540;letter-spacing:-.01em}
-.current-arrow{font-size:17px;color:#626761;transition:.3s var(--ease)
+.current-arrow{font-size:17px;color:#626761;transition:.3s var(--ease)}
 
 .legend{
   position:absolute;right:34px;bottom:33px;pointer-events:auto;
