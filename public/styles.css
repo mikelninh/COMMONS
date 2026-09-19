@@ -509,6 +509,9 @@ body.story-mode .shell{position:fixed}
 }
 .scroll-scene.is-interactive{pointer-events:auto}
 .scroll-scene .scene{
+  pointer-events:none;
+}
+.scroll-scene.is-interactive .scene{
   pointer-events:auto;
 }
 .scroll-scene .scene-kicker,
