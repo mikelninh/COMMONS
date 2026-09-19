@@ -7,22 +7,30 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 
 from commons.models import (
+    ActorRef,
     CapabilityMatch,
     CapabilityOffer,
     CapabilityRequirement,
     CapabilitySelectionRequest,
     CaseRecord,
+    FoundingCapabilitySubmission,
+    MachineCapabilityManifest,
+    MachineOnboardingResult,
+    NeedRequest,
     OutcomeInput,
     OutcomeRecord,
     ProblemInput,
     ProofRecord,
+    QuickCapabilityIntake,
     LiveCapabilitySelection,
     ProviderProfile,
 )
+from commons.builtins import seed_builtin_capabilities
 from commons.proof import ProofLedger
 from commons.registry import CapabilityRegistry
 from commons.selector import JevCapabilitySelector
 from commons.service import CommonsService
+from commons.store import CaseStore
 
 app = FastAPI(
     title="COMMONS",
@@ -33,9 +41,12 @@ app = FastAPI(
 analysis_service = CommonsService(persist=False)
 _persistent_service: CommonsService | None = None
 _demo_path = Path(__file__).parent / "static" / "index.html"
+_join_path = Path(__file__).parent / "static" / "join.html"
 registry = CapabilityRegistry()
+seed_builtin_capabilities(registry)
 proof_ledger = ProofLedger()
 capability_selector = JevCapabilitySelector()
+founding_store = CaseStore()
 
 
 def persistent_service() -> CommonsService:
@@ -48,6 +59,87 @@ def persistent_service() -> CommonsService:
 @app.get("/", response_class=HTMLResponse, include_in_schema=False)
 def demo() -> HTMLResponse:
     return HTMLResponse(_demo_path.read_text(encoding="utf-8"))
+
+
+@app.get("/join", response_class=HTMLResponse, include_in_schema=False)
+def join_capabilities() -> HTMLResponse:
+    return HTMLResponse(_join_path.read_text(encoding="utf-8"))
+
+
+@app.post("/founding-capabilities", response_model=FoundingCapabilitySubmission)
+def submit_founding_capability(
+    submission: FoundingCapabilitySubmission,
+) -> FoundingCapabilitySubmission:
+    if not submission.consent_to_pilot:
+        raise HTTPException(status_code=400, detail="Pilot consent is required.")
+    return founding_store.save_founding_capability(submission)
+
+
+@app.post("/needs", response_model=NeedRequest)
+def submit_need(need: NeedRequest) -> NeedRequest:
+    """Any actor may express a need. Requesting never grants execution authority."""
+    return founding_store.save_need(need)
+
+
+@app.post("/founding-capabilities/quick", response_model=FoundingCapabilitySubmission)
+def submit_quick_capability(
+    intake: QuickCapabilityIntake,
+) -> FoundingCapabilitySubmission:
+    if not intake.consent_to_pilot:
+        raise HTTPException(status_code=400, detail="Pilot consent is required.")
+
+    submission = FoundingCapabilitySubmission(
+        display_name=intake.display_name,
+        provider_kind=intake.provider_kind,
+        what_people_ask_you_for=intake.story,
+        problems_you_enjoy_helping_with=intake.story,
+        what_you_can_deliver=intake.story,
+        location=intake.location,
+        languages=intake.languages,
+        compensation=intake.compensation,
+        consent_to_pilot=True,
+    )
+    return founding_store.save_founding_capability(submission)
+
+
+@app.post("/machine/capabilities", response_model=MachineOnboardingResult)
+def onboard_machine_capabilities(
+    manifest: MachineCapabilityManifest,
+) -> MachineOnboardingResult:
+    """One machine-readable manifest declares a machine and its capabilities.
+
+    Machine supply is inactive until a later verification/approval step.
+    """
+    provider = registry.register_provider(
+        ProviderProfile(
+            name=manifest.name,
+            kind=manifest.kind,
+            description=manifest.description,
+            location=manifest.location,
+            languages=manifest.languages,
+        )
+    )
+
+    offers: list[CapabilityOffer] = []
+    for spec in manifest.capabilities:
+        offer = registry.register_capability(
+            CapabilityOffer(
+                provider_id=provider.provider_id,
+                capability_type=spec.capability_type,
+                description=spec.description,
+                tags=spec.tags,
+                languages=spec.languages or manifest.languages,
+                location=manifest.location,
+                unit=spec.unit,
+                capacity_available=spec.capacity_available,
+                price_eur=spec.price_eur,
+                authority_ceiling=spec.requested_authority,
+                active=False,
+            )
+        )
+        offers.append(offer)
+
+    return MachineOnboardingResult(provider=provider, capabilities=offers)
 
 
 @app.get("/health")
