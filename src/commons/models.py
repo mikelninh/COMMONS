@@ -231,3 +231,61 @@ class FoundingCapabilitySubmission(BaseModel):
     evidence_or_examples: str = Field(default="", max_length=2000)
     consent_to_pilot: bool = False
     review_status: Literal["pending_review", "approved", "declined"] = "pending_review"
+
+
+class ActorRef(BaseModel):
+    actor_id: str | None = Field(default=None, max_length=200)
+    kind: ProviderKind
+    display_name: str | None = Field(default=None, max_length=200)
+
+
+class NeedRequest(BaseModel):
+    need_id: str = Field(default_factory=lambda: str(uuid4()))
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    text: str = Field(min_length=1, max_length=8000)
+    requester: ActorRef
+    beneficiary: ActorRef | None = None
+    principal: ActorRef | None = None
+    consent_ref: str | None = Field(default=None, max_length=500)
+    budget_eur: float | None = Field(default=None, ge=0)
+    authority_ceiling: AuthorityLevel = AuthorityLevel.READ
+    requires_human_approval: bool = True
+    context: dict[str, Any] = Field(default_factory=dict)
+
+
+class QuickCapabilityIntake(BaseModel):
+    display_name: str = Field(min_length=1, max_length=120)
+    provider_kind: ProviderKind = ProviderKind.PERSON
+    story: str = Field(min_length=1, max_length=4000)
+    location: str | None = Field(default=None, max_length=300)
+    languages: list[str] = Field(default_factory=list)
+    compensation: str = Field(default="", max_length=500)
+    consent_to_pilot: bool = False
+
+
+class MachineCapabilitySpec(BaseModel):
+    capability_type: str = Field(min_length=1, max_length=120)
+    description: str = Field(min_length=1, max_length=2000)
+    tags: list[str] = Field(default_factory=list)
+    languages: list[str] = Field(default_factory=list)
+    unit: str = Field(default="task", max_length=80)
+    capacity_available: float = Field(default=1.0, ge=0)
+    price_eur: float | None = Field(default=None, ge=0)
+    requested_authority: AuthorityLevel = AuthorityLevel.READ
+
+
+class MachineCapabilityManifest(BaseModel):
+    name: str = Field(min_length=1, max_length=200)
+    kind: Literal["ai", "software"] = "ai"
+    description: str | None = Field(default=None, max_length=2000)
+    interface: Literal["http", "mcp", "local", "other"] = "http"
+    endpoint: str | None = Field(default=None, max_length=1000)
+    location: str | None = Field(default=None, max_length=300)
+    languages: list[str] = Field(default_factory=list)
+    capabilities: list[MachineCapabilitySpec] = Field(min_length=1, max_length=50)
+
+
+class MachineOnboardingResult(BaseModel):
+    provider: ProviderProfile
+    capabilities: list[CapabilityOffer]
+    status: Literal["declared_pending_verification"] = "declared_pending_verification"
