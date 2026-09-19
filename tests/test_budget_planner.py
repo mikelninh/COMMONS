@@ -28,26 +28,34 @@ def add_provider(
     )
 
 
-def test_budget_planner_chooses_cheapest_verified_sufficient_capability() -> None:
+def test_budget_planner_prefers_best_fit_within_budget_not_cheapest() -> None:
     registry = CapabilityRegistry()
-    expensive = add_provider(registry, "Expensive")
-    cheap = add_provider(registry, "Cheap")
+    human = add_provider(registry, "Human translator")
+    agent = registry.register_provider(
+        ProviderProfile(
+            name="AI translator",
+            kind=ProviderKind.AI,
+            verification_status=VerificationStatus.VERIFIED,
+        )
+    )
 
-    registry.register_capability(
+    human_offer = registry.register_capability(
         CapabilityOffer(
-            provider_id=expensive.provider_id,
+            provider_id=human.provider_id,
             capability_type="translation",
-            description="Verified translation",
+            description="Verified Vietnamese translation",
+            tags=["official", "nuance"],
             languages=["vi"],
             price_eur=0.80,
             verification_status=VerificationStatus.VERIFIED,
         )
     )
-    cheap_offer = registry.register_capability(
+    registry.register_capability(
         CapabilityOffer(
-            provider_id=cheap.provider_id,
+            provider_id=agent.provider_id,
             capability_type="translation",
-            description="Verified translation",
+            description="Verified Vietnamese translation",
+            tags=["official"],
             languages=["vi"],
             price_eur=0.20,
             verification_status=VerificationStatus.VERIFIED,
@@ -55,13 +63,19 @@ def test_budget_planner_chooses_cheapest_verified_sufficient_capability() -> Non
     )
 
     plan = registry.plan(
-        [CapabilityRequirement(capability_type="translation", language="vi")],
+        [
+            CapabilityRequirement(
+                capability_type="translation",
+                language="vi",
+                tags=["official", "nuance"],
+            )
+        ],
         ResourceBudget(max_cost_eur=1.0),
     )
 
     assert plan.within_budget is True
-    assert plan.total_cost_eur == 0.20
-    assert plan.matches[0].capability.capability_id == cheap_offer.capability_id
+    assert plan.total_cost_eur == 0.80
+    assert plan.matches[0].capability.capability_id == human_offer.capability_id
 
 
 def test_budget_planner_refuses_unknown_price_for_one_euro_proof() -> None:
@@ -143,3 +157,101 @@ def test_budget_planner_respects_max_capability_count() -> None:
     assert plan.within_budget is False
     assert len(plan.matches) == 1
     assert len(plan.unresolved_requirements) == 1
+
+
+def test_requirement_can_prefer_human_provider() -> None:
+    registry = CapabilityRegistry()
+    human = registry.register_provider(
+        ProviderProfile(
+            name="Human expert",
+            kind=ProviderKind.PERSON,
+            verification_status=VerificationStatus.VERIFIED,
+        )
+    )
+    agent = registry.register_provider(
+        ProviderProfile(
+            name="AI expert",
+            kind=ProviderKind.AI,
+            verification_status=VerificationStatus.VERIFIED,
+        )
+    )
+
+    human_offer = registry.register_capability(
+        CapabilityOffer(
+            provider_id=human.provider_id,
+            capability_type="review",
+            description="Human review",
+            price_eur=0.90,
+            verification_status=VerificationStatus.VERIFIED,
+        )
+    )
+    registry.register_capability(
+        CapabilityOffer(
+            provider_id=agent.provider_id,
+            capability_type="review",
+            description="AI review",
+            price_eur=0.10,
+            verification_status=VerificationStatus.VERIFIED,
+        )
+    )
+
+    plan = registry.plan(
+        [
+            CapabilityRequirement(
+                capability_type="review",
+                preferred_provider_kinds=[ProviderKind.PERSON],
+            )
+        ],
+        ResourceBudget(max_cost_eur=1.0),
+    )
+
+    assert plan.matches[0].capability.capability_id == human_offer.capability_id
+
+
+def test_requirement_can_require_human_provider() -> None:
+    registry = CapabilityRegistry()
+    human = registry.register_provider(
+        ProviderProfile(
+            name="Human specialist",
+            kind=ProviderKind.PERSON,
+            verification_status=VerificationStatus.VERIFIED,
+        )
+    )
+    agent = registry.register_provider(
+        ProviderProfile(
+            name="AI specialist",
+            kind=ProviderKind.AI,
+            verification_status=VerificationStatus.VERIFIED,
+        )
+    )
+
+    human_offer = registry.register_capability(
+        CapabilityOffer(
+            provider_id=human.provider_id,
+            capability_type="accountable_review",
+            description="Accountable human review",
+            price_eur=1.0,
+            verification_status=VerificationStatus.VERIFIED,
+        )
+    )
+    registry.register_capability(
+        CapabilityOffer(
+            provider_id=agent.provider_id,
+            capability_type="accountable_review",
+            description="Automated review",
+            price_eur=0.01,
+            verification_status=VerificationStatus.VERIFIED,
+        )
+    )
+
+    plan = registry.plan(
+        [
+            CapabilityRequirement(
+                capability_type="accountable_review",
+                allowed_provider_kinds=[ProviderKind.PERSON],
+            )
+        ],
+        ResourceBudget(max_cost_eur=1.0),
+    )
+
+    assert plan.matches[0].capability.capability_id == human_offer.capability_id
