@@ -25,6 +25,10 @@ class SourceState(BaseModel):
     fetched_at: datetime
     count: int = 0
     detail: str | None = None
+    freshness: Literal["live", "near_real_time"] = "near_real_time"
+    cadence: str
+    source_url: str
+    scope_note: str
 
 
 class WorldSignal(BaseModel):
@@ -219,9 +223,27 @@ async def _fetch_usgs(client: httpx.AsyncClient) -> tuple[list[WorldSignal], Sou
             )
             signal.attention_reasons = _attention_for(signal)
             signals.append(signal)
-        return signals, SourceState(source="USGS", ok=True, fetched_at=fetched_at, count=len(signals))
+        return signals, SourceState(
+            source="USGS",
+            ok=True,
+            fetched_at=fetched_at,
+            count=len(signals),
+            freshness="live",
+            cadence="feed updated about every minute",
+            source_url="https://earthquake.usgs.gov/earthquakes/feed/",
+            scope_note="Rolling public earthquake feed; this view is not a complete measure of disaster impact.",
+        )
     except Exception as exc:
-        return [], SourceState(source="USGS", ok=False, fetched_at=fetched_at, detail=str(exc))
+        return [], SourceState(
+            source="USGS",
+            ok=False,
+            fetched_at=fetched_at,
+            detail=str(exc),
+            freshness="live",
+            cadence="feed updated about every minute",
+            source_url="https://earthquake.usgs.gov/earthquakes/feed/",
+            scope_note="Rolling public earthquake feed; this view is not a complete measure of disaster impact.",
+        )
 
 
 async def _fetch_eonet(client: httpx.AsyncClient) -> tuple[list[WorldSignal], SourceState]:
@@ -263,9 +285,27 @@ async def _fetch_eonet(client: httpx.AsyncClient) -> tuple[list[WorldSignal], So
                 source_url=source_url,
             )
             signals.append(signal)
-        return signals, SourceState(source="NASA EONET", ok=True, fetched_at=fetched_at, count=len(signals))
+        return signals, SourceState(
+            source="NASA EONET",
+            ok=True,
+            fetched_at=fetched_at,
+            count=len(signals),
+            freshness="near_real_time",
+            cadence="curated open-event feed",
+            source_url="https://eonet.gsfc.nasa.gov/",
+            scope_note="Curated natural-event tracking; not a complete census of every event on Earth.",
+        )
     except Exception as exc:
-        return [], SourceState(source="NASA EONET", ok=False, fetched_at=fetched_at, detail=str(exc))
+        return [], SourceState(
+            source="NASA EONET",
+            ok=False,
+            fetched_at=fetched_at,
+            detail=str(exc),
+            freshness="near_real_time",
+            cadence="curated open-event feed",
+            source_url="https://eonet.gsfc.nasa.gov/",
+            scope_note="Curated natural-event tracking; not a complete census of every event on Earth.",
+        )
 
 
 async def _fetch_gdacs(client: httpx.AsyncClient) -> tuple[list[WorldSignal], SourceState]:
@@ -319,9 +359,27 @@ async def _fetch_gdacs(client: httpx.AsyncClient) -> tuple[list[WorldSignal], So
             )
             signal.attention_reasons = _attention_for(signal)
             signals.append(signal)
-        return signals, SourceState(source="GDACS", ok=True, fetched_at=fetched_at, count=len(signals))
+        return signals, SourceState(
+            source="GDACS",
+            ok=True,
+            fetched_at=fetched_at,
+            count=len(signals),
+            freshness="near_real_time",
+            cadence="7-day disaster alert feed",
+            source_url="https://gdacs.org/",
+            scope_note="Disaster alert feed for situational awareness; alert presence is not a casualty or need estimate.",
+        )
     except Exception as exc:
-        return [], SourceState(source="GDACS", ok=False, fetched_at=fetched_at, detail=str(exc))
+        return [], SourceState(
+            source="GDACS",
+            ok=False,
+            fetched_at=fetched_at,
+            detail=str(exc),
+            freshness="near_real_time",
+            cadence="7-day disaster alert feed",
+            source_url="https://gdacs.org/",
+            scope_note="Disaster alert feed for situational awareness; alert presence is not a casualty or need estimate.",
+        )
 
 
 def _haversine_km(a: WorldSignal, b: WorldSignal) -> float:
