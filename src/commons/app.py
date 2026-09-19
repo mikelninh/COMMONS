@@ -38,6 +38,7 @@ from commons.models import (
     LiveCapabilitySelection,
     ProviderProfile,
 )
+from commons.a2a_procurement import AgentCard, ProcurementRequest, ProcurementResult, list_agent_cards, run_procurement
 from commons.builtins import seed_builtin_capabilities
 from commons.proof import ProofLedger
 from commons.pulse_decision import (
@@ -62,6 +63,7 @@ analysis_service = CommonsService(persist=False)
 _persistent_service: CommonsService | None = None
 _demo_path = Path(__file__).parent / "static" / "index.html"
 _help_path = Path(__file__).parent / "static" / "help.html"
+_a2a_path = Path(__file__).parent / "static" / "a2a.html"
 _join_path = Path(__file__).parent / "static" / "join.html"
 _civic_path = Path(__file__).parent / "static" / "civic.html"
 _civic_report_path = Path(__file__).parent / "static" / "civic_report.html"
@@ -99,6 +101,29 @@ def demo() -> HTMLResponse:
 @app.get("/join", response_class=HTMLResponse, include_in_schema=False)
 def join_capabilities() -> HTMLResponse:
     return HTMLResponse(_join_path.read_text(encoding="utf-8"))
+
+
+@app.get("/a2a", response_class=HTMLResponse, include_in_schema=False)
+def a2a_lab() -> HTMLResponse:
+    return HTMLResponse(_a2a_path.read_text(encoding="utf-8"))
+
+
+@app.get("/a2a/agents", response_model=list[AgentCard])
+def a2a_agents() -> list[AgentCard]:
+    return list_agent_cards()
+
+
+@app.get("/a2a/agents/{agent_id}/.well-known/agent-card.json", response_model=AgentCard)
+def a2a_agent_card(agent_id: str) -> AgentCard:
+    for card in list_agent_cards():
+        if card.agent_id == agent_id:
+            return card
+    raise HTTPException(status_code=404, detail="Agent not found.")
+
+
+@app.post("/a2a/procure", response_model=ProcurementResult)
+def a2a_procure(request: ProcurementRequest) -> ProcurementResult:
+    return run_procurement(request)
 
 
 @app.get("/civic", response_class=HTMLResponse, include_in_schema=False)
