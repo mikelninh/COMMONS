@@ -20,6 +20,7 @@ CASES_PATH = ROOT / "evals" / "redteam_cases.json"
 def main() -> None:
     parser = argparse.ArgumentParser(description="Attack COMMONS with adversarial routing cases.")
     parser.add_argument("--limit", type=int, default=None)
+    parser.add_argument("--attacker", type=str, default=None, help="Run only one attacker class.")
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
 
@@ -27,8 +28,12 @@ def main() -> None:
         raise SystemExit("TYPESAFE_API_KEY is required for the live red-team suite.")
 
     cases = json.loads(CASES_PATH.read_text(encoding="utf-8"))
+    if args.attacker:
+        cases = [case for case in cases if case["attacker"] == args.attacker]
     if args.limit:
         cases = cases[: args.limit]
+    if not cases:
+        raise SystemExit("No red-team cases matched the requested filter.")
 
     engine = JevDecisionEngine()
     rows = []
