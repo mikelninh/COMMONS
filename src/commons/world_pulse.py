@@ -80,6 +80,7 @@ class WorldPulseStats(BaseModel):
 
 class WorldPulseResponse(BaseModel):
     generated_at: datetime
+    baseline_observation: bool
     source_states: list[SourceState]
     stats: WorldPulseStats
     signals: list[WorldSignal]
@@ -399,20 +400,24 @@ def _clusters(signals: list[WorldSignal]) -> list[SignalCluster]:
     return sorted(clusters, key=lambda item: (item.distance_km, item.time_window_hours))
 
 
-def _apply_change_state(signals: list[WorldSignal]) -> None:
+def _apply_change_state(signals: list[WorldSignal]) -> bool:
     global _previous_fingerprints
     current: dict[str, str] = {}
+    baseline = not bool(_previous_fingerprints)
     for signal in signals:
         fingerprint = hashlib.sha1(signal.fingerprint_payload.encode("utf-8")).hexdigest()
         current[signal.signal_id] = fingerprint
         previous = _previous_fingerprints.get(signal.signal_id)
-        if previous is None:
+        if baseline:
+            signal.state = "known"
+        elif previous is None:
             signal.state = "new"
         elif previous != fingerprint:
             signal.state = "updated"
         else:
             signal.state = "known"
     _previous_fingerprints = current
+    return baseline
 
 
 async def collect_world_pulse() -> WorldPulseResponse:
@@ -435,7 +440,7 @@ async def collect_world_pulse() -> WorldPulseResponse:
         signals.extend(source_signals)
         source_states.append(source_state)
 
-    _apply_change_state(signals)
+    baseline = _apply_change_state(signals)
     clusters = _clusters(signals)
     clustered_ids = {signal_id for cluster in clusters for signal_id in cluster.signal_ids}
     for signal in signals:
@@ -459,6 +464,7 @@ async def collect_world_pulse() -> WorldPulseResponse:
     )
     return WorldPulseResponse(
         generated_at=datetime.now(timezone.utc),
+        baseline_observation=baseline,
         source_states=source_states,
         stats=stats,
         signals=signals,
