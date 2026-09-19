@@ -6,6 +6,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
+from pydantic import ValidationError
 
 from commons.civic import CivicProofStage
 from commons.civic_case import (
@@ -123,7 +124,10 @@ def patch_public_space_case(case_id: str, patch: PublicSpaceCasePatch) -> Public
         }
     )
     # Re-validate cross-field constraints after model_copy.
-    candidate = PublicSpaceCase.model_validate(candidate.model_dump())
+    try:
+        candidate = PublicSpaceCase.model_validate(candidate.model_dump())
+    except ValidationError as exc:
+        raise HTTPException(status_code=422, detail=exc.errors()) from exc
     packet = prepare_submission_packet(candidate)
     candidate.status = (
         PublicSpaceCaseStatus.READY if packet.ready else PublicSpaceCaseStatus.DRAFT
