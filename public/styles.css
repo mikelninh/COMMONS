@@ -139,7 +139,7 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:1px solid var(-
 .current-symbol:after{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid rgba(210,176,109,.3)}
 .current-meta{display:block;color:#797e77;font-size:8px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
 .current-title{display:block;font-size:14px;font-weight:540;letter-spacing:-.01em}
-.current-arrow{font-size:17px;color:#626761;transition:.3s var(--ease}
+.current-arrow{font-size:17px;color:#626761;transition:.3s var(--ease)
 
 .legend{
   position:absolute;right:34px;bottom:33px;pointer-events:auto;
