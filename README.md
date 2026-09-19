@@ -49,6 +49,49 @@ COMMONS separates kinds of intelligence:
 
 The model does not get to rewrite its own authority.
 
+## Try it
+
+```bash
+git clone https://github.com/mikelninh/COMMONS.git
+cd COMMONS
+python -m venv .venv
+# activate it, then:
+pip install -e ".[dev]"
+```
+
+Set your TypeSafe key in the process environment — **never commit it**:
+
+```powershell
+$env:TYPESAFE_API_KEY="your_key_here"
+```
+
+or:
+
+```bash
+export TYPESAFE_API_KEY="your_key_here"
+```
+
+Then run:
+
+```bash
+uvicorn commons.app:app --reload
+```
+
+Open **http://127.0.0.1:8000**.
+
+Live 32-case Jev benchmark:
+
+```bash
+python scripts/eval_civic.py
+```
+
+API-free architecture stress simulation:
+
+```bash
+python scripts/simulate_architecture.py
+```
+
+
 ## Current working slice — v0.2 civic lab
 
 v0.2 accepts a messy real-world problem, asks Jev a set of typed probabilistic questions, passes those judgments through inspectable policy code, and produces an accountable route. The first public demo focuses on citizens, public officials and communities.
@@ -101,7 +144,10 @@ Read the project documents:
 - [VISION.md](VISION.md) — what we are ultimately trying to create
 - [STRATEGY.md](STRATEGY.md) — working backwards from that future
 - [SUCCESS.md](SUCCESS.md) — how we know whether COMMONS is actually helping
-- [ARCHITECTURE.md](ARCHITECTURE.md) — the initial technical architecture\n- [docs/CIVIC_LAB.md](docs/CIVIC_LAB.md) — the citizen / official / community demo\n- [docs/SIMULATION.md](docs/SIMULATION.md) — explicit architecture stress assumptions\n- [NEXT_PHASE.md](NEXT_PHASE.md) — v0.3 evidence + capability network
+- [ARCHITECTURE.md](ARCHITECTURE.md) — the initial technical architecture
+- [docs/CIVIC_LAB.md](docs/CIVIC_LAB.md) — the citizen / official / community demo
+- [docs/SIMULATION.md](docs/SIMULATION.md) — explicit architecture stress assumptions
+- [NEXT_PHASE.md](NEXT_PHASE.md) — v0.3 evidence + capability network
 
 ## Status
 
