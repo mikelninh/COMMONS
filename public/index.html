@@ -98,6 +98,65 @@ button{font:inherit}
 .sheet.show{transform:none;opacity:1;pointer-events:auto}
 .sheetTop{display:flex;justify-content:space-between;gap:10px;align-items:center}.sheetTop b{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--green)}.sheetClose{border:0;background:transparent;color:#9ba79f;cursor:pointer;font-size:16px}
 .graph{display:flex;flex-direction:column;gap:5px;margin-top:10px}.node{display:grid;grid-template-columns:20px 1fr;gap:8px;border:1px solid var(--line);border-radius:10px;padding:8px;background:#080d09}.node.done{border-color:rgba(183,255,122,.22)}.node.active{border-color:rgba(255,210,119,.28);background:#101207}.node.wait{opacity:.58}.nodeDot{width:9px;height:9px;border-radius:50%;background:#3e4942;margin-top:3px}.node.done .nodeDot{background:var(--green);box-shadow:0 0 12px rgba(183,255,122,.45)}.node.active .nodeDot{background:var(--amber);box-shadow:0 0 12px rgba(255,210,119,.45)}.nodeLabel{font-size:9px;font-weight:850}.nodeText{font-size:7.8px;line-height:1.4;color:#87938b;margin-top:2px}
+
+.actionbtn{
+  position:relative;overflow:hidden;pointer-events:auto;border:1px solid rgba(255,210,119,.44);
+  background:linear-gradient(135deg,rgba(255,210,119,.98),rgba(183,255,122,.92));
+  color:#071006;border-radius:999px;padding:7px 12px;font-size:8px;font-weight:950;letter-spacing:.08em;
+  text-transform:uppercase;cursor:pointer;box-shadow:0 0 34px rgba(255,210,119,.16)
+}
+.actionbtn:before{content:"";position:absolute;inset:-2px;background:linear-gradient(110deg,transparent 28%,rgba(255,255,255,.65) 46%,transparent 64%);transform:translateX(-130%);animation:actionSheen 4.8s ease-in-out infinite}
+.actionbtn span{position:relative;z-index:1}.actionDot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#071006;margin-right:6px;box-shadow:0 0 0 0 rgba(7,16,6,.4);animation:actionPulse 1.8s infinite}
+@keyframes actionSheen{0%,66%,100%{transform:translateX(-130%)}78%{transform:translateX(130%)}}
+@keyframes actionPulse{0%,100%{box-shadow:0 0 0 0 rgba(7,16,6,.35)}50%{box-shadow:0 0 0 6px rgba(7,16,6,0)}}
+
+.actionPortal{position:fixed;inset:0;z-index:40;display:grid;place-items:center;padding:18px;background:rgba(1,3,2,.74);backdrop-filter:blur(22px);opacity:0;pointer-events:none;transition:.42s opacity}
+.actionPortal.show{opacity:1;pointer-events:auto}
+.actionStage{position:relative;width:min(1180px,96vw);height:min(760px,92vh);overflow:auto;border:1px solid rgba(255,210,119,.22);border-radius:28px;background:
+  radial-gradient(circle at 20% 20%,rgba(183,255,122,.09),transparent 25%),
+  radial-gradient(circle at 80% 12%,rgba(114,216,255,.08),transparent 28%),
+  linear-gradient(150deg,rgba(10,15,12,.98),rgba(3,6,4,.98));
+  box-shadow:0 48px 160px rgba(0,0,0,.62),inset 0 1px 0 rgba(255,255,255,.04)}
+.actionStage:before{content:"";position:absolute;inset:0;pointer-events:none;background:
+  linear-gradient(90deg,transparent 0 49.9%,rgba(183,255,122,.045) 50%,transparent 50.1%),
+  linear-gradient(transparent 0 49.9%,rgba(183,255,122,.035) 50%,transparent 50.1%);
+  background-size:70px 70px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.5),transparent 80%)}
+.actionStage:after{content:"";position:absolute;left:-30%;right:-30%;top:-25%;height:48%;background:linear-gradient(to bottom,transparent,rgba(183,255,122,.08),transparent);transform:rotate(-7deg);animation:actionScan 7s linear infinite;pointer-events:none}
+@keyframes actionScan{0%{transform:translateY(-100%) rotate(-7deg)}100%{transform:translateY(330%) rotate(-7deg)}}
+.actionTop{position:sticky;top:0;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:17px 20px;border-bottom:1px solid var(--line);background:rgba(3,6,4,.74);backdrop-filter:blur(18px)}
+.actionTopBrand{font-size:9px;font-weight:950;letter-spacing:.2em;color:var(--amber);text-transform:uppercase}
+.actionTopMeta{font-size:8px;color:#7d8b82;letter-spacing:.08em}.actionClose{border:1px solid var(--line);background:#080d09;color:#b9c3bc;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px}
+.actionBody{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.02fr) minmax(380px,.98fr);gap:34px;padding:34px}
+.actionHero{display:flex;flex-direction:column;justify-content:center;min-height:540px}
+.actionKicker{font-size:9px;letter-spacing:.22em;color:var(--amber);font-weight:950;text-transform:uppercase}
+.actionHero h2{font-size:clamp(42px,6vw,86px);line-height:.9;letter-spacing:-.065em;margin:14px 0 18px;max-width:680px}
+.actionHero h2 em{font-style:normal;color:var(--green)}
+.actionLead{max-width:630px;font-size:14px;line-height:1.65;color:#aab5ae}
+.actionBeacon{position:relative;width:min(300px,62vw);aspect-ratio:1;margin:25px 0 8px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,rgba(255,210,119,.14),rgba(183,255,122,.03) 46%,transparent 68%)}
+.actionBeacon:before,.actionBeacon:after{content:"";position:absolute;border-radius:50%;border:1px solid rgba(255,210,119,.26);inset:22%;animation:beacon 2.8s ease-out infinite}
+.actionBeacon:after{inset:7%;animation-delay:1.4s;border-color:rgba(183,255,122,.16)}
+@keyframes beacon{0%{transform:scale(.55);opacity:0}25%{opacity:1}100%{transform:scale(1.15);opacity:0}}
+.nepalMark{position:relative;z-index:2;width:86px;height:86px;border-radius:50%;display:grid;place-items:center;background:#09110b;border:1px solid rgba(255,210,119,.42);box-shadow:0 0 60px rgba(255,210,119,.16);font-size:28px}
+.actionStatus{display:inline-flex;align-items:center;gap:7px;width:max-content;margin-top:14px;padding:7px 9px;border-radius:999px;border:1px solid rgba(183,255,122,.19);font-size:8px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--green);background:rgba(7,13,8,.65)}
+.actionStatus i{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 12px rgba(183,255,122,.7)}
+
+.actionMission{display:flex;flex-direction:column;gap:9px;justify-content:center}
+.actionStep{position:relative;border:1px solid var(--line);background:rgba(5,9,7,.72);border-radius:15px;padding:13px 14px 13px 48px;opacity:.42;transform:translateY(6px)}
+.actionPortal.show .actionStep{animation:stepReveal .52s ease forwards}
+.actionPortal.show .actionStep:nth-child(2){animation-delay:.12s}.actionPortal.show .actionStep:nth-child(3){animation-delay:.24s}.actionPortal.show .actionStep:nth-child(4){animation-delay:.36s}.actionPortal.show .actionStep:nth-child(5){animation-delay:.48s}.actionPortal.show .actionStep:nth-child(6){animation-delay:.60s}
+@keyframes stepReveal{to{opacity:1;transform:none}}
+.actionStepNum{position:absolute;left:13px;top:13px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,210,119,.22);font-size:7px;font-weight:950;color:var(--amber)}
+.actionStep b{display:block;font-size:11px;letter-spacing:.03em}.actionStep p{font-size:9px;line-height:1.52;color:#89968e;margin:4px 0 0}.actionStep strong{color:#dfe7e2}
+.actionStep.proof{border-color:rgba(183,255,122,.25);background:rgba(9,17,11,.82)}.actionStep.proof .actionStepNum{border-color:rgba(183,255,122,.3);color:var(--green)}
+
+.actionMetrics{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 34px 20px}
+.actionMetric{border:1px solid var(--line);border-radius:14px;background:rgba(5,9,7,.74);padding:13px}.actionMetric b{display:block;font-size:23px;letter-spacing:-.045em}.actionMetric span{display:block;margin-top:3px;font-size:7px;line-height:1.35;color:#7f8d84;text-transform:uppercase;letter-spacing:.08em}.actionMetric.green b{color:var(--green)}.actionMetric.amber b{color:var(--amber)}
+.actionFooter{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:19px 34px 28px;border-top:1px solid var(--line)}
+.actionButtons{display:flex;gap:8px;flex-wrap:wrap}.actionPrimary,.actionSecondary{border-radius:999px;padding:10px 13px;font-size:8px;font-weight:950;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}.actionPrimary{border:1px solid var(--green);background:var(--green);color:#061006}.actionSecondary{border:1px solid var(--line);background:#080d09;color:#cfd8d1}.actionSecondary:hover{border-color:rgba(183,255,122,.35);color:var(--green)}
+.loopState{max-width:360px;font-size:8px;line-height:1.5;color:#77857d;text-align:right}.loopState b{color:#b8c3bc}
+@media(max-width:860px){.actionBody{grid-template-columns:1fr;padding:24px}.actionHero{min-height:auto}.actionBeacon{width:190px}.actionMetrics{grid-template-columns:1fr 1fr;padding:0 24px 18px}.actionFooter{padding:18px 24px 24px;align-items:flex-start;flex-direction:column}.loopState{text-align:left}.actionStage{height:94vh}}
+@media(max-width:650px){.actionbtn{padding:7px 9px}.actionbtn .actionText{display:none}.actionPortal{padding:0}.actionStage{width:100vw;height:100vh;border-radius:0;border:0}.actionBody{padding:20px}.actionHero h2{font-size:48px}.actionMetrics{padding:0 20px 16px}.actionFooter{padding:16px 20px 22px}.actionTopMeta{display:none}}
+
 .intro{
   position:fixed;inset:0;z-index:20;background:#020403;display:grid;place-items:center;transition:.85s opacity;pointer-events:none
 }
@@ -125,7 +184,7 @@ button{font:inherit}
       <div class="actions">
         <button class="ghostbtn" id="storyBtn">PAUSE STORY</button>
         <button class="ghostbtn" id="exploreBtn">EXPLORE</button>
-        <button class="primarybtn" id="shareBtn">SHARE</button>
+        <button class="actionbtn" id="actBtn"><span><i class="actionDot"></i><span class="actionText">ACT · 1 VERIFIED LOOP</span></span></button><button class="primarybtn" id="shareBtn">SHARE</button>
       </div>
     </div>
 
@@ -163,6 +222,48 @@ button{font:inherit}
     </div>
   </div>
 
+
+  <div class="actionPortal" id="actionPortal" aria-hidden="true">
+    <div class="actionStage" role="dialog" aria-modal="true" aria-labelledby="actionTitle">
+      <div class="actionTop">
+        <div><div class="actionTopBrand">COMMONS / ACTION 001</div><div class="actionTopMeta">VERIFIED HUMANITARIAN RESPONSE · NEPAL · LOOP OPEN</div></div>
+        <button class="actionClose" id="actionClose" aria-label="Close action card">×</button>
+      </div>
+      <div class="actionBody">
+        <section class="actionHero">
+          <div class="actionKicker">NEPAL · FLASH FLOODS 2026 · MDRNP022</div>
+          <h2 id="actionTitle">Watching is not the end. <em>Helping is part of the loop.</em></h2>
+          <div class="actionLead">A real-world signal became a verified response. The goal here is not to manufacture urgency — it is to preserve the evidence chain from <strong>what happened</strong> to <strong>what people need</strong> to <strong>what is already working</strong>.</div>
+          <div class="actionBeacon" aria-hidden="true"><div class="nepalMark">⌖</div></div>
+          <div class="actionStatus"><i></i> RESPONDER VERIFIED · IFRC + NEPAL RED CROSS SOCIETY</div>
+        </section>
+        <section class="actionMission">
+          <div class="actionStep"><span class="actionStepNum">01</span><b>SIGNAL</b><p>Flash floods struck northern Nepal on <strong>26 Aug 2026</strong>, damaging homes, roads and bridges and isolating communities.</p></div>
+          <div class="actionStep"><span class="actionStepNum">02</span><b>VERIFY</b><p>IFRC launched a formal Emergency Appeal on <strong>27 Aug</strong>, alongside Nepal Red Cross Society operations on the ground.</p></div>
+          <div class="actionStep"><span class="actionStepNum">03</span><b>NEED</b><p>IFRC estimated <strong>~93,000 people may have been affected</strong>. Priorities include shelter, health, clean water, sanitation, cash assistance and longer-term recovery.</p></div>
+          <div class="actionStep"><span class="actionStepNum">04</span><b>RESPONSE</b><p>A <strong>CHF 25M Emergency Appeal</strong> is active. Nepal Red Cross teams are delivering water, shelter, first aid and emergency supplies.</p></div>
+          <div class="actionStep proof"><span class="actionStepNum">05</span><b>PROOF OF RESPONSE</b><p>By <strong>8 Sep</strong>, IFRC reported safe drinking water restored for around <strong>2,000 people</strong> in Nuwakot and a mobile clinic able to reach <strong>100 patients/day</strong>.</p></div>
+          <div class="actionStep"><span class="actionStepNum">06</span><b>YOU</b><p>Join through the verified humanitarian channel, inspect the evidence yourself, then keep the loop open for future outcome updates.</p></div>
+        </section>
+      </div>
+      <div class="actionMetrics">
+        <div class="actionMetric amber"><b>~93K</b><span>people may have been affected · IFRC estimate, 27 Aug</span></div>
+        <div class="actionMetric"><b>CHF 25M</b><span>Emergency Appeal launched by IFRC</span></div>
+        <div class="actionMetric green"><b>~2,000</b><span>people with safe water restored in Nuwakot · reported 8 Sep</span></div>
+        <div class="actionMetric green"><b>100/day</b><span>mobile primary clinic capacity · reported 8 Sep</span></div>
+      </div>
+      <div class="actionFooter">
+        <div class="actionButtons">
+          <button class="actionPrimary" id="actionDonate">SUPPORT VIA IFRC ↗</button>
+          <button class="actionSecondary" id="actionVerify">VERIFY THE EVIDENCE ↗</button>
+          <button class="actionSecondary" id="actionOutcome">SEE LATEST OUTCOME ↗</button>
+          <button class="actionSecondary" id="actionShare">SHARE THIS LOOP</button>
+        </div>
+        <div class="loopState"><b>LOOP STATUS · OPEN</b><br>Last outcome evidence checked: 8 Sep 2026. Future IFRC / Nepal Red Cross updates should change this card rather than leaving a frozen success story.</div>
+      </div>
+    </div>
+  </div>
+
   <div class="sheet" id="sheet">
     <div class="sheetTop"><b>COMMONS ACTION GRAPH</b><button class="sheetClose" id="sheetClose">×</button></div>
     <div class="graph" id="graph"></div>
@@ -184,6 +285,21 @@ const sourceMeta={
   "NASA EONET":{freshness:"NEAR-REAL-TIME",cadence:"curated open-event feed",url:"https://eonet.gsfc.nasa.gov/",scope:"Curated natural-event tracking; not a complete census of every event on Earth."},
   "GDACS":{freshness:"NEAR-REAL-TIME",cadence:"7-day disaster alert feed",url:"https://gdacs.org/",scope:"Disaster alerts for situational awareness; an alert is not a casualty or need estimate."}
 };
+
+const ACTION={
+  id:"nepal-flash-floods-2026",
+  action:true,
+  lat:28.15,lon:85.3,
+  source:"COMMONS ACTION",
+  title:"Nepal: Flash Floods 2026",
+  state:"action",
+  magnitude:5,
+  reasons:["verified IFRC Emergency Appeal","documented response outcomes"],
+  appeal:"https://www.ifrc.org/press-release/ifrc-launches-chf-25-million-emergency-appeal-response-devastating-nepal-flash-floods",
+  outcome:"https://www.ifrc.org/press-release/nepal-floods-ifrc-delivers-safe-water-and-health-care-affected-communities",
+  donate:"https://www.ifrc.org/donate"
+};
+
 const kindCompat=[["earthquake","earthquake"],["wildfire","fire"],["fire","wildfire"],["flood","flood"],["cyclone","storm"],["storm","cyclone"],["volcano","volcano"]];
 
 let signals=[],clusters=[],story=[],storyIndex=0,storyTimer=null,storyPaused=false,current=null,sourceStates=[];
@@ -197,16 +313,16 @@ const world=Globe()(document.getElementById("globe"))
   .atmosphereAltitude(.17)
   .pointLat(d=>d.lat)
   .pointLng(d=>d.lon)
-  .pointColor(d=>colorBySource[d.source]||"#ffffff")
-  .pointAltitude(d=>((d.state==="new"||d.state==="updated") ? 0.075 : 0.035))
-  .pointRadius(d=>Math.max(.14,Math.min(.42,.11+(Number(d.magnitude)||1)*.035)))
+  .pointColor(d=>d.action?"#ffd277":(colorBySource[d.source]||"#ffffff"))
+  .pointAltitude(d=>d.action?0.095:((d.state==="new"||d.state==="updated") ? 0.075 : 0.035))
+  .pointRadius(d=>d.action?.48:Math.max(.14,Math.min(.42,.11+(Number(d.magnitude)||1)*.035)))
   .pointLabel(()=> "")
-  .onPointClick(d=>focus(d,true))
+  .onPointClick(d=>d.action?openAction():focus(d,true))
   .ringsData([])
   .ringLat(d=>d.lat)
   .ringLng(d=>d.lon)
-  .ringColor(d=>()=>colorBySource[d.source]||"#b7ff7a")
-  .ringMaxRadius(d=>((d.state==="new"||d.state==="updated") ? 5.5 : 3.2))
+  .ringColor(d=>()=>d.action?"#ffd277":(colorBySource[d.source]||"#b7ff7a"))
+  .ringMaxRadius(d=>d.action?7.5:((d.state==="new"||d.state==="updated") ? 5.5 : 3.2))
   .ringPropagationSpeed(2.1)
   .ringRepeatPeriod(900)
   .arcsData([])
@@ -336,8 +452,8 @@ function renderSources(){
   }).join("");
 }
 function renderGlobe(baseline){
-  world.pointsData(signals);
-  world.ringsData(signals.filter(s=>s.state!=="known"||s.reasons.length).slice(0,45));
+  world.pointsData([...signals,ACTION]);
+  world.ringsData([...signals.filter(s=>s.state!=="known"||s.reasons.length).slice(0,45),ACTION]);
   world.arcsData(clusters);
   const changed=signals.filter(s=>s.state!=="known").length,surfaced=signals.filter(s=>s.reasons.length).length;
   $("fObserved").textContent=signals.length;$("fChanged").textContent=changed;$("fSurfaced").textContent=surfaced;$("fOverlap").textContent=clusters.length;
@@ -350,12 +466,58 @@ async function refresh(){
   [["USGS",results[0]],["NASA EONET",results[1]],["GDACS",results[2]]].forEach(([name,res])=>{if(res.status==="fulfilled"){signals.push(...res.value);sourceStates.push({name,ok:true,count:res.value.length})}else sourceStates.push({name,ok:false,count:0})});
   const baseline=applyState(signals);clusters=buildClusters(signals);renderGlobe(baseline);
   $("liveLabel").textContent="CURRENT VIEW · "+signals.length+" SIGNALS · "+sourceStates.filter(s=>s.ok).length+"/3 SOURCES";
-  const wanted=new URLSearchParams(location.search).get("signal"),match=signals.find(s=>s.id===wanted);
-  if(match)focus(match,true);else startStory();
+  const params=new URLSearchParams(location.search),wanted=params.get("signal"),match=signals.find(s=>s.id===wanted);
+  if(params.get("action")===ACTION.id)setTimeout(openAction,450);else if(match)focus(match,true);else startStory();
   setTimeout(()=>$("intro").classList.add("hide"),900);
 }
+$("actBtn").onclick=openAction;
+$("actionClose").onclick=closeAction;
+$("actionDonate").onclick=()=>window.open(ACTION.donate,"_blank","noopener");
+$("actionVerify").onclick=()=>window.open(ACTION.appeal,"_blank","noopener");
+$("actionOutcome").onclick=()=>window.open(ACTION.outcome,"_blank","noopener");
+$("actionShare").onclick=shareAction;
+$("actionPortal").onclick=e=>{if(e.target===$("actionPortal"))closeAction()};
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("actionPortal").classList.contains("show"))closeAction()});
 $("storyBtn").onclick=()=>{storyPaused=!storyPaused;$("storyBtn").textContent=storyPaused?"PLAY STORY":"PAUSE STORY";if(!storyPaused)startStory()};
 $("exploreBtn").onclick=()=>{storyPaused=true;$("storyBtn").textContent="PLAY STORY";world.controls().autoRotate=true;world.pointOfView({lat:18,lng:10,altitude:2.25},850);$("storyCard").classList.remove("show")};
+
+function actionUrl(){
+  const u=new URL(location.href);u.searchParams.delete("signal");u.searchParams.set("action",ACTION.id);return u.toString();
+}
+function openAction(){
+  storyPaused=true;clearInterval(storyTimer);$("storyBtn").textContent="PLAY STORY";
+  world.controls().autoRotate=false;world.pointOfView({lat:ACTION.lat,lng:ACTION.lon,altitude:1.18},1200);
+  $("storyCard").classList.remove("show");$("sheet").classList.remove("show");
+  $("actionPortal").classList.add("show");$("actionPortal").setAttribute("aria-hidden","false");
+  const u=new URL(location.href);u.searchParams.delete("signal");u.searchParams.set("action",ACTION.id);history.replaceState(null,"",u);
+}
+function closeAction(){
+  $("actionPortal").classList.remove("show");$("actionPortal").setAttribute("aria-hidden","true");
+  const u=new URL(location.href);u.searchParams.delete("action");history.replaceState(null,"",u);
+}
+function actionSharePayload(){
+  const lines=[
+    "COMMONS ACTION 001 — Nepal: Flash Floods 2026",
+    "",
+    "~93,000 people may have been affected · IFRC estimate, 27 Aug 2026",
+    "CHF 25M Emergency Appeal · IFRC + Nepal Red Cross Society",
+    "By 8 Sep: safe drinking water restored for ~2,000 people in Nuwakot",
+    "Mobile primary clinic capacity: 100 patients/day",
+    "",
+    "This is a live action loop: signal → verified need → responder → action → outcome evidence.",
+    "Verify: "+ACTION.appeal,
+    "Outcome evidence: "+ACTION.outcome,
+    "Support: "+ACTION.donate,
+    "",
+    "Watch the loop: "+actionUrl()
+  ];
+  return{title:"COMMONS ACTION — Nepal Flash Floods",text:lines.join("\n"),url:actionUrl()};
+}
+async function shareAction(){
+  const p=actionSharePayload();
+  try{if(navigator.share)await navigator.share(p);else{await navigator.clipboard.writeText(p.text);$("actionShare").textContent="LOOP COPIED ✓"}}catch(e){}
+}
+
 function sharePayload(){
   if(!current)return{title:"COMMONS WORLD PULSE",text:"Watch what changes on Earth — with source freshness and transparent attention rules.",url:location.href};
   const m=sourceMeta[current.source]||{freshness:"PUBLIC FEED"};
