@@ -25,6 +25,7 @@ CAPABILITY_ROUTES = {
     "coordinate": Route.REASON,
     "public_service_navigation": Route.RETRIEVE,
     "translate": Route.TRANSLATE,
+    "verify": Route.VERIFY,
     "specialist": Route.SPECIALIST,
     "workflow": Route.WORKFLOW,
     "human": Route.HUMAN,
@@ -112,7 +113,7 @@ def choose_route(a: Assessment) -> RouteDecision:
                     ),
                     policy_version=POLICY_VERSION,
                 )
-            if route in {Route.RETRIEVE, Route.CALCULATE, Route.REASON, Route.TRANSLATE}:
+            if route in {Route.RETRIEVE, Route.CALCULATE, Route.REASON, Route.TRANSLATE, Route.VERIFY}:
                 return RouteDecision(
                     route=route,
                     reason=(
