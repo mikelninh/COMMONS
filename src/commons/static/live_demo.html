@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>COMMONS LIVE — Real civic agent flow</title>
+<style>
+:root{color-scheme:dark;--bg:#050708;--panel:#0a0f12;--line:#1e2a2f;--text:#f4f7f2;--muted:#8d9ba0;--green:#b9ff78;--cyan:#72d9ff;--amber:#ffd27a;--violet:#b894ff;--red:#ff8f8f}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{background:radial-gradient(circle at 50% 20%,rgba(83,151,91,.12),transparent 30%),linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px),var(--bg);background-size:auto,44px 44px,44px 44px}
+button,input,select,textarea{font:inherit}
+.shell{max-width:1500px;margin:auto;padding:18px 20px 32px;min-height:100vh;display:grid;grid-template-rows:auto auto 1fr auto;gap:13px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-size:12px;letter-spacing:.18em;font-weight:900}.brand b{color:var(--green)}
+.badges{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.badge{border:1px solid #35503b;background:#0a120d;color:var(--green);border-radius:999px;padding:5px 8px;font-size:9px;letter-spacing:.08em;text-transform:uppercase}.badge.gray{border-color:#344047;background:#0b1013;color:#aab6ba}.badge.amber{border-color:#594d30;background:#161207;color:var(--amber)}
+.hero{text-align:center;padding:1px 80px}.kicker{font-size:9px;letter-spacing:.2em;color:var(--green);text-transform:uppercase;font-weight:850}.headline{font-size:clamp(26px,3.4vw,48px);line-height:1;letter-spacing:-.05em;font-weight:900;margin:8px 0 7px}.sub{font-size:11px;color:var(--muted)}
+.stage{display:grid;grid-template-columns:310px minmax(0,1fr) 320px;gap:12px;min-height:585px}.panel{border:1px solid var(--line);background:linear-gradient(180deg,rgba(10,15,18,.96),rgba(7,11,13,.93));border-radius:18px;overflow:hidden}.head{height:39px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}.head b{color:#dae1e3}
+.phonewrap{padding:12px;height:calc(100% - 39px);display:flex;flex-direction:column;gap:10px}.phone{position:relative;flex:1;min-height:355px;border:1px solid #314047;border-radius:26px;background:#06090b;overflow:hidden;display:grid;place-items:center;box-shadow:inset 0 0 0 5px #080d0f}
+.phone img{width:100%;height:100%;object-fit:cover;display:none}.phone.has img{display:block}.empty{text-align:center;padding:24px;color:var(--muted)}.camera{font-size:34px;margin-bottom:12px}.empty strong{display:block;color:#e9efec;font-size:15px;margin-bottom:6px}.empty span{font-size:11px;line-height:1.5}
+.scan{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--green),transparent);box-shadow:0 0 14px var(--green);opacity:0}.phone.scanning .scan{opacity:1;animation:scan 1.8s linear infinite}@keyframes scan{from{top:8%}to{top:92%}}
+.photooverlay{position:absolute;inset:auto 10px 10px 10px;border:1px solid rgba(255,255,255,.12);background:rgba(5,8,10,.78);backdrop-filter:blur(9px);border-radius:13px;padding:10px;display:none}.photooverlay.show{display:block}.ovk{font-size:8px;color:var(--green);letter-spacing:.12em;text-transform:uppercase}.ovt{font-size:12px;font-weight:850;margin-top:4px}.ovs{font-size:9px;color:var(--muted);margin-top:3px}
+.actions{display:flex;gap:7px;flex-wrap:wrap}.btn{border:1px solid #344148;background:#0c1215;color:#e9eeee;border-radius:11px;padding:9px 11px;font-size:10px;font-weight:850}.btn.primary{background:var(--green);color:#071006;border-color:var(--green)}.btn:disabled{opacity:.38;cursor:not-allowed}.file{display:none}
+.localnote{font-size:9.5px;color:var(--muted);line-height:1.45}
+.center{position:relative}.graph{height:100%;position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:radial-gradient(circle at center,rgba(83,151,91,.08),transparent 31%),#060a0c}
+.orbit{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid rgba(114,217,255,.08);border-radius:50%}.o1{width:310px;height:310px}.o2{width:510px;height:510px}.o3{width:720px;height:720px}
+.node{position:absolute;width:120px;min-height:60px;padding:9px 10px;border-radius:14px;border:1px solid #26343a;background:#081014;opacity:.18;transform:scale(.96);transition:.45s all;z-index:3}.node.on{opacity:1;transform:scale(1);box-shadow:0 0 40px rgba(114,217,255,.08)}.node.done{opacity:.88;border-color:#36513c;background:#09110d}.node.human.on{border-color:#6a5732;box-shadow:0 0 38px rgba(255,210,122,.08)}.node.case.on{border-color:#4b4872;box-shadow:0 0 38px rgba(184,148,255,.08)}
+.nl{font-size:7.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}.nn{font-size:10.5px;font-weight:850;margin-top:4px;line-height:1.25}.ns{font-size:8.5px;color:var(--cyan);margin-top:4px}.done .ns{color:var(--green)}
+.core{left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);width:152px;min-height:76px;text-align:center;border-color:#456141;background:#0a120d}.core.on{transform:translate(-50%,-50%) scale(1);box-shadow:0 0 70px rgba(185,255,120,.13)}
+.vision{left:7%;top:15%}.router{left:7%;bottom:15%}.source{left:50%;top:7%;transform:translateX(-50%) scale(.96)}.source.on,.source.done{transform:translateX(-50%) scale(1)}.guard{right:7%;top:14%}.human{right:7%;bottom:14%}.case{left:50%;bottom:6%;transform:translateX(-50%) scale(.96)}.case.on,.case.done{transform:translateX(-50%) scale(1)}
+.ring{position:absolute;left:50%;top:50%;width:180px;height:180px;border-radius:50%;border:1px solid rgba(185,255,120,.12);transform:translate(-50%,-50%);opacity:0}.ring.live{animation:ring 1.7s ease-out infinite}@keyframes ring{0%{opacity:.9;transform:translate(-50%,-50%) scale(.4)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.6)}}
+.caption{position:absolute;left:50%;top:70%;transform:translate(-50%,8px);width:70%;text-align:center;font-size:11px;color:#cfd8da;opacity:0;transition:.35s all;z-index:5}.caption.show{opacity:1;transform:translate(-50%,0)}.caption b{color:var(--green)}
+.approval{position:absolute;inset:auto 50% 17px auto;transform:translateX(50%);width:min(560px,88%);z-index:7;border:1px solid #4c5137;background:rgba(10,14,12,.95);backdrop-filter:blur(14px);border-radius:17px;padding:13px;display:none}.approval.show{display:block;animation:rise .4s ease both}@keyframes rise{from{opacity:0;transform:translate(50%,12px)}to{opacity:1;transform:translate(50%,0)}}.atitle{font-size:12px;font-weight:900}.acopy{font-size:9.5px;color:var(--muted);line-height:1.45;margin-top:4px}.choices{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.choice{border:1px solid #344148;background:#0c1215;color:#dce4e5;border-radius:999px;padding:7px 9px;font-size:9px}.choice.on{border-color:#536d48;color:var(--green);background:#0a130c}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}.fields select,.fields textarea{width:100%;background:#070b0d;border:1px solid #2d3a40;border-radius:10px;color:#e9eeee;padding:8px;font-size:9.5px}.fields textarea{grid-column:1/-1;min-height:58px;resize:vertical;line-height:1.4}.approval .actions{margin-top:9px}
+.rightbody{height:calc(100% - 39px);display:grid;grid-template-rows:1fr auto}.log{overflow:hidden;padding:9px 11px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px}.line{border-left:1px solid #2a373c;padding-left:8px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:9px;line-height:1.35;color:#98a6ab;opacity:0;transform:translateY(4px);transition:.3s all}.line.show{opacity:1;transform:none}.ok{color:var(--green)}.sys{color:var(--cyan)}.wait{color:var(--amber)}.real{color:var(--violet)}
+.proofs{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;border-top:1px solid var(--line);padding:8px}.proof{border:1px solid var(--line);border-radius:9px;padding:7px;background:#080d0f;min-height:49px}.proof.on{border-color:#405b43;background:#0a120c}.pstate{font-size:7px;color:#68777c;text-transform:uppercase}.proof.on .pstate{color:var(--green)}.pname{font-size:8.5px;font-weight:850;margin-top:4px;color:#aab6ba}.proof.on .pname{color:#e4ece1}
+.receipt{border-top:1px solid var(--line);padding:9px;display:none}.receipt.show{display:block}.receipt input{width:100%;background:#070b0d;border:1px solid #2d3a40;color:#e9eeee;border-radius:9px;padding:8px;font-size:9.5px}.receipt .actions{margin-top:6px}
+.footer{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px}.metricrow{display:flex;gap:18px}.metric{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.metric b{display:block;color:#edf2ef;font-size:13px;margin-top:2px;letter-spacing:0}.metric b.g{color:var(--green)}
+.end{text-align:right;font-size:9px;color:var(--muted)}.end strong{color:var(--green)}
+@media(max-width:1050px){.stage{grid-template-columns:260px 1fr 270px}.hero{padding:0 20px}.o3{display:none}.node{width:108px}}
+@media(max-width:820px){.stage{grid-template-columns:1fr}.center{height:520px}.panel.right{min-height:390px}.footer{grid-template-columns:1fr}.end{text-align:left}.hero{padding:0}.shell{padding:12px}.stage{min-height:auto}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="top">
+    <div class="brand"><b>COMMONS</b> / LIVE</div>
+    <div class="badges">
+      <span class="badge">REAL MODE</span>
+      <span class="badge gray">on-device vision</span>
+      <span class="badge gray">citizen-controlled</span>
+      <button class="badge amber" id="walkthrough" style="cursor:pointer">watch synthetic walkthrough</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker" id="kicker">one photo → one real civic case</div>
+    <div class="headline" id="headline">Show COMMONS a real-world problem.</div>
+    <div class="sub" id="sub">Your photo stays in this browser. Vision suggests an issue type; you confirm the facts before anything becomes a case.</div>
+  </section>
+
+  <section class="stage">
+    <aside class="panel">
+      <div class="head"><b>Phone input</b><span id="photoState">waiting</span></div>
+      <div class="phonewrap">
+        <div class="phone" id="phone">
+          <div class="empty" id="empty">
+            <div class="camera">◉</div>
+            <strong>Take or choose a photo</strong>
+            <span>Street problem, rubbish, road damage, blocked pavement, broken public infrastructure.</span>
+          </div>
+          <img id="preview" alt="Selected civic issue">
+          <div class="scan"></div>
+          <div class="photooverlay" id="photoOverlay"><div class="ovk">vision suggestion</div><div class="ovt" id="visionTitle">—</div><div class="ovs" id="visionScore">—</div></div>
+        </div>
+        <input class="file" type="file" id="file" accept="image/*" capture="environment">
+        <div class="actions">
+          <button class="btn primary" id="choose">Take / choose photo</button>
+          <button class="btn" id="analyze" disabled>Analyze on device</button>
+          <button class="btn" id="locate" disabled>Use my location</button>
+        </div>
+        <div class="localnote" id="localNote">No photo or location data has left your device.</div>
+      </div>
+    </aside>
+
+    <main class="center">
+      <div class="graph">
+        <div class="orbit o1"></div><div class="orbit o2"></div><div class="orbit o3"></div><div class="ring" id="ring"></div>
+        <div class="node core" id="core"><div class="nl">COMMONS</div><div class="nn">Coordination Core</div><div class="ns">waiting</div></div>
+        <div class="node vision" id="vision"><div class="nl">browser capability</div><div class="nn">On-device Vision</div><div class="ns">idle</div></div>
+        <div class="node router" id="router"><div class="nl">COMMONS API</div><div class="nn">Civic Router</div><div class="ns">idle</div></div>
+        <div class="node source" id="source"><div class="nl">verified route</div><div class="nn">Official Source</div><div class="ns">idle</div></div>
+        <div class="node guard" id="guard"><div class="nl">code guardrail</div><div class="nn">Authority Gate</div><div class="ns">idle</div></div>
+        <div class="node human" id="human"><div class="nl">human</div><div class="nn">Citizen Approval</div><div class="ns">required</div></div>
+        <div class="node case" id="caseNode"><div class="nl">real state</div><div class="nn">Persistent Civic Case</div><div class="ns">not created</div></div>
+        <div class="caption" id="caption"></div>
+
+        <div class="approval" id="approval">
+          <div class="atitle">The model can suggest. You decide what is true.</div>
+          <div class="acopy">Select the issue you actually want to report, choose the district, and describe what you observed. The image score is never treated as authority.</div>
+          <div class="choices" id="choices"></div>
+          <div class="fields">
+            <select id="district">
+              <option value="">Berlin district *</option>
+              <option>Charlottenburg-Wilmersdorf</option><option>Friedrichshain-Kreuzberg</option><option>Lichtenberg</option><option>Marzahn-Hellersdorf</option><option>Mitte</option><option>Neukölln</option><option>Pankow</option><option>Reinickendorf</option><option>Spandau</option><option>Steglitz-Zehlendorf</option><option>Tempelhof-Schöneberg</option><option>Treptow-Köpenick</option>
+            </select>
+            <button class="btn" id="approveLocate">Use browser GPS</button>
+            <textarea id="facts" placeholder="What did you actually observe? e.g. Cars do not stop reliably and children cross here after school."></textarea>
+          </div>
+          <div class="actions"><button class="btn primary" id="approve">Confirm facts & activate COMMONS</button><button class="btn" id="cancelApproval">Cancel</button></div>
+        </div>
+      </div>
+    </main>
+
+    <aside class="panel right">
+      <div class="head"><b>Real trace</b><span id="traceState">idle</span></div>
+      <div class="rightbody">
+        <div class="log" id="log"><div class="line show"><span class="sys">SYS</span> Ready. No civic case exists yet.</div></div>
+        <div>
+          <div class="proofs">
+            <div class="proof" id="p1"><div class="pstate">waiting</div><div class="pname">SOURCE</div></div>
+            <div class="proof" id="p2"><div class="pstate">waiting</div><div class="pname">PREPARED</div></div>
+            <div class="proof" id="p3"><div class="pstate">waiting</div><div class="pname">CONFIRMED</div></div>
+            <div class="proof" id="p4"><div class="pstate">waiting</div><div class="pname">ACK</div></div>
+            <div class="proof" id="p5"><div class="pstate">waiting</div><div class="pname">OUTCOME</div></div>
+          </div>
+          <div class="receipt" id="receipt">
+            <div class="localnote">After you submit through Berlin, bring the real Meldungsnummer back here.</div>
+            <input id="reportNumber" placeholder="Official Meldungsnummer">
+            <div class="actions"><button class="btn primary" id="saveReceipt">Record real receipt</button><button class="btn" id="openCase">Open real case</button></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <footer class="footer">
+    <div class="metricrow">
+      <div class="metric">photo sent to server?<b class="g">NO</b></div>
+      <div class="metric">authority violations<b class="g">0</b></div>
+      <div class="metric">proof level<b id="proofLevel">0 / 5</b></div>
+    </div>
+    <div class="actions"><button class="btn" id="reset">Reset real flow</button></div>
+    <div class="end">The animation visualizes <strong>actual state changes</strong>. It does not create them.</div>
+  </footer>
+</div>
+
+<script type="module">
+
+const $=id=>document.getElementById(id);
+const LABELS=[
+  {key:"crossing",label:"a pedestrian crossing or street-safety situation",title:"Pedestrian crossing / street-safety concern",need:"There is an unsafe crossing or pedestrian-safety concern in public space.",subject:"Pedestrian crossing / street-safety concern"},
+  {key:"rubbish",label:"rubbish or illegal dumping in public space",title:"Rubbish / illegal dumping",need:"There is rubbish or illegal dumping in public space.",subject:"Rubbish / illegal dumping"},
+  {key:"road",label:"a damaged road, pothole, or street surface",title:"Road damage / pothole",need:"There is road damage or a pothole in public space.",subject:"Road damage / pothole"},
+  {key:"obstruction",label:"a blocked or damaged pavement or pedestrian obstruction",title:"Blocked / damaged pavement",need:"There is a blocked or damaged pavement in public space.",subject:"Blocked / damaged pavement"},
+  {key:"infrastructure",label:"broken street furniture, sign, light, or public infrastructure",title:"Broken public infrastructure",need:"There is broken public infrastructure in public space.",subject:"Broken public infrastructure"},
+  {key:"none",label:"a normal street scene with no obvious public-space issue",title:"No clear reportable issue",need:"I am not sure this photo shows a reportable public-space issue.",subject:"Unclear public-space issue"}
+];
+
+let selectedFile=null, objectUrl=null, classifier=null, visionResults=[], selectedKey=null, coords=null, realCase=null, syntheticTimers=[];
+
+function log(text,cls="sys"){
+  const d=document.createElement("div");d.className="line";d.innerHTML='<span class="'+cls+'">'+cls.toUpperCase()+'</span> '+text;
+  $("log").appendChild(d);while($("log").children.length>11)$("log").removeChild($("log").children[0]);requestAnimationFrame(()=>d.classList.add("show"));
+}
+function node(id,state,status){const n=$(id);n.classList.remove("on","done");if(state)n.classList.add(state);if(status)n.querySelector(".ns").textContent=status}
+function caption(html){$("caption").classList.remove("show");setTimeout(()=>{$("caption").innerHTML=html;$("caption").classList.add("show")},80)}
+function proof(n,label){
+  for(let i=1;i<=5;i++){const p=$("p"+i);p.classList.toggle("on",i<=n);p.querySelector(".pstate").textContent=i<n?"verified":i===n?(label||"current"):"waiting"}
+  $("proofLevel").textContent=n+" / 5";
+}
+function setNetworkReal(){
+  $("ring").classList.add("live");node("core","on","real flow active");$("traceState").textContent="working";
+}
+async function api(path,opts={}){
+  const r=await fetch(path,{headers:{"content-type":"application/json",...(opts.headers||{})},...opts});
+  const body=await r.json();if(!r.ok)throw new Error(typeof body.detail==="string"?body.detail:JSON.stringify(body.detail));return body;
+}
+function reset(){
+  syntheticTimers.forEach(clearTimeout);syntheticTimers=[];
+  if(objectUrl)URL.revokeObjectURL(objectUrl);objectUrl=null;selectedFile=null;visionResults=[];selectedKey=null;coords=null;realCase=null;
+  $("file").value="";$("phone").classList.remove("has","scanning");$("preview").removeAttribute("src");$("empty").style.display="block";$("photoOverlay").classList.remove("show");
+  $("approval").classList.remove("show");$("receipt").classList.remove("show");$("analyze").disabled=true;$("locate").disabled=true;
+  $("localNote").textContent="No photo or location data has left your device.";$("photoState").textContent="waiting";$("traceState").textContent="idle";
+  ["core","vision","router","source","guard","human","caseNode"].forEach(id=>node(id,"",id==="human"?"required":id==="caseNode"?"not created":"idle"));
+  $("ring").classList.remove("live");$("caption").classList.remove("show");proof(0);
+  $("log").innerHTML='<div class="line show"><span class="sys">SYS</span> Ready. No civic case exists yet.</div>';
+  $("headline").textContent="Show COMMONS a real-world problem.";$("sub").textContent="Your photo stays in this browser. Vision suggests an issue type; you confirm the facts before anything becomes a case.";
+}
+$("choose").onclick=()=>$("file").click();
+$("file").onchange=()=>{
+  const file=$("file").files?.[0];if(!file)return;selectedFile=file;if(objectUrl)URL.revokeObjectURL(objectUrl);objectUrl=URL.createObjectURL(file);
+  $("preview").src=objectUrl;$("phone").classList.add("has");$("empty").style.display="none";$("photoState").textContent="photo local";$("analyze").disabled=false;$("locate").disabled=false;
+  log("real photo loaded locally — 0 bytes sent to COMMONS","real");caption("<b>Photo captured.</b><br>Nothing has left this browser.");
+};
+async function fallbackVisualCueDetector(imageUrl){
+  const img=new Image();
+  img.src=imageUrl;
+  await img.decode();
+  const canvas=document.createElement("canvas");
+  const width=320;
+  const scale=width/img.naturalWidth;
+  canvas.width=width;
+  canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));
+  const ctx=canvas.getContext("2d",{willReadFrequently:true});
+  ctx.drawImage(img,0,0,canvas.width,canvas.height);
+  const data=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+
+  const y0=Math.floor(canvas.height*0.45);
+  const y1=Math.floor(canvas.height*0.95);
+  const row=[];
+  for(let x=0;x<canvas.width;x++){
+    let sum=0,count=0;
+    for(let y=y0;y<y1;y+=4){
+      const i=(y*canvas.width+x)*4;
+      sum+=(data[i]+data[i+1]+data[i+2])/3;
+      count++;
+    }
+    row.push(sum/Math.max(1,count));
+  }
+  const smooth=row.map((_,i)=>{
+    let s=0,n=0;
+    for(let j=Math.max(0,i-3);j<=Math.min(row.length-1,i+3);j++){s+=row[j];n++}
+    return s/n;
+  });
+  const threshold=smooth.reduce((a,b)=>a+b,0)/smooth.length+18;
+  let transitions=0,brightRuns=0,inBright=false,run=0;
+  for(const v of smooth){
+    const bright=v>threshold;
+    if(bright!==inBright){transitions++;inBright=bright}
+    if(bright){run++}else if(run>=5){brightRuns++;run=0}else{run=0}
+  }
+  if(run>=5)brightRuns++;
+  const stripeScore=Math.min(0.92,Math.max(0.18,(brightRuns/9)*0.78+(transitions/24)*0.22));
+  if(brightRuns>=4){
+    return [
+      {label:LABELS[0].label,score:stripeScore},
+      {label:LABELS[3].label,score:Math.max(0.08,stripeScore*0.36)},
+      {label:LABELS[5].label,score:Math.max(0.05,1-stripeScore)}
+    ];
+  }
+  return [
+    {label:LABELS[5].label,score:0.58},
+    {label:LABELS[4].label,score:0.22},
+    {label:LABELS[3].label,score:0.20}
+  ];
+}
+
+async function loadClassifier(){
+  if(classifier)return classifier;
+  $("photoState").textContent="loading vision";log("loading MobileCLIP q8 into browser cache","sys");
+  const mod=await import("https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1");
+  const pipeline=mod.pipeline, env=mod.env;
+  env.allowLocalModels=false;
+  const opts={dtype:"q8",progress_callback:(p)=>{if(p.status==="progress"&&p.progress)$("photoState").textContent="vision "+Math.round(p.progress)+"%"}};
+  try{if(navigator.gpu)opts.device="webgpu";classifier=await pipeline("zero-shot-image-classification","Xenova/mobileclip_s0",opts)}
+  catch(err){log("WebGPU unavailable/failed → falling back to WASM","wait");delete opts.device;classifier=await pipeline("zero-shot-image-classification","Xenova/mobileclip_s0",opts)}
+  return classifier;
+}
+$("analyze").onclick=async()=>{
+  if(!objectUrl)return;
+  try{
+    $("analyze").disabled=true;$("phone").classList.add("scanning");setNetworkReal();node("vision","on","running locally");caption("<b>Real on-device vision is running.</b><br>The image is not uploaded to COMMONS.");
+    const pipe=await loadClassifier();const output=await pipe(objectUrl,LABELS.map(x=>x.label));visionResults=output.slice(0,4);
+    const top=visionResults[0],mapped=LABELS.find(x=>x.label===top.label)||LABELS[5];selectedKey=mapped.key;
+    node("vision","done","suggestion ready");$("phone").classList.remove("scanning");$("photoState").textContent="analyzed locally";
+    $("visionTitle").textContent=mapped.title;$("visionScore").textContent=Math.round(top.score*100)+"% similarity · suggestion, not a fact";$("photoOverlay").classList.add("show");
+    log("vision suggestion → "+mapped.title+" ("+Math.round(top.score*100)+"%)","ok");log("authority check → citizen confirmation required","wait");
+    node("guard","on","confirmation required");node("human","on","waiting for you");caption("<b>The model suggests. You decide.</b><br>A similarity score cannot create civic authority.");
+    renderChoices();$("approval").classList.add("show");
+  }catch(e){
+    log("MobileCLIP unavailable → running deterministic local visual-cue fallback","wait");
+    try{
+      const output=await fallbackVisualCueDetector(objectUrl);
+      visionResults=output.slice(0,4);
+      const top=visionResults[0],mapped=LABELS.find(x=>x.label===top.label)||LABELS[5];
+      selectedKey=mapped.key;
+      node("vision","done","local fallback ready");
+      $("phone").classList.remove("scanning");
+      $("photoState").textContent="fallback analyzed locally";
+      $("visionTitle").textContent=mapped.title;
+      $("visionScore").textContent=Math.round(top.score*100)+"% visual-cue score · deterministic fallback";
+      $("photoOverlay").classList.add("show");
+      log("local fallback → "+mapped.title+" ("+Math.round(top.score*100)+"%)","ok");
+      log("authority check → citizen confirmation required","wait");
+      node("guard","on","confirmation required");
+      node("human","on","waiting for you");
+      caption("<b>Local visual cues found.</b><br>You still decide what the image actually means.");
+      renderChoices();
+      $("approval").classList.add("show");
+    }catch(fallbackError){
+      $("phone").classList.remove("scanning");
+      $("photoState").textContent="vision unavailable";
+      log("vision unavailable: "+fallbackError.message,"wait");
+      $("analyze").disabled=false;
+    }
+  }
+};
+function renderChoices(){
+  const ordered=[...visionResults.map(r=>LABELS.find(x=>x.label===r.label)).filter(Boolean),...LABELS].filter((x,i,a)=>a.findIndex(y=>y.key===x.key)===i).slice(0,6);
+  $("choices").innerHTML=ordered.map(x=>'<button class="choice '+(x.key===selectedKey?"on":"")+'" data-key="'+x.key+'">'+x.title+'</button>').join("");
+  $("choices").querySelectorAll("[data-key]").forEach(b=>b.onclick=()=>{selectedKey=b.dataset.key;$("choices").querySelectorAll(".choice").forEach(x=>x.classList.toggle("on",x.dataset.key===selectedKey))});
+}
+async function getLocation(){
+  if(!navigator.geolocation)throw new Error("Geolocation is not supported by this browser.");
+  return new Promise((resolve,reject)=>navigator.geolocation.getCurrentPosition(p=>resolve({lat:p.coords.latitude,lon:p.coords.longitude,accuracy:p.coords.accuracy}),reject,{enableHighAccuracy:true,timeout:10000,maximumAge:0}));
+}
+async function requestLocation(){
+  try{log("browser requesting location permission","sys");coords=await getLocation();$("localNote").textContent="GPS captured locally: "+coords.lat.toFixed(5)+", "+coords.lon.toFixed(5)+" (±"+Math.round(coords.accuracy)+"m). It will only be added to this case after approval.";log("GPS captured locally — not submitted","ok")}
+  catch(e){log("location not used: "+e.message,"wait")}
+}
+$("locate").onclick=requestLocation;$("approveLocate").onclick=requestLocation;
+$("cancelApproval").onclick=()=>{$("approval").classList.remove("show");node("human","", "required");node("guard","done","stopped safely");caption("<b>Stopped.</b><br>No case was created.");log("citizen cancelled → no case created","ok")};
+$("approve").onclick=async()=>{
+  const item=LABELS.find(x=>x.key===selectedKey);const district=$("district").value;const facts=$("facts").value.trim();
+  if(!item||item.key==="none"){alert("Choose the issue you actually want to report before creating a case.");return}
+  if(!district){alert("Choose the Berlin district.");return}
+  if(facts.length<10){alert("Add a short factual description of what you observed.");return}
+  try{
+    $("approve").disabled=true;node("human","done","facts confirmed");node("guard","done","bounded action allowed");caption("<b>Citizen confirmed the facts.</b><br>Now COMMONS can create a real case — not before.");log("citizen confirmed issue + factual description","real");
+    node("router","on","calling /civic/action");const needText=item.need+" "+facts;const routed=await api("/civic/action",{method:"POST",body:JSON.stringify({text:needText,location:"Berlin"})});
+    const ord=routed.channels.find(x=>x.channel_id==="berlin-ordnungsamt-online");if(!ord)throw new Error("COMMONS did not find a verified public-space route. No case created.");
+    node("router","done","verified route selected");node("source","done","Ordnungsamt-Online");proof(1,"verified");log("COMMONS router → "+ord.name,"ok");log("official source → "+ord.official_source,"ok");
+    node("caseNode","on","creating persistent case");const created=await api("/civic/cases/public-space",{method:"POST",body:JSON.stringify({raw_need:needText})});
+    const locationNotes=coords?"Browser GPS (citizen-approved): "+coords.lat.toFixed(6)+", "+coords.lon.toFixed(6)+"; accuracy ±"+Math.round(coords.accuracy)+" m":null;
+    const patched=await api("/civic/cases/public-space/"+created.case_id,{method:"PATCH",body:JSON.stringify({district,subject:item.subject,description:facts,location_notes:locationNotes})});
+    const packet=await api("/civic/cases/public-space/"+created.case_id+"/prepare",{method:"POST"});if(!packet.ready)throw new Error("Case exists but is not ready: "+packet.blockers.join("; "));
+    realCase=await api("/civic/cases/public-space/"+created.case_id);node("caseNode","done","case "+created.case_id.slice(0,8)+"… ready");proof(2,"prepared");$("receipt").classList.add("show");$("approval").classList.remove("show");$("traceState").textContent="real case ready";
+    log("persistent civic case created → "+created.case_id,"real");log("submission packet validated → ACTION PREPARED","ok");caption("<b>Real case created.</b><br>The exact Berlin handoff is ready for your review.");$("headline").textContent="A real civic case now exists.";$("sub").textContent="Nothing has been submitted to government yet. Open the case, review the exact packet, then choose whether to hand it off.";
+  }catch(e){log("case creation stopped: "+e.message,"wait");caption("<b>Stopped safely.</b><br>"+e.message)}
+  finally{$("approve").disabled=false}
+};
+$("openCase").onclick=()=>{if(realCase)window.open("/civic/report?case="+encodeURIComponent(realCase.case_id),"_blank","noopener")};
+$("saveReceipt").onclick=async()=>{
+  if(!realCase)return;const num=$("reportNumber").value.trim();if(!num){alert("Enter the real Meldungsnummer from Berlin.");return}
+  try{const saved=await api("/civic/cases/public-space/"+realCase.case_id+"/receipt",{method:"POST",body:JSON.stringify({report_number:num})});realCase=saved;proof(3,"confirmed");$("traceState").textContent="external receipt recorded";node("caseNode","done","Meldungsnummer "+num);log("real Meldungsnummer recorded → ACTION CONFIRMED","real");caption("<b>Reality answered back.</b><br>The case now has an external receipt. Outcome is still pending.");$("headline").textContent="Submission confirmed. Outcome still unknown.";$("sub").textContent="COMMONS will not mark this solved until the institution status or real-world outcome confirms it."}
+  catch(e){log("receipt not saved: "+e.message,"wait")}
+};
+$("reset").onclick=reset;
+
+function synthetic(){
+  reset();$("headline").textContent="Walkthrough mode — synthetic events";$("sub").textContent="This mode demonstrates the interaction without pretending an image was analyzed or a real case was created.";log("SYNTHETIC WALKTHROUGH — no real case will be created","wait");
+  const steps=[
+    [500,()=>{node("core","on","synthetic need received");$("ring").classList.add("live");caption("<b>1. Photo enters.</b><br>Synthetic walkthrough only.")}],
+    [1400,()=>{node("vision","on","simulated");log("SIMULATED vision → pedestrian crossing / street safety","wait")}],
+    [2500,()=>{node("vision","done","simulated suggestion");node("guard","on","confirmation required");node("human","on","waiting");caption("<b>2. Human confirmation gate.</b><br>Still synthetic.")}],
+    [4000,()=>{node("human","done","simulated approval");node("router","on","simulated routing");log("SIMULATED citizen approval","wait")}],
+    [5200,()=>{node("router","done","Ordnungsamt route");node("source","done","source verified");proof(1,"demo");log("SIMULATED route/source result","wait")}],
+    [6600,()=>{node("caseNode","done","no real case created");proof(2,"demo");caption("<b>Walkthrough ends here.</b><br>Switch back to REAL MODE to create an actual case.");log("NO REAL CASE / NO EXTERNAL ACTION","wait");$("ring").classList.remove("live")}]
+  ];steps.forEach(([t,fn])=>syntheticTimers.push(setTimeout(fn,t)));
+}
+$("walkthrough").onclick=synthetic;
+reset();
+</script>
+</body>
+</html>

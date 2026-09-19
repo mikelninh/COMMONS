@@ -46,6 +46,7 @@ def test_case_becomes_ready_only_with_official_minimum_fields() -> None:
     packet = client.post(f"/civic/cases/public-space/{case_id}/prepare")
     assert packet.status_code == 200
     assert packet.json()["ready"] is True
+    assert packet.json()["proof_stage"] == "action_prepared"
     assert packet.json()["where"]["district"] == "Neukölln"
     assert packet.json()["what"]["subject"] == "Bulky waste blocking pavement"
 
@@ -80,7 +81,7 @@ def test_handoff_is_not_recorded_as_submission() -> None:
     assert handoff.status_code == 200
     stored = client.get(f"/civic/cases/public-space/{case_id}").json()
     assert stored["status"] == "handed_off"
-    assert stored["proof_stage"] == "source_verified"
+    assert stored["proof_stage"] == "action_prepared"
     assert stored["report_number"] is None
 
 

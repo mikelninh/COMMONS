@@ -57,6 +57,7 @@ _demo_path = Path(__file__).parent / "static" / "index.html"
 _join_path = Path(__file__).parent / "static" / "join.html"
 _civic_path = Path(__file__).parent / "static" / "civic.html"
 _civic_report_path = Path(__file__).parent / "static" / "civic_report.html"
+_live_demo_path = Path(__file__).parent / "static" / "live_demo.html"
 registry = CapabilityRegistry()
 seed_builtin_capabilities(registry)
 proof_ledger = ProofLedger()
@@ -96,6 +97,11 @@ def civic_public_space_report() -> HTMLResponse:
     return HTMLResponse(_civic_report_path.read_text(encoding="utf-8"))
 
 
+@app.get("/live", response_class=HTMLResponse, include_in_schema=False)
+def live_demo() -> HTMLResponse:
+    return HTMLResponse(_live_demo_path.read_text(encoding="utf-8"))
+
+
 @app.post("/civic/cases/public-space", response_model=PublicSpaceCase)
 def create_public_space_case(payload: PublicSpaceCaseCreate) -> PublicSpaceCase:
     record = PublicSpaceCase(raw_need=payload.raw_need)
@@ -127,7 +133,11 @@ def patch_public_space_case(case_id: str, patch: PublicSpaceCasePatch) -> Public
     try:
         candidate = PublicSpaceCase.model_validate(candidate.model_dump())
     except ValidationError as exc:
-        raise HTTPException(status_code=422, detail=exc.errors(include_input=False)) from exc
+        safe_errors = [
+            {key: value for key, value in error.items() if key not in {"input", "ctx"}}
+            for error in exc.errors(include_input=False)
+        ]
+        raise HTTPException(status_code=422, detail=safe_errors) from exc
     packet = prepare_submission_packet(candidate)
     candidate.status = (
         PublicSpaceCaseStatus.READY if packet.ready else PublicSpaceCaseStatus.DRAFT
@@ -145,9 +155,13 @@ def prepare_public_space_submission(case_id: str) -> CivicSubmissionPacket:
         raise HTTPException(status_code=404, detail="Civic case not found.")
     packet = prepare_submission_packet(record)
     record.status = PublicSpaceCaseStatus.READY if packet.ready else PublicSpaceCaseStatus.DRAFT
+    if packet.ready:
+        record.proof_stage = CivicProofStage.ACTION_PREPARED
+        if "Submission packet validated and ready for citizen review." not in record.proof_notes:
+            record.proof_notes.append("Submission packet validated and ready for citizen review.")
     record.updated_at = datetime.now(timezone.utc)
     founding_store.save_public_space_case(record)
-    return packet
+    return prepare_submission_packet(record)
 
 
 @app.post(
@@ -162,6 +176,7 @@ def handoff_public_space_submission(case_id: str) -> CivicSubmissionPacket:
     if not packet.ready:
         raise HTTPException(status_code=400, detail={"blockers": packet.blockers})
     record.status = PublicSpaceCaseStatus.HANDED_OFF
+    record.proof_stage = CivicProofStage.ACTION_PREPARED
     record.updated_at = datetime.now(timezone.utc)
     record.proof_notes.append("Official Ordnungsamt-Online handoff opened; submission not yet proven.")
     founding_store.save_public_space_case(record)
