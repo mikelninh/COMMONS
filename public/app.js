@@ -670,17 +670,25 @@ function storyProgress(){
   return clamp01(window.scrollY/storyMaxScroll());
 }
 
-function updateSemanticVisuals(thread,bloom){
+function updateSemanticVisuals(thread,bloom,memory){
   threadStrength=clamp01(thread);
   bloomStrength=clamp01(bloom);
-  const key=Math.round(threadStrength*24)+"|"+Math.round(bloomStrength*24);
+  memoryStrength=clamp01(memory);
+  const key=[
+    Math.round(threadStrength*24),
+    Math.round(bloomStrength*24),
+    Math.round(memoryStrength*24)
+  ].join("|");
   if(key===lastSemanticFrame)return;
   lastSemanticFrame=key;
 
-  const points=[actionPoint];
-  if(bloomStrength>.01)points.push(...BLOOM);
+  const points=[];
+  if(memoryStrength<.55)points.push(actionPoint);
+  if(bloomStrength>.01&&memoryStrength<.6)points.push(...BLOOM);
+  if(memoryStrength>.02)points.push(memoryPoint);
   world.pointsData(points);
-  world.arcsData(threadStrength>.01?THREADS:[]);
+  world.arcsData(threadStrength>.01&&memoryStrength<.5?THREADS:[]);
+  world.ringsData(memoryStrength>.18?[memoryPoint]:[actionPoint]);
 }
 
 function syncScrollCinema(){
@@ -708,6 +716,7 @@ function syncScrollCinema(){
     el.style.opacity=opacity.toFixed(3);
     el.style.transform=`translate3d(0,${translate.toFixed(1)}px,0) scale(${scale.toFixed(4)})`;
     el.style.filter=`blur(${blur.toFixed(2)}px)`;
+    el.style.setProperty("--scene-depth",delta.toFixed(4));
     const interactive=distance<.3;
     el.classList.toggle("is-interactive",interactive);
     el.setAttribute("aria-hidden",interactive?"false":"true");
@@ -725,11 +734,39 @@ function syncScrollCinema(){
   ]);
   world.pointOfView(cam,0);
 
-  const thread=smoothstep(1.25,2.25,position);
-  const bloom=smoothstep(3.55,4.55,position);
-  updateSemanticVisuals(thread,bloom);
+  const terrainMix=clamp01(lerp(a.terrain||0,b.terrain||0,t));
+  const globeOpacity=1-smoothstep(.18,.9,terrainMix)*.94;
+  const terrainOpacity=smoothstep(.08,.72,terrainMix);
+  document.documentElement.style.setProperty("--globe-opacity",globeOpacity.toFixed(3));
+  document.documentElement.style.setProperty("--globe-blur",(terrainMix*4.5).toFixed(2)+"px");
+  document.documentElement.style.setProperty("--terrain-opacity",terrainOpacity.toFixed(3));
+  document.documentElement.style.setProperty("--terrain-content-opacity",smoothstep(.18,.62,terrainMix).toFixed(3));
+  document.documentElement.style.setProperty("--terrain-scale",lerp(.7,1.04,easeCinema(terrainMix)).toFixed(4));
+  document.documentElement.style.setProperty("--terrain-tilt",lerp(46,8,easeCinema(terrainMix)).toFixed(2)+"deg");
+  document.documentElement.style.setProperty("--terrain-rotate",lerp(-5,-1,easeCinema(terrainMix)).toFixed(2)+"deg");
+  document.documentElement.style.setProperty("--terrain-y",lerp(80,-5,easeCinema(terrainMix)).toFixed(1)+"px");
+  document.documentElement.style.setProperty("--terrain-blur",(reduceMotion?0:lerp(14,0,easeCinema(terrainMix))).toFixed(2)+"px");
 
-  const milestone=position<1.55?0:position<3.55?1:position<6.35?2:3;
+  const thread=smoothstep(2.3,3.35,position);
+  const bloom=smoothstep(4.85,6.15,position);
+  const memory=smoothstep(7.55,8.35,position);
+  updateSemanticVisuals(thread,bloom,memory);
+
+  document.documentElement.style.setProperty("--terrain-thread-opacity",(thread*terrainOpacity).toFixed(3));
+  document.documentElement.style.setProperty("--terrain-thread-offset",(1-thread).toFixed(4));
+  document.documentElement.style.setProperty("--terrain-bloom-opacity",(bloom*terrainOpacity).toFixed(3));
+  document.documentElement.style.setProperty("--terrain-bloom-scale",lerp(.62,1,bloom).toFixed(3));
+  document.documentElement.style.setProperty("--memory-opacity",memory.toFixed(3));
+
+  const silenceDistance=Math.abs(position-5);
+  const silence=1-smoothstep(.12,.76,silenceDistance);
+  const chrome=1-silence*.94;
+  document.documentElement.style.setProperty("--cinema-chrome-opacity",chrome.toFixed(3));
+  document.documentElement.style.setProperty("--cinema-header-opacity",(1-silence*.78).toFixed(3));
+  document.documentElement.style.setProperty("--silence-label-opacity",smoothstep(.08,.55,Math.abs(position-5)).toFixed(3));
+  document.documentElement.style.setProperty("--silence-detail-opacity","0");
+
+  const milestone=position<1.7?0:position<4.7?1:position<7.55?2:3;
   if(milestone!==currentMilestone){
     currentMilestone=milestone;
     updateSignature();
@@ -740,6 +777,13 @@ function syncScrollCinema(){
   $("scrollCue").classList.toggle("hidden",progress>.025);
   document.documentElement.style.setProperty("--globe-scale",(1+Math.sin(progress*Math.PI*3)*.0035).toFixed(4));
   document.documentElement.style.setProperty("--vignette-opacity",(0.82+Math.sin(progress*Math.PI)*.12).toFixed(3));
+
+  const now=performance.now();
+  const dt=Math.max(16,now-lastScrollTime);
+  const velocity=Math.min(1.5,Math.abs(progress-lastScrollProgress)/(dt/1000));
+  updateSoundscape(progress,velocity,milestone);
+  lastScrollProgress=progress;
+  lastScrollTime=now;
 
   qsa(".time-labels span").forEach((el,index)=>{
     el.style.color=index===milestone?"#bfc1b9":"";
