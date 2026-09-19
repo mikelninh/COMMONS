@@ -35,7 +35,7 @@ def sample_submission(**overrides):
 def test_join_page_is_available() -> None:
     response = client.get("/join")
     assert response.status_code == 200
-    assert "What can you help the world do?" in response.text
+    assert "What do you need — or what can you help with?" in response.text
     assert "Nobody automatically earns authority" in response.text
 
 
