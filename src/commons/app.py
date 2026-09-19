@@ -10,15 +10,18 @@ from commons.models import (
     CapabilityMatch,
     CapabilityOffer,
     CapabilityRequirement,
+    CapabilitySelectionRequest,
     CaseRecord,
     OutcomeInput,
     OutcomeRecord,
     ProblemInput,
     ProofRecord,
+    LiveCapabilitySelection,
     ProviderProfile,
 )
 from commons.proof import ProofLedger
 from commons.registry import CapabilityRegistry
+from commons.selector import JevCapabilitySelector
 from commons.service import CommonsService
 
 app = FastAPI(
@@ -32,6 +35,7 @@ _persistent_service: CommonsService | None = None
 _demo_path = Path(__file__).parent / "static" / "index.html"
 registry = CapabilityRegistry()
 proof_ledger = ProofLedger()
+capability_selector = JevCapabilitySelector()
 
 
 def persistent_service() -> CommonsService:
@@ -100,6 +104,22 @@ def list_capabilities() -> list[CapabilityOffer]:
 @app.post("/network/match", response_model=list[CapabilityMatch])
 def match_capabilities(requirement: CapabilityRequirement) -> list[CapabilityMatch]:
     return registry.match(requirement)
+
+
+@app.post("/network/select", response_model=LiveCapabilitySelection)
+def select_live_capability(request: CapabilitySelectionRequest) -> LiveCapabilitySelection:
+    """Choose only among capabilities that deterministic filtering says are feasible."""
+    candidates = registry.match(request.requirement, limit=request.max_candidates)
+    if not candidates:
+        raise HTTPException(status_code=404, detail="No feasible live capability found.")
+    try:
+        return capability_selector.choose(
+            request.need,
+            candidates,
+            context=request.context,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
 
 
 @app.post("/proof", response_model=ProofRecord)
