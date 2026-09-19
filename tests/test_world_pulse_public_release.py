@@ -2,6 +2,54 @@ import shutil
 import subprocess
 from pathlib import Path
 
+def assert_css_braces_balanced(css: str) -> None:
+    depth = 0
+    quote = None
+    escaped = False
+    in_comment = False
+    i = 0
+    while i < len(css):
+        ch = css[i]
+        nxt = css[i + 1] if i + 1 < len(css) else ""
+
+        if in_comment:
+            if ch == "*" and nxt == "/":
+                in_comment = False
+                i += 2
+                continue
+            i += 1
+            continue
+
+        if quote:
+            if escaped:
+                escaped = False
+            elif ch == "\\":
+                escaped = True
+            elif ch == quote:
+                quote = None
+            i += 1
+            continue
+
+        if ch == "/" and nxt == "*":
+            in_comment = True
+            i += 2
+            continue
+        if ch in ("'", '"'):
+            quote = ch
+            i += 1
+            continue
+        if ch == "{":
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            assert depth >= 0, "CSS contains an unmatched closing brace"
+        i += 1
+
+    assert quote is None, "CSS contains an unclosed quoted string"
+    assert not in_comment, "CSS contains an unclosed comment"
+    assert depth == 0, f"CSS contains {depth} unmatched opening brace(s)"
+
+
 
 def read_public():
     return (
@@ -153,3 +201,28 @@ def test_pages_and_zero_backend_release_config() -> None:
     assert 'from = "/world"' in config
     assert "path: public" in pages
     assert "actions/deploy-pages@v4" in pages
+
+
+def test_css_is_parse_safe_and_hidden_layers_are_contained() -> None:
+    _, styles, _ = read_public()
+
+    assert_css_braces_balanced(styles)
+    assert ".current-arrow{font-size:17px;color:#626761;transition:.3s var(--ease)}" in styles
+    assert "%3C/filter id='x'/%3E" not in styles
+
+    # Critical visibility rules live near the top of the stylesheet so a later
+    # decorative typo cannot expose raw story/drawer/explorer markup.
+    assert ".story:not(.active)" in styles
+    assert ".evidence:not(.open)" in styles
+    assert ".look:not(.open)" in styles
+    assert ".share:not(.open)" in styles
+    assert "visibility:hidden" in styles
+
+
+def test_auxiliary_ui_modes_are_mutually_exclusive() -> None:
+    _, _, app = read_public()
+
+    assert "function closeAuxiliaryLayers" in app
+    assert 'closeAuxiliaryLayers("look")' in app
+    assert 'closeAuxiliaryLayers("evidence")' in app
+    assert 'closeAuxiliaryLayers("share")' in app
