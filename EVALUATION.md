@@ -89,3 +89,49 @@ The first meaningful win is not "Jev looks clever."
 It is:
 
 > **COMMONS improves routing and abstention on real cases at lower cost or better reliability than the alternatives.**
+
+
+---
+
+## v0.2 civic benchmark
+
+The repository now includes `evals/civic_cases.json` with 32 synthetic cases across:
+
+- public-service access,
+- democracy / civic deliberation,
+- community coordination,
+- health/legal safety escalation,
+- intentionally ambiguous requests,
+- English, German and Vietnamese.
+
+Run:
+
+```bash
+python scripts/eval_civic.py
+```
+
+### Metrics available now
+
+- domain accuracy,
+- capability acceptability,
+- route acceptability,
+- Brier-score proxies for human review and automation safety,
+- false-safe rate,
+- authority-violation rate,
+- latency,
+- model input-cost estimate when token usage is available,
+- route acceptability by language.
+
+### Metrics that remain real-world only
+
+We do **not** infer these from synthetic routing cases:
+
+- resolution rate,
+- time-to-resolution,
+- recurrence,
+- agency,
+- user benefit.
+
+Those require actual actions and follow-up.
+
+The gold labels themselves are hypotheses. When a real failure shows the benchmark expectation was wrong, the benchmark should be corrected rather than forcing the system to match a bad label.

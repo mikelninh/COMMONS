@@ -49,9 +49,52 @@ COMMONS separates kinds of intelligence:
 
 The model does not get to rewrite its own authority.
 
-## First working slice
+## Try it
 
-The first COMMONS release will accept a real-world problem, make a small set of typed judgments with Jev, pass those judgments through an explicit policy engine, produce a route (automate / reason / escalate), and record the eventual outcome.
+```bash
+git clone https://github.com/mikelninh/COMMONS.git
+cd COMMONS
+python -m venv .venv
+# activate it, then:
+pip install -e ".[dev]"
+```
+
+Set your TypeSafe key in the process environment — **never commit it**:
+
+```powershell
+$env:TYPESAFE_API_KEY="your_key_here"
+```
+
+or:
+
+```bash
+export TYPESAFE_API_KEY="your_key_here"
+```
+
+Then run:
+
+```bash
+uvicorn commons.app:app --reload
+```
+
+Open **http://127.0.0.1:8000**.
+
+Live 32-case Jev benchmark:
+
+```bash
+python scripts/eval_civic.py
+```
+
+API-free architecture stress simulation:
+
+```bash
+python scripts/simulate_architecture.py
+```
+
+
+## Current working slice — v0.2 civic lab
+
+v0.2 accepts a messy real-world problem, asks Jev a set of typed probabilistic questions, passes those judgments through inspectable policy code, and produces an accountable route. The first public demo focuses on citizens, public officials and communities.
 
 The first objective is deliberately small:
 
@@ -102,9 +145,12 @@ Read the project documents:
 - [STRATEGY.md](STRATEGY.md) — working backwards from that future
 - [SUCCESS.md](SUCCESS.md) — how we know whether COMMONS is actually helping
 - [ARCHITECTURE.md](ARCHITECTURE.md) — the initial technical architecture
+- [docs/CIVIC_LAB.md](docs/CIVIC_LAB.md) — the citizen / official / community demo
+- [docs/SIMULATION.md](docs/SIMULATION.md) — explicit architecture stress assumptions
+- [NEXT_PHASE.md](NEXT_PHASE.md) — v0.3 evidence + capability network
 
 ## Status
 
-**Foundation / v0.1.**
+**Civic intelligence lab / v0.2.**
 
-The repository intentionally begins with a thin vertical slice rather than a sprawling agent platform.
+The current slice adds multilingual civic routing, explicit deliberation boundaries, a shareable web UI, a 32-case benchmark and a measurable path toward v0.3 evidence + capabilities.
