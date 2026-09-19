@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>COMMONS — Live</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#050708;--panel:#0a0f12;--line:#1d292e;--line2:#2a3c43;
+  --text:#f4f7f2;--muted:#8e9ca2;--soft:#c8d1d4;
+  --green:#b9ff78;--green2:#77db87;--cyan:#70d8ff;--amber:#ffd27a;--violet:#b894ff;--red:#ff8b8b;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 44%,rgba(94,171,104,.09),transparent 28%),
+    radial-gradient(circle at 82% 22%,rgba(68,154,188,.07),transparent 22%),
+    linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);
+  background-size:auto,auto,44px 44px,44px 44px;
+  mask-image:linear-gradient(to bottom,transparent 0,#000 10%,#000 90%,transparent 100%);
+}
+.shell{height:100%;padding:20px 24px 18px;display:grid;grid-template-rows:auto auto 1fr auto;gap:14px;position:relative;isolation:isolate}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-size:12px;letter-spacing:.18em;font-weight:900}.brand b{color:var(--green)}
+.mode{display:flex;align-items:center;gap:9px;font-size:10px;color:var(--muted);letter-spacing:.11em;text-transform:uppercase}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 18px rgba(185,255,120,.8)}
+.demo{border:1px solid #584d2e;background:#161207;color:var(--amber);padding:5px 8px;border-radius:999px}
+.hero{text-align:center;padding:0 140px}
+.eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--green);font-weight:850;margin-bottom:7px}
+.need{font-size:clamp(23px,2.8vw,42px);line-height:1.08;letter-spacing:-.045em;font-weight:850;min-height:46px;transition:.35s opacity,.35s transform}
+.need.in{animation:needIn .72s cubic-bezier(.2,.85,.25,1) both}
+@keyframes needIn{from{opacity:0;transform:translateY(16px) scale(.985);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
+.meta{font-size:11px;color:var(--muted);margin-top:7px}
+.stage{display:grid;grid-template-columns:260px minmax(0,1fr) 290px;gap:14px;min-height:0}
+.panel{border:1px solid var(--line);background:linear-gradient(180deg,rgba(10,15,18,.94),rgba(7,11,13,.92));border-radius:18px;overflow:hidden;box-shadow:0 18px 70px rgba(0,0,0,.18)}
+.panelhead{height:40px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 13px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.panelhead strong{color:#d7e0e2;font-size:10px}
+.queue{padding:10px;display:flex;flex-direction:column;gap:8px}
+.needcard{border:1px solid var(--line);background:#080d10;border-radius:12px;padding:10px 10px 9px;opacity:.28;transform:translateX(-6px);transition:.45s all}
+.needcard.active{opacity:1;transform:none;border-color:#3d5a46;background:#0a120d;box-shadow:0 0 28px rgba(185,255,120,.05)}
+.needcard .kind{font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--green)}
+.needcard .copy{font-size:11px;line-height:1.35;margin-top:5px;color:#d5dddd}
+.needcard .small{font-size:9px;color:var(--muted);margin-top:6px}
+.center{position:relative;min-width:0}
+.graph{height:100%;position:relative;overflow:hidden;border-radius:18px;background:
+  radial-gradient(circle at 50% 50%,rgba(57,115,73,.09),transparent 26%),
+  linear-gradient(180deg,rgba(5,9,10,.72),rgba(6,9,10,.92));
+  border:1px solid var(--line)
+}
+.graph:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at center,transparent 0 48%,rgba(5,7,8,.45) 100%);pointer-events:none}
+.orbit{position:absolute;border:1px solid rgba(112,216,255,.08);border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%)}
+.o1{width:330px;height:330px}.o2{width:520px;height:520px}.o3{width:720px;height:720px}
+.node{position:absolute;width:112px;min-height:58px;border:1px solid var(--line2);background:#091015;border-radius:14px;padding:9px 10px;z-index:4;opacity:.2;transform:scale(.96);transition:.42s all cubic-bezier(.2,.8,.2,1)}
+.node.active{opacity:1;transform:scale(1);box-shadow:0 0 40px rgba(112,216,255,.08)}
+.node.done{opacity:.86;border-color:#36513c;background:#09110d}
+.node.human.active{border-color:#765f31;box-shadow:0 0 38px rgba(255,210,122,.08)}
+.node.institution.active{border-color:#4b4872;box-shadow:0 0 38px rgba(184,148,255,.08)}
+.node .nlabel{font-size:8px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.node .nname{font-size:10.5px;font-weight:850;margin-top:4px;line-height:1.25}
+.node .nstate{font-size:8.5px;color:var(--cyan);margin-top:4px}
+.node.done .nstate{color:var(--green)}
+.n-core{left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);width:146px;min-height:76px;text-align:center;border-color:#4b6946;background:#0a120d}
+.n-core.active{transform:translate(-50%,-50%) scale(1);box-shadow:0 0 70px rgba(185,255,120,.14)}
+.n-router{left:8%;top:16%}.n-source{left:8%;bottom:14%}.n-authority{right:7%;top:14%}.n-human{right:7%;bottom:13%}.n-institution{left:50%;top:7%;transform:translateX(-50%) scale(.96)}.n-institution.active{transform:translateX(-50%) scale(1)}
+.n-proof{left:50%;bottom:6%;transform:translateX(-50%) scale(.96)}.n-proof.active{transform:translateX(-50%) scale(1)}
+.edge{position:absolute;height:1px;background:linear-gradient(90deg,transparent,rgba(112,216,255,.24),transparent);transform-origin:left center;opacity:.18;z-index:1}
+.edge.live{opacity:.8;box-shadow:0 0 10px rgba(112,216,255,.35)}
+.pulse{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 18px rgba(112,216,255,.9);z-index:3;opacity:0}
+.pulse.go{animation:fly 1.05s ease-in-out both}
+@keyframes fly{0%{opacity:0;transform:translate(var(--x1),var(--y1)) scale(.5)}15%{opacity:1}85%{opacity:1}100%{opacity:0;transform:translate(var(--x2),var(--y2)) scale(1.15)}}
+.core-ring{position:absolute;left:50%;top:50%;width:210px;height:210px;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(185,255,120,.08);opacity:0}
+.core-ring.live{animation:ring 1.8s ease-out infinite}
+@keyframes ring{0%{opacity:.8;transform:translate(-50%,-50%) scale(.35)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.45)}}
+.caption{position:absolute;left:50%;top:73%;transform:translateX(-50%);z-index:6;text-align:center;width:70%;font-size:12px;color:#d7dfe1;opacity:0;transition:.35s all}
+.caption.show{opacity:1;transform:translate(-50%,-6px)}
+.caption b{color:var(--green)}
+.log{height:calc(100% - 40px);overflow:hidden;padding:10px 11px;display:flex;flex-direction:column;justify-content:flex-end;gap:7px}
+.logline{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:9.5px;line-height:1.35;color:#94a2a8;border-left:1px solid #28343a;padding-left:8px;opacity:0;transform:translateY(5px);transition:.32s all}
+.logline.show{opacity:1;transform:none}.logline b{color:#e4e9e7}.logline .ok{color:var(--green)}.logline .wait{color:var(--amber)}.logline .sys{color:var(--cyan)}
+.proofbar{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;padding:9px 10px 10px;border-top:1px solid var(--line)}
+.proofstep{border:1px solid var(--line);border-radius:10px;padding:8px;min-height:54px;background:#080c0e;transition:.4s all}
+.proofstep .pstate{font-size:7.5px;text-transform:uppercase;letter-spacing:.08em;color:#67767c}.proofstep .pname{font-size:9px;font-weight:850;margin-top:4px;color:#aab5b9}
+.proofstep.on{border-color:#405c42;background:#0a120c}.proofstep.on .pstate{color:var(--green)}.proofstep.on .pname{color:#e2ece0}
+.bottom{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center}
+.metrics{display:flex;gap:18px}.metric{font-size:9px;color:var(--muted)}.metric b{display:block;font-size:14px;color:#eef3ef;letter-spacing:-.02em;margin-top:2px}.metric b.green{color:var(--green)}
+.controls{display:flex;gap:7px;justify-content:center}.btn{border:1px solid var(--line2);background:#0b1114;color:#dce3e5;border-radius:999px;padding:8px 11px;font-size:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}.btn.primary{border-color:#4f6b45;color:#081006;background:var(--green)}
+.scenarios{display:flex;justify-content:flex-end;gap:6px}.scenario{border:1px solid var(--line);background:#080d10;color:#88969b;border-radius:999px;padding:7px 9px;font-size:8.5px}.scenario.on{color:#dfe6e7;border-color:#3e5345;background:#0a120d}
+.endcard{position:absolute;inset:0;z-index:20;background:rgba(5,7,8,.84);backdrop-filter:blur(13px);display:grid;place-items:center;opacity:0;pointer-events:none;transition:.6s opacity}
+.endcard.show{opacity:1;pointer-events:auto}
+.endinner{text-align:center;max-width:780px;padding:30px}.endeyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--green);font-weight:900}.endtitle{font-size:clamp(42px,6vw,84px);line-height:.95;letter-spacing:-.06em;font-weight:900;margin:14px 0 16px}.endsub{font-size:15px;color:#a9b5b9;line-height:1.55}.endproof{display:flex;gap:8px;justify-content:center;margin-top:24px;flex-wrap:wrap}.pill{border:1px solid #35503a;background:#09110c;color:var(--green);border-radius:999px;padding:7px 10px;font-size:9px;text-transform:uppercase;letter-spacing:.08em}
+@media(max-width:1000px){.stage{grid-template-columns:210px 1fr 240px}.hero{padding:0 40px}.node{width:100px}.o3{display:none}}
+@media(max-width:780px){html,body{overflow:auto}.shell{height:auto;min-height:100%;grid-template-rows:auto auto auto auto}.stage{grid-template-columns:1fr}.panel.left,.panel.right{display:none}.graph{height:520px}.hero{padding:0 10px}.bottom{grid-template-columns:1fr}.metrics,.scenarios{justify-content:center}.controls{order:-1}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="topbar">
+    <div class="brand"><b>COMMONS</b> / LIVE</div>
+    <div class="mode"><span class="dot"></span> network online <span class="demo">DEMO MODE · SYNTHETIC EVENTS</span></div>
+  </div>
+
+  <section class="hero">
+    <div class="eyebrow" id="eyebrow">one human need enters the network</div>
+    <div class="need" id="need">“There’s a dangerous crossing outside my school. I want something done before someone gets hurt.”</div>
+    <div class="meta" id="meta">Berlin · citizen-controlled · no external action without approval</div>
+  </section>
+
+  <section class="stage">
+    <aside class="panel left">
+      <div class="panelhead"><strong>Incoming needs</strong><span>4 queued</span></div>
+      <div class="queue">
+        <div class="needcard active" id="q1"><div class="kind">Public space</div><div class="copy">Dangerous crossing outside a school</div><div class="small">Berlin · now</div></div>
+        <div class="needcard" id="q2"><div class="kind">Life event</div><div class="copy">I lost my job. What do I need to do?</div><div class="small">Berlin · +12s</div></div>
+        <div class="needcard" id="q3"><div class="kind">Administration</div><div class="copy">I received a Bescheid I don’t understand</div><div class="small">Berlin · +21s</div></div>
+        <div class="needcard" id="q4"><div class="kind">Neighborhood</div><div class="copy">Can we get funding for a local project?</div><div class="small">Berlin · +34s</div></div>
+      </div>
+    </aside>
+
+    <main class="center">
+      <div class="graph" id="graph">
+        <div class="orbit o1"></div><div class="orbit o2"></div><div class="orbit o3"></div>
+        <div class="core-ring" id="ring"></div>
+
+        <div class="node n-core" id="core"><div class="nlabel">COMMONS</div><div class="nname">Coordination Core</div><div class="nstate" id="corestate">waiting for need</div></div>
+        <div class="node n-router" id="router"><div class="nlabel">AI capability</div><div class="nname">Need Router</div><div class="nstate">idle</div></div>
+        <div class="node n-source" id="source"><div class="nlabel">AI capability</div><div class="nname">Official Source Finder</div><div class="nstate">idle</div></div>
+        <div class="node n-authority" id="authority"><div class="nlabel">Guardrail</div><div class="nname">Authority Guard</div><div class="nstate">idle</div></div>
+        <div class="node human n-human" id="human"><div class="nlabel">Human</div><div class="nname">Citizen Approval</div><div class="nstate">required</div></div>
+        <div class="node institution n-institution" id="institution"><div class="nlabel">Institution</div><div class="nname">Official Civic Channel</div><div class="nstate">not contacted</div></div>
+        <div class="node n-proof" id="proof"><div class="nlabel">Verification</div><div class="nname">Proof Ledger</div><div class="nstate">source only</div></div>
+
+        <div class="core-ring" id="ring2"></div>
+        <div class="caption" id="caption"></div>
+      </div>
+    </main>
+
+    <aside class="panel right">
+      <div class="panelhead"><strong>Live trace</strong><span id="clock">00:00</span></div>
+      <div class="log" id="log">
+        <div class="logline show"><span class="sys">SYS</span> COMMONS network ready</div>
+      </div>
+      <div class="proofbar">
+        <div class="proofstep" id="ps1"><div class="pstate">waiting</div><div class="pname">SOURCE</div></div>
+        <div class="proofstep" id="ps2"><div class="pstate">waiting</div><div class="pname">PREPARED</div></div>
+        <div class="proofstep" id="ps3"><div class="pstate">waiting</div><div class="pname">CONFIRMED</div></div>
+        <div class="proofstep" id="ps4"><div class="pstate">waiting</div><div class="pname">ACK</div></div>
+        <div class="proofstep" id="ps5"><div class="pstate">waiting</div><div class="pname">OUTCOME</div></div>
+      </div>
+    </aside>
+  </section>
+
+  <footer class="bottom">
+    <div class="metrics">
+      <div class="metric">active capabilities<b id="mcap">0</b></div>
+      <div class="metric">authority violations<b class="green">0</b></div>
+      <div class="metric">proof level<b id="mproof">0 / 5</b></div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="replay">↻ replay</button>
+      <button class="btn primary" id="play">▶ play demo</button>
+      <button class="btn" id="skip">skip →</button>
+    </div>
+    <div class="scenarios">
+      <button class="scenario on" data-scene="0">street</button>
+      <button class="scenario" data-scene="1">job loss</button>
+      <button class="scenario" data-scene="2">letter</button>
+      <button class="scenario" data-scene="3">grant</button>
+    </div>
+  </footer>
+</div>
+
+<div class="endcard" id="endcard">
+  <div class="endinner">
+    <div class="endeyebrow">COMMONS</div>
+    <div class="endtitle">Intention → verified action.</div>
+    <div class="endsub">Humans set the goal. AI finds and coordinates capabilities. Code enforces authority. Institutions act. Reality supplies the proof.</div>
+    <div class="endproof"><span class="pill">anything can ask</span><span class="pill">anything can help</span><span class="pill">confidence ≠ authority</span><span class="pill">reality &gt; model opinion</span></div>
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const scenes=[
+  {need:"“There’s a dangerous crossing outside my school. I want something done before someone gets hurt.”",meta:"Berlin · citizen-controlled · no external action without approval",kind:"public-space safety",route:"official public-space / participation channel"},
+  {need:"“I just lost my job. Tell me what I actually need to do next.”",meta:"Berlin · life-event orchestration · evidence before claims",kind:"life event",route:"employment + benefits capability graph"},
+  {need:"“I got this official letter and I don’t understand the deadline or what I can do.”",meta:"Berlin · administrative case · deadline-sensitive",kind:"administrative decision",route:"official process + human review if needed"},
+  {need:"“We have an idea for our neighborhood. Is there money or a legitimate way to make it happen?”",meta:"Berlin · local project · citizen chooses the goal",kind:"local project",route:"participation + funding capabilities"}
+];
+const nodeIds=["core","router","source","authority","human","institution","proof"];
+let timers=[],playing=false,scene=0,startAt=0,step=0;
+
+function clearTimers(){timers.forEach(clearTimeout);timers=[]}
+function later(ms,fn){timers.push(setTimeout(fn,ms))}
+function addLog(text,cls){
+  const d=document.createElement("div");d.className="logline";
+  d.innerHTML=(cls?'<span class="'+cls+'">'+cls.toUpperCase()+'</span> ':"")+text;
+  $("log").appendChild(d);
+  while($("log").children.length>9)$("log").removeChild($("log").children[0]);
+  requestAnimationFrame(()=>d.classList.add("show"));
+}
+function stateNode(id,state,txt){
+  const n=$(id);n.classList.remove("active","done");
+  if(state)n.classList.add(state);
+  if(txt)n.querySelector(".nstate").textContent=txt;
+}
+function caption(html){
+  $("caption").classList.remove("show");
+  later(90,()=>{$("caption").innerHTML=html;$("caption").classList.add("show")});
+}
+function proofOn(n,label){
+  for(let i=1;i<=5;i++){
+    const el=$("ps"+i);
+    if(i<=n){el.classList.add("on");el.querySelector(".pstate").textContent=i===n?(label||"current"):"verified"}
+    else{el.classList.remove("on");el.querySelector(".pstate").textContent="waiting"}
+  }
+  $("mproof").textContent=n+" / 5";
+}
+function activeCount(){
+  return nodeIds.filter(id=>$(id).classList.contains("active")||$(id).classList.contains("done")).length;
+}
+function updateCount(){$("mcap").textContent=activeCount()}
+function reset(){
+  clearTimers();playing=false;step=0;startAt=0;
+  $("endcard").classList.remove("show");$("ring").classList.remove("live");$("ring2").classList.remove("live");
+  nodeIds.forEach(id=>stateNode(id,"",id==="human"?"required":id==="institution"?"not contacted":id==="proof"?"source only":"idle"));
+  $("corestate").textContent="waiting for need";
+  $("caption").classList.remove("show");$("caption").innerHTML="";
+  $("log").innerHTML='<div class="logline show"><span class="sys">SYS</span> COMMONS network ready</div>';
+  proofOn(0);updateCount();$("clock").textContent="00:00";$("play").textContent="▶ play demo";
+}
+function setScene(i){
+  scene=i;reset();
+  document.querySelectorAll(".scenario").forEach((b,j)=>b.classList.toggle("on",j===i));
+  $("need").classList.remove("in");$("need").textContent=scenes[i].need;$("meta").textContent=scenes[i].meta;
+  requestAnimationFrame(()=>$("need").classList.add("in"));
+  document.querySelectorAll(".needcard").forEach((c,j)=>c.classList.toggle("active",j===i));
+}
+function clockLoop(){
+  if(!playing)return;
+  const s=Math.floor((performance.now()-startAt)/1000);
+  $("clock").textContent="00:"+String(s).padStart(2,"0");
+  requestAnimationFrame(clockLoop);
+}
+function play(){
+  reset();playing=true;startAt=performance.now();$("play").textContent="❚❚ running";clockLoop();
+  $("need").classList.remove("in");void $("need").offsetWidth;$("need").classList.add("in");
+  addLog("<b>NEED</b> received from citizen","sys");
+
+  later(700,()=>{
+    stateNode("core","active","need received");$("ring").classList.add("live");updateCount();
+    caption("<b>1. A need enters.</b><br>No form taxonomy. Just the outcome.");
+    addLog("captured goal + jurisdiction","ok");
+  });
+  later(1900,()=>{
+    stateNode("router","active","classifying");updateCount();
+    caption("<b>2. COMMONS decomposes the problem.</b><br>What capabilities are actually needed?");
+    addLog("Need Router → "+scenes[scene].kind,"sys");
+  });
+  later(3200,()=>{
+    stateNode("router","done","routed");
+    stateNode("source","active","checking sources");updateCount();
+    addLog("Official Source Finder activated","sys");
+    caption("<b>3. Official routes are checked.</b><br>Model confidence alone is not evidence.");
+  });
+  later(4700,()=>{
+    stateNode("source","done","official route found");
+    stateNode("authority","active","checking authority");updateCount();
+    proofOn(1,"verified");
+    addLog("official source verified","ok");
+    addLog("Proof Ledger → SOURCE VERIFIED","ok");
+  });
+  later(6100,()=>{
+    stateNode("authority","done","human approval required");
+    stateNode("human","active","waiting for citizen");updateCount();
+    caption("<b>4. Authority stops here.</b><br>The AI can prepare. The citizen still decides.");
+    addLog("Authority Guard → consequential submit blocked","wait");
+    addLog("human approval gate inserted","ok");
+  });
+  later(7900,()=>{
+    stateNode("human","done","citizen approved draft");
+    stateNode("institution","active","handoff prepared");updateCount();
+    proofOn(2,"prepared");
+    caption("<b>5. The action is prepared.</b><br>Exact payload visible before anything leaves COMMONS.");
+    addLog("citizen reviewed + approved","ok");
+    addLog("official handoff packet ready","ok");
+  });
+  later(9800,()=>{
+    stateNode("institution","done","official channel opened");
+    stateNode("proof","active","waiting for receipt");updateCount();
+    proofOn(3,"confirmed");
+    caption("<b>6. Real-world handoff.</b><br>COMMONS does not confuse “opened” with “submitted”.");
+    addLog("official civic channel opened","sys");
+    addLog("submission confirmation requested","wait");
+  });
+  later(11800,()=>{
+    stateNode("proof","done","external receipt captured");updateCount();
+    proofOn(4,"ack");
+    caption("<b>7. Reality sends proof back.</b><br>Receipt / case number links the digital plan to the real institution.");
+    addLog("external case reference captured","ok");
+    addLog("Proof Ledger → INSTITUTION ACK","ok");
+  });
+  later(13900,()=>{
+    caption("<b>8. Outcome is still pending.</b><br>COMMONS refuses to call the problem solved until reality says so.");
+    addLog("outcome pending — no success claim","wait");
+  });
+  later(15800,()=>{
+    proofOn(4,"ack");
+    $("ring").classList.remove("live");
+    $("endcard").classList.add("show");
+    playing=false;$("play").textContent="▶ play again";
+  });
+}
+$("play").onclick=()=>play();
+$("replay").onclick=()=>play();
+$("skip").onclick=()=>{$("endcard").classList.add("show");playing=false;clearTimers()};
+document.querySelectorAll(".scenario").forEach((b,i)=>b.onclick=()=>setScene(i));
+$("endcard").onclick=()=>{$("endcard").classList.remove("show");play()};
+setScene(0);
+later(1000,play);
+</script>
+</body>
+</html>
