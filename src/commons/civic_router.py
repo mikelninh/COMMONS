@@ -34,11 +34,22 @@ class CivicChannel(BaseModel):
     last_verified: date
 
 
+class CivicTraceStep(BaseModel):
+    step: int
+    label: str
+    status: Literal["done", "warning"]
+    detail: str
+
+
 class CivicActionResult(BaseModel):
     need: str
     location: str
     interpreted_as: str
     channels: list[CivicChannel]
+    primary_channel_id: str
+    checked_channels: int
+    matched_signals: list[str] = Field(default_factory=list)
+    routing_trace: list[CivicTraceStep] = Field(default_factory=list)
     missing_information: list[str] = Field(default_factory=list)
     political_recommendation: bool = False
     citizen_voice_required: bool = True
@@ -169,6 +180,7 @@ def route_civic_need(need: CivicNeedInput) -> CivicActionResult:
     text = need.text.lower()
     channels: list[CivicChannel] = []
     missing: list[str] = []
+    signals: list[str] = []
 
     project_words = (
         "project", "projekt", "idea", "idee", "neighborhood", "neighbourhood",
@@ -188,15 +200,19 @@ def route_civic_need(need: CivicNeedInput) -> CivicActionResult:
 
     if "helle mitte" in text or "hellersdorf" in text:
         channels.append(HELLE_MITTE_FUND)
+        signals.append("Helle Mitte / Hellersdorf location or project context")
 
     if any(word in text for word in project_words):
         channels.append(MEINBERLIN)
+        signals.append("local project / participation language")
 
     if any(word in text for word in public_space_words):
         channels.append(ORDNUNGSAMT)
+        signals.append("public-space problem language")
 
     if any(word in text for word in authority_words):
         channels.append(PETITION)
+        signals.append("Berlin authority / complaint language")
         if "bescheid" in text or "decision" in text or "entscheidung" in text:
             missing.append(
                 "If this is a formal administrative decision, check the notice for any "
@@ -205,6 +221,7 @@ def route_civic_need(need: CivicNeedInput) -> CivicActionResult:
 
     if not channels:
         channels.append(MEINBERLIN)
+        signals.append("no specific verified route matched")
         missing.append(
             "COMMONS does not yet have enough verified Berlin channels to route this "
             "confidently. The first safe step is to search current official participation "
@@ -223,10 +240,55 @@ def route_civic_need(need: CivicNeedInput) -> CivicActionResult:
     else:
         interpreted = "civic participation / local improvement"
 
+    routed_channels = list(unique.values())
+    primary = routed_channels[0]
+    trace = [
+        CivicTraceStep(
+            step=1,
+            label="Read your goal",
+            status="done",
+            detail=f"Captured your request as written and scoped it to {need.location}.",
+        ),
+        CivicTraceStep(
+            step=2,
+            label="Understand the civic need",
+            status="warning" if signals == ["no specific verified route matched"] else "done",
+            detail=f"Matched: {', '.join(signals)}.",
+        ),
+        CivicTraceStep(
+            step=3,
+            label="Check verified official channels",
+            status="done",
+            detail=(
+                "Checked the current curated Berlin civic channel set and returned only "
+                "routes backed by official public sources."
+            ),
+        ),
+        CivicTraceStep(
+            step=4,
+            label="Apply authority and safety boundaries",
+            status="warning" if missing else "done",
+            detail=(
+                "COMMONS keeps the citizen's position and final submission under citizen "
+                "control; legal-remedy or emergency caveats are surfaced rather than hidden."
+            ),
+        ),
+        CivicTraceStep(
+            step=5,
+            label="Choose the clearest next path",
+            status="done",
+            detail=f"Primary route: {primary.name}. {len(routed_channels)} route(s) remain visible.",
+        ),
+    ]
+
     return CivicActionResult(
         need=need.text,
         location=need.location,
         interpreted_as=interpreted,
-        channels=list(unique.values()),
+        channels=routed_channels,
+        primary_channel_id=primary.channel_id,
+        checked_channels=4,
+        matched_signals=signals,
+        routing_trace=trace,
         missing_information=missing,
     )
