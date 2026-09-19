@@ -430,9 +430,15 @@ function renderSignalList(){
   });
 }
 
+function closeAuxiliaryLayers(except=null){
+  if(except!=="evidence") closeEvidence();
+  if(except!=="look") $("look").classList.remove("open");
+  if(except!=="share") $("share").classList.remove("open");
+}
+
 function openLook(){
   stopStory(false);
-  closeEvidence();
+  closeAuxiliaryLayers("look");
   $("home").classList.add("hidden");
   $("look").classList.add("open");
   $("signalListArea").style.display="";
@@ -489,8 +495,7 @@ function hideOpening(){
 
 function startStory(index=0){
   hideOpening();
-  closeEvidence();
-  $("look").classList.remove("open");
+  closeAuxiliaryLayers();
   $("home").classList.add("hidden");
   $("story").classList.add("active");
   world.controls().autoRotate=false;
@@ -608,6 +613,7 @@ function scrubTime(value){
 }
 
 function openEvidence(){
+  closeAuxiliaryLayers("evidence");
   renderEvidence();
   $("evidence").classList.add("open");
   $("evidence").setAttribute("aria-hidden","false");
@@ -674,6 +680,7 @@ function renderEvidence(){
 }
 
 function openShare(){
+  closeAuxiliaryLayers("share");
   drawShareCard();
   $("share").classList.add("open");
 }
