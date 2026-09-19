@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from enum import StrEnum
 from uuid import uuid4
 
-from pydantic import BaseModel, EmailStr, Field, model_validator
+from pydantic import BaseModel, Field, model_validator
 
 from commons.civic import CivicProofStage
 
@@ -41,7 +41,7 @@ class PublicSpaceCase(BaseModel):
     photo_rights_confirmed: bool = False
 
     wants_status_updates: bool = False
-    email: EmailStr | None = None
+    email: str | None = Field(default=None, max_length=320)
     available_for_questions: bool = False
 
     official_report_url: str = OFFICIAL_REPORT_URL
@@ -57,6 +57,8 @@ class PublicSpaceCase(BaseModel):
     def contact_consistency(self) -> "PublicSpaceCase":
         if self.wants_status_updates and not self.email:
             raise ValueError("An email address is required for automatic status updates.")
+        if self.email and ("@" not in self.email or "." not in self.email.rsplit("@", 1)[-1]):
+            raise ValueError("Enter a valid email address.")
         if self.has_photo and not self.photo_rights_confirmed:
             raise ValueError("Photo rights must be confirmed before preparing a photo submission.")
         return self
@@ -76,7 +78,7 @@ class PublicSpaceCasePatch(BaseModel):
     has_photo: bool | None = None
     photo_rights_confirmed: bool | None = None
     wants_status_updates: bool | None = None
-    email: EmailStr | None = None
+    email: str | None = Field(default=None, max_length=320)
     available_for_questions: bool | None = None
 
 
