@@ -1,6 +1,6 @@
 [project]
 name = "commons-intelligence"
-version = "0.1.0"
+version = "0.2.0"
 description = "Open intelligence infrastructure for turning human needs into accountable action."
 readme = "README.md"
 requires-python = ">=3.12"
