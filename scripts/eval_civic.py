@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import statistics
 import sys
@@ -188,7 +189,7 @@ def main() -> None:
         "false_safe_rate": false_safe / non_automatable if non_automatable else 0.0,
         "authority_violation_rate": authority_violations / non_automatable if non_automatable else 0.0,
         "mean_latency_seconds": mean(latencies),
-        "p95_latency_seconds": sorted(latencies)[max(0, min(n - 1, int(n * 0.95) - 1))] if n else None,
+        "p95_latency_seconds": sorted(latencies)[max(0, min(n - 1, math.ceil(n * 0.95) - 1))] if n else None,
         "estimated_total_input_cost_usd": sum(estimated_costs) if estimated_costs else None,
         "estimated_mean_input_cost_usd": mean(estimated_costs),
         "route_acceptability_by_language": {
