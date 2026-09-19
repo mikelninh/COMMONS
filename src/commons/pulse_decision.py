@@ -17,9 +17,26 @@ class PulseActionNode(BaseModel):
     detail: str
 
 
+class WorldBriefItem(BaseModel):
+    subject_id: str
+    subject_type: Literal["signal", "cluster"]
+    status: Literal["wake", "review", "watch"]
+    title: str
+    source_label: str
+    why: list[str] = Field(default_factory=list)
+    next_step: str
+
+
+class WorldPulseBrief(BaseModel):
+    headline: str
+    summary: str
+    items: list[WorldBriefItem] = Field(default_factory=list)
+
+
 class WorldPulseLiveEnvelope(BaseModel):
     pulse: WorldPulseResponse
     decisions: "PulseDecisionBatch"
+    brief: WorldPulseBrief
 
 
 class PulseDecisionBatch(BaseModel):
@@ -302,4 +319,118 @@ def build_decision_batch(pulse: WorldPulseResponse) -> PulseDecisionBatch:
         changed_subjects=pulse.stats.new_signals + pulse.stats.updated_signals,
         auto_wakes=auto_wakes,
         review_candidates=review_candidates,
+    )
+
+
+
+def build_world_brief(
+    pulse: WorldPulseResponse,
+    decisions: PulseDecisionBatch,
+) -> WorldPulseBrief:
+    signal_by_id = {signal.signal_id: signal for signal in pulse.signals}
+    cluster_by_id = {cluster.cluster_id: cluster for cluster in pulse.clusters}
+    items: list[WorldBriefItem] = []
+
+    def next_step(decision: PulseWakeDecision) -> str:
+        return {
+            "monitor": "Keep monitoring; no extra intelligence needed yet.",
+            "verify": "Check provenance and independent corroboration.",
+            "reason": "Wake deeper reasoning for context and uncertainty.",
+            "coordinate": "Explore relevant capabilities or institutions.",
+        }[decision.next_capability]
+
+    for decision in decisions.auto_wakes:
+        if decision.subject_type == "signal":
+            signal = signal_by_id.get(decision.subject_id)
+            if signal is None:
+                continue
+            items.append(
+                WorldBriefItem(
+                    subject_id=decision.subject_id,
+                    subject_type="signal",
+                    status="wake",
+                    title=signal.title,
+                    source_label=signal.source,
+                    why=decision.reasons,
+                    next_step=next_step(decision),
+                )
+            )
+        else:
+            cluster = cluster_by_id.get(decision.subject_id)
+            if cluster is None:
+                continue
+            items.append(
+                WorldBriefItem(
+                    subject_id=decision.subject_id,
+                    subject_type="cluster",
+                    status="wake",
+                    title="Possible multi-source event cluster",
+                    source_label=" + ".join(cluster.sources),
+                    why=decision.reasons,
+                    next_step=next_step(decision),
+                )
+            )
+        if len(items) >= 3:
+            break
+
+    if len(items) < 3:
+        for decision in decisions.review_candidates:
+            if len(items) >= 3:
+                break
+            if decision.subject_type == "signal":
+                signal = signal_by_id.get(decision.subject_id)
+                if signal is None:
+                    continue
+                items.append(
+                    WorldBriefItem(
+                        subject_id=decision.subject_id,
+                        subject_type="signal",
+                        status="review",
+                        title=signal.title,
+                        source_label=signal.source,
+                        why=decision.reasons,
+                        next_step=next_step(decision),
+                    )
+                )
+            else:
+                cluster = cluster_by_id.get(decision.subject_id)
+                if cluster is None:
+                    continue
+                items.append(
+                    WorldBriefItem(
+                        subject_id=decision.subject_id,
+                        subject_type="cluster",
+                        status="review",
+                        title="Possible multi-source event cluster",
+                        source_label=" + ".join(cluster.sources),
+                        why=decision.reasons,
+                        next_step=next_step(decision),
+                    )
+                )
+
+    if decisions.auto_wakes:
+        headline = f"{len(decisions.auto_wakes)} live change{'s' if len(decisions.auto_wakes) != 1 else ''} woke intelligence."
+        summary = (
+            f"COMMONS observed {pulse.stats.total_signals} live signals and found "
+            f"{decisions.changed_subjects} changed subject{'s' if decisions.changed_subjects != 1 else ''}. "
+            "Only changed signals that crossed transparent wake rules triggered deeper attention."
+        )
+    elif pulse.baseline_observation:
+        headline = "Baseline established. Intelligence stayed asleep."
+        summary = (
+            f"COMMONS observed {pulse.stats.total_signals} live signals. "
+            "This first observation creates the baseline; no event is falsely labeled new."
+        )
+    else:
+        headline = "Nothing crossed the wake gate."
+        summary = (
+            f"COMMONS observed {pulse.stats.total_signals} live signals and "
+            f"{decisions.changed_subjects} changed subject{'s' if decisions.changed_subjects != 1 else ''}. "
+            "No changed signal justified an automatic intelligence wake."
+        )
+
+    return WorldPulseBrief(
+        headline=headline,
+        summary=summary,
+        items=items,
     )
