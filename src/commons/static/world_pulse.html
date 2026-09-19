@@ -204,7 +204,11 @@ async function refresh(){
     const r=await fetch("/pulse/world",{cache:"no-store"});if(!r.ok)throw new Error("HTTP "+r.status);const data=await r.json();
     drawWorld(data);$("loading").classList.add("hide");
     const changed=data.stats.new_signals+data.stats.updated_signals;
-    $("status").textContent=changed?changed+" signal"+(changed===1?"":"s")+" changed since previous observation.":"World state observed. No changes detected since previous poll.";
+    if(data.baseline_observation){
+      $("status").textContent="Baseline established: "+data.stats.total_signals+" live signals observed.";
+    }else{
+      $("status").textContent=changed?changed+" signal"+(changed===1?"":"s")+" changed since previous observation.":"World state observed. No changes detected since previous poll.";
+    }
   }catch(e){
     $("status").textContent="Could not assemble world state: "+e.message;$("loading").classList.add("hide");
   }finally{$("refresh").disabled=false}
