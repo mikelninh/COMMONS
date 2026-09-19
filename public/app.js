@@ -1515,6 +1515,7 @@ function openShare(){
 }
 function closeShare(){
   $("share").classList.remove("open");
+  pendingShareInterventionId=null;
 }
 
 function drawShareCard(){
