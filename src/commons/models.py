@@ -195,3 +195,10 @@ class CapabilityPlan(BaseModel):
     total_cost_eur: float = Field(ge=0)
     unresolved_requirements: list[CapabilityRequirement] = Field(default_factory=list)
     within_budget: bool
+
+
+class LiveCapabilitySelection(BaseModel):
+    selected: CapabilityMatch
+    confidence: float | None = Field(default=None, ge=0, le=1)
+    probabilities: dict[str, float] = Field(default_factory=dict)
+    candidate_count: int = Field(ge=1)
