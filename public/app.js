@@ -1087,7 +1087,7 @@ function renderEvidence(){
 
     <section class="evidence-section">
       <h3>About the geographic descent</h3>
-      <p>The Nepal country outline is projected from the public World Atlas geometry used by the globe. The internal contour field is a stylized visual treatment for depth and is <strong>not</strong> elevation, flood extent, damage mapping, or a factual topographic model. The response thread is also semantic rather than a literal route.</p>
+      <p>The Nepal country outline is projected from the public World Atlas geometry used by the globe. The internal contour field is a stylized visual treatment for depth and is not elevation, flood extent, damage mapping, or a factual topographic model. The response thread is also semantic rather than a literal route.</p>
     </section>
 
     <section class="evidence-section">
