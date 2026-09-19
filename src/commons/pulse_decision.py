@@ -6,7 +6,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 from typesafe_sdk import Choice, Noul, Score, TypeSafeClient
 
-from commons.world_pulse import SignalCluster, WorldSignal
+from commons.world_pulse import SignalCluster, WorldPulseResponse, WorldSignal
 
 
 class PulseActionNode(BaseModel):
@@ -15,6 +15,13 @@ class PulseActionNode(BaseModel):
     kind: Literal["observe", "verify", "reason", "impact", "capability", "human"]
     status: Literal["done", "active", "waiting", "skipped"]
     detail: str
+
+
+class PulseDecisionBatch(BaseModel):
+    jev_enabled: bool
+    changed_subjects: int
+    auto_wakes: list["PulseWakeDecision"] = Field(default_factory=list)
+    review_candidates: list["PulseWakeDecision"] = Field(default_factory=list)
 
 
 class PulseWakeDecision(BaseModel):
@@ -224,4 +231,70 @@ def decide_cluster(cluster: SignalCluster) -> PulseWakeDecision:
         next_capability="verify" if wake else "monitor",
         reasons=reasons,
         action_graph=_graph(wake=wake, next_capability="verify", reasons=reasons),
+    )
+
+
+
+def build_decision_batch(pulse: WorldPulseResponse) -> PulseDecisionBatch:
+    signal_by_id = {signal.signal_id: signal for signal in pulse.signals}
+
+    auto_wakes: list[PulseWakeDecision] = []
+    review_candidates: list[PulseWakeDecision] = []
+
+    for signal in pulse.signals:
+        decision = decide_signal(signal)
+        if decision.wake:
+            auto_wakes.append(decision)
+        elif signal.attention_reasons:
+            review_candidates.append(
+                PulseWakeDecision(
+                    subject_id=signal.signal_id,
+                    subject_type="signal",
+                    wake=False,
+                    mode="deterministic",
+                    next_capability="monitor",
+                    reasons=[
+                        *signal.attention_reasons,
+                        "attention rule matched, but no new/updated state requires an automatic wake",
+                    ],
+                    action_graph=_graph(
+                        wake=False,
+                        next_capability="monitor",
+                        reasons=signal.attention_reasons,
+                    ),
+                )
+            )
+
+    for cluster in pulse.clusters:
+        member_states = [
+            signal_by_id[signal_id].state
+            for signal_id in cluster.signal_ids
+            if signal_id in signal_by_id
+        ]
+        cluster_decision = decide_cluster(cluster)
+        if cluster_decision.wake and any(state in {"new", "updated"} for state in member_states):
+            auto_wakes.append(cluster_decision)
+        else:
+            review_candidates.append(
+                cluster_decision.model_copy(
+                    update={
+                        "wake": False,
+                        "reasons": [
+                            *cluster_decision.reasons,
+                            "cluster is visible for review, but no member changed since the previous observation",
+                        ],
+                        "action_graph": _graph(
+                            wake=False,
+                            next_capability="monitor",
+                            reasons=cluster_decision.reasons,
+                        ),
+                    }
+                )
+            )
+
+    return PulseDecisionBatch(
+        jev_enabled=pulse_jev_enabled(),
+        changed_subjects=pulse.stats.new_signals + pulse.stats.updated_signals,
+        auto_wakes=auto_wakes,
+        review_candidates=review_candidates,
     )
