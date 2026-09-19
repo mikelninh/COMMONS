@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>COMMONS — Real Civic Case</title>
+<style>
+:root{color-scheme:dark;--bg:#060809;--panel:#0c1013;--line:#263038;--text:#f5f7f4;--muted:#98a3aa;--green:#b9ff78;--amber:#ffd38a;--red:#ffaaaa}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,rgba(118,180,95,.13),transparent 30%),var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+main{max-width:1080px;margin:auto;padding:30px 20px 90px}.top{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:44px}.brand{font-size:12px;letter-spacing:.17em;font-weight:900}.brand span{color:var(--green)}.caseid{font-size:11px;color:var(--muted)}
+h1{font-size:clamp(42px,6vw,72px);letter-spacing:-.055em;line-height:.96;margin:14px 0 16px}.lede{font-size:17px;color:#c6ced1;line-height:1.58;max-width:780px}
+.stepper{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:30px 0}.step{border:1px solid var(--line);border-radius:14px;padding:12px;background:#0b0f12}.step.active{border-color:#536b49;background:#0d150f}.step.done{border-color:#344238}.num{font-size:10px;color:var(--green);font-weight:900}.stitle{font-size:12px;font-weight:850;margin-top:6px}.scopy{font-size:10.5px;color:var(--muted);margin-top:3px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:16px}.card{border:1px solid var(--line);background:rgba(12,16,19,.94);border-radius:20px;padding:22px}.panel{display:none}.panel.active{display:block}
+label{display:block;font-size:12.5px;font-weight:850;margin:16px 0 7px}.hint{font-size:11.5px;color:var(--muted);line-height:1.45;margin-top:4px}
+input,textarea,select{width:100%;border:1px solid #303b42;border-radius:12px;background:#070a0c;color:var(--text);padding:12px;font:inherit;outline:none}textarea{min-height:120px;resize:vertical;line-height:1.5}input:focus,textarea:focus,select:focus{border-color:#607b4f;box-shadow:0 0 0 3px rgba(185,255,120,.06)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.check{display:flex;gap:9px;align-items:flex-start;margin-top:14px}.check input{width:auto;margin-top:3px}.check label{margin:0;font-weight:500;font-size:12px;line-height:1.45}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}.primary,.secondary{border-radius:11px;padding:11px 14px;font-weight:850;border:0}.primary{background:var(--green);color:#071006}.secondary{background:#11171b;color:#ecf0ee;border:1px solid #344047}.primary:disabled{opacity:.45}
+.side-title{font-size:13px;font-weight:900;margin-bottom:12px}.side-row{border-top:1px solid var(--line);padding:12px 0}.side-row:first-of-type{border-top:0}.side-k{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}.side-v{font-size:12px;line-height:1.45;margin-top:4px}.badge{display:inline-block;border:1px solid #39503c;border-radius:999px;background:#0c140e;color:var(--green);padding:5px 8px;font-size:10px}
+.notice{border:1px solid #4c4230;background:#15120c;color:#ecd7ae;border-radius:13px;padding:12px;font-size:11.5px;line-height:1.45;margin-top:12px}.good{border-color:#37503b;background:#0d150f;color:#d5edc8}.bad{border-color:#543637;background:#170c0d;color:#efc4c4}
+.review{display:grid;grid-template-columns:150px 1fr;gap:7px 12px;font-size:12px;border-top:1px solid var(--line);padding-top:14px;margin-top:14px}.rk{color:var(--muted)}.rv{white-space:pre-wrap}
+.copyline{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:13px;padding:12px;margin-top:9px}.copyval{font-size:12px;line-height:1.45;white-space:pre-wrap}.copybtn{border:1px solid #344047;background:#11171b;color:#e9eeee;border-radius:9px;padding:7px 9px;font-size:10px;white-space:nowrap}
+.proof{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:15px}.pstage{border:1px solid var(--line);border-radius:11px;padding:9px;min-height:74px}.pstage.active{border-color:#4f6848;background:#0d150f}.pstate{font-size:8px;color:var(--green);text-transform:uppercase}.pname{font-size:10.5px;font-weight:850;margin-top:5px}.psub{font-size:9.5px;color:var(--muted);margin-top:3px}
+.status{font-size:11.5px;color:var(--muted);margin-top:10px;min-height:18px}a{color:var(--green)}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.stepper{grid-template-columns:1fr 1fr 1fr}.grid2{grid-template-columns:1fr}.proof{grid-template-columns:1fr 1fr 1fr}}
+@media(max-width:560px){.stepper{grid-template-columns:1fr 1fr}.proof{grid-template-columns:1fr}.review{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><div class="brand"><span>COMMONS</span> / REAL CIVIC CASE</div><div class="caseid" id="caseId">Creating case…</div></div>
+<h1>Report a real public-space problem.</h1>
+<p class="lede">COMMONS prepares the case, shows every blocker, hands you to Berlin's official Ordnungsamt form, then records the official report number so the outcome can be tracked.</p>
+
+<div class="stepper" id="stepper">
+<div class="step active" data-step="1"><div class="num">01</div><div class="stitle">Where?</div><div class="scopy">District + location</div></div>
+<div class="step" data-step="2"><div class="num">02</div><div class="stitle">What?</div><div class="scopy">One issue + evidence</div></div>
+<div class="step" data-step="3"><div class="num">03</div><div class="stitle">Updates?</div><div class="scopy">Optional contact</div></div>
+<div class="step" data-step="4"><div class="num">04</div><div class="stitle">Review</div><div class="scopy">Exact handoff packet</div></div>
+<div class="step" data-step="5"><div class="num">05</div><div class="stitle">Proof</div><div class="scopy">Meldungsnummer</div></div>
+</div>
+
+<div class="layout">
+<section class="card">
+<div class="panel active" data-panel="1">
+<div class="badge">STEP 1 · WHERE?</div>
+<label>Berlin district *</label>
+<select id="district">
+<option value="">Choose district…</option>
+<option>Charlottenburg-Wilmersdorf</option><option>Friedrichshain-Kreuzberg</option><option>Lichtenberg</option><option>Marzahn-Hellersdorf</option><option>Mitte</option><option>Neukölln</option><option>Pankow</option><option>Reinickendorf</option><option>Spandau</option><option>Steglitz-Zehlendorf</option><option>Tempelhof-Schöneberg</option><option>Treptow-Köpenick</option>
+</select>
+<div class="hint">Berlin's official form requires the district. A more precise location helps the authority resolve the issue.</div>
+<div class="grid2"><div><label>Street / place</label><input id="street" placeholder="e.g. Sonnenallee"></div><div><label>House number</label><input id="house" placeholder="e.g. 120"></div></div>
+<label>Location notes</label><textarea id="locationNotes" placeholder="e.g. opposite number 120, next to the bus stop"></textarea>
+<div class="actions"><button class="primary" data-next="2">Save & continue →</button></div>
+</div>
+
+<div class="panel" data-panel="2">
+<div class="badge">STEP 2 · WHAT?</div>
+<label>Short subject *</label><input id="subject" maxlength="240" placeholder="e.g. Illegal bulky waste blocking pavement">
+<div class="hint">Use one issue per report. This becomes the short subject in the official form.</div>
+<label>Description</label><textarea id="description" maxlength="3000" placeholder="What is happening? What would help the authority locate and understand it?"></textarea>
+<div class="check"><input type="checkbox" id="hasPhoto"><label for="hasPhoto">I plan to upload a photo in the official Berlin form.</label></div>
+<div id="photoRightsWrap" style="display:none"><div class="check"><input type="checkbox" id="photoRights"><label for="photoRights">I confirm I hold the rights to the photo. I understand Berlin's terms allow participating administrations to use uploaded photos beyond this specific report, including possible publication.</label></div></div>
+<div class="actions"><button class="secondary" data-back="1">← Back</button><button class="primary" data-next="3">Save & continue →</button></div>
+</div>
+
+<div class="panel" data-panel="3">
+<div class="badge">STEP 3 · OPTIONAL CONTACT</div>
+<div class="check"><input type="checkbox" id="wantsUpdates"><label for="wantsUpdates">I want automatic status updates from the official portal.</label></div>
+<div id="emailWrap" style="display:none"><label>Email address</label><input id="email" type="email" placeholder="you@example.com"><div class="hint">Berlin requires at least an email address if you want automatic status feedback.</div></div>
+<div class="check"><input type="checkbox" id="questions"><label for="questions">The authority may contact me with questions.</label></div>
+<div class="notice">COMMONS stores this pilot case locally in <code>commons.db</code>. It does not send contact data anywhere at this step.</div>
+<div class="actions"><button class="secondary" data-back="2">← Back</button><button class="primary" data-next="4">Save & review →</button></div>
+</div>
+
+<div class="panel" data-panel="4">
+<div class="badge">STEP 4 · REVIEW & HANDOFF</div>
+<h2 style="margin:12px 0 6px">This is the exact packet COMMONS prepared.</h2>
+<div class="hint">The next button opens Berlin's official form. COMMONS does not submit it for you.</div>
+<div id="blockers"></div>
+<div id="packet"></div>
+<div class="actions"><button class="secondary" data-back="3">← Edit</button><button class="primary" id="handoff">Open official Berlin form ↗</button></div>
+<div id="handoffStatus" class="status"></div>
+</div>
+
+<div class="panel" data-panel="5">
+<div class="badge">STEP 5 · PROOF</div>
+<h2 style="margin:12px 0 6px">Did the official portal accept the report?</h2>
+<p class="hint">After sending, Berlin shows a Meldungsnummer. Enter it here. That is the first durable link between this COMMONS case and the real public system.</p>
+<label>Meldungsnummer *</label><input id="reportNumber" placeholder="Enter the number shown by Berlin">
+<label>Official receipt / status URL (optional)</label><input id="receiptRef" placeholder="Paste a confirmation or public status URL if available">
+<div class="actions"><button class="secondary" data-back="4">← Back</button><button class="primary" id="saveReceipt">Save official proof</button></div>
+<div id="receiptStatus" class="status"></div>
+<div id="finalProof"></div>
+</div>
+</section>
+
+<aside class="card">
+<div class="side-title">Live case state</div>
+<div class="side-row"><div class="side-k">Case</div><div class="side-v" id="sideCase">—</div></div>
+<div class="side-row"><div class="side-k">Status</div><div class="side-v"><span class="badge" id="sideStatus">draft</span></div></div>
+<div class="side-row"><div class="side-k">Proof</div><div class="side-v" id="sideProof">source verified</div></div>
+<div class="side-row"><div class="side-k">Original need</div><div class="side-v" id="sideNeed">—</div></div>
+<div class="side-row"><div class="side-k">What happens externally?</div><div class="side-v" id="externalState">Nothing yet. All data remains inside the local COMMONS pilot.</div></div>
+<div class="proof">
+<div class="pstage active" id="p1"><div class="pstate">current</div><div class="pname">SOURCE</div><div class="psub">Official route verified</div></div>
+<div class="pstage" id="p2"><div class="pstate">not yet</div><div class="pname">PREPARED</div><div class="psub">Packet ready</div></div>
+<div class="pstage" id="p3"><div class="pstate">not yet</div><div class="pname">CONFIRMED</div><div class="psub">Report number captured</div></div>
+<div class="pstage" id="p4"><div class="pstate">not yet</div><div class="pname">ACK</div><div class="psub">External status verified</div></div>
+<div class="pstage" id="p5"><div class="pstate">not yet</div><div class="pname">OUTCOME</div><div class="psub">Problem resolved</div></div>
+</div>
+</aside>
+</div>
+</main>
+<script>
+const qs=new URLSearchParams(location.search);
+let caseId=qs.get("case");
+const rawNeed=qs.get("need")||"I want to report a public-space problem in Berlin.";
+let currentStep=1;
+let currentCase=null;
+
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+
+async function api(path,opts={}){
+  const r=await fetch(path,{headers:{"content-type":"application/json",...(opts.headers||{})},...opts});
+  const body=await r.json();
+  if(!r.ok) throw new Error(typeof body.detail==="string"?body.detail:JSON.stringify(body.detail));
+  return body;
+}
+
+async function ensureCase(){
+  if(!caseId){
+    currentCase=await api("/civic/cases/public-space",{method:"POST",body:JSON.stringify({raw_need:rawNeed})});
+    caseId=currentCase.case_id;
+    history.replaceState(null,"","/civic/report?case="+encodeURIComponent(caseId));
+  }else{
+    currentCase=await api("/civic/cases/public-space/"+encodeURIComponent(caseId));
+  }
+  hydrate(currentCase);
+}
+
+function hydrate(c){
+  currentCase=c;
+  $("caseId").textContent="case "+c.case_id;
+  $("sideCase").textContent=c.case_id.slice(0,8)+"…";
+  $("sideStatus").textContent=c.status;
+  $("sideProof").textContent=c.proof_stage.replaceAll("_"," ");
+  $("sideNeed").textContent=c.raw_need;
+  $("district").value=c.district||"";$("street").value=c.street||"";$("house").value=c.house_number||"";$("locationNotes").value=c.location_notes||"";
+  $("subject").value=c.subject||"";$("description").value=c.description||"";
+  $("hasPhoto").checked=!!c.has_photo;$("photoRights").checked=!!c.photo_rights_confirmed;
+  $("photoRightsWrap").style.display=c.has_photo?"block":"none";
+  $("wantsUpdates").checked=!!c.wants_status_updates;$("email").value=c.email||"";$("emailWrap").style.display=c.wants_status_updates?"block":"none";
+  $("questions").checked=!!c.available_for_questions;
+  $("reportNumber").value=c.report_number||"";$("receiptRef").value=c.official_receipt_ref||"";
+  updateProof(c);
+}
+
+function updateProof(c){
+  document.querySelectorAll(".pstage").forEach(x=>x.classList.remove("active"));
+  $("p1").classList.add("active");
+  if(["ready","handed_off","submitted","closed"].includes(c.status)) $("p2").classList.add("active");
+  if(c.proof_stage==="action_confirmed"||c.report_number) $("p3").classList.add("active");
+  if(c.status==="handed_off") $("externalState").textContent="The official Berlin form was opened. COMMONS still has no proof it was submitted.";
+  else if(c.report_number) $("externalState").textContent="You recorded a Berlin Meldungsnummer. External status verification is the next proof step.";
+  else $("externalState").textContent="Nothing yet. All data remains inside the local COMMONS pilot.";
+}
+
+function showStep(n){
+  currentStep=n;
+  document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",Number(x.dataset.panel)===n));
+  document.querySelectorAll(".step").forEach(x=>{
+    const sn=Number(x.dataset.step);
+    x.classList.toggle("active",sn===n);x.classList.toggle("done",sn<n);
+  });
+  window.scrollTo({top:150,behavior:"smooth"});
+}
+
+async function saveFields(fields){
+  currentCase=await api("/civic/cases/public-space/"+encodeURIComponent(caseId),{method:"PATCH",body:JSON.stringify(fields)});
+  hydrate(currentCase);
+  return currentCase;
+}
+
+async function saveStep(step){
+  if(step===1){
+    return saveFields({district:$("district").value||null,street:$("street").value.trim()||null,house_number:$("house").value.trim()||null,location_notes:$("locationNotes").value.trim()||null});
+  }
+  if(step===2){
+    return saveFields({subject:$("subject").value.trim()||null,description:$("description").value.trim()||null,has_photo:$("hasPhoto").checked,photo_rights_confirmed:$("photoRights").checked});
+  }
+  if(step===3){
+    return saveFields({wants_status_updates:$("wantsUpdates").checked,email:$("email").value.trim()||null,available_for_questions:$("questions").checked});
+  }
+}
+
+document.querySelectorAll("[data-next]").forEach(btn=>btn.onclick=async()=>{
+  const target=Number(btn.dataset.next);
+  try{btn.disabled=true;await saveStep(currentStep);if(target===4) await renderPacket();showStep(target)}catch(e){alert(e.message)}finally{btn.disabled=false}
+});
+document.querySelectorAll("[data-back]").forEach(btn=>btn.onclick=()=>showStep(Number(btn.dataset.back)));
+$("hasPhoto").onchange=()=>{$("photoRightsWrap").style.display=$("hasPhoto").checked?"block":"none"};
+$("wantsUpdates").onchange=()=>{$("emailWrap").style.display=$("wantsUpdates").checked?"block":"none"};
+
+async function renderPacket(){
+  const p=await api("/civic/cases/public-space/"+encodeURIComponent(caseId)+"/prepare",{method:"POST"});
+  currentCase=await api("/civic/cases/public-space/"+encodeURIComponent(caseId));hydrate(currentCase);
+  $("blockers").innerHTML=p.blockers.length?'<div class="notice bad"><b>Not ready yet</b><br>'+p.blockers.map(esc).join("<br>")+'</div>':'<div class="notice good"><b>Ready for official handoff.</b> COMMONS has the minimum required fields.</div>';
+  $("handoff").disabled=!p.ready;
+  const lines=[
+    ["District",p.where.district],["Street / place",p.where.street],["House number",p.where.house_number],["Location notes",p.where.location_notes],["Subject",p.what.subject],["Description",p.what.description],["Status updates",p.who.wants_status_updates?"Yes":"No"],["Email",p.who.email]
+  ];
+  $("packet").innerHTML=lines.map(([k,v])=>'<div class="copyline"><div><div class="side-k">'+esc(k)+'</div><div class="copyval">'+esc(v||"—")+'</div></div>'+(v?'<button class="copybtn" data-copy="'+esc(v)+'">Copy</button>':"")+'</div>').join("")+
+    '<div class="notice">'+p.important_notices.map(esc).join("<br>")+'</div>';
+  document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{await navigator.clipboard.writeText(b.dataset.copy);b.textContent="Copied"});
+}
+
+$("handoff").onclick=async()=>{
+  try{
+    $("handoff").disabled=true;
+    const p=await api("/civic/cases/public-space/"+encodeURIComponent(caseId)+"/handoff",{method:"POST"});
+    currentCase=await api("/civic/cases/public-space/"+encodeURIComponent(caseId));hydrate(currentCase);
+    $("handoffStatus").textContent="Official Berlin form opened. Copy the prepared values across, review them there, and submit only when you are satisfied.";
+    window.open(p.official_report_url,"_blank","noopener");
+    setTimeout(()=>showStep(5),700);
+  }catch(e){$("handoffStatus").textContent=e.message}finally{$("handoff").disabled=false}
+};
+
+$("saveReceipt").onclick=async()=>{
+  const number=$("reportNumber").value.trim();
+  if(!number){$("receiptStatus").textContent="Enter the Meldungsnummer shown by the official portal.";return}
+  try{
+    currentCase=await api("/civic/cases/public-space/"+encodeURIComponent(caseId)+"/receipt",{method:"POST",body:JSON.stringify({report_number:number,official_receipt_ref:$("receiptRef").value.trim()||null})});
+    hydrate(currentCase);
+    $("receiptStatus").textContent="Saved. COMMONS now records the action as citizen-confirmed; external status verification is still pending.";
+    $("finalProof").innerHTML='<div class="notice good"><b>Action confirmed</b><br>Berlin report number: '+esc(currentCase.report_number)+'<br><br><a href="'+esc(currentCase.official_status_url)+'" target="_blank" rel="noreferrer">Check status on the official Berlin portal ↗</a></div>';
+  }catch(e){$("receiptStatus").textContent=e.message}
+};
+
+ensureCase().catch(e=>{document.body.innerHTML="<main><div class='notice bad'>Could not create civic case: "+esc(e.message)+"</div></main>"});
+</script>
+</body>
+</html>

@@ -1,11 +1,23 @@
 from __future__ import annotations
 
 import os
+from datetime import datetime, timezone
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
+from pydantic import ValidationError
 
+from commons.civic import CivicProofStage
+from commons.civic_case import (
+    CivicReceiptInput,
+    CivicSubmissionPacket,
+    PublicSpaceCase,
+    PublicSpaceCaseCreate,
+    PublicSpaceCasePatch,
+    PublicSpaceCaseStatus,
+    prepare_submission_packet,
+)
 from commons.civic_router import CivicActionResult, CivicNeedInput, route_civic_need
 from commons.models import (
     ActorRef,
@@ -44,6 +56,7 @@ _persistent_service: CommonsService | None = None
 _demo_path = Path(__file__).parent / "static" / "index.html"
 _join_path = Path(__file__).parent / "static" / "join.html"
 _civic_path = Path(__file__).parent / "static" / "civic.html"
+_civic_report_path = Path(__file__).parent / "static" / "civic_report.html"
 registry = CapabilityRegistry()
 seed_builtin_capabilities(registry)
 proof_ledger = ProofLedger()
@@ -76,6 +89,105 @@ def civic_action_os() -> HTMLResponse:
 @app.post("/civic/action", response_model=CivicActionResult)
 def civic_action(need: CivicNeedInput) -> CivicActionResult:
     return route_civic_need(need)
+
+
+@app.get("/civic/report", response_class=HTMLResponse, include_in_schema=False)
+def civic_public_space_report() -> HTMLResponse:
+    return HTMLResponse(_civic_report_path.read_text(encoding="utf-8"))
+
+
+@app.post("/civic/cases/public-space", response_model=PublicSpaceCase)
+def create_public_space_case(payload: PublicSpaceCaseCreate) -> PublicSpaceCase:
+    record = PublicSpaceCase(raw_need=payload.raw_need)
+    return founding_store.save_public_space_case(record)
+
+
+@app.get("/civic/cases/public-space/{case_id}", response_model=PublicSpaceCase)
+def get_public_space_case(case_id: str) -> PublicSpaceCase:
+    record = founding_store.get_public_space_case(case_id)
+    if record is None:
+        raise HTTPException(status_code=404, detail="Civic case not found.")
+    return record
+
+
+@app.patch("/civic/cases/public-space/{case_id}", response_model=PublicSpaceCase)
+def patch_public_space_case(case_id: str, patch: PublicSpaceCasePatch) -> PublicSpaceCase:
+    record = founding_store.get_public_space_case(case_id)
+    if record is None:
+        raise HTTPException(status_code=404, detail="Civic case not found.")
+
+    updates = patch.model_dump(exclude_unset=True)
+    candidate = record.model_copy(
+        update={
+            **updates,
+            "updated_at": datetime.now(timezone.utc),
+        }
+    )
+    # Re-validate cross-field constraints after model_copy.
+    try:
+        candidate = PublicSpaceCase.model_validate(candidate.model_dump())
+    except ValidationError as exc:
+        raise HTTPException(status_code=422, detail=exc.errors(include_input=False)) from exc
+    packet = prepare_submission_packet(candidate)
+    candidate.status = (
+        PublicSpaceCaseStatus.READY if packet.ready else PublicSpaceCaseStatus.DRAFT
+    )
+    return founding_store.save_public_space_case(candidate)
+
+
+@app.post(
+    "/civic/cases/public-space/{case_id}/prepare",
+    response_model=CivicSubmissionPacket,
+)
+def prepare_public_space_submission(case_id: str) -> CivicSubmissionPacket:
+    record = founding_store.get_public_space_case(case_id)
+    if record is None:
+        raise HTTPException(status_code=404, detail="Civic case not found.")
+    packet = prepare_submission_packet(record)
+    record.status = PublicSpaceCaseStatus.READY if packet.ready else PublicSpaceCaseStatus.DRAFT
+    record.updated_at = datetime.now(timezone.utc)
+    founding_store.save_public_space_case(record)
+    return packet
+
+
+@app.post(
+    "/civic/cases/public-space/{case_id}/handoff",
+    response_model=CivicSubmissionPacket,
+)
+def handoff_public_space_submission(case_id: str) -> CivicSubmissionPacket:
+    record = founding_store.get_public_space_case(case_id)
+    if record is None:
+        raise HTTPException(status_code=404, detail="Civic case not found.")
+    packet = prepare_submission_packet(record)
+    if not packet.ready:
+        raise HTTPException(status_code=400, detail={"blockers": packet.blockers})
+    record.status = PublicSpaceCaseStatus.HANDED_OFF
+    record.updated_at = datetime.now(timezone.utc)
+    record.proof_notes.append("Official Ordnungsamt-Online handoff opened; submission not yet proven.")
+    founding_store.save_public_space_case(record)
+    return prepare_submission_packet(record)
+
+
+@app.post(
+    "/civic/cases/public-space/{case_id}/receipt",
+    response_model=PublicSpaceCase,
+)
+def record_public_space_receipt(
+    case_id: str,
+    receipt: CivicReceiptInput,
+) -> PublicSpaceCase:
+    record = founding_store.get_public_space_case(case_id)
+    if record is None:
+        raise HTTPException(status_code=404, detail="Civic case not found.")
+    record.report_number = receipt.report_number
+    record.official_receipt_ref = receipt.official_receipt_ref
+    record.status = PublicSpaceCaseStatus.SUBMITTED
+    record.updated_at = datetime.now(timezone.utc)
+    record.proof_stage = CivicProofStage.ACTION_CONFIRMED
+    record.proof_notes.append(
+        "Citizen supplied the official Meldungsnummer after submission. External status verification is still pending."
+    )
+    return founding_store.save_public_space_case(record)
 
 
 @app.post("/founding-capabilities", response_model=FoundingCapabilitySubmission)
