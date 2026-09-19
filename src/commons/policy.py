@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from commons.models import Assessment, Route, RouteDecision
 
-POLICY_VERSION = "0.2.2"
+POLICY_VERSION = "0.3.0-alpha"
 
 HIGH_STAKES_THRESHOLD = 0.70
 HUMAN_REVIEW_THRESHOLD = 0.70
@@ -92,23 +92,44 @@ def choose_route(a: Assessment) -> RouteDecision:
             policy_version=POLICY_VERSION,
         )
 
-    # Route confidence should follow the selected capability. Domain ambiguity can
-    # be harmless when multiple plausible domains lead to the same next action.
-    # We still keep domain confidence for diagnostics and stricter civic policy.
+    route = CAPABILITY_ROUTES.get(a.capability, Route.REASON)
+
+    # Uncertainty should reduce authority before it causes unnecessary inaction.
+    # When the case is sufficiently specified and low-stakes, an uncertain
+    # non-executive capability may still proceed at READ/EXPLAIN/REASON level.
+    # Uncertain workflows are downgraded to reasoning rather than executed.
     if (
         a.capability_confidence is not None
         and a.capability_confidence < MIN_CHOICE_CONFIDENCE
     ):
+        if a.high_stakes < HIGH_STAKES_THRESHOLD:
+            if route is Route.WORKFLOW:
+                return RouteDecision(
+                    route=Route.REASON,
+                    reason=(
+                        f"Capability confidence {a.capability_confidence:.2f} is low. "
+                        "COMMONS may propose a bounded approach but may not execute it."
+                    ),
+                    policy_version=POLICY_VERSION,
+                )
+            if route in {Route.RETRIEVE, Route.CALCULATE, Route.REASON, Route.TRANSLATE}:
+                return RouteDecision(
+                    route=route,
+                    reason=(
+                        f"Capability confidence {a.capability_confidence:.2f} is low, "
+                        "but the case is sufficiently specified and low-stakes. "
+                        "Proceed only with non-executive assistance."
+                    ),
+                    policy_version=POLICY_VERSION,
+                )
         return RouteDecision(
             route=Route.REQUEST_INFO,
             reason=(
                 f"Capability confidence {a.capability_confidence:.2f} is below "
-                "policy threshold."
+                "policy threshold for a more consequential route."
             ),
             policy_version=POLICY_VERSION,
         )
-
-    route = CAPABILITY_ROUTES.get(a.capability, Route.REASON)
 
     if (
         a.high_stakes >= HIGH_STAKES_THRESHOLD
