@@ -505,7 +505,7 @@ function updateAtlasLayers(storyMode=$("story").classList.contains("active")){
 
 function setMilestone(milestone){
   currentMilestone=Math.max(0,Math.min(3,Number(milestone)||0));
-  $("timeScrubber").value=String(currentMilestone);
+  $("timeScrubber").value=(currentMilestone/3).toFixed(3);
   updateSignature();
   updateAtlasLayers(true);
 }
@@ -792,7 +792,8 @@ function syncScrollCinema(){
     $("story").dataset.composition=scene.composition;
     const u=new URL(location.href);
     u.searchParams.delete("signal");
-    u.searchParams.set("action",activeStory.id);
+    u.searchParams.delete("action");
+    u.searchParams.set("story",activeStory.id);
     u.searchParams.set("scene",scene.id);
     history.replaceState(null,"",u);
   }
@@ -843,11 +844,14 @@ function stopStory(returnHome=true){
   lastSemanticFrame="";
   threadStrength=0;
   bloomStrength=0;
+  memoryStrength=0;
+  resetCinematicVisuals();
 
   if(returnHome){
     $("home").classList.remove("hidden");
     const u=new URL(location.href);
     u.searchParams.delete("action");
+    u.searchParams.delete("story");
     u.searchParams.delete("scene");
     history.replaceState(null,"",u);
     setHomeGlobe();
@@ -1276,9 +1280,11 @@ function escapeHtml(v){
 }
 
 function bindEvents(){
-  $("openingEnter").onclick=()=>startStory(0);
+  $("openingEnter").onclick=()=>enterStory(STORIES[0].id,0);
+  $("openingBrowse").onclick=openStories;
   $("enterBtn").onclick=()=>startStory(0);
   $("currentStory").onclick=()=>startStory(0);
+  $("storiesBtn").onclick=openStories;
   $("homeLookBtn").onclick=openLook;
   $("lookBtn").onclick=openLook;
   $("lookClose").onclick=closeLook;
@@ -1321,29 +1327,35 @@ function bindEvents(){
 
 function routeFromUrl(){
   const params=new URLSearchParams(location.search);
-  if(params.get("action")===activeStory.id){
+  const storyId=params.get("story")||params.get("action");
+  const routedStory=storyId?storyById(storyId):null;
+
+  if(routedStory){
+    selectStory(routedStory.id);
     hideOpening();
     const id=params.get("scene");
-    const index=Math.max(0,activeStory.scenes.findIndex(s=>s.id===id));
+    const index=Math.max(0,activeStory.scenes.findIndex(scene=>scene.id===id));
     startStory(index);
     return;
   }
+
   const signalId=params.get("signal");
   if(signalId){
     hideOpening();
     openLook();
-    const s=signals.find(x=>x.id===signalId);
-    if(s)focusSignal(s);
+    const signal=signals.find(item=>item.id===signalId);
+    if(signal)focusSignal(signal);
   }
 }
 
 async function init(){
   $("openingDate").textContent=new Intl.DateTimeFormat("en",{month:"long",year:"numeric"}).format(new Date()).toUpperCase();
   bindEvents();
-  renderEvidence();
+  updateStoryChrome();
   updateSignature();
   await Promise.allSettled([loadCountries(),refreshSignals()]);
   initialized=true;
+  buildTerrainMap();
   setHomeGlobe();
   $("loading").classList.add("hide");
   routeFromUrl();
