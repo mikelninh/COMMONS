@@ -7,17 +7,20 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 
 from commons.models import CaseRecord, OutcomeInput, OutcomeRecord, ProblemInput
+from commons.pulse import PulseSnapshot, build_snapshot
 from commons.service import CommonsService
 
 app = FastAPI(
     title="COMMONS",
-    version="0.2.0",
+    version="0.3.0",
     description="Accountable intelligence-to-action infrastructure.",
 )
 
 analysis_service = CommonsService(persist=False)
 _persistent_service: CommonsService | None = None
-_demo_path = Path(__file__).parent / "static" / "index.html"
+_static_dir = Path(__file__).parent / "static"
+_demo_path = _static_dir / "index.html"
+_pulse_path = _static_dir / "pulse.html"
 
 
 def persistent_service() -> CommonsService:
@@ -32,11 +35,21 @@ def demo() -> HTMLResponse:
     return HTMLResponse(_demo_path.read_text(encoding="utf-8"))
 
 
+@app.get("/pulse", response_class=HTMLResponse, include_in_schema=False)
+def pulse_demo() -> HTMLResponse:
+    return HTMLResponse(_pulse_path.read_text(encoding="utf-8"))
+
+
+@app.get("/api/pulse", response_model=PulseSnapshot)
+def pulse_data() -> PulseSnapshot:
+    return build_snapshot()
+
+
 @app.get("/health")
 def health() -> dict[str, str | bool]:
     return {
         "status": "ok",
-        "version": "0.2.0",
+        "version": "0.3.0",
         "jev_configured": bool(os.getenv("TYPESAFE_API_KEY")),
     }
 
