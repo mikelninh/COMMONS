@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>COMMONS — Real Fraud Mesh</title>
+<style>
+:root{color-scheme:dark;--bg:#060806;--panel:#0b0f0c;--line:#202c25;--text:#f1f5f2;--muted:#89978f;--green:#b8ff7a;--amber:#ffd17a;--red:#ff8f86;--cyan:#78d8ff}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+body{background:radial-gradient(circle at 50% -8%,rgba(81,140,88,.12),transparent 30%),linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px),var(--bg);background-size:auto,42px 42px,42px 42px}
+main{max-width:1180px;margin:auto;padding:20px 18px 60px}nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:44px}.brand{font-size:12px;letter-spacing:.18em;font-weight:900}.brand b{color:var(--green)}.pill{font-size:8px;letter-spacing:.1em;text-transform:uppercase;border:1px solid #314039;border-radius:999px;padding:6px 8px;color:var(--green)}
+h1{font-size:clamp(46px,8vw,84px);line-height:.93;letter-spacing:-.06em;margin:0 0 16px}.lede{font-size:16px;color:#bbc5be;line-height:1.5;max-width:760px}.layout{display:grid;grid-template-columns:340px 1fr;gap:15px;margin-top:30px;align-items:start}.card{border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,#0c100d,#090c0a);padding:17px}.controls{position:sticky;top:15px}label{font-size:11px;font-weight:850;display:block;margin:12px 0 6px}input{width:100%;border:1px solid #2d3932;background:#070a08;color:var(--text);border-radius:11px;padding:10px}button{font:inherit}.primary{width:100%;border:0;background:var(--green);color:#081006;border-radius:12px;padding:12px;font-weight:900;margin-top:16px;cursor:pointer}.hint,.status{font-size:10px;color:var(--muted);line-height:1.45}.toggle{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:8px 0;border-top:1px solid var(--line);font-size:10.5px}.toggle input{width:17px;height:17px}.result{min-height:560px}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.kicker{font-size:8px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}.decision{font-size:28px;font-weight:900;margin-top:3px}.decision.ALLOW{color:var(--green)}.decision.CONFIRM{color:var(--cyan)}.decision.PAUSE_AND_VERIFY{color:var(--amber)}.decision.HUMAN_REVIEW{color:var(--red)}.meta{text-align:right;font-size:9px;color:var(--muted);line-height:1.5}.meta b{color:#e0e7e2}.agents{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:20px}.agent{border:1px solid var(--line);border-radius:13px;padding:10px;background:#090c0a;min-height:145px}.agent.ok{border-color:#33483a}.agent.down{border-color:#5a3734;background:#100b0a}.name{font-size:9.5px;font-weight:850}.state{display:inline-block;margin-top:7px;font-size:7px;text-transform:uppercase;letter-spacing:.08em;border-radius:999px;padding:4px 6px}.ok .state{background:#102015;color:var(--green)}.down .state{background:#281311;color:var(--red)}.lat{font-size:18px;font-weight:900;margin-top:10px}.small{font-size:8px;color:var(--muted);line-height:1.35;margin-top:5px}.reason{margin-top:18px;border-top:1px solid var(--line);padding-top:14px;font-size:11px;color:#bdc6c0;line-height:1.5}.empty{display:grid;place-items:center;min-height:500px;text-align:center;color:var(--muted)}.empty b{display:block;color:#e0e6e2;font-size:18px;margin-bottom:6px}footer{text-align:center;margin-top:24px;color:var(--muted);font-size:10px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.controls{position:static}.agents{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.agents{grid-template-columns:1fr}.top{display:block}.meta{text-align:left;margin-top:8px}}
+</style>
+</head>
+<body>
+<main>
+<nav><div class="brand"><b>COMMONS</b> / REAL FRAUD MESH</div><div class="pill">5 independent HTTP services</div></nav>
+<h1>Can the defense network still think when one agent disappears?</h1>
+<div class="lede">COMMONS discovers five separate agents, queries them concurrently, records latency and failures, then makes a reversible recommendation from the evidence that actually arrived.</div>
+
+<section class="layout">
+<aside class="card controls">
+  <div class="hint">Run this with <code>docker compose -f docker-compose.fraud.yml up --build</code>. The main app calls five separate services over HTTP.</div>
+  <label>Amount (€)</label><input id="amount" type="number" value="8400" step="100">
+  <label>SIM swap minutes ago</label><input id="sim" type="number" value="43">
+  <label>Independent scam reports</label><input id="reports" type="number" value="3">
+  <label>Recipient relationship years</label><input id="years" type="number" value="0" step=".5">
+  <div style="margin-top:12px">
+    <div class="toggle"><span>New beneficiary</span><input id="newb" type="checkbox" checked></div>
+    <div class="toggle"><span>Known device</span><input id="known" type="checkbox" checked></div>
+    <div class="toggle"><span>Campaign match</span><input id="campaign" type="checkbox" checked></div>
+    <div class="toggle"><span>User expects payment</span><input id="expected" type="checkbox"></div>
+  </div>
+  <button id="run" class="primary">Run real mesh →</button>
+  <div id="status" class="status">No real financial data is used.</div>
+</aside>
+
+<section class="card result">
+  <div id="empty" class="empty"><div><b>Network idle.</b>Start the mesh and run the payment.</div></div>
+  <div id="content" style="display:none">
+    <div class="top">
+      <div><div class="kicker">COMMONS recommendation</div><div id="decision" class="decision"></div></div>
+      <div id="meta" class="meta"></div>
+    </div>
+    <div id="agents" class="agents"></div>
+    <div id="reason" class="reason"></div>
+  </div>
+</section>
+</section>
+<footer>Missing evidence is never treated as evidence of safety.</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id),esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+const names={"sending-bank-agent":"Sending bank","device-agent":"Device","telco-agent":"Telco","beneficiary-bank-agent":"Beneficiary bank","scam-intel-agent":"Scam intel"};
+function payment(){return{amount_eur:Number($("amount").value||0),new_beneficiary:$("newb").checked,device_known:$("known").checked,sim_swap_minutes_ago:$("sim").value===""?null:Number($("sim").value),beneficiary_independent_reports:Number($("reports").value||0),beneficiary_relationship_years:Number($("years").value||0),scam_campaign_match:$("campaign").checked,user_confirms_expected_payment:$("expected").checked}}
+$("run").onclick=async()=>{
+ const b=$("run");b.disabled=true;b.textContent="Calling five services…";$("status").textContent="Discovering Agent Cards and sending payment context…";
+ try{
+  const r=await fetch("/fraud/mesh/evaluate",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(payment())});
+  const d=await r.json();if(!r.ok)throw new Error(d.detail||"Mesh failed");
+  $("empty").style.display="none";$("content").style.display="block";
+  $("decision").className="decision "+d.decision.action;$("decision").textContent=d.decision.action.replaceAll("_"," & ");
+  $("meta").innerHTML='<b>'+d.responding_agents+'/5</b> agents responded<br><b>'+Number(d.total_latency_ms).toFixed(0)+' ms</b> total<br>'+(d.degraded?'<span style="color:var(--amber)">degraded mode</span>':'full mesh');
+  $("agents").innerHTML=d.traces.map(t=>'<div class="agent '+(t.responded?"ok":"down")+'"><div class="name">'+esc(names[t.agent_id]||t.agent_id)+'</div><div class="state">'+(t.responded?"responded":"unavailable")+'</div><div class="lat">'+(t.latency_ms==null?"—":Number(t.latency_ms).toFixed(0)+" ms")+'</div><div class="small">'+(t.responded?esc(t.signal.claim):esc(t.error||"No response"))+'</div><div class="small">'+(t.discovered?"Agent Card discovered":"Agent Card unavailable")+'</div></div>').join("");
+  $("reason").innerHTML='<b>Why:</b> '+esc(d.decision.reasons.join(" "))+(d.missing_agents.length?'<br><br><b>Missing:</b> '+esc(d.missing_agents.join(", ")):"");
+  $("status").textContent="Completed using only responses that actually arrived.";
+ }catch(e){$("status").textContent=e.message||String(e)}
+ finally{b.disabled=false;b.textContent="Run real mesh →"}
+};
+</script>
+</body>
+</html>
