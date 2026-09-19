@@ -32,6 +32,7 @@ CAPABILITY_CRITERIA = {
     "coordinate": "Coordinate people, organisations, tasks, resources or hand-offs.",
     "public_service_navigation": "Navigate a government, public-administration, benefits or public-service process. Do not use this for private landlord, utility, banking or ordinary commercial disputes.",
     "translate": "Translate or mediate language as the primary capability.",
+    "verify": "Check whether claimed evidence, identity, delivery, completion or outcome proof is sufficient, independent and trustworthy before money, authority or verified status is granted.",
     "specialist": "A qualified domain specialist is needed, for example for consequential legal, financial, clinical or technical interpretation or advice.",
     "workflow": "Use software tools or APIs to execute a bounded multi-step task.",
     "human": "A human expert or accountable reviewer is the appropriate next capability.",
