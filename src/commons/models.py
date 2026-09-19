@@ -209,3 +209,25 @@ class CapabilitySelectionRequest(BaseModel):
     requirement: CapabilityRequirement
     context: dict[str, Any] = Field(default_factory=dict)
     max_candidates: int = Field(default=8, ge=1, le=50)
+
+
+class FoundingCapabilitySubmission(BaseModel):
+    submission_id: str = Field(default_factory=lambda: str(uuid4()))
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    display_name: str = Field(min_length=1, max_length=120)
+    provider_kind: ProviderKind
+    what_people_ask_you_for: str = Field(min_length=1, max_length=2000)
+    problems_you_enjoy_helping_with: str = Field(min_length=1, max_length=2000)
+    inputs_you_need: str = Field(default="", max_length=2000)
+    what_you_can_deliver: str = Field(min_length=1, max_length=2000)
+    how_to_verify_it_worked: str = Field(default="", max_length=2000)
+    location: str | None = Field(default=None, max_length=300)
+    languages: list[str] = Field(default_factory=list)
+    availability: str = Field(default="", max_length=500)
+    compensation: str = Field(default="", max_length=500)
+    never_automate: str = Field(default="", max_length=2000)
+    ai_can_help_with: str = Field(default="", max_length=2000)
+    human_judgment_matters_for: str = Field(default="", max_length=2000)
+    evidence_or_examples: str = Field(default="", max_length=2000)
+    consent_to_pilot: bool = False
+    review_status: Literal["pending_review", "approved", "declined"] = "pending_review"
