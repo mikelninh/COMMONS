@@ -96,3 +96,27 @@ def test_civic_deliberation_requests_missing_information_first() -> None:
         )
     )
     assert decision.route is Route.REQUEST_INFO
+
+
+def test_domain_ambiguity_does_not_block_clear_capability() -> None:
+    decision = choose_route(
+        base_assessment(
+            domain="education",
+            domain_confidence=0.40,
+            capability="public_service_navigation",
+            capability_confidence=0.90,
+            enough_information=0.60,
+        )
+    )
+    assert decision.route is Route.RETRIEVE
+
+
+def test_information_at_threshold_is_not_automatically_rejected() -> None:
+    decision = choose_route(
+        base_assessment(
+            enough_information=0.45,
+            capability="public_service_navigation",
+            capability_confidence=0.90,
+        )
+    )
+    assert decision.route is Route.RETRIEVE
