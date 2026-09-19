@@ -40,6 +40,7 @@ from commons.models import (
 )
 from commons.builtins import seed_builtin_capabilities
 from commons.proof import ProofLedger
+from commons.pulse_decision import PulseDecisionBatch, build_decision_batch
 from commons.registry import CapabilityRegistry
 from commons.selector import JevCapabilitySelector
 from commons.service import CommonsService
@@ -112,6 +113,12 @@ def world_pulse_page() -> HTMLResponse:
 @app.get("/pulse/world", response_model=WorldPulseResponse)
 async def world_pulse() -> WorldPulseResponse:
     return await collect_world_pulse()
+
+
+@app.get("/pulse/world/decisions", response_model=PulseDecisionBatch)
+async def world_pulse_decisions() -> PulseDecisionBatch:
+    pulse = await collect_world_pulse()
+    return build_decision_batch(pulse)
 
 
 @app.post("/civic/cases/public-space", response_model=PublicSpaceCase)
