@@ -49,9 +49,9 @@ COMMONS separates kinds of intelligence:
 
 The model does not get to rewrite its own authority.
 
-## First working slice
+## Current working slice — v0.2 civic lab
 
-The first COMMONS release will accept a real-world problem, make a small set of typed judgments with Jev, pass those judgments through an explicit policy engine, produce a route (automate / reason / escalate), and record the eventual outcome.
+v0.2 accepts a messy real-world problem, asks Jev a set of typed probabilistic questions, passes those judgments through inspectable policy code, and produces an accountable route. The first public demo focuses on citizens, public officials and communities.
 
 The first objective is deliberately small:
 
@@ -101,10 +101,10 @@ Read the project documents:
 - [VISION.md](VISION.md) — what we are ultimately trying to create
 - [STRATEGY.md](STRATEGY.md) — working backwards from that future
 - [SUCCESS.md](SUCCESS.md) — how we know whether COMMONS is actually helping
-- [ARCHITECTURE.md](ARCHITECTURE.md) — the initial technical architecture
+- [ARCHITECTURE.md](ARCHITECTURE.md) — the initial technical architecture\n- [docs/CIVIC_LAB.md](docs/CIVIC_LAB.md) — the citizen / official / community demo\n- [docs/SIMULATION.md](docs/SIMULATION.md) — explicit architecture stress assumptions\n- [NEXT_PHASE.md](NEXT_PHASE.md) — v0.3 evidence + capability network
 
 ## Status
 
-**Foundation / v0.1.**
+**Civic intelligence lab / v0.2.**
 
-The repository intentionally begins with a thin vertical slice rather than a sprawling agent platform.
+The current slice adds multilingual civic routing, explicit deliberation boundaries, a shareable web UI, a 32-case benchmark and a measurable path toward v0.3 evidence + capabilities.
