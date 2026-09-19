@@ -57,11 +57,12 @@ def read_public():
         Path("public/styles.css").read_text(encoding="utf-8"),
         Path("public/app.js").read_text(encoding="utf-8"),
         Path("public/stories.js").read_text(encoding="utf-8"),
+        Path("public/action-loops.js").read_text(encoding="utf-8"),
     )
 
 
 def test_living_atlas_multi_story_identity() -> None:
-    page, styles, app, stories = read_public()
+    page, styles, app, stories, loops = read_public()
 
     assert "WORLD PULSE · LIVING ATLAS" in page
     assert "STORIES OF RESPONSE · VOL. 01" in page
@@ -80,7 +81,7 @@ def test_living_atlas_multi_story_identity() -> None:
 
 
 def test_launch_collection_contains_three_distinct_story_grammars() -> None:
-    _, _, _, stories = read_public()
+    _, _, _, stories, loops = read_public()
 
     assert 'id: "nepal-flash-floods-2026"' in stories
     assert 'title: "Water Returns"' in stories
@@ -96,7 +97,7 @@ def test_launch_collection_contains_three_distinct_story_grammars() -> None:
 
 
 def test_catalog_uses_story_specific_country_geometry() -> None:
-    page, _, app, stories = read_public()
+    page, _, app, stories, loops = read_public()
 
     assert 'id="terrainCountry"' in page
     assert 'id="terrainClipPath"' in page
@@ -112,7 +113,7 @@ def test_catalog_uses_story_specific_country_geometry() -> None:
 
 
 def test_home_globe_contains_story_points() -> None:
-    _, _, app, _ = read_public()
+    _, _, app, _, loops = read_public()
 
     assert "const storyPoints=STORIES.map" in app
     assert 'kind:"story"' in app
@@ -122,7 +123,7 @@ def test_home_globe_contains_story_points() -> None:
 
 
 def test_story_router_supports_new_and_legacy_deep_links() -> None:
-    _, _, app, _ = read_public()
+    _, _, app, _, loops = read_public()
 
     assert 'params.get("story")||params.get("action")' in app
     assert 'u.searchParams.set("story",activeStory.id)' in app
@@ -131,7 +132,7 @@ def test_story_router_supports_new_and_legacy_deep_links() -> None:
 
 
 def test_nepal_truth_contract_survives_catalog_refactor() -> None:
-    _, _, _, stories = read_public()
+    _, _, _, stories, loops = read_public()
 
     assert "~93,000 is not presented as a final affected-population count." in stories
     assert "We do not imply that a particular donation caused the displayed outcomes." in stories
@@ -141,7 +142,7 @@ def test_nepal_truth_contract_survives_catalog_refactor() -> None:
 
 
 def test_bhutan_is_an_elimination_story_not_a_disaster_clone() -> None:
-    _, _, _, stories = read_public()
+    _, _, _, stories, loops = read_public()
 
     assert "WHO validated Bhutan" in stories
     assert "zero human deaths from dog-mediated rabies since june 2023" in stories.lower()
@@ -153,7 +154,7 @@ def test_bhutan_is_an_elimination_story_not_a_disaster_clone() -> None:
 
 
 def test_drc_remains_an_open_loop_without_fake_bloom() -> None:
-    _, _, app, stories = read_public()
+    _, _, app, stories, loops = read_public()
 
     assert 'title: "Outrunning an Epidemic"' in stories
     assert 'value: "7,475"' in stories
@@ -169,7 +170,7 @@ def test_drc_remains_an_open_loop_without_fake_bloom() -> None:
 
 
 def test_story_specific_semantic_thresholds_drive_scroll() -> None:
-    _, _, app, stories = read_public()
+    _, _, app, stories, loops = read_public()
 
     assert "const semantic=activeStory.semantic" in app
     assert "semantic.threadStart" in app
@@ -183,7 +184,7 @@ def test_story_specific_semantic_thresholds_drive_scroll() -> None:
 
 
 def test_final_scene_can_continue_directly_to_next_story() -> None:
-    _, _, app, _ = read_public()
+    _, _, app, _, loops = read_public()
 
     assert "function nextStory" in app
     assert 'data-action="next"' in app
@@ -192,7 +193,7 @@ def test_final_scene_can_continue_directly_to_next_story() -> None:
 
 
 def test_evidence_drawer_is_catalog_driven() -> None:
-    _, _, app, stories = read_public()
+    _, _, app, stories, loops = read_public()
 
     assert "activeStory.evidence.map" in app
     assert "activeStory.guardrails.map" in app
@@ -204,7 +205,7 @@ def test_evidence_drawer_is_catalog_driven() -> None:
 
 
 def test_share_studio_is_catalog_driven() -> None:
-    page, _, app, _ = read_public()
+    page, _, app, _, loops = read_public()
 
     assert "shareCanvas" in page
     assert "activeStory.share.value" in app
@@ -215,7 +216,7 @@ def test_share_studio_is_catalog_driven() -> None:
 
 
 def test_scroll_cinema_still_interpolates_camera_and_depth() -> None:
-    _, styles, app, _ = read_public()
+    _, styles, app, _, loops = read_public()
 
     assert "function syncScrollCinema" in app
     assert "const position=progress*maxIndex" in app
@@ -230,7 +231,7 @@ def test_scroll_cinema_still_interpolates_camera_and_depth() -> None:
 
 
 def test_orbit_to_geographic_descent_remains_explicitly_stylized() -> None:
-    page, styles, app, stories = read_public()
+    page, styles, app, stories, loops = read_public()
 
     assert 'id="descentLayer"' in page
     assert ".descent-layer" in styles
@@ -245,7 +246,7 @@ def test_orbit_to_geographic_descent_remains_explicitly_stylized() -> None:
 
 
 def test_memory_of_earth_is_status_aware_not_a_score() -> None:
-    page, styles, app, stories = read_public()
+    page, styles, app, stories, loops = read_public()
 
     assert 'id="memoryMark"' in page
     assert "MEMORY OF EARTH" in page
@@ -258,7 +259,7 @@ def test_memory_of_earth_is_status_aware_not_a_score() -> None:
 
 
 def test_optional_sound_remains_user_initiated() -> None:
-    page, _, app, _ = read_public()
+    page, _, app, _, loops = read_public()
 
     assert 'id="soundBtn"' in page
     assert 'aria-pressed="false"' in page
@@ -270,7 +271,7 @@ def test_optional_sound_remains_user_initiated() -> None:
 
 
 def test_live_world_sources_keep_freshness_and_limits_visible() -> None:
-    _, _, app, _ = read_public()
+    _, _, app, _, loops = read_public()
 
     assert '"USGS": {' in app
     assert 'freshness: "LIVE"' in app
@@ -283,7 +284,7 @@ def test_live_world_sources_keep_freshness_and_limits_visible() -> None:
 
 
 def test_hidden_application_layers_remain_contained() -> None:
-    _, styles, app, _ = read_public()
+    _, styles, app, _, loops = read_public()
 
     assert_css_braces_balanced(styles)
     assert ".story:not(.active)" in styles
@@ -299,7 +300,7 @@ def test_hidden_application_layers_remain_contained() -> None:
 
 
 def test_reduced_motion_and_keyboard_controls_remain() -> None:
-    page, styles, app, _ = read_public()
+    page, styles, app, _, loops = read_public()
 
     assert "prefers-reduced-motion" in styles
     assert "aria-label" in page
@@ -313,7 +314,7 @@ def test_static_javascript_files_parse_with_node() -> None:
     if node is None:
         return
 
-    for path in ("public/stories.js", "public/app.js"):
+    for path in ("public/stories.js", "public/action-loops.js", "public/app.js"):
         result = subprocess.run(
             [node, "--check", path],
             capture_output=True,
@@ -331,3 +332,123 @@ def test_pages_and_zero_backend_release_config() -> None:
     assert 'from = "/world"' in config
     assert "path: public" in pages
     assert "actions/deploy-pages@v4" in pages
+
+
+def test_action_loop_surface_is_present_and_contained() -> None:
+    page, styles, app, stories, loops = read_public()
+
+    assert 'id="actionLab"' in page
+    assert 'id="storyActionBtn"' in page
+    assert 'id="actionLedgerBtn"' in page
+    assert 'id="actionCurrentTab"' in page
+    assert 'id="actionLedgerTab"' in page
+    assert '<script src="./action-loops.js"></script>' in page
+
+    assert "COMMONS ACTION LOOP" in styles
+    assert ".action-lab:not(.open)" in styles
+    assert ".action-lab.open" in styles
+    assert ".loop-chain" in styles
+    assert ".intervention-card" in styles
+    assert ".ledger-card" in styles
+
+    assert "function openActionLab" in app
+    assert "function renderActionLabCurrent" in app
+    assert "function renderActionLedger" in app
+    assert 'openActionLab("current")' in app
+    assert 'openActionLab("ledger")' in app
+
+
+def test_action_loop_catalog_covers_every_launch_story() -> None:
+    _, _, _, stories, loops = read_public()
+
+    assert 'window.WORLD_PULSE_ACTION_LOOPS' in loops
+    assert '"nepal-flash-floods-2026"' in loops
+    assert '"bhutan-rabies-elimination-2026"' in loops
+    assert '"drc-ebola-bundibugyo-2026"' in loops
+
+    assert loops.count("interventions: [") == 3
+    assert loops.count("latestOutcome: {") == 3
+    assert loops.count("actors: [") == 3
+
+
+def test_nepal_has_specific_verified_public_action_path() -> None:
+    _, _, app, stories, loops = read_public()
+
+    assert "donate.redcrossredcrescent.org/ifrc/nepal-flash-floods" in loops
+    assert "Fund the verified response" in loops
+    assert "IFRC → Nepal Red Cross Society" in loops
+    assert "Official Emergency Appeal" in loops
+    assert "Funds are pooled across the operation." in loops
+    assert "WORLD PULSE cannot verify your payment" in loops
+
+
+def test_drc_refuses_to_invent_a_direct_action() -> None:
+    _, _, _, stories, loops = read_public()
+
+    assert "No verified public action invented" in loops
+    assert "resist inventing an action" in loops
+    assert "has not verified one tightly enough" in loops
+    assert "No outcome claimed" in loops
+
+
+def test_local_ledger_is_private_and_does_not_collect_payment_data() -> None:
+    page, _, app, _, loops = read_public()
+
+    assert 'ACTION_LEDGER_KEY = "commons.action-ledger.v1"' in app
+    assert "localStorage.getItem(ACTION_LEDGER_KEY)" in app
+    assert "localStorage.setItem(ACTION_LEDGER_KEY" in app
+    assert "localStorage.removeItem(ACTION_LEDGER_KEY)" in app
+    assert "stored only in this browser" in app
+    assert "no amount, payment information or identity is collected" in app
+    assert "This ledger is a private browser-side prototype." in app
+
+
+def test_external_action_completion_is_explicitly_self_reported() -> None:
+    _, _, app, _, loops = read_public()
+
+    assert 'status:"self_reported_complete"' in app
+    assert 'verification:"self_reported"' in app
+    assert "WORLD PULSE cannot see the external transaction." in app
+    assert "Only mark it complete if you actually completed it." in app
+    assert "Self-reported by you" in app
+
+
+def test_feedback_loop_detects_newer_evidence_without_claiming_causality() -> None:
+    _, _, app, _, loops = read_public()
+
+    assert "function hasNewEvidence" in app
+    assert "story.updatedAt!==receipt.evidenceAsOf" in app
+    assert "NEWER OFFICIAL EVIDENCE" in app
+    assert "This evidence came after your recorded action." in app
+    assert "It does not prove your action caused the outcome." in app
+    assert "evidence after your action" in app
+    assert "evidence caused by your action" in app
+
+
+def test_action_loop_progress_matches_understand_to_learn_chain() -> None:
+    _, styles, app, _, loops = read_public()
+
+    for step in ("Understand", "Decide", "Coordinate", "Act", "Follow", "Learn"):
+        assert f'label:"{step}"' in app
+
+    assert "function loopProgress" in app
+    assert ".loop-step.done" in styles
+    assert ".loop-step.future" in styles
+
+
+def test_action_loop_share_is_only_recorded_when_initiated_from_action_loop() -> None:
+    _, _, app, _, loops = read_public()
+
+    assert "let pendingShareInterventionId=null" in app
+    assert "function prepareActionShare" in app
+    assert "function recordActionShare" in app
+    assert 'recordActionShare("share_completed","browser_share")' in app
+    assert 'recordActionShare("share_prepared","browser_local")' in app
+
+
+def test_story_library_surfaces_follow_and_new_evidence_states() -> None:
+    _, _, app, _, loops = read_public()
+
+    assert 'newer?"NEW EVIDENCE":following?"FOLLOWING":acted?"ACTION RECORDED"' in app
+    assert "ledgerForStory(story.id)" in app
+    assert "receipts.some(hasNewEvidence)" in app
