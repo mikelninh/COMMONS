@@ -5,7 +5,7 @@ import os
 import sqlite3
 from pathlib import Path
 
-from commons.models import CaseRecord, FoundingCapabilitySubmission, OutcomeInput, OutcomeRecord
+from commons.models import CaseRecord, FoundingCapabilitySubmission, NeedRequest, OutcomeInput, OutcomeRecord
 
 
 class CaseStore:
@@ -33,6 +33,15 @@ class CaseStore:
                 """
                 CREATE TABLE IF NOT EXISTS founding_capabilities (
                     submission_id TEXT PRIMARY KEY,
+                    created_at TEXT NOT NULL,
+                    record_json TEXT NOT NULL
+                )
+                """
+            )
+            conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS needs (
+                    need_id TEXT PRIMARY KEY,
                     created_at TEXT NOT NULL,
                     record_json TEXT NOT NULL
                 )
@@ -125,3 +134,26 @@ class CaseStore:
             FoundingCapabilitySubmission.model_validate_json(row["record_json"])
             for row in rows
         ]
+
+
+    def save_need(self, need: NeedRequest) -> NeedRequest:
+        with self._connect() as conn:
+            conn.execute(
+                """
+                INSERT INTO needs(need_id, created_at, record_json)
+                VALUES (?, ?, ?)
+                """,
+                (
+                    need.need_id,
+                    need.created_at.isoformat(),
+                    need.model_dump_json(),
+                ),
+            )
+        return need
+
+    def list_needs(self) -> list[NeedRequest]:
+        with self._connect() as conn:
+            rows = conn.execute(
+                "SELECT record_json FROM needs ORDER BY created_at ASC"
+            ).fetchall()
+        return [NeedRequest.model_validate_json(row["record_json"]) for row in rows]
