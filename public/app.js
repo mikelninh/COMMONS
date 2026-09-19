@@ -571,10 +571,6 @@ function updateSemanticVisuals(thread,bloom){
   if(bloomStrength>.01)points.push(...BLOOM);
   world.pointsData(points);
   world.arcsData(threadStrength>.01?THREADS:[]);
-  world.pointColor(world.pointColor());
-  world.pointRadius(world.pointRadius());
-  world.arcColor(world.arcColor());
-  world.arcStroke(world.arcStroke());
 }
 
 function syncScrollCinema(){
