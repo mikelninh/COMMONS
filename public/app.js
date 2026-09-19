@@ -30,6 +30,8 @@ const sourceMeta = {
 };
 
 const STORIES = Array.isArray(window.WORLD_PULSE_STORIES) ? window.WORLD_PULSE_STORIES : [];
+const ACTION_LOOPS = window.WORLD_PULSE_ACTION_LOOPS || {};
+const ACTION_LEDGER_KEY = "commons.action-ledger.v1";
 if(!STORIES.length) throw new Error("WORLD PULSE story catalog is missing");
 
 let activeStory = STORIES[0];
@@ -133,6 +135,7 @@ let soundEnabled = false;
 let lastSoundMilestone = -1;
 let currentMilestone = 0;
 let currentSignal = null;
+let actionLabMode = "current";
 let initialized = false;
 
 const world = Globe({rendererConfig:{antialias:true,alpha:true}})($("globe"))
@@ -540,6 +543,7 @@ function closeAuxiliaryLayers(except=null){
   if(except!=="evidence") closeEvidence();
   if(except!=="look") $("look").classList.remove("open");
   if(except!=="share") $("share").classList.remove("open");
+  if(except!=="actionLab") closeActionLab();
 }
 
 function openLook(){
@@ -629,7 +633,7 @@ function sceneMarkup(scene){
   const following=nextStory();
   const actions=scene.actions?`
     <div class="scene-actions">
-      <button class="word-button" data-action="primary">${escapeHtml(activeStory.primaryAction.label)}</button>
+      <button class="word-button" data-action="actionloop">Act on this →</button>
       <button class="word-button muted" data-action="belief">Why we believe this</button>
       <button class="word-button muted" data-action="pass">Pass this on</button>
       <button class="word-button muted" data-action="next">Next: ${escapeHtml(following.country)} →</button>
@@ -647,7 +651,7 @@ function sceneMarkup(scene){
 function bindScrollSceneActions(){
   qsa("[data-action]",$("scrollNarrative")).forEach(btn=>{
     btn.onclick=()=>{
-      if(btn.dataset.action==="primary")window.open(activeStory.primaryAction.url,"_blank","noopener");
+      if(btn.dataset.action==="actionloop")openActionLab("current");
       if(btn.dataset.action==="belief")openEvidence();
       if(btn.dataset.action==="pass")openShare();
       if(btn.dataset.action==="next"){
