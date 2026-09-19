@@ -70,3 +70,26 @@ def test_civic_page_and_api_are_live() -> None:
     body = response.json()
     assert body["political_recommendation"] is False
     assert any(c["channel_id"] == "berlin-ordnungsamt-online" for c in body["channels"])
+
+
+def test_civic_result_explains_how_it_reached_the_route() -> None:
+    result = route_civic_need(
+        CivicNeedInput(
+            text="There is rubbish and road damage in public space near me.",
+            location="Berlin",
+        )
+    )
+    assert result.primary_channel_id == "berlin-ordnungsamt-online"
+    assert result.checked_channels == 4
+    assert "public-space problem language" in result.matched_signals
+    assert [step.step for step in result.routing_trace] == [1, 2, 3, 4, 5]
+    assert result.routing_trace[-1].label == "Choose the clearest next path"
+
+
+def test_civic_ui_explains_that_routing_is_not_submission() -> None:
+    page = client.get("/civic")
+    assert page.status_code == 200
+    assert "What happens when you click?" in page.text
+    assert "Find a path ≠ send to government." in page.text
+    assert "What COMMONS just did" in page.text
+    assert "Proof ladder" in page.text
