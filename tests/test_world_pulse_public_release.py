@@ -117,7 +117,9 @@ def test_nepal_story_is_spatial_and_temporal() -> None:
     assert 'id: "response"' in app
     assert 'id: "outcome"' in app
     assert 'id: "capacity"' in app
-    assert 'id: "meaning"' in app
+    assert 'id: "descent"' in app
+    assert 'id: "silence"' in app
+    assert 'id: "memory"' in app
     assert 'id: "you"' in app
 
     assert "TIME_SCENES" in app
@@ -270,9 +272,10 @@ def test_scroll_cinema_interpolates_camera_and_semantic_layers() -> None:
     assert "world.pointOfView(cam,0)" in app
     assert "world.globeOffset([" in app
 
-    assert "const thread=smoothstep(1.25,2.25,position)" in app
-    assert "const bloom=smoothstep(3.55,4.55,position)" in app
-    assert "updateSemanticVisuals(thread,bloom)" in app
+    assert "const thread=smoothstep(2.3,3.35,position)" in app
+    assert "const bloom=smoothstep(4.85,6.15,position)" in app
+    assert "const memory=smoothstep(7.55,8.35,position)" in app
+    assert "updateSemanticVisuals(thread,bloom,memory)" in app
     assert "threadStrength" in app
     assert "bloomStrength" in app
 
@@ -298,3 +301,93 @@ def test_scroll_story_manual_input_takes_control_from_auto_play() -> None:
     assert 'window.addEventListener("wheel",()=>{if(storyPlaying)stopAutoScroll()}' in app
     assert 'window.addEventListener("touchstart",()=>{if(storyPlaying)stopAutoScroll()}' in app
     assert 'storyPlaying?"Pause":"Auto"' in app
+
+
+
+def test_orbit_to_geographic_descent_is_real_ui_state() -> None:
+    page, styles, app = read_public()
+
+    assert 'id="descentLayer"' in page
+    assert 'id="terrainSvg"' in page
+    assert 'id="nepalCountry"' in page
+    assert 'id="nepalClipPath"' in page
+    assert 'pathLength="1"' in page
+    assert "country outline is geographic" in page
+    assert "relief field is stylized, not elevation data" in page
+
+    assert ".descent-layer" in styles
+    assert ".terrain-world" in styles
+    assert ".terrain-country" in styles
+    assert ".terrain-contours path" in styles
+    assert ".terrain-thread" in styles
+    assert ".terrain-bloom" in styles
+
+    assert "function buildTerrainMap" in app
+    assert "flattenCoordinateRings" in app
+    assert 'String(d?.id)==="524"' in app
+    assert "buildTerrainMap();" in app
+    assert "terrainMix" in app
+    assert '"--globe-opacity"' in app
+    assert '"--terrain-opacity"' in app
+    assert '"--terrain-tilt"' in app
+
+
+def test_descent_is_explicitly_not_fake_topography_or_routes() -> None:
+    _, _, app = read_public()
+
+    assert "relief treatment is intentionally stylized and is not elevation data" in app
+    assert "not elevation, flood extent, damage mapping, or a factual topographic model" in app
+    assert "response thread is also semantic rather than a literal route" in app
+    assert "not a tracked shipment route" in app
+
+
+def test_scroll_depth_and_silence_moment_are_choreographed() -> None:
+    _, styles, app = read_public()
+
+    assert "--scene-depth" in styles
+    assert ".scroll-scene.silence-scene" in styles
+    assert "--silence-label-opacity" in styles
+    assert "--cinema-chrome-opacity" in styles
+
+    assert 'composition: "silence-scene"' in app
+    assert 'id: "silence"' in app
+    assert "const silenceDistance=Math.abs(position-5)" in app
+    assert '"--cinema-chrome-opacity"' in app
+    assert '"--scene-depth"' in app
+
+
+def test_memory_of_earth_is_one_truthful_mark_not_a_score() -> None:
+    page, styles, app = read_public()
+
+    assert 'id="memoryMark"' in page
+    assert "MEMORY OF EARTH" in page
+    assert ".memory-mark" in styles
+    assert "memoryPoint" in app
+    assert 'kind:"memory"' in app
+    assert "memoryStrength" in app
+    assert "The memory mark represents only this documented Nepal response story." in app
+    assert "not a score, rank, completion badge" in app
+
+
+def test_optional_sound_is_user_initiated_and_procedural() -> None:
+    page, _, app = read_public()
+
+    assert 'id="soundBtn"' in page
+    assert 'aria-pressed="false"' in page
+    assert "function createAudioNodeGraph" in app
+    assert "function toggleSound" in app
+    assert "function updateSoundscape" in app
+    assert "function soundAccent" in app
+    assert "window.AudioContext||window.webkitAudioContext" in app
+    assert '$("soundBtn").onclick=toggleSound' in app
+    assert "soundEnabled=false" in app or "let soundEnabled = false" in app
+
+
+def test_descent_returns_cleanly_to_the_planet() -> None:
+    _, _, app = read_public()
+
+    assert "function resetCinematicVisuals" in app
+    assert '"--terrain-opacity"' in app
+    assert '"--memory-opacity"' in app
+    assert "resetCinematicVisuals();" in app
+    assert 'terrain: 0,' in app
