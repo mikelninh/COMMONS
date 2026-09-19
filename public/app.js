@@ -29,174 +29,88 @@ const sourceMeta = {
   }
 };
 
-const ACTION = {
-  id: "nepal-flash-floods-2026",
-  title: "Nepal · Flash Floods 2026",
-  lat: 28.15,
-  lon: 85.3,
-  status: "OPEN LOOP",
-  updatedAt: "8 Sep 2026",
-  responder: "IFRC + Nepal Red Cross Society",
-  appeal: "https://www.ifrc.org/press-release/ifrc-launches-chf-25-million-emergency-appeal-response-devastating-nepal-flash-floods",
-  outcome: "https://www.ifrc.org/press-release/nepal-floods-ifrc-delivers-safe-water-and-health-care-affected-communities",
-  directory: "https://www.ifrc.org/national-societies-directory/nepal-red-cross-society",
-  donate: "https://www.ifrc.org/donate",
-  scenes: [
-    {
-      id: "signal",
-      milestone: 0,
-      terrain: 0,
-      kicker: "26 Aug 2026 · Pulse",
-      composition: "left-monument",
-      camera: {lat: 22, lng: 79, altitude: 1.78},
-      offset: [245, -8],
-      headline: "Flash floods struck <span class='attention'>northern Nepal.</span>",
-      copy: "Homes, roads and bridges were damaged and communities were isolated. The first visual state is intentionally simple: a disturbance, not a conclusion.",
-      source: "IFRC · 27 Aug 2026",
-      duration: 5200
-    },
-    {
-      id: "impact",
-      milestone: 0,
-      terrain: .08,
-      kicker: "Early estimate · Human impact",
-      composition: "metric-left",
-      camera: {lat: 28.1, lng: 85.3, altitude: 1.28},
-      offset: [280, 0],
-      value: "~93,000",
-      tone: "attention",
-      label: "people may have been affected",
-      copy: "An early IFRC estimate while assessments were continuing. It is not presented as a final affected-population count.",
-      source: "IFRC Emergency Appeal · 27 Aug 2026",
-      duration: 5700
-    },
-    {
-      id: "descent",
-      milestone: 1,
-      terrain: .58,
-      kicker: "27 Aug 2026 · Descent",
-      composition: "right-whisper",
-      camera: {lat: 27.9, lng: 84.8, altitude: 1.14},
-      offset: [-235, -8],
-      headline: "Move closer. <span class='human'>The response becomes visible.</span>",
-      copy: "The globe gives way to a geographic field of Nepal. The country outline is geographic; the relief treatment is intentionally stylized and is not elevation data.",
-      source: "Geographic outline · World Atlas · visual relief treatment · COMMONS",
-      duration: 5200
-    },
-    {
-      id: "verify",
-      milestone: 1,
-      terrain: 1,
-      kicker: "Verified response · Thread",
-      composition: "right-whisper",
-      camera: {lat: 27.9, lng: 84.8, altitude: 1.08},
-      offset: [-250, -8],
-      headline: "The signal became <span class='human'>a verified response.</span>",
-      copy: "IFRC launched a formal Emergency Appeal alongside Nepal Red Cross Society operations. The luminous thread is a semantic response pathway — not a tracked shipment route.",
-      source: "Primary evidence · IFRC",
-      duration: 5400
-    },
-    {
-      id: "response",
-      milestone: 1,
-      terrain: 1,
-      kicker: "Verified response",
-      composition: "center-monument",
-      camera: {lat: 27.9, lng: 84.9, altitude: 1.08},
-      offset: [0, 70],
-      value: "CHF 25M",
-      tone: "attention",
-      label: "Emergency Appeal",
-      copy: "Shelter, health, clean water, sanitation, cash assistance and recovery were named response priorities.",
-      source: "IFRC + Nepal Red Cross Society",
-      duration: 5600
-    },
-    {
-      id: "silence",
-      milestone: 2,
-      terrain: 1,
-      kicker: "08 Sep 2026",
-      composition: "silence-scene",
-      camera: {lat: 28.03, lng: 85.16, altitude: 1.04},
-      offset: [0, -20],
-      value: "~2,000",
-      tone: "outcome",
-      label: "people",
-      copy: "",
-      source: "",
-      silent: true,
-      duration: 6100
-    },
-    {
-      id: "outcome",
-      milestone: 2,
-      terrain: 1,
-      kicker: "08 Sep 2026 · Bloom",
-      composition: "low-left",
-      camera: {lat: 28.03, lng: 85.16, altitude: 1.04},
-      offset: [250, -60],
-      headline: "<span class='outcome'>Safe drinking water</span> was restored for around 2,000 people in Nuwakot.",
-      copy: "This is evidence that the response reached people. It is not proof that any one contribution caused the outcome.",
-      source: "IFRC outcome update · 8 Sep 2026",
-      duration: 6500
-    },
-    {
-      id: "capacity",
-      milestone: 2,
-      terrain: .82,
-      kicker: "Response capacity",
-      composition: "metric-right",
-      camera: {lat: 28.03, lng: 85.16, altitude: 1.1},
-      offset: [-250, -10],
-      value: "100/day",
-      tone: "outcome",
-      label: "mobile primary clinic capacity",
-      copy: "A concrete piece of response capacity reported in the same IFRC update.",
-      source: "IFRC · 8 Sep 2026",
-      duration: 5200
-    },
-    {
-      id: "memory",
-      milestone: 3,
-      terrain: .08,
-      kicker: "Memory of Earth",
-      composition: "right-whisper",
-      camera: {lat: 25.5, lng: 82.5, altitude: 1.64},
-      offset: [-220, 15],
-      headline: "The planet keeps <span class='outcome'>a memory of response.</span>",
-      copy: "This mark represents this documented Nepal response only. Over time, verified actions can leave a truthful visual memory without turning suffering into a leaderboard.",
-      source: "COMMONS · one recorded response story",
-      duration: 5400
-    },
-    {
-      id: "you",
-      milestone: 3,
-      terrain: 0,
-      kicker: "Now · Open loop",
-      composition: "final-center",
-      camera: {lat: 18, lng: 74, altitude: 2.05},
-      offset: [0, 25],
-      headline: "What happens next is <span class='human'>still being written.</span>",
-      copy: "Help through the verified response, inspect the evidence, or pass the story on with its provenance intact.",
-      source: "Last outcome evidence in this story · 8 Sep 2026",
-      duration: 12000,
-      actions: true
-    }
-  ]};
+const STORIES = Array.isArray(window.WORLD_PULSE_STORIES) ? window.WORLD_PULSE_STORIES : [];
+if(!STORIES.length) throw new Error("WORLD PULSE story catalog is missing");
 
-const TIME_SCENES = [0,3,6,9];
-const THREADS = [
-  {
-    startLat: 27.7172, startLng: 85.3240,
-    endLat: 27.95, endLng: 85.18,
-    note: "Visual response pathway inside Nepal; not a tracked logistics route."
-  }
-];
-const BLOOM = [
-  [27.94,85.13,.64],[27.97,85.17,.52],[27.92,85.20,.46],[28.00,85.10,.38],
-  [27.90,85.15,.33],[27.96,85.24,.29],[28.03,85.18,.25],[27.88,85.09,.24],
-  [28.01,85.27,.22],[27.86,85.22,.2]
-].map(([lat,lon,radius],i)=>({kind:"bloom",id:"bloom-"+i,lat,lon,radius}));
+let activeStory = STORIES[0];
+let TIME_SCENES = [];
+let THREADS = [];
+let BLOOM = [];
+
+function storyById(id){
+  return STORIES.find(story=>story.id===id || story.slug===id) || null;
+}
+
+function nextStory(){
+  const index=STORIES.findIndex(story=>story.id===activeStory.id);
+  return STORIES[(index+1)%STORIES.length];
+}
+
+function hexToRgba(hex,alpha=1){
+  const clean=String(hex||"#ffffff").replace("#","");
+  const value=parseInt(clean.length===3?clean.split("").map(c=>c+c).join(""):clean,16);
+  const r=(value>>16)&255,g=(value>>8)&255,b=value&255;
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function rebuildStoryAssets(){
+  TIME_SCENES=[
+    0,
+    Math.max(1,Math.round((activeStory.scenes.length-1)*.34)),
+    Math.max(2,Math.round((activeStory.scenes.length-1)*.67)),
+    activeStory.scenes.length-1
+  ];
+
+  THREADS=activeStory.thread?[{
+    startLat:activeStory.thread.startLat,
+    startLng:activeStory.thread.startLng,
+    endLat:activeStory.thread.endLat,
+    endLng:activeStory.thread.endLng,
+    note:"Semantic response pathway; not a literal tracked route."
+  }]:[];
+
+  BLOOM=(activeStory.bloom||[]).map(([lat,lon,radius],i)=>({
+    kind:"bloom",
+    id:"bloom:"+activeStory.id+":"+i,
+    lat,lon,radius
+  }));
+
+  actionPoint={
+    kind:"action",
+    action:true,
+    storyId:activeStory.id,
+    id:activeStory.id,
+    lat:activeStory.lat,
+    lon:activeStory.lon,
+    source:"COMMONS STORY",
+    title:activeStory.country+" · "+activeStory.title
+  };
+
+  memoryPoint={
+    kind:"memory",
+    storyId:activeStory.id,
+    id:"memory:"+activeStory.id,
+    lat:activeStory.lat,
+    lon:activeStory.lon,
+    source:"COMMONS MEMORY",
+    title:activeStory.country+" · "+activeStory.statusLabel
+  };
+}
+
+let actionPoint;
+let memoryPoint;
+rebuildStoryAssets();
+
+const storyPoints=STORIES.map(story=>({
+  kind:"story",
+  storyId:story.id,
+  id:"story:"+story.id,
+  lat:story.lat,
+  lon:story.lon,
+  source:"WORLD PULSE STORY",
+  title:story.country+" · "+story.title,
+  color:story.colors?.memory||story.colors?.attention||"#d2b06d"
+}));
 
 let countries = [];
 let signals = [];
@@ -220,25 +134,6 @@ let lastSoundMilestone = -1;
 let currentMilestone = 0;
 let currentSignal = null;
 let initialized = false;
-
-const actionPoint = {
-  kind:"action",
-  action:true,
-  id:ACTION.id,
-  lat:ACTION.lat,
-  lon:ACTION.lon,
-  source:"COMMONS ACTION",
-  title:ACTION.title
-};
-
-const memoryPoint = {
-  kind:"memory",
-  id:"memory:"+ACTION.id,
-  lat:ACTION.lat,
-  lon:ACTION.lon,
-  source:"COMMONS MEMORY",
-  title:"Nepal · response evidence recorded"
-};
 
 const world = Globe({rendererConfig:{antialias:true,alpha:true}})($("globe"))
   .backgroundColor("rgba(0,0,0,0)")
@@ -623,7 +518,7 @@ function easeCinema(t){
 
 function buildScrollNarrative(){
   if($("scrollNarrative").children.length)return;
-  $("scrollNarrative").innerHTML=ACTION.scenes.map((scene,index)=>`
+  $("scrollNarrative").innerHTML=activeStory.scenes.map((scene,index)=>`
     <div class="scroll-scene ${escapeHtml(scene.composition)}" data-scene-index="${index}" aria-hidden="true">
       <article class="scene">${sceneMarkup(scene)}</article>
     </div>
@@ -656,7 +551,7 @@ function sceneMarkup(scene){
 function bindScrollSceneActions(){
   qsa("[data-action]",$("scrollNarrative")).forEach(btn=>{
     btn.onclick=()=>{
-      if(btn.dataset.action==="help")window.open(ACTION.donate,"_blank","noopener");
+      if(btn.dataset.action==="help")window.open(activeStory.donate,"_blank","noopener");
       if(btn.dataset.action==="belief")openEvidence();
       if(btn.dataset.action==="pass")openShare();
     };
@@ -697,14 +592,14 @@ function syncScrollCinema(){
   if(!$("story").classList.contains("active"))return;
 
   const progress=storyProgress();
-  const maxIndex=ACTION.scenes.length-1;
+  const maxIndex=activeStory.scenes.length-1;
   const position=progress*maxIndex;
   const floorIndex=Math.min(maxIndex,Math.floor(position));
   const ceilIndex=Math.min(maxIndex,floorIndex+1);
   const rawT=position-floorIndex;
   const t=easeCinema(rawT);
-  const a=ACTION.scenes[floorIndex];
-  const b=ACTION.scenes[ceilIndex];
+  const a=activeStory.scenes[floorIndex];
+  const b=activeStory.scenes[ceilIndex];
   const nearest=Math.max(0,Math.min(maxIndex,Math.round(position)));
 
   qsa(".scroll-scene",$("scrollNarrative")).forEach((el,index)=>{
@@ -792,11 +687,11 @@ function syncScrollCinema(){
 
   if(nearest!==storyIndex){
     storyIndex=nearest;
-    const scene=ACTION.scenes[storyIndex];
+    const scene=activeStory.scenes[storyIndex];
     $("story").dataset.composition=scene.composition;
     const u=new URL(location.href);
     u.searchParams.delete("signal");
-    u.searchParams.set("action",ACTION.id);
+    u.searchParams.set("action",activeStory.id);
     u.searchParams.set("scene",scene.id);
     history.replaceState(null,"",u);
   }
@@ -808,8 +703,8 @@ function requestScrollCinema(){
 }
 
 function jumpToScene(index,smooth=true){
-  const target=Math.max(0,Math.min(ACTION.scenes.length-1,index));
-  const p=target/(ACTION.scenes.length-1);
+  const target=Math.max(0,Math.min(activeStory.scenes.length-1,index));
+  const p=target/(activeStory.scenes.length-1);
   window.scrollTo({top:p*storyMaxScroll(),behavior:smooth&&!reduceMotion?"smooth":"auto"});
 }
 
@@ -822,7 +717,7 @@ function startStory(index=0){
   $("story").classList.add("active");
   world.controls().autoRotate=false;
   buildScrollNarrative();
-  storyIndex=Math.max(0,Math.min(ACTION.scenes.length-1,index));
+  storyIndex=Math.max(0,Math.min(activeStory.scenes.length-1,index));
   storyPlaying=false;
   stopAutoScroll();
   updatePlayLabel();
@@ -860,7 +755,7 @@ function stopStory(returnHome=true){
 
 function nextScene(){
   stopAutoScroll();
-  jumpToScene(Math.min(ACTION.scenes.length-1,storyIndex+1));
+  jumpToScene(Math.min(activeStory.scenes.length-1,storyIndex+1));
 }
 function prevScene(){
   stopAutoScroll();
@@ -1064,15 +959,15 @@ function renderEvidence(){
       <h3>Nepal · evidence chain</h3>
       <div class="evidence-row">
         <div class="evidence-date">27 Aug<br>2026</div>
-        <a href="${ACTION.appeal}" target="_blank" rel="noopener">IFRC Emergency Appeal — early affected-population estimate, appeal amount and named response priorities.</a>
+        <a href="${activeStory.appeal}" target="_blank" rel="noopener">IFRC Emergency Appeal — early affected-population estimate, appeal amount and named response priorities.</a>
       </div>
       <div class="evidence-row">
         <div class="evidence-date">08 Sep<br>2026</div>
-        <a href="${ACTION.outcome}" target="_blank" rel="noopener">IFRC response update — safe drinking water restored for around 2,000 people and mobile primary clinic capacity.</a>
+        <a href="${activeStory.outcome}" target="_blank" rel="noopener">IFRC response update — safe drinking water restored for around 2,000 people and mobile primary clinic capacity.</a>
       </div>
       <div class="evidence-row">
         <div class="evidence-date">Responder</div>
-        <a href="${ACTION.directory}" target="_blank" rel="noopener">Nepal Red Cross Society — IFRC National Society directory.</a>
+        <a href="${activeStory.directory}" target="_blank" rel="noopener">Nepal Red Cross Society — IFRC National Society directory.</a>
       </div>
     </section>
 
@@ -1206,7 +1101,7 @@ function wrapText(ctx,text,x,y,maxWidth,lineHeight){
 function actionUrl(){
   const u=new URL(location.href);
   u.searchParams.delete("signal");
-  u.searchParams.set("action",ACTION.id);
+  u.searchParams.set("action",activeStory.id);
   u.searchParams.set("scene","signal");
   return u.toString();
 }
@@ -1329,10 +1224,10 @@ function bindEvents(){
 
 function routeFromUrl(){
   const params=new URLSearchParams(location.search);
-  if(params.get("action")===ACTION.id){
+  if(params.get("action")===activeStory.id){
     hideOpening();
     const id=params.get("scene");
-    const index=Math.max(0,ACTION.scenes.findIndex(s=>s.id===id));
+    const index=Math.max(0,activeStory.scenes.findIndex(s=>s.id===id));
     startStory(index);
     return;
   }
