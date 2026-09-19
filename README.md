@@ -37,6 +37,27 @@ LEARN
         └──────────────→ next decision gets better
 ```
 
+## WORLD//PULSE
+
+WORLD//PULSE is the first world-state sensing layer for COMMONS.
+
+It presents a deliberately small set of global signals while preserving the distinction between:
+
+- **live**
+- **near-real-time**
+- **periodic**
+- **modelled**
+
+Every signal exposes its source, as-of date, unit and methodology. A failed source produces an explicit warning rather than an invented number.
+
+Current v0.1 sources include NASA EONET, USGS, World Bank / UN-derived demographic data, and Our World in Data / Ember-derived structural indicators.
+
+Run the app and open:
+
+**http://127.0.0.1:8000/pulse**
+
+See [docs/WORLD_PULSE.md](docs/WORLD_PULSE.md) for source rules, quality gates and the path from sensing to action.
+
 ## Why Jev?
 
 COMMONS separates kinds of intelligence:
@@ -77,7 +98,7 @@ Then run:
 uvicorn commons.app:app --reload
 ```
 
-Open **http://127.0.0.1:8000**.
+Open **http://127.0.0.1:8000** for the civic lab or **http://127.0.0.1:8000/pulse** for WORLD//PULSE.
 
 Live 32-case Jev benchmark:
 
@@ -91,14 +112,19 @@ API-free architecture stress simulation:
 python scripts/simulate_architecture.py
 ```
 
+## Current working slice — v0.3 sensing + civic lab
 
-## Current working slice — v0.2 civic lab
+The civic lab accepts a messy real-world problem, asks Jev a set of typed probabilistic questions, passes those judgments through inspectable policy code, and produces an accountable route.
 
-v0.2 accepts a messy real-world problem, asks Jev a set of typed probabilistic questions, passes those judgments through inspectable policy code, and produces an accountable route. The first public demo focuses on citizens, public officials and communities.
+WORLD//PULSE adds the beginning of a complementary world-state layer:
 
-The first objective is deliberately small:
+```text
+sense → understand → decide → coordinate → act → verify → learn
+```
 
-> **Can we reliably turn one messy human need into the right next action, know when we are uncertain, and learn whether it worked?**
+The next objective is deliberately concrete:
+
+> **Can we connect one trustworthy world-state signal to an evidence-backed intervention, a capable actor, an authorised action and a measured outcome?**
 
 ## Success
 
@@ -145,12 +171,13 @@ Read the project documents:
 - [STRATEGY.md](STRATEGY.md) — working backwards from that future
 - [SUCCESS.md](SUCCESS.md) — how we know whether COMMONS is actually helping
 - [ARCHITECTURE.md](ARCHITECTURE.md) — the initial technical architecture
+- [docs/WORLD_PULSE.md](docs/WORLD_PULSE.md) — world-state sensing and quality gates
 - [docs/CIVIC_LAB.md](docs/CIVIC_LAB.md) — the citizen / official / community demo
 - [docs/SIMULATION.md](docs/SIMULATION.md) — explicit architecture stress assumptions
-- [NEXT_PHASE.md](NEXT_PHASE.md) — v0.3 evidence + capability network
+- [NEXT_PHASE.md](NEXT_PHASE.md) — evidence + capability network
 
 ## Status
 
-**Civic intelligence lab / v0.2.**
+**v0.3 — WORLD//PULSE sensing + civic intelligence lab.**
 
-The current slice adds multilingual civic routing, explicit deliberation boundaries, a shareable web UI, a 32-case benchmark and a measurable path toward v0.3 evidence + capabilities.
+The current slice combines provenance-aware world signals with multilingual civic routing, explicit deliberation boundaries, a shareable web UI, a 32-case benchmark and a measurable path toward evidence-backed capabilities and outcomes.
