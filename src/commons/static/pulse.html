@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WORLD//PULSE — COMMONS</title>
+<meta name="description" content="A trustworthy live nervous system for Earth: what is happening, how fresh the data is, and where it came from.">
+<style>
+:root{color-scheme:dark;--bg:#050706;--panel:#0a0e0c;--panel2:#0e1310;--line:#1d2721;--text:#f2f6f1;--muted:#8f9d94;--green:#a7ff83;--blue:#8cd8ff;--amber:#ffd889;--pink:#ffb6c9;--max:1260px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:
+radial-gradient(900px 520px at 50% -180px,#1f4733 0%,#0a1710 36%,transparent 70%),
+radial-gradient(650px 420px at 100% 20%,#10231d 0%,transparent 72%),
+var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,a{font:inherit}a{color:inherit}main{max-width:var(--max);margin:auto;padding:26px 24px 88px}
+nav{display:flex;justify-content:space-between;gap:18px;align-items:center;padding:6px 0 34px}.brand{font-weight:850;letter-spacing:-.03em}.brand span{color:var(--green)}.navlinks{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.navlinks a,.ghost{border:1px solid var(--line);background:#08100b;color:#cbd6ce;text-decoration:none;padding:9px 12px;border-radius:999px;font-size:12px;cursor:pointer}
+.hero{padding:46px 0 38px;text-align:center}.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--green)}h1{font-size:clamp(56px,9vw,126px);line-height:.83;letter-spacing:-.075em;margin:22px auto 26px;max-width:1100px}h1 span{color:var(--green)}.lede{font-size:clamp(17px,2.2vw,23px);line-height:1.55;color:#c6d0c9;max-width:830px;margin:0 auto}.truth{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:27px}.truth span{border:1px solid var(--line);background:#08100b;padding:8px 11px;border-radius:999px;color:#9eaba2;font-size:11px}.truth b{color:#dbe6dd;font-weight:650}
+.orbit{position:relative;width:min(410px,82vw);aspect-ratio:1;margin:38px auto 0;border-radius:50%;background:
+radial-gradient(circle at 36% 27%,#9affb766 0 2%,transparent 3%),
+radial-gradient(circle at 30% 35%,#53b77f 0 8%,transparent 9%),
+radial-gradient(circle at 62% 58%,#25694f 0 15%,transparent 16%),
+radial-gradient(circle at 43% 54%,#15352b 0 34%,#09140f 59%,#020403 76%);
+box-shadow:0 0 0 1px #83ffad18,0 0 90px #62ff9b1a,inset -60px -30px 80px #000c}
+.orbit:before,.orbit:after{content:"";position:absolute;inset:-8%;border:1px solid #8affb31b;border-radius:50%;transform:rotate(17deg) scaleY(.35)}.orbit:after{inset:-16%;border-color:#ffffff0d;transform:rotate(-11deg) scaleY(.55)}
+.orbit .pulse{position:absolute;inset:45%;border-radius:50%;background:var(--green);box-shadow:0 0 24px var(--green);animation:pulse 2.4s infinite}@keyframes pulse{0%,100%{transform:scale(.55);opacity:.5}50%{transform:scale(1);opacity:1}}
+.summary{display:flex;align-items:end;justify-content:space-between;gap:18px;border-top:1px solid var(--line);padding-top:28px;margin-top:34px}.summary h2{font-size:clamp(30px,4vw,54px);letter-spacing:-.045em;margin:7px 0}.summary p{color:var(--muted);margin:0;max-width:620px;line-height:1.55}.stamp{color:#819087;font-size:12px;text-align:right;min-width:190px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0 15px}.filter{border:1px solid var(--line);background:#080d0a;color:#93a198;border-radius:999px;padding:9px 13px;cursor:pointer}.filter.active{background:var(--text);color:#08100b;border-color:var(--text)}
+.warning{display:none;border:1px solid #5f4d26;background:#161206;color:#e5ca8d;border-radius:13px;padding:12px 14px;margin:12px 0;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.card{position:relative;min-height:320px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,#0d1310,#080c0a);padding:21px;overflow:hidden;display:flex;flex-direction:column}.card:before{content:"";position:absolute;width:150px;height:150px;border-radius:50%;right:-70px;top:-70px;background:#70ff9b10;filter:blur(4px)}.meta{display:flex;justify-content:space-between;gap:10px;align-items:start}.category{font-size:10px;letter-spacing:.17em;text-transform:uppercase;color:#7f9185}.fresh{border:1px solid var(--line);padding:6px 8px;border-radius:999px;font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:#a2aea6}.fresh.live{color:var(--green);border-color:#6cff9938}.fresh.near_real_time{color:var(--blue);border-color:#71cfff38}.fresh.periodic{color:var(--amber);border-color:#ffd06b38}.fresh.modelled{color:var(--pink);border-color:#ff9fbd38}
+.value{font-size:clamp(42px,5vw,70px);letter-spacing:-.06em;font-weight:830;margin:26px 0 9px}.label{font-size:18px;line-height:1.3;color:#d8e1da;max-width:340px}.asof{color:#7d8c82;font-size:11px;margin-top:7px}.cardfooter{margin-top:auto;padding-top:25px}.source{display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding-top:14px}.source a{color:#afbbb2;font-size:12px;text-decoration:none}.source a:hover{color:var(--green)}details{margin-top:12px;color:#8f9c93;font-size:12px;line-height:1.55}summary{cursor:pointer;color:#b4c0b7}.confidence{display:inline-flex;align-items:center;gap:6px;font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:#7f8e84}.dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.skeleton{animation:fade 1.3s infinite alternate}.skeleton .value,.skeleton .label,.skeleton .asof{color:transparent;background:#131b16;border-radius:7px}@keyframes fade{to{opacity:.55}}
+.action{margin-top:55px;border:1px solid var(--line);border-radius:26px;padding:30px;background:linear-gradient(135deg,#0d1510,#09100c)}.action-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:30px}.action h2{font-size:clamp(34px,5vw,66px);line-height:.95;letter-spacing:-.05em;margin:10px 0 18px}.action p{color:#9aa89e;line-height:1.6}.loop{display:grid;gap:8px}.loop div{border:1px solid var(--line);background:#070b08;border-radius:14px;padding:14px 15px;display:flex;justify-content:space-between;gap:16px}.loop span{color:#738279;font-size:11px;text-transform:uppercase;letter-spacing:.13em}.loop b{font-weight:650;color:#cbd5cd}
+.sharebar{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-top:18px}.share{border:0;background:var(--green);color:#071007;padding:12px 16px;border-radius:12px;font-weight:800;cursor:pointer}.note{font-size:11px;color:#718077;line-height:1.5}
+footer{margin-top:62px;border-top:1px solid var(--line);padding-top:22px;color:#69776e;font-size:12px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+@media(max-width:900px){.grid{grid-template-columns:1fr 1fr}.action-grid{grid-template-columns:1fr}.summary{align-items:start;flex-direction:column}.stamp{text-align:left}}@media(max-width:620px){main{padding:18px 14px 60px}.navlinks a:first-child{display:none}.hero{padding-top:30px}.grid{grid-template-columns:1fr}.card{min-height:290px}.sharebar{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<main>
+<nav><div class="brand">COMMONS <span>///</span> WORLD//PULSE</div><div class="navlinks"><a href="/">COMMONS Lab</a><a href="https://github.com/mikelninh/COMMONS">Open source ↗</a></div></nav>
+<section class="hero">
+<div class="eyebrow">A nervous system for Earth / v0.1</div>
+<h1>Earth,<br><span>with a pulse.</span></h1>
+<p class="lede">See what is happening, what is changing, and how certain we are — without turning estimates into fake real-time counters.</p>
+<div class="truth"><span><b>LIVE</b> source updates continuously</span><span><b>NEAR-REAL-TIME</b> recent event tracking</span><span><b>PERIODIC</b> published datasets</span><span><b>MODELLED</b> transparent estimate</span></div>
+<div class="orbit" aria-hidden="true"><i class="pulse"></i></div>
+</section>
+<section class="summary">
+<div><div class="eyebrow">THE WORLD / NOW + CONTEXT</div><h2>Six signals. Every one traceable.</h2><p>WORLD//PULSE deliberately mixes fast and slow signals — but never hides the difference. Click the source or methodology on any card to inspect what the number actually means.</p></div>
+<div class="stamp" id="stamp">Connecting to Earth…</div>
+</section>
+<div class="filters" id="filters"><button class="filter active" data-filter="all">All</button><button class="filter" data-filter="planet">Planet</button><button class="filter" data-filter="humanity">Humanity</button><button class="filter" data-filter="progress">Progress</button></div>
+<div class="warning" id="warning"></div>
+<section class="grid" id="grid">
+<article class="card skeleton"><div class="meta"><span class="category">signal</span><span class="fresh">loading</span></div><div class="value">000</div><div class="label">Loading a traceable world signal</div><div class="asof">Connecting to source</div></article><article class="card skeleton"><div class="meta"><span class="category">signal</span><span class="fresh">loading</span></div><div class="value">000</div><div class="label">Loading a traceable world signal</div><div class="asof">Connecting to source</div></article><article class="card skeleton"><div class="meta"><span class="category">signal</span><span class="fresh">loading</span></div><div class="value">000</div><div class="label">Loading a traceable world signal</div><div class="asof">Connecting to source</div></article><article class="card skeleton"><div class="meta"><span class="category">signal</span><span class="fresh">loading</span></div><div class="value">000</div><div class="label">Loading a traceable world signal</div><div class="asof">Connecting to source</div></article><article class="card skeleton"><div class="meta"><span class="category">signal</span><span class="fresh">loading</span></div><div class="value">000</div><div class="label">Loading a traceable world signal</div><div class="asof">Connecting to source</div></article><article class="card skeleton"><div class="meta"><span class="category">signal</span><span class="fresh">loading</span></div><div class="value">000</div><div class="label">Loading a traceable world signal</div><div class="asof">Connecting to source</div></article>
+</section>
+<section class="action">
+<div class="action-grid">
+<div><div class="eyebrow">NEXT / FROM AWARENESS TO ACTION</div><h2>A dashboard is not the destination.</h2><p>The next COMMONS layer connects a verified signal to evidence-backed interventions, capable actors, authorised action and measured outcomes. The system should learn from what actually happened — not from how impressive the recommendation sounded.</p><div class="sharebar"><button class="share" id="share">Copy today’s pulse</button><span class="note">Open knowledge: share the numbers with their freshness and provenance intact.</span></div></div>
+<div class="loop"><div><span>01 / Sense</span><b>WORLD//PULSE</b></div><div><span>02 / Understand</span><b>Evidence + uncertainty</b></div><div><span>03 / Decide</span><b>COMMONS policy</b></div><div><span>04 / Coordinate</span><b>People + capabilities</b></div><div><span>05 / Act</span><b>Human-authorised execution</b></div><div><span>06 / Learn</span><b>Outcome → next decision</b></div></div>
+</div>
+</section>
+<footer><span>May this increase our capacity to care for one another.</span><span>COMMONS · observable · governable · human-directed</span></footer>
+</main>
+<script>
+const grid=document.getElementById("grid"),stamp=document.getElementById("stamp"),warning=document.getElementById("warning");let snapshot=null,current="all";
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+function render(){if(!snapshot)return;const list=snapshot.signals.filter(s=>current==="all"||s.category===current);grid.innerHTML=list.map(s=>`<article class="card" data-category="${esc(s.category)}"><div class="meta"><span class="category">${esc(s.category)}</span><span class="fresh ${esc(s.freshness)}">${esc(s.freshness.replaceAll("_"," "))}</span></div><div class="value">${esc(s.display_value)}</div><div class="label">${esc(s.label)}</div><div class="asof">As of ${esc(s.as_of)}</div><div class="cardfooter"><div class="source"><a href="${esc(s.source_url)}" target="_blank" rel="noopener">${esc(s.source_name)} ↗</a><span class="confidence"><i class="dot"></i>${esc(s.confidence)} confidence</span></div><details><summary>What does this number mean?</summary><p>${esc(s.methodology)}</p></details></div></article>`).join("")||'<article class="card"><div class="label">No signals in this filter.</div></article>';stamp.textContent="Snapshot generated "+new Date(snapshot.generated_at).toLocaleString();if(snapshot.warnings.length){warning.style.display="block";warning.textContent="Some sources could not be reached: "+snapshot.warnings.join(" · ")}else warning.style.display="none"}
+async function load(){try{const r=await fetch("/api/pulse",{cache:"no-store"});if(!r.ok)throw new Error("Pulse API returned "+r.status);snapshot=await r.json();render()}catch(e){warning.style.display="block";warning.textContent="WORLD//PULSE could not reach its data layer. "+e.message;stamp.textContent="Data connection unavailable";grid.innerHTML='<article class="card"><div class="category">truth over theatre</div><div class="value">—</div><div class="label">No number is better than an unverified number.</div><div class="asof">Try again when the source connection is restored.</div></article>'}}
+document.querySelectorAll(".filter").forEach(b=>b.onclick=()=>{document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));b.classList.add("active");current=b.dataset.filter;render()});
+document.getElementById("share").onclick=async()=>{if(!snapshot)return;const lines=["WORLD//PULSE","Earth, with a pulse.","",...snapshot.signals.map(s=>`${s.display_value} — ${s.label} [${s.freshness.replaceAll("_"," ")}, as of ${s.as_of}] · ${s.source_name}`),"","Traceable signals via COMMONS"];await navigator.clipboard.writeText(lines.join("\n"));document.getElementById("share").textContent="Copied ✓"};
+load();setInterval(load,300000);
+</script>
+</body>
+</html>
