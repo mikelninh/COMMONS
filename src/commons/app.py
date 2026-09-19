@@ -127,7 +127,7 @@ def patch_public_space_case(case_id: str, patch: PublicSpaceCasePatch) -> Public
     try:
         candidate = PublicSpaceCase.model_validate(candidate.model_dump())
     except ValidationError as exc:
-        raise HTTPException(status_code=422, detail=exc.errors()) from exc
+        raise HTTPException(status_code=422, detail=exc.errors(include_input=False)) from exc
     packet = prepare_submission_packet(candidate)
     candidate.status = (
         PublicSpaceCaseStatus.READY if packet.ready else PublicSpaceCaseStatus.DRAFT
