@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#020403">
 <meta name="description" content="COMMONS WORLD PULSE — watch meaningful changes emerge from live public Earth data.">
 <title>COMMONS — World Pulse</title>
-<script src="https://unpkg.com/globe.gl"></script>
+<script src="https://unpkg.com/globe.gl@2.46.2"></script>
 <style>
 :root{
   color-scheme:dark;
@@ -108,6 +108,7 @@ button{font:inherit}
 @media(max-width:650px){
   .ui{padding:12px}.brandrow .livepill{display:none}.sideLeft{align-self:start;margin-top:90px;width:74vw}.heroTitle{font-size:43px}.heroSub{font-size:10px}.storyCard{right:12px;left:12px;top:auto;bottom:135px;width:auto}.briefDock{display:none}.bottomBar{border-radius:14px;align-items:flex-start}.sourceStrip{gap:7px;overflow:auto}.bottomMessage{display:none}.actions .ghostbtn{display:none}.sheet{right:12px;left:12px;bottom:78px;width:auto}.storyCard.show~*{} 
 }
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
 </style>
 </head>
 <body>
@@ -119,7 +120,7 @@ button{font:inherit}
     <div class="topbar">
       <div class="brandrow">
         <div class="brand"><b>COMMONS</b> / WORLD PULSE</div>
-        <div class="livepill"><span class="liveDot"></span><span id="liveLabel">OBSERVING LIVE PUBLIC DATA</span></div>
+        <div class="livepill"><span class="liveDot"></span><span id="liveLabel">LIVE + NEAR-REAL-TIME PUBLIC DATA</span></div>
       </div>
       <div class="actions">
         <button class="ghostbtn" id="storyBtn">PAUSE STORY</button>
@@ -131,7 +132,7 @@ button{font:inherit}
     <div class="sideLeft">
       <div class="kicker">WHAT CHANGED ON EARTH?</div>
       <h1 class="heroTitle">Most of Earth is quiet.</h1>
-      <div class="heroSub">WORLD PULSE watches live public Earth data, remembers the previous observation, and only spends attention when transparent rules say something deserves a closer look.</div>
+      <div class="heroSub">WORLD PULSE watches selected public Earth feeds, remembers the previous observation, and only spends attention when transparent rules say something deserves a closer look. It is a window into the world — not a complete census of it.</div>
       <div class="funnel">
         <div class="funit"><b id="fObserved">—</b><span>observed</span></div><div class="arrow">→</div>
         <div class="funit"><b id="fChanged">—</b><span>changed</span></div><div class="arrow">→</div>
@@ -178,14 +179,19 @@ const GDACS="https://gdacs.org/xml/rss_7d.xml";
 const $=id=>document.getElementById(id);
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
 const colorBySource={"USGS":"#72d8ff","NASA EONET":"#b7ff7a","GDACS":"#ffd277"};
+const sourceMeta={
+  "USGS":{freshness:"LIVE",cadence:"feed updated about every minute",url:"https://earthquake.usgs.gov/earthquakes/feed/",scope:"Rolling earthquake feed; event magnitude is not a measure of human impact."},
+  "NASA EONET":{freshness:"NEAR-REAL-TIME",cadence:"curated open-event feed",url:"https://eonet.gsfc.nasa.gov/",scope:"Curated natural-event tracking; not a complete census of every event on Earth."},
+  "GDACS":{freshness:"NEAR-REAL-TIME",cadence:"7-day disaster alert feed",url:"https://gdacs.org/",scope:"Disaster alerts for situational awareness; an alert is not a casualty or need estimate."}
+};
 const kindCompat=[["earthquake","earthquake"],["wildfire","fire"],["fire","wildfire"],["flood","flood"],["cyclone","storm"],["storm","cyclone"],["volcano","volcano"]];
 
 let signals=[],clusters=[],story=[],storyIndex=0,storyTimer=null,storyPaused=false,current=null,sourceStates=[];
 
 const world=Globe()(document.getElementById("globe"))
   .backgroundColor("rgba(0,0,0,0)")
-  .globeImageUrl("https://unpkg.com/three-globe/example/img/earth-night.jpg")
-  .backgroundImageUrl("https://unpkg.com/three-globe/example/img/night-sky.png")
+  .globeImageUrl("https://unpkg.com/three-globe@2.45.2/example/img/earth-night.jpg")
+  .backgroundImageUrl("https://unpkg.com/three-globe@2.45.2/example/img/night-sky.png")
   .showAtmosphere(true)
   .atmosphereColor("#6ca37a")
   .atmosphereAltitude(.17)
@@ -302,7 +308,8 @@ function focus(s,manual=false){
   $("storyLabel").textContent=manual?"EXPLORE":"WORLD SPOTLIGHT";
   $("storyTitle").textContent=s.title;
   $("storyStep").textContent=String(storyIndex+1).padStart(2,"0")+" / "+String(Math.max(1,story.length)).padStart(2,"0");
-  $("storyMeta").innerHTML='<span class="metaPill source">'+esc(s.source)+'</span><span class="metaPill">'+esc(s.state.toUpperCase())+'</span><span class="metaPill">'+esc(age(s.time))+'</span>'+(s.magnitude!=null?'<span class="metaPill">M '+esc(s.magnitude)+'</span>':"")+(s.severity?'<span class="metaPill attn">'+esc(s.severity)+'</span>':"");
+  const sm=sourceMeta[s.source]||{freshness:"PUBLIC FEED"};
+  $("storyMeta").innerHTML='<span class="metaPill source">'+esc(s.source)+' · '+esc(sm.freshness)+'</span><span class="metaPill">'+esc(s.state.toUpperCase())+'</span><span class="metaPill">'+esc(age(s.time))+'</span>'+(s.magnitude!=null?'<span class="metaPill">M '+esc(s.magnitude)+'</span>':"")+(s.severity?'<span class="metaPill attn">'+esc(s.severity)+'</span>':"");
   $("storyWhy").innerHTML=reasons.length?'<b>Surfaced because:</b> '+esc(reasons.join(" · ")):'<b>Why shown:</b> current live source signal; no automatic wake rule fired.';
   $("storyCard").classList.add("show");
   const u=new URL(location.href);u.searchParams.set("signal",s.id);history.replaceState(null,"",u);
@@ -322,7 +329,11 @@ function renderBrief(baseline){
   $("briefItems").querySelectorAll("[data-id]").forEach(el=>el.onclick=()=>focus(signals.find(s=>s.id===el.dataset.id),true));
 }
 function renderSources(){
-  $("sourceStrip").innerHTML=sourceStates.map(s=>'<div class="sourceChip '+(s.ok?"":"bad")+'"><i style="background:'+(colorBySource[s.name]||"#999")+'"></i>'+esc(s.name)+' '+(s.ok?"✓ "+s.count:"×")+'</div>').join("");
+  $("sourceStrip").innerHTML=sourceStates.map(s=>{
+    const m=sourceMeta[s.name]||{freshness:"PUBLIC",cadence:"",scope:""};
+    const title=[m.freshness,m.cadence,m.scope].filter(Boolean).join(" · ");
+    return '<div class="sourceChip '+(s.ok?"":"bad")+'" title="'+esc(title)+'"><i style="background:'+(colorBySource[s.name]||"#999")+'"></i>'+esc(s.name)+' · '+esc(m.freshness)+' '+(s.ok?"✓ "+s.count:"×")+'</div>';
+  }).join("");
 }
 function renderGlobe(baseline){
   world.pointsData(signals);
@@ -334,11 +345,11 @@ function renderGlobe(baseline){
   renderBrief(baseline);renderSources();rebuildStory();
 }
 async function refresh(){
-  $("liveLabel").textContent="OBSERVING LIVE PUBLIC DATA";
+  $("liveLabel").textContent="CHECKING LIVE + NEAR-REAL-TIME FEEDS";
   const results=await Promise.allSettled([fetchUSGS(),fetchEONET(),fetchGDACS()]);signals=[];sourceStates=[];
   [["USGS",results[0]],["NASA EONET",results[1]],["GDACS",results[2]]].forEach(([name,res])=>{if(res.status==="fulfilled"){signals.push(...res.value);sourceStates.push({name,ok:true,count:res.value.length})}else sourceStates.push({name,ok:false,count:0})});
   const baseline=applyState(signals);clusters=buildClusters(signals);renderGlobe(baseline);
-  $("liveLabel").textContent="LIVE · "+signals.length+" SIGNALS";
+  $("liveLabel").textContent="CURRENT VIEW · "+signals.length+" SIGNALS · "+sourceStates.filter(s=>s.ok).length+"/3 SOURCES";
   const wanted=new URLSearchParams(location.search).get("signal"),match=signals.find(s=>s.id===wanted);
   if(match)focus(match,true);else startStory();
   setTimeout(()=>$("intro").classList.add("hide"),900);
@@ -350,6 +361,8 @@ $("sourceBtn").onclick=()=>{if(current?.url)window.open(current.url,"_blank","no
 $("traceBtn").onclick=()=>current&&renderGraph(current);
 $("copyBtn").onclick=async()=>{try{await navigator.clipboard.writeText(location.href);$("copyBtn").textContent="COPIED ✓"}catch(e){}};
 $("sheetClose").onclick=()=>$("sheet").classList.remove("show");
+const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+if(reduceMotion){world.controls().autoRotate=false;storyPaused=true;$("storyBtn").textContent="PLAY STORY"}
 refresh();setInterval(refresh,60000);
 </script>
 </body>
