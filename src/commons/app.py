@@ -66,6 +66,7 @@ _civic_path = Path(__file__).parent / "static" / "civic.html"
 _civic_report_path = Path(__file__).parent / "static" / "civic_report.html"
 _live_demo_path = Path(__file__).parent / "static" / "live_demo.html"
 _world_pulse_path = Path(__file__).parent / "static" / "world_pulse.html"
+_public_world_pulse_path = Path(__file__).resolve().parents[2] / "public" / "world" / "index.html"
 registry = CapabilityRegistry()
 seed_builtin_capabilities(registry)
 proof_ledger = ProofLedger()
@@ -112,7 +113,8 @@ def live_demo() -> HTMLResponse:
 
 @app.get("/world", response_class=HTMLResponse, include_in_schema=False)
 def world_pulse_page() -> HTMLResponse:
-    return HTMLResponse(_world_pulse_path.read_text(encoding="utf-8"))
+    path = _public_world_pulse_path if _public_world_pulse_path.exists() else _world_pulse_path
+    return HTMLResponse(path.read_text(encoding="utf-8"))
 
 
 @app.get("/pulse/world", response_model=WorldPulseResponse)

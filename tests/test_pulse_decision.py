@@ -110,9 +110,9 @@ def test_world_ui_explains_zero_cost_sleep_state() -> None:
     response = client.get("/world")
 
     assert response.status_code == 200
-    assert "intelligence stayed asleep" in response.text
-    assert "0 inference calls" in response.text
-    assert "TRACE DECISION" in response.text
+    assert "Intelligence stays asleep" in response.text
+    assert "PAID AI <b id=\"paidAI\">OFF" in response.text
+    assert "TRACE WHAT WAKES" in response.text
 
 
 def test_world_brief_explains_sleep_state_without_inventing_importance() -> None:
@@ -139,5 +139,6 @@ def test_world_ui_contains_brief_filters_and_shareable_focus() -> None:
 
     assert response.status_code == 200
     assert "WORLD BRIEF" in response.text
-    assert 'data-filter="changed"' in response.text
+    assert "WORLD SPOTLIGHT" in response.text
     assert "COPY FOCUS LINK" in response.text
+    assert "EXPLORE" in response.text

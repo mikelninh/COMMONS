@@ -2,56 +2,368 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#050706">
-<meta name="description" content="COMMONS WORLD PULSE — a live, transparent view of meaningful changes across public Earth data.">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#020403">
+<meta name="description" content="COMMONS WORLD PULSE — watch meaningful changes emerge from live public Earth data.">
 <title>COMMONS — World Pulse</title>
+<script src="https://unpkg.com/globe.gl@2.46.2"></script>
 <style>
-:root{color-scheme:dark;--bg:#050706;--panel:#0a0d0c;--line:#1d2823;--text:#f2f5ef;--muted:#84908a;--green:#b7ff7a;--cyan:#73d8ff;--amber:#ffd17a;--violet:#b89cff}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-body{background:radial-gradient(circle at 46% 38%,rgba(84,132,91,.075),transparent 27%),linear-gradient(rgba(255,255,255,.011) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.011) 1px,transparent 1px),var(--bg);background-size:auto,44px 44px,44px 44px}
-button{font:inherit}.shell{max-width:1600px;min-height:100vh;margin:auto;padding:16px 18px 18px;display:grid;grid-template-rows:auto auto minmax(590px,1fr) auto;gap:12px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:14px}.brand{font-size:12px;letter-spacing:.19em;font-weight:900}.brand b{color:var(--green)}.badges{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.badge{border:1px solid #314139;background:#0b110e;color:#9eaaa4;border-radius:999px;padding:5px 8px;font-size:8px;letter-spacing:.09em;text-transform:uppercase}.badge.live{color:var(--green);border-color:#3d593f}.dot{display:inline-block;width:6px;height:6px;background:var(--green);border-radius:50%;margin-right:5px;box-shadow:0 0 14px rgba(183,255,122,.75)}
-.hero{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:end}.eyebrow{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--green);font-weight:850;margin-bottom:6px}h1{font-size:clamp(34px,4.5vw,66px);line-height:.92;letter-spacing:-.06em;margin:0;font-weight:900}.tag{font-size:11px;color:var(--muted);line-height:1.45;max-width:690px;margin-top:8px}.stats{display:flex;gap:22px}.stat{text-align:right}.stat span{display:block;font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}.stat b{display:block;font-size:23px;margin-top:1px}.stat .g{color:var(--green)}
-.main{min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:12px}.map,.rail{border:1px solid var(--line);background:linear-gradient(180deg,rgba(10,13,12,.97),rgba(6,9,8,.96));border-radius:18px;overflow:hidden}.map{position:relative}.mapHead{position:absolute;z-index:7;top:0;left:0;right:0;height:42px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 13px;background:rgba(7,10,9,.77);backdrop-filter:blur(12px);font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}.sourceState{display:flex;gap:5px}.sourceChip{border:1px solid #2b3832;border-radius:999px;padding:4px 6px;font-size:7.5px}.sourceChip.ok{color:#b8cbbb;border-color:#354b39}.sourceChip.bad{color:#dda4a4;border-color:#4e3536}svg{width:100%;height:100%;display:block}.land{fill:#101713;stroke:#223029;stroke-width:1.1}.grid{stroke:#18211d;stroke-width:.8}.equator{stroke:#26362d;stroke-width:1}.ocean{fill:#536158;font-size:9px;letter-spacing:.06em}.signal{cursor:pointer}.signal.known{opacity:.58}.signal.new,.signal.updated{opacity:1}.core{stroke:#07100a;stroke-width:1.7}.ripple{fill:none;stroke-width:1;opacity:0}.signal.new .ripple,.signal.updated .ripple{animation:pulse 2.2s ease-out infinite}@keyframes pulse{0%{opacity:.7;r:5}100%{opacity:0;r:25}}
-.focus{position:absolute;left:50%;bottom:14px;transform:translateX(-50%) translateY(10px);width:min(650px,74%);border:1px solid #35483b;background:rgba(8,13,10,.94);backdrop-filter:blur(15px);border-radius:15px;padding:12px;opacity:0;pointer-events:none;transition:.3s all;z-index:8}.focus.show{opacity:1;transform:translateX(-50%);pointer-events:auto}.frow{display:flex;justify-content:space-between;gap:10px}.fsrc{font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:var(--green)}.ftime{font-size:8px;color:var(--muted)}.ftitle{font-size:15px;font-weight:900;margin-top:4px;line-height:1.25}.fmeta{font-size:9px;color:var(--muted);margin-top:5px}.why{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}.why span{font-size:8px;border:1px solid #3d513e;color:#c7d7c7;border-radius:999px;padding:4px 6px}.smallbtn{border:1px solid #40563f;background:#0c150d;color:var(--green);border-radius:999px;padding:6px 8px;font-size:8px;font-weight:850;cursor:pointer;margin-top:8px}
-.rail{display:grid;grid-template-rows:auto auto auto 1fr auto}.rhead{height:42px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 11px}.rhead b{font-size:9px;text-transform:uppercase;letter-spacing:.12em}.rhead span{font-size:8px;color:var(--muted)}.brief{padding:10px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(11,18,12,.72),rgba(8,11,9,.35))}.briefk{font-size:7px;color:var(--green);text-transform:uppercase;letter-spacing:.13em;font-weight:850}.briefh{font-size:14px;font-weight:900;line-height:1.2;margin-top:4px}.briefs{font-size:8.5px;color:var(--muted);line-height:1.45;margin-top:4px}.briefitems{display:flex;flex-direction:column;gap:5px;margin-top:8px}.briefitem{border:1px solid #243128;border-radius:9px;padding:7px;background:#080d09;cursor:pointer}.briefitem.attn{border-color:#43533b;background:#0b1209}.btop{display:flex;justify-content:space-between;gap:8px}.bstatus{font-size:7px;color:var(--green);letter-spacing:.1em;text-transform:uppercase}.bsrc{font-size:7px;color:var(--muted)}.btitle{font-size:9.5px;font-weight:850;line-height:1.3;margin-top:3px}.bwhy{font-size:7.7px;color:#95a299;margin-top:3px;line-height:1.35}.filters{display:flex;gap:5px;flex-wrap:wrap;padding:7px 9px;border-bottom:1px solid var(--line)}.filter{border:1px solid #29362f;background:#090e0b;color:#7f8d86;border-radius:999px;padding:5px 7px;font-size:7.5px;cursor:pointer}.filter.on{color:var(--green);border-color:#486047;background:#0a120b}.feed{padding:8px;overflow:auto;display:flex;flex-direction:column;gap:6px}.card{border:1px solid var(--line);background:#080c0a;border-radius:11px;padding:9px;cursor:pointer}.card:hover{border-color:#34493b}.card.attn{border-color:#364b39;background:#09110b}.ctop{display:flex;justify-content:space-between;gap:8px}.csrc{font-size:7px;color:var(--green);letter-spacing:.1em;text-transform:uppercase}.ctime{font-size:7px;color:var(--muted)}.ctitle{font-size:10.5px;font-weight:800;line-height:1.35;margin-top:4px}.cwhy{font-size:8.5px;color:#9aa6a0;line-height:1.35;margin-top:5px}.bottom{border-top:1px solid var(--line);padding:8px 10px;display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:8px;color:var(--muted)}.refresh{border:1px solid #314139;background:#0b110e;color:#d8e0db;border-radius:999px;padding:6px 8px;font-size:8px;font-weight:850;cursor:pointer}.footer{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;font-size:8px;color:var(--muted);align-items:center}.footer b{color:#bcc7bf}.clock{text-align:center;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.right{text-align:right}.loading{position:absolute;inset:42px 0 0;display:grid;place-items:center;background:rgba(5,7,6,.66);z-index:15;transition:.35s opacity}.loading.hide{opacity:0;pointer-events:none}.orb{width:46px;height:46px;border:1px solid #33483a;border-radius:50%;position:relative}.orb:after{content:"";position:absolute;inset:8px;border:1px solid var(--green);border-radius:50%;animation:load 1.3s ease-in-out infinite}@keyframes load{50%{transform:scale(.4);opacity:.25}}.loadtxt{text-align:center;font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-top:9px}
-@media(max-width:900px){.main{grid-template-columns:1fr}.map{height:560px}.rail{min-height:560px}.hero{grid-template-columns:1fr}.stats{justify-content:flex-start}.stat{text-align:left}.shell{grid-template-rows:auto auto auto auto}}@media(max-width:620px){.shell{padding:10px}.focus{width:90%}.footer{grid-template-columns:1fr}.clock,.right{text-align:left}.stats{gap:12px}.stat b{font-size:18px}}
+:root{
+  color-scheme:dark;
+  --bg:#020403;--glass:rgba(7,11,9,.66);--glass2:rgba(9,14,11,.88);
+  --line:rgba(170,210,181,.13);--line2:rgba(183,255,122,.28);
+  --text:#f4f7f2;--muted:#87938b;--soft:#c7d0ca;
+  --green:#b7ff7a;--cyan:#72d8ff;--amber:#ffd277;--violet:#b79cff;--red:#ff8e86;
+}
+*{box-sizing:border-box}
+html,body,#app{width:100%;height:100%;margin:0;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{
+  background:
+    radial-gradient(circle at 50% 38%,rgba(51,88,59,.14),transparent 24%),
+    radial-gradient(circle at 20% 80%,rgba(42,78,93,.06),transparent 25%),
+    #020403;
+}
+button{font:inherit}
+#globe{position:fixed;inset:0;z-index:0}
+#globe canvas{outline:none}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:
+  radial-gradient(circle at 50% 48%,transparent 38%,rgba(2,4,3,.16) 65%,rgba(2,4,3,.78) 100%),
+  linear-gradient(to bottom,rgba(2,4,3,.44),transparent 20%,transparent 78%,rgba(2,4,3,.66))}
+.noise{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.11;mix-blend-mode:screen;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E")}
+.ui{position:fixed;inset:0;z-index:3;pointer-events:none;padding:20px 22px 18px;display:grid;grid-template-rows:auto 1fr auto}
+.topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;pointer-events:auto}
+.brandrow{display:flex;align-items:center;gap:12px}
+.brand{font-size:12px;letter-spacing:.19em;font-weight:900}.brand b{color:var(--green)}
+.livepill{display:flex;align-items:center;gap:7px;border:1px solid var(--line2);background:rgba(5,10,6,.68);backdrop-filter:blur(16px);border-radius:999px;padding:6px 9px;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--green)}
+.liveDot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 16px rgba(183,255,122,.85)}
+.actions{display:flex;gap:7px;align-items:center}
+.iconbtn,.ghostbtn,.primarybtn{
+  pointer-events:auto;border:1px solid var(--line);background:rgba(7,11,9,.64);backdrop-filter:blur(16px);
+  color:#dce3de;border-radius:999px;padding:7px 10px;font-size:8px;font-weight:850;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:.2s all
+}
+.iconbtn:hover,.ghostbtn:hover{border-color:rgba(183,255,122,.34);color:var(--green)}
+.primarybtn{background:var(--green);color:#071006;border-color:var(--green)}
+.primarybtn:hover{filter:brightness(1.07)}
+.sideLeft{align-self:center;justify-self:start;display:flex;flex-direction:column;gap:13px;width:min(390px,34vw);pointer-events:auto}
+.kicker{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--green);font-weight:900}
+.heroTitle{font-size:clamp(40px,5vw,78px);line-height:.92;letter-spacing:-.065em;font-weight:920;margin:0;max-width:600px;text-shadow:0 12px 50px rgba(0,0,0,.38)}
+.heroSub{font-size:11px;line-height:1.55;color:#a4afa8;max-width:420px}
+.funnel{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.funit{border:1px solid var(--line);background:rgba(5,8,6,.48);backdrop-filter:blur(12px);border-radius:11px;padding:8px 9px;min-width:74px}
+.funit b{font-size:15px;display:block;letter-spacing:-.03em}.funit span{font-size:7px;color:var(--muted);letter-spacing:.09em;text-transform:uppercase;display:block;margin-top:2px}
+.arrow{font-size:11px;color:#536057}
+.storyCard{
+  position:absolute;right:22px;top:110px;width:min(380px,30vw);pointer-events:auto;
+  border:1px solid rgba(183,255,122,.18);background:linear-gradient(180deg,rgba(9,14,11,.86),rgba(5,9,7,.74));
+  backdrop-filter:blur(22px);border-radius:20px;padding:14px 15px 13px;
+  box-shadow:0 26px 80px rgba(0,0,0,.26);transform:translateX(18px);opacity:0;transition:.38s all
+}
+.storyCard.show{transform:none;opacity:1}
+.storyTop{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.storyLabel{font-size:8px;letter-spacing:.13em;text-transform:uppercase;color:var(--green);font-weight:900}
+.storyStep{font-size:8px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.storyTitle{font-size:19px;font-weight:920;line-height:1.14;letter-spacing:-.025em;margin-top:7px}
+.storyMeta{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.metaPill{font-size:7.5px;border:1px solid var(--line);border-radius:999px;padding:5px 7px;color:#aeb9b2}
+.metaPill.source{color:var(--cyan)}.metaPill.attn{color:var(--amber);border-color:rgba(255,210,119,.22)}
+.storyWhy{font-size:9px;line-height:1.52;color:#9ca8a1;margin-top:10px}
+.storyWhy b{color:#dfe7e1}
+.storyActions{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+.storyActions button{border:1px solid var(--line);background:#0a100c;color:#dbe3dd;border-radius:999px;padding:7px 9px;font-size:8px;font-weight:850;cursor:pointer}
+.storyActions button:hover{color:var(--green);border-color:rgba(183,255,122,.3)}
+.briefDock{
+  position:absolute;left:22px;bottom:78px;width:min(420px,36vw);pointer-events:auto;border:1px solid var(--line);
+  background:rgba(6,10,8,.60);backdrop-filter:blur(20px);border-radius:17px;padding:12px
+}
+.briefHead{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.briefHead b{font-size:8px;letter-spacing:.13em;color:var(--green);text-transform:uppercase}
+.briefHead span{font-size:8px;color:var(--muted)}
+.briefHeadline{font-size:13px;font-weight:900;line-height:1.28;margin-top:5px}
+.briefText{font-size:8.7px;line-height:1.45;color:#8f9b93;margin-top:4px}
+.briefItems{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.briefItem{border:1px solid rgba(170,210,181,.10);background:rgba(9,13,10,.5);border-radius:10px;padding:7px;cursor:pointer;min-width:0;transition:.2s all}
+.briefItem:hover{border-color:rgba(183,255,122,.28);background:rgba(10,16,11,.78)}
+.biSource{font-size:6.8px;color:var(--green);text-transform:uppercase;letter-spacing:.08em}.biTitle{font-size:8.4px;font-weight:820;line-height:1.25;margin-top:3px;white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.biWhy{font-size:6.8px;color:#7f8c84;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bottomBar{pointer-events:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);background:rgba(5,8,6,.48);backdrop-filter:blur(16px);border-radius:999px;padding:7px 9px 7px 12px}
+.sourceStrip{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.sourceChip{display:flex;align-items:center;gap:5px;font-size:7.5px;color:#98a49c;white-space:nowrap}.sourceChip i{width:6px;height:6px;border-radius:50%;display:inline-block}.sourceChip.bad{opacity:.4}
+.bottomMessage{font-size:8px;color:#8d9991;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;flex:1}
+.bottomMessage strong{color:#d5ded7}
+.cost{font-size:7.5px;color:#859189;white-space:nowrap}.cost b{color:var(--green)}
+.sheet{
+  position:fixed;inset:auto 22px 74px auto;width:min(410px,92vw);max-height:68vh;overflow:auto;z-index:10;
+  border:1px solid var(--line);background:rgba(6,10,8,.93);backdrop-filter:blur(22px);border-radius:18px;padding:13px;
+  transform:translateY(16px);opacity:0;pointer-events:none;transition:.3s all;box-shadow:0 30px 90px rgba(0,0,0,.36)
+}
+.sheet.show{transform:none;opacity:1;pointer-events:auto}
+.sheetTop{display:flex;justify-content:space-between;gap:10px;align-items:center}.sheetTop b{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--green)}.sheetClose{border:0;background:transparent;color:#9ba79f;cursor:pointer;font-size:16px}
+.graph{display:flex;flex-direction:column;gap:5px;margin-top:10px}.node{display:grid;grid-template-columns:20px 1fr;gap:8px;border:1px solid var(--line);border-radius:10px;padding:8px;background:#080d09}.node.done{border-color:rgba(183,255,122,.22)}.node.active{border-color:rgba(255,210,119,.28);background:#101207}.node.wait{opacity:.58}.nodeDot{width:9px;height:9px;border-radius:50%;background:#3e4942;margin-top:3px}.node.done .nodeDot{background:var(--green);box-shadow:0 0 12px rgba(183,255,122,.45)}.node.active .nodeDot{background:var(--amber);box-shadow:0 0 12px rgba(255,210,119,.45)}.nodeLabel{font-size:9px;font-weight:850}.nodeText{font-size:7.8px;line-height:1.4;color:#87938b;margin-top:2px}
+.intro{
+  position:fixed;inset:0;z-index:20;background:#020403;display:grid;place-items:center;transition:.85s opacity;pointer-events:none
+}
+.intro.hide{opacity:0}.introInner{text-align:center}.introBrand{font-size:10px;letter-spacing:.25em;color:var(--green);font-weight:900}.introBig{font-size:clamp(40px,7vw,92px);font-weight:930;letter-spacing:-.07em;line-height:.92;margin-top:12px}.introSmall{font-size:11px;color:#88948c;margin-top:12px}.loader{width:130px;height:1px;background:#152119;margin:18px auto 0;overflow:hidden}.loader:after{content:"";display:block;width:50%;height:100%;background:var(--green);animation:load 1.25s ease-in-out infinite}@keyframes load{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
+@media(max-width:900px){
+  .ui{padding:14px}.sideLeft{width:52vw}.storyCard{right:14px;width:38vw}.briefDock{left:14px;bottom:74px;width:48vw}.briefItems{grid-template-columns:1fr}.funnel{display:none}
+}
+@media(max-width:650px){
+  .ui{padding:12px}.brandrow .livepill{display:none}.sideLeft{align-self:start;margin-top:90px;width:74vw}.heroTitle{font-size:43px}.heroSub{font-size:10px}.storyCard{right:12px;left:12px;top:auto;bottom:135px;width:auto}.briefDock{display:none}.bottomBar{border-radius:14px;align-items:flex-start}.sourceStrip{gap:7px;overflow:auto}.bottomMessage{display:none}.actions .ghostbtn{display:none}.sheet{right:12px;left:12px;bottom:78px;width:auto}.storyCard.show~*{} 
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
 </style>
 </head>
 <body>
-<div class="shell">
-<header class="top"><div class="brand"><b>COMMONS</b> / WORLD PULSE</div><div class="badges"><span class="badge live"><span class="dot"></span>LIVE PUBLIC DATA</span><span class="badge">ZERO BACKEND</span><span class="badge">NO PAID AI</span></div></header>
-<section class="hero"><div><div class="eyebrow">what changed on Earth?</div><h1>Most of Earth is quiet.<br>Watch what changes.</h1><div class="tag">A public, zero-cost edition of COMMONS WORLD PULSE. It reads open Earth data in your browser, remembers the previous observation locally, and surfaces transparent reasons—not a mystery importance score.</div></div><div class="stats"><div class="stat"><span>signals</span><b id="total">—</b></div><div class="stat"><span>changed</span><b class="g" id="changed">—</b></div><div class="stat"><span>surfaced</span><b id="surfaced">—</b></div></div></section>
-<section class="main">
-<div class="map"><div class="mapHead"><span>EARTH · browser-normalized live signals</span><div class="sourceState" id="sourceStates"></div></div><svg viewBox="0 0 1000 500" preserveAspectRatio="none"><g id="grid"></g><g id="land"></g><g id="signals"></g></svg><div class="focus" id="focus"></div><div class="loading" id="loading"><div><div class="orb"></div><div class="loadtxt">observing Earth</div></div></div></div>
-<aside class="rail"><div class="rhead"><b>What deserves a look?</b><span id="last">—</span></div><div class="brief" id="brief"><div class="briefk">WORLD BRIEF</div><div class="briefh">Observing the live world…</div></div><div class="filters"><button class="filter on" data-f="all">ALL</button><button class="filter" data-f="changed">CHANGED</button><button class="filter" data-f="attention">SURFACED</button><button class="filter" data-f="USGS">USGS</button><button class="filter" data-f="NASA EONET">NASA</button><button class="filter" data-f="GDACS">GDACS</button></div><div class="feed" id="feed"></div><div class="bottom"><span id="status">Waiting for first observation…</span><button class="refresh" id="refresh">REFRESH</button></div></aside>
-</section>
-<footer class="footer"><div><b>Transparent rules:</b> changed state, USGS M≥5/M≥6, GDACS orange/red.</div><div class="clock" id="clock">UTC —:—:—</div><div class="right">Correlation ≠ confirmation. <b>Reality &gt; model opinion.</b></div></footer>
+<div id="app">
+  <div id="globe"></div>
+  <div class="vignette"></div><div class="noise"></div>
+
+  <div class="ui">
+    <div class="topbar">
+      <div class="brandrow">
+        <div class="brand"><b>COMMONS</b> / WORLD PULSE</div>
+        <div class="livepill"><span class="liveDot"></span><span id="liveLabel">LIVE + NEAR-REAL-TIME PUBLIC DATA</span></div>
+      </div>
+      <div class="actions">
+        <button class="ghostbtn" id="storyBtn">PAUSE STORY</button>
+        <button class="ghostbtn" id="exploreBtn">EXPLORE</button>
+        <button class="primarybtn" id="shareBtn">SHARE</button>
+      </div>
+    </div>
+
+    <div class="sideLeft">
+      <div class="kicker">WHAT CHANGED ON EARTH?</div>
+      <h1 class="heroTitle">Most of Earth is quiet.</h1>
+      <div class="heroSub">WORLD PULSE watches selected public Earth feeds, remembers the previous observation, and only spends attention when transparent rules say something deserves a closer look. It is a window into the world — not a complete census of it.</div>
+      <div class="funnel">
+        <div class="funit"><b id="fObserved">—</b><span>observed</span></div><div class="arrow">→</div>
+        <div class="funit"><b id="fChanged">—</b><span>changed</span></div><div class="arrow">→</div>
+        <div class="funit"><b id="fSurfaced">—</b><span>surfaced</span></div><div class="arrow">→</div>
+        <div class="funit"><b id="fOverlap">—</b><span>overlaps</span></div>
+      </div>
+    </div>
+
+    <div class="storyCard" id="storyCard">
+      <div class="storyTop"><div class="storyLabel" id="storyLabel">WORLD SPOTLIGHT</div><div class="storyStep" id="storyStep">01 / 03</div></div>
+      <div class="storyTitle" id="storyTitle">Waiting for the world…</div>
+      <div class="storyMeta" id="storyMeta"></div>
+      <div class="storyWhy" id="storyWhy"></div>
+      <div class="storyActions"><button id="sourceBtn">OPEN SOURCE ↗</button><button id="traceBtn">TRACE WHAT WAKES →</button><button id="copyBtn">COPY FOCUS LINK</button></div>
+    </div>
+
+    <div class="briefDock">
+      <div class="briefHead"><b>WORLD BRIEF</b><span id="briefTime">—</span></div>
+      <div class="briefHeadline" id="briefHeadline">Assembling the live world…</div>
+      <div class="briefText" id="briefText">First observation becomes the baseline. We never fake a burst of “new” events.</div>
+      <div class="briefItems" id="briefItems"></div>
+    </div>
+
+    <div class="bottomBar">
+      <div class="sourceStrip" id="sourceStrip"></div>
+      <div class="bottomMessage" id="bottomMessage">Building baseline…</div>
+      <div class="cost">PAID AI <b id="paidAI">OFF</b> · Reality &gt; model opinion.</div>
+    </div>
+  </div>
+
+  <div class="sheet" id="sheet">
+    <div class="sheetTop"><b>COMMONS ACTION GRAPH</b><button class="sheetClose" id="sheetClose">×</button></div>
+    <div class="graph" id="graph"></div>
+  </div>
+
+  <div class="intro" id="intro"><div class="introInner"><div class="introBrand">COMMONS / WORLD PULSE</div><div class="introBig">Watch what changes.</div><div class="introSmall">assembling live public Earth data</div><div class="loader"></div></div></div>
 </div>
+
 <script>
 const USGS="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
-const EONET="https://eonet.gsfc.nasa.gov/api/v3/events/geojson?status=open&limit=100";
+const EONET="https://eonet.gsfc.nasa.gov/api/v3/events/geojson?status=open&limit=120";
 const GDACS="https://gdacs.org/xml/rss_7d.xml";
-const $=id=>document.getElementById(id), esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
-const colors={"USGS":"#73d8ff","NASA EONET":"#b7ff7a","GDACS":"#ffd17a"};let data=[],filter="all",baseline=false;
-const landShapes=[[[-168,71],[-145,70],[-125,61],[-115,52],[-95,49],[-82,54],[-59,47],[-64,32],[-81,24],[-92,16],[-105,20],[-118,29],[-127,48],[-155,56]],[[-81,12],[-67,9],[-51,1],[-36,-9],[-42,-24],[-54,-53],[-69,-55],[-76,-34],[-80,-12]],[[-18,36],[-7,48],[8,58],[27,70],[50,66],[61,53],[47,40],[35,33],[43,12],[35,-15],[29,-34],[17,-36],[7,-19],[-1,5],[-17,15]],[[35,70],[72,72],[105,69],[140,60],[175,55],[163,42],[143,35],[124,23],[111,7],[92,7],[77,22],[59,27],[47,40],[61,53]],[[110,-11],[133,-10],[154,-18],[153,-39],[132,-45],[114,-33]],[[-52,82],[-22,76],[-18,62],[-42,58],[-59,68]]];
-const project=(lon,lat)=>[(lon+180)/360*1000,(90-lat)/180*500];
-function drawBase(){for(let lon=-150;lon<=150;lon+=30){const [x]=project(lon,0);$("grid").insertAdjacentHTML("beforeend",'<line class="grid" x1="'+x+'" y1="0" x2="'+x+'" y2="500"/>')}for(let lat=-60;lat<=60;lat+=30){const [,y]=project(0,lat);$("grid").insertAdjacentHTML("beforeend",'<line class="'+(lat===0?"equator":"grid")+'" x1="0" y1="'+y+'" x2="1000" y2="'+y+'"/>')}landShapes.forEach(s=>$("land").insertAdjacentHTML("beforeend",'<polygon class="land" points="'+s.map(([a,b])=>project(a,b).join(",")).join(" ")+'"/>'));[["PACIFIC",-150,0],["ATLANTIC",-28,8],["INDIAN",78,-18]].forEach(([t,a,b])=>{const[x,y]=project(a,b);$("land").insertAdjacentHTML("beforeend",'<text class="ocean" x="'+x+'" y="'+y+'">'+t+'</text>')})}
-const iso=v=>v?new Date(v).toISOString():null, age=v=>{if(!v)return"unknown";const m=Math.max(0,Math.round((Date.now()-new Date(v))/60000));return m<60?m+"m":m<2880?Math.round(m/60)+"h":Math.round(m/1440)+"d"};
-function reasons(s){const r=[];if(s.source==="USGS"&&s.magnitude>=6)r.push("earthquake magnitude ≥ 6.0");else if(s.source==="USGS"&&s.magnitude>=5)r.push("earthquake magnitude ≥ 5.0");if(s.source==="GDACS"&&/red/i.test(s.severity||""))r.push("GDACS red alert");else if(s.source==="GDACS"&&/orange/i.test(s.severity||""))r.push("GDACS orange alert");return r}
-async function usgs(){const r=await fetch(USGS,{cache:"no-store"});if(!r.ok)throw Error("USGS "+r.status);const j=await r.json();return j.features.map(f=>({id:"usgs:"+f.id,source:"USGS",kind:"earthquake",title:f.properties.title||"Earthquake",lat:f.geometry.coordinates[1],lon:f.geometry.coordinates[0],time:iso(f.properties.updated||f.properties.time),magnitude:f.properties.mag,severity:f.properties.alert||null,url:f.properties.url||null}))}
-async function eonet(){const r=await fetch(EONET,{cache:"no-store"});if(!r.ok)throw Error("NASA "+r.status);const j=await r.json();return j.features.map(f=>{const p=f.properties||{},g=f.geometry||{},c=g.coordinates||[];if(g.type!=="Point"||c.length<2)return null;const cats=p.categories||[];return{id:"eonet:"+(p.id||f.id),source:"NASA EONET",kind:(cats[0]?.title||"natural event"),title:p.title||"Natural event",lat:c[1],lon:c[0],time:iso(p.date),magnitude:p.magnitudeValue??null,severity:null,url:p.sources?.[0]?.url||null}}).filter(Boolean)}
-async function gdacs(){const r=await fetch(GDACS,{cache:"no-store"});if(!r.ok)throw Error("GDACS "+r.status);const text=await r.text(),doc=new DOMParser().parseFromString(text,"application/xml"),items=[...doc.querySelectorAll("item")];return items.map((it,i)=>{const txt=n=>it.querySelector(n)?.textContent?.trim()||null;let point=txt("point")||txt("georss\\:point");let lat=null,lon=null;if(point){const p=point.replace(","," ").split(/\s+/);lat=Number(p[0]);lon=Number(p[1])}if(!Number.isFinite(lat)||!Number.isFinite(lon))return null;const sev=txt("alertlevel")||txt("gdacs\\:alertlevel");return{id:"gdacs:"+(txt("guid")||i),source:"GDACS",kind:txt("eventtype")||"disaster",title:txt("title")||"Disaster alert",lat,lon,time:iso(txt("pubDate")||Date.now()),magnitude:null,severity:sev,url:txt("link")}}).filter(Boolean)}
-function fp(s){return [s.title,s.lat.toFixed(3),s.lon.toFixed(3),s.time,s.magnitude,s.severity].join("|")}
-function applyState(items){const prev=JSON.parse(localStorage.getItem("commons_world_fingerprints")||"{}"),first=Object.keys(prev).length===0,next={};baseline=first;items.forEach(s=>{next[s.id]=fp(s);s.state=first?"known":prev[s.id]==null?"new":prev[s.id]!==next[s.id]?"updated":"known";s.reasons=reasons(s)});localStorage.setItem("commons_world_fingerprints",JSON.stringify(next))}
-function matches(s){if(filter==="all")return true;if(filter==="changed")return s.state!=="known";if(filter==="attention")return s.reasons.length>0;return s.source===filter}
-function render(){const changed=data.filter(s=>s.state!=="known").length,attn=data.filter(s=>s.reasons.length).length;$("total").textContent=data.length;$("changed").textContent=changed;$("surfaced").textContent=attn;$("signals").innerHTML="";data.forEach(s=>{const[x,y]=project(s.lon,s.lat),r=Math.max(4,Math.min(10,3+(Number(s.magnitude)||1)*.85)),color=colors[s.source];const g=document.createElementNS("http://www.w3.org/2000/svg","g");g.setAttribute("class","signal "+s.state);g.innerHTML='<circle class="ripple" cx="'+x+'" cy="'+y+'" r="'+(r+2)+'" stroke="'+color+'"/><circle class="core" cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+color+'"/>';g.onclick=()=>focus(s);$("signals").appendChild(g)});renderBrief();renderFeed();$("loading").classList.add("hide")}
-function renderBrief(){const ranked=[...data].sort((a,b)=>{const ar=(a.state!=="known"?4:0)+(a.reasons.length?3:0)+(a.magnitude||0)/10,br=(b.state!=="known"?4:0)+(b.reasons.length?3:0)+(b.magnitude||0)/10;return br-ar}).slice(0,3);const h=baseline?"Baseline established. Here is what deserves a look.":data.some(s=>s.state!=="known"&&s.reasons.length)?"The world changed. A few signals crossed transparent attention rules.":"No changed signal crossed the wake gate.";$("brief").innerHTML='<div class="briefk">WORLD BRIEF</div><div class="briefh">'+esc(h)+'</div><div class="briefs">'+(baseline?"First observation is a baseline, not a fake burst of “new” events.":"Only changes and visible rules surface; no paid AI is running.")+'</div><div class="briefitems">'+ranked.map(s=>'<div class="briefitem '+(s.reasons.length?"attn":"")+'" data-b="'+esc(s.id)+'"><div class="btop"><div class="bstatus">'+(s.state!=="known"?esc(s.state):"review")+'</div><div class="bsrc">'+esc(s.source)+'</div></div><div class="btitle">'+esc(s.title)+'</div><div class="bwhy">'+esc(s.reasons.join(" · ")||"current live source event")+'</div></div>').join("")+'</div>';$("brief").querySelectorAll("[data-b]").forEach(x=>x.onclick=()=>focus(data.find(s=>s.id===x.dataset.b)))}
-function renderFeed(){const items=data.filter(matches).sort((a,b)=>{const ar=(a.state!=="known"?3:0)+(a.reasons.length?2:0),br=(b.state!=="known"?3:0)+(b.reasons.length?2:0);return br-ar||new Date(b.time)-new Date(a.time)}).slice(0,30);$("feed").innerHTML=items.map(s=>'<div class="card '+(s.reasons.length?"attn":"")+'" data-i="'+esc(s.id)+'"><div class="ctop"><div class="csrc">'+esc(s.source)+'</div><div class="ctime">'+esc(age(s.time))+'</div></div><div class="ctitle">'+esc(s.title)+'</div><div class="cwhy">'+esc(s.reasons.join(" · ")||(s.state!=="known"?s.state+" since previous observation":"live source event"))+'</div></div>').join("");$("feed").querySelectorAll("[data-i]").forEach(x=>x.onclick=()=>focus(data.find(s=>s.id===x.dataset.i)))}
-function focus(s){if(!s)return;const u=new URL(location.href);u.searchParams.set("signal",s.id);history.replaceState(null,"",u);$("focus").classList.add("show");$("focus").innerHTML='<div class="frow"><div class="fsrc">'+esc(s.source)+' · '+esc(s.kind)+'</div><div class="ftime">'+esc(s.state.toUpperCase())+' · '+esc(age(s.time))+'</div></div><div class="ftitle">'+esc(s.title)+'</div><div class="fmeta">'+s.lat.toFixed(2)+", "+s.lon.toFixed(2)+(s.magnitude!=null?" · magnitude "+esc(s.magnitude):"")+(s.severity?" · "+esc(s.severity):"")+'</div><div class="why">'+(s.reasons.length?s.reasons:["live source signal"]).map(x=>'<span>'+esc(x)+'</span>').join("")+'</div>'+(s.url?'<button class="smallbtn" id="sourceBtn">OPEN SOURCE ↗</button>':"")+'<button class="smallbtn" id="copyBtn" style="margin-left:5px">COPY FOCUS LINK</button>';if($("sourceBtn"))$("sourceBtn").onclick=()=>window.open(s.url,"_blank","noopener");$("copyBtn").onclick=async()=>{try{await navigator.clipboard.writeText(location.href);$("copyBtn").textContent="COPIED ✓"}catch(e){$("copyBtn").textContent="COPY URL"} }}
-async function refresh(){ $("refresh").disabled=true;$("status").textContent="Observing USGS + NASA + GDACS…";const states=[];const results=await Promise.allSettled([usgs(),eonet(),gdacs()]);data=[];[["USGS",results[0]],["NASA EONET",results[1]],["GDACS",results[2]]].forEach(([name,res])=>{if(res.status==="fulfilled"){data.push(...res.value);states.push({name,ok:true,count:res.value.length})}else states.push({name,ok:false,count:0})});applyState(data);$("sourceStates").innerHTML=states.map(s=>'<span class="sourceChip '+(s.ok?"ok":"bad")+'">'+esc(s.name)+' '+(s.ok?"✓ "+s.count:"×")+'</span>').join("");$("last").textContent=new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit",second:"2-digit"});render();$("status").textContent=baseline?"Baseline stored locally. Refresh later to see real changes.":data.filter(s=>s.state!=="known").length+" changed since your previous observation.";$("refresh").disabled=false;const wanted=new URLSearchParams(location.search).get("signal");if(wanted)focus(data.find(s=>s.id===wanted))}
-document.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{filter=b.dataset.f;document.querySelectorAll("[data-f]").forEach(x=>x.classList.toggle("on",x===b));renderFeed()});$("refresh").onclick=refresh;function tick(){$("clock").textContent="UTC "+new Date().toISOString().slice(11,19)}drawBase();tick();setInterval(tick,1000);refresh();setInterval(refresh,60000);
+
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+const colorBySource={"USGS":"#72d8ff","NASA EONET":"#b7ff7a","GDACS":"#ffd277"};
+const sourceMeta={
+  "USGS":{freshness:"LIVE",cadence:"feed updated about every minute",url:"https://earthquake.usgs.gov/earthquakes/feed/",scope:"Rolling earthquake feed; event magnitude is not a measure of human impact."},
+  "NASA EONET":{freshness:"NEAR-REAL-TIME",cadence:"curated open-event feed",url:"https://eonet.gsfc.nasa.gov/",scope:"Curated natural-event tracking; not a complete census of every event on Earth."},
+  "GDACS":{freshness:"NEAR-REAL-TIME",cadence:"7-day disaster alert feed",url:"https://gdacs.org/",scope:"Disaster alerts for situational awareness; an alert is not a casualty or need estimate."}
+};
+const kindCompat=[["earthquake","earthquake"],["wildfire","fire"],["fire","wildfire"],["flood","flood"],["cyclone","storm"],["storm","cyclone"],["volcano","volcano"]];
+
+let signals=[],clusters=[],story=[],storyIndex=0,storyTimer=null,storyPaused=false,current=null,sourceStates=[];
+
+const world=Globe()(document.getElementById("globe"))
+  .backgroundColor("rgba(0,0,0,0)")
+  .globeImageUrl("https://unpkg.com/three-globe@2.45.2/example/img/earth-night.jpg")
+  .backgroundImageUrl("https://unpkg.com/three-globe@2.45.2/example/img/night-sky.png")
+  .showAtmosphere(true)
+  .atmosphereColor("#6ca37a")
+  .atmosphereAltitude(.17)
+  .pointLat(d=>d.lat)
+  .pointLng(d=>d.lon)
+  .pointColor(d=>colorBySource[d.source]||"#ffffff")
+  .pointAltitude(d=>((d.state==="new"||d.state==="updated") ? 0.075 : 0.035))
+  .pointRadius(d=>Math.max(.14,Math.min(.42,.11+(Number(d.magnitude)||1)*.035)))
+  .pointLabel(()=> "")
+  .onPointClick(d=>focus(d,true))
+  .ringsData([])
+  .ringLat(d=>d.lat)
+  .ringLng(d=>d.lon)
+  .ringColor(d=>()=>colorBySource[d.source]||"#b7ff7a")
+  .ringMaxRadius(d=>((d.state==="new"||d.state==="updated") ? 5.5 : 3.2))
+  .ringPropagationSpeed(2.1)
+  .ringRepeatPeriod(900)
+  .arcsData([])
+  .arcStartLat(d=>d.a.lat).arcStartLng(d=>d.a.lon)
+  .arcEndLat(d=>d.b.lat).arcEndLng(d=>d.b.lon)
+  .arcColor(()=>["rgba(183,156,255,.18)","rgba(183,156,255,.8)"])
+  .arcAltitude(.18)
+  .arcStroke(.55)
+  .arcDashLength(.45)
+  .arcDashGap(1.1)
+  .arcDashAnimateTime(2600);
+
+world.controls().autoRotate=true;
+world.controls().autoRotateSpeed=.18;
+world.controls().enablePan=false;
+world.pointOfView({lat:18,lng:10,altitude:2.25},0);
+
+function resize(){world.width(innerWidth).height(innerHeight)}window.addEventListener("resize",resize);resize();
+
+const iso=v=>{if(!v)return null;const d=new Date(v);return isNaN(d)?null:d.toISOString()};
+const age=v=>{if(!v)return"time unknown";const m=Math.max(0,Math.round((Date.now()-new Date(v))/60000));if(m<60)return m+"m ago";const h=Math.round(m/60);if(h<48)return h+"h ago";return Math.round(h/24)+"d ago"};
+const fp=s=>[s.title,s.lat.toFixed(3),s.lon.toFixed(3),s.time,s.magnitude,s.severity].join("|");
+
+function attentionReasons(s){
+  const r=[];
+  if(s.source==="USGS"&&s.magnitude>=6)r.push("USGS magnitude ≥ 6.0");
+  else if(s.source==="USGS"&&s.magnitude>=5)r.push("USGS magnitude ≥ 5.0");
+  if(s.source==="GDACS"&&/red/i.test(s.severity||""))r.push("GDACS red alert");
+  else if(s.source==="GDACS"&&/orange/i.test(s.severity||""))r.push("GDACS orange alert");
+  return r;
+}
+function normalizeKind(k){return String(k||"event").toLowerCase().replace(/\s+/g,"_")}
+async function fetchUSGS(){
+  const r=await fetch(USGS,{cache:"no-store"});if(!r.ok)throw Error("USGS "+r.status);
+  const j=await r.json();
+  return j.features.map(f=>({id:"usgs:"+f.id,source:"USGS",kind:"earthquake",title:f.properties.title||"Earthquake",lat:f.geometry.coordinates[1],lon:f.geometry.coordinates[0],time:iso(f.properties.updated||f.properties.time),magnitude:f.properties.mag,severity:f.properties.alert||null,url:f.properties.url||null}));
+}
+async function fetchEONET(){
+  const r=await fetch(EONET,{cache:"no-store"});if(!r.ok)throw Error("NASA "+r.status);
+  const j=await r.json();
+  return j.features.map(f=>{const p=f.properties||{},g=f.geometry||{},c=g.coordinates||[];if(g.type!=="Point"||c.length<2)return null;const cats=p.categories||[];return{id:"eonet:"+(p.id||f.id),source:"NASA EONET",kind:normalizeKind(cats[0]?.title||"natural event"),title:p.title||"Natural event",lat:c[1],lon:c[0],time:iso(p.date),magnitude:p.magnitudeValue??null,severity:null,url:p.sources?.[0]?.url||null}}).filter(Boolean);
+}
+async function fetchGDACS(){
+  const r=await fetch(GDACS,{cache:"no-store"});if(!r.ok)throw Error("GDACS "+r.status);
+  const txt=await r.text(),doc=new DOMParser().parseFromString(txt,"application/xml"),items=[...doc.querySelectorAll("item")];
+  return items.map((it,i)=>{
+    const getLocal=name=>[...it.children].find(n=>n.localName?.toLowerCase()===name.toLowerCase())?.textContent?.trim()||null;
+    const point=[...it.getElementsByTagName("*")].find(n=>n.localName?.toLowerCase()==="point")?.textContent?.trim();
+    if(!point)return null;const p=point.replace(","," ").split(/\s+/).map(Number);if(p.length<2||!Number.isFinite(p[0])||!Number.isFinite(p[1]))return null;
+    const eventType=getLocal("eventtype")||"disaster";
+    return{id:"gdacs:"+(getLocal("guid")||i),source:"GDACS",kind:normalizeKind(eventType),title:getLocal("title")||"Disaster alert",lat:p[0],lon:p[1],time:iso(getLocal("pubDate")||Date.now()),magnitude:null,severity:getLocal("alertlevel")||null,url:getLocal("link")||null};
+  }).filter(Boolean);
+}
+function applyState(items){
+  const key="commons_world_v2_fingerprints";
+  const prev=JSON.parse(localStorage.getItem(key)||"{}"),baseline=Object.keys(prev).length===0,next={};
+  items.forEach(s=>{next[s.id]=fp(s);s.state=baseline?"known":prev[s.id]==null?"new":prev[s.id]!==next[s.id]?"updated":"known";s.reasons=attentionReasons(s)});
+  localStorage.setItem(key,JSON.stringify(next));return baseline;
+}
+function hav(a,b){const R=6371,toR=x=>x*Math.PI/180,dLat=toR(b.lat-a.lat),dLon=toR(b.lon-a.lon),la1=toR(a.lat),la2=toR(b.lat);const h=Math.sin(dLat/2)**2+Math.cos(la1)*Math.cos(la2)*Math.sin(dLon/2)**2;return 2*R*Math.asin(Math.sqrt(h))}
+function hours(a,b){if(!a.time||!b.time)return 0;return Math.abs(new Date(a.time)-new Date(b.time))/36e5}
+function compatible(a,b){const x=normalizeKind(a.kind),y=normalizeKind(b.kind);if(x===y)return true;return kindCompat.some(([p,q])=>x.includes(p)&&y.includes(q))}
+function buildClusters(items){
+  const out=[];for(let i=0;i<items.length;i++)for(let j=i+1;j<items.length;j++){const a=items[i],b=items[j];if(a.source===b.source||!compatible(a,b))continue;const d=hav(a,b),h=hours(a,b);if(d<=250&&h<=72)out.push({id:a.id+"|"+b.id,a,b,d,h})}return out.slice(0,40)
+}
+function priority(s){
+  let p=0;if(s.state==="new"||s.state==="updated")p+=10;if(s.reasons.length)p+=8;
+  if(s.source==="USGS"&&Number.isFinite(Number(s.magnitude)))p+=Number(s.magnitude);
+  if(/red/i.test(s.severity||""))p+=7;else if(/orange/i.test(s.severity||""))p+=4;
+  if(clusters.some(c=>c.a.id===s.id||c.b.id===s.id))p+=5;
+  return p;
+}
+function rebuildStory(){
+  const ranked=[...signals].sort((a,b)=>priority(b)-priority(a)||new Date(b.time)-new Date(a.time));
+  const unique=[];for(const s of ranked){if(unique.length>=3)break;if(priority(s)>0)unique.push(s)}
+  story=unique.length?unique:ranked.slice(0,3);storyIndex=0;
+}
+function nodeGraph(s){
+  const changed=s.state==="new"||s.state==="updated",attn=s.reasons.length>0,overlap=clusters.some(c=>c.a.id===s.id||c.b.id===s.id);
+  const wake=changed&&attn;
+  return [
+    {state:"done",label:"Observe live world state",text:s.source+" published this signal into the current world state."},
+    {state:(attn||overlap)?"active":"wait",label:"Verify the signal",text:overlap?"Independent public sources overlap nearby; verify whether they describe the same real-world event.":"Check source provenance before drawing conclusions."},
+    {state:wake?"active":"wait",label:"Wake deeper reasoning",text:wake?"A changed signal crossed a transparent wake rule. Deeper context may now be worth the cost.":"No changed high-signal rule fired, so deeper reasoning stays asleep."},
+    {state:wake?"wait":"wait",label:"Assess possible human impact",text:"Only estimate exposure from explicit evidence; event size alone is not human impact."},
+    {state:wake?"wait":"wait",label:"Find relevant capabilities",text:"If evidence warrants escalation, find data, experts, institutions or responders."},
+    {state:"wait",label:"Human / institution authority",text:"COMMONS may surface options. Consequential authority remains with accountable humans and institutions."}
+  ];
+}
+function renderGraph(s){
+  $("graph").innerHTML=nodeGraph(s).map(n=>'<div class="node '+n.state+'"><div class="nodeDot"></div><div><div class="nodeLabel">'+esc(n.label)+'</div><div class="nodeText">'+esc(n.text)+'</div></div></div>').join("");
+  $("sheet").classList.add("show");
+}
+function focus(s,manual=false){
+  if(!s)return;current=s;world.controls().autoRotate=false;
+  world.pointOfView({lat:s.lat,lng:s.lon,altitude:1.35},950);
+  const overlap=clusters.find(c=>c.a.id===s.id||c.b.id===s.id);
+  const reasons=[...s.reasons];if(overlap)reasons.push("possible multi-source overlap");
+  $("storyLabel").textContent=manual?"EXPLORE":"WORLD SPOTLIGHT";
+  $("storyTitle").textContent=s.title;
+  $("storyStep").textContent=String(storyIndex+1).padStart(2,"0")+" / "+String(Math.max(1,story.length)).padStart(2,"0");
+  const sm=sourceMeta[s.source]||{freshness:"PUBLIC FEED"};
+  $("storyMeta").innerHTML='<span class="metaPill source">'+esc(s.source)+' · '+esc(sm.freshness)+'</span><span class="metaPill">'+esc(s.state.toUpperCase())+'</span><span class="metaPill">'+esc(age(s.time))+'</span>'+(s.magnitude!=null?'<span class="metaPill">M '+esc(s.magnitude)+'</span>':"")+(s.severity?'<span class="metaPill attn">'+esc(s.severity)+'</span>':"");
+  $("storyWhy").innerHTML=reasons.length?'<b>Surfaced because:</b> '+esc(reasons.join(" · ")):'<b>Why shown:</b> current live source signal; no automatic wake rule fired.';
+  $("storyCard").classList.add("show");
+  const u=new URL(location.href);u.searchParams.set("signal",s.id);history.replaceState(null,"",u);
+}
+function nextStory(){
+  if(storyPaused||!story.length)return;
+  focus(story[storyIndex],false);storyIndex=(storyIndex+1)%story.length;
+}
+function startStory(){clearInterval(storyTimer);nextStory();storyTimer=setInterval(nextStory,6000)}
+function renderBrief(baseline){
+  const top=[...signals].sort((a,b)=>priority(b)-priority(a)).slice(0,3);
+  const changed=signals.filter(s=>s.state!=="known").length,wake=signals.filter(s=>s.state!=="known"&&s.reasons.length).length;
+  $("briefHeadline").textContent=baseline?"Baseline established. Here is what deserves a look.":wake?wake+" changed signal"+(wake===1?"":"s")+" crossed transparent attention rules.":"Nothing changed enough to wake deeper intelligence.";
+  $("briefText").textContent=baseline?"First observation is a baseline, not a fake burst of “new” events.":"Attention rules are explicit. Correlation does not become confirmation.";
+  $("briefTime").textContent=new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+  $("briefItems").innerHTML=top.map(s=>'<div class="briefItem" data-id="'+esc(s.id)+'"><div class="biSource">'+esc(s.source)+'</div><div class="biTitle">'+esc(s.title)+'</div><div class="biWhy">'+esc((s.reasons[0]||s.state+" live signal"))+'</div></div>').join("");
+  $("briefItems").querySelectorAll("[data-id]").forEach(el=>el.onclick=()=>focus(signals.find(s=>s.id===el.dataset.id),true));
+}
+function renderSources(){
+  $("sourceStrip").innerHTML=sourceStates.map(s=>{
+    const m=sourceMeta[s.name]||{freshness:"PUBLIC",cadence:"",scope:""};
+    const title=[m.freshness,m.cadence,m.scope].filter(Boolean).join(" · ");
+    return '<div class="sourceChip '+(s.ok?"":"bad")+'" title="'+esc(title)+'"><i style="background:'+(colorBySource[s.name]||"#999")+'"></i>'+esc(s.name)+' · '+esc(m.freshness)+' '+(s.ok?"✓ "+s.count:"×")+'</div>';
+  }).join("");
+}
+function renderGlobe(baseline){
+  world.pointsData(signals);
+  world.ringsData(signals.filter(s=>s.state!=="known"||s.reasons.length).slice(0,45));
+  world.arcsData(clusters);
+  const changed=signals.filter(s=>s.state!=="known").length,surfaced=signals.filter(s=>s.reasons.length).length;
+  $("fObserved").textContent=signals.length;$("fChanged").textContent=changed;$("fSurfaced").textContent=surfaced;$("fOverlap").textContent=clusters.length;
+  $("bottomMessage").innerHTML=baseline?'<strong>Baseline established.</strong> Refresh later to reveal real changes.':changed?'<strong>'+changed+' changed.</strong> '+signals.filter(s=>s.state!=="known"&&s.reasons.length).length+' crossed wake rules.':'No meaningful change. Intelligence stays asleep.';
+  renderBrief(baseline);renderSources();rebuildStory();
+}
+async function refresh(){
+  $("liveLabel").textContent="CHECKING LIVE + NEAR-REAL-TIME FEEDS";
+  const results=await Promise.allSettled([fetchUSGS(),fetchEONET(),fetchGDACS()]);signals=[];sourceStates=[];
+  [["USGS",results[0]],["NASA EONET",results[1]],["GDACS",results[2]]].forEach(([name,res])=>{if(res.status==="fulfilled"){signals.push(...res.value);sourceStates.push({name,ok:true,count:res.value.length})}else sourceStates.push({name,ok:false,count:0})});
+  const baseline=applyState(signals);clusters=buildClusters(signals);renderGlobe(baseline);
+  $("liveLabel").textContent="CURRENT VIEW · "+signals.length+" SIGNALS · "+sourceStates.filter(s=>s.ok).length+"/3 SOURCES";
+  const wanted=new URLSearchParams(location.search).get("signal"),match=signals.find(s=>s.id===wanted);
+  if(match)focus(match,true);else startStory();
+  setTimeout(()=>$("intro").classList.add("hide"),900);
+}
+$("storyBtn").onclick=()=>{storyPaused=!storyPaused;$("storyBtn").textContent=storyPaused?"PLAY STORY":"PAUSE STORY";if(!storyPaused)startStory()};
+$("exploreBtn").onclick=()=>{storyPaused=true;$("storyBtn").textContent="PLAY STORY";world.controls().autoRotate=true;world.pointOfView({lat:18,lng:10,altitude:2.25},850);$("storyCard").classList.remove("show")};
+$("shareBtn").onclick=async()=>{const shareData={title:"COMMONS WORLD PULSE",text:"Watch what changes on Earth.",url:location.href};try{if(navigator.share)await navigator.share(shareData);else{await navigator.clipboard.writeText(location.href);$("shareBtn").textContent="LINK COPIED ✓"}}catch(e){}};
+$("sourceBtn").onclick=()=>{if(current?.url)window.open(current.url,"_blank","noopener")};
+$("traceBtn").onclick=()=>current&&renderGraph(current);
+$("copyBtn").onclick=async()=>{try{await navigator.clipboard.writeText(location.href);$("copyBtn").textContent="COPIED ✓"}catch(e){}};
+$("sheetClose").onclick=()=>$("sheet").classList.remove("show");
+const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+if(reduceMotion){world.controls().autoRotate=false;storyPaused=true;$("storyBtn").textContent="PLAY STORY"}
+refresh();setInterval(refresh,60000);
 </script>
 </body>
 </html>
