@@ -223,6 +223,89 @@ function sceneOffset(scene){
   return scene.offset || [0,0];
 }
 
+function renderStoryLibrary(){
+  $("storyCards").innerHTML=STORIES.map(story=>`
+    <button class="story-card ${story.id===activeStory.id?"active":""}" data-story-id="${escapeHtml(story.id)}" style="--card-accent:${escapeHtml(story.colors.memory||story.colors.attention)}">
+      <span class="story-card-number">${String(story.order).padStart(2,"0")}</span>
+      <span class="story-card-body">
+        <span class="story-card-country">${escapeHtml(story.country)} · ${escapeHtml(story.statusLabel)}</span>
+        <span class="story-card-title">${escapeHtml(story.title)}</span>
+        <span class="story-card-subtitle">${escapeHtml(story.subtitle)}</span>
+      </span>
+      <span class="story-card-status">${escapeHtml(story.updatedAt)}<span class="story-card-arrow">→</span></span>
+    </button>
+  `).join("");
+
+  qsa(".story-card",$("storyCards")).forEach(card=>{
+    card.onclick=()=>enterStory(card.dataset.storyId,0);
+  });
+}
+
+function updateStoryChrome(){
+  const root=document.documentElement;
+  root.style.setProperty("--amber",activeStory.colors.attention);
+  root.style.setProperty("--green",activeStory.colors.outcome);
+
+  $("featuredMeta").textContent=activeStory.country+" · "+activeStory.statusLabel;
+  $("featuredTitle").textContent=activeStory.title+" — "+activeStory.subtitle;
+  $("currentStory").setAttribute("aria-label","Enter "+activeStory.country+" — "+activeStory.title);
+
+  $("storyIndex").innerHTML=`<b>${escapeHtml(activeStory.country.toUpperCase())}</b> · ${escapeHtml(activeStory.title.toUpperCase())} · ${escapeHtml(activeStory.status)}`;
+  $("story").dataset.status=activeStory.status.includes("ELIMINATION")?"elimination":"open";
+
+  $("timeLabels").innerHTML=activeStory.timeLabels.map(label=>`<span>${escapeHtml(label)}</span>`).join("");
+  const sig=qsa(".signature span");
+  activeStory.grammar.forEach((label,index)=>{
+    if(sig[index]){
+      const i=sig[index].querySelector("i");
+      sig[index].innerHTML="";
+      if(i)sig[index].appendChild(i);
+      sig[index].append(document.createTextNode(label));
+    }
+  });
+
+  $("terrainCaption").textContent=activeStory.terrain.caption;
+  $("terrainDisclosure").textContent=activeStory.terrain.disclosure;
+  $("memoryText").textContent=activeStory.country+" · 2026 · "+activeStory.statusLabel.toLowerCase();
+
+  renderStoryLibrary();
+  renderEvidence();
+}
+
+function selectStory(id){
+  const story=storyById(id);
+  if(!story)return false;
+  activeStory=story;
+  rebuildStoryAssets();
+  storyIndex=0;
+  currentMilestone=0;
+  threadStrength=0;
+  bloomStrength=0;
+  memoryStrength=0;
+  lastSemanticFrame="";
+  $("scrollNarrative").innerHTML="";
+  updateStoryChrome();
+  if(countries.length)buildTerrainMap();
+  world.polygonCapColor(countryColor);
+  if(countries.length)world.polygonsData([...countries]);
+  updateAtlasLayers($("story").classList.contains("active"));
+  return true;
+}
+
+function enterStory(id,index=0){
+  if(!selectStory(id))return;
+  startStory(index);
+}
+
+function openStories(){
+  hideOpening();
+  if($("story").classList.contains("active"))stopStory(true);
+  closeAuxiliaryLayers();
+  $("home").classList.remove("hidden");
+  setHomeGlobe();
+  requestAnimationFrame(()=>$("storyLibrary")?.scrollIntoView({behavior:reduceMotion?"auto":"smooth",block:"end"}));
+}
+
 function setHomeGlobe(){
   resetCinematicVisuals();
   currentMilestone=0;
