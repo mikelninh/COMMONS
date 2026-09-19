@@ -209,7 +209,14 @@ let autoScrollRAF = null;
 let lastAutoTime = 0;
 let threadStrength = 0;
 let bloomStrength = 0;
+let memoryStrength = 0;
 let lastSemanticFrame = "";
+let lastScrollProgress = 0;
+let lastScrollTime = performance.now();
+let audioCtx = null;
+let audioNodes = null;
+let soundEnabled = false;
+let lastSoundMilestone = -1;
 let currentMilestone = 0;
 let currentSignal = null;
 let initialized = false;
@@ -224,6 +231,15 @@ const actionPoint = {
   title:ACTION.title
 };
 
+const memoryPoint = {
+  kind:"memory",
+  id:"memory:"+ACTION.id,
+  lat:ACTION.lat,
+  lon:ACTION.lon,
+  source:"COMMONS MEMORY",
+  title:"Nepal · response evidence recorded"
+};
+
 const world = Globe({rendererConfig:{antialias:true,alpha:true}})($("globe"))
   .backgroundColor("rgba(0,0,0,0)")
   .showAtmosphere(true)
@@ -235,10 +251,11 @@ const world = Globe({rendererConfig:{antialias:true,alpha:true}})($("globe"))
   .pointColor(d=>{
     if(d.kind==="bloom") return `rgba(154,203,151,${(0.05 + bloomStrength * 0.38).toFixed(3)})`;
     if(d.kind==="action") return "#d2b06d";
+    if(d.kind==="memory") return `rgba(154,203,151,${(0.42+memoryStrength*.52).toFixed(3)})`;
     return sourceColor(d.source);
   })
-  .pointAltitude(d=>d.kind==="bloom"?.0015:d.kind==="action"?.016:.012)
-  .pointRadius(d=>d.kind==="bloom"?d.radius*(0.18+bloomStrength*.82):d.kind==="action"?.15:Math.max(.05,Math.min(.13,.045+(Number(d.magnitude)||1)*.012)))
+  .pointAltitude(d=>d.kind==="bloom"?.0015:d.kind==="action"?.016:d.kind==="memory"?.012:.012)
+  .pointRadius(d=>d.kind==="bloom"?d.radius*(0.18+bloomStrength*.82):d.kind==="action"?.15:d.kind==="memory"?(.06+memoryStrength*.08):Math.max(.05,Math.min(.13,.045+(Number(d.magnitude)||1)*.012)))
   .pointResolution(16)
   .pointLabel(()=>"")
   .onPointClick(d=>d.kind==="action"?startStory(0):d.kind==="bloom"?null:focusSignal(d))
@@ -246,10 +263,10 @@ const world = Globe({rendererConfig:{antialias:true,alpha:true}})($("globe"))
   .ringLat(d=>d.lat)
   .ringLng(d=>d.lon)
   .ringAltitude(.003)
-  .ringColor(d=>()=>d.kind==="action"?"rgba(210,176,109,.58)":"rgba(197,201,192,.18)")
-  .ringMaxRadius(d=>d.kind==="action"?5.4:2.25)
-  .ringPropagationSpeed(d=>d.kind==="action"?.62:.42)
-  .ringRepeatPeriod(d=>d.kind==="action"?2500:3900)
+  .ringColor(d=>()=>d.kind==="memory"?"rgba(154,203,151,.38)":d.kind==="action"?"rgba(210,176,109,.58)":"rgba(197,201,192,.18)")
+  .ringMaxRadius(d=>d.kind==="memory"?2.2:d.kind==="action"?5.4:2.25)
+  .ringPropagationSpeed(d=>d.kind==="memory"?.26:d.kind==="action"?.62:.42)
+  .ringRepeatPeriod(d=>d.kind==="memory"?4200:d.kind==="action"?2500:3900)
   .arcsData([])
   .arcStartLat("startLat")
   .arcStartLng("startLng")
