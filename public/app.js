@@ -625,11 +625,13 @@ function sceneMarkup(scene){
        <div class="scene-label">${escapeHtml(scene.label)}</div>`
     : `<h2 class="scene-headline">${scene.headline}</h2>`;
 
+  const following=nextStory();
   const actions=scene.actions?`
     <div class="scene-actions">
-      <button class="word-button" data-action="help">Help through IFRC ↗</button>
+      <button class="word-button" data-action="primary">${escapeHtml(activeStory.primaryAction.label)}</button>
       <button class="word-button muted" data-action="belief">Why we believe this</button>
       <button class="word-button muted" data-action="pass">Pass this on</button>
+      <button class="word-button muted" data-action="next">Next: ${escapeHtml(following.country)} →</button>
     </div>`:"";
 
   return `
@@ -644,9 +646,13 @@ function sceneMarkup(scene){
 function bindScrollSceneActions(){
   qsa("[data-action]",$("scrollNarrative")).forEach(btn=>{
     btn.onclick=()=>{
-      if(btn.dataset.action==="help")window.open(activeStory.donate,"_blank","noopener");
+      if(btn.dataset.action==="primary")window.open(activeStory.primaryAction.url,"_blank","noopener");
       if(btn.dataset.action==="belief")openEvidence();
       if(btn.dataset.action==="pass")openShare();
+      if(btn.dataset.action==="next"){
+        const following=nextStory();
+        enterStory(following.id,0);
+      }
     };
   });
 }
@@ -736,26 +742,28 @@ function syncScrollCinema(){
   document.documentElement.style.setProperty("--terrain-y",lerp(80,-5,easeCinema(terrainMix)).toFixed(1)+"px");
   document.documentElement.style.setProperty("--terrain-blur",(reduceMotion?0:lerp(14,0,easeCinema(terrainMix))).toFixed(2)+"px");
 
-  const thread=smoothstep(2.3,3.35,position);
-  const bloom=smoothstep(4.85,6.15,position);
-  const memory=smoothstep(7.55,8.35,position);
+  const semantic=activeStory.semantic;
+  const thread=smoothstep(semantic.threadStart,semantic.threadEnd,position);
+  const bloom=BLOOM.length?smoothstep(semantic.bloomStart,semantic.bloomEnd,position):0;
+  const memory=smoothstep(semantic.memoryStart,semantic.memoryEnd,position);
   updateSemanticVisuals(thread,bloom,memory);
 
   document.documentElement.style.setProperty("--terrain-thread-opacity",(thread*terrainOpacity).toFixed(3));
   document.documentElement.style.setProperty("--terrain-thread-offset",(1-thread).toFixed(4));
-  document.documentElement.style.setProperty("--terrain-bloom-opacity",(bloom*terrainOpacity).toFixed(3));
+  document.documentElement.style.setProperty("--terrain-bloom-opacity",((BLOOM.length?bloom:0)*terrainOpacity).toFixed(3));
   document.documentElement.style.setProperty("--terrain-bloom-scale",lerp(.62,1,bloom).toFixed(3));
   document.documentElement.style.setProperty("--memory-opacity",memory.toFixed(3));
 
-  const silenceDistance=Math.abs(position-5);
+  const silenceDistance=Math.abs(position-activeStory.semantic.silenceIndex);
   const silence=1-smoothstep(.12,.76,silenceDistance);
   const chrome=1-silence*.94;
   document.documentElement.style.setProperty("--cinema-chrome-opacity",chrome.toFixed(3));
   document.documentElement.style.setProperty("--cinema-header-opacity",(1-silence*.78).toFixed(3));
-  document.documentElement.style.setProperty("--silence-label-opacity",smoothstep(.08,.55,Math.abs(position-5)).toFixed(3));
+  document.documentElement.style.setProperty("--silence-label-opacity",smoothstep(.08,.55,Math.abs(position-activeStory.semantic.silenceIndex)).toFixed(3));
   document.documentElement.style.setProperty("--silence-detail-opacity","0");
 
-  const milestone=position<1.7?0:position<4.7?1:position<7.55?2:3;
+  const [m1,m2,m3]=activeStory.semantic.milestones;
+  const milestone=position<m1?0:position<m2?1:position<m3?2:3;
   if(milestone!==currentMilestone){
     currentMilestone=milestone;
     updateSignature();
