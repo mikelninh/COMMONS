@@ -22,3 +22,13 @@ def test_netlify_release_is_zero_backend() -> None:
     config = Path("netlify.toml").read_text(encoding="utf-8")
     assert 'publish = "public"' in config
     assert 'from = "/world"' in config
+
+
+def test_world_pulse_sharing_preserves_provenance() -> None:
+    page = Path("public/index.html").read_text(encoding="utf-8")
+
+    assert "function sharePayload()" in page
+    assert "Primary source:" in page
+    assert "Surfaced because:" in page
+    assert "provenance travels with the signal" in page
+    assert "PROVENANCE COPIED" in page
