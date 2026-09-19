@@ -40,7 +40,7 @@ def test_world_pulse_page_is_shareable() -> None:
     assert response.status_code == 200
     assert "COMMONS</b> / WORLD PULSE" in response.text
     assert "Most of Earth is quiet." in response.text
-    assert "Correlation ≠ confirmation." in response.text
+    assert "Correlation does not become confirmation." in response.text
 
 
 def test_first_observation_is_baseline_not_fake_change() -> None:
