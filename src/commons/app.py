@@ -61,6 +61,7 @@ app = FastAPI(
 analysis_service = CommonsService(persist=False)
 _persistent_service: CommonsService | None = None
 _demo_path = Path(__file__).parent / "static" / "index.html"
+_help_path = Path(__file__).parent / "static" / "help.html"
 _join_path = Path(__file__).parent / "static" / "join.html"
 _civic_path = Path(__file__).parent / "static" / "civic.html"
 _civic_report_path = Path(__file__).parent / "static" / "civic_report.html"
@@ -81,6 +82,16 @@ def persistent_service() -> CommonsService:
 
 
 @app.get("/", response_class=HTMLResponse, include_in_schema=False)
+def simple_help() -> HTMLResponse:
+    return HTMLResponse(_help_path.read_text(encoding="utf-8"))
+
+
+@app.get("/help", response_class=HTMLResponse, include_in_schema=False)
+def simple_help_alias() -> HTMLResponse:
+    return HTMLResponse(_help_path.read_text(encoding="utf-8"))
+
+
+@app.get("/lab", response_class=HTMLResponse, include_in_schema=False)
 def demo() -> HTMLResponse:
     return HTMLResponse(_demo_path.read_text(encoding="utf-8"))
 
