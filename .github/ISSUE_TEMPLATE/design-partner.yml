@@ -1,0 +1,43 @@
+name: COMMONS design partner
+description: Explore a paid monitoring pilot for your team.
+title: "[Design partner] "
+labels:
+  - design-partner
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is a public GitHub issue. Do not include confidential, personal, or security-sensitive information.
+  - type: input
+    id: org
+    attributes:
+      label: Organization / team
+      description: Public name only.
+    validations:
+      required: true
+  - type: dropdown
+    id: use_case
+    attributes:
+      label: Primary use case
+      options:
+        - Climate / resilience monitoring
+        - Supply-chain / operations risk
+        - Humanitarian / public-interest response
+        - Research / historical backtesting
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: watch
+    attributes:
+      label: What would you want COMMONS to watch?
+      description: Describe the public locations, hazards, programmes, or signals at a high level.
+    validations:
+      required: true
+  - type: textarea
+    id: value
+    attributes:
+      label: What decision becomes easier if this works?
+      description: The more concrete the operational decision, the better the pilot.
+    validations:
+      required: true
