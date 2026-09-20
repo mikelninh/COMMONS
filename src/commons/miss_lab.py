@@ -4,8 +4,8 @@ from collections import defaultdict
 from datetime import date
 from typing import Any
 
-from commons.hypothesis_lab import BacktestPoint, build_records, quantile
-from commons.scale_points import GLOBAL_POINTS
+from commons.hypothesis_lab import BacktestPoint, quantile
+from commons.scale_points import GLOBAL_POINTS, build_global_records, full_council_records
 
 
 def _split_date(start_date: str, end_date: str) -> str:
@@ -20,10 +20,14 @@ def run_miss_lab(
     end_date: str,
     points: tuple[BacktestPoint, ...] = GLOBAL_POINTS,
 ) -> dict[str, Any]:
-    records, source_errors = build_records(
+    raw_records, source_errors = build_global_records(
         start_date=start_date,
         end_date=end_date,
         points=points,
+    )
+    records = full_council_records(raw_records)
+    full_council_ratio = (
+        len(records) / len(raw_records) if raw_records else 0.0
     )
     split = _split_date(start_date, end_date)
 
@@ -107,7 +111,8 @@ def run_miss_lab(
     near = sum(item["miss_type"] == "near_threshold" for item in misses)
     deep = sum(item["miss_type"] == "deep" for item in misses)
     near_share = near / len(misses) if misses else None
-    enough = len(misses) >= 10
+    evidence_healthy = full_council_ratio >= 0.90 and len(records) >= 300
+    enough = evidence_healthy and len(misses) >= 10
 
     if enough and near_share is not None and near_share >= 0.60:
         status = "supported"
@@ -125,6 +130,12 @@ def run_miss_lab(
         "verification": "daily ERA5 precipitation; 90th-percentile gate learned only from the earlier training segment",
         "requested_points": len(points),
         "source_errors": source_errors,
+        "evidence_health": {
+            "status": "healthy" if evidence_healthy else "insufficient",
+            "raw_records": len(raw_records),
+            "full_council_records": len(records),
+            "full_council_ratio": round(full_council_ratio, 4),
+        },
         "heavy_events": heavy_events,
         "alerts": alerts,
         "true_positives": true_positives,
@@ -148,5 +159,6 @@ def run_miss_lab(
             "ERA5 is reanalysis rather than a local rain gauge.",
             "The threshold is location-specific but does not model impact.",
             "The miss taxonomy is diagnostic; it does not itself justify lowering the live alert threshold.",
+            "Only records with all three forecast models are allowed to update H21.",
         ],
     }
