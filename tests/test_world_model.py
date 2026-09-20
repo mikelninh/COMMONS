@@ -485,8 +485,13 @@ def test_hypothesis_lab_surfaces_falsification_and_rule_update() -> None:
 
     h2 = next(item for item in report["hypotheses"] if item["id"] == "H2")
     h4 = next(item for item in report["hypotheses"] if item["id"] == "H4")
-    assert h2["status"] == "not_supported"
-    assert h4["status"] == "mixed"
+    evidence_health = (report.get("data_quality") or {}).get("status", "healthy")
+    if evidence_health == "healthy":
+        assert h2["status"] == "not_supported"
+        assert h4["status"] == "mixed"
+    else:
+        assert h2["status"] == "insufficient"
+        assert h4["status"] == "insufficient"
     h2_update = h2.get("update") or h2.get("product_update") or ""
     h4_update = h4.get("update") or h4.get("product_update") or ""
     assert "confidence penalty" in h2_update
@@ -504,9 +509,11 @@ def test_hypothesis_report_records_supported_council_and_horizon_findings() -> N
     # The weekly report is live research output. Source outages can change sample count;
     # tests should verify enough evidence exists, not freeze one historical run.
     assert report["records"] >= 100
-    assert h1["status"] == "supported"
-    assert h3["status"] == "supported"
-    assert h5["status"] == "supported"
+    evidence_health = (report.get("data_quality") or {}).get("status", "healthy")
+    expected_status = "supported" if evidence_health == "healthy" else "insufficient"
+    assert h1["status"] == expected_status
+    assert h3["status"] == expected_status
+    assert h5["status"] == expected_status
     lead = report["summary_by_lead"]
     assert all(
         lead[str(day)]["council_improvement_vs_average_model_pct"] > 0
@@ -761,3 +768,78 @@ def test_next_step_is_human_usefulness_not_more_automatic_confidence() -> None:
     assert "monitoring time" in h16["claim"].lower()
     assert "perceived noise" in h16["claim"].lower()
     assert "human pilot" in h16["test"].lower()
+
+
+def test_hypothesis_http_retries_transient_failures(monkeypatch) -> None:
+    import commons.hypothesis_lab as lab
+
+    calls = {"count": 0}
+
+    class Response:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, tb):
+            return False
+
+        def read(self):
+            return b'{"daily":{"time":[]}}'
+
+    def flaky_urlopen(request, timeout):
+        calls["count"] += 1
+        if calls["count"] < 3:
+            raise TimeoutError("temporary handshake timeout")
+        return Response()
+
+    monkeypatch.setattr(lab, "urlopen", flaky_urlopen)
+    monkeypatch.setattr(lab, "sleep", lambda seconds: None)
+
+    payload = lab._request_json(
+        "https://example.test/data",
+        {"x": 1},
+        attempts=3,
+        backoff_seconds=0,
+    )
+
+    assert calls["count"] == 3
+    assert payload["daily"]["time"] == []
+
+
+def test_hypothesis_data_quality_blocks_learning_from_partial_sources() -> None:
+    from commons.hypothesis_lab import BacktestPoint, evaluate_data_quality
+
+    point = BacktestPoint("x", "X", "Test", 0.0, 0.0)
+    full_records = [
+        {
+            "point_id": "x",
+            "predictions_mm": {"ecmwf": 1.0, "gfs": 1.0, "icon": 1.0},
+        }
+        for _ in range(6)
+    ]
+    partial_records = [
+        {
+            "point_id": "x",
+            "predictions_mm": {"ecmwf": 1.0, "gfs": 1.0},
+        }
+        for _ in range(6)
+    ]
+
+    healthy = evaluate_data_quality(
+        full_records,
+        start_date="2026-09-01",
+        end_date="2026-09-02",
+        points=(point,),
+    )
+    degraded = evaluate_data_quality(
+        partial_records,
+        start_date="2026-09-01",
+        end_date="2026-09-02",
+        points=(point,),
+    )
+
+    assert healthy["status"] == "healthy"
+    assert healthy["temporal_coverage"] == 1.0
+    assert healthy["full_council_ratio"] == 1.0
+    assert degraded["status"] == "degraded"
+    assert degraded["temporal_coverage"] == 1.0
+    assert degraded["full_council_ratio"] < 0.9
