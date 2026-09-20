@@ -534,7 +534,7 @@ def test_next_hypotheses_focus_on_hydrology_and_persistence() -> None:
     )
     ids = {item["id"] for item in report["next_hypotheses"]}
 
-    assert {"H7", "H8", "H9", "H10", "H11"} <= ids
+    assert {"H7", "H11", "H12", "H13", "H14"} <= ids
     assert "H6" not in ids
     h11 = next(item for item in report["next_hypotheses"] if item["id"] == "H11")
     assert any("basin" in signal.lower() for signal in h11["signals"])
