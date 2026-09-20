@@ -296,7 +296,7 @@ function renderReturnUpdates(){
   $("returnUpdates").innerHTML=`
     <div class="return-heading">
       <span>SINCE YOU WERE HERE</span>
-      <h2>${grouped.some(item=>item.newer)?"Something changed.":"You’re following "+grouped.length+" stor"+(grouped.length===1?"y":"ies")+".“".replace("“","")}</h2>
+      <h2>${grouped.some(item=>item.newer)?"Something changed.":"You’re following "+grouped.length+" stor"+(grouped.length===1?"y":"ies")+"."}</h2>
     </div>
     <div class="return-list">
       ${grouped.map(({story,newer,following,acted})=>`
@@ -378,7 +378,7 @@ function updateStoryChrome(){
   $("storyIndex").innerHTML=`<b>${escapeHtml(activeStory.country.toUpperCase())}</b> · ${escapeHtml(activeStory.title.toUpperCase())} · ${escapeHtml(activeStory.status)}`;
   $("story").dataset.status=activeStory.status.includes("ELIMINATION")?"elimination":"open";
 
-  $("timeLabels").innerHTML=activeStory.timeLabels.map(label=>`<span>${escapeHtml(label)}</span>`).join("");
+  $("timeLabels").innerHTML=["What happened","Response","Is it working?","What now?"].map(label=>`<span>${escapeHtml(label)}</span>`).join("");
   const sig=qsa(".signature span");
   activeStory.grammar.forEach((label,index)=>{
     if(sig[index]){
@@ -1064,6 +1064,7 @@ function stopStory(returnHome=true){
     u.searchParams.delete("scene");
     history.replaceState(null,"",u);
     setHomeGlobe();
+    renderStoryLibrary();
   }
 }
 
@@ -1267,9 +1268,10 @@ function saveActionLedger(entries){
 }
 
 function updateLedgerCount(){
-  const count=loadActionLedger().length;
-  if($("ledgerCount"))$("ledgerCount").textContent=String(count);
-  if($("actionLedgerBtn"))$("actionLedgerBtn").textContent=count?"My actions · "+count:"My actions";
+  const entries=loadActionLedger();
+  const count=new Set(entries.filter(entry=>entry.status==="following").map(entry=>entry.storyId)).size;
+  if($("ledgerCount"))$("ledgerCount").textContent=String(entries.length);
+  if($("actionLedgerBtn"))$("actionLedgerBtn").textContent=count?"Following · "+count:"Following";
 }
 
 function storyForReceipt(receipt){
@@ -1578,7 +1580,7 @@ function renderActionLabCurrent(){
 
 function renderActionLedger(){
   const entries=loadActionLedger().sort((a,b)=>String(b.updatedAt).localeCompare(String(a.updatedAt)));
-  $("actionLabTitle").textContent="My action ledger";
+  $("actionLabTitle").textContent="Following & actions";
 
   if(!entries.length){
     $("actionLabBody").innerHTML=`
@@ -1775,9 +1777,10 @@ function renderTrustSnapshot(){
   const stale=trustReport.staleCriticalClaims?.length||0;
   const evalText=trustReport.totalChecks?trustReport.passedChecks+"/"+trustReport.totalChecks+" checks":"checks unavailable";
   $("trustSnapshotDetail").textContent=trustReport.status==="HEALTHY"
-    ? coverage+"% claims sourced · "+stale+" stale critical · "+evalText
-    : (trustLoadError||trustReport.reason||"One or more trust checks require attention.");
+    ? coverage+"% sourced · "+stale+" stale"
+    : (trustLoadError||trustReport.reason||"Evidence needs attention.");
   renderCalmOrientation();
+  renderDailyHome();
 }
 
 function renderTrustCenterStatus(){
