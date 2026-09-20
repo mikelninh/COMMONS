@@ -260,23 +260,100 @@ function renderCalmOrientation(){
   $("orientationStale").textContent=stale;
 }
 
+function storyEditorialSummary(story){
+  const summaries={
+    "nepal-flash-floods-2026":"Floods hit northern Nepal. A verified response is underway, and new evidence shows safe water was restored for around 2,000 people.",
+    "bhutan-rabies-elimination-2026":"Bhutan reached a rare public-health milestone: WHO validated the elimination of dog-transmitted human rabies as a public-health problem.",
+    "drc-ebola-bundibugyo-2026":"The Ebola outbreak remains unresolved. There are encouraging signs in some places, but WHO says the epidemic is still growing overall."
+  };
+  return summaries[story.id] || story.subtitle;
+}
+
+function storyReadTime(story){
+  return Math.max(1,Math.round((story.scenes?.length||6)*.18));
+}
+
+function renderReturnUpdates(){
+  if(!$("returnUpdates"))return;
+  const receipts=loadActionLedger();
+  const grouped=STORIES.map(story=>{
+    const related=receipts.filter(entry=>entry.storyId===story.id);
+    if(!related.length)return null;
+    const following=related.some(entry=>entry.status==="following");
+    const acted=related.some(entry=>["self_reported_complete","external_opened","share_completed","share_prepared"].includes(entry.status));
+    const newer=related.some(hasNewEvidence);
+    if(!following&&!acted)return null;
+    return {story,following,acted,newer};
+  }).filter(Boolean);
+
+  if(!grouped.length){
+    $("returnUpdates").classList.add("hidden");
+    $("returnUpdates").innerHTML="";
+    return;
+  }
+
+  $("returnUpdates").classList.remove("hidden");
+  $("returnUpdates").innerHTML=`
+    <div class="return-heading">
+      <span>SINCE YOU WERE HERE</span>
+      <h2>${grouped.some(item=>item.newer)?"Something changed.":"You’re following "+grouped.length+" stor"+(grouped.length===1?"y":"ies")+".“".replace("“","")}</h2>
+    </div>
+    <div class="return-list">
+      ${grouped.map(({story,newer,following,acted})=>`
+        <button class="return-item" data-return-story="${escapeHtml(story.id)}">
+          <span class="return-dot ${newer?"new":""}"></span>
+          <span>
+            <b>${escapeHtml(story.country)} · ${escapeHtml(story.title)}</b>
+            <small>${newer?"New official evidence is available":following?"You’re following this story":"You recorded an action here"}</small>
+          </span>
+          <strong>${newer?"SEE WHAT CHANGED":"OPEN"}</strong>
+        </button>
+      `).join("")}
+    </div>
+  `;
+
+  qsa("[data-return-story]",$("returnUpdates")).forEach(button=>{
+    button.onclick=()=>enterStory(button.dataset.returnStory,Math.max(0,(storyById(button.dataset.returnStory)?.scenes?.length||1)-2));
+  });
+}
+
+function renderDailyHome(){
+  if(!$("dailySummary"))return;
+  const improving=STORIES.filter(story=>
+    (story.bloom||[]).length>0 || String(story.status||"").includes("ELIMINATION")
+  ).length;
+  let direct=0;
+  if(trustRegistry){
+    direct=STORIES.filter(story=>{
+      const loop=ACTION_LOOPS[story.id];
+      return (loop?.interventions||[]).some(item=>
+        item.type==="external" && item.actionability==="DIRECT" && trustGateForStory(story.id).allowed
+      );
+    }).length;
+  }
+  $("dailyStoryCount").textContent=String(STORIES.length);
+  $("dailyActionCount").textContent=String(direct);
+  $("dailyImprovedCount").textContent=String(improving);
+  renderReturnUpdates();
+}
+
 function renderStoryLibrary(){
   $("storyCards").innerHTML=STORIES.map(story=>{
     const receipts=ledgerForStory(story.id);
     const newer=receipts.some(hasNewEvidence);
     const following=receipts.some(entry=>entry.status==="following");
-    const acted=receipts.some(entry=>["self_reported_complete","share_completed","share_prepared"].includes(entry.status));
-    const localState=newer?"NEW EVIDENCE":following?"FOLLOWING":acted?"ACTION RECORDED":story.updatedAt;
+    const acted=receipts.some(entry=>["self_reported_complete","external_opened","share_completed","share_prepared"].includes(entry.status));
+    const state=newer?"NEW SINCE YOU FOLLOWED":following?"FOLLOWING":acted?"ACTION RECORDED":story.statusLabel;
 
     return `
-      <button class="story-card ${story.id===activeStory.id?"active":""}" data-story-id="${escapeHtml(story.id)}" style="--card-accent:${escapeHtml(story.colors.memory||story.colors.attention)}">
-        <span class="story-card-number">${String(story.order).padStart(2,"0")}</span>
-        <span class="story-card-body">
-          <span class="story-card-country">${escapeHtml(story.country)} · ${escapeHtml(story.statusLabel)}</span>
-          <span class="story-card-title">${escapeHtml(story.title)}</span>
-          <span class="story-card-subtitle">${escapeHtml(story.subtitle)}</span>
+      <button class="story-card daily-story-card" data-story-id="${escapeHtml(story.id)}" style="--card-accent:${escapeHtml(story.colors.memory||story.colors.attention)}">
+        <span class="daily-story-top">
+          <span class="story-card-country">${escapeHtml(story.country)} · ${escapeHtml(state)}</span>
+          <span class="daily-read-time">${storyReadTime(story)} min</span>
         </span>
-        <span class="story-card-status">${escapeHtml(localState)}<span class="story-card-arrow">→</span></span>
+        <span class="story-card-title">${escapeHtml(story.title)}</span>
+        <span class="daily-story-summary">${escapeHtml(storyEditorialSummary(story))}</span>
+        <span class="daily-story-bottom"><span>Updated ${escapeHtml(story.updatedAt)}</span><strong>Read story →</strong></span>
       </button>
     `;
   }).join("");
@@ -285,6 +362,7 @@ function renderStoryLibrary(){
     card.onclick=()=>enterStory(card.dataset.storyId,0);
   });
   renderCalmOrientation();
+  renderDailyHome();
 }
 
 function updateStoryChrome(){
