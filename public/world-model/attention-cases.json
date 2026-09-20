@@ -2,7 +2,7 @@
   "schema_version": "0.1",
   "hypothesis": {
     "id": "H16",
-    "claim": "A low-cost WATCH layer reduces analyst monitoring time without creating perceived noise."
+    "claim": "A PRIORITY queue reduces analyst monitoring time without creating perceived noise."
   },
   "period": {
     "start": "2026-07-01",
@@ -16,7 +16,7 @@
     "alert": 4,
     "heavy": 6,
     "not_heavy": 6,
-    "watch": 4,
+    "priority": 4,
     "quiet": 4
   },
   "cases": [
@@ -132,7 +132,7 @@
         "revision_direction": 1
       },
       "commons": {
-        "state": "watch",
+        "state": "priority",
         "reason": "Sub-threshold rainfall plus an upward majority revision."
       },
       "truth": {
@@ -156,7 +156,7 @@
         "revision_direction": 1
       },
       "commons": {
-        "state": "watch",
+        "state": "priority",
         "reason": "Sub-threshold rainfall plus an upward majority revision."
       },
       "truth": {
@@ -180,7 +180,7 @@
         "revision_direction": 1
       },
       "commons": {
-        "state": "watch",
+        "state": "priority",
         "reason": "Sub-threshold rainfall plus an upward majority revision."
       },
       "truth": {
@@ -204,7 +204,7 @@
         "revision_direction": 1
       },
       "commons": {
-        "state": "watch",
+        "state": "priority",
         "reason": "Sub-threshold rainfall plus an upward majority revision."
       },
       "truth": {
@@ -229,7 +229,7 @@
       },
       "commons": {
         "state": "quiet",
-        "reason": "No threshold crossing and no validated WATCH condition."
+        "reason": "No threshold crossing and no validated priority condition."
       },
       "truth": {
         "actual_mm": 53.3,
@@ -253,7 +253,7 @@
       },
       "commons": {
         "state": "quiet",
-        "reason": "No threshold crossing and no validated WATCH condition."
+        "reason": "No threshold crossing and no validated priority condition."
       },
       "truth": {
         "actual_mm": 22.8,
@@ -277,7 +277,7 @@
       },
       "commons": {
         "state": "quiet",
-        "reason": "No threshold crossing and no validated WATCH condition."
+        "reason": "No threshold crossing and no validated priority condition."
       },
       "truth": {
         "actual_mm": 9.2,
@@ -301,7 +301,7 @@
       },
       "commons": {
         "state": "quiet",
-        "reason": "No threshold crossing and no validated WATCH condition."
+        "reason": "No threshold crossing and no validated priority condition."
       },
       "truth": {
         "actual_mm": 25.2,
@@ -318,7 +318,7 @@
       "open precision",
       "perceived noise"
     ],
-    "design": "within-person randomized comparison: raw signals vs COMMONS triage"
+    "design": "within-person randomized comparison: raw signals vs COMMONS priority queue"
   },
   "limitations": [
     "This is an attention benchmark, not an emergency-warning validation.",
