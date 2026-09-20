@@ -814,26 +814,26 @@ def test_hypothesis_data_quality_blocks_learning_from_partial_sources() -> None:
             "point_id": "x",
             "predictions_mm": {"ecmwf": 1.0, "gfs": 1.0, "icon": 1.0},
         }
-        for _ in range(6)
+        for _ in range(60)
     ]
     partial_records = [
         {
             "point_id": "x",
             "predictions_mm": {"ecmwf": 1.0, "gfs": 1.0},
         }
-        for _ in range(6)
+        for _ in range(60)
     ]
 
     healthy = evaluate_data_quality(
         full_records,
         start_date="2026-09-01",
-        end_date="2026-09-02",
+        end_date="2026-09-20",
         points=(point,),
     )
     degraded = evaluate_data_quality(
         partial_records,
         start_date="2026-09-01",
-        end_date="2026-09-02",
+        end_date="2026-09-20",
         points=(point,),
     )
 
