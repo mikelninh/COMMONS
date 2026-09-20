@@ -1300,3 +1300,49 @@ def test_h23_uses_multi_coordinate_spatial_requests() -> None:
     assert "_forecast_bundle_batch" in source
     assert '"request_mode": "batched_multi_coordinate"' in source
     assert "forecast_requests_expected" in source
+
+
+def test_h24_requires_same_provider_spatial_corroboration_and_shadow_scope() -> None:
+    source = Path("src/commons/minority_convective_lab.py").read_text(encoding="utf-8")
+
+    assert "minority_p90_25km" in source
+    assert "minority_p90_50km" in source
+    assert "minority_footprint_50km" in source
+    assert "_provider_spatial_p90" in source
+    assert "_provider_footprint" in source
+    assert "shadow PRIORITY context only" in source
+    assert "never direct ALERT" in source
+
+
+def test_h25_uses_archived_cape_and_showers_with_evidence_health() -> None:
+    source = Path("src/commons/minority_convective_lab.py").read_text(encoding="utf-8")
+
+    assert "cape_previous_day" in source
+    assert "showers_previous_day" in source
+    assert "_hourly_daily_max" in source
+    assert "blind_cape_any_q90" in source
+    assert "blind_cape75_showers25" in source
+    assert "provider_coverage" in source
+    assert '"status": "healthy" if expected and observed / expected >= 0.66' in source
+
+
+def test_h24_h25_have_hard_scarcity_guardrails() -> None:
+    source = Path("src/commons/minority_convective_lab.py").read_text(encoding="utf-8")
+
+    assert "H24_MIN_RECOVERY = 0.20" in source
+    assert "H25_MIN_RECOVERY = 0.33" in source
+    assert "MAX_EXTRA_FALSE_ALERTS_PER_100 = 3.0" in source
+    assert "MAX_PRECISION_DROP = 0.05" in source
+    assert "MIN_TEST_DEEP = 5" in source
+    assert "MIN_TEST_BLIND = 5" in source
+
+
+def test_h24_h25_rerun_weekly_and_join_aggregate_report() -> None:
+    workflow = Path(".github/workflows/hypothesis-lab.yml").read_text(encoding="utf-8")
+    runner = Path("scripts/run_hypothesis_lab.py").read_text(encoding="utf-8")
+
+    assert "run_minority_convective_lab.py" in workflow
+    assert "minority-convective-report.json" in workflow
+    assert 'minority_convective_path = Path("public/world-model/minority-convective-report.json")' in runner
+    assert '"h24"' in runner
+    assert '"h25"' in runner
