@@ -25,6 +25,11 @@ on:
       - "scripts/run_attention_budget_lab.py"
       - "src/commons/model_dropout_lab.py"
       - "scripts/run_model_dropout_lab.py"
+      - "src/commons/scale_points.py"
+      - "src/commons/scale_lab.py"
+      - "scripts/run_scale_lab.py"
+      - "src/commons/miss_lab.py"
+      - "scripts/run_miss_lab.py"
       - ".github/workflows/hypothesis-lab.yml"
 
 permissions:
@@ -91,6 +96,16 @@ jobs:
           python scripts/run_model_dropout_lab.py \
             --output public/world-model/model-dropout-report.json
 
+      - name: Scale-test council across 30 locations
+        run: |
+          python scripts/run_scale_lab.py \
+            --output public/world-model/scale-report.json
+
+      - name: Audit quiet heavy-event misses
+        run: |
+          python scripts/run_miss_lab.py \
+            --output public/world-model/miss-report.json
+
       - name: Run rolling research backtest
         run: |
           python scripts/run_hypothesis_lab.py \
@@ -118,7 +133,9 @@ jobs:
             public/world-model/watch-value-report.json \
             public/world-model/attention-cases.json \
             public/world-model/attention-budget-report.json \
-            public/world-model/model-dropout-report.json
+            public/world-model/model-dropout-report.json \
+            public/world-model/scale-report.json \
+            public/world-model/miss-report.json
           if git diff --cached --quiet; then
             echo "Report unchanged"
           else
