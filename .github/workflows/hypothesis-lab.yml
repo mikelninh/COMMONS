@@ -32,6 +32,8 @@ on:
       - "scripts/run_miss_lab.py"
       - "src/commons/exposure_lab.py"
       - "scripts/run_exposure_lab.py"
+      - "src/commons/external_alert_lab.py"
+      - "scripts/run_external_alert_lab.py"
       - ".github/workflows/hypothesis-lab.yml"
 
 permissions:
@@ -114,6 +116,12 @@ jobs:
           python scripts/run_exposure_lab.py \
             --output public/world-model/exposure-report.json
 
+      - name: Benchmark against GDACS external alerts
+        continue-on-error: true
+        run: |
+          python scripts/run_external_alert_lab.py \
+            --output public/world-model/external-alert-report.json
+
       - name: Run rolling research backtest
         run: |
           python scripts/run_hypothesis_lab.py \
@@ -144,7 +152,8 @@ jobs:
             public/world-model/model-dropout-report.json \
             public/world-model/scale-report.json \
             public/world-model/miss-report.json \
-            public/world-model/exposure-report.json
+            public/world-model/exposure-report.json \
+            public/world-model/external-alert-report.json
           if git diff --cached --quiet; then
             echo "Report unchanged"
           else
