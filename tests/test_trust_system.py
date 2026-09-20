@@ -363,3 +363,81 @@ def test_simple_mode_status_is_less_dense_than_audit_mode() -> None:
     assert "trust-status-grid" in app
     assert ".trust-simple-statusbar" in styles
     assert ".trust-proof-list" in styles
+
+
+def test_action_loop_is_presented_as_guided_case_file() -> None:
+    page = Path("public/index.html").read_text(encoding="utf-8")
+    app = Path("public/app.js").read_text(encoding="utf-8")
+    styles = Path("public/styles.css").read_text(encoding="utf-8")
+
+    assert "COMMONS · CASE FILE" in page
+    assert "Current case" in page
+    assert "My action notes" in page
+
+    assert "function renderInvestigationActor" in app
+    assert "function renderIntervention" in app
+    assert "Who is on the ground?" in app
+    assert "Start with the strongest verified path." in app
+    assert "WHAT WE STILL NEED TO LEARN" in app
+    assert "EVIDENCE DESK" in app
+
+    assert ".case-hero" in styles
+    assert ".case-section" in styles
+    assert ".case-action.primary" in styles
+    assert ".case-primary-button" in styles
+    assert ".case-questions" in styles
+
+
+def test_action_language_is_human_readable_not_internal_jargon() -> None:
+    app = Path("public/app.js").read_text(encoding="utf-8")
+
+    assert "What supports this" in app
+    assert "What we still don’t know" in app
+    assert "What we’ll look for next" in app
+    assert "BEST VERIFIED NEXT MOVE" in app
+    assert "KEEP THE LOOP OPEN" in app
+    assert "HELP THE EVIDENCE TRAVEL" in app
+
+
+def test_trust_is_presented_as_investigative_evidence_desk() -> None:
+    page = Path("public/index.html").read_text(encoding="utf-8")
+    app = Path("public/app.js").read_text(encoding="utf-8")
+    styles = Path("public/styles.css").read_text(encoding="utf-8")
+
+    assert "COMMONS · EVIDENCE DESK" in page
+    assert "Here’s what we know." in page
+    assert "Trust must be inspectable." in page
+
+    assert "function claimWhyItMatters" in app
+    assert "function renderInvestigativeClaim" in app
+    assert "Why this matters" in app
+    assert "What to keep in mind" in app
+    assert "WHAT WE CURRENTLY KNOW" in app
+    assert "WHAT THIS DOESN’T PROVE" in app
+
+    assert ".investigation-intro" in styles
+    assert ".trust-story-claim" in styles
+    assert ".claim-meaning" in styles
+    assert ".claim-limit" in styles
+
+
+def test_audit_separates_current_case_from_other_atlas_claims() -> None:
+    app = Path("public/app.js").read_text(encoding="utf-8")
+
+    assert "CURRENT CASE NOTES" in app
+    assert "OTHER STORIES IN THE ATLAS" in app
+    assert "These claims remain part of the same public ledger" in app
+    assert "claim.story_id===activeStory.id" in app
+    assert "claim.story_id!==activeStory.id" in app
+
+
+def test_investigative_design_raises_readability_floor() -> None:
+    styles = Path("public/styles.css").read_text(encoding="utf-8")
+
+    assert "--ink:#080806" in styles
+    assert "--bone:#f2eee4" in styles
+    assert ".case-lede" in styles
+    assert "font-size:16px" in styles
+    assert ".investigative-claim .claim-statement" in styles
+    assert "font-size:18px!important" in styles
+    assert ".trust-proof b{font-size:12px}" in styles
