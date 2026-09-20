@@ -166,6 +166,21 @@ def quantile(values: list[float], q: float) -> float | None:
     return ordered[lo] * (1 - frac) + ordered[hi] * frac
 
 
+def symmetric_percentage_error(predicted: float, actual: float) -> float:
+    denominator = abs(predicted) + abs(actual)
+    if denominator < 1e-9:
+        return 0.0
+    return 2.0 * abs(predicted - actual) / denominator
+
+
+def rain_regime(actual_mm: float) -> str:
+    if actual_mm < 1.0:
+        return "dry"
+    if actual_mm < 10.0:
+        return "moderate"
+    return "heavy"
+
+
 def build_records(
     *,
     start_date: str,
@@ -233,7 +248,12 @@ def build_records(
                         },
                         "council_median_mm": round(council, 3),
                         "spread_mm": round(spread, 3),
+                        "relative_spread": round(spread / max(council, actual_value, 1.0), 4),
+                        "rain_regime": rain_regime(actual_value),
                         "council_abs_error_mm": round(abs(council - actual_value), 3),
+                        "council_sape": round(
+                            symmetric_percentage_error(council, actual_value), 4
+                        ),
                     }
                 )
     return records, source_errors
@@ -245,48 +265,102 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
     for lead in LEADS:
         subset = [record for record in records if record["lead_days"] == lead]
         provider_errors: dict[str, list[float]] = {key: [] for key in MODELS}
+        provider_heavy_errors: dict[str, list[float]] = {key: [] for key in MODELS}
         council_errors: list[float] = []
+        council_sape: list[float] = []
         spreads: list[float] = []
+        relative_spreads: list[float] = []
+        heavy_errors: list[float] = []
+        heavy_relative_spreads: list[float] = []
+        heavy_sape: list[float] = []
+        daily_council_vs_average_wins = 0
 
         for record in subset:
             actual = record["actual_precip_mm"]
+            individual_errors: list[float] = []
             for provider, prediction in record["predictions_mm"].items():
-                provider_errors.setdefault(provider, []).append(abs(prediction - actual))
-            council_errors.append(record["council_abs_error_mm"])
+                error = abs(prediction - actual)
+                provider_errors.setdefault(provider, []).append(error)
+                individual_errors.append(error)
+                if record["rain_regime"] == "heavy":
+                    provider_heavy_errors.setdefault(provider, []).append(error)
+
+            error = record["council_abs_error_mm"]
+            sape = record["council_sape"]
+            council_errors.append(error)
+            council_sape.append(sape)
             spreads.append(record["spread_mm"])
+            relative_spreads.append(record["relative_spread"])
+
+            if individual_errors and error <= mean(individual_errors):
+                daily_council_vs_average_wins += 1
+
+            if record["rain_regime"] == "heavy":
+                heavy_errors.append(error)
+                heavy_sape.append(sape)
+                heavy_relative_spreads.append(record["relative_spread"])
 
         provider_mae = {
             provider: round(mean(errors), 3)
             for provider, errors in provider_errors.items()
             if errors
         }
+        provider_heavy_mae = {
+            provider: round(mean(errors), 3)
+            for provider, errors in provider_heavy_errors.items()
+            if errors
+        }
         average_model_mae = mean(provider_mae.values()) if provider_mae else None
+        average_model_heavy_mae = (
+            mean(provider_heavy_mae.values()) if provider_heavy_mae else None
+        )
         council_mae = mean(council_errors) if council_errors else None
-        corr = pearson(spreads, council_errors)
+        council_heavy_mae = mean(heavy_errors) if heavy_errors else None
 
-        q25 = quantile(spreads, 0.25)
-        q75 = quantile(spreads, 0.75)
-        low_errors = [
+        raw_corr = pearson(spreads, council_errors)
+        normalized_corr = pearson(relative_spreads, council_sape)
+        heavy_corr = pearson(heavy_relative_spreads, heavy_sape)
+
+        q25 = quantile(relative_spreads, 0.25)
+        q75 = quantile(relative_spreads, 0.75)
+        low_sape = [
             error
-            for spread, error in zip(spreads, council_errors)
+            for spread, error in zip(relative_spreads, council_sape)
             if q25 is not None and spread <= q25
         ]
-        high_errors = [
+        high_sape = [
             error
-            for spread, error in zip(spreads, council_errors)
+            for spread, error in zip(relative_spreads, council_sape)
             if q75 is not None and spread >= q75
+        ]
+        retained_errors = [
+            error
+            for spread, error in zip(relative_spreads, council_errors)
+            if q75 is not None and spread < q75
         ]
 
         lead_summary[str(lead)] = {
             "samples": len(subset),
+            "heavy_rain_samples": len(heavy_errors),
             "provider_mae_mm": provider_mae,
+            "provider_heavy_rain_mae_mm": provider_heavy_mae,
             "average_individual_model_mae_mm": (
                 round(average_model_mae, 3)
                 if average_model_mae is not None
                 else None
             ),
+            "average_individual_model_heavy_rain_mae_mm": (
+                round(average_model_heavy_mae, 3)
+                if average_model_heavy_mae is not None
+                else None
+            ),
             "council_median_mae_mm": (
                 round(council_mae, 3) if council_mae is not None else None
+            ),
+            "council_median_heavy_rain_mae_mm": (
+                round(council_heavy_mae, 3)
+                if council_heavy_mae is not None
+                else None
             ),
             "council_improvement_vs_average_model_pct": (
                 round(100 * (average_model_mae - council_mae) / average_model_mae, 1)
@@ -295,20 +369,55 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
                 and average_model_mae > 0
                 else None
             ),
-            "spread_error_correlation": round(corr, 3) if corr is not None else None,
-            "low_disagreement_error_mm": (
-                round(mean(low_errors), 3) if low_errors else None
-            ),
-            "high_disagreement_error_mm": (
-                round(mean(high_errors), 3) if high_errors else None
-            ),
-            "high_vs_low_error_ratio": (
-                round(mean(high_errors) / mean(low_errors), 2)
-                if high_errors and low_errors and mean(low_errors) > 0
+            "council_heavy_rain_improvement_pct": (
+                round(
+                    100
+                    * (average_model_heavy_mae - council_heavy_mae)
+                    / average_model_heavy_mae,
+                    1,
+                )
+                if council_heavy_mae is not None
+                and average_model_heavy_mae is not None
+                and average_model_heavy_mae > 0
                 else None
             ),
-            "spread_q25_mm": round(q25, 3) if q25 is not None else None,
-            "spread_q75_mm": round(q75, 3) if q75 is not None else None,
+            "council_win_rate_vs_daily_average_model_error_pct": (
+                round(100 * daily_council_vs_average_wins / len(subset), 1)
+                if subset
+                else None
+            ),
+            "raw_spread_vs_absolute_error_correlation": (
+                round(raw_corr, 3) if raw_corr is not None else None
+            ),
+            "relative_spread_vs_normalized_error_correlation": (
+                round(normalized_corr, 3) if normalized_corr is not None else None
+            ),
+            "heavy_rain_relative_spread_vs_normalized_error_correlation": (
+                round(heavy_corr, 3) if heavy_corr is not None else None
+            ),
+            "low_disagreement_normalized_error": (
+                round(mean(low_sape), 3) if low_sape else None
+            ),
+            "high_disagreement_normalized_error": (
+                round(mean(high_sape), 3) if high_sape else None
+            ),
+            "high_vs_low_normalized_error_ratio": (
+                round(mean(high_sape) / mean(low_sape), 2)
+                if high_sape and low_sape and mean(low_sape) > 0
+                else None
+            ),
+            "relative_spread_q25": round(q25, 3) if q25 is not None else None,
+            "relative_spread_q75": round(q75, 3) if q75 is not None else None,
+            "mae_if_abstain_top_disagreement_quartile_mm": (
+                round(mean(retained_errors), 3) if retained_errors else None
+            ),
+            "error_reduction_if_abstain_top_disagreement_quartile_pct": (
+                round(100 * (council_mae - mean(retained_errors)) / council_mae, 1)
+                if council_mae is not None
+                and council_mae > 0
+                and retained_errors
+                else None
+            ),
         }
 
     return lead_summary
@@ -352,28 +461,41 @@ def evaluate_hypotheses(summary: dict[str, Any]) -> list[dict[str, Any]]:
         }
     )
 
-    correlations = [
-        available(lead, "spread_error_correlation")
+    normalized_correlations = [
+        available(lead, "relative_spread_vs_normalized_error_correlation")
+        for lead in LEADS
+    ]
+    heavy_correlations = [
+        available(lead, "heavy_rain_relative_spread_vs_normalized_error_correlation")
         for lead in LEADS
     ]
     ratios = [
-        available(lead, "high_vs_low_error_ratio")
+        available(lead, "high_vs_low_normalized_error_ratio")
         for lead in LEADS
     ]
-    valid_corr = [value for value in correlations if value is not None]
+    abstention_gains = [
+        available(lead, "error_reduction_if_abstain_top_disagreement_quartile_pct")
+        for lead in LEADS
+    ]
+    valid_corr = [value for value in normalized_correlations if value is not None]
+    valid_heavy_corr = [value for value in heavy_correlations if value is not None]
     valid_ratios = [value for value in ratios if value is not None]
+    valid_abstention = [value for value in abstention_gains if value is not None]
     corr_score = mean(valid_corr) if valid_corr else None
+    heavy_corr_score = mean(valid_heavy_corr) if valid_heavy_corr else None
     ratio_score = mean(valid_ratios) if valid_ratios else None
+    abstention_score = mean(valid_abstention) if valid_abstention else None
     h2_supported = (
         corr_score is not None
         and ratio_score is not None
-        and corr_score >= 0.20
-        and ratio_score >= 1.20
+        and corr_score >= 0.10
+        and ratio_score >= 1.15
+        and (heavy_corr_score is None or heavy_corr_score >= 0.05)
     )
     hypotheses.append(
         {
             "id": "H2",
-            "claim": "Higher model disagreement predicts larger council forecast error.",
+            "claim": "Higher model disagreement predicts larger forecast error even after normalizing for rainfall magnitude.",
             "status": (
                 "supported"
                 if h2_supported
@@ -382,14 +504,18 @@ def evaluate_hypotheses(summary: dict[str, Any]) -> list[dict[str, Any]]:
                 else "insufficient"
             ),
             "effect": (
-                f"corr={corr_score:.2f}; high/low error ratio={ratio_score:.2f}x"
-                if corr_score is not None and ratio_score is not None
+                f"normalized corr={corr_score:.2f}; high/low normalized-error ratio={ratio_score:.2f}x; "
+                f"heavy-rain corr={heavy_corr_score:.2f}; abstention gain={abstention_score:.1f}%"
+                if corr_score is not None
+                and ratio_score is not None
+                and heavy_corr_score is not None
+                and abstention_score is not None
                 else None
             ),
             "product_update": (
-                "Use disagreement as an explicit confidence penalty."
+                "Use disagreement as an explicit confidence penalty and consider abstaining on the top disagreement quartile."
                 if h2_supported
-                else "Do not treat disagreement as a confidence penalty yet; keep it visible as context only."
+                else "Keep disagreement visible, but do not convert it into a confidence penalty yet."
             ),
         }
     )
@@ -419,6 +545,42 @@ def evaluate_hypotheses(summary: dict[str, Any]) -> list[dict[str, Any]]:
                 "Make forecast horizon a first-class confidence input."
                 if h3_supported
                 else "Do not apply a generic horizon penalty without more evidence."
+            ),
+        }
+    )
+
+    heavy_improvements = [
+        available(lead, "council_heavy_rain_improvement_pct")
+        for lead in LEADS
+    ]
+    valid_heavy_improvements = [
+        value for value in heavy_improvements if value is not None
+    ]
+    heavy_improvement = (
+        mean(valid_heavy_improvements) if valid_heavy_improvements else None
+    )
+    hypotheses.append(
+        {
+            "id": "H5",
+            "claim": "The council median remains useful on heavy-rain days, not only on easy dry days.",
+            "status": (
+                "supported"
+                if heavy_improvement is not None and heavy_improvement >= 2
+                else "not_supported"
+                if heavy_improvement is not None and heavy_improvement <= -2
+                else "mixed"
+                if heavy_improvement is not None
+                else "insufficient"
+            ),
+            "effect": (
+                f"{heavy_improvement:.1f}% heavy-rain error improvement"
+                if heavy_improvement is not None
+                else None
+            ),
+            "product_update": (
+                "Keep the council as the main heavy-rain summary."
+                if heavy_improvement is not None and heavy_improvement >= 2
+                else "On heavy-rain days, foreground individual models rather than the council median."
             ),
         }
     )
