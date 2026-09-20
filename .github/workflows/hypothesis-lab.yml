@@ -32,7 +32,7 @@ permissions:
 
 concurrency:
   group: "world-model-hypothesis-lab"
-  cancel-in-progress: false
+  cancel-in-progress: ${{ github.event_name == 'push' }}
 
 jobs:
   backtest:

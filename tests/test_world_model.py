@@ -544,6 +544,7 @@ def test_hypothesis_lab_reruns_weekly_instead_of_freezing_one_result() -> None:
     assert "run_hypothesis_lab.py" in workflow
     assert "hypothesis lab weekly backtest" in workflow
     assert 'group: "world-model-hypothesis-lab"' in workflow
+    assert "cancel-in-progress: ${{ github.event_name == 'push' }}" in workflow
 
 
 def test_next_hypotheses_focus_on_hydrology_and_persistence() -> None:
