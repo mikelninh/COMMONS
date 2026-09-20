@@ -92,7 +92,6 @@ def fetch_discharge(point: HydroPoint, start_date: str, end_date: str) -> dict[s
             "start_date": start_date,
             "end_date": end_date,
             "daily": "river_discharge",
-            "models": "glofas_consolidated_v4",
         },
     )
     return _series(payload, "river_discharge")
