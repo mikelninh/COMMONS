@@ -1237,7 +1237,7 @@ def test_morning_brief_surfaces_measured_research_frontier() -> None:
 
     assert "RESEARCH FRONTIER" in page
     assert "What reality changed our mind about" in page
-    assert 'const wanted=["H20","H21","H23","H24","H25"]' in js
+    assert 'const wanted=["H20","H21","H23","H24","H25","H27"]' in js
     assert "./world-model/hypothesis-report.json" in js
     assert "UNSUPPORTED" not in page
 
@@ -1394,5 +1394,15 @@ def test_impact_v0_runs_weekly_and_joins_morning_brief_context() -> None:
     assert "impact-report.json" in workflow
     assert 'impact_path = Path("public/world-model/impact-report.json")' in runner
     assert "--impact-report" in builder
+    assert "impact_context" in morning
+    assert "does not change ALERT" in morning
+
+
+def test_morning_brief_surfaces_impact_context_without_changing_rank() -> None:
+    js = Path("public/morning.js").read_text(encoding="utf-8")
+    morning = Path("src/commons/morning_brief.py").read_text(encoding="utf-8")
+
+    assert "health facilities nearby · context" in js
+    assert "consequential historical events nearby · context" in js
     assert "impact_context" in morning
     assert "does not change ALERT" in morning
