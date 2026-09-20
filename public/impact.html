@@ -2,81 +2,100 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f3f2ed">
-<meta name="description" content="COMMONS Impact — what could matter, who may be exposed, and what to check next.">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050706">
+<meta name="description" content="COMMONS Impact — a living view of what matters, who may be affected, and what to check next.">
 <title>COMMONS / IMPACT</title>
 <link rel="stylesheet" href="./impact.css">
 </head>
 <body>
 <header class="topbar">
-  <a class="brand" href="./impact.html">COMMONS / IMPACT</a>
-  <a class="back-link" href="./morning.html">Morning Brief →</a>
+  <a class="brand" href="./impact.html">COMMONS</a>
+  <div class="top-status" id="topStatus">CONNECTING TO THE WORLD</div>
+  <a class="brief-link" href="./morning.html">Morning Brief ↗</a>
 </header>
 
 <main>
-  <section class="hero">
-    <div class="eyebrow">BEYOND THE FORECAST</div>
-    <h1>What could actually matter today?</h1>
-    <p>Weather is only the start. See who may be nearby, what services could matter, and the next human checks.</p>
-
-    <div class="overview" id="overview">
-      <span class="overview-dot" id="overviewDot"></span>
-      <div>
-        <strong id="overviewTitle">Checking today’s situation…</strong>
-        <p id="overviewCopy">Connecting live hazards with consequence context.</p>
+  <section class="world-intro" id="world">
+    <div class="world-copy">
+      <div class="eyebrow">LIVE WORLD · IMPACT</div>
+      <h1 id="worldHeadline">See what matters.<br><span>Not just what happens.</span></h1>
+      <p id="worldSubhead">Weather is only the first layer. COMMONS connects the signal to people, critical systems, memory and action.</p>
+      <div class="world-summary" id="worldSummary">
+        <span class="summary-pulse"></span>
+        <div>
+          <strong id="worldSummaryTitle">Reading the world…</strong>
+          <small id="worldSummaryCopy">Connecting live conditions with consequence context.</small>
+        </div>
       </div>
     </div>
+
+    <div class="planet-stage" aria-label="Visual overview of monitored places">
+      <div class="orbit orbit-a"></div>
+      <div class="orbit orbit-b"></div>
+      <div class="planet-wrap">
+        <div class="planet-glow"></div>
+        <div class="planet">
+          <div class="planet-shade"></div>
+          <div class="planet-grid planet-grid-a"></div>
+          <div class="planet-grid planet-grid-b"></div>
+          <div class="land land-a"></div>
+          <div class="land land-b"></div>
+          <div class="land land-c"></div>
+          <div class="planet-pins" id="planetPins"></div>
+        </div>
+      </div>
+      <div class="planet-caption">
+        <span>3 VALIDATED PLACES</span>
+        <span id="planetUpdated">LIVE</span>
+      </div>
+    </div>
+
+    <a class="scroll-cue" href="#stories"><span></span>Enter the world</a>
   </section>
 
-  <section class="places">
-    <div class="section-intro">
-      <span>PLACES</span>
-      <h2>Start with the situation, not the data.</h2>
+  <section class="stories" id="stories">
+    <div class="stories-intro">
+      <span>THREE PLACES · ONE QUESTION</span>
+      <h2>What could this mean for real life?</h2>
+      <p>Scroll through each place. The visual field changes with the live signal and consequence context.</p>
     </div>
-    <div class="profiles" id="profiles"></div>
+    <div id="storyChapters"></div>
   </section>
 
-  <section class="your-checks hidden" id="yourChecks">
-    <div class="section-intro">
-      <span>YOUR CHECKS · THIS DEVICE</span>
-      <h2>What you already decided.</h2>
-    </div>
+  <section class="action-memory hidden" id="actionMemory">
+    <div class="section-kicker">YOUR MEMORY · THIS DEVICE</div>
+    <h2>What you already checked.</h2>
     <div class="action-log" id="actionLog"></div>
   </section>
 
-  <details class="research-note">
-    <summary>
-      <div>
-        <span>TRUST</span>
-        <strong>How trustworthy is this?</strong>
-      </div>
-      <span class="summary-arrow">+</span>
-    </summary>
-    <div class="research-body">
-      <p id="trustSummary">Loading the evidence status…</p>
-      <div class="trust-grid">
-        <div>
-          <span>IMPACT EVIDENCE</span>
-          <b id="h27Status">Loading</b>
-        </div>
-        <div>
-          <span>HISTORICAL CONSEQUENCE COVERAGE</span>
-          <b id="sourceHealth">Loading</b>
-        </div>
-        <div>
-          <span>LIVE HAZARD</span>
-          <b id="briefHealth">Loading</b>
-        </div>
-      </div>
-      <div class="trust-list" id="trustList"></div>
-      <a class="research-link" href="./world-model.html">See the research machinery →</a>
+  <section class="trust-stage">
+    <div class="trust-visual">
+      <div class="trust-ring trust-ring-a"></div>
+      <div class="trust-ring trust-ring-b"></div>
+      <div class="trust-core">?</div>
     </div>
-  </details>
+    <div class="trust-copy">
+      <span>TRUST</span>
+      <h2>Beautiful is not enough.<br>It has to know what it does not know.</h2>
+      <p id="trustSummary">Loading the evidence boundary…</p>
+      <details class="trust-details">
+        <summary>Show the evidence boundary <b>+</b></summary>
+        <div class="trust-grid">
+          <div><span>IMPACT EVIDENCE</span><strong id="h27Status">Loading</strong></div>
+          <div><span>CONSEQUENCE LABELS</span><strong id="sourceHealth">Loading</strong></div>
+          <div><span>LIVE HAZARD</span><strong id="briefHealth">Loading</strong></div>
+        </div>
+        <div class="trust-list" id="trustList"></div>
+        <a href="./world-model.html">Open research machinery ↗</a>
+      </details>
+    </div>
+  </section>
 </main>
 
 <footer>
-  <span>COMMONS · research prototype · human decisions stay human.</span>
+  <span>COMMONS · research prototype</span>
+  <span>Human decisions stay human.</span>
 </footer>
 
 <script src="./impact.js"></script>
