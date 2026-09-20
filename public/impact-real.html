@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#020504">
+<title>COMMONS / MANILA</title>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.10.0/dist/maplibre-gl.css">
+<link rel="stylesheet" href="./impact-real.css">
+</head>
+<body>
+<div id="map" aria-label="Live geospatial view of Manila"></div>
+<div class="map-shade"></div>
+
+<header class="hud">
+  <a class="brand" href="./impact-real.html">COMMONS</a>
+  <div class="hud-center" id="hudStatus">LIVE WORLD · MANILA</div>
+  <a class="hud-link" href="./impact.html">Impact research ↗</a>
+</header>
+
+<main>
+  <section class="scene intro" data-scene="world">
+    <div class="scene-copy intro-copy">
+      <span>PLANETARY STORY MODE</span>
+      <h1>The world is not a dashboard.</h1>
+      <p>Move through one real place. Geography first. Then weather, people, systems, memory and what comes next.</p>
+      <a class="enter" href="#manila">Enter Manila ↓</a>
+    </div>
+  </section>
+
+  <section class="scene" id="manila" data-scene="manila">
+    <div class="scene-copy">
+      <span>01 · PLACE</span>
+      <h2>Manila.</h2>
+      <p class="big" id="manilaState">Reading today’s signal…</p>
+      <p id="manilaStateCopy">COMMONS is connecting the live rainfall signal to the city.</p>
+    </div>
+  </section>
+
+  <section class="scene" data-scene="rain">
+    <div class="scene-copy">
+      <span>02 · WEATHER</span>
+      <h2>Watch the rain move.</h2>
+      <p>The field beneath you is sampled from a real Open‑Meteo forecast grid around Metro Manila.</p>
+      <div class="time-box">
+        <div>
+          <small>TIME</small>
+          <strong id="timeLabel">Loading forecast…</strong>
+        </div>
+        <div>
+          <small>PEAK GRID CELL</small>
+          <strong id="rainPeak">—</strong>
+        </div>
+      </div>
+      <input id="timeSlider" class="time-slider" type="range" min="0" max="1" value="0" step="1" disabled>
+      <div class="time-scale"><span>−24H</span><span>NOW</span><span>+72H</span></div>
+    </div>
+  </section>
+
+  <section class="scene" data-scene="people">
+    <div class="scene-copy">
+      <span>03 · PEOPLE</span>
+      <h2 id="populationHeadline">Millions live inside this wider area.</h2>
+      <p id="populationCopy">The circle is the same real radius used by COMMONS’ WorldPop exposure context. It is not an impact footprint.</p>
+    </div>
+  </section>
+
+  <section class="scene" data-scene="systems">
+    <div class="scene-copy">
+      <span>04 · SYSTEMS</span>
+      <h2>What keeps the city working?</h2>
+      <p>Hospitals, clinics, bridges and power substations are pulled from OpenStreetMap around Manila and placed where they actually are.</p>
+      <div class="mini-stats">
+        <div><small>HEALTH</small><strong id="healthCount">—</strong></div>
+        <div><small>BRIDGES</small><strong id="bridgeCount">—</strong></div>
+        <div><small>POWER</small><strong id="powerCount">—</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene" data-scene="memory">
+    <div class="scene-copy">
+      <span>05 · MEMORY</span>
+      <h2>This place has a past.</h2>
+      <p id="historyCopy">Loading nearby historical flood and cyclone events from GDACS…</p>
+      <div class="memory-list" id="memoryList"></div>
+    </div>
+  </section>
+
+  <section class="scene" data-scene="future">
+    <div class="scene-copy">
+      <span>06 · NEXT</span>
+      <h2>Past → now → next 72 hours.</h2>
+      <p>The point is not to predict perfectly. It is to know what deserves attention, what could matter, and what a human should check next.</p>
+      <details class="next-checks">
+        <summary>If this changes, what should we check? <b>+</b></summary>
+        <div id="actionList"></div>
+      </details>
+    </div>
+  </section>
+
+  <section class="scene final" data-scene="trust">
+    <div class="scene-copy">
+      <span>07 · TRUST</span>
+      <h2>Reality is the judge.</h2>
+      <p>Rainfall is real forecast data. Infrastructure is real OpenStreetMap data. Historical events come from GDACS. Population is context, not predicted harm.</p>
+      <div class="source-grid" id="sourceGrid">
+        <div><small>MAP</small><strong>OpenStreetMap</strong></div>
+        <div><small>RAIN</small><strong>Open‑Meteo</strong></div>
+        <div><small>SYSTEMS</small><strong>OSM / Overpass</strong></div>
+        <div><small>MEMORY</small><strong>GDACS</strong></div>
+      </div>
+      <a class="return-link" href="./morning.html">Return to Morning Brief ↗</a>
+    </div>
+  </section>
+</main>
+
+<div class="layer-status">
+  <span id="weatherLayerStatus">RAIN · CONNECTING</span>
+  <span id="infraLayerStatus">SYSTEMS · CONNECTING</span>
+  <span id="historyLayerStatus">MEMORY · CONNECTING</span>
+</div>
+
+<script type="module" src="./impact-real.js"></script>
+</body>
+</html>
