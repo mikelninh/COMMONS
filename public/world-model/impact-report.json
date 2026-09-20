@@ -1,0 +1,239 @@
+{
+  "schema_version": "0.1",
+  "product": "COMMONS Impact v0",
+  "generated_at": "2026-09-20T22:12:53.414116Z",
+  "period": {
+    "start": "2024-09-20",
+    "end": "2026-09-20"
+  },
+  "benchmark_period": {
+    "start": "2023-01-01",
+    "end": "2025-12-31"
+  },
+  "principle": "Hazard, exposure, infrastructure and historical consequence stay visible as separate components. No opaque production risk score.",
+  "source_health": {
+    "gdacs_profile_events": 100,
+    "gdacs_benchmark_events": 300,
+    "emdat_labels": 20,
+    "emdat_coverage": 0.0667,
+    "profiles": 3,
+    "notes": [
+      "One infrastructure source timed out for Manila in this run; unavailable context remains blank rather than inferred."
+    ]
+  },
+  "profiles": [
+    {
+      "point_id": "nuwakot",
+      "name": "Nuwakot",
+      "country": "Nepal",
+      "components": {
+        "hazard": {
+          "role": "provided live by Morning Brief",
+          "note": "Impact v0 does not replace the validated hazard gate."
+        },
+        "exposure": {
+          "population_within_radius": 376264,
+          "radius_km": 20,
+          "source": "WorldPop",
+          "role": "context_only"
+        },
+        "infrastructure": {
+          "health_facilities": 13,
+          "schools": 465,
+          "power_substations": 8,
+          "bridges": 176,
+          "major_road_segments": 52,
+          "radius_km": 20,
+          "source": "OpenStreetMap via Overpass API",
+          "role": "context_only"
+        },
+        "historical_consequence": {
+          "nearby_events": 1,
+          "consequential_events": 1,
+          "examples": [
+            {
+              "event_type": "FL",
+              "alert_level": "red",
+              "name": "Flood in Nepal",
+              "start_date": "2026-08-26",
+              "distance_km": 75,
+              "label_source": "EM-DAT via GDACS"
+            }
+          ],
+          "source": "GDACS + EM-DAT where available",
+          "role": "context_only"
+        }
+      },
+      "action_options": [
+        {
+          "id": "verify-local",
+          "label": "Verify local authority warnings",
+          "why": "COMMONS is research guidance, not an emergency authority.",
+          "authority": "human"
+        },
+        {
+          "id": "check-access",
+          "label": "Check critical access and services",
+          "why": "Nearby health, road, bridge or power assets can turn weather into disruption.",
+          "authority": "human"
+        },
+        {
+          "id": "review-exposure",
+          "label": "Review who may be exposed",
+          "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
+          "authority": "human"
+        },
+        {
+          "id": "review-precedent",
+          "label": "Review nearby historical consequences",
+          "why": "Past events in the area provide precedent for what failed or mattered.",
+          "authority": "human"
+        }
+      ]
+    },
+    {
+      "point_id": "manila",
+      "name": "Manila",
+      "country": "Philippines",
+      "components": {
+        "hazard": {
+          "role": "provided live by Morning Brief",
+          "note": "Impact v0 does not replace the validated hazard gate."
+        },
+        "exposure": {
+          "population_within_radius": 17105184,
+          "radius_km": 20,
+          "source": "WorldPop",
+          "role": "context_only"
+        },
+        "infrastructure": null,
+        "historical_consequence": {
+          "nearby_events": 1,
+          "consequential_events": 0,
+          "examples": [],
+          "source": "GDACS + EM-DAT where available",
+          "role": "context_only"
+        }
+      },
+      "action_options": [
+        {
+          "id": "verify-local",
+          "label": "Verify local authority warnings",
+          "why": "COMMONS is research guidance, not an emergency authority.",
+          "authority": "human"
+        },
+        {
+          "id": "review-exposure",
+          "label": "Review who may be exposed",
+          "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
+          "authority": "human"
+        }
+      ]
+    },
+    {
+      "point_id": "delhi",
+      "name": "Delhi",
+      "country": "India",
+      "components": {
+        "hazard": {
+          "role": "provided live by Morning Brief",
+          "note": "Impact v0 does not replace the validated hazard gate."
+        },
+        "exposure": {
+          "population_within_radius": 27159668,
+          "radius_km": 20,
+          "source": "WorldPop",
+          "role": "context_only"
+        },
+        "infrastructure": {
+          "health_facilities": 1293,
+          "schools": 1183,
+          "power_substations": 295,
+          "bridges": 3508,
+          "major_road_segments": 2464,
+          "radius_km": 20,
+          "source": "OpenStreetMap via Overpass API",
+          "role": "context_only"
+        },
+        "historical_consequence": {
+          "nearby_events": 0,
+          "consequential_events": 0,
+          "examples": [],
+          "source": "GDACS + EM-DAT where available",
+          "role": "context_only"
+        }
+      },
+      "action_options": [
+        {
+          "id": "verify-local",
+          "label": "Verify local authority warnings",
+          "why": "COMMONS is research guidance, not an emergency authority.",
+          "authority": "human"
+        },
+        {
+          "id": "check-access",
+          "label": "Check critical access and services",
+          "why": "Nearby health, road, bridge or power assets can turn weather into disruption.",
+          "authority": "human"
+        },
+        {
+          "id": "review-exposure",
+          "label": "Review who may be exposed",
+          "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
+          "authority": "human"
+        }
+      ]
+    }
+  ],
+  "benchmark": {
+    "development_rows": 13,
+    "test_rows": 7,
+    "test_consequential_events": 7,
+    "selected_ordering": "hazard_population_rank",
+    "feature_coverage": 0,
+    "hazard_only": {
+      "average_precision": 1,
+      "top20_recall": 0.2857
+    },
+    "impact_aware": {
+      "average_precision": null,
+      "top20_recall": null
+    },
+    "comparison": {
+      "average_precision_gain": null,
+      "top20_recall_gain": null
+    },
+    "hypothesis": {
+      "id": "H27",
+      "claim": "Explicit hazard + exposure + vulnerability components rank historically consequential flood/cyclone events better than hazard severity alone.",
+      "status": "insufficient",
+      "effect": "selected hazard_population_rank; test n=7; feature coverage 0.0; AP gain None; top20 recall gain None",
+      "product_update": "Impact labels or component coverage are not sufficient yet; keep Impact v0 context-only."
+    }
+  },
+  "trust_contract": [
+    "Population near a point is not the number of people impacted.",
+    "Infrastructure counts indicate nearby assets, not damage or service failure.",
+    "Historical consequences are precedent, not a forecast of future harm.",
+    "Impact components do not change ALERT unless impact-labelled validation supports it.",
+    "All action options require human authorization."
+  ],
+  "sources": [
+    {
+      "name": "GDACS",
+      "role": "historical disaster events"
+    },
+    {
+      "name": "EM-DAT via GDACS API",
+      "role": "historical consequence labels when available"
+    },
+    {
+      "name": "WorldPop",
+      "role": "population exposure context"
+    },
+    {
+      "name": "OpenStreetMap / Overpass",
+      "role": "nearby critical infrastructure context"
+    }
+  ]
+}
