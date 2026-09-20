@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1",
+  "generated_at": null,
+  "mode": "research",
+  "product": "COMMONS World Model v0",
+  "status": "waiting_for_first_live_snapshot",
+  "source_contract": {
+    "forecast": "ECMWF IFS + NOAA GFS + DWD ICON via Open-Meteo",
+    "memory": "ERA5 reanalysis via Open-Meteo",
+    "flood": "GloFAS v4 via Open-Meteo",
+    "licensing_note": "Research seed only. Live data appear after the scheduled snapshot workflow succeeds."
+  },
+  "loops": []
+}
