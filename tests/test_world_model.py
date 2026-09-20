@@ -224,15 +224,19 @@ def test_seed_state_never_fabricates_live_weather() -> None:
     assert seed["loops"] == []
 
 
-def test_world_model_public_surface_explains_limits_and_learning_loop() -> None:
+def test_world_model_public_surface_is_story_first_and_truth_preserving() -> None:
     page = Path("public/world-model.html").read_text(encoding="utf-8")
     js = Path("public/world-model.js").read_text(encoding="utf-8")
 
-    assert "Forecast what may happen." in page
-    assert "Models may disagree. COMMONS must show that." in page
-    assert "Not a probability" in page
-    assert "History is not destiny" in page
-    assert "Backtest everything" in page
+    assert "Something is changing." in page
+    assert "Three models." in page
+    assert "Has the sky looked like this before?" in page
+    assert "The gap is the clue." in page
+    assert "What did we believe" in page
+    assert "Inspect the machine." in page
+    assert "Not a probability." in page
+    assert "History is not destiny." in page
+    assert "Backtest everything." in page
     assert "COMMONS should remember its own predictions." in page
     assert "NOT YET FOR SALE" in page
     assert "raw.githubusercontent.com/mikelninh/COMMONS/world-model-data/data/world-model/latest.json" in js
@@ -332,3 +336,72 @@ def test_live_data_plane_is_independent_from_pages_deploys() -> None:
     assert "world-model-data/data/world-model/latest.json" in js
     assert 'group: "pages"' in pages
     assert 'group: "world-model-snapshot"' in workflow
+
+
+def test_world_model_experience_has_five_visual_scenes_and_lab_mode() -> None:
+    page = Path("public/world-model.html").read_text(encoding="utf-8")
+    styles = Path("public/world-model.css").read_text(encoding="utf-8")
+    js = Path("public/world-model.js").read_text(encoding="utf-8")
+
+    for index in range(5):
+        assert f'data-scene="{index}"' in page
+
+    assert 'id="storyModeBtn"' in page
+    assert 'id="labModeBtn"' in page
+    assert 'id="openLabBtn"' in page
+    assert 'id="replaySlider"' in page
+
+    assert ".world-orb" in styles
+    assert ".radial-meter" in styles
+    assert ".council-bars" in styles
+    assert ".memory-line" in styles
+    assert ".tension-visual" in styles
+    assert ".replay-stage" in styles
+
+    assert "function renderSignal" in js
+    assert "function renderCouncilVisual" in js
+    assert "function renderMemoryVisual" in js
+    assert "function renderReplayFrame" in js
+    assert "function setMode" in js
+
+
+def test_replay_builder_extracts_real_archived_world_model_frames(tmp_path) -> None:
+    from scripts.build_world_model_replay import build_replay
+
+    snapshots = tmp_path / "snapshots"
+    snapshots.mkdir()
+    client = FakeClient()
+    first = build_snapshot(
+        client,
+        now=datetime(2026, 9, 20, 0, tzinfo=timezone.utc),
+    )
+    second = build_snapshot(
+        client,
+        now=datetime(2026, 9, 20, 6, tzinfo=timezone.utc),
+    )
+    (snapshots / "a.json").write_text(json.dumps(first), encoding="utf-8")
+    (snapshots / "b.json").write_text(json.dumps(second), encoding="utf-8")
+
+    replay = build_replay(snapshots, limit=48)
+
+    assert replay["loop_id"] == "water-rises"
+    assert replay["frame_count"] == 2
+    assert len(replay["frames"][0]["members"]) == 3
+    assert "historical_percentile" in replay["frames"][0]["flood_signal"]
+
+
+def test_snapshot_workflow_publishes_replay_file() -> None:
+    workflow = Path(".github/workflows/world-model.yml").read_text(encoding="utf-8")
+
+    assert "build_world_model_replay.py" in workflow
+    assert "data/world-model/replay.json" in workflow
+    assert "--limit 48" in workflow
+
+
+def test_replay_ui_reads_independent_data_plane_and_falls_back_gracefully() -> None:
+    js = Path("public/world-model.js").read_text(encoding="utf-8")
+
+    assert "world-model-data/data/world-model/replay.json" in js
+    assert "return [];" in js
+    assert "replayFrames=[{" in js
+    assert "first archived frame" in js
