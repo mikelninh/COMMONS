@@ -55,6 +55,10 @@ async function loadLedger(){
   try{return await getJson(live)}
   catch(error){return null}
 }
+async function loadResearch(){
+  try{return await getJson("./world-model/hypothesis-report.json")}
+  catch(error){return null}
+}
 function revisionText(revision){
   if(!revision||revision.models_compared<2)return "revision history collecting";
   if(revision.direction==="up")return revision.supporting_models+"/"+revision.models_compared+" models revised rain upward";
@@ -124,6 +128,25 @@ function renderLens(monitors){
   ).join("");
   bindLensButtons();
 }
+function renderResearch(report){
+  const wanted=["H20","H21","H23"];
+  const byId=new Map((report?.hypotheses||[]).map(item=>[item.id,item]));
+  const items=wanted.map(id=>byId.get(id)).filter(Boolean);
+  if(!items.length){
+    $("researchGrid").innerHTML='<div class="research-empty">The next research result has not landed yet.</div>';
+    return;
+  }
+  $("researchGrid").innerHTML=items.map(item=>{
+    const status=String(item.status||"insufficient");
+    const update=item.update||item.product_update||"No product rule update.";
+    return '<article class="research-card '+status+'">'+
+      '<div class="research-card-top"><span>'+item.id+'</span><b>'+status.replaceAll("_"," ").toUpperCase()+'</b></div>'+
+      '<h3>'+item.claim+'</h3>'+
+      '<p class="research-effect">'+(item.effect||"No measured effect yet.")+'</p>'+
+      '<p class="research-update">'+update+'</p>'+
+    '</article>';
+  }).join("");
+}
 function renderLearning(ledger){
   const summary=ledger?.summary||{};
   $("verifiedCalls").textContent=summary.verified??0;
@@ -175,9 +198,10 @@ function render(brief){
 }
 async function init(){
   try{
-    const [brief,ledger]=await Promise.all([loadBrief(),loadLedger()]);
+    const [brief,ledger,research]=await Promise.all([loadBrief(),loadLedger(),loadResearch()]);
     render(brief);
     renderLearning(ledger);
+    renderResearch(research);
   }
   catch(error){
     $("briefHeadline").textContent="Morning Brief could not load.";

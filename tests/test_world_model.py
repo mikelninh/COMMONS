@@ -1229,3 +1229,14 @@ def test_h23_failure_taxonomy_distinguishes_model_spatial_and_consensus_blind() 
     assert '"consensus_blind"' in source
     assert '"low_absolute_gate_misses"' in source
     assert '"extreme_observed_misses"' in source
+
+
+def test_morning_brief_surfaces_measured_research_frontier() -> None:
+    page = Path("public/morning.html").read_text(encoding="utf-8")
+    js = Path("public/morning.js").read_text(encoding="utf-8")
+
+    assert "RESEARCH FRONTIER" in page
+    assert "What reality changed our mind about" in page
+    assert 'const wanted=["H20","H21","H23"]' in js
+    assert "./world-model/hypothesis-report.json" in js
+    assert "UNSUPPORTED" not in page

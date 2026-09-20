@@ -92,3 +92,17 @@ footer{display:flex;justify-content:space-between;gap:24px;padding:24px 28px;bor
 .queue-item.pinned{box-shadow:inset 3px 0 0 rgba(185,255,106,.45)}
 .lens-remove:hover,.lens-pin:hover{color:var(--text)}
 @media(min-width:801px){.queue-item{grid-template-columns:48px 1fr auto auto}}
+
+.research-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.research-card,.research-empty{border:1px solid var(--line);border-radius:20px;padding:20px;background:var(--panel)}
+.research-card.supported{border-color:rgba(185,255,106,.25)}
+.research-card.not_supported{border-color:rgba(255,136,120,.22)}
+.research-card.insufficient{border-color:rgba(255,215,109,.18)}
+.research-card-top{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.research-card-top span{font-size:10px;letter-spacing:.14em;color:var(--green)}
+.research-card-top b{font-size:9px;letter-spacing:.12em;color:var(--muted)}
+.research-card h3{font-size:17px;line-height:1.35;margin:14px 0 0}
+.research-effect{font-size:13px;color:var(--soft);line-height:1.45;margin:14px 0 0}
+.research-update{font-size:12px;color:var(--muted);line-height:1.5;border-top:1px solid var(--line);padding-top:12px;margin:14px 0 0}
+.research-empty{color:var(--muted);font-size:13px}
+@media(max-width:800px){.research-grid{grid-template-columns:1fr}}
