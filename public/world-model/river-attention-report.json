@@ -1,0 +1,43 @@
+{
+  "schema_version": "0.1",
+  "period": {
+    "start": "2019-01-01",
+    "end": "2022-07-31"
+  },
+  "future_window_days": 3,
+  "verification": "future GloFAS discharge",
+  "source_errors": 0,
+  "points": [
+    {
+      "point": "nuwakot",
+      "name": "Nuwakot",
+      "auc_gain": -0.0093,
+      "precision_gain_pct": -28.8
+    },
+    {
+      "point": "warsaw",
+      "name": "Warsaw",
+      "auc_gain": -0.0266,
+      "precision_gain_pct": -31.6
+    },
+    {
+      "point": "niamey",
+      "name": "Niamey",
+      "auc_gain": -0.1721,
+      "precision_gain_pct": -25
+    }
+  ],
+  "hypothesis": {
+    "id": "H10",
+    "claim": "Current river percentile plus recent trajectory improves detection of an extreme next three days versus current percentile alone.",
+    "status": "not_supported",
+    "mean_auc_gain": -0.0693,
+    "mean_precision_gain_pct": -28.5,
+    "product_update": "Keep current river percentile as the primary river-state feature."
+  },
+  "limitations": [
+    "The target is modelled GloFAS discharge, not observed damage or a local gauge.",
+    "The trajectory score used fixed heuristic weights.",
+    "Performance may vary by basin."
+  ]
+}

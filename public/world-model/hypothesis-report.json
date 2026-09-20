@@ -62,7 +62,13 @@
         "auc_gain": -0.0045,
         "precision_gain_pct": -7.6
       }
-    }
+    },
+    "h8_persistent_direction_accuracy_pct": 96.2,
+    "h8_persistent_error_improvement_pct": 72.7,
+    "h9_majority_direction_accuracy_pct": 70.6,
+    "h9_majority_error_improvement_pct": 65.1,
+    "h10_mean_auc_gain": -0.0693,
+    "h10_mean_precision_gain_pct": -28.5
   },
   "hypotheses": [
     {
@@ -106,6 +112,27 @@
       "status": "mixed",
       "effect": "horizon is supported; disagreement penalty is not",
       "update": "Confidence v0.2 = source health + empirically measured horizon skill. Show disagreement separately."
+    },
+    {
+      "id": "H8",
+      "claim": "A revision sustained across multiple lead checkpoints is more useful than a one-off late jump.",
+      "status": "supported",
+      "effect": "persistent direction 96.2%, improvement 72.7%; one-off direction 81.0%, improvement 56.7%",
+      "update": "Promote sustained multi-checkpoint revisions as a material-change signal."
+    },
+    {
+      "id": "H9",
+      "claim": "When at least 2 of 3 models revise in the same direction, that direction is useful for what-changed alerts.",
+      "status": "supported",
+      "effect": "direction accuracy 70.6%; next-checkpoint error improved 65.1%",
+      "update": "Surface 2/3 models revised upward/downward as a directional change signal."
+    },
+    {
+      "id": "H10",
+      "claim": "Current river percentile plus recent trajectory improves detection of an extreme next three days versus current percentile alone.",
+      "status": "not_supported",
+      "effect": "mean AUC gain −0.0693; mean precision gain −28.5%",
+      "update": "Keep current river percentile as the primary river-state feature."
     }
   ],
   "limitations": [
@@ -114,7 +141,9 @@
     "This tests precipitation forecast skill, not human flood impact.",
     "Operational model versions change over time.",
     "603 samples are not 603 independent events; dates and locations are correlated.",
-    "H6 aggregate averages hide strong basin-to-basin heterogeneity; no global wetness rule is justified."
+    "H6 aggregate averages hide strong basin-to-basin heterogeneity; no global wetness rule is justified.",
+    "H8/H9 use 5-day, 3-day and 1-day lead checkpoints, not consecutive six-hour live runs.",
+    "H10 river trajectory used fixed heuristic weights and performed worse than current percentile alone in the three tested basins."
   ],
   "next_hypotheses": [
     {
@@ -125,48 +154,48 @@
         "surrounding grid",
         "GloFAS discharge"
       ],
-      "test": "Compare point rainfall vs spatially averaged rainfall."
-    },
-    {
-      "id": "H8",
-      "claim": "A forecast revision sustained across multiple runs is more useful than a one-run jump.",
-      "signals": [
-        "6-hour archived snapshots",
-        "forecast deltas",
-        "later verification"
-      ],
-      "test": "Compare one-run changes with 2- and 3-run persistent changes."
-    },
-    {
-      "id": "H9",
-      "claim": "Direction agreement is more useful than raw spread.",
-      "signals": [
-        "model revision direction",
-        "later ERA5 precipitation"
-      ],
-      "test": "Compare 2/3 models revising upward with raw disagreement magnitude."
-    },
-    {
-      "id": "H10",
-      "claim": "River percentile plus antecedent wetness can produce a low-false-alarm attention rule.",
-      "signals": [
-        "river percentile",
-        "soil moisture",
-        "antecedent rain",
-        "later discharge"
-      ],
-      "test": "Optimize precision, miss rate and lead time without using human impact labels."
+      "test": "Compare point rainfall with spatially averaged upstream rainfall."
     },
     {
       "id": "H11",
-      "claim": "We can predict where catchment wetness is useful enough to include in the attention model.",
+      "claim": "We can predict which basins benefit from antecedent-wetness features.",
       "signals": [
         "basin climate",
-        "soil moisture skill",
-        "antecedent-rain skill",
+        "wetness skill",
         "river-response lag"
       ],
-      "test": "Cluster basins by regime and validate wetness features out-of-sample."
+      "test": "Cluster basin regimes and validate wetness features out-of-sample."
+    },
+    {
+      "id": "H12",
+      "claim": "A material-change rule can beat fixed hazard thresholds on useful-alert precision.",
+      "signals": [
+        "validated revisions",
+        "river percentile",
+        "horizon skill"
+      ],
+      "test": "Compare rule precision, miss rate and lead time against fixed percentile alerts."
+    },
+    {
+      "id": "H13",
+      "claim": "Adding exposure changes which physical hazards deserve human attention first.",
+      "signals": [
+        "population",
+        "settlements",
+        "critical infrastructure",
+        "hazard state"
+      ],
+      "test": "Compare hazard-only ranking with exposure-aware ranking against historical impact records."
+    },
+    {
+      "id": "H14",
+      "claim": "Official warning changes provide a useful external benchmark for COMMONS attention changes.",
+      "signals": [
+        "official warnings",
+        "COMMONS change signals",
+        "timing"
+      ],
+      "test": "Measure agreement, earlier/later detection and false alarms without treating official warnings as perfect ground truth."
     }
   ]
 }

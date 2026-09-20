@@ -238,6 +238,65 @@ function renderLoops(catalog,snapshot){
   }).join("");
 }
 
+function revisionDirectionBetween(previous,current,threshold=.5){
+  if(!previous||!current)return {direction:0,count:0,total:0,deltas:{}};
+  const prevMap=new Map((previous.members||[]).map(item=>[item.provider,item]));
+  const deltas={};
+  let up=0;
+  let down=0;
+  let total=0;
+  for(const member of current.members||[]){
+    const prior=prevMap.get(member.provider);
+    if(!prior)continue;
+    const delta=Number(member.precip_72h_mm)-Number(prior.precip_72h_mm);
+    if(!Number.isFinite(delta))continue;
+    deltas[member.provider]=delta;
+    total+=1;
+    if(delta>threshold)up+=1;
+    if(delta<-threshold)down+=1;
+  }
+  const direction=up>=2?1:down>=2?-1:0;
+  return {direction,count:Math.max(up,down),total,deltas};
+}
+
+function renderLiveRevisionSignal(frames){
+  const el=$("liveRevisionSignal");
+  if(!el)return;
+  if(!frames||frames.length<2){
+    el.querySelector("strong").textContent="Collecting model revisions…";
+    el.querySelector("small").textContent="We need at least two archived snapshots.";
+    el.dataset.state="collecting";
+    return;
+  }
+
+  const latest=frames[frames.length-1];
+  const previous=frames[frames.length-2];
+  const current=revisionDirectionBetween(previous,latest);
+  let sustained=false;
+
+  if(frames.length>=3&&current.direction!==0){
+    const prior=revisionDirectionBetween(frames[frames.length-3],previous);
+    sustained=prior.direction===current.direction;
+  }
+
+  if(current.direction===0){
+    el.querySelector("strong").textContent="No shared revision direction.";
+    el.querySelector("small").textContent="Raw disagreement remains visible context, not a confidence penalty.";
+    el.dataset.state="neutral";
+    return;
+  }
+
+  const word=current.direction>0?"upward":"downward";
+  const arrow=current.direction>0?"↑":"↓";
+  el.querySelector("strong").textContent=
+    arrow+" "+current.count+"/"+current.total+" models revised rainfall "+word+
+    (sustained?" · repeated":"");
+  el.querySelector("small").textContent=sustained
+    ? "Same-direction revision across two live snapshot transitions. Historical lead-checkpoint persistence was useful; six-hour persistence is still being evaluated."
+    : "Historical lead-checkpoint direction agreement was useful. This live six-hour change remains observational.";
+  el.dataset.state=current.direction>0?"up":"down";
+}
+
 function frameRain(frame){
   return Number(frame?.consensus?.precip_72h_mm_median);
 }
@@ -549,6 +608,7 @@ async function init(){
   renderCouncilVisual(currentPilot);
   renderMemoryVisual(currentPilot);
   renderReplay(frames,currentPilot);
+  renderLiveRevisionSignal(frames);
   renderLabCouncil(currentPilot);
   renderLabMemory(currentPilot);
   renderLabFlood(currentPilot);

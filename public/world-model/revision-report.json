@@ -1,0 +1,45 @@
+{
+  "schema_version": "0.1",
+  "period": {
+    "start": "2026-07-01",
+    "end": "2026-09-05"
+  },
+  "points": [
+    "nuwakot",
+    "manila",
+    "delhi"
+  ],
+  "verification": "ERA5 daily precipitation",
+  "meaningful_revision_threshold_mm": 1,
+  "source_errors": 1,
+  "summary": {
+    "paths": 201,
+    "persistent_direction_accuracy": 0.962,
+    "persistent_error_improvement_rate": 0.727,
+    "one_off_direction_accuracy": 0.81,
+    "one_off_error_improvement_rate": 0.567,
+    "majority_direction_accuracy": 0.706,
+    "majority_error_improvement_rate": 0.651
+  },
+  "hypotheses": [
+    {
+      "id": "H8",
+      "claim": "A revision sustained across multiple lead checkpoints is more useful than a one-off late jump.",
+      "status": "supported",
+      "effect": "persistent direction 96.2%, improvement 72.7%; one-off direction 81.0%, improvement 56.7%",
+      "product_update": "Promote sustained multi-checkpoint revisions as a material-change signal."
+    },
+    {
+      "id": "H9",
+      "claim": "When at least 2 of 3 models revise in the same direction, that direction is useful for what-changed alerts.",
+      "status": "supported",
+      "effect": "direction accuracy 70.6%; next-checkpoint error improved 65.1%",
+      "product_update": "Surface 2/3 models revised upward/downward as a directional change signal."
+    }
+  ],
+  "limitations": [
+    "Lead-5, lead-3 and lead-1 checkpoints are proxies for persistent revision, not consecutive six-hour runs.",
+    "ERA5 is reanalysis rather than a local rain gauge.",
+    "A useful precipitation revision signal is not automatically a useful flood-impact alert."
+  ]
+}

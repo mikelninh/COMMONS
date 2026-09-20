@@ -534,7 +534,7 @@ def test_next_hypotheses_focus_on_hydrology_and_persistence() -> None:
     )
     ids = {item["id"] for item in report["next_hypotheses"]}
 
-    assert {"H7", "H8", "H9", "H10", "H11"} <= ids
+    assert {"H7", "H11", "H12", "H13", "H14"} <= ids
     assert "H6" not in ids
     h11 = next(item for item in report["next_hypotheses"] if item["id"] == "H11")
     assert any("basin" in signal.lower() for signal in h11["signals"])
@@ -573,3 +573,72 @@ def test_council_ui_does_not_present_disagreement_as_confidence() -> None:
     page = Path("public/world-model.html").read_text(encoding="utf-8")
 
     assert "visible context · not a confidence score" in page
+
+
+def test_revision_hypotheses_are_promoted_and_river_momentum_is_rejected() -> None:
+    report = json.loads(
+        Path("public/world-model/hypothesis-report.json").read_text(encoding="utf-8")
+    )
+    by_id = {item["id"]: item for item in report["hypotheses"]}
+
+    assert by_id["H8"]["status"] == "supported"
+    assert by_id["H9"]["status"] == "supported"
+    assert by_id["H10"]["status"] == "not_supported"
+    assert "material-change signal" in by_id["H8"]["update"]
+    assert "2/3 models revised upward/downward" in by_id["H9"]["update"]
+    assert "current river percentile" in by_id["H10"]["update"].lower()
+
+
+def test_live_revision_signal_is_visible_but_not_overclaimed() -> None:
+    page = Path("public/world-model.html").read_text(encoding="utf-8")
+    js = Path("public/world-model.js").read_text(encoding="utf-8")
+
+    assert 'id="liveRevisionSignal"' in page
+    assert "LIVE CHANGE SIGNAL" in page
+    assert "function revisionDirectionBetween" in js
+    assert "function renderLiveRevisionSignal" in js
+    assert "2/3 models" not in page  # live value must be derived from data
+    assert "six-hour persistence is still being evaluated" in js
+    assert "Raw disagreement remains visible context, not a confidence penalty." in js
+
+
+def test_weekly_lab_retests_revision_and_river_rules() -> None:
+    workflow = Path(".github/workflows/hypothesis-lab.yml").read_text(encoding="utf-8")
+
+    assert "run_revision_lab.py" in workflow
+    assert "run_river_attention_lab.py" in workflow
+    assert "revision-report.json" in workflow
+    assert "river-attention-report.json" in workflow
+
+
+def test_revision_lab_requires_both_direction_and_error_improvement() -> None:
+    source = Path("src/commons/revision_lab.py").read_text(encoding="utf-8")
+
+    assert "p_acc >= o_acc + 0.05" in source
+    assert "p_improve >= o_improve + 0.05" in source
+    assert "majority_acc >= 0.60" in source
+    assert "majority_improve >= 0.55" in source
+
+
+def test_river_trajectory_hypothesis_failed_in_all_three_test_basins() -> None:
+    report = json.loads(
+        Path("public/world-model/river-attention-report.json").read_text(encoding="utf-8")
+    )
+
+    assert report["hypothesis"]["status"] == "not_supported"
+    assert report["hypothesis"]["mean_auc_gain"] < 0
+    assert report["hypothesis"]["mean_precision_gain_pct"] < 0
+    assert all(item["auc_gain"] < 0 for item in report["points"])
+
+
+def test_next_hypotheses_move_toward_attention_quality_and_external_validation() -> None:
+    report = json.loads(
+        Path("public/world-model/hypothesis-report.json").read_text(encoding="utf-8")
+    )
+    ids = {item["id"] for item in report["next_hypotheses"]}
+
+    assert {"H7", "H11", "H12", "H13", "H14"} <= ids
+    h12 = next(item for item in report["next_hypotheses"] if item["id"] == "H12")
+    h14 = next(item for item in report["next_hypotheses"] if item["id"] == "H14")
+    assert "precision, miss rate and lead time" in h12["test"]
+    assert "official warnings" in h14["signals"]
