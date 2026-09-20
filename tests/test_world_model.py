@@ -1459,3 +1459,31 @@ def test_impact_v01_keeps_actions_human_authorized_and_local() -> None:
     assert "fetch(" in js
     assert "POST" not in js
     assert "localStorage.setItem" in js
+
+
+def test_impact_v02_is_plain_language_first() -> None:
+    page = Path("public/impact.html").read_text(encoding="utf-8")
+    js = Path("public/impact.js").read_text(encoding="utf-8")
+
+    assert "What could actually matter today?" in page
+    assert "Start with the situation, not the data." in page
+    assert "How trustworthy is this?" in page
+    assert "HAZARD AP" not in page
+    assert "IMPACT AP" not in page
+    assert "TOP-20% RECALL GAIN" not in page
+    assert "No immediate weather concern." in js
+    assert "This deserves attention now." in js
+    assert "PEOPLE NEARBY" in js
+    assert "CRITICAL PLACES" in js
+    assert "PAST SERIOUS EVENTS" in js
+
+
+def test_impact_v02_keeps_simple_human_decisions_local() -> None:
+    js = Path("public/impact.js").read_text(encoding="utf-8")
+
+    assert 'const ACTION_KEY="commons.impact.actions.v0.2"' in js
+    assert 'data-status="done"' in js
+    assert 'data-status="not_needed"' in js
+    assert "localStorage.setItem" in js
+    assert "POST" not in js
+    assert 'data-status="considered"' not in js
