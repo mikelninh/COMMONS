@@ -22,6 +22,8 @@ def main() -> int:
     print("Hydrology Lab")
     print(f"period: {args.start_date} → {args.end_date}")
     print(f"source errors: {len(report['source_errors'])}")
+    for error in report["source_errors"]:
+        print(f"  SOURCE ERROR {error['point']}: {error['error']}")
     for point in report["points"]:
         print(
             f"{point['name']}: AUC gain={point.get('auc_gain_vs_recent_rain')} "
