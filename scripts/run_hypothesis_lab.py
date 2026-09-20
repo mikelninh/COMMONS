@@ -195,6 +195,36 @@ def main() -> int:
                 "watch_burden_per_100_days"
             )
 
+    watch_value_path = Path("public/world-model/watch-value-report.json")
+    if watch_value_path.exists():
+        watch_value = json.loads(watch_value_path.read_text(encoding="utf-8"))
+        h17 = watch_value.get("hypothesis") or {}
+        if h17.get("id") == "H17":
+            report["hypotheses"] = [
+                existing
+                for existing in report["hypotheses"]
+                if existing.get("id") != "H17"
+            ]
+            report["hypotheses"].append(
+                {
+                    "id": "H17",
+                    "claim": h17.get("claim"),
+                    "status": h17.get("status"),
+                    "effect": h17.get("effect"),
+                    "update": h17.get("product_update"),
+                }
+            )
+            report.setdefault("headline_metrics", {})
+            report["headline_metrics"]["h17_revision_up_heavy_rate"] = (
+                watch_value.get("revision_up") or {}
+            ).get("heavy_event_rate")
+            report["headline_metrics"]["h17_revision_not_up_heavy_rate"] = (
+                watch_value.get("revision_not_up") or {}
+            ).get("heavy_event_rate")
+            report["headline_metrics"]["h17_heavy_rate_lift"] = watch_value.get(
+                "heavy_event_rate_lift"
+            )
+
     report["next_hypotheses"] = [
         {
             "id": "H7",
@@ -239,7 +269,7 @@ def main() -> int:
             f"{hypothesis['id']} {hypothesis['status'].upper()}: "
             f"{hypothesis['claim']} | {hypothesis.get('effect')}"
         )
-        print(f"  update: {hypothesis['product_update']}")
+        print(f"  update: {hypothesis.get('update') or hypothesis.get('product_update')}")
     return 0
 
 
