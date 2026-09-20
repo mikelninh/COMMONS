@@ -1,0 +1,44 @@
+name: Revision Hypotheses H8 H9
+
+on:
+  push:
+    branches: ["world-model-revision-lab-v1"]
+    paths:
+      - "src/commons/revision_lab.py"
+      - "scripts/run_revision_lab.py"
+      - ".github/workflows/revision-lab.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: world-model-revision-lab-v1
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install COMMONS
+        run: pip install -e .
+
+      - name: Run H8 H9 revision backtest
+        run: |
+          python scripts/run_revision_lab.py \
+            --start-date 2026-07-01 \
+            --end-date 2026-09-05 \
+            --output public/world-model/revision-report.json
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: revision-h8-h9-report
+          path: public/world-model/revision-report.json
+          retention-days: 30
