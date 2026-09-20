@@ -46,7 +46,23 @@
     "high_vs_low_normalized_error_ratio": 1.04,
     "heavy_rain_disagreement_error_correlation": -0.27,
     "abstention_gain_top_disagreement_quartile_pct": -20,
-    "council_heavy_rain_error_improvement_pct": 11.3
+    "council_heavy_rain_error_improvement_pct": 11.3,
+    "h6_mean_auc_gain": 0.0834,
+    "h6_mean_precision_gain_pct": 83.2,
+    "h6_basin_results": {
+      "nuwakot": {
+        "auc_gain": 0.013,
+        "precision_gain_pct": 0
+      },
+      "warsaw": {
+        "auc_gain": 0.2417,
+        "precision_gain_pct": 257.1
+      },
+      "niamey": {
+        "auc_gain": -0.0045,
+        "precision_gain_pct": -7.6
+      }
+    }
   },
   "hypotheses": [
     {
@@ -78,6 +94,13 @@
       "update": "Keep the council as the main heavy-rain summary."
     },
     {
+      "id": "H6",
+      "claim": "Antecedent rainfall and soil moisture improve extreme-discharge detection beyond recent rainfall alone.",
+      "status": "mixed",
+      "effect": "Nuwakot AUC +0.013 · Warsaw +0.242 · Niamey −0.005",
+      "update": "Do not apply a global wetness rule. Learn and expose wetness skill per basin."
+    },
+    {
       "id": "H4",
       "claim": "COMMONS should lower confidence when disagreement is high and lead time is long.",
       "status": "mixed",
@@ -90,20 +113,10 @@
     "Point precipitation is not basin-integrated precipitation.",
     "This tests precipitation forecast skill, not human flood impact.",
     "Operational model versions change over time.",
-    "603 samples are not 603 independent events; dates and locations are correlated."
+    "603 samples are not 603 independent events; dates and locations are correlated.",
+    "H6 aggregate averages hide strong basin-to-basin heterogeneity; no global wetness rule is justified."
   ],
   "next_hypotheses": [
-    {
-      "id": "H6",
-      "claim": "Antecedent wetness improves high-discharge prediction beyond 3-day rainfall alone.",
-      "signals": [
-        "3-day rain",
-        "10-day antecedent rain",
-        "ERA5 soil moisture",
-        "GloFAS discharge"
-      ],
-      "test": "Compare detection of top-5% discharge days."
-    },
     {
       "id": "H7",
       "claim": "Basin-context rainfall outperforms a single point for river-risk estimation.",
@@ -143,6 +156,17 @@
         "later discharge"
       ],
       "test": "Optimize precision, miss rate and lead time without using human impact labels."
+    },
+    {
+      "id": "H11",
+      "claim": "We can predict where catchment wetness is useful enough to include in the attention model.",
+      "signals": [
+        "basin climate",
+        "soil moisture skill",
+        "antecedent-rain skill",
+        "river-response lag"
+      ],
+      "test": "Cluster basins by regime and validate wetness features out-of-sample."
     }
   ]
 }
