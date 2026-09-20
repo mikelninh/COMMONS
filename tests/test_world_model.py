@@ -1415,9 +1415,9 @@ def test_impact_v0_visual_surface_is_component_first_and_linked() -> None:
     morning_js = Path("public/morning.js").read_text(encoding="utf-8")
 
     assert "What could actually matter today?" in page
-    assert "Hazard, exposure, infrastructure and historical consequence stay separate" in page
+    assert "Weather is only the start." in page
     assert "impact-report.json" in js
-    assert "nearby assets, not damage estimates" in js
+    assert "CRITICAL PLACES" in js
     assert "./impact.html" in morning
     assert '"H27"' in morning_js
 
@@ -1438,7 +1438,7 @@ def test_impact_v01_connects_live_hazard_to_human_action_loop() -> None:
     assert "What you already decided." in page
     assert 'const ACTION_KEY="commons.impact.actions.v0.2"' in js
     assert "world-model-data/data/world-model/morning-brief.json" in js
-    assert "LIVE HAZARD" in js
+    assert "hazardLanguage" in js
     assert 'data-status="done"' in js
     assert 'data-status="not_needed"' in js
     assert "localStorage" in js
