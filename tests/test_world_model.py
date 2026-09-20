@@ -1237,7 +1237,7 @@ def test_morning_brief_surfaces_measured_research_frontier() -> None:
 
     assert "RESEARCH FRONTIER" in page
     assert "What reality changed our mind about" in page
-    assert 'const wanted=["H20","H21","H23"]' in js
+    assert 'const wanted=["H20","H21","H23","H24","H25"]' in js
     assert "./world-model/hypothesis-report.json" in js
     assert "UNSUPPORTED" not in page
 
