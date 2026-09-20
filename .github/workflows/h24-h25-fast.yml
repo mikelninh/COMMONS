@@ -1,0 +1,48 @@
+name: H24 H25 Fast Run
+
+on:
+  push:
+    branches: ["h24-h25-fast-run"]
+    paths:
+      - ".github/workflows/h24-h25-fast.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  minority-convective:
+    runs-on: ubuntu-latest
+    env:
+      COMMONS_BACKTEST_CACHE: /tmp/commons-h24-h25-cache
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -e .
+
+      - name: Run H24 H25 only
+        run: |
+          python scripts/run_minority_convective_lab.py \
+            --miss-report public/world-model/miss-report.json \
+            --output public/world-model/minority-convective-report.json
+
+      - name: Commit result
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "commons-h24-h25-fast"
+          git config user.email "actions@users.noreply.github.com"
+          git add public/world-model/minority-convective-report.json
+          if git diff --cached --quiet; then
+            echo "Report unchanged"
+          else
+            git commit -m "H24 H25 fast-run result"
+            git push origin HEAD:h24-h25-fast-run
+          fi
