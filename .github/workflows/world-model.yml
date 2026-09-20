@@ -91,6 +91,7 @@ jobs:
             --attention-report "$GITHUB_WORKSPACE/public/world-model/attention-rule-report.json" \
             --hypothesis-report "$GITHUB_WORKSPACE/public/world-model/hypothesis-report.json" \
             --loops "$GITHUB_WORKSPACE/public/world-model/loops.json" \
+            --exposure-report "$GITHUB_WORKSPACE/public/world-model/exposure-report.json" \
             --output /tmp/world-model-data/data/world-model/morning-brief.json
           cd /tmp/world-model-data
           git add data/world-model
