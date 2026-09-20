@@ -1,0 +1,140 @@
+{
+  "schema_version": "0.1",
+  "generated_at": "2026-09-20T17:02:40Z",
+  "period": {
+    "start": "2026-07-01",
+    "end": "2026-09-05"
+  },
+  "points": [
+    {
+      "id": "nuwakot",
+      "name": "Nuwakot",
+      "country": "Nepal",
+      "latitude": 27.95,
+      "longitude": 85.18
+    },
+    {
+      "id": "manila",
+      "name": "Manila",
+      "country": "Philippines",
+      "latitude": 14.6,
+      "longitude": 120.98
+    },
+    {
+      "id": "delhi",
+      "name": "Delhi",
+      "country": "India",
+      "latitude": 28.61,
+      "longitude": 77.21
+    }
+  ],
+  "models": {
+    "ecmwf": "ecmwf_ifs025",
+    "gfs": "gfs_global",
+    "icon": "icon_global"
+  },
+  "leads_days": [
+    1,
+    3,
+    5
+  ],
+  "verification": "ERA5 daily precipitation",
+  "records": 603,
+  "source_errors": [
+    {
+      "point": "delhi",
+      "source": "icon",
+      "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
+    }
+  ],
+  "summary_by_lead": {
+    "1": {
+      "samples": 201,
+      "provider_mae_mm": {
+        "ecmwf": 7.979,
+        "gfs": 10.191,
+        "icon": 10.304
+      },
+      "average_individual_model_mae_mm": 9.491,
+      "council_median_mae_mm": 7.862,
+      "council_improvement_vs_average_model_pct": 17.2,
+      "spread_error_correlation": 0.322,
+      "low_disagreement_error_mm": 2.461,
+      "high_disagreement_error_mm": 14.762,
+      "high_vs_low_error_ratio": 6.0,
+      "spread_q25_mm": 3.3,
+      "spread_q75_mm": 16.2
+    },
+    "3": {
+      "samples": 201,
+      "provider_mae_mm": {
+        "ecmwf": 9.751,
+        "gfs": 12.284,
+        "icon": 11.237
+      },
+      "average_individual_model_mae_mm": 11.091,
+      "council_median_mae_mm": 9.43,
+      "council_improvement_vs_average_model_pct": 15.0,
+      "spread_error_correlation": 0.22,
+      "low_disagreement_error_mm": 5.217,
+      "high_disagreement_error_mm": 16.387,
+      "high_vs_low_error_ratio": 3.14,
+      "spread_q25_mm": 3.4,
+      "spread_q75_mm": 17.3
+    },
+    "5": {
+      "samples": 201,
+      "provider_mae_mm": {
+        "ecmwf": 11.107,
+        "gfs": 14.532,
+        "icon": 11.75
+      },
+      "average_individual_model_mae_mm": 12.463,
+      "council_median_mae_mm": 10.821,
+      "council_improvement_vs_average_model_pct": 13.2,
+      "spread_error_correlation": 0.199,
+      "low_disagreement_error_mm": 5.114,
+      "high_disagreement_error_mm": 16.572,
+      "high_vs_low_error_ratio": 3.24,
+      "spread_q25_mm": 4.7,
+      "spread_q75_mm": 16.0
+    }
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "claim": "The council median reduces precipitation error versus the average individual model.",
+      "status": "supported",
+      "effect": "15.1% mean error improvement",
+      "product_update": "Keep council median as the default headline."
+    },
+    {
+      "id": "H2",
+      "claim": "Higher model disagreement predicts larger council forecast error.",
+      "status": "supported",
+      "effect": "corr=0.25; high/low error ratio=4.13x",
+      "product_update": "Use disagreement as an explicit confidence penalty."
+    },
+    {
+      "id": "H3",
+      "claim": "Forecast skill materially degrades from 1 to 3 to 5 days.",
+      "status": "supported",
+      "effect": "7.86 \u2192 9.43 \u2192 10.82 mm MAE",
+      "product_update": "Make forecast horizon a first-class confidence input."
+    },
+    {
+      "id": "H4",
+      "claim": "COMMONS should lower confidence when model disagreement is high and lead time is long.",
+      "status": "supported",
+      "effect": "confidence = source health + horizon skill + disagreement penalty",
+      "product_update": "confidence = source health + horizon skill + disagreement penalty"
+    }
+  ],
+  "limitations": [
+    "ERA5 is reanalysis, not a local rain gauge.",
+    "Point precipitation is not basin-integrated precipitation.",
+    "This evaluates precipitation forecast skill, not human flood impact.",
+    "Operational model versions change over time.",
+    "The council is a simple median, not a trained probabilistic ensemble."
+  ]
+}
