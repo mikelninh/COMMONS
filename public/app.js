@@ -1401,7 +1401,7 @@ function renderActionLabCurrent(){
       </div>
       <div class="case-field-note">
         <b>How the loop closes</b>
-        <p>When newer official evidence arrives, COMMONS compares it with the evidence snapshot stored when you acted. We can say <strong>“this happened after your action.”</strong> We will not say <strong>“your action caused this”</strong> without causal evidence.</p>
+        <p>When newer official evidence arrives, COMMONS compares it with the evidence snapshot stored when you acted. We call this <strong>“evidence after your action.”</strong> We will never call it <strong>“evidence caused by your action”</strong> without causal evidence.</p>
       </div>
     </section>
 
