@@ -45,12 +45,12 @@
     "status": "healthy",
     "expected_records": 549,
     "observed_records": 549,
-    "temporal_coverage": 1.0,
-    "full_council_ratio": 1.0,
+    "temporal_coverage": 1,
+    "full_council_ratio": 1,
     "point_coverage": {
-      "nuwakot": 1.0,
-      "manila": 1.0,
-      "delhi": 1.0
+      "nuwakot": 1,
+      "manila": 1,
+      "delhi": 1
     }
   },
   "summary_by_lead": {
@@ -72,8 +72,8 @@
       "council_median_mae_mm": 6.421,
       "council_median_heavy_rain_mae_mm": 9.994,
       "council_improvement_vs_average_model_pct": 19.1,
-      "council_heavy_rain_improvement_pct": 19.0,
-      "council_win_rate_vs_daily_average_model_error_pct": 71.0,
+      "council_heavy_rain_improvement_pct": 19,
+      "council_win_rate_vs_daily_average_model_error_pct": 71,
       "raw_spread_vs_absolute_error_correlation": 0.35,
       "relative_spread_vs_normalized_error_correlation": 0.104,
       "heavy_rain_relative_spread_vs_normalized_error_correlation": -0.181,
@@ -134,7 +134,7 @@
       "council_median_mae_mm": 9.158,
       "council_median_heavy_rain_mae_mm": 12.541,
       "council_improvement_vs_average_model_pct": 13.4,
-      "council_heavy_rain_improvement_pct": 12.0,
+      "council_heavy_rain_improvement_pct": 12,
       "council_win_rate_vs_daily_average_model_error_pct": 63.9,
       "raw_spread_vs_absolute_error_correlation": 0.267,
       "relative_spread_vs_normalized_error_correlation": 0.151,
@@ -145,7 +145,7 @@
       "relative_spread_q25": 0.407,
       "relative_spread_q75": 1.393,
       "mae_if_abstain_top_disagreement_quartile_mm": 10.622,
-      "error_reduction_if_abstain_top_disagreement_quartile_pct": -16.0
+      "error_reduction_if_abstain_top_disagreement_quartile_pct": -16
     }
   },
   "headline_metrics": {
@@ -173,7 +173,7 @@
         "precision_gain_pct": -7.6
       }
     },
-    "h8_persistent_direction_accuracy_pct": 100.0,
+    "h8_persistent_direction_accuracy_pct": 100,
     "h9_majority_direction_accuracy_pct": 71.4,
     "h10_mean_auc_gain": -0.0693,
     "h10_mean_precision_gain_pct": -28.5,
@@ -202,10 +202,21 @@
     "h22_gdacs_matched_point_days": 118,
     "h22_gdacs_overlap_rate": 0.2034,
     "h23_selected_strategy": "spatial_mean_50km",
-    "h23_deep_miss_recovery_rate": 0.0,
+    "h23_deep_miss_recovery_rate": 0,
     "h23_incremental_false_alerts_per_100": -0.79,
     "h23_precision_change": 0.0375,
-    "h23_live_window_resolved_exact_day_deep": 13
+    "h23_live_window_resolved_exact_day_deep": 13,
+    "h24_selected_rule": "minority_p90_50km",
+    "h24_deep_miss_recovery_rate": 0.5833,
+    "h24_incremental_false_alerts_per_100": 11.12,
+    "h24_precision_change": -0.1419,
+    "h25_selected_rule": "blind_showers_any50",
+    "h25_blind_miss_recovery_rate": 0.3333,
+    "h25_blind_test_misses": 6,
+    "h25_incremental_false_alerts_per_100": 4.77,
+    "h25_precision_change": -0.1386,
+    "h25_convective_evidence_status": "insufficient",
+    "h25_convective_bundle_ratio": 0.3333
   },
   "hypotheses": [
     {
@@ -226,7 +237,7 @@
       "id": "H3",
       "claim": "Forecast skill materially degrades from 1 to 3 to 5 days.",
       "status": "supported",
-      "effect": "6.42 \u2192 7.77 \u2192 9.16 mm MAE",
+      "effect": "6.42 → 7.77 → 9.16 mm MAE",
       "update": "Make forecast horizon a first-class confidence input."
     },
     {
@@ -340,6 +351,20 @@
       "status": "not_supported",
       "effect": "selected spatial_mean_50km; test deep-miss recovery 0.0; incremental false alerts -0.79/100; precision change 0.0375",
       "update": "Do not add the tested spatial or single-model rescue rule to live ALERT. Deep misses remain a model/physics problem; continue with basin context, convective/local signals and impact-labelled evaluation."
+    },
+    {
+      "id": "H24",
+      "claim": "A minority-model heavy-rain signal becomes trustworthy enough for a shadow rescue only when the same provider is spatially corroborated.",
+      "status": "not_supported",
+      "effect": "selected minority_p90_50km; test recovery 0.5833; extra false alerts 11.12/100; precision change -0.1419",
+      "update": "Do not give minority rainfall signals ranking authority yet; keep them inspectable context and continue learning provider/spatial reliability."
+    },
+    {
+      "id": "H25",
+      "claim": "Archived convective instability and shower forecasts recover at least one third of rainfall-consensus-blind heavy events within the same scarcity guardrails.",
+      "status": "insufficient",
+      "effect": "selected blind_showers_any50; blind test misses 6; recovery 0.3333; extra false alerts 4.77/100; precision change -0.1386",
+      "update": "Convective blindness remains an open hypothesis; archived CAPE/showers coverage or blind-case count is not yet sufficient."
     }
   ],
   "limitations": [
