@@ -366,7 +366,7 @@ def test_world_model_experience_has_five_visual_scenes_and_lab_mode() -> None:
 
 
 def test_replay_builder_extracts_real_archived_world_model_frames(tmp_path) -> None:
-    from scripts.build_world_model_replay import build_replay
+    from commons.world_model_replay import build_replay
 
     snapshots = tmp_path / "snapshots"
     snapshots.mkdir()
