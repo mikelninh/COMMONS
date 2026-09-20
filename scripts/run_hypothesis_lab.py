@@ -339,6 +339,31 @@ def main() -> int:
                 "near_threshold_share"
             )
 
+    exposure_path = Path("public/world-model/exposure-report.json")
+    if exposure_path.exists():
+        exposure = json.loads(exposure_path.read_text(encoding="utf-8"))
+        h13 = exposure.get("hypothesis") or {}
+        if h13.get("id") == "H13":
+            report["hypotheses"] = [
+                item for item in report["hypotheses"] if item.get("id") != "H13"
+            ]
+            report["hypotheses"].append(
+                {
+                    "id": "H13",
+                    "claim": h13.get("claim"),
+                    "status": h13.get("status"),
+                    "effect": h13.get("effect"),
+                    "update": h13.get("product_update"),
+                }
+            )
+            report.setdefault("headline_metrics", {})
+            report["headline_metrics"]["h13_exposure_usable_points"] = exposure.get(
+                "usable_points"
+            )
+            report["headline_metrics"]["h13_exposure_coverage_status"] = exposure.get(
+                "coverage_status"
+            )
+
     report["next_hypotheses"] = [
         {
             "id": "H7",
@@ -351,12 +376,6 @@ def main() -> int:
             "claim": "We can predict which basins benefit from antecedent-wetness features.",
             "signals": ["basin climate", "wetness skill", "river-response lag"],
             "test": "Cluster basin regimes and validate wetness features out-of-sample.",
-        },
-        {
-            "id": "H13",
-            "claim": "Adding exposure changes which physical hazards deserve human attention first.",
-            "signals": ["population", "settlements", "critical infrastructure", "hazard state"],
-            "test": "Compare hazard-only ranking with exposure-aware ranking against historical impact records.",
         },
         {
             "id": "H14",
