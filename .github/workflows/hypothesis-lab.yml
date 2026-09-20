@@ -15,6 +15,8 @@ on:
       - "scripts/run_river_attention_lab.py"
       - "src/commons/attention_rule_lab.py"
       - "scripts/run_attention_rule_lab.py"
+      - "src/commons/watch_alert_lab.py"
+      - "scripts/run_watch_alert_lab.py"
       - ".github/workflows/hypothesis-lab.yml"
 
 permissions:
@@ -54,6 +56,11 @@ jobs:
           python scripts/run_attention_rule_lab.py \
             --output public/world-model/attention-rule-report.json
 
+      - name: Backtest WATCH versus ALERT tiers
+        run: |
+          python scripts/run_watch_alert_lab.py \
+            --output public/world-model/watch-alert-report.json
+
       - name: Run rolling research backtest
         run: |
           python scripts/run_hypothesis_lab.py \
@@ -76,7 +83,8 @@ jobs:
             public/world-model/hypothesis-report.json \
             public/world-model/revision-report.json \
             public/world-model/river-attention-report.json \
-            public/world-model/attention-rule-report.json
+            public/world-model/attention-rule-report.json \
+            public/world-model/watch-alert-report.json
           if git diff --cached --quiet; then
             echo "Report unchanged"
           else
