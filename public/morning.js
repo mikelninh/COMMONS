@@ -31,6 +31,11 @@ async function loadBrief(){
   try{return await getJson(live)}
   catch(first){return getJson("./world-model/morning-brief-seed.json")}
 }
+async function loadLedger(){
+  const live="https://raw.githubusercontent.com/mikelninh/COMMONS/world-model-data/data/world-model/attention-ledger.json";
+  try{return await getJson(live)}
+  catch(error){return null}
+}
 function revisionText(revision){
   if(!revision||revision.models_compared<2)return "revision history collecting";
   if(revision.direction==="up")return revision.supporting_models+"/"+revision.models_compared+" models revised rain upward";
@@ -76,6 +81,17 @@ function queueItem(item){
     '<div class="queue-score"><b>'+pct(item.gate_ratio)+'</b><span>of heavy-rain gate</span></div>'+
   '</article>';
 }
+function renderLearning(ledger){
+  const summary=ledger?.summary||{};
+  $("verifiedCalls").textContent=summary.verified??0;
+  $("alertPrecision").textContent=summary.alert_precision==null?"—":pct(summary.alert_precision);
+  $("priorityCatches").textContent=summary.priority_catches??0;
+  $("quietMisses").textContent=summary.quiet_misses??0;
+  const pending=summary.pending??0;
+  $("learningNote").textContent=(summary.verified??0)
+    ? "Verified "+summary.verified+" live calls · "+pending+" still awaiting observed outcomes. Human action effectiveness is not measured yet."
+    : "The ledger is collecting live calls. "+pending+" forecast observations are waiting to mature; human action effectiveness is not measured yet.";
+}
 function render(brief){
   $("morningGreeting").textContent=greeting();
   $("briefHeadline").textContent=brief.headline||"Morning Brief unavailable.";
@@ -113,7 +129,11 @@ function render(brief){
   $("loading").classList.add("hidden");
 }
 async function init(){
-  try{render(await loadBrief())}
+  try{
+    const [brief,ledger]=await Promise.all([loadBrief(),loadLedger()]);
+    render(brief);
+    renderLearning(ledger);
+  }
   catch(error){
     $("briefHeadline").textContent="Morning Brief could not load.";
     $("briefUpdated").textContent="Live data unavailable.";
