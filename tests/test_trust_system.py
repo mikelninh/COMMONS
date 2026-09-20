@@ -180,7 +180,7 @@ def test_trust_center_exposes_status_claims_sources_evaluations_incidents() -> N
     assert "function renderTrustSourcesTab" in app
     assert "function renderTrustEvaluationsTab" in app
     assert "function renderTrustIncidentsTab" in app
-    assert 'openTrustCenter("claims")' in app
+    assert 'openTrustCenter("claims","audit")' in app
 
     assert "COMMONS TRUST CENTER" in styles
     assert ".trust-center:not(.open)" in styles
