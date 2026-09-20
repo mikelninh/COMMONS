@@ -1067,3 +1067,61 @@ def test_miss_lab_keeps_boundary_misses_separate_from_deep_misses() -> None:
     assert '"near_threshold" if ratio >= 0.80 else "deep"' in source
     assert "revision_5d_to_3d_mm" in source
     assert "does not itself justify lowering the live alert threshold" in source
+
+
+def test_exposure_context_is_never_allowed_to_change_morning_rank() -> None:
+    from commons.morning_brief import build_morning_brief
+
+    snapshot = {
+        "generated_at": "2026-09-20T12:00:00Z",
+        "loops": [
+            {
+                "id": "water-rises",
+                "forecast_council": {
+                    "members": [
+                        {"provider": "ecmwf", "precip_peak_daily_mm": 10.0},
+                        {"provider": "gfs", "precip_peak_daily_mm": 10.0},
+                        {"provider": "icon", "precip_peak_daily_mm": 10.0},
+                    ],
+                    "source_errors": [],
+                    "consensus": {
+                        "precip_peak_daily_mm_median": 10.0,
+                        "precip_peak_date": "2026-09-21",
+                    },
+                },
+            }
+        ],
+    }
+    exposure = {
+        "points": [
+            {
+                "point": {"id": "nuwakot"},
+                "population": 9999999,
+                "radius_km": 20,
+                "data_year": 2026,
+            }
+        ]
+    }
+    brief = build_morning_brief(
+        snapshot,
+        attention_report={"thresholds_mm": {"nuwakot": 50.0}},
+        hypothesis_report={"data_quality": {"status": "healthy"}},
+        loop_catalog={"loops": []},
+        exposure_report=exposure,
+    )
+    item = next(x for x in brief["monitors"] if x["point_id"] == "nuwakot")
+
+    assert item["state"] == "quiet"
+    assert item["gate_ratio"] == 0.2
+    assert item["exposure_context"]["population"] == 9999999
+    assert item["exposure_context"]["role"] == "context_only"
+
+
+def test_h13_worldpop_context_runs_weekly_but_remains_insufficient_for_ranking() -> None:
+    workflow = Path(".github/workflows/hypothesis-lab.yml").read_text(encoding="utf-8")
+    source = Path("src/commons/exposure_lab.py").read_text(encoding="utf-8")
+
+    assert "run_exposure_lab.py" in workflow
+    assert "exposure-report.json" in workflow
+    assert '"status": "insufficient"' in source
+    assert "Do not let it change ALERT or PRIORITY" in source
