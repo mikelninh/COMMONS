@@ -9,6 +9,10 @@ on:
     paths:
       - "src/commons/hypothesis_lab.py"
       - "scripts/run_hypothesis_lab.py"
+      - "src/commons/revision_lab.py"
+      - "scripts/run_revision_lab.py"
+      - "src/commons/river_attention_lab.py"
+      - "scripts/run_river_attention_lab.py"
       - ".github/workflows/hypothesis-lab.yml"
 
 permissions:
@@ -33,6 +37,16 @@ jobs:
       - name: Install COMMONS
         run: pip install -e .
 
+      - name: Backtest forecast revisions
+        run: |
+          python scripts/run_revision_lab.py \
+            --output public/world-model/revision-report.json
+
+      - name: Backtest river attention trajectory
+        run: |
+          python scripts/run_river_attention_lab.py \
+            --output public/world-model/river-attention-report.json
+
       - name: Run rolling research backtest
         run: |
           python scripts/run_hypothesis_lab.py \
@@ -51,7 +65,10 @@ jobs:
           set -euo pipefail
           git config user.name "commons-hypothesis-lab"
           git config user.email "actions@users.noreply.github.com"
-          git add public/world-model/hypothesis-report.json
+          git add \
+            public/world-model/hypothesis-report.json \
+            public/world-model/revision-report.json \
+            public/world-model/river-attention-report.json
           if git diff --cached --quiet; then
             echo "Report unchanged"
           else
