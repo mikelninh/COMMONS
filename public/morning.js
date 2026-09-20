@@ -129,7 +129,7 @@ function renderLens(monitors){
   bindLensButtons();
 }
 function renderResearch(report){
-  const wanted=["H20","H21","H23"];
+  const wanted=["H20","H21","H23","H24","H25"];
   const byId=new Map((report?.hypotheses||[]).map(item=>[item.id,item]));
   const items=wanted.map(id=>byId.get(id)).filter(Boolean);
   if(!items.length){
