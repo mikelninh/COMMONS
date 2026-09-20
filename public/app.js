@@ -2213,7 +2213,7 @@ function renderEvidence(){
 
     <section class="evidence-peek-visual">
       <span>MAP NOTE</span>
-      <p>${escapeHtml(activeStory.terrain.disclosure)}. Internal contour lines are a cinematic depth treatment, not factual elevation, damage, transmission-intensity or intervention data. The visual response paths are semantic rather than literal tracked routes.</p><p>The Memory of Earth mark records a documented story state; it is not a score, rank, completion badge or proof that the wider problem is solved.</p>
+      <p>${escapeHtml(activeStory.terrain.disclosure)}. Internal contour lines are a cinematic depth treatment, not factual elevation, damage, transmission-intensity or intervention data. Response threads are semantic rather than literal routes.</p><p>The Memory of Earth mark records a documented story state; it is not a score, rank, completion badge or proof that the wider problem is solved.</p>
     </section>
 
     <div class="evidence-peek-actions">
