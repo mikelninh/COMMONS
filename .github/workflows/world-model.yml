@@ -9,6 +9,7 @@ on:
     paths:
       - "src/commons/world_model.py"
       - "scripts/build_world_model.py"
+      - "scripts/build_world_model_replay.py"
       - "public/world-model/**"
       - "public/world-model.html"
       - "public/world-model.js"
@@ -75,6 +76,10 @@ jobs:
           cp public/world-model/latest.json "/tmp/world-model-data/data/world-model/snapshots/${stamp}.json"
           cp public/world-model/latest.json "/tmp/world-model-data/data/world-model/latest.json"
           cp /tmp/world-model-cache-out.json "/tmp/world-model-data/data/world-model/memory-cache.json"
+          python "$GITHUB_WORKSPACE/scripts/build_world_model_replay.py" \
+            --snapshots /tmp/world-model-data/data/world-model/snapshots \
+            --output /tmp/world-model-data/data/world-model/replay.json \
+            --limit 48
           cd /tmp/world-model-data
           git add data/world-model
           if git diff --cached --quiet; then
