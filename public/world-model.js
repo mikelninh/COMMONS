@@ -169,6 +169,60 @@ function coverageLabel(value){
   }[value]||String(value||"planned").replaceAll("_"," ").toUpperCase();
 }
 
+function renderHypothesisLab(report){
+  if(!report){
+    $("hypothesisMeta").textContent="No backtest report available yet.";
+    $("hypothesisSummary").innerHTML='<div class="empty-state">Backtest unavailable.</div>';
+    $("hypothesisGrid").innerHTML="";
+    $("nextHypotheses").innerHTML="";
+    return;
+  }
+
+  const metrics=report.headline_metrics||{};
+  $("hypothesisMeta").textContent=
+    report.records+" forecast-day records · "+
+    report.period.start+" → "+report.period.end+" · "+
+    report.points.map(point=>point.name).join(" · ");
+
+  const lead=metrics.council_mae_by_lead_mm||{};
+  $("hypothesisSummary").innerHTML=
+    '<div><span>COUNCIL</span><strong>'+fmt(metrics.council_mean_error_improvement_pct,"%")+
+      '</strong><small>lower error vs average model</small></div>'+
+    '<div><span>HEAVY RAIN</span><strong>'+fmt(metrics.council_heavy_rain_error_improvement_pct,"%")+
+      '</strong><small>council improvement</small></div>'+
+    '<div><span>LEAD-TIME ERROR</span><strong>'+fmt(lead["1"],"")+' → '+fmt(lead["5"]," mm")+
+      '</strong><small>1 day → 5 days MAE</small></div>'+
+    '<div><span>DISAGREEMENT</span><strong>'+fmt(metrics.high_vs_low_normalized_error_ratio,"×")+
+      '</strong><small>high vs low normalized error</small></div>';
+
+  $("hypothesisGrid").innerHTML=(report.hypotheses||[]).map(item=>
+    '<article class="hypothesis-card '+item.status+'">'+
+      '<div class="hypothesis-top"><span>'+item.id+'</span><b>'+item.status.replace("_"," ").toUpperCase()+'</b></div>'+
+      '<h3>'+item.claim+'</h3>'+
+      '<p class="hypothesis-effect">'+item.effect+'</p>'+
+      '<div class="hypothesis-update"><span>PRODUCT UPDATE</span><p>'+item.update+'</p></div>'+
+    '</article>'
+  ).join("");
+
+  const currentRule=(report.hypotheses||[]).find(item=>item.id==="H4");
+  $("confidenceRule").querySelector("strong").textContent=
+    currentRule?.update||"Source health + measured horizon skill. Disagreement remains visible context.";
+
+  $("nextHypotheses").innerHTML=(report.next_hypotheses||[]).map(item=>
+    '<article class="next-test-card">'+
+      '<span>'+item.id+'</span>'+
+      '<h4>'+item.claim+'</h4>'+
+      '<p>'+item.test+'</p>'+
+      '<small>'+item.signals.join(" · ")+'</small>'+
+    '</article>'
+  ).join("");
+}
+
+async function loadHypothesisReport(){
+  try{return await getJson("./world-model/hypothesis-report.json")}
+  catch(error){return null}
+}
+
 function renderLoops(catalog,snapshot){
   const stateMap=new Map((snapshot?.loops||[]).map(loop=>[loop.id,loop]));
   $("loopsGrid").innerHTML=(catalog.loops||[]).map(loop=>{
@@ -473,10 +527,11 @@ async function loadReplay(){
 }
 
 async function init(){
-  const [snapshot,catalog,frames]=await Promise.all([
+  const [snapshot,catalog,frames,hypothesisReport]=await Promise.all([
     loadLatest(),
     getJson("./world-model/loops.json"),
-    loadReplay()
+    loadReplay(),
+    loadHypothesisReport()
   ]);
   currentSnapshot=snapshot;
   loopCatalog=catalog;
@@ -498,6 +553,7 @@ async function init(){
   renderLabMemory(currentPilot);
   renderLabFlood(currentPilot);
   renderLoops(catalog,snapshot);
+  renderHypothesisLab(hypothesisReport);
 
   $("replaySlider").oninput=e=>renderReplayFrame(e.target.value);
   $("storyModeBtn").onclick=()=>setMode("story");
