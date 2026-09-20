@@ -68,7 +68,12 @@
     "h9_majority_direction_accuracy_pct": 70.6,
     "h9_majority_error_improvement_pct": 65.1,
     "h10_mean_auc_gain": -0.0693,
-    "h10_mean_precision_gain_pct": -28.5
+    "h10_mean_precision_gain_pct": -28.5,
+    "h12_strict_f1": 0.4898,
+    "h12_loose_f1": 0.4262,
+    "h12_revision_f1": 0.4906,
+    "h12_revision_recall": 0.619,
+    "h12_revision_precision": 0.4062
   },
   "hypotheses": [
     {
@@ -133,6 +138,13 @@
       "status": "not_supported",
       "effect": "mean AUC gain −0.0693; mean precision gain −28.5%",
       "update": "Keep current river percentile as the primary river-state feature."
+    },
+    {
+      "id": "H12",
+      "claim": "A revision-aware material-change rule improves the precision/recall/lead-time trade-off versus fixed forecast thresholds.",
+      "status": "not_supported",
+      "effect": "F1 0.491 vs 0.490 strict; recall +4.8pp; precision −2.2pp; no lead-time gain",
+      "update": "Keep fixed thresholds as the alert gate. Use validated revision direction as an early-watch/context signal until an out-of-sample rule improves the full trade-off."
     }
   ],
   "limitations": [
@@ -143,7 +155,8 @@
     "603 samples are not 603 independent events; dates and locations are correlated.",
     "H6 aggregate averages hide strong basin-to-basin heterogeneity; no global wetness rule is justified.",
     "H8/H9 use 5-day, 3-day and 1-day lead checkpoints, not consecutive six-hour live runs.",
-    "H10 river trajectory used fixed heuristic weights and performed worse than current percentile alone in the three tested basins."
+    "H10 river trajectory used fixed heuristic weights and performed worse than current percentile alone in the three tested basins.",
+    "H12 revision-aware logic improved recall but did not materially improve the overall F1/lead-time trade-off over the strict threshold benchmark."
   ],
   "next_hypotheses": [
     {
@@ -167,16 +180,6 @@
       "test": "Cluster basin regimes and validate wetness features out-of-sample."
     },
     {
-      "id": "H12",
-      "claim": "A material-change rule can beat fixed hazard thresholds on useful-alert precision.",
-      "signals": [
-        "validated revisions",
-        "river percentile",
-        "horizon skill"
-      ],
-      "test": "Compare rule precision, miss rate and lead time against fixed percentile alerts."
-    },
-    {
       "id": "H13",
       "claim": "Adding exposure changes which physical hazards deserve human attention first.",
       "signals": [
@@ -196,6 +199,16 @@
         "timing"
       ],
       "test": "Measure agreement, earlier/later detection and false alarms without treating official warnings as perfect ground truth."
+    },
+    {
+      "id": "H15",
+      "claim": "Separating WATCH from ALERT can gain recall without weakening the high-confidence alert gate.",
+      "signals": [
+        "revision-aware watch",
+        "fixed-threshold alert",
+        "user feedback"
+      ],
+      "test": "Backtest two-tier watch/alert states on precision, recall, escalation rate and lead time."
     }
   ]
 }
