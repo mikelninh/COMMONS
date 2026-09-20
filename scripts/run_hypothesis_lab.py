@@ -291,6 +291,54 @@ def main() -> int:
                 "max_heavy_event_catch_loss"
             )
 
+    scale_path = Path("public/world-model/scale-report.json")
+    if scale_path.exists():
+        scale = json.loads(scale_path.read_text(encoding="utf-8"))
+        h20 = scale.get("hypothesis") or {}
+        if h20.get("id") == "H20":
+            report["hypotheses"] = [
+                item for item in report["hypotheses"] if item.get("id") != "H20"
+            ]
+            report["hypotheses"].append(
+                {
+                    "id": "H20",
+                    "claim": h20.get("claim"),
+                    "status": h20.get("status"),
+                    "effect": h20.get("effect"),
+                    "update": h20.get("product_update"),
+                }
+            )
+            report.setdefault("headline_metrics", {})
+            report["headline_metrics"]["h20_council_win_rate"] = (
+                scale.get("summary") or {}
+            ).get("council_win_rate")
+            report["headline_metrics"]["h20_median_improvement_pct"] = (
+                scale.get("summary") or {}
+            ).get("median_improvement_pct")
+
+    miss_path = Path("public/world-model/miss-report.json")
+    if miss_path.exists():
+        miss = json.loads(miss_path.read_text(encoding="utf-8"))
+        h21 = miss.get("hypothesis") or {}
+        if h21.get("id") == "H21":
+            report["hypotheses"] = [
+                item for item in report["hypotheses"] if item.get("id") != "H21"
+            ]
+            report["hypotheses"].append(
+                {
+                    "id": "H21",
+                    "claim": h21.get("claim"),
+                    "status": h21.get("status"),
+                    "effect": h21.get("effect"),
+                    "update": h21.get("product_update"),
+                }
+            )
+            report.setdefault("headline_metrics", {})
+            report["headline_metrics"]["h21_misses"] = miss.get("misses")
+            report["headline_metrics"]["h21_near_threshold_share"] = miss.get(
+                "near_threshold_share"
+            )
+
     report["next_hypotheses"] = [
         {
             "id": "H7",
