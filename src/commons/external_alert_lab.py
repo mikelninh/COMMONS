@@ -8,8 +8,8 @@ from typing import Any
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
-from commons.hypothesis_lab import BacktestPoint, build_records, quantile
-from commons.scale_points import GLOBAL_POINTS
+from commons.hypothesis_lab import BacktestPoint, quantile
+from commons.scale_points import GLOBAL_POINTS, build_global_records, full_council_records
 
 
 GDACS_SEARCH = "https://www.gdacs.org/gdacsapi/api/Events/geteventlist/SEARCH"
@@ -159,11 +159,12 @@ def run_external_alert_benchmark(
     end_date: str,
     points: tuple[BacktestPoint, ...] = GLOBAL_POINTS,
 ) -> dict[str, Any]:
-    records, source_errors = build_records(
+    raw_records, source_errors = build_global_records(
         start_date=start_date,
         end_date=end_date,
         points=points,
     )
+    records = full_council_records(raw_records)
     start = date.fromisoformat(start_date)
     end = date.fromisoformat(end_date)
     split = start + (end - start) * 2 / 3
@@ -237,6 +238,9 @@ def run_external_alert_benchmark(
         "gdacs_events": len(events),
         "gdacs_source_errors": gdacs_errors,
         "weather_source_errors": source_errors,
+        "weather_full_council_ratio": (
+            round(len(records) / len(raw_records), 4) if raw_records else 0.0
+        ),
         "matched_point_days": matched_days,
         "commons_alert_days": common_alert_days,
         "commons_alert_on_matched_days": common_alert_on_matched,

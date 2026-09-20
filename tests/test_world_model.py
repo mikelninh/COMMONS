@@ -1169,3 +1169,17 @@ def test_world_model_workflow_closes_live_prediction_outcome_loop() -> None:
     assert "How are our past calls doing?" in page
     assert "attention-ledger.json" in js
     assert "QUIET MISSES" in page
+
+
+def test_global_labs_parallelize_fetches_and_require_full_council() -> None:
+    points = Path("src/commons/scale_points.py").read_text(encoding="utf-8")
+    scale = Path("src/commons/scale_lab.py").read_text(encoding="utf-8")
+    miss = Path("src/commons/miss_lab.py").read_text(encoding="utf-8")
+
+    assert "ThreadPoolExecutor" in points
+    assert "max_workers: int = 5" in points
+    assert "full_council_records" in points
+    assert "full_council_ratio >= 0.90" in scale
+    assert "Only records with all three forecast models" in scale
+    assert "full_council_ratio >= 0.90" in miss
+    assert "Only records with all three forecast models" in miss

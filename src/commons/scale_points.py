@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-from commons.hypothesis_lab import BacktestPoint
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import Any
+
+from commons.hypothesis_lab import BacktestPoint, build_records
 
 
 GLOBAL_POINTS: tuple[BacktestPoint, ...] = (
@@ -35,3 +38,66 @@ GLOBAL_POINTS: tuple[BacktestPoint, ...] = (
     BacktestPoint("recife", "Recife", "Brazil", -8.05, -34.88),
     BacktestPoint("buenos-aires", "Buenos Aires", "Argentina", -34.60, -58.38),
 )
+
+
+def build_global_records(
+    *,
+    start_date: str,
+    end_date: str,
+    points: tuple[BacktestPoint, ...] = GLOBAL_POINTS,
+    max_workers: int = 5,
+) -> tuple[list[dict[str, Any]], list[dict[str, str]]]:
+    """Fetch locations concurrently while keeping source failures explicit.
+
+    Each worker handles one point so at most max_workers locations hit the
+    upstream APIs at once. The shared per-run HTTP cache remains effective
+    across H20/H21/H22.
+    """
+    records_by_id: dict[str, list[dict[str, Any]]] = {}
+    errors_by_id: dict[str, list[dict[str, str]]] = {}
+
+    def fetch(point: BacktestPoint):
+        return point.id, build_records(
+            start_date=start_date,
+            end_date=end_date,
+            points=(point,),
+        )
+
+    workers = max(1, min(max_workers, len(points)))
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        futures = {executor.submit(fetch, point): point for point in points}
+        for future in as_completed(futures):
+            point = futures[future]
+            try:
+                point_id, (records, errors) = future.result()
+            except Exception as exc:
+                point_id = point.id
+                records = []
+                errors = [
+                    {
+                        "point": point.id,
+                        "source": "global_fetch",
+                        "error": str(exc),
+                    }
+                ]
+            records_by_id[point_id] = records
+            errors_by_id[point_id] = errors
+
+    records: list[dict[str, Any]] = []
+    errors: list[dict[str, str]] = []
+    for point in points:
+        records.extend(records_by_id.get(point.id, []))
+        errors.extend(errors_by_id.get(point.id, []))
+    return records, errors
+
+
+def full_council_records(
+    records: list[dict[str, Any]],
+    *,
+    expected_models: int = 3,
+) -> list[dict[str, Any]]:
+    return [
+        record
+        for record in records
+        if len(record.get("predictions_mm") or {}) == expected_models
+    ]
