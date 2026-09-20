@@ -1,4 +1,23 @@
 const $=id=>document.getElementById(id);
+const LENS_KEY="commons.morning.my-lens.v1";
+let currentMonitors=[];
+
+function lensIds(){
+  try{
+    const value=JSON.parse(localStorage.getItem(LENS_KEY)||"[]");
+    return Array.isArray(value)?value:[];
+  }catch(error){return []}
+}
+function saveLens(ids){
+  localStorage.setItem(LENS_KEY,JSON.stringify([...new Set(ids)]));
+}
+function toggleLens(pointId){
+  const ids=lensIds();
+  const next=ids.includes(pointId)?ids.filter(id=>id!==pointId):[...ids,pointId];
+  saveLens(next);
+  renderLens(currentMonitors);
+  renderQueue(currentMonitors);
+}
 
 function fmt(value,suffix="",digits=1){
   const n=Number(value);
@@ -75,11 +94,35 @@ function card(item){
   '</article>';
 }
 function queueItem(item){
-  return '<article class="queue-item">'+
+  const pinned=lensIds().includes(item.point_id);
+  return '<article class="queue-item'+(pinned?' pinned':'')+'">'+
     '<div class="rank">'+String(item.rank).padStart(2,"0")+'</div>'+
     '<div class="queue-main"><strong>'+item.name+' · '+item.country+'</strong><p>'+item.why+'</p></div>'+
     '<div class="queue-score"><b>'+pct(item.gate_ratio)+'</b><span>of heavy-rain gate</span></div>'+
+    '<button class="lens-pin'+(pinned?' active':'')+'" data-lens-pin="'+item.point_id+'" aria-pressed="'+(pinned?'true':'false')+'">'+(pinned?'PINNED':'PIN')+'</button>'+
   '</article>';
+}
+function bindLensButtons(){
+  document.querySelectorAll("[data-lens-pin]").forEach(button=>{
+    button.addEventListener("click",()=>toggleLens(button.dataset.lensPin));
+  });
+}
+function renderQueue(monitors){
+  $("queueList").innerHTML=monitors.map(queueItem).join("");
+  bindLensButtons();
+}
+function renderLens(monitors){
+  const ids=lensIds();
+  const selected=monitors.filter(item=>ids.includes(item.point_id));
+  if(!selected.length){
+    $("lensList").innerHTML='<div class="lens-empty">Pin a place from the priority queue. Nothing leaves this browser.</div>';
+    return;
+  }
+  $("lensList").innerHTML=selected.map(item=>
+    '<article class="lens-card"><div><span>EARTH RANK '+String(item.rank).padStart(2,"0")+'</span><strong>'+item.name+' · '+item.country+'</strong><small>'+item.state.toUpperCase()+' · '+pct(item.gate_ratio)+' of gate</small></div>'+
+    '<button class="lens-remove" data-lens-pin="'+item.point_id+'">REMOVE</button></article>'
+  ).join("");
+  bindLensButtons();
 }
 function renderLearning(ledger){
   const summary=ledger?.summary||{};
@@ -111,10 +154,12 @@ function render(brief){
   $("orbDetail").textContent=alerts?"needs inspection":priority?"worth a glance":"interruptions";
 
   const monitors=brief.monitors||[];
+  currentMonitors=monitors;
   const alertItems=monitors.filter(item=>item.state==="alert");
   $("interruptSection").classList.toggle("hidden",!alertItems.length);
   $("alertGrid").innerHTML=alertItems.map(card).join("");
-  $("queueList").innerHTML=monitors.map(queueItem).join("");
+  renderQueue(monitors);
+  renderLens(monitors);
   $("closeMessage").textContent=brief.close_message||"You are caught up.";
 
   const unranked=brief.unranked_loops||[];
