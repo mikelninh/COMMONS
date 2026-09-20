@@ -133,6 +133,26 @@ python scripts/trust_report.py
 
 See [docs/COMMONS_TRUST_V1.md](docs/COMMONS_TRUST_V1.md) and the public registry at `public/trust-registry.json`.
 
+## World Model v0
+
+COMMONS now has a first physical-world learning loop:
+
+```text
+state → forecast → memory → response → outcome → learn
+```
+
+The first live pilot, **When the Water Rises**, compares ECMWF, NOAA GFS and DWD ICON forecasts, adds ERA5 weather memory, and adds GloFAS river-discharge guidance.
+
+Run a research snapshot locally:
+
+```bash
+python scripts/build_world_model.py
+```
+
+The public research surface is `public/world-model.html`.
+
+See [docs/WORLD_MODEL_V0.md](docs/WORLD_MODEL_V0.md) and [docs/MONETIZATION_V1.md](docs/MONETIZATION_V1.md).
+
 ## Principles
 
 1. **Reality is the judge.** Outputs matter only insofar as outcomes improve.
@@ -164,9 +184,12 @@ Read the project documents:
 - [NEXT_PHASE.md](NEXT_PHASE.md) — v0.3 evidence + capability network
 - [docs/COMMONS_TRUST_V1.md](docs/COMMONS_TRUST_V1.md) — claim provenance, freshness, evaluations, action safety and incidents
 - [docs/CALM_INSTRUMENT_V1.md](docs/CALM_INSTRUMENT_V1.md) — orientation-first daily UX with full audit depth on demand
+- [docs/ONE_HUMAN_FLOW_V1.md](docs/ONE_HUMAN_FLOW_V1.md) — the primary human journey
+- [docs/WORLD_MODEL_V0.md](docs/WORLD_MODEL_V0.md) — forecast council, weather memory and flood pilot
+- [docs/MONETIZATION_V1.md](docs/MONETIZATION_V1.md) — aligned business model and cost discipline
 
 ## Status
 
-**WORLD PULSE + Action Loop + TRUST v1.**
+**WORLD PULSE + TRUST + World Model v0.**
 
-The current public slice combines cinematic sourced stories, accountable action paths, local follow-up receipts and a public trust layer that can automatically degrade when critical evidence becomes stale or required safety checks fail.
+The current public slice combines a simplified daily orientation flow, sourced stories, accountable follow-up, a public trust layer, and the first archived physical-world forecasting loop.
