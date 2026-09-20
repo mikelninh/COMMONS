@@ -228,3 +228,50 @@ def test_trust_javascript_and_registry_parse() -> None:
         check=False,
     )
     assert result.returncode == 0, result.stderr
+
+
+def test_direct_external_action_is_blocked_when_story_trust_fails() -> None:
+    app = Path("public/app.js").read_text(encoding="utf-8")
+    styles = Path("public/styles.css").read_text(encoding="utf-8")
+
+    assert "function trustGateForStory" in app
+    assert "function interventionTrustGate" in app
+    assert "Trust registry unavailable. Direct external action is disabled." in app
+    assert "critical claim(s) for this story are stale" in app
+    assert "missing source reference" in app
+    assert "A high-severity trust incident is open." in app
+    assert "Unavailable until trust checks pass" in app
+    assert "if(!gate.allowed)" in app
+    assert ".intervention-card.trust-blocked" in styles
+    assert ".word-button:disabled" in styles
+
+
+def test_trust_status_is_computed_not_hardcoded_in_ui() -> None:
+    page = Path("public/index.html").read_text(encoding="utf-8")
+    app = Path("public/app.js").read_text(encoding="utf-8")
+
+    assert 'id="trustSnapshotStatus">CHECKING</strong>' in page
+    assert '$("trustSnapshotStatus").textContent=trustReport.status' in app
+    assert "Math.round((trustReport.provenanceCoverage||0)*100)" in app
+    assert "trustReport.staleCriticalClaims" in app
+    assert "trustReport.unresolvedConflicts" in app
+    assert "trustReport.passedChecks" in app
+
+
+def test_operator_trust_cli_exists_and_uses_same_registry_evaluator() -> None:
+    script = Path("scripts/trust_report.py").read_text(encoding="utf-8")
+
+    assert "from commons.trust import evaluate_registry, load_registry" in script
+    assert 'default="public/trust-registry.json"' in script
+    assert 'return 0 if report["status"] == "HEALTHY" else 2' in script
+
+
+def test_trust_documentation_states_current_limits() -> None:
+    doc = Path("docs/COMMONS_TRUST_V1.md").read_text(encoding="utf-8")
+
+    assert "Reliability constitution" in doc
+    assert "Never fabricate reality." in doc
+    assert "Human authority scales with consequence." in doc
+    assert "Fail visibly and safely." in doc
+    assert "cryptographically signed source attestations" in doc
+    assert "independent third-party audit" in doc
