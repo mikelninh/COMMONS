@@ -288,7 +288,7 @@ def test_calm_orientation_is_computed_from_live_product_state() -> None:
     assert 'id="orientationImproving"' in page
     assert 'id="orientationActions"' in page
     assert 'id="orientationStale"' in page
-    assert "See what matters. Leave when you’re oriented." in page
+    assert "Understand what matters. Know how certain we are. Act only when there is something useful to do." in page
 
     assert "function renderCalmOrientation" in app
     assert "STORIES.length" in app
