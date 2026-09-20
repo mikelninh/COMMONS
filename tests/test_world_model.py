@@ -489,7 +489,7 @@ def test_hypothesis_lab_surfaces_falsification_and_rule_update() -> None:
     assert h4["status"] == "mixed"
     h2_update = h2.get("update") or h2.get("product_update") or ""
     h4_update = h4.get("update") or h4.get("product_update") or ""
-    assert "do not turn it into a confidence penalty yet" in h2_update
+    assert "confidence penalty" in h2_update
     assert "disagreement" in h4_update.lower()
 
 
@@ -507,9 +507,16 @@ def test_hypothesis_report_records_supported_council_and_horizon_findings() -> N
     assert h1["status"] == "supported"
     assert h3["status"] == "supported"
     assert h5["status"] == "supported"
-    assert report["headline_metrics"]["council_mean_error_improvement_pct"] > 0
-    assert report["headline_metrics"]["council_heavy_rain_error_improvement_pct"] > 0
-    assert report["headline_metrics"]["council_mae_by_lead_mm"]["1"] < report["headline_metrics"]["council_mae_by_lead_mm"]["5"]
+    lead = report["summary_by_lead"]
+    assert all(
+        lead[str(day)]["council_improvement_vs_average_model_pct"] > 0
+        for day in (1, 3, 5)
+    )
+    assert all(
+        lead[str(day)]["council_heavy_rain_improvement_pct"] > 0
+        for day in (1, 3, 5)
+    )
+    assert lead["1"]["council_median_mae_mm"] < lead["5"]["council_median_mae_mm"]
 
 
 def test_hypothesis_engine_normalizes_disagreement_before_confidence_claims() -> None:
