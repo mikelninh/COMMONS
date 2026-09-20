@@ -1,7 +1,7 @@
 {
   "schema_version": "0.1",
-  "generated_at": "2026-09-20T19:54:40.421641Z",
-  "previous_generated_at": "2026-09-20T18:41:11.333971Z",
+  "generated_at": "2026-09-20T20:32:06.423675Z",
+  "previous_generated_at": "2026-09-20T19:54:40.421641Z",
   "product": "COMMONS Morning Brief v1",
   "headline": "Nothing in the validated rainfall pilot needs your attention right now.",
   "close_message": "You are caught up.",
@@ -53,13 +53,20 @@
       "revision": {
         "direction": "mixed",
         "supporting_models": 0,
-        "models_compared": 0,
-        "median_delta_mm": null,
+        "models_compared": 3,
+        "median_delta_mm": 0.0,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
       "flood_context": null,
-      "exposure_context": null,
+      "exposure_context": {
+        "population": 17105184,
+        "radius_km": 20.0,
+        "data_year": 2026,
+        "source": "worldpop_R2025A_2026_1km",
+        "role": "context_only",
+        "note": "Nearby population is context, not estimated people impacted."
+      },
       "rank": 1
     },
     {
@@ -86,8 +93,8 @@
       "revision": {
         "direction": "mixed",
         "supporting_models": 0,
-        "models_compared": 0,
-        "median_delta_mm": null,
+        "models_compared": 3,
+        "median_delta_mm": 0.0,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
@@ -97,7 +104,14 @@
         "role": "context_only",
         "note": "River percentile is context, not the rainfall alert gate."
       },
-      "exposure_context": null,
+      "exposure_context": {
+        "population": 376264,
+        "radius_km": 20.0,
+        "data_year": 2026,
+        "source": "worldpop_R2025A_2026_1km",
+        "role": "context_only",
+        "note": "Nearby population is context, not estimated people impacted."
+      },
       "rank": 2
     },
     {
@@ -124,13 +138,20 @@
       "revision": {
         "direction": "mixed",
         "supporting_models": 0,
-        "models_compared": 0,
-        "median_delta_mm": null,
+        "models_compared": 3,
+        "median_delta_mm": 0.0,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
       "flood_context": null,
-      "exposure_context": null,
+      "exposure_context": {
+        "population": 27159668,
+        "radius_km": 20.0,
+        "data_year": 2026,
+        "source": "worldpop_R2025A_2026_1km",
+        "role": "context_only",
+        "note": "Nearby population is context, not estimated people impacted."
+      },
       "rank": 3
     }
   ],
