@@ -104,9 +104,16 @@
         </button>
       </div>
 
-      <aside class="story-library" id="storyLibrary" aria-label="Stories of Response">
-        <div class="library-kicker">STORIES OF RESPONSE · VOL. 01</div>
-        <h2>Three ways reality changes.</h2>
+      <aside class="story-library" id="storyLibrary" aria-label="Current orientation and Stories of Response">
+        <div class="library-kicker">CURRENT ORIENTATION</div>
+        <h2>See what matters. Leave when you’re oriented.</h2>
+        <div class="calm-orientation" id="calmOrientation" aria-label="Current WORLD PULSE orientation">
+          <div class="calm-metric"><strong id="orientationStories">—</strong><span>stories tracked</span></div>
+          <div class="calm-metric"><strong id="orientationImproving">—</strong><span>show documented improvement</span></div>
+          <div class="calm-metric"><strong id="orientationActions">—</strong><span>verified direct action paths</span></div>
+          <div class="calm-metric"><strong id="orientationStale">—</strong><span>stale critical claims</span></div>
+        </div>
+        <div class="library-subhead"><span>STORIES OF RESPONSE · VOL. 01</span><button class="text-nav" id="browseStoriesInline">Browse</button></div>
         <div class="story-cards" id="storyCards"></div>
         <button class="trust-snapshot" id="trustSnapshot" aria-label="Open COMMONS Trust Status">
           <span class="trust-snapshot-dot" id="trustSnapshotDot"></span>
@@ -216,10 +223,16 @@
         <div class="trust-center-kicker">COMMONS · TRUST CENTER</div>
         <div class="trust-center-title">Trust must be inspectable.</div>
       </div>
-      <button class="iconless" id="trustCenterClose" aria-label="Close Trust Center">×</button>
+      <div class="trust-head-actions">
+        <div class="trust-mode-switch" role="group" aria-label="Trust Center detail level">
+          <button class="trust-mode active" id="trustModeSimple" aria-pressed="true">Simple</button>
+          <button class="trust-mode" id="trustModeAudit" aria-pressed="false">Audit</button>
+        </div>
+        <button class="iconless" id="trustCenterClose" aria-label="Close Trust Center">×</button>
+      </div>
     </div>
     <div class="trust-center-status" id="trustCenterStatus"></div>
-    <div class="trust-center-tabs" role="tablist" aria-label="Trust Center views">
+    <div class="trust-center-tabs audit-only" role="tablist" aria-label="Trust Center audit views">
       <button class="trust-tab active" data-trust-tab="status" role="tab" aria-selected="true">Status</button>
       <button class="trust-tab" data-trust-tab="claims" role="tab" aria-selected="false">Claims</button>
       <button class="trust-tab" data-trust-tab="sources" role="tab" aria-selected="false">Sources</button>
