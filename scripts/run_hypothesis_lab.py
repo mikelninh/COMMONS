@@ -427,6 +427,62 @@ def main() -> int:
                 "no_longer_deep_under_live_72h_window"
             )
 
+    minority_convective_path = Path("public/world-model/minority-convective-report.json")
+    if minority_convective_path.exists():
+        minority_convective = json.loads(
+            minority_convective_path.read_text(encoding="utf-8")
+        )
+        for section_key in ("h24", "h25"):
+            section = minority_convective.get(section_key) or {}
+            hypothesis = section.get("hypothesis") or {}
+            hypothesis_id = hypothesis.get("id")
+            if not hypothesis_id:
+                continue
+            report["hypotheses"] = [
+                item
+                for item in report["hypotheses"]
+                if item.get("id") != hypothesis_id
+            ]
+            report["hypotheses"].append(
+                {
+                    "id": hypothesis_id,
+                    "claim": hypothesis.get("claim"),
+                    "status": hypothesis.get("status"),
+                    "effect": hypothesis.get("effect"),
+                    "update": hypothesis.get("product_update"),
+                }
+            )
+
+        report.setdefault("headline_metrics", {})
+        h24 = minority_convective.get("h24") or {}
+        h24_test = h24.get("test") or {}
+        report["headline_metrics"]["h24_selected_rule"] = h24_test.get(
+            "selected_rule"
+        ) or (h24.get("development") or {}).get("selected_rule")
+        report["headline_metrics"]["h24_deep_miss_recovery_rate"] = (
+            (h24_test.get("selected") or {}).get("target_recovery_rate")
+        )
+        report["headline_metrics"]["h24_incremental_false_alerts_per_100"] = (
+            (h24_test.get("comparison") or {}).get(
+                "incremental_false_alerts_per_100"
+            )
+        )
+
+        h25 = minority_convective.get("h25") or {}
+        h25_test = h25.get("test") or {}
+        report["headline_metrics"]["h25_selected_rule"] = h25_test.get(
+            "selected_rule"
+        ) or (h25.get("development") or {}).get("selected_rule")
+        report["headline_metrics"]["h25_blind_miss_recovery_rate"] = (
+            (h25_test.get("selected") or {}).get("target_recovery_rate")
+        )
+        report["headline_metrics"]["h25_blind_test_misses"] = (
+            (h25_test.get("baseline") or {}).get("target_misses")
+        )
+        report["headline_metrics"]["h25_convective_evidence_status"] = (
+            minority_convective.get("convective_evidence_health") or {}
+        ).get("status")
+
     report["next_hypotheses"] = [
         {
             "id": "H7",
