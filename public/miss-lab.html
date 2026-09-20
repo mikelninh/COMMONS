@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#060805">
+<title>COMMONS / DEEP MISS LAB</title>
+<link rel="stylesheet" href="./miss-lab.css">
+</head>
+<body>
+<header>
+  <a href="./morning.html">COMMONS / DEEP MISS LAB</a>
+  <nav><a href="./morning.html">Morning Brief</a><a href="./world-model.html">World Model</a></nav>
+</header>
+<main>
+  <section class="hero">
+    <div class="eyebrow">SPRINT 1 · H23</div>
+    <h1>Why didn’t we see it coming?</h1>
+    <p>Take every deep heavy-rain miss. Test whether the problem was timing, one model being ignored, spatial displacement, or the entire council being blind.</p>
+    <div class="status" id="status">Loading H23…</div>
+  </section>
+
+  <section class="numbers">
+    <article><span>H21 DEEP MISSES</span><b id="h21Deep">—</b><small>exact-day proxy</small></article>
+    <article><span>LIVE-WINDOW CORRECTION</span><b id="semanticsResolved">—</b><small>no longer deep when evaluated like Morning Brief</small></article>
+    <article><span>H23 TEST RECOVERY</span><b id="recovery">—</b><small>selected rescue strategy</small></article>
+    <article><span>FALSE-ALERT COST</span><b id="falseCost">—</b><small>incremental / 100 decisions</small></article>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div><span>DECISION</span><h2 id="strategy">Waiting for result…</h2></div>
+      <p id="decisionCopy">The rescue rule only earns promotion if it recovers ≥20% of deep misses without exceeding the false-alert or precision budget.</p>
+    </div>
+    <div class="guardrails" id="guardrails"></div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div><span>FAILURE MODES</span><h2>What kind of blindness remains?</h2></div>
+      <p>Mutually exclusive primary taxonomy on final-test deep misses.</p>
+    </div>
+    <div class="bars" id="taxonomy"></div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div><span>CASES</span><h2>Look at the misses themselves.</h2></div>
+      <p>Observed rain versus the local gate and the strongest tested rescue signal.</p>
+    </div>
+    <div class="cases" id="cases"></div>
+  </section>
+
+  <section class="method">
+    <div><span>METHOD</span><h2>Hard to fool.</h2></div>
+    <ul>
+      <li>Morning Brief semantics: lead 1 / 2 / 3 across the next three target days.</li>
+      <li>25 / 50 / 100 km coarse spatial rings.</li>
+      <li>Mean, p90 and max spatial aggregations plus a one-model rescue candidate.</li>
+      <li>Candidate picked on first half of holdout, judged on second half.</li>
+      <li>Promotion requires ≥20% deep-miss recovery, ≤3 extra false alerts / 100, and ≤5pp precision loss.</li>
+    </ul>
+  </section>
+</main>
+<script src="./miss-lab.js"></script>
+</body>
+</html>
