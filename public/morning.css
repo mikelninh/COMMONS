@@ -106,3 +106,6 @@ footer{display:flex;justify-content:space-between;gap:24px;padding:24px 28px;bor
 .research-update{font-size:12px;color:var(--muted);line-height:1.5;border-top:1px solid var(--line);padding-top:12px;margin:14px 0 0}
 .research-empty{color:var(--muted);font-size:13px}
 @media(max-width:800px){.research-grid{grid-template-columns:1fr}}
+
+.impact-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.impact-action{border:1px solid var(--line);border-radius:999px;padding:7px 10px;font-size:10px;color:var(--soft);background:rgba(255,255,255,.015)}
