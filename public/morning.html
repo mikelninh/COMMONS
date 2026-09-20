@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#060805">
+<meta name="description" content="COMMONS Morning Brief — what deserves attention today, and what can wait.">
+<title>COMMONS / MORNING BRIEF</title>
+<link rel="stylesheet" href="./morning.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="./">COMMONS / MORNING BRIEF</a>
+  <nav>
+    <a href="./world-model.html">World Model</a>
+    <a href="./">World Pulse</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="eyebrow">EARTH ATTENTION · VALIDATED PILOT</div>
+    <div class="hero-grid">
+      <div>
+        <p class="morning" id="morningGreeting">Good morning.</p>
+        <h1 id="briefHeadline">Loading what deserves attention…</h1>
+        <p class="promise">Interrupt rarely. Rank calmly. Show why.</p>
+      </div>
+      <div class="status-orb" id="statusOrb" data-state="loading">
+        <span id="orbLabel">CHECKING</span>
+        <strong id="orbCount">—</strong>
+        <small id="orbDetail">live monitors</small>
+      </div>
+    </div>
+    <div class="meta-line">
+      <span id="briefUpdated">Waiting for live brief…</span>
+      <span id="evidenceHealth">Evidence health: —</span>
+      <span>3 validated rainfall monitors</span>
+    </div>
+  </section>
+
+  <section class="interrupt hidden" id="interruptSection">
+    <div class="section-head">
+      <div><span>INTERRUPT</span><h2>Needs attention now</h2></div>
+      <small>Research alert gate · confirm with official local warnings before acting.</small>
+    </div>
+    <div class="card-grid" id="alertGrid"></div>
+  </section>
+
+  <section class="queue">
+    <div class="section-head">
+      <div><span>PRIORITY QUEUE</span><h2>What should I inspect first?</h2></div>
+      <small>Ranked by proximity to the validated heavy-rain gate. Revisions do not change rank.</small>
+    </div>
+    <div class="queue-list" id="queueList"></div>
+  </section>
+
+  <section class="caught-up" id="caughtUp">
+    <div>
+      <span>CALM CLOSE</span>
+      <h2 id="closeMessage">If nothing needs you, being caught up is enough.</h2>
+    </div>
+    <a href="./world-model.html">Inspect the machine →</a>
+  </section>
+
+  <section class="coverage">
+    <div class="section-head">
+      <div><span>COVERAGE</span><h2>What COMMONS is not ranking yet</h2></div>
+      <small>We do not invent precision for immature loops.</small>
+    </div>
+    <div class="coverage-grid" id="coverageGrid"></div>
+  </section>
+
+  <section class="trust">
+    <div>
+      <span>TRUST CONTRACT</span>
+      <h2>Useful only if it knows its limits.</h2>
+    </div>
+    <div class="trust-list" id="trustList"></div>
+  </section>
+</main>
+
+<footer>
+  <span>COMMONS · research prototype · not a local emergency warning.</span>
+  <span>Forecast data via Open-Meteo sources; source-specific attribution applies.</span>
+</footer>
+
+<div class="loading" id="loading">Loading Morning Brief…</div>
+<script src="./morning.js"></script>
+</body>
+</html>
