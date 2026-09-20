@@ -56,7 +56,7 @@ function card(item){
     '<span class="pill '+item.state+'">'+item.state.toUpperCase()+'</span></div>'+
     '<div class="meter" style="--pct:'+meter+'%"><i></i></div>'+
     '<div class="signal-row">'+
-      '<div class="signal"><span>72H COUNCIL</span><b>'+fmt(item.forecast_72h_mm," mm",1)+'</b></div>'+
+      '<div class="signal"><span>PEAK FORECAST DAY</span><b>'+fmt(item.forecast_peak_daily_mm," mm",1)+'</b><small>'+String(item.forecast_peak_date||"—")+'</small></div>'+
       '<div class="signal"><span>HEAVY GATE</span><b>'+fmt(item.heavy_rain_gate_mm," mm",1)+'</b></div>'+
       '<div class="signal"><span>GATE RATIO</span><b>'+pct(item.gate_ratio)+'</b></div>'+
     '</div>'+
