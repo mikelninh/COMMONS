@@ -6,6 +6,8 @@ from pathlib import Path
 
 import pytest
 
+from commons.world_model_eval import score_loop_snapshot
+
 from commons.world_model import (
     OpenMeteoClient,
     WATCHPOINTS,
@@ -264,3 +266,32 @@ def test_monetization_plan_keeps_emergency_information_public() -> None:
     assert "These are hypotheses, not current published prices." in plan
     assert "Do not activate paid customer revenue" in plan
     assert "3 organizations × one useful watchlist × recurring monthly payment" in plan
+
+
+def test_backtest_scores_each_provider_and_consensus_without_claiming_calibration() -> None:
+    client = FakeClient()
+    snapshot = build_snapshot(
+        client,
+        now=datetime(2026, 9, 20, 12, tzinfo=timezone.utc),
+    )
+    flood = next(loop for loop in snapshot["loops"] if loop["id"] == "water-rises")
+    result = score_loop_snapshot(
+        flood,
+        {
+            "precip_72h_mm": 34.0,
+            "temp_max_72h_c": 24.0,
+            "gust_max_72h_kmh": 45.0,
+        },
+    )
+
+    assert len(result["members"]) == 3
+    assert result["consensus"]["precip_abs_error_mm"] is not None
+    assert "not probabilistic calibration" in result["note"]
+
+
+def test_backtest_cli_exists_for_archived_snapshots() -> None:
+    script = Path("scripts/backtest_world_model.py").read_text(encoding="utf-8")
+
+    assert "--snapshot" in script
+    assert "--observed" in script
+    assert "Brier score and CRPS require ensemble forecasts" in script
