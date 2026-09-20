@@ -861,7 +861,7 @@ function bindScrollSceneActions(){
       }
       if(btn.dataset.action==="follow")followCurrentStoryInline();
       if(btn.dataset.action==="done")stopStory(true);
-      if(btn.dataset.action==="belief")openTrustCenter("claims","simple");
+      if(btn.dataset.action==="belief")openEvidence();
     };
   });
 }
@@ -2168,68 +2168,61 @@ function closeEvidence(){
 }
 
 function renderEvidence(){
-  const live=sourceStates.map(s=>{
-    const m=sourceMeta[s.name];
+  const claims=trustRegistry
+    ? (trustRegistry.claims||[])
+        .filter(claim=>claim.story_id===activeStory.id && claim.status==="active")
+        .sort((a,b)=>String(b.as_of).localeCompare(String(a.as_of)))
+        .slice(0,4)
+    : [];
+
+  const claimRows=claims.map(claim=>{
+    const source=window.COMMONS_TRUST?.sourceById(trustRegistry,claim.source_ids?.[0]);
     return `
-      <div class="evidence-row">
-        <div class="evidence-date">${escapeHtml(m.freshness)}<br>${s.ok?"responding":"unavailable"}</div>
-        <a href="${m.url}" target="_blank" rel="noopener">${escapeHtml(s.name)} — ${escapeHtml(m.scope)}</a>
-      </div>`;
+      <article class="evidence-peek-claim">
+        <div class="evidence-peek-type">${escapeHtml(claim.claim_type)} · ${escapeHtml(formatTrustDate(claim.as_of))}</div>
+        <h3>${escapeHtml(claim.statement)}</h3>
+        <p>${escapeHtml(claim.limitations)}</p>
+        ${source?`<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener">${escapeHtml(source.organization)} · open source ↗</a>`:""}
+      </article>
+    `;
   }).join("");
 
-  const evidenceRows=activeStory.evidence.map(item=>`
-    <div class="evidence-row">
-      <div class="evidence-date">${escapeHtml(item.date).replace(" ","<br>")}</div>
-      <a href="${item.url}" target="_blank" rel="noopener"><strong>${escapeHtml(item.label)}</strong> — ${escapeHtml(item.note)}</a>
-    </div>
+  const fallbackRows=activeStory.evidence.map(item=>`
+    <article class="evidence-peek-claim">
+      <div class="evidence-peek-type">${escapeHtml(item.date)}</div>
+      <h3>${escapeHtml(item.label)}</h3>
+      <p>${escapeHtml(item.note)}</p>
+      <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener">Open source ↗</a>
+    </article>
   `).join("");
 
-  const guardrails=activeStory.guardrails.map(item=>`<div class="guardrail">${escapeHtml(item)}</div>`).join("");
-
   $("evidenceBody").innerHTML=`
-    <p class="evidence-intro">Beauty is allowed to move you. It is not allowed to hide where a claim came from.</p>
+    <div class="evidence-peek-intro">
+      <span>HOW DO WE KNOW?</span>
+      <h2>${escapeHtml(activeStory.country)} · ${escapeHtml(activeStory.title)}</h2>
+      <p>These are the pieces of evidence doing the most work in this story. You should be able to inspect the source and see where each claim stops.</p>
+    </div>
 
-    <section class="evidence-section">
-      <h3>${escapeHtml(activeStory.country)} · evidence chain</h3>
-      ${evidenceRows}
+    <div class="evidence-peek-list">${claimRows||fallbackRows}</div>
+
+    <section class="evidence-peek-guardrails">
+      <span>WHAT THIS DOESN’T PROVE</span>
+      ${(activeStory.guardrails||[]).slice(0,3).map(item=>`<p>— ${escapeHtml(item)}</p>`).join("")}
     </section>
 
-    <section class="evidence-section">
-      <h3>This story’s visual grammar</h3>
-      <div class="grammar-note">
-        <div><b>◉ ${escapeHtml(activeStory.grammar[0])}</b><span>The sourced condition or change that begins this story.</span></div>
-        <div><b>— ${escapeHtml(activeStory.grammar[1])}</b><span>The human system responding. Visual paths are semantic, not literal tracked routes.</span></div>
-        <div><b>✦ ${escapeHtml(activeStory.grammar[2])}</b><span>The story’s evidence state: improvement, elimination, or an explicitly unresolved loop.</span></div>
-      </div>
+    <section class="evidence-peek-visual">
+      <span>MAP NOTE</span>
+      <p>${escapeHtml(activeStory.terrain.disclosure)}. The visual response paths are semantic rather than literal tracked routes.</p>
     </section>
 
-    <section class="evidence-section">
-      <h3>About the geographic descent</h3>
-      <p>The ${escapeHtml(activeStory.country)} country outline is projected from the public World Atlas geometry used by the globe. ${escapeHtml(activeStory.terrain.disclosure)}. Internal contour lines are a cinematic depth treatment, not a factual topographic, damage, transmission-intensity or intervention map. Response threads are semantic rather than literal routes.</p>
-    </section>
-
-    <section class="evidence-section">
-      <h3>Memory of Earth</h3>
-      <p>The mark records this one documented story with its current state: <strong>${escapeHtml(activeStory.statusLabel)}</strong>. It is not a score, rank, completion badge or claim beyond the evidence above.</p>
-    </section>
-
-    <section class="evidence-section">
-      <h3>Claims deliberately not made</h3>
-      <div class="guardrails">${guardrails}</div>
-    </section>
-
-    <section class="evidence-section">
-      <h3>Current Earth layer</h3>
-      ${live||"<p>Source health appears after the public feeds respond.</p>"}
-    </section>
-
-    <section class="evidence-section">
-      <h3>Inspect the claim ledger</h3>
-      <p>The evidence drawer summarizes this story. The Trust Center exposes the machine-readable claim type, provenance, freshness window and limitation behind each material claim.</p>
-      <button class="word-button" id="evidenceTrustBtn">Open Trust Center →</button>
-    </section>
+    <div class="evidence-peek-actions">
+      <button class="word-button" id="evidenceTrustBtn">Open full evidence file →</button>
+      <button class="word-button muted" id="evidenceDoneBtn">Back to story</button>
+    </div>
   `;
+
   if($("evidenceTrustBtn"))$("evidenceTrustBtn").onclick=()=>openTrustCenter("claims","audit");
+  if($("evidenceDoneBtn"))$("evidenceDoneBtn").onclick=closeEvidence;
 }
 
 function openShare(){
@@ -2428,7 +2421,7 @@ function bindEvents(){
   $("lookBtn").onclick=openLook;
   $("lookClose").onclick=closeLook;
   $("beliefBtn").onclick=()=>openTrustCenter("claims","simple");
-  $("storyBelief").onclick=()=>openTrustCenter("claims","simple");
+  $("storyBelief").onclick=openEvidence;
   $("storyActionBtn").onclick=()=>jumpToScene(activeStory.scenes.length-1);
   $("actionLedgerBtn").onclick=()=>openActionLab("ledger");
   $("trustBtn").onclick=()=>openTrustCenter("status","simple");
