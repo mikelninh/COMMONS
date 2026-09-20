@@ -341,12 +341,14 @@ def _select_candidate(
         )
         comparison = _compare(base, metrics)
         passes = _passes(metrics, comparison, min_recovery=min_recovery)
+        false_cost = comparison.get("incremental_false_alerts_per_100")
+        rescue_precision = metrics.get("rescue_only_precision")
         scored.append(
             (
                 passes,
                 float(metrics.get("target_recovery_rate") or 0.0),
-                -float(comparison.get("incremental_false_alerts_per_100") or 999.0),
-                float(metrics.get("rescue_only_precision") or 0.0),
+                -float(false_cost) if false_cost is not None else -999.0,
+                float(rescue_precision) if rescue_precision is not None else 0.0,
                 key,
                 {
                     "metrics": metrics,
@@ -421,11 +423,16 @@ def _fetch_convective_evidence(
 
     provider_coverage: dict[str, int] = {}
     for provider in MODELS:
-        provider_coverage[provider] = sum(
-            bool((output[point_id].get(provider) or {}).get("cape"))
-            and bool((output[point_id].get(provider) or {}).get("showers"))
-            for point_id in point_ids
-        )
+        usable = 0
+        for point_id in point_ids:
+            provider_data = output[point_id].get(provider) or {}
+            cape = provider_data.get("cape") or {}
+            showers = provider_data.get("showers") or {}
+            cape_ok = all(bool(cape.get(lead)) for lead in LEADS)
+            showers_ok = all(bool(showers.get(lead)) for lead in LEADS)
+            if cape_ok and showers_ok:
+                usable += 1
+        provider_coverage[provider] = usable
 
     expected = len(point_ids) * len(MODELS)
     observed = sum(provider_coverage.values())
