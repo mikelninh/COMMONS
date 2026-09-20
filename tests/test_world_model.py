@@ -1406,3 +1406,24 @@ def test_morning_brief_surfaces_impact_context_without_changing_rank() -> None:
     assert "consequential historical events nearby · context" in js
     assert "impact_context" in morning
     assert "does not change ALERT" in morning
+
+
+def test_impact_v0_visual_surface_is_component_first_and_linked() -> None:
+    page = Path("public/impact.html").read_text(encoding="utf-8")
+    js = Path("public/impact.js").read_text(encoding="utf-8")
+    morning = Path("public/morning.html").read_text(encoding="utf-8")
+    morning_js = Path("public/morning.js").read_text(encoding="utf-8")
+
+    assert "What could actually matter here?" in page
+    assert "Hazard, exposure, infrastructure and historical consequence stay separate" in page
+    assert "impact-report.json" in js
+    assert "nearby assets, not damage estimates" in js
+    assert "./impact.html" in morning
+    assert '"H27"' in morning_js
+
+
+def test_world_model_refresh_passes_impact_context_to_morning_brief() -> None:
+    workflow = Path(".github/workflows/world-model.yml").read_text(encoding="utf-8")
+
+    assert "--impact-report" in workflow
+    assert "public/world-model/impact-report.json" in workflow
