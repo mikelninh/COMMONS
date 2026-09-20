@@ -89,6 +89,8 @@ Each snapshot is:
 2. uploaded as a GitHub Actions artifact
 3. archived on the `world-model-data` branch
 
+Long ERA5 and GloFAS historical baselines are cached separately on the data branch and reused. They are not downloaded every six hours.
+
 This lets future evaluation reconstruct:
 
 - what COMMONS knew
@@ -97,6 +99,14 @@ This lets future evaluation reconstruct:
 - what actually happened later
 
 That is the foundation for honest backtesting.
+
+A deterministic first evaluator is available with:
+
+```bash
+python scripts/backtest_world_model.py --snapshot snapshot.json --observed observed.json
+```
+
+v0 measures point-summary absolute errors only. Ensemble calibration, Brier score and CRPS are explicitly deferred until probabilistic forecasts are integrated.
 
 ## Cost discipline
 
