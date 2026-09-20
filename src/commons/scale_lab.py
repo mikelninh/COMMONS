@@ -4,8 +4,8 @@ from collections import defaultdict
 from statistics import mean, median
 from typing import Any
 
-from commons.hypothesis_lab import BacktestPoint, build_records
-from commons.scale_points import GLOBAL_POINTS
+from commons.hypothesis_lab import BacktestPoint
+from commons.scale_points import GLOBAL_POINTS, build_global_records, full_council_records
 
 
 def run_scale_backtest(
@@ -14,10 +14,14 @@ def run_scale_backtest(
     end_date: str,
     points: tuple[BacktestPoint, ...] = GLOBAL_POINTS,
 ) -> dict[str, Any]:
-    records, source_errors = build_records(
+    raw_records, source_errors = build_global_records(
         start_date=start_date,
         end_date=end_date,
         points=points,
+    )
+    records = full_council_records(raw_records)
+    full_council_ratio = (
+        len(records) / len(raw_records) if raw_records else 0.0
     )
     by_point: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for record in records:
@@ -78,7 +82,8 @@ def run_scale_backtest(
     win_rate = wins / len(results) if results else None
     median_improvement = median(improvements) if improvements else None
 
-    enough = len(results) >= 24
+    evidence_healthy = len(results) >= 24 and full_council_ratio >= 0.90
+    enough = evidence_healthy
     supported = (
         enough
         and win_rate is not None
@@ -102,6 +107,13 @@ def run_scale_backtest(
         "requested_points": len(points),
         "usable_points": len(results),
         "source_errors": source_errors,
+        "evidence_health": {
+            "status": "healthy" if evidence_healthy else "insufficient",
+            "raw_records": len(raw_records),
+            "full_council_records": len(records),
+            "full_council_ratio": round(full_council_ratio, 4),
+            "usable_points": len(results),
+        },
         "point_results": results,
         "summary": {
             "council_win_points": wins,
@@ -127,5 +139,6 @@ def run_scale_backtest(
             "This tests forecast error, not human impact.",
             "Locations are a deliberately diverse convenience sample, not a statistically representative sample of Earth.",
             "Operational model versions can change over time.",
+            "Only records with all three forecast models are used for the H20 conclusion.",
         ],
     }
