@@ -4,23 +4,23 @@
     "start": "2026-07-01",
     "end": "2026-09-05"
   },
-  "paths": 201,
-  "heavy_events": 21,
+  "paths": 134,
+  "heavy_events": 14,
   "source_errors": [
     {
-      "point": "delhi",
-      "source": "gfs",
+      "point": "manila",
+      "source": "era5",
       "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
     }
   ],
-  "alert_recall": 0.5238,
-  "watch_recall": 0.619,
-  "extra_recall": 0.0952,
-  "watch_only_signals": 7,
-  "watch_only_true": 2,
-  "watch_only_precision": 0.2857,
-  "watch_burden_per_100_days": 3.48,
-  "mean_earlier_watch_days": 0.0,
+  "alert_recall": 0.5,
+  "watch_recall": 0.5,
+  "extra_recall": 0.0,
+  "watch_only_signals": 2,
+  "watch_only_true": 0,
+  "watch_only_precision": 0.0,
+  "watch_burden_per_100_days": 1.49,
+  "mean_earlier_watch_days": 2,
   "hypothesis": {
     "id": "H15",
     "claim": "Separating WATCH from ALERT gains useful recall without materially increasing interruption burden.",

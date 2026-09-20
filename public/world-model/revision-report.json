@@ -11,59 +11,53 @@
   ],
   "verification": "ERA5 daily precipitation",
   "meaningful_revision_threshold_mm": 1.0,
-  "source_errors": [
-    {
-      "point": "delhi",
-      "source": "icon",
-      "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
-    }
-  ],
+  "source_errors": [],
   "summary": {
     "paths": 201,
-    "persistent_cases": 47,
-    "one_off_cases": 27,
-    "reversal_cases": 78,
-    "persistent_direction_accuracy": 0.9778,
-    "persistent_error_improvement_rate": 0.7021,
-    "one_off_direction_accuracy": 0.85,
-    "one_off_error_improvement_rate": 0.6296,
-    "majority_revision_cases": 124,
-    "majority_direction_accuracy": 0.7097,
-    "majority_error_improvement_rate": 0.6613,
-    "unanimous_revision_cases": 30,
-    "unanimous_direction_accuracy": 0.9,
-    "no_majority_cases": 70,
+    "persistent_cases": 45,
+    "one_off_cases": 32,
+    "reversal_cases": 77,
+    "persistent_direction_accuracy": 1.0,
+    "persistent_error_improvement_rate": 0.8,
+    "one_off_direction_accuracy": 0.8462,
+    "one_off_error_improvement_rate": 0.6875,
+    "majority_revision_cases": 140,
+    "majority_direction_accuracy": 0.7143,
+    "majority_error_improvement_rate": 0.6643,
+    "unanimous_revision_cases": 40,
+    "unanimous_direction_accuracy": 0.925,
+    "no_majority_cases": 49,
     "direction_accuracy_by_rain_regime": {
       "dry": {
-        "samples": 9,
-        "direction_accuracy": 1.0
+        "samples": 13,
+        "direction_accuracy": 0.8462
       },
       "moderate": {
-        "samples": 38,
-        "direction_accuracy": 0.8421
+        "samples": 45,
+        "direction_accuracy": 0.8222
       },
       "heavy": {
-        "samples": 77,
-        "direction_accuracy": 0.6104
+        "samples": 82,
+        "direction_accuracy": 0.6341
       }
     },
-    "high_spread_q75": 1.3041,
-    "all_3d_mae_mm": 9.43,
-    "high_spread_3d_mae_mm": 4.66
+    "high_spread_q75": 1.4286,
+    "all_3d_mae_mm": 9.372,
+    "high_spread_3d_mae_mm": 4.022
   },
   "hypotheses": [
     {
       "id": "H8",
       "claim": "A revision sustained across multiple lead checkpoints is more useful than a one-off late jump.",
       "status": "supported",
-      "effect": "persistent direction 97.8%, improvement 70.2%; one-off direction 85.0%, improvement 63.0%",
+      "effect": "persistent direction 100.0%, improvement 80.0%; one-off direction 84.6%, improvement 68.8%",
       "product_update": "Promote sustained multi-checkpoint revisions as a material-change signal."
     },
     {
       "id": "H9",
       "claim": "When at least 2 of 3 models revise in the same direction, that direction is useful for what-changed alerts.",
       "status": "supported",
-      "effect": "direction accuracy 71.0%; next-checkpoint error improved 66.1%",
+      "effect": "direction accuracy 71.4%; next-checkpoint error improved 66.4%",
       "product_update": "Surface \"2/3 models revised upward/downward\" as a directional change signal."
     }
   ],

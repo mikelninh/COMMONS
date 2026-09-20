@@ -1,0 +1,111 @@
+{
+  "schema_version": "0.1",
+  "train_period": {
+    "start": "2026-07-01",
+    "end": "2026-08-10"
+  },
+  "test_period": {
+    "start": "2026-08-11",
+    "end": "2026-09-10"
+  },
+  "verification": "ERA5 heavy-rain event using thresholds learned only from the training period.",
+  "test_cases": 62,
+  "heavy_events": 4,
+  "source_errors": [
+    {
+      "point": "nuwakot",
+      "source": "era5",
+      "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
+    }
+  ],
+  "near_threshold_factor": 0.8,
+  "strategies": {
+    "threshold_proximity": {
+      "average_precision": 0.6111,
+      "ndcg": 0.8151,
+      "budgets": {
+        "10pct": {
+          "reviews": 7,
+          "catches": 3,
+          "precision": 0.4286,
+          "recall": 0.75,
+          "reviews_per_catch": 2.333
+        },
+        "20pct": {
+          "reviews": 13,
+          "catches": 4,
+          "precision": 0.3077,
+          "recall": 1.0,
+          "reviews_per_catch": 3.25
+        },
+        "30pct": {
+          "reviews": 19,
+          "catches": 4,
+          "precision": 0.2105,
+          "recall": 1.0,
+          "reviews_per_catch": 4.75
+        }
+      }
+    },
+    "revision_priority": {
+      "average_precision": 0.5933,
+      "ndcg": 0.8062,
+      "budgets": {
+        "10pct": {
+          "reviews": 7,
+          "catches": 3,
+          "precision": 0.4286,
+          "recall": 0.75,
+          "reviews_per_catch": 2.333
+        },
+        "20pct": {
+          "reviews": 13,
+          "catches": 4,
+          "precision": 0.3077,
+          "recall": 1.0,
+          "reviews_per_catch": 3.25
+        },
+        "30pct": {
+          "reviews": 19,
+          "catches": 4,
+          "precision": 0.2105,
+          "recall": 1.0,
+          "reviews_per_catch": 4.75
+        }
+      }
+    }
+  },
+  "comparison": {
+    "average_precision_gain": -0.0179,
+    "ndcg_gain": -0.0089,
+    "improved_budgets": 0,
+    "worse_budgets": 0,
+    "by_budget": {
+      "10pct": {
+        "catch_gain": 0,
+        "precision_gain": 0.0
+      },
+      "20pct": {
+        "catch_gain": 0,
+        "precision_gain": 0.0
+      },
+      "30pct": {
+        "catch_gain": 0,
+        "precision_gain": 0.0
+      }
+    }
+  },
+  "hypothesis": {
+    "id": "H18",
+    "claim": "Under a fixed human review budget, prioritizing upward-revision near-threshold cases catches more heavy events than threshold proximity alone.",
+    "status": "insufficient",
+    "effect": "improved budgets 0/3; worse 0; AP gain -0.0179; NDCG gain -0.0089",
+    "product_update": "Keep threshold proximity as the primary queue ranking; revision direction does not yet earn priority."
+  },
+  "limitations": [
+    "The ranking rule was motivated by adjacent historical data, so this is a temporal holdout rather than a fully independent external validation.",
+    "Only three monitored locations are represented.",
+    "Heavy precipitation is a proxy outcome, not human impact or flood damage.",
+    "The near-threshold boundary remains exploratory and should be learned without test-set tuning."
+  ]
+}

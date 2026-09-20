@@ -10,13 +10,7 @@
   },
   "checkpoint": "3 days before outcome",
   "verification": "ERA5 daily precipitation against each location's 90th-percentile heavy-rain threshold.",
-  "source_errors": [
-    {
-      "point": "delhi",
-      "source": "gfs",
-      "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
-    }
-  ],
+  "source_errors": [],
   "case_count": 12,
   "case_mix": {
     "alert": 4,
@@ -27,18 +21,18 @@
   },
   "cases": [
     {
-      "id": "delhi-2026-07-09",
+      "id": "delhi-2026-08-04",
       "point_id": "delhi",
       "point_name": "Delhi",
       "country": "India",
-      "date": "2026-07-09",
+      "date": "2026-08-04",
       "checkpoint": "T-3 days",
       "raw": {
-        "council_5d_mm": 11.85,
-        "council_3d_mm": 20.55,
-        "change_mm": 8.7,
+        "council_5d_mm": 6.6,
+        "council_3d_mm": 18.3,
+        "change_mm": 11.7,
         "heavy_threshold_mm": 17.4,
-        "threshold_ratio": 1.181,
+        "threshold_ratio": 1.052,
         "revision_direction": 1
       },
       "commons": {
@@ -46,23 +40,23 @@
         "reason": "Council median crossed the heavy-rain threshold."
       },
       "truth": {
-        "actual_mm": 164.5,
+        "actual_mm": 38.4,
         "heavy_event": true
       }
     },
     {
-      "id": "manila-2026-07-11",
-      "point_id": "manila",
-      "point_name": "Manila",
-      "country": "Philippines",
-      "date": "2026-07-11",
+      "id": "delhi-2026-08-06",
+      "point_id": "delhi",
+      "point_name": "Delhi",
+      "country": "India",
+      "date": "2026-08-06",
       "checkpoint": "T-3 days",
       "raw": {
-        "council_5d_mm": 32.9,
-        "council_3d_mm": 36.8,
-        "change_mm": 3.9,
-        "heavy_threshold_mm": 29.76,
-        "threshold_ratio": 1.237,
+        "council_5d_mm": 17.2,
+        "council_3d_mm": 19.4,
+        "change_mm": 2.2,
+        "heavy_threshold_mm": 17.4,
+        "threshold_ratio": 1.115,
         "revision_direction": 1
       },
       "commons": {
@@ -70,7 +64,7 @@
         "reason": "Council median crossed the heavy-rain threshold."
       },
       "truth": {
-        "actual_mm": 38.6,
+        "actual_mm": 24.8,
         "heavy_event": true
       }
     },
@@ -123,18 +117,18 @@
       }
     },
     {
-      "id": "delhi-2026-08-04",
+      "id": "delhi-2026-07-09",
       "point_id": "delhi",
       "point_name": "Delhi",
       "country": "India",
-      "date": "2026-08-04",
+      "date": "2026-07-09",
       "checkpoint": "T-3 days",
       "raw": {
-        "council_5d_mm": 6.75,
-        "council_3d_mm": 16.45,
-        "change_mm": 9.7,
+        "council_5d_mm": 4.1,
+        "council_3d_mm": 16.8,
+        "change_mm": 12.7,
         "heavy_threshold_mm": 17.4,
-        "threshold_ratio": 0.945,
+        "threshold_ratio": 0.966,
         "revision_direction": 1
       },
       "commons": {
@@ -142,7 +136,7 @@
         "reason": "Sub-threshold rainfall plus an upward majority revision."
       },
       "truth": {
-        "actual_mm": 38.4,
+        "actual_mm": 164.5,
         "heavy_event": true
       }
     },
@@ -243,27 +237,51 @@
       }
     },
     {
-      "id": "manila-2026-08-17",
-      "point_id": "manila",
-      "point_name": "Manila",
-      "country": "Philippines",
-      "date": "2026-08-17",
+      "id": "delhi-2026-07-21",
+      "point_id": "delhi",
+      "point_name": "Delhi",
+      "country": "India",
+      "date": "2026-07-21",
       "checkpoint": "T-3 days",
       "raw": {
-        "council_5d_mm": 19.1,
-        "council_3d_mm": 23.1,
-        "change_mm": 4.0,
-        "heavy_threshold_mm": 29.76,
-        "threshold_ratio": 0.776,
-        "revision_direction": 1
+        "council_5d_mm": 22.8,
+        "council_3d_mm": 15.2,
+        "change_mm": -7.6,
+        "heavy_threshold_mm": 17.4,
+        "threshold_ratio": 0.874,
+        "revision_direction": -1
       },
       "commons": {
         "state": "quiet",
         "reason": "No threshold crossing and no validated WATCH condition."
       },
       "truth": {
-        "actual_mm": 39.6,
+        "actual_mm": 22.8,
         "heavy_event": true
+      }
+    },
+    {
+      "id": "delhi-2026-08-11",
+      "point_id": "delhi",
+      "point_name": "Delhi",
+      "country": "India",
+      "date": "2026-08-11",
+      "checkpoint": "T-3 days",
+      "raw": {
+        "council_5d_mm": 16.0,
+        "council_3d_mm": 15.5,
+        "change_mm": -0.5,
+        "heavy_threshold_mm": 17.4,
+        "threshold_ratio": 0.891,
+        "revision_direction": 0
+      },
+      "commons": {
+        "state": "quiet",
+        "reason": "No threshold crossing and no validated WATCH condition."
+      },
+      "truth": {
+        "actual_mm": 9.2,
+        "heavy_event": false
       }
     },
     {
@@ -287,30 +305,6 @@
       },
       "truth": {
         "actual_mm": 25.2,
-        "heavy_event": false
-      }
-    },
-    {
-      "id": "manila-2026-09-04",
-      "point_id": "manila",
-      "point_name": "Manila",
-      "country": "Philippines",
-      "date": "2026-09-04",
-      "checkpoint": "T-3 days",
-      "raw": {
-        "council_5d_mm": 26.1,
-        "council_3d_mm": 25.1,
-        "change_mm": -1.0,
-        "heavy_threshold_mm": 29.76,
-        "threshold_ratio": 0.843,
-        "revision_direction": 0
-      },
-      "commons": {
-        "state": "quiet",
-        "reason": "No threshold crossing and no validated WATCH condition."
-      },
-      "truth": {
-        "actual_mm": 16.8,
         "heavy_event": false
       }
     }

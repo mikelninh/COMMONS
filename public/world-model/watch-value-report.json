@@ -6,32 +6,32 @@
   },
   "checkpoint": "T-3 days",
   "near_threshold_factor": 0.6,
-  "paths": 201,
-  "near_threshold_cases": 24,
+  "paths": 134,
+  "near_threshold_cases": 15,
   "source_errors": [
     {
       "point": "delhi",
-      "source": "gfs",
+      "source": "era5",
       "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
     }
   ],
   "revision_up": {
-    "cases": 12,
-    "heavy_events": 4,
+    "cases": 9,
+    "heavy_events": 3,
     "heavy_event_rate": 0.3333
   },
   "revision_not_up": {
-    "cases": 12,
+    "cases": 6,
     "heavy_events": 1,
-    "heavy_event_rate": 0.0833
+    "heavy_event_rate": 0.1667
   },
-  "heavy_event_rate_lift": 0.25,
+  "heavy_event_rate_lift": 0.1667,
   "hypothesis": {
     "id": "H17",
     "claim": "Among sub-threshold 3-day forecasts, upward model revisions identify cases that deserve more human attention.",
-    "status": "supported",
-    "effect": "upward-revision heavy-event rate 0.3333 vs 0.0833; lift 0.25; n=12 vs 12",
-    "product_update": "Use upward revisions to rank sub-threshold WATCH candidates above otherwise similar cases."
+    "status": "insufficient",
+    "effect": "upward-revision heavy-event rate 0.3333 vs 0.1667; lift 0.1667; n=9 vs 6",
+    "product_update": "Keep revision direction observational until the near-threshold sample is larger."
   },
   "limitations": [
     "The primary comparison uses one 3-day checkpoint and does not model serial dependence.",
