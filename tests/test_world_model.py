@@ -460,3 +460,81 @@ def test_scene_frames_are_created_runtime_without_losing_existing_semantics() ->
     assert "function wrapSceneFrames" in js
     assert 'frame.className="scene-frame"' in js
     assert "while(scene.firstChild)frame.appendChild(scene.firstChild)" in js
+
+
+def test_hypothesis_lab_surfaces_falsification_and_rule_update() -> None:
+    page = Path("public/world-model.html").read_text(encoding="utf-8")
+    js = Path("public/world-model.js").read_text(encoding="utf-8")
+    styles = Path("public/world-model.css").read_text(encoding="utf-8")
+    report = json.loads(
+        Path("public/world-model/hypothesis-report.json").read_text(encoding="utf-8")
+    )
+
+    assert "HYPOTHESIS LAB · BACKTESTED" in page
+    assert "Reality gets a vote." in page
+    assert 'id="hypothesisGrid"' in page
+    assert 'id="confidenceRule"' in page
+
+    assert "function renderHypothesisLab" in js
+    assert "function loadHypothesisReport" in js
+    assert "./world-model/hypothesis-report.json" in js
+
+    assert ".hypothesis-card.not_supported" in styles
+    assert ".rule-update" in styles
+    assert ".next-test-grid" in styles
+
+    h2 = next(item for item in report["hypotheses"] if item["id"] == "H2")
+    h4 = next(item for item in report["hypotheses"] if item["id"] == "H4")
+    assert h2["status"] == "not_supported"
+    assert h4["status"] == "mixed"
+    assert "do not turn it into a confidence penalty yet" in h2["update"]
+    assert "Show disagreement separately" in h4["update"]
+
+
+def test_hypothesis_report_records_supported_council_and_horizon_findings() -> None:
+    report = json.loads(
+        Path("public/world-model/hypothesis-report.json").read_text(encoding="utf-8")
+    )
+    h1 = next(item for item in report["hypotheses"] if item["id"] == "H1")
+    h3 = next(item for item in report["hypotheses"] if item["id"] == "H3")
+    h5 = next(item for item in report["hypotheses"] if item["id"] == "H5")
+
+    assert report["records"] == 603
+    assert h1["status"] == "supported"
+    assert h3["status"] == "supported"
+    assert h5["status"] == "supported"
+    assert report["headline_metrics"]["council_mean_error_improvement_pct"] == 13.5
+    assert report["headline_metrics"]["council_heavy_rain_error_improvement_pct"] == 11.3
+    assert report["headline_metrics"]["council_mae_by_lead_mm"]["1"] < report["headline_metrics"]["council_mae_by_lead_mm"]["5"]
+
+
+def test_hypothesis_engine_normalizes_disagreement_before_confidence_claims() -> None:
+    source = Path("src/commons/hypothesis_lab.py").read_text(encoding="utf-8")
+
+    assert "symmetric_percentage_error" in source
+    assert "relative_spread" in source
+    assert "heavy_rain_relative_spread_vs_normalized_error_correlation" in source
+    assert "error_reduction_if_abstain_top_disagreement_quartile_pct" in source
+    assert "do not convert it into a confidence penalty yet" in source.lower() or "do not treat disagreement" in source.lower()
+
+
+def test_hypothesis_lab_reruns_weekly_instead_of_freezing_one_result() -> None:
+    workflow = Path(".github/workflows/hypothesis-lab.yml").read_text(encoding="utf-8")
+
+    assert 'cron: "41 5 * * 0"' in workflow
+    assert 'branches: ["main"]' in workflow
+    assert "run_hypothesis_lab.py" in workflow
+    assert "hypothesis lab weekly backtest" in workflow
+    assert 'group: "world-model-hypothesis-lab"' in workflow
+
+
+def test_next_hypotheses_focus_on_hydrology_and_persistence() -> None:
+    report = json.loads(
+        Path("public/world-model/hypothesis-report.json").read_text(encoding="utf-8")
+    )
+    ids = {item["id"] for item in report["next_hypotheses"]}
+
+    assert {"H6", "H7", "H8", "H9", "H10"} <= ids
+    h6 = next(item for item in report["next_hypotheses"] if item["id"] == "H6")
+    assert "soil moisture" in h6["signals"]
+    assert "top-5% discharge days" in h6["test"]
