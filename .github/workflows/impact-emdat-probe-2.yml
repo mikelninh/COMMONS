@@ -1,0 +1,27 @@
+name: Impact EM-DAT Probe 2
+on:
+  push:
+    branches: ["impact-emdat-probe-2"]
+    paths: [".github/workflows/impact-emdat-probe-2.yml"]
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: pip install -e .
+      - name: Probe
+        run: |
+          python - <<'PY'
+          import json
+          from commons.impact_lab import fetch_emdat, parse_consequence
+          event={"event_type":"FL","event_id":1104124}
+          payload=fetch_emdat(event)
+          print("RAW")
+          print(json.dumps(payload, indent=2)[:12000])
+          print("PARSED")
+          print(parse_consequence(payload))
+          PY
