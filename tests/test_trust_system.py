@@ -190,10 +190,11 @@ def test_trust_center_exposes_status_claims_sources_evaluations_incidents() -> N
 def test_evidence_drawer_can_open_machine_readable_claim_ledger() -> None:
     app = Path("public/app.js").read_text(encoding="utf-8")
 
-    assert "Inspect the claim ledger" in app
+    assert "HOW DO WE KNOW?" in app
     assert 'id="evidenceTrustBtn"' in app
-    assert 'window.COMMONS_TRUST.sourceById' in app
-    assert "freshness window" in app
+    assert 'window.COMMONS_TRUST?.sourceById' in app
+    assert "WHAT THIS DOESN’T PROVE" in app
+    assert "Open full evidence file →" in app
 
 
 def test_action_layer_never_silently_verifies_external_completion() -> None:
@@ -441,3 +442,25 @@ def test_investigative_design_raises_readability_floor() -> None:
     assert ".investigative-claim .claim-statement" in styles
     assert "font-size:18px!important" in styles
     assert ".trust-proof b{font-size:12px}" in styles
+
+
+def test_lightweight_evidence_peek_keeps_full_audit_optional() -> None:
+    app = Path("public/app.js").read_text(encoding="utf-8")
+    styles = Path("public/styles.css").read_text(encoding="utf-8")
+
+    assert "evidence-peek-intro" in app
+    assert "evidence-peek-claim" in app
+    assert "WHAT THIS DOESN’T PROVE" in app
+    assert "MAP NOTE" in app
+    assert 'openTrustCenter("claims","audit")' in app
+    assert ".evidence-peek-list" in styles
+    assert ".evidence-peek-claim" in styles
+
+
+def test_primary_user_flow_does_not_require_trust_center_or_action_lab() -> None:
+    app = Path("public/app.js").read_text(encoding="utf-8")
+
+    assert 'if(btn.dataset.action==="belief")openEvidence();' in app
+    assert 'if(btn.dataset.action==="follow")followCurrentStoryInline();' in app
+    assert 'if(btn.dataset.action==="done")stopStory(true);' in app
+    assert "showExternalHandoff" in app
