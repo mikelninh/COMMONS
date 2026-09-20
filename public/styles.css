@@ -1912,3 +1912,19 @@ body.story-mode .story-library{pointer-events:none}
   .trust-status-primary{grid-column:auto}
   .capability-grid{grid-template-columns:1fr}
 }
+
+
+.intervention-card.trust-blocked{
+  border-color:color-mix(in srgb,var(--amber) 28%,var(--line-soft));
+  background:linear-gradient(120deg,color-mix(in srgb,var(--amber) 3%,transparent),transparent 70%);
+}
+.word-button:disabled,
+.word-button[aria-disabled="true"]{
+  cursor:not-allowed;
+  opacity:.38;
+}
+.word-button:disabled:after,
+.word-button[aria-disabled="true"]:after{
+  transform:scaleX(.12);
+  opacity:.25;
+}
