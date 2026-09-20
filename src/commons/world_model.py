@@ -382,8 +382,7 @@ def percentile_rank(values: list[float], target: float) -> float | None:
     return 100.0 * rank / len(cleaned)
 
 
-def build_flood_signal(payload: dict[str, Any], *, now: date | None = None) -> dict[str, Any]:
-    now = now or date.today()
+def _discharge_pairs(payload: dict[str, Any]) -> list[tuple[date, float]]:
     daily = payload.get("daily") or {}
     times = daily.get("time") or []
     discharge = daily.get("river_discharge") or []
@@ -396,9 +395,20 @@ def build_flood_signal(payload: dict[str, Any], *, now: date | None = None) -> d
             continue
         if math.isfinite(value):
             paired.append((dt, value))
+    return paired
 
-    historic = [value for dt, value in paired if dt < now]
-    future = [(dt, value) for dt, value in paired if dt >= now]
+
+def build_flood_signal(
+    history_payload: dict[str, Any],
+    forecast_payload: dict[str, Any],
+    *,
+    now: date | None = None,
+) -> dict[str, Any]:
+    now = now or date.today()
+    history_pairs = _discharge_pairs(history_payload)
+    forecast_pairs = _discharge_pairs(forecast_payload)
+    historic = [value for _, value in history_pairs]
+    future = [(dt, value) for dt, value in forecast_pairs if dt >= now]
     if not historic or not future:
         return {"status": "insufficient_data"}
 
@@ -409,7 +419,8 @@ def build_flood_signal(payload: dict[str, Any], *, now: date | None = None) -> d
         "forecast_peak_date": future_peak_date.isoformat(),
         "forecast_peak_discharge_m3s": round(future_peak, 1),
         "historical_percentile": round(percentile, 1) if percentile is not None else None,
-        "historical_start": paired[0][0].isoformat(),
+        "historical_start": history_pairs[0][0].isoformat(),
+        "historical_end": history_pairs[-1][0].isoformat(),
         "source": "GloFAS v4 via Open-Meteo Flood API",
         "limitation": (
             "GloFAS is simulated river discharge at roughly 5 km resolution. "
