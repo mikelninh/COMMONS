@@ -200,13 +200,13 @@ function renderHypothesisLab(report){
       '<div class="hypothesis-top"><span>'+item.id+'</span><b>'+item.status.replace("_"," ").toUpperCase()+'</b></div>'+
       '<h3>'+item.claim+'</h3>'+
       '<p class="hypothesis-effect">'+item.effect+'</p>'+
-      '<div class="hypothesis-update"><span>PRODUCT UPDATE</span><p>'+item.update+'</p></div>'+
+      '<div class="hypothesis-update"><span>PRODUCT UPDATE</span><p>'+(item.update||item.product_update||"No update recorded.")+'</p></div>'+
     '</article>'
   ).join("");
 
   const currentRule=(report.hypotheses||[]).find(item=>item.id==="H4");
   $("confidenceRule").querySelector("strong").textContent=
-    currentRule?.update||"Source health + measured horizon skill. Disagreement remains visible context.";
+    currentRule?.update||currentRule?.product_update||"Source health + measured horizon skill. Disagreement remains visible context.";
 
   $("nextHypotheses").innerHTML=(report.next_hypotheses||[]).map(item=>
     '<article class="next-test-card">'+

@@ -31,6 +31,12 @@ def main() -> int:
         points=POINTS[:3],
     )
 
+    # Keep one stable public schema even when individual research modules use
+    # the internal key name "product_update".
+    for hypothesis in report.get("hypotheses", []):
+        if "update" not in hypothesis and "product_update" in hypothesis:
+            hypothesis["update"] = hypothesis.pop("product_update")
+
     hydro_path = Path("public/world-model/hydrology-report.json")
     if hydro_path.exists():
         hydro = json.loads(hydro_path.read_text(encoding="utf-8"))
