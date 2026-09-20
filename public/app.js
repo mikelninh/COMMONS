@@ -1192,6 +1192,35 @@ function renderLoopChain(entries){
   `).join("")}</div>`;
 }
 
+function trustGateForStory(storyId=activeStory.id){
+  evaluateTrustNow();
+  if(!trustRegistry){
+    return {allowed:false,reason:"Trust registry unavailable. Direct external action is disabled."};
+  }
+  if((trustReport.openHighIncidents||[]).length){
+    return {allowed:false,reason:"A high-severity trust incident is open. Direct external action is disabled."};
+  }
+  const stale=(trustReport.staleCriticalClaims||[]).filter(claim=>claim.story_id===storyId);
+  if(stale.length){
+    return {allowed:false,reason:stale.length+" critical claim(s) for this story are stale. Refresh evidence before acting."};
+  }
+  const missing=(trustReport.missingSources||[]).filter(item=>{
+    const claim=(trustRegistry.claims||[]).find(candidate=>candidate.id===item.claimId);
+    return claim?.story_id===storyId;
+  });
+  if(missing.length){
+    return {allowed:false,reason:"This story has a missing source reference. Direct external action is disabled."};
+  }
+  return {allowed:true,reason:"Story-specific critical trust checks pass."};
+}
+
+function interventionTrustGate(intervention){
+  if(intervention?.type!=="external" || intervention?.actionability!=="DIRECT"){
+    return {allowed:true,reason:"No direct external execution is being requested."};
+  }
+  return trustGateForStory(activeStory.id);
+}
+
 function renderActionLabCurrent(){
   const loop=actionLoopForStory();
   if(!loop){
@@ -1211,9 +1240,10 @@ function renderActionLabCurrent(){
 
   const interventions=loop.interventions.map(item=>{
     const existing=entries.find(entry=>entry.interventionId===item.id);
-    const state=existing?statusLabel(existing.status):item.actionability;
+    const gate=interventionTrustGate(item);
+    const state=!gate.allowed?"BLOCKED · TRUST":existing?statusLabel(existing.status):item.actionability;
     return `
-      <article class="intervention-card">
+      <article class="intervention-card ${gate.allowed?"":"trust-blocked"}">
         <div class="intervention-head">
           <div>
             <div class="intervention-tag">${escapeHtml(item.actionability)} · ${escapeHtml(item.evidenceStrength)}</div>
@@ -1229,8 +1259,9 @@ function renderActionLabCurrent(){
           <div class="intervention-detail"><b>Measure next</b><span>${escapeHtml(item.measure)}</span></div>
         </div>
         <div class="intervention-actions">
-          <button class="word-button" data-intervention-id="${escapeHtml(item.id)}">${escapeHtml(item.cta)}</button>
+          <button class="word-button" data-intervention-id="${escapeHtml(item.id)}" ${gate.allowed?"":"disabled aria-disabled=\"true\""}>${escapeHtml(gate.allowed?item.cta:"Unavailable until trust checks pass")}</button>
         </div>
+        ${gate.allowed?"":`<div class="loop-note">${escapeHtml(gate.reason)}</div>`}
       </article>
     `;
   }).join("");
@@ -1382,6 +1413,12 @@ function closeActionLab(){
 }
 
 function beginExternalAction(intervention){
+  const gate=interventionTrustGate(intervention);
+  if(!gate.allowed){
+    toast(gate.reason);
+    renderActionLab("current");
+    return;
+  }
   addLedgerReceipt(intervention,"external_opened","external_unverified");
   renderActionLab("current");
   window.open(intervention.url,"_blank","noopener");
