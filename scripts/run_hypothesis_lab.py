@@ -66,36 +66,95 @@ def main() -> int:
                 for item in hydro.get("points", [])
             }
 
+    revision_path = Path("public/world-model/revision-report.json")
+    if revision_path.exists():
+        revision = json.loads(revision_path.read_text(encoding="utf-8"))
+        for item in revision.get("hypotheses", []):
+            report["hypotheses"] = [
+                existing
+                for existing in report["hypotheses"]
+                if existing.get("id") != item.get("id")
+            ]
+            report["hypotheses"].append(
+                {
+                    "id": item.get("id"),
+                    "claim": item.get("claim"),
+                    "status": item.get("status"),
+                    "effect": item.get("effect"),
+                    "update": item.get("product_update"),
+                }
+            )
+        report.setdefault("headline_metrics", {})
+        summary = revision.get("summary") or {}
+        report["headline_metrics"]["h8_persistent_direction_accuracy_pct"] = (
+            round(100 * summary.get("persistent_direction_accuracy"), 1)
+            if summary.get("persistent_direction_accuracy") is not None
+            else None
+        )
+        report["headline_metrics"]["h9_majority_direction_accuracy_pct"] = (
+            round(100 * summary.get("majority_direction_accuracy"), 1)
+            if summary.get("majority_direction_accuracy") is not None
+            else None
+        )
+
+    river_path = Path("public/world-model/river-attention-report.json")
+    if river_path.exists():
+        river = json.loads(river_path.read_text(encoding="utf-8"))
+        h10 = river.get("hypothesis") or {}
+        if h10.get("id") == "H10":
+            report["hypotheses"] = [
+                existing
+                for existing in report["hypotheses"]
+                if existing.get("id") != "H10"
+            ]
+            report["hypotheses"].append(
+                {
+                    "id": "H10",
+                    "claim": h10.get("claim"),
+                    "status": h10.get("status"),
+                    "effect": (
+                        f"mean AUC gain {h10.get('mean_auc_gain')}; "
+                        f"mean precision gain {h10.get('mean_precision_gain_pct')}%"
+                    ),
+                    "update": h10.get("product_update"),
+                }
+            )
+            report.setdefault("headline_metrics", {})
+            report["headline_metrics"]["h10_mean_auc_gain"] = h10.get("mean_auc_gain")
+            report["headline_metrics"]["h10_mean_precision_gain_pct"] = h10.get(
+                "mean_precision_gain_pct"
+            )
+
     report["next_hypotheses"] = [
         {
             "id": "H7",
             "claim": "Basin-context rainfall outperforms a single point for river-risk estimation.",
             "signals": ["center point", "surrounding grid", "GloFAS discharge"],
-            "test": "Compare point rainfall vs spatially averaged rainfall.",
-        },
-        {
-            "id": "H8",
-            "claim": "A forecast revision sustained across multiple runs is more useful than a one-run jump.",
-            "signals": ["6-hour archived snapshots", "forecast deltas", "later verification"],
-            "test": "Compare one-run changes with 2- and 3-run persistent changes.",
-        },
-        {
-            "id": "H9",
-            "claim": "Direction agreement is more useful than raw spread.",
-            "signals": ["model revision direction", "later ERA5 precipitation"],
-            "test": "Compare 2/3 models revising upward with raw disagreement magnitude.",
-        },
-        {
-            "id": "H10",
-            "claim": "River percentile plus validated basin context can produce a low-false-alarm attention rule.",
-            "signals": ["river percentile", "basin skill", "later discharge"],
-            "test": "Optimize precision, miss rate and lead time without human-impact labels.",
+            "test": "Compare point rainfall with spatially averaged upstream rainfall.",
         },
         {
             "id": "H11",
-            "claim": "We can predict where catchment wetness is useful enough to include.",
+            "claim": "We can predict which basins benefit from antecedent-wetness features.",
             "signals": ["basin climate", "wetness skill", "river-response lag"],
-            "test": "Cluster basins by regime and validate wetness features out-of-sample.",
+            "test": "Cluster basin regimes and validate wetness features out-of-sample.",
+        },
+        {
+            "id": "H12",
+            "claim": "A material-change rule can beat fixed hazard thresholds on useful-alert precision.",
+            "signals": ["validated revisions", "river percentile", "horizon skill"],
+            "test": "Compare rule precision, miss rate and lead time against fixed percentile alerts.",
+        },
+        {
+            "id": "H13",
+            "claim": "Adding exposure changes which physical hazards deserve human attention first.",
+            "signals": ["population", "settlements", "critical infrastructure", "hazard state"],
+            "test": "Compare hazard-only ranking with exposure-aware ranking against historical impact records.",
+        },
+        {
+            "id": "H14",
+            "claim": "Official warning changes provide a useful external benchmark for COMMONS attention changes.",
+            "signals": ["official warnings", "COMMONS change signals", "timing"],
+            "test": "Measure agreement, earlier/later detection and false alarms without treating official warnings as perfect ground truth.",
         },
     ]
 
