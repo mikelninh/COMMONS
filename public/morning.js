@@ -43,6 +43,11 @@ function monitorContext(item){
   if(item.flood_context?.historical_percentile!=null){
     tags.push('<span class="tag">river '+fmt(item.flood_context.historical_percentile,"th pct",0)+'</span>');
   }
+  if(item.exposure_context?.population!=null){
+    const pop=Number(item.exposure_context.population);
+    const human=pop>=1000000?(pop/1000000).toFixed(1)+"M":pop>=1000?Math.round(pop/1000)+"k":Math.round(pop);
+    tags.push('<span class="tag">~'+human+' people within ~'+fmt(item.exposure_context.radius_km," km",0)+' · context</span>');
+  }
   if(item.models_available<item.models_expected){
     tags.push('<span class="tag">'+item.models_available+'/'+item.models_expected+' models available</span>');
   }
