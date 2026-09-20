@@ -1,0 +1,285 @@
+{
+  "schema_version": "0.1",
+  "source_period": {
+    "start": "2026-07-12",
+    "end": "2026-09-10",
+    "holdout_start": "2026-08-21"
+  },
+  "split_date": "2026-08-29",
+  "rain_evidence_health": {
+    "status": "healthy",
+    "affected_points": 14,
+    "request_mode": "batched_multi_coordinate",
+    "forecast_requests_expected": 42,
+    "expected_forecast_bundles": 546,
+    "observed_forecast_bundles": 546,
+    "forecast_bundle_ratio": 1.0,
+    "actual_point_ratio": 1.0
+  },
+  "convective_evidence_health": {
+    "status": "insufficient",
+    "expected_point_provider_bundles": 42,
+    "observed_point_provider_bundles": 14,
+    "bundle_ratio": 0.3333,
+    "provider_coverage": {
+      "ecmwf": 0,
+      "gfs": 14,
+      "icon": 0
+    }
+  },
+  "source_errors": {
+    "rain": [],
+    "convective": []
+  },
+  "h24": {
+    "hypothesis": {
+      "id": "H24",
+      "claim": "A minority-model heavy-rain signal becomes trustworthy enough for a shadow rescue only when the same provider is spatially corroborated.",
+      "status": "not_supported",
+      "effect": "selected minority_p90_50km; test recovery 0.5833; extra false alerts 11.12/100; precision change -0.1419",
+      "product_update": "Do not give minority rainfall signals ranking authority yet; keep them inspectable context and continue learning provider/spatial reliability."
+    },
+    "development": {
+      "selected_rule": "minority_p90_50km",
+      "selection": {
+        "metrics": {
+          "cases": 126,
+          "heavy_events": 46,
+          "alerts": 67,
+          "true_positives": 39,
+          "false_alerts": 28,
+          "precision": 0.5821,
+          "recall": 0.8478,
+          "false_alerts_per_100": 22.22,
+          "target_misses": 15,
+          "target_misses_recovered": 9,
+          "target_recovery_rate": 0.6,
+          "rescue_only_reviews": 36,
+          "rescue_only_precision": 0.3333
+        },
+        "comparison": {
+          "recall_change": 0.2608,
+          "precision_change": -0.2889,
+          "incremental_false_alerts_per_100": 19.05
+        },
+        "passes": false
+      }
+    },
+    "test": {
+      "baseline": {
+        "cases": 126,
+        "heavy_events": 50,
+        "alerts": 23,
+        "true_positives": 19,
+        "false_alerts": 4,
+        "precision": 0.8261,
+        "recall": 0.38,
+        "false_alerts_per_100": 3.17,
+        "target_misses": 24,
+        "target_misses_recovered": 0,
+        "target_recovery_rate": 0.0,
+        "rescue_only_reviews": 0,
+        "rescue_only_precision": null
+      },
+      "selected": {
+        "cases": 126,
+        "heavy_events": 50,
+        "alerts": 57,
+        "true_positives": 39,
+        "false_alerts": 18,
+        "precision": 0.6842,
+        "recall": 0.78,
+        "false_alerts_per_100": 14.29,
+        "target_misses": 24,
+        "target_misses_recovered": 14,
+        "target_recovery_rate": 0.5833,
+        "rescue_only_reviews": 34,
+        "rescue_only_precision": 0.5882
+      },
+      "comparison": {
+        "recall_change": 0.4,
+        "precision_change": -0.1419,
+        "incremental_false_alerts_per_100": 11.12
+      },
+      "passes_guardrails": false
+    }
+  },
+  "h25": {
+    "hypothesis": {
+      "id": "H25",
+      "claim": "Archived convective instability and shower forecasts recover at least one third of rainfall-consensus-blind heavy events within the same scarcity guardrails.",
+      "status": "insufficient",
+      "effect": "selected blind_showers_any50; blind test misses 6; recovery 0.3333; extra false alerts 4.77/100; precision change -0.1386",
+      "product_update": "Convective blindness remains an open hypothesis; archived CAPE/showers coverage or blind-case count is not yet sufficient."
+    },
+    "development": {
+      "convective_thresholds": {
+        "cape_any_q75": null,
+        "cape_any_q90": null,
+        "cape_council_q75": null,
+        "cape_council_q90": null
+      },
+      "selected_rule": "blind_showers_any50",
+      "selection": {
+        "metrics": {
+          "cases": 126,
+          "heavy_events": 46,
+          "alerts": 44,
+          "true_positives": 29,
+          "false_alerts": 15,
+          "precision": 0.6591,
+          "recall": 0.6304,
+          "false_alerts_per_100": 11.9,
+          "target_misses": 3,
+          "target_misses_recovered": 1,
+          "target_recovery_rate": 0.3333,
+          "rescue_only_reviews": 13,
+          "rescue_only_precision": 0.1538
+        },
+        "comparison": {
+          "recall_change": 0.0434,
+          "precision_change": -0.2119,
+          "incremental_false_alerts_per_100": 8.73
+        },
+        "passes": false
+      }
+    },
+    "test": {
+      "baseline": {
+        "cases": 126,
+        "heavy_events": 50,
+        "alerts": 23,
+        "true_positives": 19,
+        "false_alerts": 4,
+        "precision": 0.8261,
+        "recall": 0.38,
+        "false_alerts_per_100": 3.17,
+        "target_misses": 6,
+        "target_misses_recovered": 0,
+        "target_recovery_rate": 0.0,
+        "rescue_only_reviews": 0,
+        "rescue_only_precision": null
+      },
+      "selected": {
+        "cases": 126,
+        "heavy_events": 50,
+        "alerts": 32,
+        "true_positives": 22,
+        "false_alerts": 10,
+        "precision": 0.6875,
+        "recall": 0.44,
+        "false_alerts_per_100": 7.94,
+        "target_misses": 6,
+        "target_misses_recovered": 2,
+        "target_recovery_rate": 0.3333,
+        "rescue_only_reviews": 9,
+        "rescue_only_precision": 0.3333
+      },
+      "comparison": {
+        "recall_change": 0.06,
+        "precision_change": -0.1386,
+        "incremental_false_alerts_per_100": 4.77
+      },
+      "passes_guardrails": false,
+      "blind_examples": [
+        {
+          "point_id": "houston",
+          "decision_date": "2026-09-04",
+          "observed_peak_mm": 21.9,
+          "heavy_gate_mm": 10.16,
+          "baseline_score": 0.2953,
+          "convective": {
+            "cape_council_max": null,
+            "cape_any_max": null,
+            "showers_council_ratio": 0.01968503937007874,
+            "showers_any_ratio": 0.2952755905511811
+          },
+          "selected_rule_fired": false
+        },
+        {
+          "point_id": "houston",
+          "decision_date": "2026-09-05",
+          "observed_peak_mm": 21.9,
+          "heavy_gate_mm": 10.16,
+          "baseline_score": 0.1181,
+          "convective": {
+            "cape_council_max": null,
+            "cape_any_max": null,
+            "showers_council_ratio": 0.10826771653543307,
+            "showers_any_ratio": 0.11811023622047245
+          },
+          "selected_rule_fired": false
+        },
+        {
+          "point_id": "lagos",
+          "decision_date": "2026-09-06",
+          "observed_peak_mm": 11.1,
+          "heavy_gate_mm": 10.83,
+          "baseline_score": 0.3878,
+          "convective": {
+            "cape_council_max": null,
+            "cape_any_max": null,
+            "showers_council_ratio": 0.17543859649122806,
+            "showers_any_ratio": 0.5263157894736842
+          },
+          "selected_rule_fired": true
+        },
+        {
+          "point_id": "houston",
+          "decision_date": "2026-09-06",
+          "observed_peak_mm": 10.9,
+          "heavy_gate_mm": 10.16,
+          "baseline_score": 0.1181,
+          "convective": {
+            "cape_council_max": null,
+            "cape_any_max": null,
+            "showers_council_ratio": 0.11811023622047244,
+            "showers_any_ratio": 0.19685039370078738
+          },
+          "selected_rule_fired": false
+        },
+        {
+          "point_id": "miami",
+          "decision_date": "2026-09-07",
+          "observed_peak_mm": 13.8,
+          "heavy_gate_mm": 11.37,
+          "baseline_score": 0.299,
+          "convective": {
+            "cape_council_max": null,
+            "cape_any_max": null,
+            "showers_council_ratio": 0.158311345646438,
+            "showers_any_ratio": 0.5980650835532103
+          },
+          "selected_rule_fired": true
+        },
+        {
+          "point_id": "houston",
+          "decision_date": "2026-09-07",
+          "observed_peak_mm": 10.9,
+          "heavy_gate_mm": 10.16,
+          "baseline_score": 0.0787,
+          "convective": {
+            "cape_council_max": null,
+            "cape_any_max": null,
+            "showers_council_ratio": 0.01968503937007874,
+            "showers_any_ratio": 0.07874015748031496
+          },
+          "selected_rule_fired": false
+        }
+      ]
+    }
+  },
+  "guardrails": {
+    "h24_min_deep_miss_recovery": 0.2,
+    "h25_min_blind_miss_recovery": 0.33,
+    "max_extra_false_alerts_per_100": 3.0,
+    "max_precision_drop": 0.05,
+    "promotion_scope": "shadow priority/context only; never direct ALERT from this sprint"
+  },
+  "limitations": [
+    "H24 corroboration is sampled on coarse 25/50/100 km cardinal grids rather than full native model fields.",
+    "H25 uses archived CAPE and showers where available; model-specific variable availability can make the result insufficient.",
+    "The development/test split is temporal but remains inside one two-month historical period.",
+    "ERA5 precipitation is an outcome proxy, not impact or harm."
+  ]
+}
