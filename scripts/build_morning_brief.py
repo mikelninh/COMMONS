@@ -60,6 +60,7 @@ def parse_args():
     parser.add_argument("--hypothesis-report", required=True)
     parser.add_argument("--loops", required=True)
     parser.add_argument("--exposure-report", default=None)
+    parser.add_argument("--impact-report", default=None)
     parser.add_argument("--output", required=True)
     return parser.parse_args()
 
@@ -73,6 +74,11 @@ def main() -> int:
         if args.exposure_report and Path(args.exposure_report).exists()
         else None
     )
+    impact = (
+        _load(args.impact_report)
+        if args.impact_report and Path(args.impact_report).exists()
+        else None
+    )
     brief = build_morning_brief(
         snapshot,
         previous_snapshot=previous,
@@ -80,6 +86,7 @@ def main() -> int:
         hypothesis_report=_load(args.hypothesis_report),
         loop_catalog=_load(args.loops),
         exposure_report=exposure,
+        impact_report=impact,
     )
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
