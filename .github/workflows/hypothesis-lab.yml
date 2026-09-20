@@ -23,6 +23,8 @@ on:
       - "scripts/run_human_attention_lab.py"
       - "src/commons/attention_budget_lab.py"
       - "scripts/run_attention_budget_lab.py"
+      - "src/commons/model_dropout_lab.py"
+      - "scripts/run_model_dropout_lab.py"
       - ".github/workflows/hypothesis-lab.yml"
 
 permissions:
@@ -82,6 +84,11 @@ jobs:
           python scripts/run_attention_budget_lab.py \
             --output public/world-model/attention-budget-report.json
 
+      - name: Stress-test single-model dropout
+        run: |
+          python scripts/run_model_dropout_lab.py \
+            --output public/world-model/model-dropout-report.json
+
       - name: Run rolling research backtest
         run: |
           python scripts/run_hypothesis_lab.py \
@@ -108,7 +115,8 @@ jobs:
             public/world-model/watch-alert-report.json \
             public/world-model/watch-value-report.json \
             public/world-model/attention-cases.json \
-            public/world-model/attention-budget-report.json
+            public/world-model/attention-budget-report.json \
+            public/world-model/model-dropout-report.json
           if git diff --cached --quiet; then
             echo "Report unchanged"
           else
