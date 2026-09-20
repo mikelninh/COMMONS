@@ -4,8 +4,7 @@ from collections import defaultdict
 from statistics import mean, median
 from typing import Any
 
-from commons.hypothesis_lab import GLOBAL_POINTS if False else BacktestPoint
-from commons.hypothesis_lab import build_records
+from commons.hypothesis_lab import BacktestPoint, build_records
 from commons.scale_points import GLOBAL_POINTS
 
 
