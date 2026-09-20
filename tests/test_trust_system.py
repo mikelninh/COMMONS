@@ -321,7 +321,7 @@ def test_simple_trust_mode_explains_status_before_showing_full_audit() -> None:
 
     assert "Healthy does not mean infallible." in app
     assert "We can trace the claims" in app
-    assert "Critical evidence is fresh" in app
+    assert "The critical evidence is current" in app
     assert "Conflicts are visible" in app
     assert "Required evaluations pass" in app
     assert "what matters most" in app
