@@ -3,7 +3,7 @@ from __future__ import annotations
 from argparse import ArgumentParser
 from datetime import date, timedelta
 
-from commons.hypothesis_lab import run_backtest, save_report
+from commons.hypothesis_lab import POINTS, run_backtest, save_report
 
 
 def main() -> int:
@@ -26,6 +26,7 @@ def main() -> int:
     report = run_backtest(
         start_date=start.isoformat(),
         end_date=end.isoformat(),
+        points=POINTS[:3],
     )
     save_report(report, args.output)
 
