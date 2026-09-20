@@ -534,7 +534,7 @@ def test_next_hypotheses_focus_on_hydrology_and_persistence() -> None:
     )
     ids = {item["id"] for item in report["next_hypotheses"]}
 
-    assert {"H7", "H11", "H13", "H14", "H15"} <= ids
+    assert {"H7", "H11", "H13", "H14", "H16"} <= ids
     assert "H6" not in ids
     h11 = next(item for item in report["next_hypotheses"] if item["id"] == "H11")
     assert any("basin" in signal.lower() for signal in h11["signals"])
@@ -638,11 +638,11 @@ def test_next_hypotheses_move_toward_attention_quality_and_external_validation()
     )
     ids = {item["id"] for item in report["next_hypotheses"]}
 
-    assert {"H7", "H11", "H13", "H14", "H15"} <= ids
-    h15 = next(item for item in report["next_hypotheses"] if item["id"] == "H15")
+    assert {"H7", "H11", "H13", "H14", "H16"} <= ids
+    h16 = next(item for item in report["next_hypotheses"] if item["id"] == "H16")
     h14 = next(item for item in report["next_hypotheses"] if item["id"] == "H14")
-    assert "WATCH" in h15["claim"]
-    assert "precision, recall, escalation rate and lead time" in h15["test"]
+    assert "WATCH" in h16["claim"]
+    assert "monitoring time, ignored watches, useful catches and perceived interruption burden" in h16["test"]
     assert "official warnings" in h14["signals"]
 
 
@@ -708,3 +708,37 @@ def test_weekly_lab_retests_h12_attention_rule() -> None:
     assert "attention-rule-report.json" in workflow
     assert 'attention_path = Path("public/world-model/attention-rule-report.json")' in script
     assert '"id": "H12"' in script
+
+
+def test_h15_supports_two_tier_watch_alert_architecture() -> None:
+    report = json.loads(
+        Path("public/world-model/watch-alert-report.json").read_text(encoding="utf-8")
+    )
+    h15 = report["hypothesis"]
+
+    assert h15["status"] == "supported"
+    assert report["watch_recall"] > report["alert_recall"]
+    assert report["watch_only_precision"] >= 0.20
+    assert report["watch_burden_per_100_days"] <= 3
+    assert "two-tier attention model" in h15["product_update"]
+
+
+def test_weekly_lab_retests_watch_alert_architecture() -> None:
+    workflow = Path(".github/workflows/hypothesis-lab.yml").read_text(encoding="utf-8")
+    script = Path("scripts/run_hypothesis_lab.py").read_text(encoding="utf-8")
+
+    assert "run_watch_alert_lab.py" in workflow
+    assert "watch-alert-report.json" in workflow
+    assert 'watch_path = Path("public/world-model/watch-alert-report.json")' in script
+    assert '"id": "H15"' in script
+
+
+def test_next_step_is_human_usefulness_not_more_automatic_confidence() -> None:
+    report = json.loads(
+        Path("public/world-model/hypothesis-report.json").read_text(encoding="utf-8")
+    )
+    h16 = next(item for item in report["next_hypotheses"] if item["id"] == "H16")
+
+    assert "monitoring time" in h16["claim"].lower()
+    assert "perceived noise" in h16["claim"].lower()
+    assert "human pilot" in h16["test"].lower()

@@ -164,6 +164,37 @@ def main() -> int:
                 policies.get("revision_aware") or {}
             ).get("precision")
 
+    watch_path = Path("public/world-model/watch-alert-report.json")
+    if watch_path.exists():
+        watch = json.loads(watch_path.read_text(encoding="utf-8"))
+        h15 = watch.get("hypothesis") or {}
+        if h15.get("id") == "H15":
+            report["hypotheses"] = [
+                existing
+                for existing in report["hypotheses"]
+                if existing.get("id") != "H15"
+            ]
+            report["hypotheses"].append(
+                {
+                    "id": "H15",
+                    "claim": h15.get("claim"),
+                    "status": h15.get("status"),
+                    "effect": (
+                        f"alert recall {watch.get('alert_recall')}; "
+                        f"watch recall {watch.get('watch_recall')}; "
+                        f"watch-only precision {watch.get('watch_only_precision')}; "
+                        f"burden {watch.get('watch_burden_per_100_days')}/100d"
+                    ),
+                    "update": h15.get("product_update"),
+                }
+            )
+            report.setdefault("headline_metrics", {})
+            report["headline_metrics"]["h15_alert_recall"] = watch.get("alert_recall")
+            report["headline_metrics"]["h15_watch_recall"] = watch.get("watch_recall")
+            report["headline_metrics"]["h15_watch_burden_per_100_days"] = watch.get(
+                "watch_burden_per_100_days"
+            )
+
     report["next_hypotheses"] = [
         {
             "id": "H7",
@@ -190,10 +221,10 @@ def main() -> int:
             "test": "Measure agreement, earlier/later detection and false alarms without treating official warnings as perfect ground truth.",
         },
         {
-            "id": "H15",
-            "claim": "Separating WATCH from ALERT can gain recall without weakening the high-confidence alert gate.",
-            "signals": ["revision-aware watch", "fixed-threshold alert", "user feedback"],
-            "test": "Backtest two-tier watch/alert states on precision, recall, escalation rate and lead time.",
+            "id": "H16",
+            "claim": "A low-cost WATCH layer reduces analyst monitoring time without creating perceived noise.",
+            "signals": ["watch states", "alert states", "analyst actions", "time-to-orientation"],
+            "test": "Run a human pilot measuring monitoring time, ignored watches, useful catches and perceived interruption burden.",
         },
     ]
 

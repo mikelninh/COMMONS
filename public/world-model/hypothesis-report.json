@@ -73,7 +73,11 @@
     "h12_loose_f1": 0.4262,
     "h12_revision_f1": 0.4906,
     "h12_revision_recall": 0.619,
-    "h12_revision_precision": 0.4062
+    "h12_revision_precision": 0.4062,
+    "h15_alert_recall": 0.5714,
+    "h15_watch_recall": 0.619,
+    "h15_watch_only_precision": 0.25,
+    "h15_watch_burden_per_100_days": 1.99
   },
   "hypotheses": [
     {
@@ -145,6 +149,13 @@
       "status": "not_supported",
       "effect": "F1 0.491 vs 0.490 strict; recall +4.8pp; precision −2.2pp; no lead-time gain",
       "update": "Keep fixed thresholds as the alert gate. Use validated revision direction as an early-watch/context signal until an out-of-sample rule improves the full trade-off."
+    },
+    {
+      "id": "H15",
+      "claim": "Separating WATCH from ALERT gains useful recall without materially increasing interruption burden.",
+      "status": "supported",
+      "effect": "alert recall 57.1% → watch recall 61.9%; watch-only precision 25%; burden 1.99/100 days",
+      "update": "Use a two-tier attention model: WATCH for revision-aware context, ALERT for strict threshold crossing."
     }
   ],
   "limitations": [
@@ -156,7 +167,8 @@
     "H6 aggregate averages hide strong basin-to-basin heterogeneity; no global wetness rule is justified.",
     "H8/H9 use 5-day, 3-day and 1-day lead checkpoints, not consecutive six-hour live runs.",
     "H10 river trajectory used fixed heuristic weights and performed worse than current percentile alone in the three tested basins.",
-    "H12 revision-aware logic improved recall but did not materially improve the overall F1/lead-time trade-off over the strict threshold benchmark."
+    "H12 revision-aware logic improved recall but did not materially improve the overall F1/lead-time trade-off over the strict threshold benchmark.",
+    "H15 treats WATCH as a low-cost state; historical backtesting cannot measure annoyance or analyst cognitive load."
   ],
   "next_hypotheses": [
     {
@@ -201,14 +213,15 @@
       "test": "Measure agreement, earlier/later detection and false alarms without treating official warnings as perfect ground truth."
     },
     {
-      "id": "H15",
-      "claim": "Separating WATCH from ALERT can gain recall without weakening the high-confidence alert gate.",
+      "id": "H16",
+      "claim": "A low-cost WATCH layer reduces analyst monitoring time without creating perceived noise.",
       "signals": [
-        "revision-aware watch",
-        "fixed-threshold alert",
-        "user feedback"
+        "watch states",
+        "alert states",
+        "analyst actions",
+        "time-to-orientation"
       ],
-      "test": "Backtest two-tier watch/alert states on precision, recall, escalation rate and lead time."
+      "test": "Run a human pilot measuring monitoring time, ignored watches, useful catches and perceived interruption burden."
     }
   ]
 }
