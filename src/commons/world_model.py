@@ -434,9 +434,14 @@ def build_snapshot(
     client: OpenMeteoClient | FixtureClient,
     *,
     now: datetime | None = None,
+    memory_cache: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     now = now or datetime.now(timezone.utc)
     loops: list[dict[str, Any]] = []
+    cache = memory_cache if memory_cache is not None else {}
+    cache.setdefault("schema_version", "0.1")
+    era5_cache = cache.setdefault("era5", {})
+    flood_history_cache = cache.setdefault("flood_history", {})
 
     for point in WATCHPOINTS:
         loop: dict[str, Any] = {
@@ -457,8 +462,12 @@ def build_snapshot(
                 target = council["consensus"].get("precip_72h_mm_median")
                 start_date = council["members"][0]["start_date"]
                 try:
+                    history_payload = era5_cache.get(point.loop_id)
+                    if history_payload is None:
+                        history_payload = client.era5_history(point)
+                        era5_cache[point.loop_id] = history_payload
                     loop["weather_memory"] = build_weather_memory(
-                        client.era5_history(point),
+                        history_payload,
                         target_precip_72h_mm=target,
                         target_start_date=start_date,
                     )
@@ -472,14 +481,22 @@ def build_snapshot(
 
         if point.flood_relevant:
             try:
+                history_payload = flood_history_cache.get(point.loop_id)
+                if history_payload is None:
+                    history_payload = client.flood_history(point)
+                    flood_history_cache[point.loop_id] = history_payload
+                forecast_payload = client.flood_forecast(point)
                 loop["flood_signal"] = build_flood_signal(
-                    client.flood_history_and_forecast(point),
+                    history_payload,
+                    forecast_payload,
                     now=now.date(),
                 )
             except Exception as exc:
                 loop["flood_signal"] = {"status": "source_error", "error": str(exc)}
 
         loops.append(loop)
+
+    cache["updated_at"] = now.isoformat().replace("+00:00", "Z")
 
     return {
         "schema_version": "0.1",
@@ -494,6 +511,10 @@ def build_snapshot(
                 "The public prototype uses non-commercial Open-Meteo access. "
                 "Commercial mode fails closed unless paid/customer endpoints are configured."
             ),
+        },
+        "cache_contract": {
+            "era5_history": "cached on world-model-data; not refetched every six hours",
+            "glofas_history": "cached on world-model-data; live forecast refreshed each run",
         },
         "loops": loops,
     }
