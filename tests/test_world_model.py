@@ -1253,3 +1253,50 @@ def test_deep_miss_lab_visualizes_h23_and_is_linked_from_morning_brief() -> None
     assert "deep-miss-report.json" in js
     assert "MODEL + SPATIAL" in js
     assert './miss-lab.html' in morning
+
+
+def test_h23_batches_spatial_coordinates_without_changing_cell_semantics(monkeypatch) -> None:
+    import commons.deep_miss_lab as lab
+
+    cells = [
+        {"label": "center", "latitude": 1.0, "longitude": 2.0},
+        {"label": "n25", "latitude": 1.2, "longitude": 2.0},
+    ]
+    payload = [
+        {
+            "hourly": {
+                "time": ["2026-09-01T00:00"] * 18,
+                "precipitation_previous_day1": [1.0] * 18,
+                "precipitation_previous_day2": [2.0] * 18,
+                "precipitation_previous_day3": [3.0] * 18,
+            }
+        },
+        {
+            "hourly": {
+                "time": ["2026-09-01T00:00"] * 18,
+                "precipitation_previous_day1": [4.0] * 18,
+                "precipitation_previous_day2": [5.0] * 18,
+                "precipitation_previous_day3": [6.0] * 18,
+            }
+        },
+    ]
+    monkeypatch.setattr(lab, "_request_json_multi", lambda *args, **kwargs: payload)
+
+    result = lab._forecast_bundle_batch(
+        cells=cells,
+        model="test",
+        start_date="2026-09-01",
+        end_date="2026-09-01",
+    )
+
+    assert set(result) == {"center", "n25"}
+    assert result["center"][1]["2026-09-01"] == 18.0
+    assert result["n25"][3]["2026-09-01"] == 108.0
+
+
+def test_h23_uses_multi_coordinate_spatial_requests() -> None:
+    source = Path("src/commons/deep_miss_lab.py").read_text(encoding="utf-8")
+
+    assert "_forecast_bundle_batch" in source
+    assert '"request_mode": "batched_multi_coordinate"' in source
+    assert "forecast_requests_expected" in source

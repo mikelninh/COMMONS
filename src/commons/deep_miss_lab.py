@@ -2,9 +2,14 @@ from __future__ import annotations
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, timedelta
+import json
 import math
 from statistics import mean, median
+from time import sleep
 from typing import Any
+from urllib.error import HTTPError, URLError
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
 
 from commons.hypothesis_lab import (
     ARCHIVE_URL,
@@ -75,20 +80,48 @@ def spatial_cells(point: BacktestPoint) -> list[dict[str, Any]]:
     return cells
 
 
-def _forecast_bundle(
+def _request_json_multi(
+    url: str,
+    params: dict[str, Any],
     *,
-    latitude: float,
-    longitude: float,
+    timeout: int = 90,
+    attempts: int = 3,
+) -> Any:
+    request = Request(
+        url + "?" + urlencode(params),
+        headers={"User-Agent": "COMMONS-H23-Spatial/0.2"},
+    )
+    for attempt in range(max(1, attempts)):
+        try:
+            with urlopen(request, timeout=timeout) as response:  # noqa: S310
+                payload = json.loads(response.read().decode("utf-8"))
+            if isinstance(payload, dict) and payload.get("error"):
+                raise RuntimeError(str(payload.get("reason") or payload))
+            return payload
+        except HTTPError as exc:
+            transient = exc.code in {408, 425, 429, 500, 502, 503, 504}
+            if not transient or attempt + 1 >= attempts:
+                raise
+        except (URLError, TimeoutError, OSError):
+            if attempt + 1 >= attempts:
+                raise
+        sleep(0.75 * (2**attempt))
+    raise RuntimeError("unreachable multi-coordinate retry state")
+
+
+def _forecast_bundle_batch(
+    *,
+    cells: list[dict[str, Any]],
     model: str,
     start_date: str,
     end_date: str,
-) -> dict[int, dict[str, float]]:
+) -> dict[str, dict[int, dict[str, float]]]:
     hourly = ",".join(f"precipitation_previous_day{lead}" for lead in LEADS)
-    payload = _request_json(
+    payload = _request_json_multi(
         PREVIOUS_RUNS_URL,
         {
-            "latitude": latitude,
-            "longitude": longitude,
+            "latitude": ",".join(str(cell["latitude"]) for cell in cells),
+            "longitude": ",".join(str(cell["longitude"]) for cell in cells),
             "start_date": start_date,
             "end_date": end_date,
             "hourly": hourly,
@@ -96,10 +129,20 @@ def _forecast_bundle(
             "timezone": "UTC",
         },
     )
-    return {
-        lead: _hourly_daily_sum(payload, f"precipitation_previous_day{lead}")
-        for lead in LEADS
-    }
+    items = payload if isinstance(payload, list) else [payload]
+    if len(items) != len(cells):
+        raise RuntimeError(
+            f"multi-coordinate response length {len(items)} != {len(cells)}"
+        )
+    out: dict[str, dict[int, dict[str, float]]] = {}
+    for cell, item in zip(cells, items):
+        out[cell["label"]] = {
+            lead: _hourly_daily_sum(
+                item, f"precipitation_previous_day{lead}"
+            )
+            for lead in LEADS
+        }
+    return out
 
 
 def _actual_series(
@@ -164,33 +207,36 @@ def fetch_h23_evidence(
     actual: dict[str, dict[str, float]] = {}
     errors: list[dict[str, str]] = []
 
-    tasks: list[tuple[str, str, str, dict[str, Any]]] = []
+    tasks: list[tuple[str, str, str, list[dict[str, Any]]]] = []
     for point in affected:
-        forecasts[point.id] = {}
-        for cell in spatial_cells(point):
-            forecasts[point.id][cell["label"]] = {}
-            for provider, model in MODELS.items():
-                tasks.append((point.id, cell["label"], provider, {
-                    "latitude": cell["latitude"],
-                    "longitude": cell["longitude"],
-                    "model": model,
-                    "start_date": query_start.isoformat(),
-                    "end_date": end.isoformat(),
-                }))
+        cells = spatial_cells(point)
+        forecasts[point.id] = {
+            cell["label"]: {} for cell in cells
+        }
+        for provider, model in MODELS.items():
+            tasks.append((point.id, provider, model, cells))
 
     with ThreadPoolExecutor(max_workers=min(MAX_WORKERS, max(1, len(tasks)))) as executor:
         future_map = {
-            executor.submit(_forecast_bundle, **kwargs): (point_id, cell, provider)
-            for point_id, cell, provider, kwargs in tasks
+            executor.submit(
+                _forecast_bundle_batch,
+                cells=cells,
+                model=model,
+                start_date=query_start.isoformat(),
+                end_date=end.isoformat(),
+            ): (point_id, provider)
+            for point_id, provider, model, cells in tasks
         }
         for future in as_completed(future_map):
-            point_id, cell, provider = future_map[future]
+            point_id, provider = future_map[future]
             try:
-                forecasts[point_id][cell][provider] = future.result()
+                by_cell = future.result()
+                for cell_label, bundle in by_cell.items():
+                    forecasts[point_id][cell_label][provider] = bundle
             except Exception as exc:
                 errors.append({
                     "point_id": point_id,
-                    "cell": cell,
+                    "cell": "batched_spatial_cells",
                     "provider": provider,
                     "error": str(exc),
                 })
@@ -245,6 +291,8 @@ def fetch_h23_evidence(
                 else "insufficient"
             ),
             "affected_points": len(affected),
+            "request_mode": "batched_multi_coordinate",
+            "forecast_requests_expected": len(affected) * len(MODELS),
             "expected_forecast_bundles": expected_forecast_bundles,
             "observed_forecast_bundles": observed_forecast_bundles,
             "forecast_bundle_ratio": round(forecast_bundle_ratio, 4),
