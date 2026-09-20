@@ -119,6 +119,20 @@ Guardrail metrics include:
 
 See [SUCCESS.md](SUCCESS.md).
 
+## Trust status
+
+COMMONS now ships a public **TRUST v1** layer. The website computes its status from a machine-readable registry rather than a hand-written badge.
+
+The release can only present **HEALTHY** when required checks pass, including complete provenance, critical-claim freshness, source integrity, conflict visibility, incident safety and claim taxonomy.
+
+Run the same registry check locally:
+
+```bash
+python scripts/trust_report.py
+```
+
+See [docs/COMMONS_TRUST_V1.md](docs/COMMONS_TRUST_V1.md) and the public registry at `public/trust-registry.json`.
+
 ## Principles
 
 1. **Reality is the judge.** Outputs matter only insofar as outcomes improve.
@@ -148,9 +162,10 @@ Read the project documents:
 - [docs/CIVIC_LAB.md](docs/CIVIC_LAB.md) — the citizen / official / community demo
 - [docs/SIMULATION.md](docs/SIMULATION.md) — explicit architecture stress assumptions
 - [NEXT_PHASE.md](NEXT_PHASE.md) — v0.3 evidence + capability network
+- [docs/COMMONS_TRUST_V1.md](docs/COMMONS_TRUST_V1.md) — claim provenance, freshness, evaluations, action safety and incidents
 
 ## Status
 
-**Civic intelligence lab / v0.2.**
+**WORLD PULSE + Action Loop + TRUST v1.**
 
-The current slice adds multilingual civic routing, explicit deliberation boundaries, a shareable web UI, a 32-case benchmark and a measurable path toward v0.3 evidence + capabilities.
+The current public slice combines cinematic sourced stories, accountable action paths, local follow-up receipts and a public trust layer that can automatically degrade when critical evidence becomes stale or required safety checks fail.
