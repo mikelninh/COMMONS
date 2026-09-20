@@ -664,7 +664,7 @@ def test_next_hypotheses_move_toward_attention_quality_and_external_validation()
     assert '"id": "H16"' in script
     assert "A PRIORITY queue reduces analyst monitoring time" in script
     assert "monitoring time, unnecessary reviews, useful catches and perceived noise" in script
-    assert "official warnings" in h14["signals"]
+    assert "national warning archives" in h14["signals"]
 
 
 def test_attention_rule_only_uses_lower_threshold_when_revision_is_upward() -> None:
