@@ -1,0 +1,48 @@
+name: H23 Fast Run
+
+on:
+  push:
+    branches: ["h23-fast-run"]
+    paths:
+      - ".github/workflows/h23-fast-run.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  h23:
+    runs-on: ubuntu-latest
+    env:
+      COMMONS_BACKTEST_CACHE: /tmp/commons-h23-cache
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -e .
+
+      - name: Run H23 only
+        run: |
+          python scripts/run_deep_miss_lab.py \
+            --miss-report public/world-model/miss-report.json \
+            --output public/world-model/deep-miss-report.json
+
+      - name: Commit H23 result to temporary branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "commons-h23-fast"
+          git config user.email "actions@users.noreply.github.com"
+          git add public/world-model/deep-miss-report.json
+          if git diff --cached --quiet; then
+            echo "H23 report unchanged"
+          else
+            git commit -m "H23 fast-run result"
+            git push origin HEAD:h23-fast-run
+          fi
