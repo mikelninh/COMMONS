@@ -1237,7 +1237,7 @@ def test_morning_brief_surfaces_measured_research_frontier() -> None:
 
     assert "RESEARCH FRONTIER" in page
     assert "What reality changed our mind about" in page
-    assert 'const wanted=["H20","H21","H23"]' in js
+    assert 'const wanted=["H20","H21","H23","H24","H25"]' in js
     assert "./world-model/hypothesis-report.json" in js
     assert "UNSUPPORTED" not in page
 
@@ -1346,3 +1346,17 @@ def test_h24_h25_rerun_weekly_and_join_aggregate_report() -> None:
     assert 'minority_convective_path = Path("public/world-model/minority-convective-report.json")' in runner
     assert '"h24"' in runner
     assert '"h25"' in runner
+
+
+def test_signal_trust_lab_visualizes_h24_h25_and_is_linked() -> None:
+    page = Path("public/signal-trust.html").read_text(encoding="utf-8")
+    js = Path("public/signal-trust.js").read_text(encoding="utf-8")
+    morning = Path("public/morning.html").read_text(encoding="utf-8")
+    morning_js = Path("public/morning.js").read_text(encoding="utf-8")
+
+    assert "When should we trust the signal that disagrees?" in page
+    assert "H24 · MINORITY TRUST" in page
+    assert "H25 · CONVECTIVE BLINDNESS" in page
+    assert "minority-convective-report.json" in js
+    assert './signal-trust.html' in morning
+    assert 'const wanted=["H20","H21","H23","H24","H25"]' in morning_js

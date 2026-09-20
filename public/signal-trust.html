@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#060805">
+<title>COMMONS / SIGNAL TRUST LAB</title>
+<link rel="stylesheet" href="./signal-trust.css">
+</head>
+<body>
+<header>
+  <a href="./morning.html">COMMONS / SIGNAL TRUST LAB</a>
+  <nav><a href="./morning.html">Morning Brief</a><a href="./miss-lab.html">Deep Miss Lab</a></nav>
+</header>
+<main>
+  <section class="hero">
+    <div class="eyebrow">SPRINT 2 · H24 / H25</div>
+    <h1>When should we trust the signal that disagrees?</h1>
+    <p>Test minority rainfall only when it is independently corroborated. Then test different physics—CAPE and showers—where the rainfall field is blind.</p>
+    <div class="status-row"><span id="h24Status">H24 · LOADING</span><span id="h25Status">H25 · LOADING</span></div>
+  </section>
+
+  <section class="split">
+    <article class="panel">
+      <div class="panel-kicker">H24 · MINORITY TRUST</div>
+      <h2 id="h24Rule">Waiting for selected rule…</h2>
+      <p id="h24Update">No minority signal gets authority by merely being extreme.</p>
+      <div class="metric-grid">
+        <div><span>DEEP MISS RECOVERY</span><b id="h24Recovery">—</b></div>
+        <div><span>EXTRA FALSE ALERTS</span><b id="h24False">—</b></div>
+        <div><span>PRECISION CHANGE</span><b id="h24Precision">—</b></div>
+        <div><span>RESCUE-ONLY PRECISION</span><b id="h24RescuePrecision">—</b></div>
+      </div>
+      <div class="verdict" id="h24Verdict">Loading guardrails…</div>
+    </article>
+
+    <article class="panel">
+      <div class="panel-kicker">H25 · CONVECTIVE BLINDNESS</div>
+      <h2 id="h25Rule">Waiting for selected rule…</h2>
+      <p id="h25Update">CAPE/showers remain context until archived coverage and holdout performance earn more.</p>
+      <div class="metric-grid">
+        <div><span>BLIND MISS RECOVERY</span><b id="h25Recovery">—</b></div>
+        <div><span>BLIND TEST CASES</span><b id="h25Blind">—</b></div>
+        <div><span>EXTRA FALSE ALERTS</span><b id="h25False">—</b></div>
+        <div><span>CONVECTIVE COVERAGE</span><b id="convectiveHealth">—</b></div>
+      </div>
+      <div class="verdict" id="h25Verdict">Loading guardrails…</div>
+    </article>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div><span>BLIND CASES</span><h2>Did different physics see anything?</h2></div>
+      <p>CAPE and shower forecasts are shown only for rainfall-consensus-blind heavy events in the final test window.</p>
+    </div>
+    <div class="case-grid" id="blindCases"></div>
+  </section>
+
+  <section class="method">
+    <div><span>SCARCITY CONTRACT</span><h2>No cheap recall.</h2></div>
+    <ul>
+      <li>H24: same-provider spatial corroboration, not generic model disagreement.</li>
+      <li>H25: CAPE/showers applied only when rainfall + spatial signals are blind.</li>
+      <li>≤3 additional false alerts per 100 decisions.</li>
+      <li>No more than 5 percentage points precision loss.</li>
+      <li>Even a supported result can enter only as shadow PRIORITY/context—not ALERT.</li>
+    </ul>
+  </section>
+</main>
+<script src="./signal-trust.js"></script>
+</body>
+</html>
