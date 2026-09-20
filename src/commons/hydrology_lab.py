@@ -6,6 +6,7 @@ import math
 from pathlib import Path
 from statistics import mean, pstdev
 from typing import Any
+from urllib.error import HTTPError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
@@ -35,8 +36,12 @@ def _request_json(url: str, params: dict[str, Any], timeout: int = 90) -> dict[s
         url + "?" + urlencode(params),
         headers={"User-Agent": "COMMONS-Hydrology-Lab/0.1"},
     )
-    with urlopen(request, timeout=timeout) as response:  # noqa: S310
-        payload = json.loads(response.read().decode("utf-8"))
+    try:
+        with urlopen(request, timeout=timeout) as response:  # noqa: S310
+            payload = json.loads(response.read().decode("utf-8"))
+    except HTTPError as exc:
+        body = exc.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"HTTP {exc.code}: {body}") from exc
     if payload.get("error"):
         raise RuntimeError(str(payload.get("reason") or payload))
     return payload
