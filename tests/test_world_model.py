@@ -1522,3 +1522,35 @@ def test_impact_v03_preserves_progressive_disclosure_and_human_authority() -> No
     assert 'data-status="not_needed"' in js
     assert "POST" not in js
     assert "localStorage.setItem" in js
+
+
+def test_impact_real_uses_real_geospatial_sources() -> None:
+    page = Path("public/impact-real.html").read_text(encoding="utf-8")
+    js = Path("public/impact-real.js").read_text(encoding="utf-8")
+
+    assert "maplibre-gl@6.10.0" in page
+    assert "OpenStreetMap" in page
+    assert "Open‑Meteo" in page
+    assert "GDACS" in page
+    assert "tiles.openfreemap.org/styles/liberty" in js
+    assert "api.open-meteo.com/v1/forecast" in js
+    assert "overpass-api.de/api/interpreter" in js
+    assert "gdacs.org/gdacsapi/api/Events/geteventlist/SEARCH" in js
+    assert 'map.setProjection({type:"globe"})' in js
+
+
+def test_impact_real_is_scroll_driven_and_time_scrubbable() -> None:
+    page = Path("public/impact-real.html").read_text(encoding="utf-8")
+    js = Path("public/impact-real.js").read_text(encoding="utf-8")
+
+    assert 'data-scene="world"' in page
+    assert 'data-scene="rain"' in page
+    assert 'data-scene="people"' in page
+    assert 'data-scene="systems"' in page
+    assert 'data-scene="memory"' in page
+    assert 'data-scene="future"' in page
+    assert 'id="timeSlider"' in page
+    assert "IntersectionObserver" in js
+    assert "renderWeather" in js
+    assert "past_days=1" in js
+    assert "forecast_days=4" in js
