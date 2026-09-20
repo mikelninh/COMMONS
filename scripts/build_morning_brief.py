@@ -59,6 +59,7 @@ def parse_args():
     parser.add_argument("--attention-report", required=True)
     parser.add_argument("--hypothesis-report", required=True)
     parser.add_argument("--loops", required=True)
+    parser.add_argument("--exposure-report", default=None)
     parser.add_argument("--output", required=True)
     return parser.parse_args()
 
@@ -67,12 +68,18 @@ def main() -> int:
     args = parse_args()
     snapshot = _load(args.snapshot)
     previous = find_previous_snapshot(args.snapshots, snapshot)
+    exposure = (
+        _load(args.exposure_report)
+        if args.exposure_report and Path(args.exposure_report).exists()
+        else None
+    )
     brief = build_morning_brief(
         snapshot,
         previous_snapshot=previous,
         attention_report=_load(args.attention_report),
         hypothesis_report=_load(args.hypothesis_report),
         loop_catalog=_load(args.loops),
+        exposure_report=exposure,
     )
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
