@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#020504">
+<meta name="description" content="COMMONS City Atlas — real-time planetary intelligence across Hanoi, Saigon, Berlin and Manila.">
+<title>COMMONS / CITY ATLAS</title>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.10.0/dist/maplibre-gl.css">
+<link rel="stylesheet" href="./atlas.css">
+</head>
+<body>
+<div id="map"></div>
+<div class="vignette"></div>
+
+<header class="topbar">
+  <a class="brand" href="./atlas.html">COMMONS / ATLAS</a>
+  <nav class="city-tabs" id="cityTabs">
+    <button data-city="hanoi">Hanoi</button>
+    <button data-city="saigon">Saigon</button>
+    <button data-city="berlin">Berlin</button>
+    <button data-city="manila">Manila</button>
+  </nav>
+  <button class="world-button" id="worldButton">WORLD</button>
+</header>
+
+<section class="world-intro" id="worldIntro">
+  <span>PLANETARY INTELLIGENCE</span>
+  <h1>One world.<br><em>Different stories.</em></h1>
+  <p>Choose a city. COMMONS changes what it pays attention to depending on what matters there.</p>
+  <div class="world-cities">
+    <button data-city="hanoi"><b>Hanoi</b><small>water · monsoon · river</small></button>
+    <button data-city="saigon"><b>Saigon</b><small>heat · rain · dense systems</small></button>
+    <button data-city="berlin"><b>Berlin</b><small>air · river · urban movement</small></button>
+    <button data-city="manila"><b>Manila</b><small>storm · infrastructure · memory</small></button>
+  </div>
+</section>
+
+<aside class="city-panel hidden" id="cityPanel">
+  <div class="city-kicker" id="cityKicker">CITY</div>
+  <h2 id="cityName">—</h2>
+  <p class="city-story" id="cityStory">—</p>
+
+  <div class="primary-readout">
+    <span id="primaryLabel">LIVE</span>
+    <strong id="primaryValue">—</strong>
+    <small id="primaryCopy">Connecting…</small>
+  </div>
+
+  <div class="metric-row" id="metricRow">
+    <div><span>TEMP</span><b id="metricA">—</b></div>
+    <div><span>RAIN</span><b id="metricB">—</b></div>
+    <div><span>AIR</span><b id="metricC">—</b></div>
+  </div>
+
+  <div class="river-card hidden" id="riverCard">
+    <div class="river-head">
+      <div><span>RIVER DISCHARGE</span><b id="riverNow">—</b></div>
+      <small id="riverRange">—</small>
+    </div>
+    <svg id="riverSpark" viewBox="0 0 320 70" preserveAspectRatio="none"></svg>
+  </div>
+
+  <div class="context-copy" id="contextCopy"></div>
+</aside>
+
+<nav class="layer-dock hidden" id="layerDock" aria-label="Data layers">
+  <button data-layer="rain"><span class="dot rain"></span>Rain</button>
+  <button data-layer="heat"><span class="dot heat"></span>Heat</button>
+  <button data-layer="wetness"><span class="dot wetness"></span>Wetness</button>
+  <button data-layer="air"><span class="dot air"></span>Air</button>
+  <button data-layer="river"><span class="dot river"></span>River</button>
+  <button data-layer="systems"><span class="dot systems"></span>Systems</button>
+  <button data-layer="memory"><span class="dot memory"></span>Memory</button>
+</nav>
+
+<section class="timeline hidden" id="timeline">
+  <div class="timeline-top">
+    <span id="timelineLayer">RAIN</span>
+    <strong id="timelineTime">—</strong>
+    <span id="timelineValue">—</span>
+  </div>
+  <input id="timeSlider" type="range" min="0" max="1" value="0" step="1">
+  <div class="timeline-scale"><span>−24H</span><span>NOW</span><span>+72H</span></div>
+</section>
+
+<div class="systems-legend hidden" id="systemsLegend">
+  <span><i class="health"></i><b id="healthCount">—</b> health</span>
+  <span><i class="bridge"></i><b id="bridgeCount">—</b> bridges</span>
+  <span><i class="power"></i><b id="powerCount">—</b> power</span>
+</div>
+
+<div class="memory-strip hidden" id="memoryStrip"></div>
+
+<div class="source-health">
+  <span id="weatherHealth">WEATHER · …</span>
+  <span id="airHealth">AIR · …</span>
+  <span id="riverHealth">RIVER · …</span>
+  <span id="systemsHealth">SYSTEMS · …</span>
+  <span id="memoryHealth">MEMORY · …</span>
+</div>
+
+<script type="module" src="./atlas.js"></script>
+</body>
+</html>
