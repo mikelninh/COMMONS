@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#060805">
-<title>COMMONS / IMPACT v0</title>
+<title>COMMONS / IMPACT v0.1</title>
 <link rel="stylesheet" href="./impact.css">
 </head>
 <body>
 <header>
-  <a href="./morning.html">COMMONS / IMPACT v0</a>
+  <a href="./morning.html">COMMONS / IMPACT v0.1</a>
   <nav><a href="./morning.html">Morning Brief</a><a href="./world-model.html">World Model</a></nav>
 </header>
 <main>
@@ -17,7 +17,7 @@
     <div class="eyebrow">FROM WEATHER → CONSEQUENCE → ACTION</div>
     <h1>What could actually matter here?</h1>
     <p>Hazard, exposure, infrastructure and historical consequence stay separate. COMMONS shows the evidence and the next human checks without collapsing them into a fake certainty score.</p>
-    <div class="status-row"><span id="h27Status">H27 · LOADING</span><span id="sourceHealth">CONSEQUENCE LABELS · LOADING</span></div>
+    <div class="status-row"><span id="h27Status">H27 · LOADING</span><span id="sourceHealth">CONSEQUENCE LABELS · LOADING</span><span id="briefHealth">LIVE HAZARD · LOADING</span></div>
   </section>
 
   <section>
@@ -26,6 +26,16 @@
       <p>Context only. The validated rainfall gate still owns ALERT.</p>
     </div>
     <div class="profiles" id="profiles"></div>
+  </section>
+
+  <section class="action-loop">
+    <div class="section-head">
+      <div><span>HUMAN ACTION LOOP</span><h2>What did we decide to do?</h2></div>
+      <p>Browser-local only. COMMONS records consideration, completion or “not needed” without sending anything anywhere.</p>
+    </div>
+    <div class="action-log" id="actionLog">
+      <div class="action-log-empty">No actions recorded on this device yet.</div>
+    </div>
   </section>
 
   <section class="benchmark">
