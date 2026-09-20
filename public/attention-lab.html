@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#070806">
+<title>COMMONS / Attention Lab</title>
+<style>
+:root{
+  --bg:#070806;--panel:#10120f;--panel2:#151814;--line:#2a3028;--text:#f0f4ed;
+  --muted:#9aa596;--soft:#cbd3c7;--accent:#baff6a;--amber:#ffd66b;--red:#ff806f;
+}
+*{box-sizing:border-box}
+html{background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{margin:0;min-height:100vh;background:
+  radial-gradient(circle at 80% 10%,rgba(186,255,106,.08),transparent 32rem),
+  radial-gradient(circle at 10% 80%,rgba(255,214,107,.055),transparent 30rem),var(--bg)}
+a{color:inherit}
+.top{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:0;background:rgba(7,8,6,.78);backdrop-filter:blur(18px);z-index:5}
+.brand{font-size:12px;letter-spacing:.18em;text-decoration:none}
+.top a:last-child{font-size:12px;color:var(--muted);text-decoration:none}
+.shell{width:min(1080px,calc(100% - 32px));margin:0 auto;padding:72px 0 96px}
+.eyebrow{font-size:11px;letter-spacing:.22em;color:var(--accent);text-transform:uppercase}
+h1{font-size:clamp(42px,7vw,86px);line-height:.94;letter-spacing:-.055em;margin:14px 0 24px;max-width:900px}
+.lede{font-size:clamp(18px,2.4vw,26px);line-height:1.42;color:var(--soft);max-width:760px}
+.note{margin-top:28px;color:var(--muted);max-width:760px;line-height:1.55}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+button,.btn{appearance:none;border:1px solid var(--line);background:var(--panel);color:var(--text);padding:14px 18px;border-radius:999px;font:inherit;cursor:pointer;text-decoration:none;transition:.2s ease}
+button:hover,.btn:hover{transform:translateY(-1px);border-color:#4c5c47}
+.primary{background:var(--text);color:#090b08;border-color:var(--text);font-weight:750}
+.hidden{display:none!important}
+.stage{margin-top:42px}
+.progress{height:4px;background:#171b16;border-radius:99px;overflow:hidden;margin-bottom:20px}
+.progress>i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s ease}
+.trial-top{display:flex;justify-content:space-between;gap:18px;align-items:end;margin-bottom:16px}
+.mode{font-size:11px;letter-spacing:.18em;color:var(--muted)}
+.counter{font-size:12px;color:var(--muted)}
+.case{border:1px solid var(--line);border-radius:28px;background:linear-gradient(180deg,rgba(255,255,255,.026),rgba(255,255,255,.012));overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.22)}
+.case-head{padding:26px 28px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:18px;align-items:start}
+.place{font-size:30px;font-weight:760;letter-spacing:-.035em}
+.meta{font-size:13px;color:var(--muted);margin-top:6px}
+.state{padding:9px 12px;border-radius:999px;border:1px solid var(--line);font-size:11px;font-weight:800;letter-spacing:.12em}
+.state.alert{color:#fff0ed;border-color:rgba(255,128,111,.4);background:rgba(255,128,111,.12)}
+.state.watch{color:#fff6d6;border-color:rgba(255,214,107,.4);background:rgba(255,214,107,.1)}
+.state.quiet{color:#e4f1dd;border-color:rgba(186,255,106,.24);background:rgba(186,255,106,.07)}
+.case-body{padding:28px}
+.raw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.metric{border:1px solid var(--line);border-radius:18px;background:var(--panel);padding:18px}
+.metric span{display:block;color:var(--muted);font-size:10px;letter-spacing:.13em;text-transform:uppercase;margin-bottom:10px}
+.metric strong{font-size:30px;letter-spacing:-.04em}
+.metric small{display:block;color:var(--muted);margin-top:6px}
+.summary{padding:24px;border-radius:20px;border:1px solid var(--line);background:var(--panel)}
+.summary b{display:block;font-size:34px;letter-spacing:-.045em}
+.summary p{color:var(--soft);font-size:17px;line-height:1.55;margin:12px 0 0}
+.context-strip{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:18px}
+.question{margin:30px 0 12px;font-size:20px;font-weight:700}
+.subq{color:var(--muted);font-size:14px;margin-bottom:18px}
+.decision{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.decision button{border-radius:18px;padding:18px;font-weight:800}
+.open{background:#eef4ea;color:#0a0d09}
+.skip{background:#11140f}
+.conf{margin-top:20px;border-top:1px solid var(--line);padding-top:18px}
+.conf label{font-size:12px;color:var(--muted)}
+.conf-row{display:flex;align-items:center;gap:12px;margin-top:10px}
+input[type=range]{width:100%}
+.outcome{margin-top:18px;border-radius:18px;padding:18px;border:1px solid var(--line);background:#0c0f0b}
+.outcome.good{border-color:rgba(186,255,106,.35)}
+.outcome.bad{border-color:rgba(255,128,111,.35)}
+.outcome strong{display:block;font-size:20px}
+.outcome p{margin:8px 0 0;color:var(--soft);line-height:1.45}
+.next-row{display:flex;justify-content:flex-end;margin-top:18px}
+.results{margin-top:42px}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.result-card{border:1px solid var(--line);border-radius:24px;background:var(--panel);padding:24px}
+.result-card h3{margin:0 0 20px;font-size:18px}
+.kpi{display:flex;justify-content:space-between;gap:20px;padding:12px 0;border-top:1px solid var(--line)}
+.kpi span{color:var(--muted)}
+.verdict{margin-top:16px;padding:24px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(135deg,rgba(186,255,106,.08),rgba(255,255,255,.015))}
+.verdict strong{font-size:28px;display:block;margin:8px 0}
+.noise{margin-top:18px;padding:20px;border:1px solid var(--line);border-radius:20px}
+.footer-note{margin-top:26px;color:var(--muted);font-size:12px;line-height:1.5}
+.error{padding:22px;border:1px solid rgba(255,128,111,.35);border-radius:18px;color:#ffd7d1;background:rgba(255,128,111,.06)}
+@media(max-width:760px){
+  .shell{padding-top:46px}.top{padding:0 16px}.raw-grid,.result-grid{grid-template-columns:1fr}.case-head{display:block}.state{display:inline-block;margin-top:14px}.decision{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="./world-model.html">COMMONS / ATTENTION LAB</a>
+  <a href="./world-model.html">WORLD MODEL ↗</a>
+</header>
+
+<main class="shell">
+<section id="intro">
+  <div class="eyebrow">H16 · HUMAN BENCHMARK</div>
+  <h1>Can COMMONS buy back human attention?</h1>
+  <p class="lede">You’ll triage verified historical weather situations. Sometimes you’ll see the raw signal. Sometimes COMMONS will compress it into <b>WATCH</b>, <b>ALERT</b>, or <b>QUIET</b>.</p>
+  <p class="note">The outcome stays hidden until you decide whether it deserves your attention. We measure speed, misses, unnecessary opens, confidence, and useful catches per minute. Results stay in this browser unless you export them.</p>
+  <div class="actions">
+    <button id="startBtn" class="primary">Start the benchmark →</button>
+    <a class="btn" href="./world-model.html">Back to World Model</a>
+  </div>
+</section>
+
+<section id="loading" class="hidden"><div class="error">Loading historical benchmark…</div></section>
+<section id="error" class="hidden"><div class="error" id="errorText"></div></section>
+
+<section id="stage" class="stage hidden">
+  <div class="progress"><i id="bar"></i></div>
+  <div class="trial-top">
+    <div class="mode" id="modeLabel">—</div>
+    <div class="counter" id="counter">—</div>
+  </div>
+  <article class="case">
+    <div class="case-head">
+      <div>
+        <div class="place" id="place">—</div>
+        <div class="meta" id="meta">—</div>
+      </div>
+      <div class="state hidden" id="stateBadge">—</div>
+    </div>
+    <div class="case-body">
+      <div id="signalView"></div>
+      <div class="question">Would you spend attention on this now?</div>
+      <div class="subq">OPEN means you’d inspect or monitor it further. SKIP means you’d leave it alone for now.</div>
+      <div class="decision" id="decisionButtons">
+        <button class="open" data-choice="open">OPEN · inspect it</button>
+        <button class="skip" data-choice="skip">SKIP · move on</button>
+      </div>
+      <div class="conf">
+        <label for="confidence">How confident are you in that decision? <b id="confValue">3</b>/5</label>
+        <div class="conf-row"><span>1</span><input id="confidence" type="range" min="1" max="5" step="1" value="3"><span>5</span></div>
+      </div>
+      <div id="outcome" class="outcome hidden"></div>
+      <div class="next-row"><button id="nextBtn" class="primary hidden">Next case →</button></div>
+    </div>
+  </article>
+</section>
+
+<section id="finishNoise" class="results hidden">
+  <div class="eyebrow">ONE LAST SIGNAL</div>
+  <h2>How noisy did the COMMONS triage feel?</h2>
+  <div class="noise">
+    <label for="noiseScore">1 = calm and useful · 5 = too many interruptions</label>
+    <div class="conf-row"><span>1</span><input id="noiseScore" type="range" min="1" max="5" step="1" value="2"><span>5</span></div>
+  </div>
+  <div class="actions"><button id="showResultsBtn" class="primary">Show results →</button></div>
+</section>
+
+<section id="results" class="results hidden">
+  <div class="eyebrow">SESSION RESULT</div>
+  <h1 style="font-size:clamp(38px,6vw,68px)">Did the layer earn its keep?</h1>
+  <div class="result-grid" id="resultGrid"></div>
+  <div class="verdict" id="verdict"></div>
+  <div class="actions">
+    <button id="exportBtn">Export session JSON</button>
+    <button id="restartBtn">Run again</button>
+    <a class="btn" href="./world-model.html">Return to World Model</a>
+  </div>
+  <p class="footer-note">Exploratory human-factor benchmark only. A single session does not validate H16. The useful next step is many independent sessions, ideally with blinded case order and unfamiliar participants.</p>
+</section>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+let report=null, trials=[], index=0, answers=[], startedAt=0, noiseScore=2;
+
+function shuffle(items){
+  const a=[...items];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}
+  return a;
+}
+function fmt(n,d=1){return Number.isFinite(Number(n))?Number(n).toFixed(d):"—"}
+function arrow(dir){return dir>0?"↑ upward":dir<0?"↓ downward":"→ mixed / flat"}
+
+async function loadCases(){
+  const res=await fetch("./world-model/attention-cases.json",{cache:"no-store"});
+  if(!res.ok)throw new Error("Historical case fixture is not available yet.");
+  return res.json();
+}
+function assignTrials(cases){
+  const shuffled=shuffle(cases);
+  const half=Math.floor(shuffled.length/2);
+  const modes=shuffle([
+    ...Array(half).fill("raw"),
+    ...Array(shuffled.length-half).fill("commons")
+  ]);
+  return shuffled.map((c,i)=>({...c,_mode:modes[i]}));
+}
+function render(){
+  const t=trials[index], raw=t.raw, commons=t.commons;
+  $("bar").style.width=((index/trials.length)*100)+"%";
+  $("counter").textContent=(index+1)+" / "+trials.length;
+  $("modeLabel").textContent=t._mode==="raw"?"CONTROL · RAW SIGNALS":"COMMONS · ATTENTION LAYER";
+  $("place").textContent=t.point_name+" · "+t.country;
+  $("meta").textContent=t.date+" · "+t.checkpoint+" · historical replay";
+  $("outcome").classList.add("hidden");
+  $("nextBtn").classList.add("hidden");
+  $("decisionButtons").classList.remove("hidden");
+  $("confidence").value="3";$("confValue").textContent="3";
+  $("stateBadge").className="state hidden";
+  $("stateBadge").textContent="";
+
+  if(t._mode==="raw"){
+    $("signalView").innerHTML=
+      '<div class="raw-grid">'+
+      '<div class="metric"><span>COUNCIL · 5 DAYS OUT</span><strong>'+fmt(raw.council_5d_mm)+' mm</strong><small>median forecast rainfall</small></div>'+
+      '<div class="metric"><span>COUNCIL · 3 DAYS OUT</span><strong>'+fmt(raw.council_3d_mm)+' mm</strong><small>'+arrow(raw.revision_direction)+'</small></div>'+
+      '<div class="metric"><span>HEAVY-RAIN LINE</span><strong>'+fmt(raw.heavy_threshold_mm)+' mm</strong><small>location-specific 90th percentile</small></div>'+
+      '</div>'+
+      '<div class="context-strip"><span>change '+(raw.change_mm>0?"+":"")+fmt(raw.change_mm)+' mm</span><span>threshold ratio '+fmt(raw.threshold_ratio*100,0)+'%</span><span>no attention label supplied</span></div>';
+  }else{
+    const state=commons.state.toUpperCase();
+    $("stateBadge").className="state "+commons.state;
+    $("stateBadge").textContent=state;
+    $("signalView").innerHTML=
+      '<div class="summary"><span class="eyebrow">COMMONS TRIAGE</span><b>'+state+'</b><p>'+commons.reason+'</p></div>'+
+      '<div class="context-strip"><span>3-day council '+fmt(raw.council_3d_mm)+' mm</span><span>heavy line '+fmt(raw.heavy_threshold_mm)+' mm</span><span>'+arrow(raw.revision_direction)+'</span></div>';
+  }
+  startedAt=performance.now();
+}
+function scoreAnswer(t,choice){
+  const important=Boolean(t.truth.heavy_event);
+  const opened=choice==="open";
+  return {important,opened,correct:(important&&opened)||(!important&&!opened),usefulCatch:important&&opened,falseOpen:!important&&opened,miss:important&&!opened};
+}
+function choose(choice){
+  const t=trials[index];
+  const elapsed=(performance.now()-startedAt)/1000;
+  const confidence=Number($("confidence").value);
+  const score=scoreAnswer(t,choice);
+  answers.push({
+    case_id:t.id,mode:t._mode,choice,confidence,
+    decision_seconds:Number(elapsed.toFixed(3)),
+    truth:t.truth,
+    commons_state:t.commons.state,
+    ...score
+  });
+  $("decisionButtons").classList.add("hidden");
+  const o=$("outcome");
+  o.className="outcome "+(score.correct?"good":"bad");
+  o.innerHTML='<strong>'+(t.truth.heavy_event?"HEAVY EVENT":"NOT A HEAVY EVENT")+' · '+fmt(t.truth.actual_mm)+' mm observed</strong>'+
+    '<p>'+(score.usefulCatch?"Useful catch.":score.falseOpen?"You spent attention on a non-heavy outcome.":score.miss?"This heavy event was skipped.":"Correctly left alone.")+
+    ' Ground truth here is ERA5 precipitation relative to the location-specific 90th-percentile threshold.</p>';
+  $("nextBtn").classList.remove("hidden");
+}
+function next(){
+  index++;
+  if(index>=trials.length){
+    $("stage").classList.add("hidden");
+    $("finishNoise").classList.remove("hidden");
+    window.scrollTo({top:0,behavior:"smooth"});
+  }else render();
+}
+function summarize(mode){
+  const rows=answers.filter(a=>a.mode===mode);
+  const heavy=rows.filter(a=>a.important);
+  const nonheavy=rows.filter(a=>!a.important);
+  const opens=rows.filter(a=>a.opened);
+  const totalSeconds=rows.reduce((s,a)=>s+a.decision_seconds,0);
+  const catches=rows.filter(a=>a.usefulCatch).length;
+  const avg=rows.length?totalSeconds/rows.length:0;
+  const recall=heavy.length?heavy.filter(a=>a.opened).length/heavy.length:null;
+  const falseOpen=nonheavy.length?nonheavy.filter(a=>a.opened).length/nonheavy.length:null;
+  const precision=opens.length?opens.filter(a=>a.important).length/opens.length:null;
+  const catchesPerMinute=totalSeconds?catches/(totalSeconds/60):0;
+  return {mode,n:rows.length,avgSeconds:avg,recall,falseOpen,precision,catchesPerMinute,totalSeconds,catches};
+}
+function pct(v){return v==null?"—":Math.round(v*100)+"%"}
+function resultCard(title,s){
+  return '<article class="result-card"><h3>'+title+'</h3>'+
+    '<div class="kpi"><span>mean decision time</span><b>'+fmt(s.avgSeconds,2)+'s</b></div>'+
+    '<div class="kpi"><span>heavy-event recall</span><b>'+pct(s.recall)+'</b></div>'+
+    '<div class="kpi"><span>false-open rate</span><b>'+pct(s.falseOpen)+'</b></div>'+
+    '<div class="kpi"><span>open precision</span><b>'+pct(s.precision)+'</b></div>'+
+    '<div class="kpi"><span>useful catches / minute</span><b>'+fmt(s.catchesPerMinute,2)+'</b></div></article>';
+}
+function showResults(){
+  noiseScore=Number($("noiseScore").value);
+  $("finishNoise").classList.add("hidden");
+  const raw=summarize("raw"), commons=summarize("commons");
+  $("resultGrid").innerHTML=resultCard("RAW SIGNALS",raw)+resultCard("COMMONS TRIAGE",commons);
+
+  const speedGain=raw.avgSeconds?1-(commons.avgSeconds/raw.avgSeconds):0;
+  const recallDelta=(commons.recall??0)-(raw.recall??0);
+  const falseDelta=(commons.falseOpen??0)-(raw.falseOpen??0);
+  const catchesGain=raw.catchesPerMinute?commons.catchesPerMinute/raw.catchesPerMinute-1:null;
+
+  const exploratoryPass=
+    speedGain>=.20 &&
+    recallDelta>=-.05 &&
+    falseDelta<=.05 &&
+    noiseScore<=3;
+
+  $("verdict").innerHTML=
+    '<span class="eyebrow">H16 · EXPLORATORY SESSION</span>'+
+    '<strong>'+(exploratoryPass?"PROMISING SIGNAL":"NOT YET CONVINCING")+'</strong>'+
+    '<p>Decision time '+(speedGain>=0?"improved ":"worsened ")+Math.abs(speedGain*100).toFixed(1)+'%. '+
+    'Recall changed '+(recallDelta>=0?"+":"")+Math.round(recallDelta*100)+'pp. '+
+    'False-open rate changed '+(falseDelta>=0?"+":"")+Math.round(falseDelta*100)+'pp. '+
+    'Perceived noise: '+noiseScore+'/5.'+
+    (catchesGain==null?'':' Useful catches/min changed '+(catchesGain>=0?"+":"")+Math.round(catchesGain*100)+'%.')+
+    '</p><p style="color:var(--muted)">This does not update H16 by itself. It becomes evidence when many independent sessions point in the same direction.</p>';
+
+  window.__session={
+    schema_version:"0.1",
+    created_at:new Date().toISOString(),
+    hypothesis:report.hypothesis,
+    source_period:report.period,
+    noise_score:noiseScore,
+    summary:{raw,commons,speed_gain:speedGain,recall_delta:recallDelta,false_open_delta:falseDelta,catches_per_minute_gain:catchesGain,exploratory_pass:exploratoryPass},
+    answers
+  };
+  localStorage.setItem("commons_h16_last_session",JSON.stringify(window.__session));
+  $("results").classList.remove("hidden");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function exportSession(){
+  const blob=new Blob([JSON.stringify(window.__session,null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="commons-h16-attention-session.json";
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+async function start(){
+  $("intro").classList.add("hidden");$("loading").classList.remove("hidden");
+  try{
+    report=await loadCases();
+    if(!report.cases?.length)throw new Error("No historical cases were generated.");
+    trials=assignTrials(report.cases);
+    index=0;answers=[];
+    $("loading").classList.add("hidden");$("stage").classList.remove("hidden");
+    render();window.scrollTo({top:0,behavior:"smooth"});
+  }catch(err){
+    $("loading").classList.add("hidden");$("error").classList.remove("hidden");
+    $("errorText").textContent=err.message+" The backtest workflow may still be generating the fixture.";
+  }
+}
+
+$("startBtn").onclick=start;
+$("decisionButtons").onclick=e=>{const b=e.target.closest("button[data-choice]");if(b)choose(b.dataset.choice)};
+$("nextBtn").onclick=next;
+$("confidence").oninput=e=>$("confValue").textContent=e.target.value;
+$("showResultsBtn").onclick=showResults;
+$("exportBtn").onclick=exportSession;
+$("restartBtn").onclick=()=>location.reload();
+</script>
+</body>
+</html>
