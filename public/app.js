@@ -750,40 +750,117 @@ function buildScrollNarrative(){
   bindScrollSceneActions();
 }
 
+function primaryDirectIntervention(story=activeStory){
+  const loop=ACTION_LOOPS[story.id];
+  return (loop?.interventions||[]).find(item=>
+    item.type==="external" && item.actionability==="DIRECT"
+  ) || null;
+}
+
+function followIntervention(story=activeStory){
+  const loop=ACTION_LOOPS[story.id];
+  return (loop?.interventions||[]).find(item=>item.type==="follow") || null;
+}
+
+function decisionMarkup(){
+  const direct=primaryDirectIntervention();
+  const follow=followIntervention();
+  const gate=direct?interventionTrustGate(direct):{allowed:false,reason:"No verified direct public action is currently surfaced for this story."};
+  const hasDirect=Boolean(direct&&gate.allowed);
+
+  return `
+    <div class="story-decision">
+      <div class="decision-kicker">WHAT NOW?</div>
+      <h3>Does this need anything from you?</h3>
+      <p>${hasDirect
+        ? "Yes — there is a verified public way to help. You can also simply follow the story and come back when something changes."
+        : "No direct public action is verified tightly enough right now. Following the story is useful; inventing an action is not."}</p>
+      ${hasDirect?`
+        <button class="decision-primary" data-action="direct">${escapeHtml(direct.cta.replace("↗","").trim())} →</button>
+      `:""}
+      ${follow?`<button class="decision-secondary" data-action="follow">${escapeHtml(follow.cta||"Follow this story")}</button>`:""}
+      <button class="decision-secondary" data-action="done">I’m caught up</button>
+      <button class="decision-evidence" data-action="belief">How do we know?</button>
+      ${direct&&!gate.allowed?`<div class="decision-note">${escapeHtml(gate.reason)}</div>`:""}
+    </div>
+  `;
+}
+
 function sceneMarkup(scene){
   const body=scene.value
     ? `<div class="scene-number ${escapeHtml(scene.tone||"")}">${escapeHtml(scene.value)}</div>
        <div class="scene-label">${escapeHtml(scene.label)}</div>`
     : `<h2 class="scene-headline">${scene.headline}</h2>`;
 
-  const following=nextStory();
-  const actions=scene.actions?`
-    <div class="scene-actions">
-      <button class="word-button" data-action="actionloop">Act on this →</button>
-      <button class="word-button muted" data-action="belief">Why we believe this</button>
-      <button class="word-button muted" data-action="pass">Pass this on</button>
-      <button class="word-button muted" data-action="next">Next: ${escapeHtml(following.country)} →</button>
-    </div>`:"";
-
   return `
     <div class="scene-kicker">${escapeHtml(scene.kicker)}</div>
     ${body}
     <div class="scene-copy">${escapeHtml(scene.copy)}</div>
-    <div class="scene-source">${escapeHtml(scene.source)}</div>
-    ${actions}
+    <button class="scene-source inline-evidence" data-action="belief">Reported by / sourced from ${escapeHtml(scene.source||"primary evidence")} · How do we know?</button>
+    ${scene.actions?decisionMarkup():""}
   `;
+}
+
+function showExternalHandoff(intervention){
+  const gate=interventionTrustGate(intervention);
+  if(!gate.allowed){
+    toast(gate.reason);
+    return;
+  }
+  $("handoffTitle").textContent=intervention.title;
+  $("handoffBody").textContent="The action itself happens outside COMMONS. We’ll hand you to the verified official path and keep the story available for follow-up.";
+  $("handoffVerify").textContent=intervention.evidenceStrength+" · "+intervention.actor;
+  $("handoffCannot").textContent=intervention.uncertainty;
+  $("handoffContinue").textContent=intervention.cta.replace("↗","").trim()+" →";
+  $("handoff").dataset.interventionId=intervention.id;
+  $("handoff").classList.add("open");
+  $("handoff").setAttribute("aria-hidden","false");
+}
+
+function closeHandoff(){
+  if(!$("handoff"))return;
+  $("handoff").classList.remove("open");
+  $("handoff").setAttribute("aria-hidden","true");
+  delete $("handoff").dataset.interventionId;
+}
+
+function continueExternalHandoff(){
+  const loop=actionLoopForStory();
+  const intervention=loop?.interventions.find(item=>item.id===$("handoff").dataset.interventionId);
+  if(!intervention)return closeHandoff();
+  const gate=interventionTrustGate(intervention);
+  if(!gate.allowed){
+    closeHandoff();
+    toast(gate.reason);
+    return;
+  }
+  addLedgerReceipt(intervention,"external_opened","external_unverified");
+  closeHandoff();
+  renderStoryLibrary();
+  window.open(intervention.url,"_blank","noopener");
+}
+
+function followCurrentStoryInline(){
+  const intervention=followIntervention();
+  if(!intervention){
+    toast("No follow action is defined for this story yet");
+    return;
+  }
+  addLedgerReceipt(intervention,"following","browser_local");
+  renderStoryLibrary();
+  toast("Following this story");
 }
 
 function bindScrollSceneActions(){
   qsa("[data-action]",$("scrollNarrative")).forEach(btn=>{
     btn.onclick=()=>{
-      if(btn.dataset.action==="actionloop")openActionLab("current");
-      if(btn.dataset.action==="belief")openEvidence();
-      if(btn.dataset.action==="pass")openShare();
-      if(btn.dataset.action==="next"){
-        const following=nextStory();
-        enterStory(following.id,0);
+      if(btn.dataset.action==="direct"){
+        const direct=primaryDirectIntervention();
+        if(direct)showExternalHandoff(direct);
       }
+      if(btn.dataset.action==="follow")followCurrentStoryInline();
+      if(btn.dataset.action==="done")stopStory(true);
+      if(btn.dataset.action==="belief")openTrustCenter("claims","simple");
     };
   });
 }
