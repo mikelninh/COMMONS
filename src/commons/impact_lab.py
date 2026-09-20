@@ -696,7 +696,7 @@ def run_impact_v0(
         benchmark_events = fetch_gdacs_events(
             start_date=benchmark_start.isoformat(),
             end_date=benchmark_end.isoformat(),
-            pages=1,
+            pages=3,
         )
     except Exception as exc:
         benchmark_events = []
