@@ -483,6 +483,36 @@ def main() -> int:
             minority_convective.get("convective_evidence_health") or {}
         ).get("status")
 
+    impact_path = Path("public/world-model/impact-report.json")
+    if impact_path.exists():
+        impact = json.loads(impact_path.read_text(encoding="utf-8"))
+        h27 = ((impact.get("benchmark") or {}).get("hypothesis") or {})
+        if h27.get("id") == "H27":
+            report["hypotheses"] = [
+                item for item in report["hypotheses"] if item.get("id") != "H27"
+            ]
+            report["hypotheses"].append(
+                {
+                    "id": "H27",
+                    "claim": h27.get("claim"),
+                    "status": h27.get("status"),
+                    "effect": h27.get("effect"),
+                    "update": h27.get("product_update"),
+                }
+            )
+            report.setdefault("headline_metrics", {})
+            benchmark = impact.get("benchmark") or {}
+            report["headline_metrics"]["h27_selected_ordering"] = benchmark.get("selected_ordering")
+            report["headline_metrics"]["h27_average_precision_gain"] = (
+                (benchmark.get("comparison") or {}).get("average_precision_gain")
+            )
+            report["headline_metrics"]["h27_top20_recall_gain"] = (
+                (benchmark.get("comparison") or {}).get("top20_recall_gain")
+            )
+            report["headline_metrics"]["h27_emdat_coverage"] = (
+                (impact.get("source_health") or {}).get("emdat_coverage")
+            )
+
     report["next_hypotheses"] = [
         {
             "id": "H7",
