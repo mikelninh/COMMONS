@@ -32,10 +32,10 @@ def build_attention_cases(
         revision = int(path["revision_5_to_3"])
 
         alert = current >= threshold
-        watch = alert or (current >= LOOSE_FACTOR * threshold and revision > 0)
+        priority = current >= LOOSE_FACTOR * threshold and revision > 0
         heavy = float(path["actual_mm"]) >= threshold
 
-        state = "alert" if alert else "watch" if watch else "quiet"
+        state = "alert" if alert else "priority" if priority else "quiet"
         truth = "heavy" if heavy else "not_heavy"
         bucket = f"{state}_{truth}"
 
@@ -44,8 +44,8 @@ def build_attention_cases(
             "Council median crossed the heavy-rain threshold."
             if state == "alert"
             else "Sub-threshold rainfall plus an upward majority revision."
-            if state == "watch"
-            else "No threshold crossing and no validated WATCH condition."
+            if state == "priority"
+            else "No threshold crossing and no validated priority condition."
         )
 
         buckets[bucket].append(
@@ -83,8 +83,8 @@ def build_attention_cases(
     preferred = [
         "alert_heavy",
         "alert_not_heavy",
-        "watch_heavy",
-        "watch_not_heavy",
+        "priority_heavy",
+        "priority_not_heavy",
         "quiet_heavy",
         "quiet_not_heavy",
     ]
@@ -117,7 +117,7 @@ def build_attention_cases(
         "schema_version": "0.1",
         "hypothesis": {
             "id": "H16",
-            "claim": "A low-cost WATCH layer reduces analyst monitoring time without creating perceived noise.",
+            "claim": "A PRIORITY queue reduces analyst monitoring time without creating perceived noise.",
         },
         "period": {"start": start_date, "end": end_date},
         "checkpoint": "3 days before outcome",
@@ -135,7 +135,7 @@ def build_attention_cases(
                 "open precision",
                 "perceived noise",
             ],
-            "design": "within-person randomized comparison: raw signals vs COMMONS triage",
+            "design": "within-person randomized comparison: raw signals vs COMMONS priority queue",
         },
         "limitations": [
             "This is an attention benchmark, not an emergency-warning validation.",
