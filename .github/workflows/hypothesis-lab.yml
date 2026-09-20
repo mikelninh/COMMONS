@@ -17,6 +17,10 @@ on:
       - "scripts/run_attention_rule_lab.py"
       - "src/commons/watch_alert_lab.py"
       - "scripts/run_watch_alert_lab.py"
+      - "src/commons/watch_value_lab.py"
+      - "scripts/run_watch_value_lab.py"
+      - "src/commons/human_attention_lab.py"
+      - "scripts/run_human_attention_lab.py"
       - ".github/workflows/hypothesis-lab.yml"
 
 permissions:
@@ -61,6 +65,16 @@ jobs:
           python scripts/run_watch_alert_lab.py \
             --output public/world-model/watch-alert-report.json
 
+      - name: Backtest revision value for WATCH ranking
+        run: |
+          python scripts/run_watch_value_lab.py \
+            --output public/world-model/watch-value-report.json
+
+      - name: Build H16 human attention benchmark
+        run: |
+          python scripts/run_human_attention_lab.py \
+            --output public/world-model/attention-cases.json
+
       - name: Run rolling research backtest
         run: |
           python scripts/run_hypothesis_lab.py \
@@ -84,7 +98,9 @@ jobs:
             public/world-model/revision-report.json \
             public/world-model/river-attention-report.json \
             public/world-model/attention-rule-report.json \
-            public/world-model/watch-alert-report.json
+            public/world-model/watch-alert-report.json \
+            public/world-model/watch-value-report.json \
+            public/world-model/attention-cases.json
           if git diff --cached --quiet; then
             echo "Report unchanged"
           else
