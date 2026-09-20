@@ -534,7 +534,7 @@ def test_next_hypotheses_focus_on_hydrology_and_persistence() -> None:
     )
     ids = {item["id"] for item in report["next_hypotheses"]}
 
-    assert {"H7", "H11", "H12", "H13", "H14"} <= ids
+    assert {"H7", "H11", "H13", "H14", "H15"} <= ids
     assert "H6" not in ids
     h11 = next(item for item in report["next_hypotheses"] if item["id"] == "H11")
     assert any("basin" in signal.lower() for signal in h11["signals"])
@@ -594,11 +594,12 @@ def test_live_revision_signal_is_visible_but_not_overclaimed() -> None:
     js = Path("public/world-model.js").read_text(encoding="utf-8")
 
     assert 'id="liveRevisionSignal"' in page
-    assert "LIVE CHANGE SIGNAL" in page
+    assert "EARLY WATCH · OBSERVATIONAL" in page
     assert "function revisionDirectionBetween" in js
     assert "function renderLiveRevisionSignal" in js
     assert "2/3 models" not in page  # live value must be derived from data
     assert "six-hour persistence is still being evaluated" in js
+    assert "WATCH only — alert gate unchanged." in js
     assert "Raw disagreement remains visible context, not a confidence penalty." in js
 
 
@@ -637,8 +638,73 @@ def test_next_hypotheses_move_toward_attention_quality_and_external_validation()
     )
     ids = {item["id"] for item in report["next_hypotheses"]}
 
-    assert {"H7", "H11", "H12", "H13", "H14"} <= ids
-    h12 = next(item for item in report["next_hypotheses"] if item["id"] == "H12")
+    assert {"H7", "H11", "H13", "H14", "H15"} <= ids
+    h15 = next(item for item in report["next_hypotheses"] if item["id"] == "H15")
     h14 = next(item for item in report["next_hypotheses"] if item["id"] == "H14")
-    assert "precision, miss rate and lead time" in h12["test"]
+    assert "WATCH" in h15["claim"]
+    assert "precision, recall, escalation rate and lead time" in h15["test"]
     assert "official warnings" in h14["signals"]
+
+
+def test_attention_rule_only_uses_lower_threshold_when_revision_is_upward() -> None:
+    from commons.attention_rule_lab import first_alert_lead
+
+    upward = {
+        "council": {5: 10.0, 3: 17.0, 1: 21.0},
+        "revision_5_to_3": 1,
+        "revision_3_to_1": 1,
+    }
+    downward = {
+        "council": {5: 10.0, 3: 17.0, 1: 21.0},
+        "revision_5_to_3": -1,
+        "revision_3_to_1": -1,
+    }
+
+    assert first_alert_lead(upward, 20.0, policy="strict") == 1
+    assert first_alert_lead(upward, 20.0, policy="loose") == 3
+    assert first_alert_lead(upward, 20.0, policy="revision_aware") == 3
+    assert first_alert_lead(downward, 20.0, policy="revision_aware") == 1
+
+
+def test_attention_rule_benchmark_includes_strict_and_loose_controls() -> None:
+    source = Path("src/commons/attention_rule_lab.py").read_text(encoding="utf-8")
+
+    assert 'policy="strict"' in source
+    assert 'policy="loose"' in source
+    assert 'policy="revision_aware"' in source
+    assert "LOOSE_FACTOR = 0.80" in source
+    assert "revision_beats_strict" in source
+    assert "revision_beats_loose" in source
+
+
+def test_attention_rule_requires_precision_recall_tradeoff_not_engagement() -> None:
+    source = Path("src/commons/attention_rule_lab.py").read_text(encoding="utf-8")
+
+    assert "precision" in source
+    assert "recall" in source
+    assert "miss_rate" in source
+    assert "mean_true_alert_lead_days" in source
+    assert "false_alerts_per_100_days" in source
+
+
+def test_h12_keeps_alert_gate_strict_and_revision_signal_watch_only() -> None:
+    report = json.loads(
+        Path("public/world-model/attention-rule-report.json").read_text(encoding="utf-8")
+    )
+    h12 = report["hypothesis"]
+
+    assert h12["status"] == "not_supported"
+    assert report["policies"]["revision_aware"]["recall"] > report["policies"]["strict"]["recall"]
+    assert report["policies"]["revision_aware"]["precision"] < report["policies"]["strict"]["precision"]
+    assert abs(report["policies"]["revision_aware"]["f1"] - report["policies"]["strict"]["f1"]) < 0.01
+    assert "fixed thresholds as the alert gate" in h12["product_update"]
+
+
+def test_weekly_lab_retests_h12_attention_rule() -> None:
+    workflow = Path(".github/workflows/hypothesis-lab.yml").read_text(encoding="utf-8")
+    script = Path("scripts/run_hypothesis_lab.py").read_text(encoding="utf-8")
+
+    assert "run_attention_rule_lab.py" in workflow
+    assert "attention-rule-report.json" in workflow
+    assert 'attention_path = Path("public/world-model/attention-rule-report.json")' in script
+    assert '"id": "H12"' in script

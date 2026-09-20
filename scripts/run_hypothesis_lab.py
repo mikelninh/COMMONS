@@ -125,6 +125,45 @@ def main() -> int:
                 "mean_precision_gain_pct"
             )
 
+    attention_path = Path("public/world-model/attention-rule-report.json")
+    if attention_path.exists():
+        attention = json.loads(attention_path.read_text(encoding="utf-8"))
+        h12 = attention.get("hypothesis") or {}
+        if h12.get("id") == "H12":
+            report["hypotheses"] = [
+                existing
+                for existing in report["hypotheses"]
+                if existing.get("id") != "H12"
+            ]
+            report["hypotheses"].append(
+                {
+                    "id": "H12",
+                    "claim": h12.get("claim"),
+                    "status": h12.get("status"),
+                    "effect": (
+                        f"F1 gain {h12.get('f1_gain_vs_strict')}; "
+                        f"recall gain {h12.get('recall_gain_vs_strict')}; "
+                        f"precision change {h12.get('precision_change_vs_strict')}; "
+                        f"lead gain {h12.get('lead_gain_days_vs_strict')}d"
+                    ),
+                    "update": h12.get("product_update"),
+                }
+            )
+            report.setdefault("headline_metrics", {})
+            policies = attention.get("policies") or {}
+            report["headline_metrics"]["h12_strict_f1"] = (
+                policies.get("strict") or {}
+            ).get("f1")
+            report["headline_metrics"]["h12_revision_f1"] = (
+                policies.get("revision_aware") or {}
+            ).get("f1")
+            report["headline_metrics"]["h12_revision_recall"] = (
+                policies.get("revision_aware") or {}
+            ).get("recall")
+            report["headline_metrics"]["h12_revision_precision"] = (
+                policies.get("revision_aware") or {}
+            ).get("precision")
+
     report["next_hypotheses"] = [
         {
             "id": "H7",
@@ -139,12 +178,6 @@ def main() -> int:
             "test": "Cluster basin regimes and validate wetness features out-of-sample.",
         },
         {
-            "id": "H12",
-            "claim": "A material-change rule can beat fixed hazard thresholds on useful-alert precision.",
-            "signals": ["validated revisions", "river percentile", "horizon skill"],
-            "test": "Compare rule precision, miss rate and lead time against fixed percentile alerts.",
-        },
-        {
             "id": "H13",
             "claim": "Adding exposure changes which physical hazards deserve human attention first.",
             "signals": ["population", "settlements", "critical infrastructure", "hazard state"],
@@ -155,6 +188,12 @@ def main() -> int:
             "claim": "Official warning changes provide a useful external benchmark for COMMONS attention changes.",
             "signals": ["official warnings", "COMMONS change signals", "timing"],
             "test": "Measure agreement, earlier/later detection and false alarms without treating official warnings as perfect ground truth.",
+        },
+        {
+            "id": "H15",
+            "claim": "Separating WATCH from ALERT can gain recall without weakening the high-confidence alert gate.",
+            "signals": ["revision-aware watch", "fixed-threshold alert", "user feedback"],
+            "test": "Backtest two-tier watch/alert states on precision, recall, escalation rate and lead time.",
         },
     ]
 
