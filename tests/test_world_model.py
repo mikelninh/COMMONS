@@ -3,6 +3,8 @@ from __future__ import annotations
 from datetime import datetime, timezone
 import json
 from pathlib import Path
+import shutil
+import subprocess
 
 import pytest
 
@@ -295,3 +297,16 @@ def test_backtest_cli_exists_for_archived_snapshots() -> None:
     assert "--snapshot" in script
     assert "--observed" in script
     assert "Brier score and CRPS require ensemble forecasts" in script
+
+
+def test_world_model_browser_javascript_parses() -> None:
+    node = shutil.which("node")
+    if node is None:
+        return
+    result = subprocess.run(
+        [node, "--check", "public/world-model.js"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr
