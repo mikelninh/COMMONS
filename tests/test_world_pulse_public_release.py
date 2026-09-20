@@ -453,7 +453,7 @@ def test_action_loop_share_is_only_recorded_when_initiated_from_action_loop() ->
 def test_story_library_surfaces_follow_and_new_evidence_states() -> None:
     _, _, app, _, loops = read_public()
 
-    assert 'newer?"NEW EVIDENCE":following?"FOLLOWING":acted?"ACTION RECORDED"' in app
+    assert 'newer?"NEW SINCE YOU FOLLOWED":following?"FOLLOWING":acted?"ACTION RECORDED"' in app
     assert "ledgerForStory(story.id)" in app
     assert "receipts.some(hasNewEvidence)" in app
 
