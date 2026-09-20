@@ -1,0 +1,49 @@
+{
+  "schema_version": "0.1",
+  "generated_at": "2026-09-20T17:14:50Z",
+  "period": {
+    "start": "2019-01-01",
+    "end": "2022-07-31"
+  },
+  "verification": "GloFAS v4 historical discharge",
+  "weather": "ERA5 precipitation + 0-100 cm soil moisture",
+  "hypothesis": {
+    "id": "H6",
+    "status": "mixed",
+    "claim": "Antecedent rainfall and soil moisture improve detection of top-5% discharge days beyond recent 3-day rainfall alone.",
+    "mean_auc_gain": 0.0834,
+    "mean_precision_gain_pct": 83.2,
+    "product_update": "Do not apply a global wetness rule. Learn and expose wetness skill per basin."
+  },
+  "points": [
+    {
+      "id": "nuwakot",
+      "name": "Nuwakot",
+      "country": "Nepal",
+      "auc_gain_vs_recent_rain": 0.013,
+      "precision_gain_vs_recent_rain_pct": 0
+    },
+    {
+      "id": "warsaw",
+      "name": "Warsaw",
+      "country": "Poland",
+      "auc_gain_vs_recent_rain": 0.2417,
+      "precision_gain_vs_recent_rain_pct": 257.1
+    },
+    {
+      "id": "niamey",
+      "name": "Niamey",
+      "country": "Niger",
+      "auc_gain_vs_recent_rain": -0.0045,
+      "precision_gain_vs_recent_rain_pct": -7.6
+    }
+  ],
+  "source_errors": [],
+  "limitations": [
+    "GloFAS discharge is modelled, not a local gauge observation.",
+    "The selected river is the largest river in the model cell and may not match the exact local river.",
+    "Weather features are sampled at one point, not integrated over the upstream basin.",
+    "The simple composite score is not a trained hydrological model.",
+    "Strong Warsaw gains make the aggregate mean look better than the cross-basin consistency warrants."
+  ]
+}
