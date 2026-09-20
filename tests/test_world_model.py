@@ -1237,7 +1237,7 @@ def test_morning_brief_surfaces_measured_research_frontier() -> None:
 
     assert "RESEARCH FRONTIER" in page
     assert "What reality changed our mind about" in page
-    assert 'const wanted=["H20","H21","H23","H24","H25"]' in js
+    assert 'const wanted=["H20","H21","H23","H24","H25","H27"]' in js
     assert "./world-model/hypothesis-report.json" in js
     assert "UNSUPPORTED" not in page
 
@@ -1359,4 +1359,71 @@ def test_signal_trust_lab_visualizes_h24_h25_and_is_linked() -> None:
     assert "H25 · CONVECTIVE BLINDNESS" in page
     assert "minority-convective-report.json" in js
     assert './signal-trust.html' in morning
-    assert 'const wanted=["H20","H21","H23","H24","H25"]' in morning_js
+    assert 'const wanted=["H20","H21","H23","H24","H25","H27"]' in morning_js
+
+
+def test_impact_v0_keeps_components_separate_and_human_authorized() -> None:
+    source = Path("src/commons/impact_lab.py").read_text(encoding="utf-8")
+
+    assert "No opaque production risk score" in source
+    assert '"hazard"' in source
+    assert '"exposure"' in source
+    assert '"infrastructure"' in source
+    assert '"historical_consequence"' in source
+    assert '"authority": "human"' in source
+    assert '"id": "H27"' in source
+
+
+def test_h27_requires_real_consequence_labels_before_ranking_authority() -> None:
+    source = Path("src/commons/impact_lab.py").read_text(encoding="utf-8")
+
+    assert "EM-DAT via GDACS" in source
+    assert "len(test) >= 20" in source
+    assert "average_precision_gain" in source
+    assert "top20_recall_gain" in source
+    assert "keep hazard ALERT authority unchanged" in source.lower() or "hazard alert authority unchanged" in source.lower()
+
+
+def test_impact_v0_runs_weekly_and_joins_morning_brief_context() -> None:
+    workflow = Path(".github/workflows/hypothesis-lab.yml").read_text(encoding="utf-8")
+    runner = Path("scripts/run_hypothesis_lab.py").read_text(encoding="utf-8")
+    builder = Path("scripts/build_morning_brief.py").read_text(encoding="utf-8")
+    morning = Path("src/commons/morning_brief.py").read_text(encoding="utf-8")
+
+    assert "run_impact_lab.py" in workflow
+    assert "impact-report.json" in workflow
+    assert 'impact_path = Path("public/world-model/impact-report.json")' in runner
+    assert "--impact-report" in builder
+    assert "impact_context" in morning
+    assert "does not change ALERT" in morning
+
+
+def test_morning_brief_surfaces_impact_context_without_changing_rank() -> None:
+    js = Path("public/morning.js").read_text(encoding="utf-8")
+    morning = Path("src/commons/morning_brief.py").read_text(encoding="utf-8")
+
+    assert "health facilities nearby · context" in js
+    assert "consequential historical events nearby · context" in js
+    assert "impact_context" in morning
+    assert "does not change ALERT" in morning
+
+
+def test_impact_v0_visual_surface_is_component_first_and_linked() -> None:
+    page = Path("public/impact.html").read_text(encoding="utf-8")
+    js = Path("public/impact.js").read_text(encoding="utf-8")
+    morning = Path("public/morning.html").read_text(encoding="utf-8")
+    morning_js = Path("public/morning.js").read_text(encoding="utf-8")
+
+    assert "What could actually matter here?" in page
+    assert "Hazard, exposure, infrastructure and historical consequence stay separate" in page
+    assert "impact-report.json" in js
+    assert "nearby assets, not damage estimates" in js
+    assert "./impact.html" in morning
+    assert '"H27"' in morning_js
+
+
+def test_world_model_refresh_passes_impact_context_to_morning_brief() -> None:
+    workflow = Path(".github/workflows/world-model.yml").read_text(encoding="utf-8")
+
+    assert "--impact-report" in workflow
+    assert "public/world-model/impact-report.json" in workflow

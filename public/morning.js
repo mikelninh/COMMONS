@@ -76,6 +76,15 @@ function monitorContext(item){
     const human=pop>=1000000?(pop/1000000).toFixed(1)+"M":pop>=1000?Math.round(pop/1000)+"k":Math.round(pop);
     tags.push('<span class="tag">~'+human+' people within ~'+fmt(item.exposure_context.radius_km," km",0)+' · context</span>');
   }
+  const impact=item.impact_context?.components||{};
+  const infra=impact.infrastructure||{};
+  const history=impact.historical_consequence||{};
+  if(infra.health_facilities!=null){
+    tags.push('<span class="tag">'+infra.health_facilities+' health facilities nearby · context</span>');
+  }
+  if(history.consequential_events!=null&&history.consequential_events>0){
+    tags.push('<span class="tag">'+history.consequential_events+' consequential historical events nearby · context</span>');
+  }
   if(item.models_available<item.models_expected){
     tags.push('<span class="tag">'+item.models_available+'/'+item.models_expected+' models available</span>');
   }
@@ -129,7 +138,7 @@ function renderLens(monitors){
   bindLensButtons();
 }
 function renderResearch(report){
-  const wanted=["H20","H21","H23","H24","H25"];
+  const wanted=["H20","H21","H23","H24","H25","H27"];
   const byId=new Map((report?.hypotheses||[]).map(item=>[item.id,item]));
   const items=wanted.map(id=>byId.get(id)).filter(Boolean);
   if(!items.length){

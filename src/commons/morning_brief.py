@@ -139,12 +139,18 @@ def build_morning_brief(
     hypothesis_report: dict[str, Any] | None = None,
     loop_catalog: dict[str, Any] | None = None,
     exposure_report: dict[str, Any] | None = None,
+    impact_report: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     current_loops = _loop_map(snapshot)
     previous_loops = _loop_map(previous_snapshot)
     catalog = _catalog_map(loop_catalog)
 
     thresholds = (attention_report or {}).get("thresholds_mm") or {}
+    impact_by_point = {
+        str(item.get("point_id")): item
+        for item in (impact_report or {}).get("profiles") or []
+        if item.get("point_id")
+    }
     exposure_by_point = {
         str((item.get("point") or {}).get("id")): item
         for item in (exposure_report or {}).get("points") or []
@@ -214,6 +220,17 @@ def build_morning_brief(
                 "note": "Nearby population is context, not estimated people impacted.",
             }
 
+        impact_profile = impact_by_point.get(monitor["point_id"])
+        impact_context = None
+        if impact_profile:
+            components = impact_profile.get("components") or {}
+            impact_context = {
+                "components": components,
+                "action_options": impact_profile.get("action_options") or [],
+                "role": "context_only",
+                "note": "Impact v0 informs consequence and action context but does not change ALERT.",
+            }
+
         monitored.append(
             {
                 "point_id": monitor["point_id"],
@@ -245,6 +262,7 @@ def build_morning_brief(
                 "revision": revision,
                 "flood_context": flood_context,
                 "exposure_context": exposure_context,
+                "impact_context": impact_context,
             }
         )
 
@@ -338,6 +356,7 @@ def build_morning_brief(
             "Live rainfall gates compare daily forecast with daily historical threshold; 72h totals are context only.",
             "Revision direction is context only.",
             "Population exposure is context only until impact-labelled validation earns ranking authority.",
+            "Impact v0 components and action options are context only; humans retain authority.",
             "Only validated monitors are ranked.",
             "If evidence health is degraded, COMMONS holds new learning.",
         ],

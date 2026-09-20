@@ -94,6 +94,7 @@ jobs:
             --hypothesis-report "$GITHUB_WORKSPACE/public/world-model/hypothesis-report.json" \
             --loops "$GITHUB_WORKSPACE/public/world-model/loops.json" \
             --exposure-report "$GITHUB_WORKSPACE/public/world-model/exposure-report.json" \
+            --impact-report "$GITHUB_WORKSPACE/public/world-model/impact-report.json" \
             --output /tmp/world-model-data/data/world-model/morning-brief.json
           python "$GITHUB_WORKSPACE/scripts/update_attention_ledger.py" \
             --brief /tmp/world-model-data/data/world-model/morning-brief.json \

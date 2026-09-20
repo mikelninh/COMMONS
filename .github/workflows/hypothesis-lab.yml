@@ -38,6 +38,8 @@ on:
       - "scripts/run_deep_miss_lab.py"
       - "src/commons/minority_convective_lab.py"
       - "scripts/run_minority_convective_lab.py"
+      - "src/commons/impact_lab.py"
+      - "scripts/run_impact_lab.py"
       - ".github/workflows/hypothesis-lab.yml"
 
 permissions:
@@ -132,6 +134,13 @@ jobs:
           python scripts/run_exposure_lab.py \
             --output public/world-model/exposure-report.json
 
+      - name: Build COMMONS Impact v0
+        continue-on-error: true
+        run: |
+          python scripts/run_impact_lab.py \
+            --exposure-report public/world-model/exposure-report.json \
+            --output public/world-model/impact-report.json
+
       - name: Benchmark against GDACS external alerts
         continue-on-error: true
         run: |
@@ -171,7 +180,8 @@ jobs:
             public/world-model/exposure-report.json \
             public/world-model/external-alert-report.json \
             public/world-model/deep-miss-report.json \
-            public/world-model/minority-convective-report.json
+            public/world-model/minority-convective-report.json \
+            public/world-model/impact-report.json
           if git diff --cached --quiet; then
             echo "Report unchanged"
           else
