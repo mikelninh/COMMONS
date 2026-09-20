@@ -1,7 +1,7 @@
 {
   "schema_version": "0.1",
   "loop_id": "water-rises",
-  "frame_count": 11,
+  "frame_count": 12,
   "frames": [
     {
       "generated_at": "2026-09-20T13:50:38.275704Z",
@@ -599,6 +599,63 @@
           "temp_max_72h_c": 28.8,
           "temp_min_72h_c": 19.2,
           "gust_max_72h_kmh": 9.4
+        },
+        {
+          "provider": "icon",
+          "label": "DWD ICON",
+          "start_date": "2026-09-20",
+          "precip_72h_mm": 6.9,
+          "temp_max_72h_c": 28.6,
+          "temp_min_72h_c": 19.5,
+          "gust_max_72h_kmh": 16.9
+        }
+      ],
+      "consensus": {
+        "precip_72h_mm_median": 13.2,
+        "temp_max_72h_c_median": 28.6,
+        "gust_max_72h_kmh_median": 16.9,
+        "precip_agreement": "low",
+        "temperature_agreement": "high",
+        "gust_agreement": "low"
+      },
+      "source_errors": [],
+      "weather_memory": {
+        "status": "ok",
+        "seasonal_percentile": 35.6
+      },
+      "flood_signal": {
+        "status": "ok",
+        "forecast_peak_date": "2026-09-28",
+        "forecast_peak_discharge_m3s": 28.0,
+        "historical_percentile": 85.3
+      }
+    },
+    {
+      "generated_at": "2026-09-20T18:41:11.333971Z",
+      "watchpoint": {
+        "name": "Nuwakot",
+        "country": "Nepal",
+        "latitude": 27.95,
+        "longitude": 85.18
+      },
+      "members": [
+        {
+          "provider": "ecmwf",
+          "label": "ECMWF IFS",
+          "start_date": "2026-09-20",
+          "precip_72h_mm": 13.2,
+          "temp_max_72h_c": 27.4,
+          "temp_min_72h_c": 18.7,
+          "gust_max_72h_kmh": 24.1
+        },
+        {
+          "provider": "gfs",
+          "label": "NOAA GFS",
+          "start_date": "2026-09-20",
+          "precip_72h_mm": 20.2,
+          "temp_max_72h_c": 28.8,
+          "temp_min_72h_c": 19.2,
+          "gust_max_72h_kmh": 8.6
         },
         {
           "provider": "icon",

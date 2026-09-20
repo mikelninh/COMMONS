@@ -1,0 +1,166 @@
+{
+  "schema_version": "0.1",
+  "generated_at": "2026-09-20T18:41:11.333971Z",
+  "previous_generated_at": "2026-09-20T18:19:51.290310Z",
+  "product": "COMMONS Morning Brief v1",
+  "headline": "Nothing in the validated rainfall pilot needs your attention right now.",
+  "close_message": "You are caught up.",
+  "summary": {
+    "alerts": 0,
+    "priority": 0,
+    "quiet": 3,
+    "unavailable": 0,
+    "ranked_monitors": 3,
+    "world_model_loops": 10
+  },
+  "evidence": {
+    "status": "healthy",
+    "learning_allowed": true,
+    "temporal_coverage": 1.0,
+    "full_council_ratio": 1.0,
+    "note": "Research rules may update from this evidence."
+  },
+  "ranking_rule": {
+    "primary": "forecast council median / validated local heavy-rain gate",
+    "alert_gate": "ratio >= 1.00",
+    "priority_band": "0.80 <= ratio < 1.00",
+    "quiet_band": "ratio < 0.80",
+    "revision_role": "visible context only; does not change rank",
+    "why": "H18 did not show revision-priority beating threshold proximity under fixed attention budgets."
+  },
+  "monitors": [
+    {
+      "point_id": "manila",
+      "loop_id": "storm-arrives",
+      "loop_title": "Before the Storm Arrives",
+      "name": "Manila",
+      "country": "Philippines",
+      "signal": "72h rainfall",
+      "state": "quiet",
+      "rank_score": 0.4973,
+      "forecast_72h_mm": 14.8,
+      "heavy_rain_gate_mm": 29.76,
+      "gate_ratio": 0.4973,
+      "models_available": 3,
+      "models_expected": 3,
+      "source_errors": [],
+      "why": "Forecast rainfall remains below the current priority band.",
+      "next_step": "No review needed from this rainfall monitor.",
+      "revision": {
+        "direction": "mixed",
+        "supporting_models": 0,
+        "models_compared": 3,
+        "median_delta_mm": 0.0,
+        "role": "context_only",
+        "note": "Six-hour revision context is visible but does not change priority rank."
+      },
+      "flood_context": null,
+      "rank": 1
+    },
+    {
+      "point_id": "nuwakot",
+      "loop_id": "water-rises",
+      "loop_title": "When the Water Rises",
+      "name": "Nuwakot",
+      "country": "Nepal",
+      "signal": "72h rainfall",
+      "state": "quiet",
+      "rank_score": 0.2684,
+      "forecast_72h_mm": 13.2,
+      "heavy_rain_gate_mm": 49.18,
+      "gate_ratio": 0.2684,
+      "models_available": 3,
+      "models_expected": 3,
+      "source_errors": [],
+      "why": "Forecast rainfall remains below the current priority band.",
+      "next_step": "No review needed from this rainfall monitor.",
+      "revision": {
+        "direction": "mixed",
+        "supporting_models": 0,
+        "models_compared": 3,
+        "median_delta_mm": 0.0,
+        "role": "context_only",
+        "note": "Six-hour revision context is visible but does not change priority rank."
+      },
+      "flood_context": {
+        "historical_percentile": 85.3,
+        "forecast_peak_date": "2026-09-28",
+        "role": "context_only",
+        "note": "River percentile is context, not the rainfall alert gate."
+      },
+      "rank": 2
+    },
+    {
+      "point_id": "delhi",
+      "loop_id": "heat-we-cannot-see",
+      "loop_title": "The Heat We Cannot See",
+      "name": "Delhi",
+      "country": "India",
+      "signal": "72h rainfall",
+      "state": "quiet",
+      "rank_score": 0.0,
+      "forecast_72h_mm": 0.0,
+      "heavy_rain_gate_mm": 17.4,
+      "gate_ratio": 0.0,
+      "models_available": 3,
+      "models_expected": 3,
+      "source_errors": [],
+      "why": "Forecast rainfall remains below the current priority band.",
+      "next_step": "No review needed from this rainfall monitor.",
+      "revision": {
+        "direction": "mixed",
+        "supporting_models": 0,
+        "models_compared": 3,
+        "median_delta_mm": 0.0,
+        "role": "context_only",
+        "note": "Six-hour revision context is visible but does not change priority rank."
+      },
+      "flood_context": null,
+      "rank": 3
+    }
+  ],
+  "unranked_loops": [
+    {
+      "id": "forest-burns",
+      "title": "When the Forest Burns",
+      "coverage": "physical_context"
+    },
+    {
+      "id": "air-we-breathe",
+      "title": "The Air We Breathe",
+      "coverage": "physical_context"
+    },
+    {
+      "id": "rain-doesnt-come",
+      "title": "When Rain Doesn't Come",
+      "coverage": "physical_context"
+    },
+    {
+      "id": "stop-an-outbreak",
+      "title": "Can We Stop an Outbreak?",
+      "coverage": "story_layer_only"
+    },
+    {
+      "id": "ground-moves",
+      "title": "When the Ground Moves",
+      "coverage": "ambient_live_source"
+    },
+    {
+      "id": "enough-to-eat",
+      "title": "Will There Be Enough to Eat?",
+      "coverage": "physical_context"
+    },
+    {
+      "id": "humanity-succeeds",
+      "title": "When Humanity Succeeds",
+      "coverage": "story_layer_only"
+    }
+  ],
+  "trust_contract": [
+    "ALERT means a research threshold crossed; it is not a local emergency warning.",
+    "PRIORITY means inspect sooner; it is not a notification tier.",
+    "Revision direction is context only.",
+    "Only validated monitors are ranked.",
+    "If evidence health is degraded, COMMONS holds new learning."
+  ]
+}
