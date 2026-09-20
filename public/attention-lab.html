@@ -41,7 +41,7 @@ button:hover,.btn:hover{transform:translateY(-1px);border-color:#4c5c47}
 .meta{font-size:13px;color:var(--muted);margin-top:6px}
 .state{padding:9px 12px;border-radius:999px;border:1px solid var(--line);font-size:11px;font-weight:800;letter-spacing:.12em}
 .state.alert{color:#fff0ed;border-color:rgba(255,128,111,.4);background:rgba(255,128,111,.12)}
-.state.watch{color:#fff6d6;border-color:rgba(255,214,107,.4);background:rgba(255,214,107,.1)}
+.state.priority{color:#fff6d6;border-color:rgba(255,214,107,.4);background:rgba(255,214,107,.1)}
 .state.quiet{color:#e4f1dd;border-color:rgba(186,255,106,.24);background:rgba(186,255,106,.07)}
 .case-body{padding:28px}
 .raw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
@@ -95,7 +95,7 @@ input[type=range]{width:100%}
 <section id="intro">
   <div class="eyebrow">H16 · HUMAN BENCHMARK</div>
   <h1>Can COMMONS buy back human attention?</h1>
-  <p class="lede">You’ll triage verified historical weather situations. Sometimes you’ll see the raw signal. Sometimes COMMONS will compress it into <b>WATCH</b>, <b>ALERT</b>, or <b>QUIET</b>.</p>
+  <p class="lede">You’ll triage verified historical weather situations. Sometimes you’ll see the raw signal. Sometimes COMMONS will compress it into <b>ALERT</b>, <b>PRIORITY</b>, or <b>QUIET</b>.</p>
   <p class="note">The outcome stays hidden until you decide whether it deserves your attention. We measure speed, misses, unnecessary opens, confidence, and useful catches per minute. Results stay in this browser unless you export them.</p>
   <div class="actions">
     <button id="startBtn" class="primary">Start the benchmark →</button>
@@ -140,9 +140,9 @@ input[type=range]{width:100%}
 
 <section id="finishNoise" class="results hidden">
   <div class="eyebrow">ONE LAST SIGNAL</div>
-  <h2>How noisy did the COMMONS triage feel?</h2>
+  <h2>How noisy did the COMMONS priority queue feel?</h2>
   <div class="noise">
-    <label for="noiseScore">1 = calm and useful · 5 = too many interruptions</label>
+    <label for="noiseScore">1 = calm and useful · 5 = too much noise</label>
     <div class="conf-row"><span>1</span><input id="noiseScore" type="range" min="1" max="5" step="1" value="2"><span>5</span></div>
   </div>
   <div class="actions"><button id="showResultsBtn" class="primary">Show results →</button></div>
@@ -192,7 +192,7 @@ function render(){
   const t=trials[index], raw=t.raw, commons=t.commons;
   $("bar").style.width=((index/trials.length)*100)+"%";
   $("counter").textContent=(index+1)+" / "+trials.length;
-  $("modeLabel").textContent=t._mode==="raw"?"CONTROL · RAW SIGNALS":"COMMONS · ATTENTION LAYER";
+  $("modeLabel").textContent=t._mode==="raw"?"CONTROL · RAW SIGNALS":"COMMONS · PRIORITY QUEUE";
   $("place").textContent=t.point_name+" · "+t.country;
   $("meta").textContent=t.date+" · "+t.checkpoint+" · historical replay";
   $("outcome").classList.add("hidden");
@@ -215,7 +215,7 @@ function render(){
     $("stateBadge").className="state "+commons.state;
     $("stateBadge").textContent=state;
     $("signalView").innerHTML=
-      '<div class="summary"><span class="eyebrow">COMMONS TRIAGE</span><b>'+state+'</b><p>'+commons.reason+'</p></div>'+
+      '<div class="summary"><span class="eyebrow">COMMONS PRIORITY QUEUE</span><b>'+state+'</b><p>'+commons.reason+'</p></div>'+
       '<div class="context-strip"><span>3-day council '+fmt(raw.council_3d_mm)+' mm</span><span>heavy line '+fmt(raw.heavy_threshold_mm)+' mm</span><span>'+arrow(raw.revision_direction)+'</span></div>';
   }
   startedAt=performance.now();
