@@ -65,7 +65,7 @@ def test_living_atlas_multi_story_identity() -> None:
     page, styles, app, stories, loops = read_public()
 
     assert "WORLD PULSE · LIVING ATLAS" in page
-    assert "STORIES OF RESPONSE · VOL. 01" in page
+    assert "STORIES WORTH KNOWING" in page
     assert "storyLibrary" in page
     assert "storyCards" in page
     assert "Stories" in page
