@@ -2886,3 +2886,12 @@ body{
   .case-action-notes > div{padding-top:10px;border-top:1px solid var(--line-soft)}
   .case-evidence-strip{align-items:flex-start;flex-direction:column}
 }
+
+
+.trust-center-subtitle{
+  margin-top:7px;
+  color:#8d8679;
+  font-family:var(--serif);
+  font-size:13px;
+  font-style:italic;
+}
