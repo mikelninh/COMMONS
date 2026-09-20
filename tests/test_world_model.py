@@ -1183,3 +1183,15 @@ def test_global_labs_parallelize_fetches_and_require_full_council() -> None:
     assert "Only records with all three forecast models" in scale
     assert "full_council_ratio >= 0.90" in miss
     assert "Only records with all three forecast models" in miss
+
+
+def test_morning_brief_my_lens_is_local_and_never_rewrites_global_rank() -> None:
+    page = Path("public/morning.html").read_text(encoding="utf-8")
+    js = Path("public/morning.js").read_text(encoding="utf-8")
+
+    assert "MY LENS · THIS DEVICE" in page
+    assert "never changes COMMONS’ global evidence rank" in page
+    assert 'const LENS_KEY="commons.morning.my-lens.v1"' in js
+    assert "localStorage" in js
+    assert "EARTH RANK " in js
+    assert "sort(" not in js[js.index("function renderLens"):js.index("function renderLearning")]
