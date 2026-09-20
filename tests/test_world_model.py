@@ -235,6 +235,7 @@ def test_world_model_public_surface_explains_limits_and_learning_loop() -> None:
     assert "Backtest everything" in page
     assert "COMMONS should remember its own predictions." in page
     assert "NOT YET FOR SALE" in page
+    assert "raw.githubusercontent.com/mikelninh/COMMONS/world-model-data/data/world-model/latest.json" in js
     assert "./world-model/latest.json" in js
     assert "./world-model/seed.json" in js
 
@@ -249,7 +250,9 @@ def test_snapshot_workflow_runs_every_six_hours_archives_and_reuses_history() ->
     assert "memory-cache.json" in workflow
     assert "world-model-data" in workflow
     assert "actions/upload-artifact@v4" in workflow
-    assert "Deploy to GitHub Pages" in workflow
+    assert 'group: "world-model-snapshot"' in workflow
+    assert "Deploy to GitHub Pages" not in workflow
+    assert "pages: write" not in workflow
 
 
 def test_public_home_links_to_world_model() -> None:
@@ -319,3 +322,13 @@ def test_world_model_public_surface_has_required_data_attribution() -> None:
     assert "https://open-meteo.com/" in page
     assert "CC BY 4.0" in page
     assert "source-specific terms" in page
+
+
+def test_live_data_plane_is_independent_from_pages_deploys() -> None:
+    js = Path("public/world-model.js").read_text(encoding="utf-8")
+    pages = Path(".github/workflows/pages.yml").read_text(encoding="utf-8")
+    workflow = Path(".github/workflows/world-model.yml").read_text(encoding="utf-8")
+
+    assert "world-model-data/data/world-model/latest.json" in js
+    assert 'group: "pages"' in pages
+    assert 'group: "world-model-snapshot"' in workflow

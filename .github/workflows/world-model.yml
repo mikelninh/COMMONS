@@ -17,11 +17,9 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
-  group: "pages"
+  group: "world-model-snapshot"
   cancel-in-progress: false
 
 jobs:
@@ -86,16 +84,3 @@ jobs:
             git push origin HEAD:world-model-data
           fi
 
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-
-      - name: Upload site with live snapshot
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: public
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

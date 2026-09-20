@@ -104,10 +104,15 @@ function renderLoops(catalog,snapshot){
 
 async function init(){
   let snapshot;
+  const liveUrl="https://raw.githubusercontent.com/mikelninh/COMMONS/world-model-data/data/world-model/latest.json";
   try{
-    snapshot=await getJson("./world-model/latest.json");
-  }catch(error){
-    snapshot=await getJson("./world-model/seed.json");
+    snapshot=await getJson(liveUrl);
+  }catch(firstError){
+    try{
+      snapshot=await getJson("./world-model/latest.json");
+    }catch(secondError){
+      snapshot=await getJson("./world-model/seed.json");
+    }
   }
   const catalog=await getJson("./world-model/loops.json");
   const live=Boolean(snapshot.generated_at);
