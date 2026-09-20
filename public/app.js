@@ -670,6 +670,7 @@ function closeAuxiliaryLayers(except=null){
   if(except!=="share") $("share").classList.remove("open");
   if(except!=="actionLab") closeActionLab();
   if(except!=="trustCenter") closeTrustCenter();
+  if(except!=="handoff") closeHandoff();
 }
 
 function openLook(){
@@ -2423,9 +2424,9 @@ function bindEvents(){
   $("homeLookBtn").onclick=openLook;
   $("lookBtn").onclick=openLook;
   $("lookClose").onclick=closeLook;
-  $("beliefBtn").onclick=openEvidence;
-  $("storyBelief").onclick=openEvidence;
-  $("storyActionBtn").onclick=()=>openActionLab("current");
+  $("beliefBtn").onclick=()=>openTrustCenter("claims","simple");
+  $("storyBelief").onclick=()=>openTrustCenter("claims","simple");
+  $("storyActionBtn").onclick=()=>jumpToScene(activeStory.scenes.length-1);
   $("actionLedgerBtn").onclick=()=>openActionLab("ledger");
   $("trustBtn").onclick=()=>openTrustCenter("status","simple");
   $("trustSnapshot").onclick=()=>openTrustCenter("status","simple");
@@ -2444,6 +2445,12 @@ function bindEvents(){
   $("soundBtn").onclick=toggleSound;
   $("storyPass").onclick=openShare;
   $("shareClose").onclick=closeShare;
+  $("handoffClose").onclick=closeHandoff;
+  $("handoffContinue").onclick=continueExternalHandoff;
+  $("handoffFollow").onclick=()=>{
+    closeHandoff();
+    followCurrentStoryInline();
+  };
   $("shareStory").onclick=shareAction;
   $("shareImage").onclick=shareCardImage;
   $("storyClose").onclick=()=>stopStory(true);
@@ -2458,10 +2465,12 @@ function bindEvents(){
   window.addEventListener("touchstart",()=>{if(storyPlaying)stopAutoScroll()},{passive:true});
 
   $("share").addEventListener("click",e=>{if(e.target===$("share"))closeShare();});
+  $("handoff").addEventListener("click",e=>{if(e.target===$("handoff"))closeHandoff();});
 
   document.addEventListener("keydown",e=>{
     if(e.key==="Escape"){
       if($("share").classList.contains("open"))return closeShare();
+      if($("handoff").classList.contains("open"))return closeHandoff();
       if($("actionLab").classList.contains("open"))return closeActionLab();
       if($("trustCenter").classList.contains("open"))return closeTrustCenter();
       if($("evidence").classList.contains("open"))return closeEvidence();
