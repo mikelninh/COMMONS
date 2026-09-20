@@ -3347,3 +3347,109 @@ body{
   .story-decision{max-width:88vw}
   .decision-secondary{display:block;margin:13px auto 0}
 }
+
+
+/* Lightweight evidence peek: proof without leaving the story. */
+.evidence{
+  width:min(620px,100vw);
+  background:
+    radial-gradient(circle at 12% 8%,rgba(219,182,109,.035),transparent 28%),
+    #0d0c0a;
+}
+.evidence-head{
+  padding:25px 30px 19px;
+}
+.evidence-title{
+  color:#d9d2c7;
+  font-family:var(--serif);
+  font-size:22px;
+  font-weight:400;
+}
+.evidence-body{
+  padding:28px 30px 70px;
+}
+.evidence-peek-intro span,
+.evidence-peek-guardrails > span,
+.evidence-peek-visual > span{
+  color:#9b8154;
+  font-size:8px;
+  font-weight:760;
+  letter-spacing:.14em;
+}
+.evidence-peek-intro h2{
+  margin:8px 0 0;
+  color:#eee8dd;
+  font-family:var(--serif);
+  font-size:34px;
+  font-weight:400;
+  letter-spacing:-.035em;
+}
+.evidence-peek-intro p{
+  margin:11px 0 0;
+  color:#9f988c;
+  font-size:12px;
+  line-height:1.65;
+}
+.evidence-peek-list{
+  margin-top:24px;
+  border-top:1px solid var(--line-soft);
+}
+.evidence-peek-claim{
+  padding:20px 0;
+  border-bottom:1px solid var(--line-soft);
+}
+.evidence-peek-type{
+  color:#7d776d;
+  font-size:8px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.evidence-peek-claim h3{
+  margin:7px 0 0;
+  color:#dcd6ca;
+  font-family:var(--serif);
+  font-size:18px;
+  font-weight:400;
+  line-height:1.42;
+}
+.evidence-peek-claim p{
+  margin:9px 0 0;
+  padding-left:11px;
+  border-left:1px solid rgba(219,182,109,.25);
+  color:#8d867b;
+  font-size:11px;
+  line-height:1.55;
+}
+.evidence-peek-claim a{
+  display:inline-block;
+  margin-top:10px;
+  color:#aaa297;
+  font-size:9px;
+  text-decoration:none;
+  border-bottom:1px solid #5c574f;
+}
+.evidence-peek-guardrails,
+.evidence-peek-visual{
+  margin-top:26px;
+  padding-top:22px;
+  border-top:1px solid var(--line-soft);
+}
+.evidence-peek-guardrails p,
+.evidence-peek-visual p{
+  margin:10px 0 0;
+  color:#948d81;
+  font-size:11px;
+  line-height:1.6;
+}
+.evidence-peek-actions{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+  margin-top:26px;
+}
+
+@media(max-width:620px){
+  .evidence-head{padding:20px}
+  .evidence-body{padding:22px 20px 60px}
+}
