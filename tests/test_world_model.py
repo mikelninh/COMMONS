@@ -310,3 +310,12 @@ def test_world_model_browser_javascript_parses() -> None:
         check=False,
     )
     assert result.returncode == 0, result.stderr
+
+
+def test_world_model_public_surface_has_required_data_attribution() -> None:
+    page = Path("public/world-model.html").read_text(encoding="utf-8")
+
+    assert "Weather, ERA5 and GloFAS access via" in page
+    assert "https://open-meteo.com/" in page
+    assert "CC BY 4.0" in page
+    assert "source-specific terms" in page
