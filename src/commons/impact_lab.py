@@ -17,7 +17,10 @@ from commons.scale_points import GLOBAL_POINTS
 
 GDACS_SEARCH = "https://www.gdacs.org/gdacsapi/api/Events/geteventlist/SEARCH"
 GDACS_EMDAT = "https://www.gdacs.org/gdacsapi/api/Emdat/getemdatbyeventkey"
-OVERPASS_URL = "https://overpass-api.de/api/interpreter"
+OVERPASS_URLS = (
+    "https://overpass-api.de/api/interpreter",
+    "https://overpass.kumi.systems/api/interpreter",
+)
 LIVE_POINT_IDS = ("nuwakot", "manila", "delhi")
 HISTORICAL_RADIUS_KM = 250.0
 INFRA_RADIUS_M = 20000
@@ -317,12 +320,21 @@ def fetch_infrastructure(point: BacktestPoint) -> dict[str, Any]:
 );
 out tags center;
 """.strip()
-    payload = _request_json(
-        OVERPASS_URL,
-        method="POST",
-        body=urlencode({"data": query}).encode("utf-8"),
-        timeout=35,
-    )
+    payload = None
+    last_error = None
+    for endpoint in OVERPASS_URLS:
+        try:
+            payload = _request_json(
+                endpoint,
+                method="POST",
+                body=urlencode({"data": query}).encode("utf-8"),
+                timeout=35,
+            )
+            break
+        except Exception as exc:
+            last_error = exc
+    if payload is None:
+        raise RuntimeError(f"All Overpass endpoints failed: {last_error}")
     counts = {
         "health_facilities": 0,
         "schools": 0,
@@ -669,14 +681,32 @@ def run_impact_v0(
     source_errors: list[dict[str, str]] = []
 
     try:
-        events = fetch_gdacs_events(
+        profile_events = fetch_gdacs_events(
             start_date=start.isoformat(),
             end_date=end.isoformat(),
             pages=1,
         )
     except Exception as exc:
-        events = []
-        source_errors.append({"source": "GDACS events", "error": str(exc)})
+        profile_events = []
+        source_errors.append({"source": "GDACS profile events", "error": str(exc)})
+
+    benchmark_end = date(end.year - 1, 12, 31)
+    benchmark_start = date(benchmark_end.year - 2, 1, 1)
+    try:
+        benchmark_events = fetch_gdacs_events(
+            start_date=benchmark_start.isoformat(),
+            end_date=benchmark_end.isoformat(),
+            pages=3,
+        )
+    except Exception as exc:
+        benchmark_events = []
+        source_errors.append({"source": "GDACS benchmark events", "error": str(exc)})
+
+    all_events_by_key: dict[str, dict[str, Any]] = {}
+    for event in [*profile_events, *benchmark_events]:
+        key = f'{event["event_type"]}|{event["event_id"]}'
+        all_events_by_key[key] = event
+    all_events = list(all_events_by_key.values())
 
     consequences: dict[str, dict[str, Any]] = {}
 
@@ -685,10 +715,10 @@ def run_impact_v0(
         parsed = parse_consequence(fetch_emdat(event))
         return key, parsed
 
-    with ThreadPoolExecutor(max_workers=min(8, max(1, len(events)))) as executor:
+    with ThreadPoolExecutor(max_workers=min(8, max(1, len(all_events)))) as executor:
         future_map = {
             executor.submit(consequence_task, event): event
-            for event in events
+            for event in all_events
         }
         for future in as_completed(future_map):
             event = future_map[future]
@@ -726,7 +756,7 @@ def run_impact_v0(
 
         exp = exposure.get(point_id) or {}
         population = _to_number(exp.get("population"))
-        historical = _nearby_events(point, events, consequences)
+        historical = _nearby_events(point, profile_events, consequences)
         consequential_history = [
             item
             for item in historical
@@ -765,22 +795,36 @@ def run_impact_v0(
             }
         )
 
-    benchmark_rows = build_benchmark_rows(events, consequences)
+    benchmark_rows = build_benchmark_rows(benchmark_events, consequences)
     benchmark = evaluate_impact_ordering(benchmark_rows)
 
-    emdat_coverage = len(consequences) / len(events) if events else 0.0
+    benchmark_keys = {
+        f'{event["event_type"]}|{event["event_id"]}'
+        for event in benchmark_events
+    }
+    benchmark_label_count = sum(key in consequences for key in benchmark_keys)
+    emdat_coverage = (
+        benchmark_label_count / len(benchmark_events)
+        if benchmark_events
+        else 0.0
+    )
     return {
         "schema_version": "0.1",
         "product": "COMMONS Impact v0",
         "generated_at": datetime.utcnow().isoformat() + "Z",
         "period": {"start": start.isoformat(), "end": end.isoformat()},
+        "benchmark_period": {
+            "start": benchmark_start.isoformat(),
+            "end": benchmark_end.isoformat(),
+        },
         "principle": (
             "Hazard, exposure, infrastructure and historical consequence stay visible "
             "as separate components. No opaque production risk score."
         ),
         "source_health": {
-            "gdacs_events": len(events),
-            "emdat_labels": len(consequences),
+            "gdacs_profile_events": len(profile_events),
+            "gdacs_benchmark_events": len(benchmark_events),
+            "emdat_labels": benchmark_label_count,
             "emdat_coverage": round(emdat_coverage, 4),
             "profiles": len(profiles),
             "source_errors": source_errors[-100:],
