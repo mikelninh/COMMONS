@@ -1,0 +1,475 @@
+{
+  "version": "1.0",
+  "snapshot_at": "2026-09-20T00:00:00Z",
+  "methodology_version": "trust-v1",
+  "status_policy": {
+    "healthy_requires": [
+      "100% active claims have at least one registered source",
+      "0 stale critical claims",
+      "0 unresolved source conflicts",
+      "0 open high-severity incidents",
+      "all required trust evaluations pass"
+    ],
+    "degraded_if": [
+      "trust registry unavailable",
+      "critical claim becomes stale",
+      "source reference is missing",
+      "unresolved conflict exists",
+      "required evaluation fails",
+      "open high-severity incident exists"
+    ]
+  },
+  "claim_types": {
+    "observed": "Directly reported by a named source or dataset.",
+    "derived": "Deterministically calculated from sourced observations.",
+    "inferred": "Interpretation or model-produced conclusion.",
+    "proposed": "Possible intervention or action, not a statement of reality."
+  },
+  "capability_levels": [
+    {
+      "level": "L0",
+      "name": "Observe",
+      "enabled": true,
+      "description": "Display sourced facts and raw public signals."
+    },
+    {
+      "level": "L1",
+      "name": "Explain",
+      "enabled": true,
+      "description": "Summarize, compare and expose uncertainty."
+    },
+    {
+      "level": "L2",
+      "name": "Propose",
+      "enabled": true,
+      "description": "Surface possible actions with evidence and constraints."
+    },
+    {
+      "level": "L3",
+      "name": "Prepare / hand off",
+      "enabled": true,
+      "description": "Prepare or open an external action path while the user retains execution authority."
+    },
+    {
+      "level": "L4",
+      "name": "Execute reversible",
+      "enabled": false,
+      "description": "Execute low-risk reversible actions through authorized integrations."
+    },
+    {
+      "level": "L5",
+      "name": "Execute consequential",
+      "enabled": false,
+      "description": "Execute consequential actions only under explicit organizational governance and human authorization."
+    }
+  ],
+  "sources": [
+    {
+      "id": "ifrc-nepal-appeal-2026",
+      "name": "IFRC Nepal Flash Floods 2026 Emergency Appeal",
+      "organization": "International Federation of Red Cross and Red Crescent Societies",
+      "class": "primary_authority",
+      "domain": "humanitarian_response",
+      "url": "https://www.ifrc.org/press-release/ifrc-launches-chf-25-million-emergency-appeal-response-devastating-nepal-flash-floods",
+      "update_pattern": "event-driven",
+      "limitations": "Early operational estimates may be revised as assessments continue."
+    },
+    {
+      "id": "ifrc-nepal-update-2026-09-08",
+      "name": "IFRC Nepal response update",
+      "organization": "International Federation of Red Cross and Red Crescent Societies",
+      "class": "primary_authority",
+      "domain": "humanitarian_response",
+      "url": "https://www.ifrc.org/press-release/nepal-floods-ifrc-delivers-safe-water-and-health-care-affected-communities",
+      "update_pattern": "event-driven",
+      "limitations": "Reported response outcomes do not establish attribution to any individual donation or action."
+    },
+    {
+      "id": "ifrc-nepal-red-cross-directory",
+      "name": "Nepal Red Cross Society directory",
+      "organization": "International Federation of Red Cross and Red Crescent Societies",
+      "class": "primary_authority",
+      "domain": "organization_identity",
+      "url": "https://www.ifrc.org/national-societies-directory/nepal-red-cross-society",
+      "update_pattern": "periodic",
+      "limitations": "Directory verifies organizational identity, not the effectiveness of any specific intervention."
+    },
+    {
+      "id": "ifrc-nepal-donation-path",
+      "name": "IFRC Nepal Flash Floods donation path",
+      "organization": "International Federation of Red Cross and Red Crescent Societies",
+      "class": "primary_authority",
+      "domain": "action_path",
+      "url": "https://donate.redcrossredcrescent.org/ifrc/nepal-flash-floods/?_cv=1&cid=1186&lang=en_EN",
+      "update_pattern": "event-driven",
+      "limitations": "COMMONS cannot verify whether a user completed an external donation or how pooled funds map to later outcomes."
+    },
+    {
+      "id": "who-bhutan-validation-2026-09-04",
+      "name": "WHO validation of Bhutan rabies elimination",
+      "organization": "World Health Organization",
+      "class": "primary_authority",
+      "domain": "public_health",
+      "url": "https://www.who.int/news/item/04-09-2026-who-validates-bhutan-for-eliminating-dog-transmitted-human-rabies",
+      "update_pattern": "milestone",
+      "limitations": "Validation is elimination as a public-health problem, not a guarantee that future reintroduction is impossible."
+    },
+    {
+      "id": "who-bhutan-feature-2026-09-16",
+      "name": "WHO Bhutan rabies elimination feature",
+      "organization": "World Health Organization",
+      "class": "primary_authority",
+      "domain": "public_health",
+      "url": "https://www.who.int/news-room/feature-stories/detail/bhutan-shows-the-region-rabies-elimination-is-possible",
+      "update_pattern": "periodic",
+      "limitations": "Describes programme history and status; ongoing prevention systems remain necessary."
+    },
+    {
+      "id": "who-drc-alert-response-2026-09-16",
+      "name": "WHO Alert and Response",
+      "organization": "World Health Organization",
+      "class": "primary_authority",
+      "domain": "public_health_emergency",
+      "url": "https://www.who.int/emergencies/alert-and-response",
+      "update_pattern": "frequent",
+      "limitations": "Emergency counts may be revised retrospectively as surveillance data change."
+    },
+    {
+      "id": "who-drc-briefing-2026-09-16",
+      "name": "WHO Director-General media briefing",
+      "organization": "World Health Organization",
+      "class": "primary_authority",
+      "domain": "public_health_emergency",
+      "url": "https://www.who.int/news-room/speeches/item/who-director-general-s-opening-remarks-at-the-media-briefing-16-september-2026",
+      "update_pattern": "event-driven",
+      "limitations": "Narrative assessment can include regional differences; improvement in one area does not imply national improvement."
+    },
+    {
+      "id": "who-drc-don617",
+      "name": "WHO Disease Outbreak News DON617",
+      "organization": "World Health Organization",
+      "class": "primary_authority",
+      "domain": "public_health_emergency",
+      "url": "https://www.who.int/emergencies/disease-outbreak-news/item/2026-DON617",
+      "update_pattern": "event-driven",
+      "limitations": "Snapshot may be superseded by later outbreak reports."
+    },
+    {
+      "id": "usgs-earthquake-feed",
+      "name": "USGS Earthquake Hazards Program feed",
+      "organization": "United States Geological Survey",
+      "class": "official_data_provider",
+      "domain": "earthquakes",
+      "url": "https://earthquake.usgs.gov/earthquakes/feed/",
+      "update_pattern": "near-live",
+      "limitations": "Magnitude and location do not by themselves establish human impact."
+    },
+    {
+      "id": "nasa-eonet-feed",
+      "name": "NASA EONET",
+      "organization": "NASA",
+      "class": "official_data_provider",
+      "domain": "natural_events",
+      "url": "https://eonet.gsfc.nasa.gov/",
+      "update_pattern": "near-real-time",
+      "limitations": "Curated event feed; not a complete census of every event."
+    },
+    {
+      "id": "gdacs-feed",
+      "name": "GDACS",
+      "organization": "United Nations / European Commission GDACS",
+      "class": "official_data_provider",
+      "domain": "disaster_alerts",
+      "url": "https://gdacs.org/",
+      "update_pattern": "near-real-time",
+      "limitations": "Alert level is situational awareness, not itself a casualty or need estimate."
+    },
+    {
+      "id": "world-atlas-110m",
+      "name": "World Atlas 110m country geometry",
+      "organization": "world-atlas / Natural Earth derived dataset",
+      "class": "reference_dataset",
+      "domain": "geography",
+      "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json",
+      "update_pattern": "static_reference",
+      "limitations": "Low-resolution country geometry suitable for visualization, not cadastral or operational mapping."
+    }
+  ],
+  "claims": [
+    {
+      "id": "nepal-flood-date",
+      "story_id": "nepal-flash-floods-2026",
+      "statement": "Flash floods struck northern Nepal on 26 Aug 2026.",
+      "claim_type": "observed",
+      "source_ids": [
+        "ifrc-nepal-appeal-2026"
+      ],
+      "as_of": "2026-08-27T00:00:00Z",
+      "freshness_days": null,
+      "criticality": "medium",
+      "status": "active",
+      "limitations": "Event date is reported by IFRC."
+    },
+    {
+      "id": "nepal-affected-estimate",
+      "story_id": "nepal-flash-floods-2026",
+      "statement": "IFRC estimated that around 93,000 people may have been affected while assessments were continuing.",
+      "claim_type": "observed",
+      "source_ids": [
+        "ifrc-nepal-appeal-2026"
+      ],
+      "as_of": "2026-08-27T00:00:00Z",
+      "freshness_days": 45,
+      "criticality": "high",
+      "status": "active",
+      "limitations": "Early estimate; not presented as a final affected-population count."
+    },
+    {
+      "id": "nepal-appeal-amount",
+      "story_id": "nepal-flash-floods-2026",
+      "statement": "IFRC launched a CHF 25 million Emergency Appeal.",
+      "claim_type": "observed",
+      "source_ids": [
+        "ifrc-nepal-appeal-2026"
+      ],
+      "as_of": "2026-08-27T00:00:00Z",
+      "freshness_days": 45,
+      "criticality": "high",
+      "status": "active",
+      "limitations": "Appeal amount does not indicate current funding percentage."
+    },
+    {
+      "id": "nepal-water-outcome",
+      "story_id": "nepal-flash-floods-2026",
+      "statement": "IFRC reported safe drinking water restored for around 2,000 people in Nuwakot.",
+      "claim_type": "observed",
+      "source_ids": [
+        "ifrc-nepal-update-2026-09-08"
+      ],
+      "as_of": "2026-09-08T00:00:00Z",
+      "freshness_days": 30,
+      "criticality": "high",
+      "status": "active",
+      "limitations": "Response outcome; no causal attribution to an individual contribution."
+    },
+    {
+      "id": "nepal-clinic-capacity",
+      "story_id": "nepal-flash-floods-2026",
+      "statement": "IFRC reported a mobile primary-health clinic capable of reaching 100 patients per day.",
+      "claim_type": "observed",
+      "source_ids": [
+        "ifrc-nepal-update-2026-09-08"
+      ],
+      "as_of": "2026-09-08T00:00:00Z",
+      "freshness_days": 30,
+      "criticality": "medium",
+      "status": "active",
+      "limitations": "Capacity is not the same as patients actually treated."
+    },
+    {
+      "id": "nepal-donation-path",
+      "story_id": "nepal-flash-floods-2026",
+      "statement": "IFRC provides a Nepal-specific public donation path for the 2026 flash-flood response.",
+      "claim_type": "observed",
+      "source_ids": [
+        "ifrc-nepal-donation-path"
+      ],
+      "as_of": "2026-09-20T00:00:00Z",
+      "freshness_days": 7,
+      "criticality": "high",
+      "status": "active",
+      "limitations": "Availability of the external page does not prove a user completed a donation."
+    },
+    {
+      "id": "bhutan-who-validation",
+      "story_id": "bhutan-rabies-elimination-2026",
+      "statement": "WHO validated Bhutan for eliminating dog-transmitted human rabies as a public-health problem.",
+      "claim_type": "observed",
+      "source_ids": [
+        "who-bhutan-validation-2026-09-04"
+      ],
+      "as_of": "2026-09-04T00:00:00Z",
+      "freshness_days": null,
+      "criticality": "high",
+      "status": "active",
+      "limitations": "Validated elimination status must be sustained through ongoing prevention."
+    },
+    {
+      "id": "bhutan-zero-deaths",
+      "story_id": "bhutan-rabies-elimination-2026",
+      "statement": "WHO reported zero human deaths from dog-mediated rabies in Bhutan since June 2023.",
+      "claim_type": "observed",
+      "source_ids": [
+        "who-bhutan-feature-2026-09-16"
+      ],
+      "as_of": "2026-09-16T00:00:00Z",
+      "freshness_days": 180,
+      "criticality": "high",
+      "status": "active",
+      "limitations": "Zero human deaths does not mean zero dog bites or zero animal rabies risk."
+    },
+    {
+      "id": "bhutan-prevention-continues",
+      "story_id": "bhutan-rabies-elimination-2026",
+      "statement": "Bhutan continues post-exposure prophylaxis, dog vaccination, population management and surveillance to sustain elimination.",
+      "claim_type": "observed",
+      "source_ids": [
+        "who-bhutan-validation-2026-09-04",
+        "who-bhutan-feature-2026-09-16"
+      ],
+      "as_of": "2026-09-16T00:00:00Z",
+      "freshness_days": 180,
+      "criticality": "medium",
+      "status": "active",
+      "limitations": "Programme details can change over time."
+    },
+    {
+      "id": "drc-confirmed-cases",
+      "story_id": "drc-ebola-bundibugyo-2026",
+      "statement": "WHO reported 7,475 confirmed cases in DRC as of 16 Sep 2026.",
+      "claim_type": "observed",
+      "source_ids": [
+        "who-drc-alert-response-2026-09-16"
+      ],
+      "as_of": "2026-09-16T00:00:00Z",
+      "freshness_days": 7,
+      "criticality": "high",
+      "status": "active",
+      "limitations": "Counts may be revised retrospectively."
+    },
+    {
+      "id": "drc-confirmed-deaths",
+      "story_id": "drc-ebola-bundibugyo-2026",
+      "statement": "WHO reported 3,605 confirmed deaths in DRC as of 16 Sep 2026.",
+      "claim_type": "observed",
+      "source_ids": [
+        "who-drc-alert-response-2026-09-16"
+      ],
+      "as_of": "2026-09-16T00:00:00Z",
+      "freshness_days": 7,
+      "criticality": "high",
+      "status": "active",
+      "limitations": "Counts may be revised retrospectively."
+    },
+    {
+      "id": "drc-recoveries",
+      "story_id": "drc-ebola-bundibugyo-2026",
+      "statement": "WHO reported 1,798 recoveries in DRC as of 16 Sep 2026.",
+      "claim_type": "observed",
+      "source_ids": [
+        "who-drc-alert-response-2026-09-16"
+      ],
+      "as_of": "2026-09-16T00:00:00Z",
+      "freshness_days": 7,
+      "criticality": "high",
+      "status": "active",
+      "limitations": "Recoveries do not imply that the epidemic is improving overall."
+    },
+    {
+      "id": "drc-mixed-signals",
+      "story_id": "drc-ebola-bundibugyo-2026",
+      "statement": "WHO reported encouraging signs in some areas while stating that the epidemic continued to grow overall.",
+      "claim_type": "observed",
+      "source_ids": [
+        "who-drc-briefing-2026-09-16"
+      ],
+      "as_of": "2026-09-16T00:00:00Z",
+      "freshness_days": 7,
+      "criticality": "high",
+      "status": "active",
+      "limitations": "Regional improvements and national deterioration can coexist."
+    },
+    {
+      "id": "drc-no-direct-public-action",
+      "story_id": "drc-ebola-bundibugyo-2026",
+      "statement": "COMMONS has not verified a direct public intervention tightly enough to surface one for this story.",
+      "claim_type": "proposed",
+      "source_ids": [
+        "who-drc-alert-response-2026-09-16",
+        "who-drc-briefing-2026-09-16"
+      ],
+      "as_of": "2026-09-20T00:00:00Z",
+      "freshness_days": 7,
+      "criticality": "high",
+      "status": "active",
+      "limitations": "This is a product safety decision, not a claim that no legitimate intervention exists."
+    }
+  ],
+  "conflicts": [],
+  "incidents": [
+    {
+      "id": "ui-containment-regression-2026-09-19",
+      "opened_at": "2026-09-19T00:00:00Z",
+      "resolved_at": "2026-09-19T00:00:00Z",
+      "severity": "medium",
+      "status": "resolved",
+      "title": "CSS parse error exposed inactive interface layers",
+      "impact": "Inactive story, evidence and explorer layers could render together, reducing clarity and trust in the interface.",
+      "root_cause": "An unmatched CSS brace caused later style rules to parse incorrectly.",
+      "correction": "Fixed the malformed rule, added early critical containment rules and added CSS brace-balance regression tests.",
+      "prevention": "Inactive application layers now have early visibility containment and CI checks CSS brace balance."
+    }
+  ],
+  "evaluation_requirements": [
+    {
+      "id": "provenance-coverage",
+      "label": "Every active claim has registered provenance",
+      "required": true
+    },
+    {
+      "id": "critical-freshness",
+      "label": "No active critical claim is stale",
+      "required": true
+    },
+    {
+      "id": "source-integrity",
+      "label": "Every referenced source exists and declares limitations",
+      "required": true
+    },
+    {
+      "id": "conflict-safety",
+      "label": "No unresolved conflict is hidden",
+      "required": true
+    },
+    {
+      "id": "incident-safety",
+      "label": "No open high-severity trust incident",
+      "required": true
+    },
+    {
+      "id": "claim-taxonomy",
+      "label": "Every claim is explicitly observed, derived, inferred or proposed",
+      "required": true
+    },
+    {
+      "id": "action-causality",
+      "label": "Action receipts never imply outcome causality",
+      "required": true
+    },
+    {
+      "id": "external-action-verification",
+      "label": "External action completion is never silently treated as verified",
+      "required": true
+    },
+    {
+      "id": "no-invented-action",
+      "label": "A story may explicitly expose no verified public action",
+      "required": true
+    },
+    {
+      "id": "degraded-mode",
+      "label": "Trust registry failure produces a degraded state",
+      "required": true
+    }
+  ],
+  "correction_policy": {
+    "public_log": true,
+    "preserve_history": true,
+    "silent_overwrite": false,
+    "description": "Material claim corrections should preserve the previous state, timestamp the change and explain why it changed."
+  },
+  "reporting": {
+    "issue_url": "https://github.com/mikelninh/COMMONS/issues/new",
+    "methodology_url": "https://github.com/mikelninh/COMMONS/blob/main/docs/COMMONS_TRUST_V1.md"
+  }
+}
