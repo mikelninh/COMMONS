@@ -903,3 +903,105 @@ def test_hypothesis_http_cache_reuses_identical_request(
     assert first == second
     assert calls["count"] == 1
     assert list((tmp_path / "http-cache").glob("*.json"))
+
+
+def test_morning_brief_uses_threshold_proximity_and_keeps_revisions_context_only() -> None:
+    from commons.morning_brief import build_morning_brief
+
+    def loop(loop_id: str, rain: float, providers: tuple[float, float, float]):
+        return {
+            "id": loop_id,
+            "forecast_council": {
+                "members": [
+                    {"provider": "ecmwf", "precip_72h_mm": providers[0]},
+                    {"provider": "gfs", "precip_72h_mm": providers[1]},
+                    {"provider": "icon", "precip_72h_mm": providers[2]},
+                ],
+                "source_errors": [],
+                "consensus": {"precip_72h_mm_median": rain},
+            },
+        }
+
+    current = {
+        "generated_at": "2026-09-20T12:00:00Z",
+        "loops": [
+            loop("water-rises", 60.0, (58.0, 60.0, 62.0)),
+            loop("storm-arrives", 27.0, (26.0, 27.0, 28.0)),
+            loop("heat-we-cannot-see", 9.0, (8.0, 9.0, 10.0)),
+        ],
+    }
+    previous = {
+        "generated_at": "2026-09-20T06:00:00Z",
+        "loops": [
+            loop("water-rises", 58.0, (57.0, 58.0, 59.0)),
+            loop("storm-arrives", 20.0, (19.0, 20.0, 21.0)),
+            loop("heat-we-cannot-see", 3.0, (2.0, 3.0, 4.0)),
+        ],
+    }
+    attention = {"thresholds_mm": {"nuwakot": 50.0, "manila": 30.0, "delhi": 18.0}}
+    hypotheses = {
+        "data_quality": {
+            "status": "healthy",
+            "temporal_coverage": 1.0,
+            "full_council_ratio": 1.0,
+        }
+    }
+    catalog = {
+        "loops": [
+            {"id": "water-rises", "title": "Water", "coverage": "live_pilot"},
+            {"id": "storm-arrives", "title": "Storm", "coverage": "physical_context"},
+            {"id": "heat-we-cannot-see", "title": "Heat", "coverage": "physical_context"},
+        ]
+    }
+
+    brief = build_morning_brief(
+        current,
+        previous_snapshot=previous,
+        attention_report=attention,
+        hypothesis_report=hypotheses,
+        loop_catalog=catalog,
+    )
+    by_id = {item["point_id"]: item for item in brief["monitors"]}
+
+    assert by_id["nuwakot"]["state"] == "alert"
+    assert by_id["manila"]["state"] == "priority"
+    assert by_id["delhi"]["state"] == "quiet"
+    assert by_id["delhi"]["revision"]["direction"] == "up"
+    assert by_id["delhi"]["state"] == "quiet"  # revisions never promote rank
+    assert brief["evidence"]["learning_allowed"] is True
+    assert brief["summary"]["alerts"] == 1
+
+
+def test_morning_brief_holds_learning_when_evidence_is_degraded() -> None:
+    from commons.morning_brief import build_morning_brief
+
+    brief = build_morning_brief(
+        {"generated_at": "2026-09-20T12:00:00Z", "loops": []},
+        attention_report={"thresholds_mm": {}},
+        hypothesis_report={"data_quality": {"status": "degraded"}},
+        loop_catalog={"loops": []},
+    )
+
+    assert brief["evidence"]["learning_allowed"] is False
+    assert "held" in brief["evidence"]["note"].lower()
+
+
+def test_world_model_workflow_publishes_live_morning_brief() -> None:
+    workflow = Path(".github/workflows/world-model.yml").read_text(encoding="utf-8")
+
+    assert "build_morning_brief.py" in workflow
+    assert "data/world-model/morning-brief.json" in workflow
+    assert "attention-rule-report.json" in workflow
+    assert "hypothesis-report.json" in workflow
+
+
+def test_morning_brief_public_surface_is_calm_and_uses_independent_data_plane() -> None:
+    page = Path("public/morning.html").read_text(encoding="utf-8")
+    js = Path("public/morning.js").read_text(encoding="utf-8")
+
+    assert "What should I inspect first?" in page
+    assert "PRIORITY QUEUE" in page
+    assert "not a local emergency warning" in page
+    assert "world-model-data/data/world-model/morning-brief.json" in js
+    assert "./world-model/morning-brief-seed.json" in js
+    assert "Revisions do not change rank." in page

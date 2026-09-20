@@ -1,0 +1,34 @@
+{
+  "schema_version": "0.1",
+  "generated_at": null,
+  "product": "COMMONS Morning Brief v1",
+  "headline": "Waiting for the first live Morning Brief.",
+  "close_message": "The live data plane has not published a brief yet.",
+  "summary": {
+    "alerts": 0,
+    "priority": 0,
+    "quiet": 0,
+    "unavailable": 3,
+    "ranked_monitors": 3,
+    "world_model_loops": 10
+  },
+  "evidence": {
+    "status": "unknown",
+    "learning_allowed": false,
+    "temporal_coverage": null,
+    "full_council_ratio": null,
+    "note": "Waiting for evidence health."
+  },
+  "ranking_rule": {
+    "primary": "forecast council median / validated local heavy-rain gate",
+    "alert_gate": "ratio >= 1.00",
+    "priority_band": "0.80 <= ratio < 1.00",
+    "quiet_band": "ratio < 0.80",
+    "revision_role": "visible context only; does not change rank"
+  },
+  "monitors": [],
+  "unranked_loops": [],
+  "trust_contract": [
+    "Research prototype; not a local emergency warning."
+  ]
+}

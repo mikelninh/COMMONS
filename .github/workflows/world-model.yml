@@ -8,12 +8,17 @@ on:
     branches: ["main"]
     paths:
       - "src/commons/world_model.py"
+      - "src/commons/morning_brief.py"
       - "scripts/build_world_model.py"
       - "scripts/build_world_model_replay.py"
+      - "scripts/build_morning_brief.py"
       - "public/world-model/**"
       - "public/world-model.html"
       - "public/world-model.js"
       - "public/world-model.css"
+      - "public/morning.html"
+      - "public/morning.css"
+      - "public/morning.js"
       - ".github/workflows/world-model.yml"
 
 permissions:
@@ -80,6 +85,13 @@ jobs:
             --snapshots /tmp/world-model-data/data/world-model/snapshots \
             --output /tmp/world-model-data/data/world-model/replay.json \
             --limit 48
+          python "$GITHUB_WORKSPACE/scripts/build_morning_brief.py" \
+            --snapshot /tmp/world-model-data/data/world-model/latest.json \
+            --snapshots /tmp/world-model-data/data/world-model/snapshots \
+            --attention-report "$GITHUB_WORKSPACE/public/world-model/attention-rule-report.json" \
+            --hypothesis-report "$GITHUB_WORKSPACE/public/world-model/hypothesis-report.json" \
+            --loops "$GITHUB_WORKSPACE/public/world-model/loops.json" \
+            --output /tmp/world-model-data/data/world-model/morning-brief.json
           cd /tmp/world-model-data
           git add data/world-model
           if git diff --cached --quiet; then
