@@ -1125,3 +1125,47 @@ def test_h13_worldpop_context_runs_weekly_but_remains_insufficient_for_ranking()
     assert "exposure-report.json" in workflow
     assert '"status": "insufficient"' in source
     assert "Do not let it change ALERT or PRIORITY" in source
+
+
+def test_attention_ledger_classifies_live_calls_against_observed_outcomes(monkeypatch) -> None:
+    import commons.attention_ledger as ledger_module
+
+    brief = {
+        "generated_at": "2026-09-01T06:00:00Z",
+        "monitors": [
+            {
+                "point_id": "x",
+                "name": "X",
+                "country": "Test",
+                "state": "quiet",
+                "forecast_peak_date": "2026-09-01",
+                "forecast_peak_daily_mm": 5.0,
+                "heavy_rain_gate_mm": 20.0,
+                "gate_ratio": 0.25,
+                "latitude": 1.0,
+                "longitude": 2.0,
+            }
+        ],
+    }
+    monkeypatch.setattr(ledger_module, "_actual_daily_rain_mm", lambda **kwargs: 30.0)
+
+    ledger = ledger_module.update_attention_ledger(
+        brief,
+        today=date(2026, 9, 10),
+    )
+
+    assert ledger["summary"]["verified"] == 1
+    assert ledger["summary"]["quiet_misses"] == 1
+    assert ledger["observations"][0]["classification"] == "quiet_miss"
+
+
+def test_world_model_workflow_closes_live_prediction_outcome_loop() -> None:
+    workflow = Path(".github/workflows/world-model.yml").read_text(encoding="utf-8")
+    page = Path("public/morning.html").read_text(encoding="utf-8")
+    js = Path("public/morning.js").read_text(encoding="utf-8")
+
+    assert "update_attention_ledger.py" in workflow
+    assert "attention-ledger.json" in workflow
+    assert "How are our past calls doing?" in page
+    assert "attention-ledger.json" in js
+    assert "QUIET MISSES" in page
