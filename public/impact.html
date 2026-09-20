@@ -3,59 +3,82 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#060805">
-<title>COMMONS / IMPACT v0.1</title>
+<meta name="theme-color" content="#f3f2ed">
+<meta name="description" content="COMMONS Impact — what could matter, who may be exposed, and what to check next.">
+<title>COMMONS / IMPACT</title>
 <link rel="stylesheet" href="./impact.css">
 </head>
 <body>
-<header>
-  <a href="./morning.html">COMMONS / IMPACT v0.1</a>
-  <nav><a href="./morning.html">Morning Brief</a><a href="./world-model.html">World Model</a></nav>
+<header class="topbar">
+  <a class="brand" href="./impact.html">COMMONS / IMPACT</a>
+  <a class="back-link" href="./morning.html">Morning Brief →</a>
 </header>
+
 <main>
   <section class="hero">
-    <div class="eyebrow">FROM WEATHER → CONSEQUENCE → ACTION</div>
-    <h1>What could actually matter here?</h1>
-    <p>Hazard, exposure, infrastructure and historical consequence stay separate. COMMONS shows the evidence and the next human checks without collapsing them into a fake certainty score.</p>
-    <div class="status-row"><span id="h27Status">H27 · LOADING</span><span id="sourceHealth">CONSEQUENCE LABELS · LOADING</span><span id="briefHealth">LIVE HAZARD · LOADING</span></div>
+    <div class="eyebrow">BEYOND THE FORECAST</div>
+    <h1>What could actually matter today?</h1>
+    <p>Weather is only the start. See who may be nearby, what services could matter, and the next human checks.</p>
+
+    <div class="overview" id="overview">
+      <span class="overview-dot" id="overviewDot"></span>
+      <div>
+        <strong id="overviewTitle">Checking today’s situation…</strong>
+        <p id="overviewCopy">Connecting live hazards with consequence context.</p>
+      </div>
+    </div>
   </section>
 
-  <section>
-    <div class="section-head">
-      <div><span>LIVE IMPACT CONTEXT</span><h2>Three validated monitors.</h2></div>
-      <p>Context only. The validated rainfall gate still owns ALERT.</p>
+  <section class="places">
+    <div class="section-intro">
+      <span>PLACES</span>
+      <h2>Start with the situation, not the data.</h2>
     </div>
     <div class="profiles" id="profiles"></div>
   </section>
 
-  <section class="action-loop">
-    <div class="section-head">
-      <div><span>HUMAN ACTION LOOP</span><h2>What did we decide to do?</h2></div>
-      <p>Browser-local only. COMMONS records consideration, completion or “not needed” without sending anything anywhere.</p>
+  <section class="your-checks hidden" id="yourChecks">
+    <div class="section-intro">
+      <span>YOUR CHECKS · THIS DEVICE</span>
+      <h2>What you already decided.</h2>
     </div>
-    <div class="action-log" id="actionLog">
-      <div class="action-log-empty">No actions recorded on this device yet.</div>
-    </div>
+    <div class="action-log" id="actionLog"></div>
   </section>
 
-  <section class="benchmark">
-    <div class="section-head">
-      <div><span>H27 · IMPACT ORDERING</span><h2>Does consequence-aware ordering beat hazard alone?</h2></div>
-      <p id="benchmarkCopy">Waiting for historical labels…</p>
+  <details class="research-note">
+    <summary>
+      <div>
+        <span>TRUST</span>
+        <strong>How trustworthy is this?</strong>
+      </div>
+      <span class="summary-arrow">+</span>
+    </summary>
+    <div class="research-body">
+      <p id="trustSummary">Loading the evidence status…</p>
+      <div class="trust-grid">
+        <div>
+          <span>IMPACT EVIDENCE</span>
+          <b id="h27Status">Loading</b>
+        </div>
+        <div>
+          <span>HISTORICAL CONSEQUENCE COVERAGE</span>
+          <b id="sourceHealth">Loading</b>
+        </div>
+        <div>
+          <span>LIVE HAZARD</span>
+          <b id="briefHealth">Loading</b>
+        </div>
+      </div>
+      <div class="trust-list" id="trustList"></div>
+      <a class="research-link" href="./world-model.html">See the research machinery →</a>
     </div>
-    <div class="metric-grid">
-      <article><span>HAZARD AP</span><b id="hazardAP">—</b></article>
-      <article><span>IMPACT AP</span><b id="impactAP">—</b></article>
-      <article><span>AP GAIN</span><b id="apGain">—</b></article>
-      <article><span>TOP-20% RECALL GAIN</span><b id="recallGain">—</b></article>
-    </div>
-  </section>
-
-  <section class="contract">
-    <div><span>TRUST CONTRACT</span><h2>No invisible morality function.</h2></div>
-    <div id="trustList"></div>
-  </section>
+  </details>
 </main>
+
+<footer>
+  <span>COMMONS · research prototype · human decisions stay human.</span>
+</footer>
+
 <script src="./impact.js"></script>
 </body>
 </html>
