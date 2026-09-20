@@ -21,6 +21,8 @@ on:
       - "scripts/run_watch_value_lab.py"
       - "src/commons/human_attention_lab.py"
       - "scripts/run_human_attention_lab.py"
+      - "src/commons/attention_budget_lab.py"
+      - "scripts/run_attention_budget_lab.py"
       - ".github/workflows/hypothesis-lab.yml"
 
 permissions:
@@ -75,6 +77,11 @@ jobs:
           python scripts/run_human_attention_lab.py \
             --output public/world-model/attention-cases.json
 
+      - name: Backtest fixed human attention budgets
+        run: |
+          python scripts/run_attention_budget_lab.py \
+            --output public/world-model/attention-budget-report.json
+
       - name: Run rolling research backtest
         run: |
           python scripts/run_hypothesis_lab.py \
@@ -100,7 +107,8 @@ jobs:
             public/world-model/attention-rule-report.json \
             public/world-model/watch-alert-report.json \
             public/world-model/watch-value-report.json \
-            public/world-model/attention-cases.json
+            public/world-model/attention-cases.json \
+            public/world-model/attention-budget-report.json
           if git diff --cached --quiet; then
             echo "Report unchanged"
           else
