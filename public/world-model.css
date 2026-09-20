@@ -539,7 +539,7 @@ footer a{text-decoration:none}
   .lab-head>p{text-align:left}
   footer{flex-direction:column}
 }
-@media(prefers-reduced-motion:reduce){
+@media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   *{animation:none!important;transition:none!important}
 }
@@ -702,7 +702,7 @@ footer a{text-decoration:none}
   #storyExperience .wm-scene{height:142svh}
   #storyExperience .scene-frame{padding:90px 18px 60px}
 }
-@media(prefers-reduced-motion:reduce){
+@media (prefers-reduced-motion: reduce){
   #storyExperience .wm-scene{
     height:100svh;
     min-height:100svh;
