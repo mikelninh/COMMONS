@@ -442,6 +442,7 @@ def build_snapshot(
     cache.setdefault("schema_version", "0.1")
     era5_cache = cache.setdefault("era5", {})
     flood_history_cache = cache.setdefault("flood_history", {})
+    cache_mutated = False
 
     for point in WATCHPOINTS:
         loop: dict[str, Any] = {
@@ -466,6 +467,7 @@ def build_snapshot(
                     if history_payload is None:
                         history_payload = client.era5_history(point)
                         era5_cache[point.loop_id] = history_payload
+                        cache_mutated = True
                     loop["weather_memory"] = build_weather_memory(
                         history_payload,
                         target_precip_72h_mm=target,
@@ -485,6 +487,7 @@ def build_snapshot(
                 if history_payload is None:
                     history_payload = client.flood_history(point)
                     flood_history_cache[point.loop_id] = history_payload
+                    cache_mutated = True
                 forecast_payload = client.flood_forecast(point)
                 loop["flood_signal"] = build_flood_signal(
                     history_payload,
@@ -496,7 +499,8 @@ def build_snapshot(
 
         loops.append(loop)
 
-    cache["updated_at"] = now.isoformat().replace("+00:00", "Z")
+    if cache_mutated:
+        cache["updated_at"] = now.isoformat().replace("+00:00", "Z")
 
     return {
         "schema_version": "0.1",
