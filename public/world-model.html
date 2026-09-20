@@ -3,129 +3,259 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#080806">
-<meta name="description" content="COMMONS World Model v0 — forecast, memory, response and learning.">
-<title>COMMONS / WORLD MODEL v0</title>
+<meta name="theme-color" content="#070806">
+<meta name="description" content="COMMONS World Model — see the signal, compare models, remember history, replay what we knew.">
+<title>COMMONS / WORLD MODEL</title>
 <link rel="stylesheet" href="./world-model.css">
 </head>
 <body>
-  <header class="wm-topbar">
-    <a class="wm-brand" href="./">COMMONS / WORLD PULSE</a>
-    <nav>
-      <a href="./">World Pulse</a>
-      <a href="https://github.com/mikelninh/COMMONS" target="_blank" rel="noopener">GitHub ↗</a>
-    </nav>
-  </header>
+<header class="wm-topbar">
+  <a class="wm-brand" href="./">COMMONS / WORLD MODEL</a>
+  <div class="mode-switch" role="group" aria-label="World Model mode">
+    <button class="mode-btn active" id="storyModeBtn">Story</button>
+    <button class="mode-btn" id="labModeBtn">Lab</button>
+  </div>
+  <nav>
+    <a href="./">World Pulse</a>
+    <a href="https://github.com/mikelninh/COMMONS" target="_blank" rel="noopener">GitHub ↗</a>
+  </nav>
+</header>
 
-  <main>
-    <section class="wm-hero">
-      <div class="wm-kicker">WORLD MODEL · RESEARCH v0</div>
-      <h1>What did the world look like <em>before</em> it happened?</h1>
-      <p class="wm-deck">Forecast what may happen. Compare independent models. Remember verified physical history. Watch what actually happens. Learn.</p>
-      <div class="wm-loop-line" aria-label="World Model learning loop">
-        <span>STATE</span><i>→</i><span>FORECAST</span><i>→</i><span>MEMORY</span><i>→</i><span>RESPONSE</span><i>→</i><span>OUTCOME</span><i>→</i><span>LEARN</span>
+<div class="scene-rail" id="sceneRail" aria-label="Story progress">
+  <button data-scene-jump="0"><i></i><span>Signal</span></button>
+  <button data-scene-jump="1"><i></i><span>Council</span></button>
+  <button data-scene-jump="2"><i></i><span>Memory</span></button>
+  <button data-scene-jump="3"><i></i><span>Why?</span></button>
+  <button data-scene-jump="4"><i></i><span>Replay</span></button>
+</div>
+
+<main id="storyExperience">
+  <section class="wm-scene scene-signal" data-scene="0">
+    <div class="scene-copy scene-copy-top">
+      <span class="scene-kicker">01 · THE SIGNAL</span>
+      <h1>Something is changing.</h1>
+      <p id="signalPlace">Nuwakot · Nepal</p>
+    </div>
+
+    <div class="signal-world" aria-hidden="true">
+      <div class="world-orb">
+        <div class="world-grid"></div>
+        <div class="world-glow"></div>
+        <div class="world-pulse"></div>
+        <div class="world-point"></div>
       </div>
-      <div class="wm-status" id="wmStatus">Loading the latest physical-world snapshot…</div>
-    </section>
+    </div>
 
-    <section class="wm-pilot">
-      <div class="section-head">
-        <div>
-          <span>LIVE PILOT · LOOP 01</span>
-          <h2>When the Water Rises</h2>
+    <div class="signal-pair">
+      <article class="signal-gauge">
+        <span>RAIN · WEATHER MEMORY</span>
+        <div class="radial-meter" id="rainMeter" style="--value:0">
+          <div><strong id="signalRainPct">—</strong><small>percentile</small></div>
         </div>
-        <div class="wm-updated" id="wmUpdated">waiting for snapshot</div>
-      </div>
-
-      <div class="pilot-grid">
-        <article class="wm-panel wm-question">
-          <span class="panel-label">THE QUESTION</span>
-          <h3>How unusual is the water signal — and do independent forecasts agree?</h3>
-          <p id="pilotLocation">Nuwakot · Nepal</p>
-          <div class="truth-note">This is physical guidance, not a local emergency warning. Human impact requires additional evidence.</div>
-        </article>
-
-        <article class="wm-panel">
-          <span class="panel-label">FORECAST COUNCIL · NEXT 72H</span>
-          <div class="council" id="forecastCouncil">
-            <div class="empty-state">Awaiting live forecast council.</div>
-          </div>
-          <div class="consensus" id="forecastConsensus"></div>
-        </article>
-
-        <article class="wm-panel">
-          <span class="panel-label">WEATHER MEMORY · ERA5</span>
-          <div id="weatherMemory" class="memory-block">
-            <div class="empty-state">Awaiting historical comparison.</div>
-          </div>
-        </article>
-
-        <article class="wm-panel">
-          <span class="panel-label">RIVER STATE · GLOFAS v4</span>
-          <div id="floodSignal" class="memory-block">
-            <div class="empty-state">Awaiting flood guidance.</div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="wm-truth">
-      <div class="section-head">
-        <div>
-          <span>TRUST CONTRACT</span>
-          <h2>Models may disagree. COMMONS must show that.</h2>
+      </article>
+      <div class="signal-vs">≠</div>
+      <article class="signal-gauge river">
+        <span>RIVER · GLOFAS HISTORY</span>
+        <div class="radial-meter" id="riverMeter" style="--value:0">
+          <div><strong id="signalRiverPct">—</strong><small>percentile</small></div>
         </div>
-      </div>
-      <div class="truth-grid">
-        <div><b>Not a probability</b><p>The first Forecast Council compares deterministic model outputs. “High agreement” means low spread, not a calibrated 80% or 90% chance.</p></div>
-        <div><b>History is not destiny</b><p>Weather analogues compare physical variables. Similar rainfall does not imply similar damage, exposure or response.</p></div>
-        <div><b>Flood guidance has limits</b><p>GloFAS is modelled river discharge at kilometre scale. It may represent a nearby major river rather than the exact local waterway.</p></div>
-        <div><b>Backtest everything</b><p>Forecast snapshots are archived so future COMMONS can compare what models said with what actually happened.</p></div>
-      </div>
-    </section>
+      </article>
+    </div>
 
-    <section class="wm-loops">
-      <div class="section-head">
-        <div>
-          <span>THE FIRST TEN</span>
-          <h2>A map of what it means to live on Earth.</h2>
-        </div>
-        <p>Water · shelter · body · land · breath · thirst · health · ground · food · hope</p>
-      </div>
-      <div class="loops-grid" id="loopsGrid"></div>
-    </section>
+    <div class="scene-whisper">Rain can look ordinary while the river does not.</div>
+    <div class="scroll-next">SCROLL TO INVESTIGATE ↓</div>
+  </section>
 
-    <section class="wm-learning">
-      <div class="section-head">
+  <section class="wm-scene scene-council" data-scene="1">
+    <div class="scene-copy">
+      <span class="scene-kicker">02 · THE COUNCIL</span>
+      <h2>Three models.<br>Three versions of the next 72 hours.</h2>
+      <p>Disagreement is information.</p>
+    </div>
+
+    <div class="council-stage">
+      <div class="council-bars" id="councilBars"></div>
+      <div class="agreement-orbit">
+        <span>RAIN AGREEMENT</span>
+        <strong id="councilAgreement">—</strong>
+        <small>spread heuristic · not probability</small>
+      </div>
+    </div>
+
+    <div class="scene-source-line" id="councilSourceState">ECMWF IFS · NOAA GFS · DWD ICON</div>
+  </section>
+
+  <section class="wm-scene scene-memory" data-scene="2">
+    <div class="scene-copy">
+      <span class="scene-kicker">03 · MEMORY</span>
+      <h2>Has the sky looked like this before?</h2>
+      <p>Verified physical history, not generated memory.</p>
+    </div>
+
+    <div class="memory-visual">
+      <div class="memory-ring" id="memoryRing" style="--value:0">
         <div>
-          <span>THE IMPORTANT PART</span>
-          <h2>COMMONS should remember its own predictions.</h2>
+          <strong id="memoryPercentile">—</strong>
+          <span>seasonal percentile</span>
         </div>
       </div>
-      <div class="learning-flow">
-        <div><strong>T − 120h</strong><span>What did the models predict?</span></div>
-        <div><strong>T − 72h</strong><span>Did consensus strengthen or break?</span></div>
-        <div><strong>T − 24h</strong><span>Was the warning calibrated?</span></div>
-        <div><strong>T + outcome</strong><span>What actually happened?</span></div>
-        <div><strong>LEARN</strong><span>Update thresholds and reliability scores.</span></div>
+      <div class="memory-years">
+        <div class="timeline-labels"><span>1940</span><span id="memoryEnd">today</span></div>
+        <div class="memory-line" id="memoryTimeline">
+          <i class="timeline-now"></i>
+        </div>
+        <div class="analogue-caption">closest 3-day precipitation analogues</div>
+        <div class="analogue-chips" id="analogueChips"></div>
       </div>
-    </section>
+    </div>
 
-    <section class="wm-business">
+    <div class="scene-truth">Similar weather ≠ similar human impact.</div>
+  </section>
+
+  <section class="wm-scene scene-why" data-scene="3">
+    <div class="scene-copy">
+      <span class="scene-kicker">04 · THE QUESTION</span>
+      <h2>The gap is the clue.</h2>
+      <p>COMMONS should investigate what explains it — not invent an answer.</p>
+    </div>
+
+    <div class="tension-visual">
+      <div class="tension-node rain-node">
+        <span>RAIN</span>
+        <strong id="whyRain">—</strong>
+        <small>seasonal percentile</small>
+      </div>
+      <div class="tension-path">
+        <svg viewBox="0 0 420 120" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M5 60 C120 5 300 115 415 60"></path>
+        </svg>
+        <b>?</b>
+      </div>
+      <div class="tension-node river-node">
+        <span>RIVER</span>
+        <strong id="whyRiver">—</strong>
+        <small>historical percentile</small>
+      </div>
+    </div>
+
+    <div class="verify-next">
+      <span>VERIFY NEXT</span>
       <div>
-        <span>FUNDING PRINCIPLE · NOT YET FOR SALE</span>
-        <h2>The public world stays open.</h2>
-        <p>The planned business model is professional monitoring, alerts, historical analysis and APIs for organizations. Paid pilots will not launch until every data source is cleared for commercial use.</p>
+        <b>upstream rainfall</b>
+        <b>prior wetness</b>
+        <b>catchment response</b>
       </div>
-      <a class="business-cta" href="https://github.com/mikelninh/COMMONS/blob/main/docs/MONETIZATION_V1.md" target="_blank" rel="noopener">Read the funding plan ↗</a>
-    </section>
-  </main>
+      <small>hypotheses to investigate · not current claims</small>
+    </div>
+  </section>
 
-  <footer>
-    <span>COMMONS · useful intelligence should increase human agency.</span>
-    <span class="wm-attribution">Weather, ERA5 and GloFAS access via <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> · data attribution applies under CC BY 4.0 and source-specific terms.</span>
-    <a href="./world-model/loops.json">Open loop registry ↗</a>
-  </footer>
+  <section class="wm-scene scene-replay" data-scene="4">
+    <div class="scene-copy">
+      <span class="scene-kicker">05 · REPLAY</span>
+      <h2>What did we believe<br>six hours ago?</h2>
+      <p>Every snapshot becomes evidence about our own forecasting.</p>
+    </div>
+
+    <div class="replay-stage">
+      <div class="replay-time">
+        <span>SNAPSHOT</span>
+        <strong id="replayTime">—</strong>
+        <small id="replayCount">collecting history</small>
+      </div>
+
+      <div class="replay-bars" id="replayBars"></div>
+
+      <div class="replay-delta" id="replayDelta">
+        <span>CHANGE SINCE PREVIOUS</span>
+        <strong>—</strong>
+      </div>
+
+      <input id="replaySlider" class="replay-slider" type="range" min="0" max="0" step="1" value="0" aria-label="Replay archived World Model snapshots">
+      <div class="replay-track-labels"><span>EARLIER</span><span>NOW</span></div>
+    </div>
+
+    <div class="replay-actions">
+      <button class="experience-btn" id="openLabBtn">Open the Lab →</button>
+      <a class="quiet-link" href="./">Back to WORLD PULSE</a>
+    </div>
+  </section>
+</main>
+
+<main id="labExperience" class="lab-experience hidden">
+  <section class="lab-hero">
+    <span class="scene-kicker">WORLD MODEL LAB</span>
+    <h1>Inspect the machine.</h1>
+    <p>Current state, sources, limitations, archived forecasts and the ten-loop roadmap.</p>
+    <button class="experience-btn ghost" id="backToStoryBtn">← Back to story</button>
+  </section>
+
+  <section class="lab-current">
+    <div class="lab-head">
+      <div><span>LIVE PILOT</span><h2>When the Water Rises</h2></div>
+      <div id="wmUpdated">waiting for snapshot</div>
+    </div>
+
+    <div class="lab-grid">
+      <article class="lab-card">
+        <span>FORECAST COUNCIL</span>
+        <div id="forecastCouncil" class="dense-list"></div>
+        <div id="forecastConsensus" class="lab-consensus"></div>
+      </article>
+      <article class="lab-card">
+        <span>WEATHER MEMORY · ERA5</span>
+        <div id="weatherMemory"></div>
+      </article>
+      <article class="lab-card">
+        <span>RIVER STATE · GLOFAS v4</span>
+        <div id="floodSignal"></div>
+      </article>
+      <article class="lab-card">
+        <span>TRUST CONTRACT</span>
+        <div class="lab-truth-list">
+          <p><b>Not a probability.</b> Model agreement is deterministic spread.</p>
+          <p><b>History is not destiny.</b> Similar weather does not imply similar impact.</p>
+          <p><b>Flood guidance has limits.</b> This is not a local emergency warning.</p>
+          <p><b>Backtest everything.</b> Archived forecasts should be judged later.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="lab-loops">
+    <div class="lab-head">
+      <div><span>THE FIRST TEN</span><h2>A map of what it means to live on Earth.</h2></div>
+      <p>water · shelter · body · land · breath · thirst · health · ground · food · hope</p>
+    </div>
+    <div class="loops-grid" id="loopsGrid"></div>
+  </section>
+
+  <section class="lab-learning">
+    <div class="lab-head">
+      <div><span>LEARNING SYSTEM</span><h2>COMMONS should remember its own predictions.</h2></div>
+    </div>
+    <div class="learning-flow">
+      <div><strong>T − 120h</strong><span>What did the models predict?</span></div>
+      <div><strong>T − 72h</strong><span>Did consensus strengthen or break?</span></div>
+      <div><strong>T − 24h</strong><span>Was the warning calibrated?</span></div>
+      <div><strong>T + outcome</strong><span>What actually happened?</span></div>
+      <div><strong>LEARN</strong><span>Update thresholds and reliability scores.</span></div>
+    </div>
+  </section>
+
+  <section class="lab-funding">
+    <span>FUNDING PRINCIPLE · NOT YET FOR SALE</span>
+    <h2>The public world stays open.</h2>
+    <p>Professional monitoring can fund the public commons once every data source is cleared for commercial use.</p>
+  </section>
+</main>
+
+<div class="wm-status" id="wmStatus">Loading live world state…</div>
+
+<footer>
+  <span>COMMONS · research prototype · not a local emergency warning.</span>
+  <span class="wm-attribution">Weather, ERA5 and GloFAS access via <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> · data attribution applies under CC BY 4.0 and source-specific terms.</span>
+  <a href="./world-model/loops.json">Open loop registry ↗</a>
+</footer>
 
 <script src="./world-model.js"></script>
 </body>
