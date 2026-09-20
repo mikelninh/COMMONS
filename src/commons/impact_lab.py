@@ -233,6 +233,7 @@ def fetch_emdat(event: dict[str, Any]) -> Any:
             "eventtype": event["event_type"],
             "eventid": event["event_id"],
         },
+        timeout=20,
     )
 
 
@@ -320,7 +321,7 @@ out tags center;
         OVERPASS_URL,
         method="POST",
         body=urlencode({"data": query}).encode("utf-8"),
-        timeout=60,
+        timeout=35,
     )
     counts = {
         "health_facilities": 0,
@@ -671,7 +672,7 @@ def run_impact_v0(
         events = fetch_gdacs_events(
             start_date=start.isoformat(),
             end_date=end.isoformat(),
-            pages=3,
+            pages=1,
         )
     except Exception as exc:
         events = []
