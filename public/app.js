@@ -260,23 +260,100 @@ function renderCalmOrientation(){
   $("orientationStale").textContent=stale;
 }
 
+function storyEditorialSummary(story){
+  const summaries={
+    "nepal-flash-floods-2026":"Floods hit northern Nepal. A verified response is underway, and new evidence shows safe water was restored for around 2,000 people.",
+    "bhutan-rabies-elimination-2026":"Bhutan reached a rare public-health milestone: WHO validated the elimination of dog-transmitted human rabies as a public-health problem.",
+    "drc-ebola-bundibugyo-2026":"The Ebola outbreak remains unresolved. There are encouraging signs in some places, but WHO says the epidemic is still growing overall."
+  };
+  return summaries[story.id] || story.subtitle;
+}
+
+function storyReadTime(story){
+  return Math.max(1,Math.round((story.scenes?.length||6)*.18));
+}
+
+function renderReturnUpdates(){
+  if(!$("returnUpdates"))return;
+  const receipts=loadActionLedger();
+  const grouped=STORIES.map(story=>{
+    const related=receipts.filter(entry=>entry.storyId===story.id);
+    if(!related.length)return null;
+    const following=related.some(entry=>entry.status==="following");
+    const acted=related.some(entry=>["self_reported_complete","external_opened","share_completed","share_prepared"].includes(entry.status));
+    const newer=related.some(hasNewEvidence);
+    if(!following&&!acted)return null;
+    return {story,following,acted,newer};
+  }).filter(Boolean);
+
+  if(!grouped.length){
+    $("returnUpdates").classList.add("hidden");
+    $("returnUpdates").innerHTML="";
+    return;
+  }
+
+  $("returnUpdates").classList.remove("hidden");
+  $("returnUpdates").innerHTML=`
+    <div class="return-heading">
+      <span>SINCE YOU WERE HERE</span>
+      <h2>${grouped.some(item=>item.newer)?"Something changed.":"You’re following "+grouped.length+" stor"+(grouped.length===1?"y":"ies")+"."}</h2>
+    </div>
+    <div class="return-list">
+      ${grouped.map(({story,newer,following,acted})=>`
+        <button class="return-item" data-return-story="${escapeHtml(story.id)}">
+          <span class="return-dot ${newer?"new":""}"></span>
+          <span>
+            <b>${escapeHtml(story.country)} · ${escapeHtml(story.title)}</b>
+            <small>${newer?"New official evidence is available":following?"You’re following this story":"You recorded an action here"}</small>
+          </span>
+          <strong>${newer?"SEE WHAT CHANGED":"OPEN"}</strong>
+        </button>
+      `).join("")}
+    </div>
+  `;
+
+  qsa("[data-return-story]",$("returnUpdates")).forEach(button=>{
+    button.onclick=()=>enterStory(button.dataset.returnStory,Math.max(0,(storyById(button.dataset.returnStory)?.scenes?.length||1)-2));
+  });
+}
+
+function renderDailyHome(){
+  if(!$("dailySummary"))return;
+  const improving=STORIES.filter(story=>
+    (story.bloom||[]).length>0 || String(story.status||"").includes("ELIMINATION")
+  ).length;
+  let direct=0;
+  if(trustRegistry){
+    direct=STORIES.filter(story=>{
+      const loop=ACTION_LOOPS[story.id];
+      return (loop?.interventions||[]).some(item=>
+        item.type==="external" && item.actionability==="DIRECT" && trustGateForStory(story.id).allowed
+      );
+    }).length;
+  }
+  $("dailyStoryCount").textContent=String(STORIES.length);
+  $("dailyActionCount").textContent=String(direct);
+  $("dailyImprovedCount").textContent=String(improving);
+  renderReturnUpdates();
+}
+
 function renderStoryLibrary(){
   $("storyCards").innerHTML=STORIES.map(story=>{
     const receipts=ledgerForStory(story.id);
     const newer=receipts.some(hasNewEvidence);
     const following=receipts.some(entry=>entry.status==="following");
-    const acted=receipts.some(entry=>["self_reported_complete","share_completed","share_prepared"].includes(entry.status));
-    const localState=newer?"NEW EVIDENCE":following?"FOLLOWING":acted?"ACTION RECORDED":story.updatedAt;
+    const acted=receipts.some(entry=>["self_reported_complete","external_opened","share_completed","share_prepared"].includes(entry.status));
+    const state=newer?"NEW SINCE YOU FOLLOWED":following?"FOLLOWING":acted?"ACTION RECORDED":story.statusLabel;
 
     return `
-      <button class="story-card ${story.id===activeStory.id?"active":""}" data-story-id="${escapeHtml(story.id)}" style="--card-accent:${escapeHtml(story.colors.memory||story.colors.attention)}">
-        <span class="story-card-number">${String(story.order).padStart(2,"0")}</span>
-        <span class="story-card-body">
-          <span class="story-card-country">${escapeHtml(story.country)} · ${escapeHtml(story.statusLabel)}</span>
-          <span class="story-card-title">${escapeHtml(story.title)}</span>
-          <span class="story-card-subtitle">${escapeHtml(story.subtitle)}</span>
+      <button class="story-card daily-story-card" data-story-id="${escapeHtml(story.id)}" style="--card-accent:${escapeHtml(story.colors.memory||story.colors.attention)}">
+        <span class="daily-story-top">
+          <span class="story-card-country">${escapeHtml(story.country)} · ${escapeHtml(state)}</span>
+          <span class="daily-read-time">${storyReadTime(story)} min</span>
         </span>
-        <span class="story-card-status">${escapeHtml(localState)}<span class="story-card-arrow">→</span></span>
+        <span class="story-card-title">${escapeHtml(story.title)}</span>
+        <span class="daily-story-summary">${escapeHtml(storyEditorialSummary(story))}</span>
+        <span class="daily-story-bottom"><span>Updated ${escapeHtml(story.updatedAt)}</span><strong>Read story →</strong></span>
       </button>
     `;
   }).join("");
@@ -285,6 +362,7 @@ function renderStoryLibrary(){
     card.onclick=()=>enterStory(card.dataset.storyId,0);
   });
   renderCalmOrientation();
+  renderDailyHome();
 }
 
 function updateStoryChrome(){
@@ -300,7 +378,7 @@ function updateStoryChrome(){
   $("storyIndex").innerHTML=`<b>${escapeHtml(activeStory.country.toUpperCase())}</b> · ${escapeHtml(activeStory.title.toUpperCase())} · ${escapeHtml(activeStory.status)}`;
   $("story").dataset.status=activeStory.status.includes("ELIMINATION")?"elimination":"open";
 
-  $("timeLabels").innerHTML=activeStory.timeLabels.map(label=>`<span>${escapeHtml(label)}</span>`).join("");
+  $("timeLabels").innerHTML=["What happened","Response","Is it working?","What now?"].map(label=>`<span>${escapeHtml(label)}</span>`).join("");
   const sig=qsa(".signature span");
   activeStory.grammar.forEach((label,index)=>{
     if(sig[index]){
@@ -592,6 +670,7 @@ function closeAuxiliaryLayers(except=null){
   if(except!=="share") $("share").classList.remove("open");
   if(except!=="actionLab") closeActionLab();
   if(except!=="trustCenter") closeTrustCenter();
+  if(except!=="handoff") closeHandoff();
 }
 
 function openLook(){
@@ -672,40 +751,117 @@ function buildScrollNarrative(){
   bindScrollSceneActions();
 }
 
+function primaryDirectIntervention(story=activeStory){
+  const loop=ACTION_LOOPS[story.id];
+  return (loop?.interventions||[]).find(item=>
+    item.type==="external" && item.actionability==="DIRECT"
+  ) || null;
+}
+
+function followIntervention(story=activeStory){
+  const loop=ACTION_LOOPS[story.id];
+  return (loop?.interventions||[]).find(item=>item.type==="follow") || null;
+}
+
+function decisionMarkup(){
+  const direct=primaryDirectIntervention();
+  const follow=followIntervention();
+  const gate=direct?interventionTrustGate(direct):{allowed:false,reason:"No verified direct public action is currently surfaced for this story."};
+  const hasDirect=Boolean(direct&&gate.allowed);
+
+  return `
+    <div class="story-decision">
+      <div class="decision-kicker">WHAT NOW?</div>
+      <h3>Does this need anything from you?</h3>
+      <p>${hasDirect
+        ? "Yes — there is a verified public way to help. You can also simply follow the story and come back when something changes."
+        : "No direct public action is verified tightly enough right now. Following the story is useful; inventing an action is not."}</p>
+      ${hasDirect?`
+        <button class="decision-primary" data-action="direct">${escapeHtml(direct.cta.replace("↗","").trim())} →</button>
+      `:""}
+      ${follow?`<button class="decision-secondary" data-action="follow">${escapeHtml(follow.cta||"Follow this story")}</button>`:""}
+      <button class="decision-secondary" data-action="done">I’m caught up</button>
+      <button class="decision-evidence" data-action="belief">How do we know?</button>
+      ${direct&&!gate.allowed?`<div class="decision-note">${escapeHtml(gate.reason)}</div>`:""}
+    </div>
+  `;
+}
+
 function sceneMarkup(scene){
   const body=scene.value
     ? `<div class="scene-number ${escapeHtml(scene.tone||"")}">${escapeHtml(scene.value)}</div>
        <div class="scene-label">${escapeHtml(scene.label)}</div>`
     : `<h2 class="scene-headline">${scene.headline}</h2>`;
 
-  const following=nextStory();
-  const actions=scene.actions?`
-    <div class="scene-actions">
-      <button class="word-button" data-action="actionloop">Act on this →</button>
-      <button class="word-button muted" data-action="belief">Why we believe this</button>
-      <button class="word-button muted" data-action="pass">Pass this on</button>
-      <button class="word-button muted" data-action="next">Next: ${escapeHtml(following.country)} →</button>
-    </div>`:"";
-
   return `
     <div class="scene-kicker">${escapeHtml(scene.kicker)}</div>
     ${body}
     <div class="scene-copy">${escapeHtml(scene.copy)}</div>
-    <div class="scene-source">${escapeHtml(scene.source)}</div>
-    ${actions}
+    <button class="scene-source inline-evidence" data-action="belief">Reported by / sourced from ${escapeHtml(scene.source||"primary evidence")} · How do we know?</button>
+    ${scene.actions?decisionMarkup():""}
   `;
+}
+
+function showExternalHandoff(intervention){
+  const gate=interventionTrustGate(intervention);
+  if(!gate.allowed){
+    toast(gate.reason);
+    return;
+  }
+  $("handoffTitle").textContent=intervention.title;
+  $("handoffBody").textContent="The action itself happens outside COMMONS. We’ll hand you to the verified official path and keep the story available for follow-up.";
+  $("handoffVerify").textContent=intervention.evidenceStrength+" · "+intervention.actor;
+  $("handoffCannot").textContent=intervention.uncertainty;
+  $("handoffContinue").textContent=intervention.cta.replace("↗","").trim()+" →";
+  $("handoff").dataset.interventionId=intervention.id;
+  $("handoff").classList.add("open");
+  $("handoff").setAttribute("aria-hidden","false");
+}
+
+function closeHandoff(){
+  if(!$("handoff"))return;
+  $("handoff").classList.remove("open");
+  $("handoff").setAttribute("aria-hidden","true");
+  delete $("handoff").dataset.interventionId;
+}
+
+function continueExternalHandoff(){
+  const loop=actionLoopForStory();
+  const intervention=loop?.interventions.find(item=>item.id===$("handoff").dataset.interventionId);
+  if(!intervention)return closeHandoff();
+  const gate=interventionTrustGate(intervention);
+  if(!gate.allowed){
+    closeHandoff();
+    toast(gate.reason);
+    return;
+  }
+  addLedgerReceipt(intervention,"external_opened","external_unverified");
+  closeHandoff();
+  renderStoryLibrary();
+  window.open(intervention.url,"_blank","noopener");
+}
+
+function followCurrentStoryInline(){
+  const intervention=followIntervention();
+  if(!intervention){
+    toast("No follow action is defined for this story yet");
+    return;
+  }
+  addLedgerReceipt(intervention,"following","browser_local");
+  renderStoryLibrary();
+  toast("Following this story");
 }
 
 function bindScrollSceneActions(){
   qsa("[data-action]",$("scrollNarrative")).forEach(btn=>{
     btn.onclick=()=>{
-      if(btn.dataset.action==="actionloop")openActionLab("current");
-      if(btn.dataset.action==="belief")openEvidence();
-      if(btn.dataset.action==="pass")openShare();
-      if(btn.dataset.action==="next"){
-        const following=nextStory();
-        enterStory(following.id,0);
+      if(btn.dataset.action==="direct"){
+        const direct=primaryDirectIntervention();
+        if(direct)showExternalHandoff(direct);
       }
+      if(btn.dataset.action==="follow")followCurrentStoryInline();
+      if(btn.dataset.action==="done")stopStory(true);
+      if(btn.dataset.action==="belief")openEvidence();
     };
   });
 }
@@ -908,6 +1064,7 @@ function stopStory(returnHome=true){
     u.searchParams.delete("scene");
     history.replaceState(null,"",u);
     setHomeGlobe();
+    renderStoryLibrary();
   }
 }
 
@@ -1111,9 +1268,10 @@ function saveActionLedger(entries){
 }
 
 function updateLedgerCount(){
-  const count=loadActionLedger().length;
-  if($("ledgerCount"))$("ledgerCount").textContent=String(count);
-  if($("actionLedgerBtn"))$("actionLedgerBtn").textContent=count?"My actions · "+count:"My actions";
+  const entries=loadActionLedger();
+  const count=new Set(entries.filter(entry=>entry.status==="following").map(entry=>entry.storyId)).size;
+  if($("ledgerCount"))$("ledgerCount").textContent=String(entries.length);
+  if($("actionLedgerBtn"))$("actionLedgerBtn").textContent=count?"Following · "+count:"Following";
 }
 
 function storyForReceipt(receipt){
@@ -1422,7 +1580,7 @@ function renderActionLabCurrent(){
 
 function renderActionLedger(){
   const entries=loadActionLedger().sort((a,b)=>String(b.updatedAt).localeCompare(String(a.updatedAt)));
-  $("actionLabTitle").textContent="My action ledger";
+  $("actionLabTitle").textContent="Following & actions";
 
   if(!entries.length){
     $("actionLabBody").innerHTML=`
@@ -1619,9 +1777,10 @@ function renderTrustSnapshot(){
   const stale=trustReport.staleCriticalClaims?.length||0;
   const evalText=trustReport.totalChecks?trustReport.passedChecks+"/"+trustReport.totalChecks+" checks":"checks unavailable";
   $("trustSnapshotDetail").textContent=trustReport.status==="HEALTHY"
-    ? coverage+"% claims sourced · "+stale+" stale critical · "+evalText
-    : (trustLoadError||trustReport.reason||"One or more trust checks require attention.");
+    ? coverage+"% sourced · "+stale+" stale"
+    : (trustLoadError||trustReport.reason||"Evidence needs attention.");
   renderCalmOrientation();
+  renderDailyHome();
 }
 
 function renderTrustCenterStatus(){
@@ -2009,68 +2168,62 @@ function closeEvidence(){
 }
 
 function renderEvidence(){
-  const live=sourceStates.map(s=>{
-    const m=sourceMeta[s.name];
+  const claims=trustRegistry
+    ? (trustRegistry.claims||[])
+        .filter(claim=>claim.story_id===activeStory.id && claim.status==="active")
+        .sort((a,b)=>String(b.as_of).localeCompare(String(a.as_of)))
+        .slice(0,4)
+    : [];
+
+  const claimRows=claims.map(claim=>{
+    const source=window.COMMONS_TRUST?.sourceById(trustRegistry,claim.source_ids?.[0]);
     return `
-      <div class="evidence-row">
-        <div class="evidence-date">${escapeHtml(m.freshness)}<br>${s.ok?"responding":"unavailable"}</div>
-        <a href="${m.url}" target="_blank" rel="noopener">${escapeHtml(s.name)} — ${escapeHtml(m.scope)}</a>
-      </div>`;
+      <article class="evidence-peek-claim">
+        <div class="evidence-peek-type">${escapeHtml(claim.claim_type)} · ${escapeHtml(formatTrustDate(claim.as_of))}</div>
+        <h3>${escapeHtml(claim.statement)}</h3>
+        <p>${escapeHtml(claim.limitations)}</p>
+        ${source?`<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener">${escapeHtml(source.organization)} · open source ↗</a>`:""}
+      </article>
+    `;
   }).join("");
 
-  const evidenceRows=activeStory.evidence.map(item=>`
-    <div class="evidence-row">
-      <div class="evidence-date">${escapeHtml(item.date).replace(" ","<br>")}</div>
-      <a href="${item.url}" target="_blank" rel="noopener"><strong>${escapeHtml(item.label)}</strong> — ${escapeHtml(item.note)}</a>
-    </div>
+  const fallbackRows=activeStory.evidence.map(item=>`
+    <article class="evidence-peek-claim">
+      <div class="evidence-peek-type">${escapeHtml(item.date)}</div>
+      <h3>${escapeHtml(item.label)}</h3>
+      <p>${escapeHtml(item.note)}</p>
+      <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener">Open source ↗</a>
+    </article>
   `).join("");
-
-  const guardrails=activeStory.guardrails.map(item=>`<div class="guardrail">${escapeHtml(item)}</div>`).join("");
+  const guardrails=activeStory.guardrails.map(item=>`<p>— ${escapeHtml(item)}</p>`).slice(0,3).join("");
 
   $("evidenceBody").innerHTML=`
-    <p class="evidence-intro">Beauty is allowed to move you. It is not allowed to hide where a claim came from.</p>
+    <div class="evidence-peek-intro">
+      <span>HOW DO WE KNOW?</span>
+      <h2>${escapeHtml(activeStory.country)} · ${escapeHtml(activeStory.title)}</h2>
+      <p>These are the pieces of evidence doing the most work in this story. You should be able to inspect the source and see where each claim stops.</p>
+    </div>
 
-    <section class="evidence-section">
-      <h3>${escapeHtml(activeStory.country)} · evidence chain</h3>
-      ${evidenceRows}
+    <div class="evidence-peek-list">${claimRows||fallbackRows}</div>
+
+    <section class="evidence-peek-guardrails">
+      <span>WHAT THIS DOESN’T PROVE</span>
+      ${guardrails}
     </section>
 
-    <section class="evidence-section">
-      <h3>This story’s visual grammar</h3>
-      <div class="grammar-note">
-        <div><b>◉ ${escapeHtml(activeStory.grammar[0])}</b><span>The sourced condition or change that begins this story.</span></div>
-        <div><b>— ${escapeHtml(activeStory.grammar[1])}</b><span>The human system responding. Visual paths are semantic, not literal tracked routes.</span></div>
-        <div><b>✦ ${escapeHtml(activeStory.grammar[2])}</b><span>The story’s evidence state: improvement, elimination, or an explicitly unresolved loop.</span></div>
-      </div>
+    <section class="evidence-peek-visual">
+      <span>MAP NOTE</span>
+      <p>${escapeHtml(activeStory.terrain.disclosure)}. Internal contour lines are a cinematic depth treatment, not factual elevation, damage, transmission-intensity or intervention data. Response threads are semantic rather than literal routes.</p><p>The Memory of Earth mark records a documented story state; it is not a score, rank, completion badge or proof that the wider problem is solved.</p>
     </section>
 
-    <section class="evidence-section">
-      <h3>About the geographic descent</h3>
-      <p>The ${escapeHtml(activeStory.country)} country outline is projected from the public World Atlas geometry used by the globe. ${escapeHtml(activeStory.terrain.disclosure)}. Internal contour lines are a cinematic depth treatment, not a factual topographic, damage, transmission-intensity or intervention map. Response threads are semantic rather than literal routes.</p>
-    </section>
-
-    <section class="evidence-section">
-      <h3>Memory of Earth</h3>
-      <p>The mark records this one documented story with its current state: <strong>${escapeHtml(activeStory.statusLabel)}</strong>. It is not a score, rank, completion badge or claim beyond the evidence above.</p>
-    </section>
-
-    <section class="evidence-section">
-      <h3>Claims deliberately not made</h3>
-      <div class="guardrails">${guardrails}</div>
-    </section>
-
-    <section class="evidence-section">
-      <h3>Current Earth layer</h3>
-      ${live||"<p>Source health appears after the public feeds respond.</p>"}
-    </section>
-
-    <section class="evidence-section">
-      <h3>Inspect the claim ledger</h3>
-      <p>The evidence drawer summarizes this story. The Trust Center exposes the machine-readable claim type, provenance, freshness window and limitation behind each material claim.</p>
-      <button class="word-button" id="evidenceTrustBtn">Open Trust Center →</button>
-    </section>
+    <div class="evidence-peek-actions">
+      <button class="word-button" id="evidenceTrustBtn">Open full evidence file →</button>
+      <button class="word-button muted" id="evidenceDoneBtn">Back to story</button>
+    </div>
   `;
+
   if($("evidenceTrustBtn"))$("evidenceTrustBtn").onclick=()=>openTrustCenter("claims","audit");
+  if($("evidenceDoneBtn"))$("evidenceDoneBtn").onclick=closeEvidence;
 }
 
 function openShare(){
@@ -2268,9 +2421,9 @@ function bindEvents(){
   $("homeLookBtn").onclick=openLook;
   $("lookBtn").onclick=openLook;
   $("lookClose").onclick=closeLook;
-  $("beliefBtn").onclick=openEvidence;
+  $("beliefBtn").onclick=()=>openTrustCenter("claims","simple");
   $("storyBelief").onclick=openEvidence;
-  $("storyActionBtn").onclick=()=>openActionLab("current");
+  $("storyActionBtn").onclick=()=>jumpToScene(activeStory.scenes.length-1);
   $("actionLedgerBtn").onclick=()=>openActionLab("ledger");
   $("trustBtn").onclick=()=>openTrustCenter("status","simple");
   $("trustSnapshot").onclick=()=>openTrustCenter("status","simple");
@@ -2289,6 +2442,12 @@ function bindEvents(){
   $("soundBtn").onclick=toggleSound;
   $("storyPass").onclick=openShare;
   $("shareClose").onclick=closeShare;
+  $("handoffClose").onclick=closeHandoff;
+  $("handoffContinue").onclick=continueExternalHandoff;
+  $("handoffFollow").onclick=()=>{
+    closeHandoff();
+    followCurrentStoryInline();
+  };
   $("shareStory").onclick=shareAction;
   $("shareImage").onclick=shareCardImage;
   $("storyClose").onclick=()=>stopStory(true);
@@ -2303,10 +2462,12 @@ function bindEvents(){
   window.addEventListener("touchstart",()=>{if(storyPlaying)stopAutoScroll()},{passive:true});
 
   $("share").addEventListener("click",e=>{if(e.target===$("share"))closeShare();});
+  $("handoff").addEventListener("click",e=>{if(e.target===$("handoff"))closeHandoff();});
 
   document.addEventListener("keydown",e=>{
     if(e.key==="Escape"){
       if($("share").classList.contains("open"))return closeShare();
+      if($("handoff").classList.contains("open"))return closeHandoff();
       if($("actionLab").classList.contains("open"))return closeActionLab();
       if($("trustCenter").classList.contains("open"))return closeTrustCenter();
       if($("evidence").classList.contains("open"))return closeEvidence();

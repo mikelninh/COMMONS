@@ -65,7 +65,7 @@ def test_living_atlas_multi_story_identity() -> None:
     page, styles, app, stories, loops = read_public()
 
     assert "WORLD PULSE · LIVING ATLAS" in page
-    assert "STORIES OF RESPONSE · VOL. 01" in page
+    assert "STORIES WORTH KNOWING" in page
     assert "storyLibrary" in page
     assert "storyCards" in page
     assert "Stories" in page
@@ -183,13 +183,17 @@ def test_story_specific_semantic_thresholds_drive_scroll() -> None:
     assert stories.count("silenceIndex:") == 3
 
 
-def test_final_scene_can_continue_directly_to_next_story() -> None:
+def test_final_scene_ends_in_one_human_decision() -> None:
     _, _, app, _, loops = read_public()
 
-    assert "function nextStory" in app
-    assert 'data-action="next"' in app
-    assert "following.country" in app
-    assert 'enterStory(following.id,0)' in app
+    assert "Does this need anything from you?" in app
+    assert 'data-action="direct"' in app
+    assert 'data-action="follow"' in app
+    assert 'data-action="done"' in app
+    assert "I’m caught up" in app
+    assert "How do we know?" in app
+    assert "primaryDirectIntervention" in app
+    assert "followIntervention" in app
 
 
 def test_evidence_drawer_is_catalog_driven() -> None:
@@ -354,7 +358,7 @@ def test_action_loop_surface_is_present_and_contained() -> None:
     assert "function openActionLab" in app
     assert "function renderActionLabCurrent" in app
     assert "function renderActionLedger" in app
-    assert 'openActionLab("current")' in app
+    assert "function openActionLab" in app
     assert 'openActionLab("ledger")' in app
 
 
@@ -449,6 +453,73 @@ def test_action_loop_share_is_only_recorded_when_initiated_from_action_loop() ->
 def test_story_library_surfaces_follow_and_new_evidence_states() -> None:
     _, _, app, _, loops = read_public()
 
-    assert 'newer?"NEW EVIDENCE":following?"FOLLOWING":acted?"ACTION RECORDED"' in app
+    assert 'newer?"NEW SINCE YOU FOLLOWED":following?"FOLLOWING":acted?"ACTION RECORDED"' in app
     assert "ledgerForStory(story.id)" in app
     assert "receipts.some(hasNewEvidence)" in app
+
+
+def test_home_is_a_daily_orientation_not_a_dashboard() -> None:
+    page, styles, app, _, loops = read_public()
+
+    assert "What changed?" in page
+    assert "Understand what matters. Know how certain we are. Act only when there is something useful to do." in page
+    assert 'id="dailyStoryCount"' in page
+    assert 'id="dailyActionCount"' in page
+    assert 'id="dailyImprovedCount"' in page
+    assert "Choose one. Two minutes is enough." in page
+    assert "If nothing needs you, being caught up is enough." in page
+
+    assert "function renderDailyHome" in app
+    assert "storyEditorialSummary" in app
+    assert "storyReadTime" in app
+    assert ".daily-home" in styles
+    assert ".daily-story-card" in styles
+
+
+def test_story_flow_embeds_trust_and_decision_instead_of_sending_to_system_panels() -> None:
+    _, styles, app, _, loops = read_public()
+
+    assert "Reported by / sourced from" in app
+    assert "How do we know?" in app
+    assert "openEvidence()" in app
+    assert "Does this need anything from you?" in app
+    assert ".story-decision" in styles
+    assert ".scene-source.inline-evidence" in styles
+
+
+def test_external_action_uses_plain_language_handoff() -> None:
+    page, styles, app, _, loops = read_public()
+
+    assert 'id="handoff"' in page
+    assert "YOU’RE LEAVING COMMONS" in page
+    assert "What COMMONS can verify" in page
+    assert "What COMMONS cannot verify" in page
+    assert "function showExternalHandoff" in app
+    assert "function continueExternalHandoff" in app
+    assert ".handoff-card" in styles
+
+
+def test_following_returns_as_since_you_were_here() -> None:
+    page, styles, app, _, loops = read_public()
+
+    assert 'id="returnUpdates"' in page
+    assert "SINCE YOU WERE HERE" in app
+    assert "New official evidence is available" in app
+    assert "function renderReturnUpdates" in app
+    assert "receipts.some(hasNewEvidence)" in app
+    assert ".return-strip" in styles
+
+
+def test_expert_navigation_is_removed_from_primary_path() -> None:
+    page, styles, app, _, loops = read_public()
+
+    assert 'class="text-nav advanced-nav" id="lookBtn"' in page
+    assert 'class="text-nav advanced-nav" id="beliefBtn"' in page
+    assert 'class="text-nav advanced-nav" id="passBtn"' in page
+    assert ".advanced-nav{display:none!important}" in styles
+
+
+def test_story_timeline_uses_human_questions() -> None:
+    _, _, app, _, loops = read_public()
+
+    assert '["What happened","Response","Is it working?","What now?"]' in app
