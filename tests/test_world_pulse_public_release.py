@@ -409,7 +409,7 @@ def test_external_action_completion_is_explicitly_self_reported() -> None:
     assert 'status:"self_reported_complete"' in app
     assert 'verification:"self_reported"' in app
     assert "WORLD PULSE cannot see the external transaction." in app
-    assert "Only mark it complete if you actually completed it." in app
+    assert "Mark it complete only if you really did it." in app
     assert "Self-reported by you" in app
 
 
