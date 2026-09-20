@@ -319,8 +319,16 @@ def build_weather_memory(
     candidates: list[tuple[str, float]] = []
     for index in range(len(times) - 2):
         try:
-            dt = datetime.fromisoformat(times[index])
+            dates = [
+                datetime.fromisoformat(times[index + offset])
+                for offset in range(3)
+            ]
         except ValueError:
+            continue
+        dt = dates[0]
+        if (dates[1].date() - dates[0].date()).days != 1:
+            continue
+        if (dates[2].date() - dates[1].date()).days != 1:
             continue
         if _seasonal_distance(dt.timetuple().tm_yday, target_day) > 45:
             continue
