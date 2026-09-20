@@ -1240,3 +1240,16 @@ def test_morning_brief_surfaces_measured_research_frontier() -> None:
     assert 'const wanted=["H20","H21","H23"]' in js
     assert "./world-model/hypothesis-report.json" in js
     assert "UNSUPPORTED" not in page
+
+
+def test_deep_miss_lab_visualizes_h23_and_is_linked_from_morning_brief() -> None:
+    page = Path("public/miss-lab.html").read_text(encoding="utf-8")
+    js = Path("public/miss-lab.js").read_text(encoding="utf-8")
+    morning = Path("public/morning.html").read_text(encoding="utf-8")
+
+    assert "Why didn’t we see it coming?" in page
+    assert "H23 TEST RECOVERY" in page
+    assert "FALSE-ALERT COST" in page
+    assert "deep-miss-report.json" in js
+    assert "MODEL + SPATIAL" in js
+    assert './miss-lab.html' in morning
