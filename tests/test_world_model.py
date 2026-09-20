@@ -553,8 +553,9 @@ def test_next_hypotheses_focus_on_hydrology_and_persistence() -> None:
     )
     ids = {item["id"] for item in report["next_hypotheses"]}
 
-    assert {"H7", "H11", "H13", "H14", "H16"} <= ids
+    assert {"H7", "H11", "H14", "H16"} <= ids
     assert "H6" not in ids
+    assert "H13" not in ids  # exposure context is now an active measured hypothesis
     h11 = next(item for item in report["next_hypotheses"] if item["id"] == "H11")
     assert any("basin" in signal.lower() for signal in h11["signals"])
     assert "out-of-sample" in h11["test"]
@@ -657,13 +658,13 @@ def test_next_hypotheses_move_toward_attention_quality_and_external_validation()
     )
     ids = {item["id"] for item in report["next_hypotheses"]}
 
-    assert {"H7", "H11", "H13", "H14", "H16"} <= ids
+    assert {"H7", "H11", "H14", "H16"} <= ids
     h14 = next(item for item in report["next_hypotheses"] if item["id"] == "H14")
     script = Path("scripts/run_hypothesis_lab.py").read_text(encoding="utf-8")
     assert '"id": "H16"' in script
     assert "A PRIORITY queue reduces analyst monitoring time" in script
     assert "monitoring time, unnecessary reviews, useful catches and perceived noise" in script
-    assert "official warnings" in h14["signals"]
+    assert "national warning archives" in h14["signals"]
 
 
 def test_attention_rule_only_uses_lower_threshold_when_revision_is_upward() -> None:
@@ -1183,3 +1184,15 @@ def test_global_labs_parallelize_fetches_and_require_full_council() -> None:
     assert "Only records with all three forecast models" in scale
     assert "full_council_ratio >= 0.90" in miss
     assert "Only records with all three forecast models" in miss
+
+
+def test_morning_brief_my_lens_is_local_and_never_rewrites_global_rank() -> None:
+    page = Path("public/morning.html").read_text(encoding="utf-8")
+    js = Path("public/morning.js").read_text(encoding="utf-8")
+
+    assert "MY LENS · THIS DEVICE" in page
+    assert "never changes COMMONS’ global evidence rank" in page
+    assert 'const LENS_KEY="commons.morning.my-lens.v1"' in js
+    assert "localStorage" in js
+    assert "EARTH RANK " in js
+    assert "sort(" not in js[js.index("function renderLens"):js.index("function renderLearning")]
