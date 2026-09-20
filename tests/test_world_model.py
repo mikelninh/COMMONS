@@ -638,7 +638,7 @@ def test_next_hypotheses_move_toward_attention_quality_and_external_validation()
     )
     ids = {item["id"] for item in report["next_hypotheses"]}
 
-    assert {"H7", "H11", "H12", "H13", "H14"} <= ids
+    assert {"H7", "H11", "H13", "H14", "H15"} <= ids
     h15 = next(item for item in report["next_hypotheses"] if item["id"] == "H15")
     h14 = next(item for item in report["next_hypotheses"] if item["id"] == "H14")
     assert "WATCH" in h15["claim"]
