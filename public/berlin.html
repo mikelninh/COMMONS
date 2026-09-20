@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#030504">
+<meta name="description" content="COMMONS Berlin Deep City — movement, air, water, infrastructure, pressure and memory.">
+<title>COMMONS / BERLIN DEEP CITY</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@6.10.0/dist/maplibre-gl.css">
+<link rel="stylesheet" href="./berlin.css">
+<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@6.10.0/dist/maplibre-gl.js" onerror="this.onerror=null;this.src='https://unpkg.com/maplibre-gl@6.10.0/dist/maplibre-gl.js'"></script>
+<script defer src="./berlin.js"></script>
+</head>
+<body>
+<div id="map"></div>
+<div class="shade"></div>
+
+<header class="topbar">
+  <a class="brand" href="./berlin.html">COMMONS / BERLIN</a>
+  <nav class="mode-tabs" id="modeTabs">
+    <button data-mode="now" class="active">NOW</button>
+    <button data-mode="city">CITY</button>
+    <button data-mode="pressure">PRESSURE</button>
+    <button data-mode="memory">MEMORY</button>
+  </nav>
+  <a class="atlas-link" href="./atlas.html">Atlas ↗</a>
+</header>
+
+<section class="intro" id="intro">
+  <span>DEEP CITY</span>
+  <h1>Berlin is alive.</h1>
+  <p>Movement, air, water, heat, health, power, green space and memory — on one real city.</p>
+  <button id="enterBerlin">Enter Berlin ↓</button>
+</section>
+
+<aside class="insight hidden" id="insight">
+  <div class="insight-kicker" id="insightKicker">NOW</div>
+  <h2 id="insightTitle">Movement</h2>
+  <p id="insightStory">Connecting Berlin’s live city systems.</p>
+
+  <div class="primary">
+    <span id="primaryLabel">LIVE</span>
+    <strong id="primaryValue">—</strong>
+    <small id="primaryCopy">Loading…</small>
+  </div>
+
+  <div class="stats" id="stats">
+    <div><span>A</span><b id="statA">—</b><small id="statACopy">—</small></div>
+    <div><span>B</span><b id="statB">—</b><small id="statBCopy">—</small></div>
+    <div><span>C</span><b id="statC">—</b><small id="statCCopy">—</small></div>
+  </div>
+
+  <div class="story-note" id="storyNote"></div>
+
+  <details class="source-detail">
+    <summary>What is this based on? <b>+</b></summary>
+    <div id="sourceDetail"></div>
+  </details>
+</aside>
+
+<nav class="layer-rail hidden" id="layerRail"></nav>
+
+<section class="timeline hidden" id="timeline">
+  <div class="timeline-head">
+    <span id="timelineLabel">TIME</span>
+    <strong id="timelineTime">—</strong>
+    <span id="timelineMetric">—</span>
+  </div>
+  <input id="timeSlider" type="range" min="0" max="1" value="0" step="1">
+  <div class="timeline-scale"><span>PAST</span><span>NOW</span><span>FUTURE</span></div>
+</section>
+
+<section class="cards hidden" id="cards"></section>
+
+<div class="health-bar">
+  <span id="mapHealth">MAP · …</span>
+  <span id="transitHealth">TRANSIT · …</span>
+  <span id="airHealth">AIR · …</span>
+  <span id="waterHealth">WATER · …</span>
+  <span id="officialHealth">BERLIN OPEN DATA · …</span>
+</div>
+
+<div class="map-fallback hidden" id="mapFallback">
+  <strong>Map unavailable.</strong>
+  <span>The Berlin data panels still work. Reload to retry the map renderer.</span>
+</div>
+</body>
+</html>
