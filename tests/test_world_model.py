@@ -534,7 +534,42 @@ def test_next_hypotheses_focus_on_hydrology_and_persistence() -> None:
     )
     ids = {item["id"] for item in report["next_hypotheses"]}
 
-    assert {"H6", "H7", "H8", "H9", "H10"} <= ids
-    h6 = next(item for item in report["next_hypotheses"] if item["id"] == "H6")
-    assert any("soil moisture" in signal.lower() for signal in h6["signals"])
-    assert "top-5% discharge days" in h6["test"]
+    assert {"H7", "H8", "H9", "H10", "H11"} <= ids
+    assert "H6" not in ids
+    h11 = next(item for item in report["next_hypotheses"] if item["id"] == "H11")
+    assert any("basin" in signal.lower() for signal in h11["signals"])
+    assert "out-of-sample" in h11["test"]
+
+
+def test_h6_is_mixed_and_basin_specific_not_global() -> None:
+    report = json.loads(
+        Path("public/world-model/hypothesis-report.json").read_text(encoding="utf-8")
+    )
+    hydro = json.loads(
+        Path("public/world-model/hydrology-report.json").read_text(encoding="utf-8")
+    )
+
+    h6 = next(item for item in report["hypotheses"] if item["id"] == "H6")
+    assert h6["status"] == "mixed"
+    assert "per basin" in h6["update"]
+
+    assert hydro["hypothesis"]["status"] == "mixed"
+    points = {item["id"]: item for item in hydro["points"]}
+    assert points["warsaw"]["auc_gain_vs_recent_rain"] > 0.20
+    assert points["nuwakot"]["auc_gain_vs_recent_rain"] < 0.03
+    assert points["niamey"]["auc_gain_vs_recent_rain"] < 0
+
+
+def test_weekly_report_composes_hydrology_result_instead_of_erasing_it() -> None:
+    script = Path("scripts/run_hypothesis_lab.py").read_text(encoding="utf-8")
+
+    assert 'hydro_path = Path("public/world-model/hydrology-report.json")' in script
+    assert '"id": "H6"' in script
+    assert '"next_hypotheses"' in script
+    assert '"H11"' in script
+
+
+def test_council_ui_does_not_present_disagreement_as_confidence() -> None:
+    page = Path("public/world-model.html").read_text(encoding="utf-8")
+
+    assert "visible context · not a confidence score" in page
