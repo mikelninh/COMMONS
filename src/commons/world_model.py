@@ -161,12 +161,12 @@ class OpenMeteoClient:
             },
         )
 
-    def flood_history_and_forecast(
+    def flood_history(
         self,
         point: WatchPoint,
         *,
         start_date: str = "1984-01-01",
-        forecast_days: int = 14,
+        end_date: str = "2022-07-31",
     ) -> dict[str, Any]:
         return self._get(
             "flood",
@@ -174,7 +174,23 @@ class OpenMeteoClient:
                 "latitude": point.latitude,
                 "longitude": point.longitude,
                 "start_date": start_date,
-                "end_date": (date.today() + timedelta(days=forecast_days)).isoformat(),
+                "end_date": end_date,
+                "daily": "river_discharge",
+            },
+        )
+
+    def flood_forecast(
+        self,
+        point: WatchPoint,
+        *,
+        forecast_days: int = 14,
+    ) -> dict[str, Any]:
+        return self._get(
+            "flood",
+            {
+                "latitude": point.latitude,
+                "longitude": point.longitude,
+                "forecast_days": forecast_days,
                 "daily": "river_discharge",
             },
         )
@@ -190,8 +206,11 @@ class FixtureClient:
     def era5_history(self, point: WatchPoint, **_: Any) -> dict[str, Any]:
         return self.payload["history"][point.loop_id]
 
-    def flood_history_and_forecast(self, point: WatchPoint, **_: Any) -> dict[str, Any]:
-        return self.payload["flood"][point.loop_id]
+    def flood_history(self, point: WatchPoint, **_: Any) -> dict[str, Any]:
+        return self.payload["flood_history"][point.loop_id]
+
+    def flood_forecast(self, point: WatchPoint, **_: Any) -> dict[str, Any]:
+        return self.payload["flood_forecast"][point.loop_id]
 
 
 def _clean(values: Iterable[Any]) -> list[float]:
