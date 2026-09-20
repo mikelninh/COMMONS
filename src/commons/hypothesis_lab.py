@@ -2,8 +2,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
+import hashlib
 import json
 import math
+import os
 from pathlib import Path
 from statistics import mean, median
 from time import sleep
@@ -43,6 +45,39 @@ POINTS: tuple[BacktestPoint, ...] = (
 )
 
 
+def _request_cache_path(url: str, params: dict[str, Any]) -> Path | None:
+    root = os.getenv("COMMONS_BACKTEST_CACHE")
+    if not root:
+        return None
+    canonical = json.dumps(
+        {"url": url, "params": params},
+        sort_keys=True,
+        separators=(",", ":"),
+        default=str,
+    )
+    digest = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+    return Path(root) / f"{digest}.json"
+
+
+def _read_request_cache(path: Path | None) -> dict[str, Any] | None:
+    if path is None or not path.exists():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+def _write_request_cache(path: Path | None, payload: dict[str, Any]) -> None:
+    if path is None:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(".tmp")
+    temporary.write_text(json.dumps(payload), encoding="utf-8")
+    temporary.replace(path)
+
+
 def _request_json(
     url: str,
     params: dict[str, Any],
@@ -51,9 +86,14 @@ def _request_json(
     attempts: int = 3,
     backoff_seconds: float = 0.75,
 ) -> dict[str, Any]:
+    cache_path = _request_cache_path(url, params)
+    cached = _read_request_cache(cache_path)
+    if cached is not None:
+        return cached
+
     request = Request(
         url + "?" + urlencode(params),
-        headers={"User-Agent": "COMMONS-Hypothesis-Lab/0.2"},
+        headers={"User-Agent": "COMMONS-Hypothesis-Lab/0.3"},
     )
     attempts = max(1, attempts)
     for attempt in range(attempts):
@@ -62,6 +102,7 @@ def _request_json(
                 payload = json.loads(response.read().decode("utf-8"))
             if payload.get("error"):
                 raise RuntimeError(str(payload.get("reason") or payload))
+            _write_request_cache(cache_path, payload)
             return payload
         except HTTPError as exc:
             transient = exc.code in {408, 425, 429, 500, 502, 503, 504}
