@@ -2195,6 +2195,7 @@ function renderEvidence(){
       <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener">Open source ↗</a>
     </article>
   `).join("");
+  const guardrails=activeStory.guardrails.map(item=>`<p>— ${escapeHtml(item)}</p>`).slice(0,3).join("");
 
   $("evidenceBody").innerHTML=`
     <div class="evidence-peek-intro">
@@ -2207,7 +2208,7 @@ function renderEvidence(){
 
     <section class="evidence-peek-guardrails">
       <span>WHAT THIS DOESN’T PROVE</span>
-      ${(activeStory.guardrails||[]).slice(0,3).map(item=>`<p>— ${escapeHtml(item)}</p>`).join("")}
+      ${guardrails}
     </section>
 
     <section class="evidence-peek-visual">
