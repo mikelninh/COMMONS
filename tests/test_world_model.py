@@ -1359,7 +1359,7 @@ def test_signal_trust_lab_visualizes_h24_h25_and_is_linked() -> None:
     assert "H25 · CONVECTIVE BLINDNESS" in page
     assert "minority-convective-report.json" in js
     assert './signal-trust.html' in morning
-    assert 'const wanted=["H20","H21","H23","H24","H25"]' in morning_js
+    assert 'const wanted=["H20","H21","H23","H24","H25","H27"]' in morning_js
 
 
 def test_impact_v0_keeps_components_separate_and_human_authorized() -> None:
