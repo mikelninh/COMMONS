@@ -843,3 +843,27 @@ def test_hypothesis_data_quality_blocks_learning_from_partial_sources() -> None:
     assert degraded["status"] == "degraded"
     assert degraded["temporal_coverage"] == 1.0
     assert degraded["full_council_ratio"] < 0.9
+
+
+def test_model_dropout_lab_preserves_or_flags_attention_robustness() -> None:
+    from commons.model_dropout_lab import _top_ids
+
+    rows = [
+        {"id": "a", "full": 1.4, "drop_ecmwf": 1.3},
+        {"id": "b", "full": 1.2, "drop_ecmwf": 1.1},
+        {"id": "c", "full": 0.8, "drop_ecmwf": 0.9},
+        {"id": "d", "full": 0.4, "drop_ecmwf": 0.3},
+    ]
+
+    assert _top_ids(rows, "full", 0.50) == {"a", "b"}
+    assert _top_ids(rows, "drop_ecmwf", 0.50) == {"a", "b"}
+
+
+def test_weekly_lab_retests_single_model_dropout() -> None:
+    workflow = Path(".github/workflows/hypothesis-lab.yml").read_text(encoding="utf-8")
+    script = Path("scripts/run_hypothesis_lab.py").read_text(encoding="utf-8")
+
+    assert "run_model_dropout_lab.py" in workflow
+    assert "model-dropout-report.json" in workflow
+    assert 'dropout_path = Path("public/world-model/model-dropout-report.json")' in script
+    assert '"id": "H19"' in script
