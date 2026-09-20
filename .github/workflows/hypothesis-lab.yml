@@ -13,6 +13,8 @@ on:
       - "scripts/run_revision_lab.py"
       - "src/commons/river_attention_lab.py"
       - "scripts/run_river_attention_lab.py"
+      - "src/commons/attention_rule_lab.py"
+      - "scripts/run_attention_rule_lab.py"
       - ".github/workflows/hypothesis-lab.yml"
 
 permissions:
@@ -47,6 +49,11 @@ jobs:
           python scripts/run_river_attention_lab.py \
             --output public/world-model/river-attention-report.json
 
+      - name: Backtest attention rule
+        run: |
+          python scripts/run_attention_rule_lab.py \
+            --output public/world-model/attention-rule-report.json
+
       - name: Run rolling research backtest
         run: |
           python scripts/run_hypothesis_lab.py \
@@ -68,7 +75,8 @@ jobs:
           git add \
             public/world-model/hypothesis-report.json \
             public/world-model/revision-report.json \
-            public/world-model/river-attention-report.json
+            public/world-model/river-attention-report.json \
+            public/world-model/attention-rule-report.json
           if git diff --cached --quiet; then
             echo "Report unchanged"
           else
