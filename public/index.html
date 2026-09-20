@@ -74,57 +74,56 @@
         <span class="brand-product">WORLD PULSE · LIVING ATLAS</span>
       </a>
 
-      <nav class="top-actions" aria-label="Living Atlas controls">
-        <button class="text-nav mobile-hide" id="storiesBtn">Stories</button>
-        <button class="text-nav mobile-hide" id="lookBtn">Look around</button>
-        <button class="text-nav mobile-hide" id="beliefBtn">Why we believe this</button>
-        <button class="text-nav mobile-hide" id="actionLedgerBtn">My actions</button>
-        <button class="text-nav mobile-hide" id="trustBtn">Trust</button>
-        <button class="text-nav strong" id="passBtn">Pass this on</button>
+      <nav class="top-actions" aria-label="WORLD PULSE controls">
+        <button class="text-nav" id="storiesBtn">Stories</button>
+        <button class="text-nav" id="actionLedgerBtn">Following</button>
+        <button class="text-nav" id="trustBtn">How we know</button>
+        <button class="text-nav advanced-nav" id="lookBtn">Look around</button>
+        <button class="text-nav advanced-nav" id="beliefBtn">Why we believe this</button>
+        <button class="text-nav advanced-nav" id="passBtn">Pass this on</button>
       </nav>
     </header>
 
     <section class="home" id="home" aria-labelledby="homeTitle">
-      <div class="home-layout">
-      <div class="home-copy">
-        <div class="home-kicker"><span class="pulse-mini"></span>A living atlas of accountable action</div>
-        <h1 id="homeTitle">What changes.<br><span>What humans do next.</span></h1>
-        <p class="home-deck">WORLD PULSE turns public evidence into a visible chain: disturbance, response, measurable change. The planet stays primary. The claims stay inspectable.</p>
-        <div class="home-actions">
-          <button class="word-button" id="enterBtn">Enter Nepal →</button>
-          <button class="word-button muted" id="homeLookBtn">Look around</button>
+      <div class="daily-home">
+        <div class="daily-intro">
+          <div class="home-kicker"><span class="pulse-mini"></span>WORLD PULSE · TODAY</div>
+          <h1 id="homeTitle">What changed?</h1>
+          <p class="daily-promise">Understand what matters. Know how certain we are. Act only when there is something useful to do.</p>
+          <div class="daily-summary" id="dailySummary">
+            <span><b id="dailyStoryCount">—</b> stories worth knowing</span>
+            <span><b id="dailyActionCount">—</b> may need action</span>
+            <span><b id="dailyImprovedCount">—</b> show progress</span>
+            <button class="daily-trust" id="trustSnapshot" aria-label="Open how we know"><i id="trustSnapshotDot"></i><strong id="trustSnapshotStatus">CHECKING</strong><small id="trustSnapshotDetail">Checking evidence…</small></button>
+          </div>
         </div>
-        <button class="current-story" id="currentStory" aria-label="Enter the featured response story">
-          <span class="current-symbol"></span>
-          <span>
-            <span class="current-meta" id="featuredMeta">Featured story</span>
-            <span class="current-title" id="featuredTitle">Water Returns</span>
-          </span>
-          <span class="current-arrow">→</span>
-        </button>
-      </div>
 
-      <aside class="story-library" id="storyLibrary" aria-label="Current orientation and Stories of Response">
-        <div class="library-kicker">CURRENT ORIENTATION</div>
-        <h2>See what matters. Leave when you’re oriented.</h2>
-        <div class="calm-orientation" id="calmOrientation" aria-label="Current WORLD PULSE orientation">
-          <div class="calm-metric"><strong id="orientationStories">—</strong><span>stories tracked</span></div>
-          <div class="calm-metric"><strong id="orientationImproving">—</strong><span>show documented improvement</span></div>
-          <div class="calm-metric"><strong id="orientationActions">—</strong><span>verified direct action paths</span></div>
-          <div class="calm-metric"><strong id="orientationStale">—</strong><span>stale critical claims</span></div>
+        <section class="return-strip hidden" id="returnUpdates" aria-label="Since your last visit"></section>
+
+        <section class="today-stories" aria-label="Stories worth knowing">
+          <div class="today-heading">
+            <div>
+              <span>STORIES WORTH KNOWING</span>
+              <h2>Choose one. Two minutes is enough.</h2>
+            </div>
+            <button class="text-nav" id="browseStoriesInline">All stories</button>
+          </div>
+          <div class="story-cards" id="storyCards"></div>
+        </section>
+
+        <div class="daily-footer">
+          <span id="dailyCloseMessage">If nothing needs you, being caught up is enough.</span>
+          <button class="word-button muted" id="homeLookBtn">Explore live signals</button>
         </div>
-        <div class="library-subhead"><span>STORIES OF RESPONSE · VOL. 01</span><button class="text-nav" id="browseStoriesInline">Browse</button></div>
-        <div class="story-cards" id="storyCards"></div>
-        <button class="trust-snapshot" id="trustSnapshot" aria-label="Open COMMONS Trust Status">
-          <span class="trust-snapshot-dot" id="trustSnapshotDot"></span>
-          <span class="trust-snapshot-copy">
-            <span class="trust-snapshot-kicker">TRUST STATUS</span>
-            <strong id="trustSnapshotStatus">CHECKING</strong>
-            <small id="trustSnapshotDetail">Evaluating claims, sources and safety rules…</small>
-          </span>
-          <span class="trust-snapshot-arrow">→</span>
+
+        <button class="current-story hidden" id="currentStory" aria-label="Enter the featured response story">
+          <span class="current-symbol"></span><span><span class="current-meta" id="featuredMeta">Featured story</span><span class="current-title" id="featuredTitle">Water Returns</span></span><span class="current-arrow">→</span>
         </button>
-      </aside>
+        <button class="word-button hidden" id="enterBtn">Enter story →</button>
+        <div class="calm-orientation hidden" id="calmOrientation">
+          <strong id="orientationStories">—</strong><strong id="orientationImproving">—</strong><strong id="orientationActions">—</strong><strong id="orientationStale">—</strong>
+        </div>
+        <aside class="story-library hidden" id="storyLibrary"></aside>
       </div>
     </section>
 
@@ -182,7 +181,7 @@
 
   <div class="scroll-film" id="scrollFilm" aria-hidden="true"></div>
 
-  <section class="opening" id="opening" aria-label="Enter WORLD PULSE">
+  <section class="opening hidden" id="opening" aria-label="Enter WORLD PULSE">
     <div class="opening-copy">
       <div class="opening-date" id="openingDate">SEPTEMBER 2026</div>
       <h2 class="opening-line">Earth is <em>not quiet.</em></h2>
