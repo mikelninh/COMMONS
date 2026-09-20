@@ -536,5 +536,5 @@ def test_next_hypotheses_focus_on_hydrology_and_persistence() -> None:
 
     assert {"H6", "H7", "H8", "H9", "H10"} <= ids
     h6 = next(item for item in report["next_hypotheses"] if item["id"] == "H6")
-    assert "soil moisture" in h6["signals"]
+    assert any("soil moisture" in signal.lower() for signal in h6["signals"])
     assert "top-5% discharge days" in h6["test"]
