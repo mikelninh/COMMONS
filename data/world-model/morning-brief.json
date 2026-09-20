@@ -1,7 +1,7 @@
 {
   "schema_version": "0.1",
-  "generated_at": "2026-09-20T21:45:39.570024Z",
-  "previous_generated_at": "2026-09-20T21:42:53.814320Z",
+  "generated_at": "2026-09-20T22:15:14.780020Z",
+  "previous_generated_at": "2026-09-20T21:45:39.570024Z",
   "product": "COMMONS Morning Brief v1",
   "headline": "Nothing in the validated rainfall pilot needs your attention right now.",
   "close_message": "You are caught up.",
@@ -39,27 +39,22 @@
       "longitude": 120.98,
       "signal": "peak daily rainfall · next 72h",
       "state": "quiet",
-      "rank_score": 0.2083,
-      "forecast_peak_daily_mm": 6.2,
-      "forecast_peak_date": "2026-09-22",
-      "forecast_72h_mm": 14.8,
+      "rank_score": 0.2151,
+      "forecast_peak_daily_mm": 6.4,
+      "forecast_peak_date": "2026-09-21",
+      "forecast_72h_mm": 17.9,
       "heavy_rain_gate_mm": 29.76,
-      "gate_ratio": 0.2083,
-      "models_available": 2,
+      "gate_ratio": 0.2151,
+      "models_available": 3,
       "models_expected": 3,
-      "source_errors": [
-        {
-          "provider": "gfs",
-          "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
-        }
-      ],
+      "source_errors": [],
       "why": "Forecast rainfall remains below the current priority band.",
       "next_step": "No review needed from this rainfall monitor.",
       "revision": {
         "direction": "mixed",
         "supporting_models": 0,
-        "models_compared": 1,
-        "median_delta_mm": -1.4,
+        "models_compared": 2,
+        "median_delta_mm": 0.2,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
@@ -72,6 +67,7 @@
         "role": "context_only",
         "note": "Nearby population is context, not estimated people impacted."
       },
+      "impact_context": null,
       "rank": 1
     },
     {
@@ -117,6 +113,7 @@
         "role": "context_only",
         "note": "Nearby population is context, not estimated people impacted."
       },
+      "impact_context": null,
       "rank": 2
     },
     {
@@ -143,7 +140,7 @@
       "revision": {
         "direction": "mixed",
         "supporting_models": 0,
-        "models_compared": 2,
+        "models_compared": 3,
         "median_delta_mm": 0.0,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
@@ -157,6 +154,7 @@
         "role": "context_only",
         "note": "Nearby population is context, not estimated people impacted."
       },
+      "impact_context": null,
       "rank": 3
     }
   ],
@@ -203,6 +201,7 @@
     "Live rainfall gates compare daily forecast with daily historical threshold; 72h totals are context only.",
     "Revision direction is context only.",
     "Population exposure is context only until impact-labelled validation earns ranking authority.",
+    "Impact v0 components and action options are context only; humans retain authority.",
     "Only validated monitors are ranked.",
     "If evidence health is degraded, COMMONS holds new learning."
   ]
