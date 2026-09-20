@@ -1249,6 +1249,72 @@ function interventionTrustGate(intervention){
   return trustGateForStory(activeStory.id);
 }
 
+function interventionLabel(item,index){
+  if(index===0 && item.actionability==="DIRECT")return "BEST VERIFIED NEXT MOVE";
+  if(item.type==="follow")return "KEEP THE LOOP OPEN";
+  if(item.type==="share")return "HELP THE EVIDENCE TRAVEL";
+  return item.actionability;
+}
+
+function renderInvestigationActor(actor){
+  return `
+    <a class="case-actor" href="${actor.url}" target="_blank" rel="noopener">
+      <div class="case-actor-mark"></div>
+      <div>
+        <div class="case-actor-name">${escapeHtml(actor.name)}</div>
+        <div class="case-actor-role">${escapeHtml(actor.role)}</div>
+        <p>${escapeHtml(actor.evidence)}</p>
+      </div>
+      <span>↗</span>
+    </a>
+  `;
+}
+
+function renderIntervention(item,index,entries){
+  const existing=entries.find(entry=>entry.interventionId===item.id);
+  const gate=interventionTrustGate(item);
+  const primary=index===0 && item.actionability==="DIRECT";
+  const state=!gate.allowed?"BLOCKED · TRUST":existing?statusLabel(existing.status):item.actionability;
+
+  return `
+    <article class="case-action ${primary?"primary":""} ${gate.allowed?"":"trust-blocked"}">
+      <div class="case-action-top">
+        <div>
+          <div class="case-eyebrow">${escapeHtml(interventionLabel(item,index))}</div>
+          <h4>${escapeHtml(item.title)}</h4>
+          <div class="case-action-actor">${escapeHtml(item.actor)}</div>
+        </div>
+        <span class="case-state">${escapeHtml(state)}</span>
+      </div>
+
+      <p class="case-action-why">${escapeHtml(item.why)}</p>
+
+      <div class="case-action-notes">
+        <div>
+          <b>What supports this</b>
+          <span>${escapeHtml(item.evidenceStrength)}</span>
+        </div>
+        <div>
+          <b>What we still don’t know</b>
+          <span>${escapeHtml(item.uncertainty)}</span>
+        </div>
+        <div>
+          <b>What we’ll look for next</b>
+          <span>${escapeHtml(item.measure)}</span>
+        </div>
+      </div>
+
+      <div class="case-action-cta">
+        <button class="case-primary-button" data-intervention-id="${escapeHtml(item.id)}" ${gate.allowed?"":"disabled aria-disabled=\"true\""}>
+          ${escapeHtml(gate.allowed?item.cta:"Unavailable until trust checks pass")}
+        </button>
+      </div>
+
+      ${gate.allowed?"":`<div class="case-caution">${escapeHtml(gate.reason)}</div>`}
+    </article>
+  `;
+}
+
 function renderActionLabCurrent(){
   const loop=actionLoopForStory();
   if(!loop){
@@ -1258,106 +1324,99 @@ function renderActionLabCurrent(){
 
   const entries=ledgerForStory(activeStory.id);
   const pending=entries.find(entry=>entry.status==="external_opened");
-  const actorCards=loop.actors.map(actor=>`
-    <a class="actor-card" href="${actor.url}" target="_blank" rel="noopener">
-      <div class="actor-name">${escapeHtml(actor.name)}</div>
-      <div class="actor-role">${escapeHtml(actor.role)}</div>
-      <div class="actor-evidence">${escapeHtml(actor.evidence)}</div>
-    </a>
-  `).join("");
-
-  const interventions=loop.interventions.map(item=>{
-    const existing=entries.find(entry=>entry.interventionId===item.id);
-    const gate=interventionTrustGate(item);
-    const state=!gate.allowed?"BLOCKED · TRUST":existing?statusLabel(existing.status):item.actionability;
-    return `
-      <article class="intervention-card ${gate.allowed?"":"trust-blocked"}">
-        <div class="intervention-head">
-          <div>
-            <div class="intervention-tag">${escapeHtml(item.actionability)} · ${escapeHtml(item.evidenceStrength)}</div>
-            <div class="intervention-title">${escapeHtml(item.title)}</div>
-            <div class="intervention-actor">${escapeHtml(item.actor)}</div>
-          </div>
-          <div class="intervention-state">${escapeHtml(state)}</div>
-        </div>
-        <p class="intervention-why">${escapeHtml(item.why)}</p>
-        <div class="intervention-details">
-          <div class="intervention-detail"><b>Evidence</b><span>${escapeHtml(item.evidenceStrength)}</span></div>
-          <div class="intervention-detail"><b>Uncertainty</b><span>${escapeHtml(item.uncertainty)}</span></div>
-          <div class="intervention-detail"><b>Measure next</b><span>${escapeHtml(item.measure)}</span></div>
-        </div>
-        <div class="intervention-actions">
-          <button class="word-button" data-intervention-id="${escapeHtml(item.id)}" ${gate.allowed?"":"disabled aria-disabled=\"true\""}>${escapeHtml(gate.allowed?item.cta:"Unavailable until trust checks pass")}</button>
-        </div>
-        ${gate.allowed?"":`<div class="loop-note">${escapeHtml(gate.reason)}</div>`}
-      </article>
-    `;
-  }).join("");
+  const actors=loop.actors.map(renderInvestigationActor).join("");
+  const interventions=loop.interventions.map((item,index)=>renderIntervention(item,index,entries)).join("");
 
   const prompt=pending?`
-    <div class="receipt-prompt">
-      <b>Did you complete “${escapeHtml(pending.interventionTitle)}” outside WORLD PULSE?</b>
-      <p>WORLD PULSE cannot see the external transaction. Only mark it complete if you actually completed it. The receipt will remain explicitly self-reported.</p>
+    <div class="case-confirmation">
+      <div class="case-eyebrow">QUICK CHECK</div>
+      <h4>Did you actually complete “${escapeHtml(pending.interventionTitle)}”?</h4>
+      <p>WORLD PULSE cannot see the external transaction. Mark it complete only if you really did it. The receipt will stay explicitly self-reported.</p>
       <div class="receipt-actions">
-        <button class="word-button" data-confirm-receipt="${escapeHtml(pending.id)}">I completed it</button>
+        <button class="case-primary-button" data-confirm-receipt="${escapeHtml(pending.id)}">Yes, I completed it</button>
         <button class="word-button muted" data-opened-only="${escapeHtml(pending.id)}">I only opened the link</button>
       </div>
     </div>
   `:"";
 
+  const newestClaim=trustRegistry
+    ? (trustRegistry.claims||[])
+        .filter(claim=>claim.story_id===activeStory.id && claim.status==="active")
+        .sort((a,b)=>String(b.as_of).localeCompare(String(a.as_of)))[0]
+    : null;
+
   $("actionLabTitle").textContent=activeStory.country+" — "+activeStory.title;
   $("actionLabBody").innerHTML=`
-    <div class="loop-status">
-      <div class="loop-status-left">
-        <i class="loop-status-dot"></i>
-        <div><b>${escapeHtml(loop.statusLabel)}</b><small>${escapeHtml(activeStory.statusLabel)}</small></div>
+    <section class="case-hero">
+      <div class="case-file-line">
+        <span>CASE FILE · ${String(activeStory.order||1).padStart(2,"0")}</span>
+        <span>Last verified ${escapeHtml(activeStory.updatedAt)}</span>
       </div>
-      <div class="loop-evidence-date">Evidence as of<br>${escapeHtml(activeStory.updatedAt)}</div>
-    </div>
-
-    ${renderLoopChain(entries)}
-
-    <section class="loop-section">
-      <div class="loop-section-label">01 · Problem</div>
       <h3>${escapeHtml(loop.problem)}</h3>
+      <p class="case-lede">${escapeHtml(loop.goal)}</p>
+      <div class="case-status-line">
+        <span class="case-status-dot"></span>
+        <b>${escapeHtml(loop.statusLabel)}</b>
+        <span>${escapeHtml(activeStory.statusLabel)}</span>
+      </div>
     </section>
 
-    <section class="loop-section">
-      <div class="loop-section-label">02 · Goal</div>
-      <h3>${escapeHtml(loop.goal)}</h3>
-      <div class="loop-note">${escapeHtml(loop.decisionNote)}</div>
+    <nav class="case-spine" aria-label="Case progress">
+      ${renderLoopChain(entries)}
+    </nav>
+
+    <section class="case-section">
+      <div class="case-section-kicker">01 · THE PEOPLE ALREADY RESPONDING</div>
+      <div class="case-section-heading">
+        <h3>Who is on the ground?</h3>
+        <p>These are the actors we can currently verify as part of the response.</p>
+      </div>
+      <div class="case-actors">${actors}</div>
     </section>
 
-    <section class="loop-section">
-      <div class="loop-section-label">03 · Who can act?</div>
-      <div class="actor-grid">${actorCards}</div>
-    </section>
-
-    <section class="loop-section">
-      <div class="loop-section-label">04 · What can actually happen next?</div>
-      <div class="intervention-list">${interventions}</div>
+    <section class="case-section">
+      <div class="case-section-kicker">02 · WHAT YOU CAN DO</div>
+      <div class="case-section-heading">
+        <h3>Start with the strongest verified path.</h3>
+        <p>Not every useful move has the same evidence or directness. The most defensible option comes first.</p>
+      </div>
+      <div class="case-actions">${interventions}</div>
       ${prompt}
     </section>
 
-    <section class="loop-section">
-      <div class="loop-section-label">05 · What would we measure?</div>
-      <p>${loop.measures.map(item=>"• "+escapeHtml(item)).join("<br>")}</p>
-      <div class="outcome-card">
-        <div class="outcome-asof">Latest verified outcome · ${escapeHtml(loop.latestOutcome.asOf)}</div>
-        <h4>${escapeHtml(loop.latestOutcome.headline)}</h4>
+    <section class="case-section case-outcome-section">
+      <div class="case-section-kicker">03 · WHAT HAS CHANGED SO FAR</div>
+      <div class="case-outcome">
+        <div class="case-outcome-date">${escapeHtml(loop.latestOutcome.asOf)}</div>
+        <h3>${escapeHtml(loop.latestOutcome.headline)}</h3>
         <p>${escapeHtml(loop.latestOutcome.detail)}</p>
-        <a href="${loop.latestOutcome.url}" target="_blank" rel="noopener">Inspect official evidence ↗</a>
+        <a href="${loop.latestOutcome.url}" target="_blank" rel="noopener">Read the official update ↗</a>
       </div>
     </section>
 
-    <section class="loop-section">
-      <div class="loop-section-label">06 · Feedback rule</div>
-      <p>When a newer official evidence date is added to this story, receipts created before that update are flagged in your local ledger. WORLD PULSE will say <strong>“evidence after your action”</strong>, never <strong>“evidence caused by your action”</strong> unless causal evidence exists.</p>
+    <section class="case-section">
+      <div class="case-section-kicker">04 · WHAT WE STILL NEED TO LEARN</div>
+      <div class="case-questions">
+        ${loop.measures.map(item=>`<div class="case-question"><span>?</span><p>${escapeHtml(item)}</p></div>`).join("")}
+      </div>
+      <div class="case-field-note">
+        <b>How the loop closes</b>
+        <p>When newer official evidence arrives, COMMONS compares it with the evidence snapshot stored when you acted. We can say <strong>“this happened after your action.”</strong> We will not say <strong>“your action caused this”</strong> without causal evidence.</p>
+      </div>
     </section>
 
-    <div class="privacy-note">ACTION LEDGER V1 · stored only in this browser · no amount, payment information or identity is collected.</div>
+    <section class="case-section">
+      <div class="case-section-kicker">05 · EVIDENCE DESK</div>
+      <div class="case-evidence-strip">
+        <div><b>Latest claim</b><span>${escapeHtml(newestClaim?.statement||"Open the Trust Center to inspect the current claim ledger.")}</span></div>
+        <button class="word-button" id="caseOpenEvidence">Inspect the evidence →</button>
+      </div>
+    </section>
+
+    <div class="privacy-note">PRIVATE ACTION LEDGER · stored only in this browser · no amount, payment information or identity is collected.</div>
   `;
 
+  if($("caseOpenEvidence"))$("caseOpenEvidence").onclick=()=>openTrustCenter("claims","audit");
   bindActionLabControls();
 }
 
