@@ -1,0 +1,53 @@
+{
+  "schema_version": "0.1",
+  "period": {
+    "start": "2026-07-01",
+    "end": "2026-09-05"
+  },
+  "points": [
+    "nuwakot",
+    "manila",
+    "delhi"
+  ],
+  "verification": "ERA5 heavy-rain event at each location's 90th percentile",
+  "paths": 201,
+  "source_errors": 1,
+  "policies": {
+    "strict": {
+      "precision": 0.4286,
+      "recall": 0.5714,
+      "f1": 0.4898,
+      "mean_true_alert_lead_days": 3.333,
+      "false_alerts_per_100_days": 7.96
+    },
+    "loose": {
+      "precision": 0.325,
+      "recall": 0.619,
+      "f1": 0.4262,
+      "mean_true_alert_lead_days": 3.615,
+      "false_alerts_per_100_days": 13.43
+    },
+    "revision_aware": {
+      "precision": 0.4062,
+      "recall": 0.619,
+      "f1": 0.4906,
+      "mean_true_alert_lead_days": 3.308,
+      "false_alerts_per_100_days": 9.45
+    }
+  },
+  "hypothesis": {
+    "id": "H12",
+    "claim": "A revision-aware material-change rule improves the precision/recall/lead-time trade-off versus fixed forecast thresholds.",
+    "status": "not_supported",
+    "f1_gain_vs_strict": 0.0008,
+    "recall_gain_vs_strict": 0.0476,
+    "precision_change_vs_strict": -0.0224,
+    "lead_gain_days_vs_strict": -0.025,
+    "product_update": "Keep fixed thresholds as the alert gate. Use validated revision direction as an early-watch/context signal until an out-of-sample rule improves the full trade-off."
+  },
+  "limitations": [
+    "The heavy-rain threshold is defined from the evaluation period's observed climatology.",
+    "This evaluates heavy precipitation, not flood damage or human impact.",
+    "Three locations and roughly two months are not enough for a production alert policy."
+  ]
+}
