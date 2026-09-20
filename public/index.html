@@ -79,6 +79,7 @@
         <button class="text-nav mobile-hide" id="lookBtn">Look around</button>
         <button class="text-nav mobile-hide" id="beliefBtn">Why we believe this</button>
         <button class="text-nav mobile-hide" id="actionLedgerBtn">My actions</button>
+        <button class="text-nav mobile-hide" id="trustBtn">Trust</button>
         <button class="text-nav strong" id="passBtn">Pass this on</button>
       </nav>
     </header>
@@ -107,6 +108,15 @@
         <div class="library-kicker">STORIES OF RESPONSE · VOL. 01</div>
         <h2>Three ways reality changes.</h2>
         <div class="story-cards" id="storyCards"></div>
+        <button class="trust-snapshot" id="trustSnapshot" aria-label="Open COMMONS Trust Status">
+          <span class="trust-snapshot-dot" id="trustSnapshotDot"></span>
+          <span class="trust-snapshot-copy">
+            <span class="trust-snapshot-kicker">TRUST STATUS</span>
+            <strong id="trustSnapshotStatus">CHECKING</strong>
+            <small id="trustSnapshotDetail">Evaluating claims, sources and safety rules…</small>
+          </span>
+          <span class="trust-snapshot-arrow">→</span>
+        </button>
       </aside>
       </div>
     </section>
@@ -200,6 +210,25 @@
     <div class="action-lab-body" id="actionLabBody"></div>
   </aside>
 
+  <aside class="trust-center" id="trustCenter" aria-hidden="true" aria-label="COMMONS Trust Center">
+    <div class="trust-center-head">
+      <div>
+        <div class="trust-center-kicker">COMMONS · TRUST CENTER</div>
+        <div class="trust-center-title">Trust must be inspectable.</div>
+      </div>
+      <button class="iconless" id="trustCenterClose" aria-label="Close Trust Center">×</button>
+    </div>
+    <div class="trust-center-status" id="trustCenterStatus"></div>
+    <div class="trust-center-tabs" role="tablist" aria-label="Trust Center views">
+      <button class="trust-tab active" data-trust-tab="status" role="tab" aria-selected="true">Status</button>
+      <button class="trust-tab" data-trust-tab="claims" role="tab" aria-selected="false">Claims</button>
+      <button class="trust-tab" data-trust-tab="sources" role="tab" aria-selected="false">Sources</button>
+      <button class="trust-tab" data-trust-tab="evaluations" role="tab" aria-selected="false">Evaluations</button>
+      <button class="trust-tab" data-trust-tab="incidents" role="tab" aria-selected="false">Incidents</button>
+    </div>
+    <div class="trust-center-body" id="trustCenterBody"></div>
+  </aside>
+
   <section class="look" id="look" aria-label="Look around current Earth signals">
     <div class="look-inner">
       <div id="signalFocus"></div>
@@ -233,6 +262,7 @@
 
 <script src="./stories.js"></script>
 <script src="./action-loops.js"></script>
+<script src="./trust.js"></script>
 <script src="./app.js"></script>
 </body>
 </html>
