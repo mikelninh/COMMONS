@@ -867,3 +867,37 @@ def test_weekly_lab_retests_single_model_dropout() -> None:
     assert "model-dropout-report.json" in workflow
     assert 'dropout_path = Path("public/world-model/model-dropout-report.json")' in script
     assert '"id": "H19"' in script
+
+
+def test_hypothesis_http_cache_reuses_identical_request(
+    monkeypatch,
+    tmp_path,
+) -> None:
+    import commons.hypothesis_lab as lab
+
+    monkeypatch.setenv("COMMONS_BACKTEST_CACHE", str(tmp_path / "http-cache"))
+    calls = {"count": 0}
+
+    class Response:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, tb):
+            return False
+
+        def read(self):
+            return b'{"daily":{"time":["2026-09-01"],"precipitation_sum":[1.0]}}'
+
+    def fake_urlopen(request, timeout):
+        calls["count"] += 1
+        return Response()
+
+    monkeypatch.setattr(lab, "urlopen", fake_urlopen)
+
+    params = {"latitude": 1.0, "longitude": 2.0}
+    first = lab._request_json("https://example.test/data", params)
+    second = lab._request_json("https://example.test/data", params)
+
+    assert first == second
+    assert calls["count"] == 1
+    assert list((tmp_path / "http-cache").glob("*.json"))

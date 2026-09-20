@@ -37,6 +37,8 @@ concurrency:
 jobs:
   backtest:
     runs-on: ubuntu-latest
+    env:
+      COMMONS_BACKTEST_CACHE: /tmp/commons-backtest-http-cache
     steps:
       - name: Checkout
         uses: actions/checkout@v4
