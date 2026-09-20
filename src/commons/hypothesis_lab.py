@@ -6,7 +6,9 @@ import json
 import math
 from pathlib import Path
 from statistics import mean, median
+from time import sleep
 from typing import Any
+from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
@@ -41,16 +43,36 @@ POINTS: tuple[BacktestPoint, ...] = (
 )
 
 
-def _request_json(url: str, params: dict[str, Any], timeout: int = 60) -> dict[str, Any]:
+def _request_json(
+    url: str,
+    params: dict[str, Any],
+    timeout: int = 60,
+    *,
+    attempts: int = 3,
+    backoff_seconds: float = 0.75,
+) -> dict[str, Any]:
     request = Request(
         url + "?" + urlencode(params),
-        headers={"User-Agent": "COMMONS-Hypothesis-Lab/0.1"},
+        headers={"User-Agent": "COMMONS-Hypothesis-Lab/0.2"},
     )
-    with urlopen(request, timeout=timeout) as response:  # noqa: S310
-        payload = json.loads(response.read().decode("utf-8"))
-    if payload.get("error"):
-        raise RuntimeError(str(payload.get("reason") or payload))
-    return payload
+    attempts = max(1, attempts)
+    for attempt in range(attempts):
+        try:
+            with urlopen(request, timeout=timeout) as response:  # noqa: S310
+                payload = json.loads(response.read().decode("utf-8"))
+            if payload.get("error"):
+                raise RuntimeError(str(payload.get("reason") or payload))
+            return payload
+        except HTTPError as exc:
+            transient = exc.code in {408, 425, 429, 500, 502, 503, 504}
+            if not transient or attempt + 1 >= attempts:
+                raise
+        except (URLError, TimeoutError, OSError):
+            if attempt + 1 >= attempts:
+                raise
+        sleep(backoff_seconds * (2**attempt))
+
+    raise RuntimeError("unreachable request retry state")
 
 
 def _safe_float(value: Any) -> float | None:
@@ -257,6 +279,79 @@ def build_records(
                     }
                 )
     return records, source_errors
+
+
+def evaluate_data_quality(
+    records: list[dict[str, Any]],
+    *,
+    start_date: str,
+    end_date: str,
+    points: tuple[BacktestPoint, ...],
+) -> dict[str, Any]:
+    start = date.fromisoformat(start_date)
+    end = date.fromisoformat(end_date)
+    calendar_days = max(0, (end - start).days + 1)
+    expected_records = calendar_days * len(points) * len(LEADS)
+    observed_records = len(records)
+    temporal_coverage = (
+        observed_records / expected_records if expected_records else 0.0
+    )
+    full_council_records = sum(
+        1 for record in records if len(record.get("predictions_mm") or {}) == len(MODELS)
+    )
+    full_council_ratio = (
+        full_council_records / observed_records if observed_records else 0.0
+    )
+
+    point_coverage: dict[str, float] = {}
+    expected_per_point = calendar_days * len(LEADS)
+    for point in points:
+        observed = sum(1 for record in records if record["point_id"] == point.id)
+        point_coverage[point.id] = (
+            round(observed / expected_per_point, 4) if expected_per_point else 0.0
+        )
+
+    healthy = temporal_coverage >= 0.95 and full_council_ratio >= 0.90
+    usable = temporal_coverage >= 0.66 and observed_records >= 60
+    status = "healthy" if healthy else "degraded" if usable else "insufficient"
+
+    return {
+        "status": status,
+        "expected_records": expected_records,
+        "observed_records": observed_records,
+        "temporal_coverage": round(temporal_coverage, 4),
+        "full_council_ratio": round(full_council_ratio, 4),
+        "point_coverage": point_coverage,
+    }
+
+
+def build_headline_metrics(summary: dict[str, Any]) -> dict[str, Any]:
+    def values(key: str) -> list[float]:
+        return [
+            float(summary[str(lead)][key])
+            for lead in LEADS
+            if (summary.get(str(lead)) or {}).get(key) is not None
+        ]
+
+    improvements = values("council_improvement_vs_average_model_pct")
+    heavy_improvements = values("council_heavy_rain_improvement_pct")
+    ratios = values("high_vs_low_normalized_error_ratio")
+    lead_mae = {
+        str(lead): (summary.get(str(lead)) or {}).get("council_median_mae_mm")
+        for lead in LEADS
+    }
+    return {
+        "council_mean_error_improvement_pct": (
+            round(mean(improvements), 1) if improvements else None
+        ),
+        "council_heavy_rain_error_improvement_pct": (
+            round(mean(heavy_improvements), 1) if heavy_improvements else None
+        ),
+        "council_mae_by_lead_mm": lead_mae,
+        "high_vs_low_normalized_error_ratio": (
+            round(mean(ratios), 2) if ratios else None
+        ),
+    }
 
 
 def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
@@ -621,9 +716,22 @@ def run_backtest(
         points=points,
     )
     summary = summarize(records)
+    data_quality = evaluate_data_quality(
+        records,
+        start_date=start_date,
+        end_date=end_date,
+        points=points,
+    )
     hypotheses = evaluate_hypotheses(summary)
+    if data_quality["status"] != "healthy":
+        for hypothesis in hypotheses:
+            hypothesis["observed_status"] = hypothesis["status"]
+            hypothesis["status"] = "insufficient"
+            hypothesis["product_update"] = (
+                "Hold the previous product rule; rerun when evidence health is healthy."
+            )
     return {
-        "schema_version": "0.1",
+        "schema_version": "0.2",
         "generated_at": datetime.utcnow().isoformat(timespec="seconds") + "Z",
         "period": {"start": start_date, "end": end_date},
         "points": [
@@ -641,7 +749,9 @@ def run_backtest(
         "verification": "ERA5 daily precipitation",
         "records": len(records),
         "source_errors": source_errors,
+        "data_quality": data_quality,
         "summary_by_lead": summary,
+        "headline_metrics": build_headline_metrics(summary),
         "hypotheses": hypotheses,
         "limitations": [
             "ERA5 is reanalysis, not a local rain gauge.",
@@ -649,6 +759,7 @@ def run_backtest(
             "This evaluates precipitation forecast skill, not human flood impact.",
             "Operational model versions change over time.",
             "The council is a simple median, not a trained probabilistic ensemble.",
+            "Product rules are not updated from runs whose evidence health is degraded or insufficient.",
         ],
     }
 

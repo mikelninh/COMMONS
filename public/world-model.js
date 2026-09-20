@@ -179,7 +179,12 @@ function renderHypothesisLab(report){
   }
 
   const metrics=report.headline_metrics||{};
+  const quality=report.data_quality||null;
+  const qualityText=quality
+    ? quality.status.toUpperCase()+" EVIDENCE · "+Math.round((quality.temporal_coverage||0)*100)+"% record coverage · "+Math.round((quality.full_council_ratio||0)*100)+"% full-council coverage · "
+    : "";
   $("hypothesisMeta").textContent=
+    qualityText+
     report.records+" forecast-day records · "+
     report.period.start+" → "+report.period.end+" · "+
     report.points.map(point=>point.name).join(" · ");
