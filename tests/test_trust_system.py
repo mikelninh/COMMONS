@@ -320,7 +320,7 @@ def test_simple_trust_mode_explains_status_before_showing_full_audit() -> None:
     app = Path("public/app.js").read_text(encoding="utf-8")
 
     assert "Healthy does not mean infallible." in app
-    assert "Claims have provenance" in app
+    assert "We can trace the claims" in app
     assert "Critical evidence is fresh" in app
     assert "Conflicts are visible" in app
     assert "Required evaluations pass" in app
@@ -348,7 +348,7 @@ def test_audit_claims_are_more_readable_but_keep_all_limits() -> None:
     app = Path("public/app.js").read_text(encoding="utf-8")
     styles = Path("public/styles.css").read_text(encoding="utf-8")
 
-    assert "<strong>Known limitation:</strong>" in app
+    assert "What to keep in mind" in app
     assert '.trust-center[data-mode="audit"] .claim-card' in styles
     assert '.trust-center[data-mode="audit"] .claim-statement' in styles
     assert '.trust-center[data-mode="audit"] .claim-limits' in styles
