@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1",
+  "source": "WorldPop API v2",
+  "year": 2026,
+  "radius_km": 20,
+  "coverage_status": "pending",
+  "requested_points": 30,
+  "usable_points": 0,
+  "source_errors": [],
+  "points": [],
+  "hypothesis": {
+    "id": "H13",
+    "claim": "Adding population exposure improves which physical hazards deserve human attention first.",
+    "status": "insufficient",
+    "effect": "waiting for first exposure context run",
+    "product_update": "Exposure is context only until impact-labelled validation exists."
+  }
+}
