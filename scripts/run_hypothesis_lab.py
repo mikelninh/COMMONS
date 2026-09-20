@@ -260,6 +260,37 @@ def main() -> int:
                 "improved_budgets"
             )
 
+    dropout_path = Path("public/world-model/model-dropout-report.json")
+    if dropout_path.exists():
+        dropout = json.loads(dropout_path.read_text(encoding="utf-8"))
+        h19 = dropout.get("hypothesis") or {}
+        if h19.get("id") == "H19":
+            report["hypotheses"] = [
+                existing
+                for existing in report["hypotheses"]
+                if existing.get("id") != "H19"
+            ]
+            report["hypotheses"].append(
+                {
+                    "id": "H19",
+                    "claim": h19.get("claim"),
+                    "status": h19.get("status"),
+                    "effect": h19.get("effect"),
+                    "update": h19.get("product_update"),
+                }
+            )
+            summary = dropout.get("summary") or {}
+            report.setdefault("headline_metrics", {})
+            report["headline_metrics"]["h19_min_top_k_retention"] = summary.get(
+                "min_top_k_retention"
+            )
+            report["headline_metrics"]["h19_min_alert_agreement"] = summary.get(
+                "min_alert_agreement"
+            )
+            report["headline_metrics"]["h19_max_heavy_event_catch_loss"] = summary.get(
+                "max_heavy_event_catch_loss"
+            )
+
     report["next_hypotheses"] = [
         {
             "id": "H7",
