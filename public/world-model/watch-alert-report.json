@@ -6,20 +6,26 @@
   },
   "paths": 201,
   "heavy_events": 21,
-  "source_errors": 1,
-  "alert_recall": 0.5714,
+  "source_errors": [
+    {
+      "point": "delhi",
+      "source": "gfs",
+      "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
+    }
+  ],
+  "alert_recall": 0.5238,
   "watch_recall": 0.619,
-  "extra_recall": 0.0476,
-  "watch_only_signals": 4,
-  "watch_only_true": 1,
-  "watch_only_precision": 0.25,
-  "watch_burden_per_100_days": 1.99,
-  "mean_earlier_watch_days": 0,
+  "extra_recall": 0.0952,
+  "watch_only_signals": 7,
+  "watch_only_true": 2,
+  "watch_only_precision": 0.2857,
+  "watch_burden_per_100_days": 3.48,
+  "mean_earlier_watch_days": 0.0,
   "hypothesis": {
     "id": "H15",
     "claim": "Separating WATCH from ALERT gains useful recall without materially increasing interruption burden.",
-    "status": "supported",
-    "product_update": "Use a two-tier attention model: WATCH for revision-aware context, ALERT for strict threshold crossing."
+    "status": "not_supported",
+    "product_update": "Do not add a separate WATCH tier yet."
   },
   "limitations": [
     "WATCH is evaluated as a low-cost state; this does not measure human annoyance directly.",

@@ -10,36 +10,67 @@
     "delhi"
   ],
   "verification": "ERA5 daily precipitation",
-  "meaningful_revision_threshold_mm": 1,
-  "source_errors": 1,
+  "meaningful_revision_threshold_mm": 1.0,
+  "source_errors": [
+    {
+      "point": "delhi",
+      "source": "icon",
+      "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
+    }
+  ],
   "summary": {
     "paths": 201,
-    "persistent_direction_accuracy": 0.962,
-    "persistent_error_improvement_rate": 0.727,
-    "one_off_direction_accuracy": 0.81,
-    "one_off_error_improvement_rate": 0.567,
-    "majority_direction_accuracy": 0.706,
-    "majority_error_improvement_rate": 0.651
+    "persistent_cases": 47,
+    "one_off_cases": 27,
+    "reversal_cases": 78,
+    "persistent_direction_accuracy": 0.9778,
+    "persistent_error_improvement_rate": 0.7021,
+    "one_off_direction_accuracy": 0.85,
+    "one_off_error_improvement_rate": 0.6296,
+    "majority_revision_cases": 124,
+    "majority_direction_accuracy": 0.7097,
+    "majority_error_improvement_rate": 0.6613,
+    "unanimous_revision_cases": 30,
+    "unanimous_direction_accuracy": 0.9,
+    "no_majority_cases": 70,
+    "direction_accuracy_by_rain_regime": {
+      "dry": {
+        "samples": 9,
+        "direction_accuracy": 1.0
+      },
+      "moderate": {
+        "samples": 38,
+        "direction_accuracy": 0.8421
+      },
+      "heavy": {
+        "samples": 77,
+        "direction_accuracy": 0.6104
+      }
+    },
+    "high_spread_q75": 1.3041,
+    "all_3d_mae_mm": 9.43,
+    "high_spread_3d_mae_mm": 4.66
   },
   "hypotheses": [
     {
       "id": "H8",
       "claim": "A revision sustained across multiple lead checkpoints is more useful than a one-off late jump.",
       "status": "supported",
-      "effect": "persistent direction 96.2%, improvement 72.7%; one-off direction 81.0%, improvement 56.7%",
+      "effect": "persistent direction 97.8%, improvement 70.2%; one-off direction 85.0%, improvement 63.0%",
       "product_update": "Promote sustained multi-checkpoint revisions as a material-change signal."
     },
     {
       "id": "H9",
       "claim": "When at least 2 of 3 models revise in the same direction, that direction is useful for what-changed alerts.",
       "status": "supported",
-      "effect": "direction accuracy 70.6%; next-checkpoint error improved 65.1%",
-      "product_update": "Surface 2/3 models revised upward/downward as a directional change signal."
+      "effect": "direction accuracy 71.0%; next-checkpoint error improved 66.1%",
+      "product_update": "Surface \"2/3 models revised upward/downward\" as a directional change signal."
     }
   ],
   "limitations": [
     "Lead-5, lead-3 and lead-1 checkpoints are proxies for persistent revision, not consecutive six-hour runs.",
+    "Daily precipitation can be highly skewed and location-specific.",
     "ERA5 is reanalysis rather than a local rain gauge.",
-    "A useful precipitation revision signal is not automatically a useful flood-impact alert."
+    "A useful revision signal for precipitation is not automatically a useful flood-impact alert."
   ]
 }

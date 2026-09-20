@@ -10,44 +10,80 @@
     "delhi"
   ],
   "verification": "ERA5 heavy-rain event at each location's 90th percentile",
+  "heavy_event_quantile": 0.9,
+  "loose_threshold_factor": 0.8,
+  "revision_threshold_mm": 1.0,
   "paths": 201,
-  "source_errors": 1,
+  "source_errors": [
+    {
+      "point": "delhi",
+      "source": "gfs",
+      "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
+    }
+  ],
+  "thresholds_mm": {
+    "nuwakot": 49.18,
+    "manila": 29.76,
+    "delhi": 17.4
+  },
   "policies": {
     "strict": {
-      "precision": 0.4286,
-      "recall": 0.5714,
-      "f1": 0.4898,
-      "mean_true_alert_lead_days": 3.333,
-      "false_alerts_per_100_days": 7.96
+      "policy": "strict",
+      "days_evaluated": 201,
+      "heavy_events": 21,
+      "alerts": 26,
+      "true_positives": 11,
+      "false_alerts": 15,
+      "precision": 0.4231,
+      "recall": 0.5238,
+      "f1": 0.4681,
+      "miss_rate": 0.4762,
+      "false_alerts_per_100_days": 7.46,
+      "mean_true_alert_lead_days": 2.818
     },
     "loose": {
-      "precision": 0.325,
+      "policy": "loose",
+      "days_evaluated": 201,
+      "heavy_events": 21,
+      "alerts": 38,
+      "true_positives": 13,
+      "false_alerts": 25,
+      "precision": 0.3421,
       "recall": 0.619,
-      "f1": 0.4262,
-      "mean_true_alert_lead_days": 3.615,
-      "false_alerts_per_100_days": 13.43
+      "f1": 0.4407,
+      "miss_rate": 0.381,
+      "false_alerts_per_100_days": 12.44,
+      "mean_true_alert_lead_days": 3.615
     },
     "revision_aware": {
-      "precision": 0.4062,
+      "policy": "revision_aware",
+      "days_evaluated": 201,
+      "heavy_events": 21,
+      "alerts": 33,
+      "true_positives": 13,
+      "false_alerts": 20,
+      "precision": 0.3939,
       "recall": 0.619,
-      "f1": 0.4906,
-      "mean_true_alert_lead_days": 3.308,
-      "false_alerts_per_100_days": 9.45
+      "f1": 0.4815,
+      "miss_rate": 0.381,
+      "false_alerts_per_100_days": 9.95,
+      "mean_true_alert_lead_days": 2.846
     }
   },
   "hypothesis": {
     "id": "H12",
     "claim": "A revision-aware material-change rule improves the precision/recall/lead-time trade-off versus fixed forecast thresholds.",
     "status": "not_supported",
-    "f1_gain_vs_strict": 0.0008,
-    "recall_gain_vs_strict": 0.0476,
-    "precision_change_vs_strict": -0.0224,
-    "lead_gain_days_vs_strict": -0.025,
-    "product_update": "Keep fixed thresholds as the alert gate. Use validated revision direction as an early-watch/context signal until an out-of-sample rule improves the full trade-off."
+    "f1_gain_vs_strict": 0.0134,
+    "recall_gain_vs_strict": 0.0952,
+    "precision_change_vs_strict": -0.0292,
+    "lead_gain_days_vs_strict": 0.028,
+    "product_update": "Do not replace fixed thresholds with the current revision-aware rule yet."
   },
   "limitations": [
     "The heavy-rain threshold is defined from the evaluation period's observed climatology.",
     "This evaluates heavy precipitation, not flood damage or human impact.",
+    "The revision-aware rule and 80% threshold were chosen before this test but still require out-of-sample validation.",
     "Three locations and roughly two months are not enough for a production alert policy."
   ]
 }

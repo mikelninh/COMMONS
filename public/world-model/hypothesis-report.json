@@ -1,52 +1,241 @@
 {
-  "schema_version": "0.2",
-  "generated_at": "2026-09-20T17:03:41Z",
+  "schema_version": "0.1",
+  "generated_at": "2026-09-20T18:06:40Z",
   "period": {
-    "start": "2026-07-01",
-    "end": "2026-09-05"
+    "start": "2026-07-12",
+    "end": "2026-09-10"
   },
   "points": [
     {
       "id": "nuwakot",
       "name": "Nuwakot",
-      "country": "Nepal"
+      "country": "Nepal",
+      "latitude": 27.95,
+      "longitude": 85.18
     },
     {
       "id": "manila",
       "name": "Manila",
-      "country": "Philippines"
+      "country": "Philippines",
+      "latitude": 14.6,
+      "longitude": 120.98
     },
     {
       "id": "delhi",
       "name": "Delhi",
-      "country": "India"
+      "country": "India",
+      "latitude": 28.61,
+      "longitude": 77.21
     }
   ],
-  "models": [
-    "ECMWF IFS",
-    "NOAA GFS",
-    "DWD ICON"
-  ],
+  "models": {
+    "ecmwf": "ecmwf_ifs025",
+    "gfs": "gfs_global",
+    "icon": "icon_global"
+  },
   "leads_days": [
     1,
     3,
     5
   ],
   "verification": "ERA5 daily precipitation",
-  "records": 603,
-  "source_errors": 0,
-  "headline_metrics": {
-    "council_mean_error_improvement_pct": 13.5,
-    "council_mae_by_lead_mm": {
-      "1": 7.78,
-      "3": 9.37,
-      "5": 10.89
+  "records": 549,
+  "source_errors": [
+    {
+      "point": "delhi",
+      "source": "ecmwf",
+      "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
+    }
+  ],
+  "summary_by_lead": {
+    "1": {
+      "samples": 183,
+      "heavy_rain_samples": 88,
+      "provider_mae_mm": {
+        "ecmwf": 7.982,
+        "gfs": 9.049,
+        "icon": 8.306
+      },
+      "provider_heavy_rain_mae_mm": {
+        "ecmwf": 10.472,
+        "gfs": 14.693,
+        "icon": 11.907
+      },
+      "average_individual_model_mae_mm": 8.446,
+      "average_individual_model_heavy_rain_mae_mm": 12.357,
+      "council_median_mae_mm": 6.708,
+      "council_median_heavy_rain_mae_mm": 10.251,
+      "council_improvement_vs_average_model_pct": 20.6,
+      "council_heavy_rain_improvement_pct": 17.0,
+      "council_win_rate_vs_daily_average_model_error_pct": 73.8,
+      "raw_spread_vs_absolute_error_correlation": 0.359,
+      "relative_spread_vs_normalized_error_correlation": 0.03,
+      "heavy_rain_relative_spread_vs_normalized_error_correlation": -0.194,
+      "low_disagreement_normalized_error": 0.752,
+      "high_disagreement_normalized_error": 0.732,
+      "high_vs_low_normalized_error_ratio": 0.97,
+      "relative_spread_q25": 0.376,
+      "relative_spread_q75": 1.144,
+      "mae_if_abstain_top_disagreement_quartile_mm": 7.36,
+      "error_reduction_if_abstain_top_disagreement_quartile_pct": -9.7
     },
-    "normalized_disagreement_error_correlation": 0.13,
-    "high_vs_low_normalized_error_ratio": 1.04,
-    "heavy_rain_disagreement_error_correlation": -0.27,
-    "abstention_gain_top_disagreement_quartile_pct": -20,
-    "council_heavy_rain_error_improvement_pct": 11.3,
+    "3": {
+      "samples": 183,
+      "heavy_rain_samples": 88,
+      "provider_mae_mm": {
+        "ecmwf": 10.039,
+        "gfs": 10.591,
+        "icon": 8.761
+      },
+      "provider_heavy_rain_mae_mm": {
+        "ecmwf": 12.241,
+        "gfs": 15.957,
+        "icon": 12.159
+      },
+      "average_individual_model_mae_mm": 9.797,
+      "average_individual_model_heavy_rain_mae_mm": 13.452,
+      "council_median_mae_mm": 7.902,
+      "council_median_heavy_rain_mae_mm": 11.418,
+      "council_improvement_vs_average_model_pct": 19.3,
+      "council_heavy_rain_improvement_pct": 15.1,
+      "council_win_rate_vs_daily_average_model_error_pct": 77.0,
+      "raw_spread_vs_absolute_error_correlation": 0.244,
+      "relative_spread_vs_normalized_error_correlation": 0.06,
+      "heavy_rain_relative_spread_vs_normalized_error_correlation": -0.278,
+      "low_disagreement_normalized_error": 0.887,
+      "high_disagreement_normalized_error": 0.932,
+      "high_vs_low_normalized_error_ratio": 1.05,
+      "relative_spread_q25": 0.385,
+      "relative_spread_q75": 1.33,
+      "mae_if_abstain_top_disagreement_quartile_mm": 9.143,
+      "error_reduction_if_abstain_top_disagreement_quartile_pct": -15.7
+    },
+    "5": {
+      "samples": 183,
+      "heavy_rain_samples": 88,
+      "provider_mae_mm": {
+        "ecmwf": 11.366,
+        "gfs": 12.972,
+        "icon": 9.113
+      },
+      "provider_heavy_rain_mae_mm": {
+        "ecmwf": 13.268,
+        "gfs": 17.639,
+        "icon": 12.012
+      },
+      "average_individual_model_mae_mm": 11.15,
+      "average_individual_model_heavy_rain_mae_mm": 14.306,
+      "council_median_mae_mm": 9.093,
+      "council_median_heavy_rain_mae_mm": 12.375,
+      "council_improvement_vs_average_model_pct": 18.5,
+      "council_heavy_rain_improvement_pct": 13.5,
+      "council_win_rate_vs_daily_average_model_error_pct": 69.9,
+      "raw_spread_vs_absolute_error_correlation": 0.267,
+      "relative_spread_vs_normalized_error_correlation": 0.114,
+      "heavy_rain_relative_spread_vs_normalized_error_correlation": -0.315,
+      "low_disagreement_normalized_error": 0.78,
+      "high_disagreement_normalized_error": 0.995,
+      "high_vs_low_normalized_error_ratio": 1.28,
+      "relative_spread_q25": 0.377,
+      "relative_spread_q75": 1.367,
+      "mae_if_abstain_top_disagreement_quartile_mm": 10.149,
+      "error_reduction_if_abstain_top_disagreement_quartile_pct": -11.6
+    }
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "claim": "The council median reduces precipitation error versus the average individual model.",
+      "status": "supported",
+      "effect": "19.5% mean error improvement",
+      "product_update": "Keep council median as the default headline."
+    },
+    {
+      "id": "H2",
+      "claim": "Higher model disagreement predicts larger forecast error even after normalizing for rainfall magnitude.",
+      "status": "not_supported",
+      "effect": "normalized corr=0.07; high/low normalized-error ratio=1.10x; heavy-rain corr=-0.26; abstention gain=-12.3%",
+      "product_update": "Keep disagreement visible, but do not convert it into a confidence penalty yet."
+    },
+    {
+      "id": "H3",
+      "claim": "Forecast skill materially degrades from 1 to 3 to 5 days.",
+      "status": "supported",
+      "effect": "6.71 \u2192 7.90 \u2192 9.09 mm MAE",
+      "product_update": "Make forecast horizon a first-class confidence input."
+    },
+    {
+      "id": "H5",
+      "claim": "The council median remains useful on heavy-rain days, not only on easy dry days.",
+      "status": "supported",
+      "effect": "15.2% heavy-rain error improvement",
+      "product_update": "Keep the council as the main heavy-rain summary."
+    },
+    {
+      "id": "H4",
+      "claim": "COMMONS should lower confidence when model disagreement is high and lead time is long.",
+      "status": "mixed",
+      "effect": "confidence should not yet combine both disagreement and horizon as penalties",
+      "product_update": "confidence should not yet combine both disagreement and horizon as penalties"
+    },
+    {
+      "id": "H6",
+      "claim": "Antecedent rainfall and soil moisture improve detection of top-5% discharge days beyond recent 3-day rainfall alone.",
+      "status": "mixed",
+      "effect": "mean AUC gain 0.0834; mean precision gain 83.2%",
+      "update": "Do not apply a global wetness rule. Learn and expose wetness skill per basin."
+    },
+    {
+      "id": "H8",
+      "claim": "A revision sustained across multiple lead checkpoints is more useful than a one-off late jump.",
+      "status": "supported",
+      "effect": "persistent direction 97.8%, improvement 70.2%; one-off direction 85.0%, improvement 63.0%",
+      "update": "Promote sustained multi-checkpoint revisions as a material-change signal."
+    },
+    {
+      "id": "H9",
+      "claim": "When at least 2 of 3 models revise in the same direction, that direction is useful for what-changed alerts.",
+      "status": "supported",
+      "effect": "direction accuracy 71.0%; next-checkpoint error improved 66.1%",
+      "update": "Surface \"2/3 models revised upward/downward\" as a directional change signal."
+    },
+    {
+      "id": "H10",
+      "claim": "Current river percentile plus recent trajectory improves detection of an extreme next three days versus current percentile alone.",
+      "status": "not_supported",
+      "effect": "mean AUC gain -0.0693; mean precision gain -28.5%",
+      "update": "Keep current river percentile as the primary river-state feature."
+    },
+    {
+      "id": "H12",
+      "claim": "A revision-aware material-change rule improves the precision/recall/lead-time trade-off versus fixed forecast thresholds.",
+      "status": "not_supported",
+      "effect": "F1 gain 0.0134; recall gain 0.0952; precision change -0.0292; lead gain 0.028d",
+      "update": "Do not replace fixed thresholds with the current revision-aware rule yet."
+    },
+    {
+      "id": "H15",
+      "claim": "Separating WATCH from ALERT gains useful recall without materially increasing interruption burden.",
+      "status": "not_supported",
+      "effect": "alert recall 0.5238; watch recall 0.619; watch-only precision 0.2857; burden 3.48/100d",
+      "update": "Do not add a separate WATCH tier yet."
+    },
+    {
+      "id": "H17",
+      "claim": "Among sub-threshold 3-day forecasts, upward model revisions identify cases that deserve more human attention.",
+      "status": "supported",
+      "effect": "upward-revision heavy-event rate 0.3333 vs 0.0833; lift 0.25; n=12 vs 12",
+      "update": "Use upward revisions to rank sub-threshold WATCH candidates above otherwise similar cases."
+    }
+  ],
+  "limitations": [
+    "ERA5 is reanalysis, not a local rain gauge.",
+    "Point precipitation is not basin-integrated precipitation.",
+    "This evaluates precipitation forecast skill, not human flood impact.",
+    "Operational model versions change over time.",
+    "The council is a simple median, not a trained probabilistic ensemble."
+  ],
+  "headline_metrics": {
     "h6_mean_auc_gain": 0.0834,
     "h6_mean_precision_gain_pct": 83.2,
     "h6_basin_results": {
@@ -63,113 +252,21 @@
         "precision_gain_pct": -7.6
       }
     },
-    "h8_persistent_direction_accuracy_pct": 96.2,
-    "h8_persistent_error_improvement_pct": 72.7,
-    "h9_majority_direction_accuracy_pct": 70.6,
-    "h9_majority_error_improvement_pct": 65.1,
+    "h8_persistent_direction_accuracy_pct": 97.8,
+    "h9_majority_direction_accuracy_pct": 71.0,
     "h10_mean_auc_gain": -0.0693,
     "h10_mean_precision_gain_pct": -28.5,
-    "h12_strict_f1": 0.4898,
-    "h12_loose_f1": 0.4262,
-    "h12_revision_f1": 0.4906,
+    "h12_strict_f1": 0.4681,
+    "h12_revision_f1": 0.4815,
     "h12_revision_recall": 0.619,
-    "h12_revision_precision": 0.4062,
-    "h15_alert_recall": 0.5714,
+    "h12_revision_precision": 0.3939,
+    "h15_alert_recall": 0.5238,
     "h15_watch_recall": 0.619,
-    "h15_watch_only_precision": 0.25,
-    "h15_watch_burden_per_100_days": 1.99
+    "h15_watch_burden_per_100_days": 3.48,
+    "h17_revision_up_heavy_rate": 0.3333,
+    "h17_revision_not_up_heavy_rate": 0.0833,
+    "h17_heavy_rate_lift": 0.25
   },
-  "hypotheses": [
-    {
-      "id": "H1",
-      "claim": "The council median reduces precipitation error versus the average individual model.",
-      "status": "supported",
-      "effect": "13.5% mean error improvement",
-      "update": "Keep council median as the default headline."
-    },
-    {
-      "id": "H2",
-      "claim": "Higher model disagreement predicts larger forecast error after normalizing for rainfall magnitude.",
-      "status": "not_supported",
-      "effect": "normalized corr 0.13 · high/low normalized error 1.04× · heavy-rain corr −0.27",
-      "update": "Keep disagreement visible, but do not turn it into a confidence penalty yet."
-    },
-    {
-      "id": "H3",
-      "claim": "Forecast skill materially degrades from 1 to 3 to 5 days.",
-      "status": "supported",
-      "effect": "7.78 → 9.37 → 10.89 mm MAE",
-      "update": "Make forecast horizon a first-class confidence input."
-    },
-    {
-      "id": "H5",
-      "claim": "The council median remains useful on heavy-rain days.",
-      "status": "supported",
-      "effect": "11.3% heavy-rain error improvement",
-      "update": "Keep the council as the main heavy-rain summary."
-    },
-    {
-      "id": "H6",
-      "claim": "Antecedent rainfall and soil moisture improve extreme-discharge detection beyond recent rainfall alone.",
-      "status": "mixed",
-      "effect": "Nuwakot AUC +0.013 · Warsaw +0.242 · Niamey −0.005",
-      "update": "Do not apply a global wetness rule. Learn and expose wetness skill per basin."
-    },
-    {
-      "id": "H4",
-      "claim": "COMMONS should lower confidence when disagreement is high and lead time is long.",
-      "status": "mixed",
-      "effect": "horizon is supported; disagreement penalty is not",
-      "update": "Confidence v0.2 = source health + empirically measured horizon skill. Show disagreement separately."
-    },
-    {
-      "id": "H8",
-      "claim": "A revision sustained across multiple lead checkpoints is more useful than a one-off late jump.",
-      "status": "supported",
-      "effect": "persistent direction 96.2%, improvement 72.7%; one-off direction 81.0%, improvement 56.7%",
-      "update": "Promote sustained multi-checkpoint revisions as a material-change signal."
-    },
-    {
-      "id": "H9",
-      "claim": "When at least 2 of 3 models revise in the same direction, that direction is useful for what-changed alerts.",
-      "status": "supported",
-      "effect": "direction accuracy 70.6%; next-checkpoint error improved 65.1%",
-      "update": "Surface 2/3 models revised upward/downward as a directional change signal."
-    },
-    {
-      "id": "H10",
-      "claim": "Current river percentile plus recent trajectory improves detection of an extreme next three days versus current percentile alone.",
-      "status": "not_supported",
-      "effect": "mean AUC gain −0.0693; mean precision gain −28.5%",
-      "update": "Keep current river percentile as the primary river-state feature."
-    },
-    {
-      "id": "H12",
-      "claim": "A revision-aware material-change rule improves the precision/recall/lead-time trade-off versus fixed forecast thresholds.",
-      "status": "not_supported",
-      "effect": "F1 0.491 vs 0.490 strict; recall +4.8pp; precision −2.2pp; no lead-time gain",
-      "update": "Keep fixed thresholds as the alert gate. Use validated revision direction as an early-watch/context signal until an out-of-sample rule improves the full trade-off."
-    },
-    {
-      "id": "H15",
-      "claim": "Separating WATCH from ALERT gains useful recall without materially increasing interruption burden.",
-      "status": "supported",
-      "effect": "alert recall 57.1% → watch recall 61.9%; watch-only precision 25%; burden 1.99/100 days",
-      "update": "Use a two-tier attention model: WATCH for revision-aware context, ALERT for strict threshold crossing."
-    }
-  ],
-  "limitations": [
-    "ERA5 is reanalysis, not a local rain gauge.",
-    "Point precipitation is not basin-integrated precipitation.",
-    "This tests precipitation forecast skill, not human flood impact.",
-    "Operational model versions change over time.",
-    "603 samples are not 603 independent events; dates and locations are correlated.",
-    "H6 aggregate averages hide strong basin-to-basin heterogeneity; no global wetness rule is justified.",
-    "H8/H9 use 5-day, 3-day and 1-day lead checkpoints, not consecutive six-hour live runs.",
-    "H10 river trajectory used fixed heuristic weights and performed worse than current percentile alone in the three tested basins.",
-    "H12 revision-aware logic improved recall but did not materially improve the overall F1/lead-time trade-off over the strict threshold benchmark.",
-    "H15 treats WATCH as a low-cost state; historical backtesting cannot measure annoyance or analyst cognitive load."
-  ],
   "next_hypotheses": [
     {
       "id": "H7",

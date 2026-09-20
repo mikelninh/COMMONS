@@ -6,27 +6,63 @@
   },
   "future_window_days": 3,
   "verification": "future GloFAS discharge",
-  "source_errors": 0,
   "points": [
     {
       "point": "nuwakot",
       "name": "Nuwakot",
+      "country": "Nepal",
+      "status": "ok",
+      "samples": 1299,
+      "extreme_future_windows": 97,
+      "baseline_current_percentile": {
+        "auc": 0.9512,
+        "precision_at_top_5pct": 0.8
+      },
+      "trajectory_score": {
+        "auc": 0.9419,
+        "precision_at_top_5pct": 0.5692
+      },
       "auc_gain": -0.0093,
       "precision_gain_pct": -28.8
     },
     {
       "point": "warsaw",
       "name": "Warsaw",
+      "country": "Poland",
+      "status": "ok",
+      "samples": 1299,
+      "extreme_future_windows": 84,
+      "baseline_current_percentile": {
+        "auc": 0.9706,
+        "precision_at_top_5pct": 0.8769
+      },
+      "trajectory_score": {
+        "auc": 0.944,
+        "precision_at_top_5pct": 0.6
+      },
       "auc_gain": -0.0266,
       "precision_gain_pct": -31.6
     },
     {
       "point": "niamey",
       "name": "Niamey",
+      "country": "Niger",
+      "status": "ok",
+      "samples": 1299,
+      "extreme_future_windows": 93,
+      "baseline_current_percentile": {
+        "auc": 0.9602,
+        "precision_at_top_5pct": 0.8
+      },
+      "trajectory_score": {
+        "auc": 0.7881,
+        "precision_at_top_5pct": 0.6
+      },
       "auc_gain": -0.1721,
-      "precision_gain_pct": -25
+      "precision_gain_pct": -25.0
     }
   ],
+  "source_errors": [],
   "hypothesis": {
     "id": "H10",
     "claim": "Current river percentile plus recent trajectory improves detection of an extreme next three days versus current percentile alone.",
@@ -37,7 +73,8 @@
   },
   "limitations": [
     "The target is modelled GloFAS discharge, not observed damage or a local gauge.",
-    "The trajectory score used fixed heuristic weights.",
-    "Performance may vary by basin."
+    "Current discharge naturally contains persistence information about near-future discharge.",
+    "The trajectory score weights are fixed heuristics, not trained parameters.",
+    "Performance may vary strongly by basin."
   ]
 }
