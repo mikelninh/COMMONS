@@ -405,3 +405,58 @@ def test_replay_ui_reads_independent_data_plane_and_falls_back_gracefully() -> N
     assert "return [];" in js
     assert "replayFrames=[{" in js
     assert "first archived frame" in js
+
+
+def test_scroll_cinema_uses_damped_visual_timeline() -> None:
+    styles = Path("public/world-model.css").read_text(encoding="utf-8")
+    js = Path("public/world-model.js").read_text(encoding="utf-8")
+
+    assert "#storyExperience .scene-frame" in styles
+    assert "position:sticky" in styles
+    assert "height:156svh" in styles
+    assert "--story-progress" in styles
+
+    assert "function setupScrollCinema" in js
+    assert "function cinemaTick" in js
+    assert "requestAnimationFrame(cinemaTick)" in js
+    assert "cinema.smoothY+=(cinema.targetY-cinema.smoothY)*alpha" in js
+    assert "Math.pow(0.00008,dt/1000)" in js
+
+
+def test_scroll_cinema_choreographs_each_scene_instead_of_only_smoothing_page_scroll() -> None:
+    styles = Path("public/world-model.css").read_text(encoding="utf-8")
+    js = Path("public/world-model.js").read_text(encoding="utf-8")
+
+    assert "--orb-scale" in js
+    assert "--bar-reveal" in js
+    assert "--memory-reveal" in js
+    assert "--tension-scale" in js
+    assert "--replay-tilt" in js
+
+    assert "var(--orb-scale,1)" in styles
+    assert "var(--bar-reveal,1)" in styles
+    assert "var(--memory-reveal,1)" in styles
+    assert "var(--tension-scale,1)" in styles
+    assert "var(--replay-tilt,0deg)" in styles
+
+
+def test_scroll_cinema_keeps_reduced_motion_and_lab_mode_safe() -> None:
+    styles = Path("public/world-model.css").read_text(encoding="utf-8")
+    js = Path("public/world-model.js").read_text(encoding="utf-8")
+
+    assert "prefers-reduced-motion: reduce" in styles
+    assert "const reduceMotion=" in js
+    assert "function setupReducedMotionStory" in js
+    assert 'document.body.classList.toggle("lab-mode",!story)' in js
+    assert 'if(reduceMotion)' in js
+
+
+def test_scene_frames_are_created_runtime_without_losing_existing_semantics() -> None:
+    page = Path("public/world-model.html").read_text(encoding="utf-8")
+    js = Path("public/world-model.js").read_text(encoding="utf-8")
+
+    assert 'data-scene="0"' in page
+    assert 'data-scene="4"' in page
+    assert "function wrapSceneFrames" in js
+    assert 'frame.className="scene-frame"' in js
+    assert "while(scene.firstChild)frame.appendChild(scene.firstChild)" in js

@@ -6,6 +6,17 @@ let currentPilot=null;
 let replayFrames=[];
 let loopCatalog=null;
 
+const reduceMotion=window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches||false;
+const cinema={
+  targetY:0,
+  smoothY:0,
+  lastSmoothY:0,
+  velocity:0,
+  raf:null,
+  lastTime:0,
+  activeScene:0
+};
+
 async function getJson(url){
   const response=await fetch(url,{cache:"no-store"});
   if(!response.ok)throw new Error(url+" "+response.status);
@@ -232,23 +243,196 @@ function updateSceneRail(sceneIndex){
   });
 }
 
-function setupStoryObserver(){
-  const scenes=qsa(".wm-scene");
+function smoothstep(min,max,value){
+  if(max<=min)return value>=max?1:0;
+  const t=Math.max(0,Math.min(1,(value-min)/(max-min)));
+  return t*t*(3-2*t);
+}
+
+function wrapSceneFrames(){
+  qsa("#storyExperience .wm-scene").forEach(scene=>{
+    if(scene.querySelector(":scope > .scene-frame"))return;
+    const frame=document.createElement("div");
+    frame.className="scene-frame";
+    while(scene.firstChild)frame.appendChild(scene.firstChild);
+    scene.appendChild(frame);
+  });
+}
+
+function resetCinemaScene(scene){
+  [
+    "--frame-opacity","--frame-y","--frame-scale","--frame-blur",
+    "--cinema-overlay","--copy-y","--visual-y","--content-opacity",
+    "--quiet-opacity","--scroll-cue-opacity","--scroll-cue-y",
+    "--bar-reveal","--bar-label-opacity","--memory-reveal",
+    "--memory-dot-opacity","--memory-dot-scale","--tension-opacity",
+    "--tension-scale","--question-scale","--question-opacity",
+    "--replay-tilt","--replay-scale","--orb-x","--orb-y",
+    "--orb-scale","--orb-rotate"
+  ].forEach(name=>scene.style.removeProperty(name));
+}
+
+function renderScrollCinema(scrollY){
+  const story=$("storyExperience");
+  const scenes=qsa("#storyExperience .wm-scene");
+  if(!story||!scenes.length||story.classList.contains("hidden"))return;
+
+  const vh=Math.max(1,window.innerHeight);
+  const storyStart=story.offsetTop;
+  const storyTravel=Math.max(1,story.offsetHeight-vh);
+  const globalProgress=Math.max(0,Math.min(1,(scrollY-storyStart)/storyTravel));
+  document.documentElement.style.setProperty("--story-progress",globalProgress.toFixed(5));
+
+  const motionBlur=Math.min(1.7,Math.abs(cinema.velocity)*.065);
+  const energy=Math.min(1,Math.abs(cinema.velocity)/26);
+  document.documentElement.style.setProperty("--scroll-energy",energy.toFixed(4));
+
+  let active=0;
+  scenes.forEach((scene,index)=>{
+    const frame=scene.querySelector(":scope > .scene-frame");
+    if(!frame)return;
+
+    const start=scene.offsetTop;
+    const travel=Math.max(1,scene.offsetHeight-vh);
+    const progress=Math.max(0,Math.min(1,(scrollY-start)/travel));
+    const exit=smoothstep(.72,1,progress);
+    const focus=1-exit;
+    const reveal=smoothstep(.04,.42,progress);
+
+    if(scrollY>=start-vh*.22)active=index;
+
+    const frameY=(-18*progress)-(42*exit);
+    const frameScale=1+(reveal*.012)-(exit*.028);
+    const frameBlur=(exit*7.5)+motionBlur;
+    const contentOpacity=Math.max(0,1-smoothstep(.76,.985,progress));
+    const copyY=-24*progress;
+    const visualY=14-(34*smoothstep(.05,.82,progress));
+
+    scene.style.setProperty("--frame-opacity",focus.toFixed(4));
+    scene.style.setProperty("--frame-y",frameY.toFixed(2)+"px");
+    scene.style.setProperty("--frame-scale",frameScale.toFixed(5));
+    scene.style.setProperty("--frame-blur",frameBlur.toFixed(2)+"px");
+    scene.style.setProperty("--cinema-overlay",(0.22+exit*.65).toFixed(3));
+    scene.style.setProperty("--copy-y",copyY.toFixed(2)+"px");
+    scene.style.setProperty("--visual-y",visualY.toFixed(2)+"px");
+    scene.style.setProperty("--content-opacity",contentOpacity.toFixed(4));
+    scene.style.setProperty("--quiet-opacity",Math.max(0,1-smoothstep(.36,.76,progress)).toFixed(4));
+
+    if(index===0){
+      const orbScale=1+(progress*.13);
+      const orbRotate=progress*3.2;
+      const orbY=2-(progress*4.8);
+      scene.style.setProperty("--orb-x",window.innerWidth<900?"22vw":"14vw");
+      scene.style.setProperty("--orb-y",orbY.toFixed(2)+"vh");
+      scene.style.setProperty("--orb-scale",orbScale.toFixed(4));
+      scene.style.setProperty("--orb-rotate",orbRotate.toFixed(2)+"deg");
+      scene.style.setProperty("--scroll-cue-opacity",Math.max(0,1-smoothstep(.05,.34,progress)).toFixed(4));
+      scene.style.setProperty("--scroll-cue-y",(-18*progress).toFixed(2)+"px");
+    }
+
+    if(index===1){
+      const barReveal=smoothstep(.06,.46,progress);
+      scene.style.setProperty("--bar-reveal",barReveal.toFixed(4));
+      scene.style.setProperty("--bar-label-opacity",smoothstep(.23,.52,progress).toFixed(4));
+    }
+
+    if(index===2){
+      const memoryReveal=smoothstep(.08,.62,progress);
+      scene.style.setProperty("--memory-reveal",memoryReveal.toFixed(4));
+      scene.style.setProperty("--memory-dot-opacity",smoothstep(.34,.63,progress).toFixed(4));
+      scene.style.setProperty("--memory-dot-scale",(0.65+0.35*smoothstep(.32,.68,progress)).toFixed(4));
+    }
+
+    if(index===3){
+      const tension=smoothstep(.09,.54,progress);
+      scene.style.setProperty("--tension-opacity",tension.toFixed(4));
+      scene.style.setProperty("--tension-scale",(0.84+0.16*tension).toFixed(4));
+      scene.style.setProperty("--question-scale",(0.72+0.28*smoothstep(.28,.64,progress)).toFixed(4));
+      scene.style.setProperty("--question-opacity",smoothstep(.24,.56,progress).toFixed(4));
+    }
+
+    if(index===4){
+      const settle=smoothstep(.04,.38,progress);
+      scene.style.setProperty("--replay-tilt",((1-settle)*3.4).toFixed(2)+"deg");
+      scene.style.setProperty("--replay-scale",(0.972+settle*.028).toFixed(4));
+    }
+  });
+
+  if(active!==cinema.activeScene){
+    cinema.activeScene=active;
+    updateSceneRail(active);
+  }
+}
+
+function cinemaTick(now){
+  cinema.raf=null;
+  if(reduceMotion||$("storyExperience")?.classList.contains("hidden"))return;
+
+  const dt=Math.min(42,Math.max(8,now-(cinema.lastTime||now)));
+  cinema.lastTime=now;
+  cinema.targetY=window.scrollY;
+
+  const alpha=1-Math.pow(0.00008,dt/1000);
+  cinema.lastSmoothY=cinema.smoothY;
+  cinema.smoothY+=(cinema.targetY-cinema.smoothY)*alpha;
+  cinema.velocity=cinema.smoothY-cinema.lastSmoothY;
+
+  renderScrollCinema(cinema.smoothY);
+
+  const unsettled=Math.abs(cinema.targetY-cinema.smoothY)>.12||Math.abs(cinema.velocity)>.025;
+  if(unsettled)cinema.raf=requestAnimationFrame(cinemaTick);
+}
+
+function requestCinema(){
+  cinema.targetY=window.scrollY;
+  if(cinema.raf===null)cinema.raf=requestAnimationFrame(cinemaTick);
+}
+
+function setupReducedMotionStory(scenes){
   if(!("IntersectionObserver" in window)){
     updateSceneRail(0);
+  }else{
+    const observer=new IntersectionObserver(entries=>{
+      const visible=entries
+        .filter(entry=>entry.isIntersecting)
+        .sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+      if(visible)updateSceneRail(Number(visible.target.dataset.scene));
+    },{threshold:[.35,.55,.75]});
+    scenes.forEach(scene=>observer.observe(scene));
+  }
+  qsa("[data-scene-jump]").forEach(btn=>{
+    btn.onclick=()=>scenes[Number(btn.dataset.sceneJump)]?.scrollIntoView({behavior:"auto"});
+  });
+}
+
+function setupScrollCinema(){
+  wrapSceneFrames();
+  const scenes=qsa("#storyExperience .wm-scene");
+
+  if(reduceMotion){
+    scenes.forEach(resetCinemaScene);
+    setupReducedMotionStory(scenes);
     return;
   }
-  const observer=new IntersectionObserver(entries=>{
-    const visible=entries
-      .filter(entry=>entry.isIntersecting)
-      .sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
-    if(visible)updateSceneRail(Number(visible.target.dataset.scene));
-  },{threshold:[.35,.55,.75]});
-  scenes.forEach(scene=>observer.observe(scene));
+
+  cinema.targetY=window.scrollY;
+  cinema.smoothY=window.scrollY;
+  cinema.lastSmoothY=window.scrollY;
+
+  window.addEventListener("scroll",requestCinema,{passive:true});
+  window.addEventListener("resize",requestCinema,{passive:true});
+  window.addEventListener("orientationchange",requestCinema,{passive:true});
 
   qsa("[data-scene-jump]").forEach(btn=>{
-    btn.onclick=()=>scenes[Number(btn.dataset.sceneJump)]?.scrollIntoView({behavior:"smooth"});
+    btn.onclick=()=>{
+      const scene=scenes[Number(btn.dataset.sceneJump)];
+      if(!scene)return;
+      scene.scrollIntoView({behavior:"smooth",block:"start"});
+    };
   });
+
+  updateSceneRail(0);
+  renderScrollCinema(cinema.smoothY);
 }
 
 function setMode(mode){
@@ -258,7 +442,15 @@ function setMode(mode){
   $("sceneRail").classList.toggle("hidden",!story);
   $("storyModeBtn").classList.toggle("active",story);
   $("labModeBtn").classList.toggle("active",!story);
-  window.scrollTo({top:0,behavior:"smooth"});
+  document.body.classList.toggle("lab-mode",!story);
+  window.scrollTo({top:0,behavior:reduceMotion?"auto":"smooth"});
+  if(story){
+    cinema.targetY=0;
+    cinema.smoothY=0;
+    cinema.lastSmoothY=0;
+    cinema.lastTime=0;
+    requestCinema();
+  }
 }
 
 async function loadLatest(){
@@ -312,7 +504,7 @@ async function init(){
   $("labModeBtn").onclick=()=>setMode("lab");
   $("openLabBtn").onclick=()=>setMode("lab");
   $("backToStoryBtn").onclick=()=>setMode("story");
-  setupStoryObserver();
+  setupScrollCinema();
 }
 
 init().catch(error=>{
