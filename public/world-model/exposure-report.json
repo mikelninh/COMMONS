@@ -1,18 +1,475 @@
 {
   "schema_version": "0.1",
   "source": "WorldPop API v2",
+  "source_url": "https://api.worldpop.org/v2",
   "year": 2026,
-  "radius_km": 20,
-  "coverage_status": "pending",
+  "radius_km": 20.0,
+  "coverage_status": "healthy",
   "requested_points": 30,
-  "usable_points": 0,
+  "usable_points": 30,
   "source_errors": [],
-  "points": [],
+  "points": [
+    {
+      "point": {
+        "id": "nuwakot",
+        "name": "Nuwakot",
+        "country": "Nepal",
+        "latitude": 27.95,
+        "longitude": 85.18
+      },
+      "population": 376264,
+      "area_km2": 1603.1626,
+      "population_density": 234.7,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "manila",
+        "name": "Manila",
+        "country": "Philippines",
+        "latitude": 14.6,
+        "longitude": 120.98
+      },
+      "population": 17105184,
+      "area_km2": 1599.8137,
+      "population_density": 10691.98,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "delhi",
+        "name": "Delhi",
+        "country": "India",
+        "latitude": 28.61,
+        "longitude": 77.21
+      },
+      "population": 27159668,
+      "area_km2": 1603.3691,
+      "population_density": 16939.12,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "warsaw",
+        "name": "Warsaw",
+        "country": "Poland",
+        "latitude": 52.23,
+        "longitude": 21.01
+      },
+      "population": 2625878,
+      "area_km2": 1611.8929,
+      "population_density": 1629.06,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "niamey",
+        "name": "Niamey",
+        "country": "Niger",
+        "latitude": 13.51,
+        "longitude": 2.11
+      },
+      "population": 1815309,
+      "area_km2": 1599.6218,
+      "population_density": 1134.84,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "dhaka",
+        "name": "Dhaka",
+        "country": "Bangladesh",
+        "latitude": 23.81,
+        "longitude": 90.41
+      },
+      "population": 17342470,
+      "area_km2": 1601.9453,
+      "population_density": 10825.88,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "mumbai",
+        "name": "Mumbai",
+        "country": "India",
+        "latitude": 19.08,
+        "longitude": 72.88
+      },
+      "population": 6023495,
+      "area_km2": 1600.7418,
+      "population_density": 3762.94,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "chennai",
+        "name": "Chennai",
+        "country": "India",
+        "latitude": 13.08,
+        "longitude": 80.27
+      },
+      "population": 5666902,
+      "area_km2": 1599.5499,
+      "population_density": 3542.81,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "bangkok",
+        "name": "Bangkok",
+        "country": "Thailand",
+        "latitude": 13.76,
+        "longitude": 100.5
+      },
+      "population": 12765949,
+      "area_km2": 1599.6646,
+      "population_density": 7980.39,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "hanoi",
+        "name": "Hanoi",
+        "country": "Vietnam",
+        "latitude": 21.03,
+        "longitude": 105.85
+      },
+      "population": 7002109,
+      "area_km2": 1601.2118,
+      "population_density": 4373.01,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "jakarta",
+        "name": "Jakarta",
+        "country": "Indonesia",
+        "latitude": -6.21,
+        "longitude": 106.85
+      },
+      "population": 17551618,
+      "area_km2": 1598.7041,
+      "population_density": 10978.65,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "singapore",
+        "name": "Singapore",
+        "country": "Singapore",
+        "latitude": 1.35,
+        "longitude": 103.82
+      },
+      "population": 7028314,
+      "area_km2": 1598.4657,
+      "population_density": 4396.91,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "osaka",
+        "name": "Osaka",
+        "country": "Japan",
+        "latitude": 34.69,
+        "longitude": 135.5
+      },
+      "population": 9028582,
+      "area_km2": 1605.4034,
+      "population_density": 5623.87,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "brisbane",
+        "name": "Brisbane",
+        "country": "Australia",
+        "latitude": -27.47,
+        "longitude": 153.03
+      },
+      "population": 1628044,
+      "area_km2": 1603.0144,
+      "population_density": 1015.61,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "auckland",
+        "name": "Auckland",
+        "country": "New Zealand",
+        "latitude": -36.85,
+        "longitude": 174.76
+      },
+      "population": 1395872,
+      "area_km2": 1606.173,
+      "population_density": 869.07,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "nairobi",
+        "name": "Nairobi",
+        "country": "Kenya",
+        "latitude": -1.29,
+        "longitude": 36.82
+      },
+      "population": 8020732,
+      "area_km2": 1598.4646,
+      "population_density": 5017.77,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "lagos",
+        "name": "Lagos",
+        "country": "Nigeria",
+        "latitude": 6.52,
+        "longitude": 3.38
+      },
+      "population": 12045234,
+      "area_km2": 1598.7296,
+      "population_density": 7534.25,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "accra",
+        "name": "Accra",
+        "country": "Ghana",
+        "latitude": 5.56,
+        "longitude": -0.19
+      },
+      "population": 4773466,
+      "area_km2": 1598.6546,
+      "population_density": 2985.93,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "cape-town",
+        "name": "Cape Town",
+        "country": "South Africa",
+        "latitude": -33.92,
+        "longitude": 18.42
+      },
+      "population": 2794450,
+      "area_km2": 1605.1342,
+      "population_density": 1740.94,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "cairo",
+        "name": "Cairo",
+        "country": "Egypt",
+        "latitude": 30.04,
+        "longitude": 31.24
+      },
+      "population": 22259762,
+      "area_km2": 1603.827,
+      "population_density": 13879.15,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "istanbul",
+        "name": "Istanbul",
+        "country": "T\u00fcrkiye",
+        "latitude": 41.01,
+        "longitude": 28.98
+      },
+      "population": 11247632,
+      "area_km2": 1607.7007,
+      "population_density": 6996.1,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "berlin",
+        "name": "Berlin",
+        "country": "Germany",
+        "latitude": 52.52,
+        "longitude": 13.41
+      },
+      "population": 4235519,
+      "area_km2": 1611.9986,
+      "population_density": 2627.5,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "london",
+        "name": "London",
+        "country": "United Kingdom",
+        "latitude": 51.51,
+        "longitude": -0.13
+      },
+      "population": 9168777,
+      "area_km2": 1611.6293,
+      "population_density": 5689.14,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "rome",
+        "name": "Rome",
+        "country": "Italy",
+        "latitude": 41.9,
+        "longitude": 12.5
+      },
+      "population": 3171093,
+      "area_km2": 1608.033,
+      "population_density": 1972.03,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "new-york",
+        "name": "New York",
+        "country": "United States",
+        "latitude": 40.71,
+        "longitude": -74.01
+      },
+      "population": 10579963,
+      "area_km2": 1607.5891,
+      "population_density": 6581.26,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "miami",
+        "name": "Miami",
+        "country": "United States",
+        "latitude": 25.76,
+        "longitude": -80.19
+      },
+      "population": 0,
+      "area_km2": 1602.5012,
+      "population_density": 0.0,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "houston",
+        "name": "Houston",
+        "country": "United States",
+        "latitude": 29.76,
+        "longitude": -95.37
+      },
+      "population": 0,
+      "area_km2": 1603.7362,
+      "population_density": 0.0,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "mexico-city",
+        "name": "Mexico City",
+        "country": "Mexico",
+        "latitude": 19.43,
+        "longitude": -99.13
+      },
+      "population": 15477131,
+      "area_km2": 1600.8233,
+      "population_density": 9668.23,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "recife",
+        "name": "Recife",
+        "country": "Brazil",
+        "latitude": -8.05,
+        "longitude": -34.88
+      },
+      "population": 3229200,
+      "area_km2": 1598.8733,
+      "population_density": 2019.67,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    },
+    {
+      "point": {
+        "id": "buenos-aires",
+        "name": "Buenos Aires",
+        "country": "Argentina",
+        "latitude": -34.6,
+        "longitude": -58.38
+      },
+      "population": 8146029,
+      "area_km2": 1605.3718,
+      "population_density": 5074.23,
+      "data_year": 2026,
+      "data_source": "worldpop_R2025A_2026_1km",
+      "radius_km": 20.0
+    }
+  ],
   "hypothesis": {
     "id": "H13",
     "claim": "Adding population exposure improves which physical hazards deserve human attention first.",
     "status": "insufficient",
-    "effect": "waiting for first exposure context run",
-    "product_update": "Exposure is context only until impact-labelled validation exists."
-  }
+    "effect": "population context available for 30/30 locations; impact labels not yet joined",
+    "product_update": "Show population exposure as context only. Do not let it change ALERT or PRIORITY until historical impact-labelled validation exists."
+  },
+  "limitations": [
+    "Population within an approximate square around a point is not the population actually exposed to a hazard.",
+    "This layer does not model vulnerability, infrastructure, mobility, floodplain geometry, or impact.",
+    "WorldPop population context must not be interpreted as casualties or people at risk."
+  ]
 }

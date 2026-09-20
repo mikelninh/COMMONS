@@ -1,6 +1,6 @@
 {
   "schema_version": "0.2",
-  "generated_at": "2026-09-20T18:37:28Z",
+  "generated_at": "2026-09-20T20:11:08Z",
   "period": {
     "start": "2026-07-12",
     "end": "2026-09-10"
@@ -192,7 +192,15 @@
     "h18_improved_budgets": 0,
     "h19_min_top_k_retention": 0.6316,
     "h19_min_alert_agreement": 0.957,
-    "h19_max_heavy_event_catch_loss": 1
+    "h19_max_heavy_event_catch_loss": 1,
+    "h20_council_win_rate": 0.9,
+    "h20_median_improvement_pct": 17.4,
+    "h21_misses": 46,
+    "h21_near_threshold_share": 0.2174,
+    "h13_exposure_usable_points": 30,
+    "h13_exposure_coverage_status": "healthy",
+    "h22_gdacs_matched_point_days": 139,
+    "h22_gdacs_overlap_rate": 0.1871
   },
   "hypotheses": [
     {
@@ -292,6 +300,34 @@
       "status": "insufficient",
       "effect": "min top-k retention 0.6316; min alert agreement 0.957; max heavy-event catch loss 1; n=93, heavy=4",
       "update": "Keep model-dropout behavior observational. Do not change production attention rules until the stress test has enough complete holdout events."
+    },
+    {
+      "id": "H20",
+      "claim": "The three-model council improves 3-day daily-precipitation accuracy across diverse global climates, not only the original pilot locations.",
+      "status": "supported",
+      "effect": "wins 27/30 locations; median improvement 17.4%",
+      "update": "The council generalises well enough to justify expanding validated monitoring, while preserving location-specific thresholds."
+    },
+    {
+      "id": "H21",
+      "claim": "Most strict-threshold heavy-event misses are near the decision boundary rather than deep misses.",
+      "status": "not_supported",
+      "effect": "near 10; deep 36; near share 0.2174; misses 46",
+      "update": "Misses are not mainly boundary cases. Audit deep misses for missing physical variables, model failure modes, and spatial context."
+    },
+    {
+      "id": "H13",
+      "claim": "Adding population exposure improves which physical hazards deserve human attention first.",
+      "status": "insufficient",
+      "effect": "population context available for 30/30 locations; impact labels not yet joined",
+      "update": "Show population exposure as context only. Do not let it change ALERT or PRIORITY until historical impact-labelled validation exists."
+    },
+    {
+      "id": "H22",
+      "claim": "A public external disaster-alert stream can provide a useful independent benchmark for COMMONS attention changes.",
+      "status": "insufficient",
+      "effect": "GDACS events 78; matched point-days 139; COMMONS overlap 0.1871",
+      "update": "Keep GDACS as an external audit signal only. It is not a local official warning feed and must not control ALERT."
     }
   ],
   "limitations": [
@@ -324,25 +360,15 @@
       "test": "Cluster basin regimes and validate wetness features out-of-sample."
     },
     {
-      "id": "H13",
-      "claim": "Adding exposure changes which physical hazards deserve human attention first.",
-      "signals": [
-        "population",
-        "settlements",
-        "critical infrastructure",
-        "hazard state"
-      ],
-      "test": "Compare hazard-only ranking with exposure-aware ranking against historical impact records."
-    },
-    {
       "id": "H14",
-      "claim": "Official warning changes provide a useful external benchmark for COMMONS attention changes.",
+      "claim": "Source-specific official warning archives improve external validation beyond the global GDACS benchmark.",
       "signals": [
-        "official warnings",
-        "COMMONS change signals",
-        "timing"
+        "national warning archives",
+        "COMMONS attention state",
+        "timing",
+        "geography"
       ],
-      "test": "Measure agreement, earlier/later detection and false alarms without treating official warnings as perfect ground truth."
+      "test": "Add authority-specific adapters where archive access is available; keep GDACS separate from official local warning ground truth."
     },
     {
       "id": "H16",

@@ -1,0 +1,913 @@
+{
+  "schema_version": "0.1",
+  "period": {
+    "start": "2026-07-12",
+    "end": "2026-09-10",
+    "holdout_start": "2026-08-21"
+  },
+  "verification": "daily ERA5 precipitation; 90th-percentile gate learned only from the earlier training segment",
+  "requested_points": 30,
+  "source_errors": [],
+  "evidence_health": {
+    "status": "healthy",
+    "raw_records": 5490,
+    "full_council_records": 5490,
+    "full_council_ratio": 1.0
+  },
+  "heavy_events": 75,
+  "alerts": 61,
+  "true_positives": 29,
+  "misses": 46,
+  "near_threshold_misses": 10,
+  "deep_misses": 36,
+  "near_threshold_share": 0.2174,
+  "cases": [
+    {
+      "id": "new-york-2026-08-21",
+      "point_id": "new-york",
+      "name": "New York",
+      "country": "United States",
+      "date": "2026-08-21",
+      "actual_mm": 38.9,
+      "heavy_gate_mm": 11.68,
+      "forecast_3d_mm": 0.0,
+      "gate_ratio": 0.0,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -3.3,
+      "relative_spread": 0.0026,
+      "models": {
+        "ecmwf": 0.1,
+        "gfs": 0.0,
+        "icon": 0.0
+      }
+    },
+    {
+      "id": "london-2026-09-02",
+      "point_id": "london",
+      "name": "London",
+      "country": "United Kingdom",
+      "date": "2026-09-02",
+      "actual_mm": 2.6,
+      "heavy_gate_mm": 0.82,
+      "forecast_3d_mm": 0.0,
+      "gate_ratio": 0.0,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -2.5,
+      "relative_spread": 0.1154,
+      "models": {
+        "ecmwf": 0.3,
+        "gfs": 0.0,
+        "icon": 0.0
+      }
+    },
+    {
+      "id": "accra-2026-08-31",
+      "point_id": "accra",
+      "name": "Accra",
+      "country": "Ghana",
+      "date": "2026-08-31",
+      "actual_mm": 3.8,
+      "heavy_gate_mm": 2.88,
+      "forecast_3d_mm": 0.0,
+      "gate_ratio": 0.0,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 0.0,
+      "relative_spread": 2.4474,
+      "models": {
+        "ecmwf": 9.3,
+        "gfs": 0.0,
+        "icon": 0.0
+      }
+    },
+    {
+      "id": "accra-2026-09-09",
+      "point_id": "accra",
+      "name": "Accra",
+      "country": "Ghana",
+      "date": "2026-09-09",
+      "actual_mm": 3.2,
+      "heavy_gate_mm": 2.88,
+      "forecast_3d_mm": 0.0,
+      "gate_ratio": 0.0,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 0.0,
+      "relative_spread": 3.0938,
+      "models": {
+        "ecmwf": 9.9,
+        "gfs": 0.0,
+        "icon": 0.0
+      }
+    },
+    {
+      "id": "accra-2026-09-10",
+      "point_id": "accra",
+      "name": "Accra",
+      "country": "Ghana",
+      "date": "2026-09-10",
+      "actual_mm": 4.7,
+      "heavy_gate_mm": 2.88,
+      "forecast_3d_mm": 0.1,
+      "gate_ratio": 0.0347,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -1.2,
+      "relative_spread": 0.8298,
+      "models": {
+        "ecmwf": 3.9,
+        "gfs": 0.1,
+        "icon": 0.0
+      }
+    },
+    {
+      "id": "accra-2026-08-28",
+      "point_id": "accra",
+      "name": "Accra",
+      "country": "Ghana",
+      "date": "2026-08-28",
+      "actual_mm": 4.5,
+      "heavy_gate_mm": 2.88,
+      "forecast_3d_mm": 0.1,
+      "gate_ratio": 0.0347,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -0.5,
+      "relative_spread": 1.6444,
+      "models": {
+        "ecmwf": 7.4,
+        "gfs": 0.1,
+        "icon": 0.0
+      }
+    },
+    {
+      "id": "houston-2026-09-08",
+      "point_id": "houston",
+      "name": "Houston",
+      "country": "United States",
+      "date": "2026-09-08",
+      "actual_mm": 10.9,
+      "heavy_gate_mm": 10.16,
+      "forecast_3d_mm": 0.6,
+      "gate_ratio": 0.0591,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -3.3,
+      "relative_spread": 0.1009,
+      "models": {
+        "ecmwf": 1.3,
+        "gfs": 0.6,
+        "icon": 0.2
+      }
+    },
+    {
+      "id": "houston-2026-09-06",
+      "point_id": "houston",
+      "name": "Houston",
+      "country": "United States",
+      "date": "2026-09-06",
+      "actual_mm": 21.9,
+      "heavy_gate_mm": 10.16,
+      "forecast_3d_mm": 1.2,
+      "gate_ratio": 0.1181,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 0.1,
+      "relative_spread": 0.1918,
+      "models": {
+        "ecmwf": 4.2,
+        "gfs": 0.0,
+        "icon": 1.2
+      }
+    },
+    {
+      "id": "houston-2026-09-05",
+      "point_id": "houston",
+      "name": "Houston",
+      "country": "United States",
+      "date": "2026-09-05",
+      "actual_mm": 21.7,
+      "heavy_gate_mm": 10.16,
+      "forecast_3d_mm": 1.6,
+      "gate_ratio": 0.1575,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 1.3,
+      "relative_spread": 0.3825,
+      "models": {
+        "ecmwf": 9.0,
+        "gfs": 0.7,
+        "icon": 1.6
+      }
+    },
+    {
+      "id": "warsaw-2026-08-29",
+      "point_id": "warsaw",
+      "name": "Warsaw",
+      "country": "Poland",
+      "date": "2026-08-29",
+      "actual_mm": 9.1,
+      "heavy_gate_mm": 8.81,
+      "forecast_3d_mm": 1.7,
+      "gate_ratio": 0.193,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -2.8,
+      "relative_spread": 0.8022,
+      "models": {
+        "ecmwf": 1.2,
+        "gfs": 1.7,
+        "icon": 8.5
+      }
+    },
+    {
+      "id": "houston-2026-09-03",
+      "point_id": "houston",
+      "name": "Houston",
+      "country": "United States",
+      "date": "2026-09-03",
+      "actual_mm": 15.9,
+      "heavy_gate_mm": 10.16,
+      "forecast_3d_mm": 2.3,
+      "gate_ratio": 0.2264,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 2.0,
+      "relative_spread": 0.4151,
+      "models": {
+        "ecmwf": 6.6,
+        "gfs": 0.0,
+        "icon": 2.3
+      }
+    },
+    {
+      "id": "lagos-2026-09-05",
+      "point_id": "lagos",
+      "name": "Lagos",
+      "country": "Nigeria",
+      "date": "2026-09-05",
+      "actual_mm": 116.7,
+      "heavy_gate_mm": 10.83,
+      "forecast_3d_mm": 2.6,
+      "gate_ratio": 0.2401,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -2.4,
+      "relative_spread": 0.0171,
+      "models": {
+        "ecmwf": 1.8,
+        "gfs": 3.8,
+        "icon": 2.6
+      }
+    },
+    {
+      "id": "accra-2026-09-08",
+      "point_id": "accra",
+      "name": "Accra",
+      "country": "Ghana",
+      "date": "2026-09-08",
+      "actual_mm": 2.9,
+      "heavy_gate_mm": 2.88,
+      "forecast_3d_mm": 0.7,
+      "gate_ratio": 0.2431,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 0.5,
+      "relative_spread": 0.4138,
+      "models": {
+        "ecmwf": 1.8,
+        "gfs": 0.6,
+        "icon": 0.7
+      }
+    },
+    {
+      "id": "london-2026-09-08",
+      "point_id": "london",
+      "name": "London",
+      "country": "United Kingdom",
+      "date": "2026-09-08",
+      "actual_mm": 18.8,
+      "heavy_gate_mm": 0.82,
+      "forecast_3d_mm": 0.2,
+      "gate_ratio": 0.2439,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -2.5,
+      "relative_spread": 0.4043,
+      "models": {
+        "ecmwf": 0.0,
+        "gfs": 0.2,
+        "icon": 7.6
+      }
+    },
+    {
+      "id": "london-2026-08-27",
+      "point_id": "london",
+      "name": "London",
+      "country": "United Kingdom",
+      "date": "2026-08-27",
+      "actual_mm": 11.1,
+      "heavy_gate_mm": 0.82,
+      "forecast_3d_mm": 0.2,
+      "gate_ratio": 0.2439,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -3.6,
+      "relative_spread": 0.8739,
+      "models": {
+        "ecmwf": 9.9,
+        "gfs": 0.2,
+        "icon": 0.2
+      }
+    },
+    {
+      "id": "lagos-2026-09-07",
+      "point_id": "lagos",
+      "name": "Lagos",
+      "country": "Nigeria",
+      "date": "2026-09-07",
+      "actual_mm": 11.1,
+      "heavy_gate_mm": 10.83,
+      "forecast_3d_mm": 3.0,
+      "gate_ratio": 0.277,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -6.3,
+      "relative_spread": 0.6126,
+      "models": {
+        "ecmwf": 3.0,
+        "gfs": 0.0,
+        "icon": 6.8
+      }
+    },
+    {
+      "id": "mexico-city-2026-08-31",
+      "point_id": "mexico-city",
+      "name": "Mexico City",
+      "country": "Mexico",
+      "date": "2026-08-31",
+      "actual_mm": 6.1,
+      "heavy_gate_mm": 5.11,
+      "forecast_3d_mm": 1.5,
+      "gate_ratio": 0.2935,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -0.4,
+      "relative_spread": 0.5902,
+      "models": {
+        "ecmwf": 3.8,
+        "gfs": 0.2,
+        "icon": 1.5
+      }
+    },
+    {
+      "id": "miami-2026-08-31",
+      "point_id": "miami",
+      "name": "Miami",
+      "country": "United States",
+      "date": "2026-08-31",
+      "actual_mm": 14.1,
+      "heavy_gate_mm": 11.37,
+      "forecast_3d_mm": 3.5,
+      "gate_ratio": 0.3078,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 0.4,
+      "relative_spread": 0.4681,
+      "models": {
+        "ecmwf": 7.0,
+        "gfs": 0.4,
+        "icon": 3.5
+      }
+    },
+    {
+      "id": "mexico-city-2026-08-22",
+      "point_id": "mexico-city",
+      "name": "Mexico City",
+      "country": "Mexico",
+      "date": "2026-08-22",
+      "actual_mm": 8.8,
+      "heavy_gate_mm": 5.11,
+      "forecast_3d_mm": 1.7,
+      "gate_ratio": 0.3327,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 0.7,
+      "relative_spread": 0.2273,
+      "models": {
+        "ecmwf": 2.5,
+        "gfs": 1.7,
+        "icon": 0.5
+      }
+    },
+    {
+      "id": "london-2026-09-10",
+      "point_id": "london",
+      "name": "London",
+      "country": "United Kingdom",
+      "date": "2026-09-10",
+      "actual_mm": 1.1,
+      "heavy_gate_mm": 0.82,
+      "forecast_3d_mm": 0.3,
+      "gate_ratio": 0.3659,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 0.3,
+      "relative_spread": 1.7273,
+      "models": {
+        "ecmwf": 2.1,
+        "gfs": 0.3,
+        "icon": 0.2
+      }
+    },
+    {
+      "id": "nuwakot-2026-08-29",
+      "point_id": "nuwakot",
+      "name": "Nuwakot",
+      "country": "Nepal",
+      "date": "2026-08-29",
+      "actual_mm": 46.3,
+      "heavy_gate_mm": 44.77,
+      "forecast_3d_mm": 17.2,
+      "gate_ratio": 0.3842,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 7.3,
+      "relative_spread": 0.5637,
+      "models": {
+        "ecmwf": 17.2,
+        "gfs": 11.1,
+        "icon": 37.2
+      }
+    },
+    {
+      "id": "nairobi-2026-09-10",
+      "point_id": "nairobi",
+      "name": "Nairobi",
+      "country": "Kenya",
+      "date": "2026-09-10",
+      "actual_mm": 0.9,
+      "heavy_gate_mm": 0.51,
+      "forecast_3d_mm": 0.2,
+      "gate_ratio": 0.3922,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 0.1,
+      "relative_spread": 0.6,
+      "models": {
+        "ecmwf": 0.6,
+        "gfs": 0.0,
+        "icon": 0.2
+      }
+    },
+    {
+      "id": "miami-2026-09-09",
+      "point_id": "miami",
+      "name": "Miami",
+      "country": "United States",
+      "date": "2026-09-09",
+      "actual_mm": 13.8,
+      "heavy_gate_mm": 11.37,
+      "forecast_3d_mm": 4.6,
+      "gate_ratio": 0.4046,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 3.4,
+      "relative_spread": 0.4638,
+      "models": {
+        "ecmwf": 4.6,
+        "gfs": 6.5,
+        "icon": 0.1
+      }
+    },
+    {
+      "id": "accra-2026-09-05",
+      "point_id": "accra",
+      "name": "Accra",
+      "country": "Ghana",
+      "date": "2026-09-05",
+      "actual_mm": 6.7,
+      "heavy_gate_mm": 2.88,
+      "forecast_3d_mm": 1.2,
+      "gate_ratio": 0.4167,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 1.2,
+      "relative_spread": 1.0896,
+      "models": {
+        "ecmwf": 8.1,
+        "gfs": 0.8,
+        "icon": 1.2
+      }
+    },
+    {
+      "id": "istanbul-2026-08-28",
+      "point_id": "istanbul",
+      "name": "Istanbul",
+      "country": "T\u00fcrkiye",
+      "date": "2026-08-28",
+      "actual_mm": 3.2,
+      "heavy_gate_mm": 0.91,
+      "forecast_3d_mm": 0.4,
+      "gate_ratio": 0.4396,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 0.4,
+      "relative_spread": 1.9062,
+      "models": {
+        "ecmwf": 6.1,
+        "gfs": 0.0,
+        "icon": 0.4
+      }
+    },
+    {
+      "id": "miami-2026-09-01",
+      "point_id": "miami",
+      "name": "Miami",
+      "country": "United States",
+      "date": "2026-09-01",
+      "actual_mm": 11.6,
+      "heavy_gate_mm": 11.37,
+      "forecast_3d_mm": 5.6,
+      "gate_ratio": 0.4925,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 2.4,
+      "relative_spread": 0.2155,
+      "models": {
+        "ecmwf": 5.6,
+        "gfs": 4.2,
+        "icon": 6.7
+      }
+    },
+    {
+      "id": "mexico-city-2026-09-08",
+      "point_id": "mexico-city",
+      "name": "Mexico City",
+      "country": "Mexico",
+      "date": "2026-09-08",
+      "actual_mm": 6.4,
+      "heavy_gate_mm": 5.11,
+      "forecast_3d_mm": 2.6,
+      "gate_ratio": 0.5088,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -7.4,
+      "relative_spread": 0.6562,
+      "models": {
+        "ecmwf": 6.3,
+        "gfs": 2.6,
+        "icon": 2.1
+      }
+    },
+    {
+      "id": "singapore-2026-09-10",
+      "point_id": "singapore",
+      "name": "Singapore",
+      "country": "Singapore",
+      "date": "2026-09-10",
+      "actual_mm": 10.8,
+      "heavy_gate_mm": 8.42,
+      "forecast_3d_mm": 4.4,
+      "gate_ratio": 0.5226,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 1.3,
+      "relative_spread": 1.4259,
+      "models": {
+        "ecmwf": 15.4,
+        "gfs": 4.4,
+        "icon": 0.0
+      }
+    },
+    {
+      "id": "mexico-city-2026-09-09",
+      "point_id": "mexico-city",
+      "name": "Mexico City",
+      "country": "Mexico",
+      "date": "2026-09-09",
+      "actual_mm": 8.9,
+      "heavy_gate_mm": 5.11,
+      "forecast_3d_mm": 2.8,
+      "gate_ratio": 0.5479,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -2.6,
+      "relative_spread": 0.7865,
+      "models": {
+        "ecmwf": 9.7,
+        "gfs": 2.7,
+        "icon": 2.8
+      }
+    },
+    {
+      "id": "miami-2026-09-04",
+      "point_id": "miami",
+      "name": "Miami",
+      "country": "United States",
+      "date": "2026-09-04",
+      "actual_mm": 22.2,
+      "heavy_gate_mm": 11.37,
+      "forecast_3d_mm": 6.5,
+      "gate_ratio": 0.5717,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -11.2,
+      "relative_spread": 0.3468,
+      "models": {
+        "ecmwf": 9.3,
+        "gfs": 6.5,
+        "icon": 1.6
+      }
+    },
+    {
+      "id": "houston-2026-08-28",
+      "point_id": "houston",
+      "name": "Houston",
+      "country": "United States",
+      "date": "2026-08-28",
+      "actual_mm": 15.7,
+      "heavy_gate_mm": 10.16,
+      "forecast_3d_mm": 6.8,
+      "gate_ratio": 0.6693,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 4.8,
+      "relative_spread": 0.6561,
+      "models": {
+        "ecmwf": 6.8,
+        "gfs": 0.2,
+        "icon": 10.5
+      }
+    },
+    {
+      "id": "hanoi-2026-08-24",
+      "point_id": "hanoi",
+      "name": "Hanoi",
+      "country": "Vietnam",
+      "date": "2026-08-24",
+      "actual_mm": 37.8,
+      "heavy_gate_mm": 28.33,
+      "forecast_3d_mm": 19.4,
+      "gate_ratio": 0.6848,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -3.1,
+      "relative_spread": 0.3995,
+      "models": {
+        "ecmwf": 34.3,
+        "gfs": 19.2,
+        "icon": 19.4
+      }
+    },
+    {
+      "id": "london-2026-08-26",
+      "point_id": "london",
+      "name": "London",
+      "country": "United Kingdom",
+      "date": "2026-08-26",
+      "actual_mm": 3.6,
+      "heavy_gate_mm": 0.82,
+      "forecast_3d_mm": 0.6,
+      "gate_ratio": 0.7317,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -0.9,
+      "relative_spread": 0.6389,
+      "models": {
+        "ecmwf": 2.4,
+        "gfs": 0.1,
+        "icon": 0.6
+      }
+    },
+    {
+      "id": "london-2026-08-28",
+      "point_id": "london",
+      "name": "London",
+      "country": "United Kingdom",
+      "date": "2026-08-28",
+      "actual_mm": 1.4,
+      "heavy_gate_mm": 0.82,
+      "forecast_3d_mm": 0.6,
+      "gate_ratio": 0.7317,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -0.9,
+      "relative_spread": 4.2857,
+      "models": {
+        "ecmwf": 6.0,
+        "gfs": 0.0,
+        "icon": 0.6
+      }
+    },
+    {
+      "id": "mexico-city-2026-08-29",
+      "point_id": "mexico-city",
+      "name": "Mexico City",
+      "country": "Mexico",
+      "date": "2026-08-29",
+      "actual_mm": 10.6,
+      "heavy_gate_mm": 5.11,
+      "forecast_3d_mm": 3.8,
+      "gate_ratio": 0.7436,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -2.0,
+      "relative_spread": 0.934,
+      "models": {
+        "ecmwf": 3.8,
+        "gfs": 13.3,
+        "icon": 3.4
+      }
+    },
+    {
+      "id": "auckland-2026-09-10",
+      "point_id": "auckland",
+      "name": "Auckland",
+      "country": "New Zealand",
+      "date": "2026-09-10",
+      "actual_mm": 8.3,
+      "heavy_gate_mm": 6.21,
+      "forecast_3d_mm": 4.9,
+      "gate_ratio": 0.789,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -1.4,
+      "relative_spread": 0.6024,
+      "models": {
+        "ecmwf": 4.9,
+        "gfs": 0.6,
+        "icon": 5.6
+      }
+    },
+    {
+      "id": "hanoi-2026-09-10",
+      "point_id": "hanoi",
+      "name": "Hanoi",
+      "country": "Vietnam",
+      "date": "2026-09-10",
+      "actual_mm": 31.0,
+      "heavy_gate_mm": 28.33,
+      "forecast_3d_mm": 23.2,
+      "gate_ratio": 0.8189,
+      "miss_type": "near_threshold",
+      "revision_5d_to_3d_mm": 10.8,
+      "relative_spread": 0.2419,
+      "models": {
+        "ecmwf": 23.2,
+        "gfs": 20.0,
+        "icon": 27.5
+      }
+    },
+    {
+      "id": "hanoi-2026-08-21",
+      "point_id": "hanoi",
+      "name": "Hanoi",
+      "country": "Vietnam",
+      "date": "2026-08-21",
+      "actual_mm": 51.2,
+      "heavy_gate_mm": 28.33,
+      "forecast_3d_mm": 23.5,
+      "gate_ratio": 0.8295,
+      "miss_type": "near_threshold",
+      "revision_5d_to_3d_mm": 17.2,
+      "relative_spread": 0.4727,
+      "models": {
+        "ecmwf": 1.2,
+        "gfs": 25.4,
+        "icon": 23.5
+      }
+    },
+    {
+      "id": "miami-2026-09-03",
+      "point_id": "miami",
+      "name": "Miami",
+      "country": "United States",
+      "date": "2026-09-03",
+      "actual_mm": 14.4,
+      "heavy_gate_mm": 11.37,
+      "forecast_3d_mm": 9.7,
+      "gate_ratio": 0.8531,
+      "miss_type": "near_threshold",
+      "revision_5d_to_3d_mm": 3.1,
+      "relative_spread": 1.1181,
+      "models": {
+        "ecmwf": 9.7,
+        "gfs": 17.2,
+        "icon": 1.1
+      }
+    },
+    {
+      "id": "lagos-2026-08-29",
+      "point_id": "lagos",
+      "name": "Lagos",
+      "country": "Nigeria",
+      "date": "2026-08-29",
+      "actual_mm": 12.5,
+      "heavy_gate_mm": 10.83,
+      "forecast_3d_mm": 9.3,
+      "gate_ratio": 0.8587,
+      "miss_type": "near_threshold",
+      "revision_5d_to_3d_mm": 1.0,
+      "relative_spread": 0.904,
+      "models": {
+        "ecmwf": 9.3,
+        "gfs": 0.5,
+        "icon": 11.8
+      }
+    },
+    {
+      "id": "rome-2026-08-21",
+      "point_id": "rome",
+      "name": "Rome",
+      "country": "Italy",
+      "date": "2026-08-21",
+      "actual_mm": 6.1,
+      "heavy_gate_mm": 1.5,
+      "forecast_3d_mm": 1.3,
+      "gate_ratio": 0.8667,
+      "miss_type": "near_threshold",
+      "revision_5d_to_3d_mm": -5.6,
+      "relative_spread": 0.2623,
+      "models": {
+        "ecmwf": 2.7,
+        "gfs": 1.1,
+        "icon": 1.3
+      }
+    },
+    {
+      "id": "mexico-city-2026-09-06",
+      "point_id": "mexico-city",
+      "name": "Mexico City",
+      "country": "Mexico",
+      "date": "2026-09-06",
+      "actual_mm": 7.9,
+      "heavy_gate_mm": 5.11,
+      "forecast_3d_mm": 4.6,
+      "gate_ratio": 0.9002,
+      "miss_type": "near_threshold",
+      "revision_5d_to_3d_mm": -1.1,
+      "relative_spread": 0.1519,
+      "models": {
+        "ecmwf": 4.9,
+        "gfs": 4.6,
+        "icon": 3.7
+      }
+    },
+    {
+      "id": "manila-2026-08-28",
+      "point_id": "manila",
+      "name": "Manila",
+      "country": "Philippines",
+      "date": "2026-08-28",
+      "actual_mm": 53.3,
+      "heavy_gate_mm": 30.78,
+      "forecast_3d_mm": 28.6,
+      "gate_ratio": 0.9292,
+      "miss_type": "near_threshold",
+      "revision_5d_to_3d_mm": 3.1,
+      "relative_spread": 0.7467,
+      "models": {
+        "ecmwf": 28.6,
+        "gfs": 62.4,
+        "icon": 22.6
+      }
+    },
+    {
+      "id": "osaka-2026-09-10",
+      "point_id": "osaka",
+      "name": "Osaka",
+      "country": "Japan",
+      "date": "2026-09-10",
+      "actual_mm": 13.2,
+      "heavy_gate_mm": 3.08,
+      "forecast_3d_mm": 2.9,
+      "gate_ratio": 0.9416,
+      "miss_type": "near_threshold",
+      "revision_5d_to_3d_mm": -2.2,
+      "relative_spread": 0.3561,
+      "models": {
+        "ecmwf": 2.9,
+        "gfs": 0.6,
+        "icon": 5.3
+      }
+    },
+    {
+      "id": "hanoi-2026-08-23",
+      "point_id": "hanoi",
+      "name": "Hanoi",
+      "country": "Vietnam",
+      "date": "2026-08-23",
+      "actual_mm": 116.7,
+      "heavy_gate_mm": 28.33,
+      "forecast_3d_mm": 26.7,
+      "gate_ratio": 0.9425,
+      "miss_type": "near_threshold",
+      "revision_5d_to_3d_mm": 23.1,
+      "relative_spread": 0.1114,
+      "models": {
+        "ecmwf": 31.7,
+        "gfs": 18.7,
+        "icon": 26.7
+      }
+    },
+    {
+      "id": "auckland-2026-09-06",
+      "point_id": "auckland",
+      "name": "Auckland",
+      "country": "New Zealand",
+      "date": "2026-09-06",
+      "actual_mm": 6.6,
+      "heavy_gate_mm": 6.21,
+      "forecast_3d_mm": 6.2,
+      "gate_ratio": 0.9984,
+      "miss_type": "near_threshold",
+      "revision_5d_to_3d_mm": -14.2,
+      "relative_spread": 1.2273,
+      "models": {
+        "ecmwf": 9.3,
+        "gfs": 1.2,
+        "icon": 6.2
+      }
+    }
+  ],
+  "hypothesis": {
+    "id": "H21",
+    "claim": "Most strict-threshold heavy-event misses are near the decision boundary rather than deep misses.",
+    "status": "not_supported",
+    "effect": "near 10; deep 36; near share 0.2174; misses 46",
+    "product_update": "Misses are not mainly boundary cases. Audit deep misses for missing physical variables, model failure modes, and spatial context."
+  },
+  "limitations": [
+    "ERA5 is reanalysis rather than a local rain gauge.",
+    "The threshold is location-specific but does not model impact.",
+    "The miss taxonomy is diagnostic; it does not itself justify lowering the live alert threshold.",
+    "Only records with all three forecast models are allowed to update H21."
+  ]
+}

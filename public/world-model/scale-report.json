@@ -1,0 +1,369 @@
+{
+  "schema_version": "0.1",
+  "period": {
+    "start": "2026-07-12",
+    "end": "2026-09-10"
+  },
+  "lead_days": 3,
+  "requested_points": 30,
+  "usable_points": 30,
+  "source_errors": [],
+  "evidence_health": {
+    "status": "healthy",
+    "raw_records": 5490,
+    "full_council_records": 5490,
+    "full_council_ratio": 1.0,
+    "usable_points": 30
+  },
+  "point_results": [
+    {
+      "id": "accra",
+      "name": "Accra",
+      "country": "Ghana",
+      "samples": 61,
+      "heavy_samples": 0,
+      "council_mae_mm": 1.352,
+      "average_model_mae_mm": 2.205,
+      "improvement_pct": 38.7,
+      "council_better": true
+    },
+    {
+      "id": "auckland",
+      "name": "Auckland",
+      "country": "New Zealand",
+      "samples": 61,
+      "heavy_samples": 3,
+      "council_mae_mm": 1.248,
+      "average_model_mae_mm": 1.67,
+      "improvement_pct": 25.3,
+      "council_better": true
+    },
+    {
+      "id": "bangkok",
+      "name": "Bangkok",
+      "country": "Thailand",
+      "samples": 61,
+      "heavy_samples": 7,
+      "council_mae_mm": 3.239,
+      "average_model_mae_mm": 4.161,
+      "improvement_pct": 22.2,
+      "council_better": true
+    },
+    {
+      "id": "berlin",
+      "name": "Berlin",
+      "country": "Germany",
+      "samples": 61,
+      "heavy_samples": 2,
+      "council_mae_mm": 1.005,
+      "average_model_mae_mm": 1.544,
+      "improvement_pct": 34.9,
+      "council_better": true
+    },
+    {
+      "id": "brisbane",
+      "name": "Brisbane",
+      "country": "Australia",
+      "samples": 61,
+      "heavy_samples": 0,
+      "council_mae_mm": 0.372,
+      "average_model_mae_mm": 0.452,
+      "improvement_pct": 17.7,
+      "council_better": true
+    },
+    {
+      "id": "buenos-aires",
+      "name": "Buenos Aires",
+      "country": "Argentina",
+      "samples": 61,
+      "heavy_samples": 4,
+      "council_mae_mm": 1.534,
+      "average_model_mae_mm": 1.62,
+      "improvement_pct": 5.3,
+      "council_better": true
+    },
+    {
+      "id": "cairo",
+      "name": "Cairo",
+      "country": "Egypt",
+      "samples": 61,
+      "heavy_samples": 0,
+      "council_mae_mm": 0.0,
+      "average_model_mae_mm": 0.0,
+      "improvement_pct": null,
+      "council_better": false
+    },
+    {
+      "id": "cape-town",
+      "name": "Cape Town",
+      "country": "South Africa",
+      "samples": 61,
+      "heavy_samples": 0,
+      "council_mae_mm": 0.187,
+      "average_model_mae_mm": 0.281,
+      "improvement_pct": 33.6,
+      "council_better": true
+    },
+    {
+      "id": "chennai",
+      "name": "Chennai",
+      "country": "India",
+      "samples": 61,
+      "heavy_samples": 2,
+      "council_mae_mm": 1.38,
+      "average_model_mae_mm": 2.244,
+      "improvement_pct": 38.5,
+      "council_better": true
+    },
+    {
+      "id": "delhi",
+      "name": "Delhi",
+      "country": "India",
+      "samples": 61,
+      "heavy_samples": 9,
+      "council_mae_mm": 3.82,
+      "average_model_mae_mm": 4.969,
+      "improvement_pct": 23.1,
+      "council_better": true
+    },
+    {
+      "id": "dhaka",
+      "name": "Dhaka",
+      "country": "Bangladesh",
+      "samples": 61,
+      "heavy_samples": 21,
+      "council_mae_mm": 6.11,
+      "average_model_mae_mm": 7.054,
+      "improvement_pct": 13.4,
+      "council_better": true
+    },
+    {
+      "id": "hanoi",
+      "name": "Hanoi",
+      "country": "Vietnam",
+      "samples": 61,
+      "heavy_samples": 25,
+      "council_mae_mm": 8.392,
+      "average_model_mae_mm": 9.66,
+      "improvement_pct": 13.1,
+      "council_better": true
+    },
+    {
+      "id": "houston",
+      "name": "Houston",
+      "country": "United States",
+      "samples": 61,
+      "heavy_samples": 10,
+      "council_mae_mm": 4.569,
+      "average_model_mae_mm": 4.477,
+      "improvement_pct": -2.1,
+      "council_better": false
+    },
+    {
+      "id": "istanbul",
+      "name": "Istanbul",
+      "country": "T\u00fcrkiye",
+      "samples": 61,
+      "heavy_samples": 0,
+      "council_mae_mm": 0.246,
+      "average_model_mae_mm": 0.28,
+      "improvement_pct": 12.3,
+      "council_better": true
+    },
+    {
+      "id": "jakarta",
+      "name": "Jakarta",
+      "country": "Indonesia",
+      "samples": 61,
+      "heavy_samples": 0,
+      "council_mae_mm": 0.577,
+      "average_model_mae_mm": 0.933,
+      "improvement_pct": 38.1,
+      "council_better": true
+    },
+    {
+      "id": "lagos",
+      "name": "Lagos",
+      "country": "Nigeria",
+      "samples": 61,
+      "heavy_samples": 9,
+      "council_mae_mm": 4.508,
+      "average_model_mae_mm": 6.035,
+      "improvement_pct": 25.3,
+      "council_better": true
+    },
+    {
+      "id": "london",
+      "name": "London",
+      "country": "United Kingdom",
+      "samples": 61,
+      "heavy_samples": 3,
+      "council_mae_mm": 0.89,
+      "average_model_mae_mm": 0.857,
+      "improvement_pct": -3.8,
+      "council_better": false
+    },
+    {
+      "id": "manila",
+      "name": "Manila",
+      "country": "Philippines",
+      "samples": 61,
+      "heavy_samples": 28,
+      "council_mae_mm": 8.633,
+      "average_model_mae_mm": 10.141,
+      "improvement_pct": 14.9,
+      "council_better": true
+    },
+    {
+      "id": "mexico-city",
+      "name": "Mexico City",
+      "country": "Mexico",
+      "samples": 61,
+      "heavy_samples": 3,
+      "council_mae_mm": 2.73,
+      "average_model_mae_mm": 3.252,
+      "improvement_pct": 16.1,
+      "council_better": true
+    },
+    {
+      "id": "miami",
+      "name": "Miami",
+      "country": "United States",
+      "samples": 61,
+      "heavy_samples": 11,
+      "council_mae_mm": 3.336,
+      "average_model_mae_mm": 3.933,
+      "improvement_pct": 15.2,
+      "council_better": true
+    },
+    {
+      "id": "mumbai",
+      "name": "Mumbai",
+      "country": "India",
+      "samples": 61,
+      "heavy_samples": 18,
+      "council_mae_mm": 6.102,
+      "average_model_mae_mm": 6.837,
+      "improvement_pct": 10.8,
+      "council_better": true
+    },
+    {
+      "id": "nairobi",
+      "name": "Nairobi",
+      "country": "Kenya",
+      "samples": 61,
+      "heavy_samples": 0,
+      "council_mae_mm": 0.159,
+      "average_model_mae_mm": 0.308,
+      "improvement_pct": 48.3,
+      "council_better": true
+    },
+    {
+      "id": "new-york",
+      "name": "New York",
+      "country": "United States",
+      "samples": 61,
+      "heavy_samples": 8,
+      "council_mae_mm": 3.292,
+      "average_model_mae_mm": 3.984,
+      "improvement_pct": 17.4,
+      "council_better": true
+    },
+    {
+      "id": "niamey",
+      "name": "Niamey",
+      "country": "Niger",
+      "samples": 61,
+      "heavy_samples": 2,
+      "council_mae_mm": 2.193,
+      "average_model_mae_mm": 3.068,
+      "improvement_pct": 28.5,
+      "council_better": true
+    },
+    {
+      "id": "nuwakot",
+      "name": "Nuwakot",
+      "country": "Nepal",
+      "samples": 61,
+      "heavy_samples": 51,
+      "council_mae_mm": 10.844,
+      "average_model_mae_mm": 12.584,
+      "improvement_pct": 13.8,
+      "council_better": true
+    },
+    {
+      "id": "osaka",
+      "name": "Osaka",
+      "country": "Japan",
+      "samples": 61,
+      "heavy_samples": 10,
+      "council_mae_mm": 2.884,
+      "average_model_mae_mm": 4.442,
+      "improvement_pct": 35.1,
+      "council_better": true
+    },
+    {
+      "id": "recife",
+      "name": "Recife",
+      "country": "Brazil",
+      "samples": 61,
+      "heavy_samples": 0,
+      "council_mae_mm": 2.423,
+      "average_model_mae_mm": 2.761,
+      "improvement_pct": 12.3,
+      "council_better": true
+    },
+    {
+      "id": "rome",
+      "name": "Rome",
+      "country": "Italy",
+      "samples": 61,
+      "heavy_samples": 1,
+      "council_mae_mm": 0.47,
+      "average_model_mae_mm": 0.597,
+      "improvement_pct": 21.2,
+      "council_better": true
+    },
+    {
+      "id": "singapore",
+      "name": "Singapore",
+      "country": "Singapore",
+      "samples": 61,
+      "heavy_samples": 5,
+      "council_mae_mm": 1.895,
+      "average_model_mae_mm": 2.295,
+      "improvement_pct": 17.4,
+      "council_better": true
+    },
+    {
+      "id": "warsaw",
+      "name": "Warsaw",
+      "country": "Poland",
+      "samples": 61,
+      "heavy_samples": 3,
+      "council_mae_mm": 2.154,
+      "average_model_mae_mm": 2.379,
+      "improvement_pct": 9.5,
+      "council_better": true
+    }
+  ],
+  "summary": {
+    "council_win_points": 27,
+    "council_win_rate": 0.9,
+    "median_improvement_pct": 17.4
+  },
+  "hypothesis": {
+    "id": "H20",
+    "claim": "The three-model council improves 3-day daily-precipitation accuracy across diverse global climates, not only the original pilot locations.",
+    "status": "supported",
+    "effect": "wins 27/30 locations; median improvement 17.4%",
+    "product_update": "The council generalises well enough to justify expanding validated monitoring, while preserving location-specific thresholds."
+  },
+  "limitations": [
+    "Point precipitation is not basin-integrated precipitation.",
+    "This tests forecast error, not human impact.",
+    "Locations are a deliberately diverse convenience sample, not a statistically representative sample of Earth.",
+    "Operational model versions can change over time.",
+    "Only records with all three forecast models are used for the H20 conclusion."
+  ]
+}
