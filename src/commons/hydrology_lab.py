@@ -290,11 +290,26 @@ def run_hydrology_backtest(
 
     mean_auc_gain = mean(auc_gains) if auc_gains else None
     mean_precision_gain = mean(precision_gains) if precision_gains else None
-    supported = (
-        mean_auc_gain is not None
-        and mean_precision_gain is not None
+    positive_auc_points = sum(
+        1 for item in valid
+        if (item.get("auc_gain_vs_recent_rain") or 0) >= 0.03
+    )
+    negative_auc_points = sum(
+        1 for item in valid
+        if (item.get("auc_gain_vs_recent_rain") or 0) < 0
+    )
+    broad_support = (
+        len(valid) >= 3
+        and positive_auc_points >= math.ceil(len(valid) * 0.67)
+        and negative_auc_points == 0
+        and mean_auc_gain is not None
         and mean_auc_gain >= 0.03
-        and mean_precision_gain >= 20
+    )
+    promising_but_heterogeneous = (
+        not broad_support
+        and mean_auc_gain is not None
+        and mean_auc_gain >= 0.02
+        and any((item.get("auc_gain_vs_recent_rain") or 0) >= 0.05 for item in valid)
     )
 
     return {
@@ -309,7 +324,9 @@ def run_hydrology_backtest(
             "claim": "Antecedent rainfall and soil moisture improve detection of top-5% discharge days beyond recent 3-day rainfall alone.",
             "status": (
                 "supported"
-                if supported
+                if broad_support
+                else "mixed"
+                if promising_but_heterogeneous
                 else "not_supported"
                 if mean_auc_gain is not None and mean_precision_gain is not None
                 else "insufficient"
@@ -318,9 +335,13 @@ def run_hydrology_backtest(
             "mean_precision_gain_pct": (
                 round(mean_precision_gain, 1) if mean_precision_gain is not None else None
             ),
+            "positive_auc_points": positive_auc_points,
+            "negative_auc_points": negative_auc_points,
             "product_update": (
-                "Add antecedent wetness to the river explanation and attention model."
-                if supported
+                "Add antecedent wetness only where basin-specific backtests validate it."
+                if broad_support
+                else "Do not apply a global wetness rule. Learn and expose wetness skill per basin."
+                if promising_but_heterogeneous
                 else "Do not add catchment wetness to the attention model yet."
             ),
         },
