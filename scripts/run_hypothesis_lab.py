@@ -291,6 +291,104 @@ def main() -> int:
                 "max_heavy_event_catch_loss"
             )
 
+    scale_path = Path("public/world-model/scale-report.json")
+    if scale_path.exists():
+        scale = json.loads(scale_path.read_text(encoding="utf-8"))
+        h20 = scale.get("hypothesis") or {}
+        if h20.get("id") == "H20":
+            report["hypotheses"] = [
+                item for item in report["hypotheses"] if item.get("id") != "H20"
+            ]
+            report["hypotheses"].append(
+                {
+                    "id": "H20",
+                    "claim": h20.get("claim"),
+                    "status": h20.get("status"),
+                    "effect": h20.get("effect"),
+                    "update": h20.get("product_update"),
+                }
+            )
+            report.setdefault("headline_metrics", {})
+            report["headline_metrics"]["h20_council_win_rate"] = (
+                scale.get("summary") or {}
+            ).get("council_win_rate")
+            report["headline_metrics"]["h20_median_improvement_pct"] = (
+                scale.get("summary") or {}
+            ).get("median_improvement_pct")
+
+    miss_path = Path("public/world-model/miss-report.json")
+    if miss_path.exists():
+        miss = json.loads(miss_path.read_text(encoding="utf-8"))
+        h21 = miss.get("hypothesis") or {}
+        if h21.get("id") == "H21":
+            report["hypotheses"] = [
+                item for item in report["hypotheses"] if item.get("id") != "H21"
+            ]
+            report["hypotheses"].append(
+                {
+                    "id": "H21",
+                    "claim": h21.get("claim"),
+                    "status": h21.get("status"),
+                    "effect": h21.get("effect"),
+                    "update": h21.get("product_update"),
+                }
+            )
+            report.setdefault("headline_metrics", {})
+            report["headline_metrics"]["h21_misses"] = miss.get("misses")
+            report["headline_metrics"]["h21_near_threshold_share"] = miss.get(
+                "near_threshold_share"
+            )
+
+    exposure_path = Path("public/world-model/exposure-report.json")
+    if exposure_path.exists():
+        exposure = json.loads(exposure_path.read_text(encoding="utf-8"))
+        h13 = exposure.get("hypothesis") or {}
+        if h13.get("id") == "H13":
+            report["hypotheses"] = [
+                item for item in report["hypotheses"] if item.get("id") != "H13"
+            ]
+            report["hypotheses"].append(
+                {
+                    "id": "H13",
+                    "claim": h13.get("claim"),
+                    "status": h13.get("status"),
+                    "effect": h13.get("effect"),
+                    "update": h13.get("product_update"),
+                }
+            )
+            report.setdefault("headline_metrics", {})
+            report["headline_metrics"]["h13_exposure_usable_points"] = exposure.get(
+                "usable_points"
+            )
+            report["headline_metrics"]["h13_exposure_coverage_status"] = exposure.get(
+                "coverage_status"
+            )
+
+    external_path = Path("public/world-model/external-alert-report.json")
+    if external_path.exists():
+        external = json.loads(external_path.read_text(encoding="utf-8"))
+        h22 = external.get("hypothesis") or {}
+        if h22.get("id") == "H22":
+            report["hypotheses"] = [
+                item for item in report["hypotheses"] if item.get("id") != "H22"
+            ]
+            report["hypotheses"].append(
+                {
+                    "id": "H22",
+                    "claim": h22.get("claim"),
+                    "status": h22.get("status"),
+                    "effect": h22.get("effect"),
+                    "update": h22.get("product_update"),
+                }
+            )
+            report.setdefault("headline_metrics", {})
+            report["headline_metrics"]["h22_gdacs_matched_point_days"] = external.get(
+                "matched_point_days"
+            )
+            report["headline_metrics"]["h22_gdacs_overlap_rate"] = external.get(
+                "overlap_rate"
+            )
+
     report["next_hypotheses"] = [
         {
             "id": "H7",
@@ -305,16 +403,10 @@ def main() -> int:
             "test": "Cluster basin regimes and validate wetness features out-of-sample.",
         },
         {
-            "id": "H13",
-            "claim": "Adding exposure changes which physical hazards deserve human attention first.",
-            "signals": ["population", "settlements", "critical infrastructure", "hazard state"],
-            "test": "Compare hazard-only ranking with exposure-aware ranking against historical impact records.",
-        },
-        {
             "id": "H14",
-            "claim": "Official warning changes provide a useful external benchmark for COMMONS attention changes.",
-            "signals": ["official warnings", "COMMONS change signals", "timing"],
-            "test": "Measure agreement, earlier/later detection and false alarms without treating official warnings as perfect ground truth.",
+            "claim": "Source-specific official warning archives improve external validation beyond the global GDACS benchmark.",
+            "signals": ["national warning archives", "COMMONS attention state", "timing", "geography"],
+            "test": "Add authority-specific adapters where archive access is available; keep GDACS separate from official local warning ground truth.",
         },
         {
             "id": "H16",

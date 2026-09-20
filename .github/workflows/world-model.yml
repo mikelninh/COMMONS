@@ -9,6 +9,8 @@ on:
     paths:
       - "src/commons/world_model.py"
       - "src/commons/morning_brief.py"
+      - "src/commons/attention_ledger.py"
+      - "scripts/update_attention_ledger.py"
       - "scripts/build_world_model.py"
       - "scripts/build_world_model_replay.py"
       - "scripts/build_morning_brief.py"
@@ -91,7 +93,11 @@ jobs:
             --attention-report "$GITHUB_WORKSPACE/public/world-model/attention-rule-report.json" \
             --hypothesis-report "$GITHUB_WORKSPACE/public/world-model/hypothesis-report.json" \
             --loops "$GITHUB_WORKSPACE/public/world-model/loops.json" \
+            --exposure-report "$GITHUB_WORKSPACE/public/world-model/exposure-report.json" \
             --output /tmp/world-model-data/data/world-model/morning-brief.json
+          python "$GITHUB_WORKSPACE/scripts/update_attention_ledger.py" \
+            --brief /tmp/world-model-data/data/world-model/morning-brief.json \
+            --ledger /tmp/world-model-data/data/world-model/attention-ledger.json
           cd /tmp/world-model-data
           git add data/world-model
           if git diff --cached --quiet; then

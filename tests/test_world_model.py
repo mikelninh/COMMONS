@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 import json
 from pathlib import Path
 import shutil
@@ -913,12 +913,16 @@ def test_morning_brief_uses_threshold_proximity_and_keeps_revisions_context_only
             "id": loop_id,
             "forecast_council": {
                 "members": [
-                    {"provider": "ecmwf", "precip_72h_mm": providers[0]},
-                    {"provider": "gfs", "precip_72h_mm": providers[1]},
-                    {"provider": "icon", "precip_72h_mm": providers[2]},
+                    {"provider": "ecmwf", "precip_peak_daily_mm": providers[0]},
+                    {"provider": "gfs", "precip_peak_daily_mm": providers[1]},
+                    {"provider": "icon", "precip_peak_daily_mm": providers[2]},
                 ],
                 "source_errors": [],
-                "consensus": {"precip_72h_mm_median": rain},
+                "consensus": {
+                    "precip_peak_daily_mm_median": rain,
+                    "precip_peak_date": "2026-09-22",
+                    "precip_72h_mm_median": rain * 1.5,
+                },
             },
         }
 
@@ -1005,3 +1009,163 @@ def test_morning_brief_public_surface_is_calm_and_uses_independent_data_plane() 
     assert "world-model-data/data/world-model/morning-brief.json" in js
     assert "./world-model/morning-brief-seed.json" in js
     assert "Revisions do not change rank." in page
+
+
+def test_live_rain_gate_compares_daily_forecast_with_daily_threshold() -> None:
+    from commons.world_model import summarize_forecast_response
+
+    summary = summarize_forecast_response(
+        {
+            "daily": {
+                "time": ["2026-09-20", "2026-09-21", "2026-09-22"],
+                "precipitation_sum": [5.0, 30.0, 7.0],
+                "temperature_2m_max": [20.0, 21.0, 22.0],
+                "temperature_2m_min": [10.0, 11.0, 12.0],
+                "wind_gusts_10m_max": [25.0, 30.0, 20.0],
+            }
+        }
+    )
+
+    assert summary["precip_72h_mm"] == 42.0
+    assert summary["precip_peak_daily_mm"] == 30.0
+    assert summary["precip_peak_date"] == "2026-09-21"
+    assert len(summary["precip_daily_mm"]) == 3
+
+
+def test_morning_brief_never_uses_72h_total_as_daily_alert_gate() -> None:
+    source = Path("src/commons/morning_brief.py").read_text(encoding="utf-8")
+
+    assert 'get("precip_peak_daily_mm_median")' in source
+    assert '"forecast_peak_daily_mm"' in source
+    assert "72h totals are context only" in source
+
+
+def test_global_scale_panel_has_thirty_diverse_locations() -> None:
+    from commons.scale_points import GLOBAL_POINTS
+
+    assert len(GLOBAL_POINTS) == 30
+    countries = {point.country for point in GLOBAL_POINTS}
+    assert len(countries) >= 20
+    assert {"Nepal", "Philippines", "Germany", "Nigeria", "Brazil", "Australia"} <= countries
+
+
+def test_scale_and_miss_labs_are_continuously_rerun() -> None:
+    workflow = Path(".github/workflows/hypothesis-lab.yml").read_text(encoding="utf-8")
+    runner = Path("scripts/run_hypothesis_lab.py").read_text(encoding="utf-8")
+
+    assert "run_scale_lab.py" in workflow
+    assert "run_miss_lab.py" in workflow
+    assert "scale-report.json" in workflow
+    assert "miss-report.json" in workflow
+    assert '"id": "H20"' in runner
+    assert '"id": "H21"' in runner
+
+
+def test_miss_lab_keeps_boundary_misses_separate_from_deep_misses() -> None:
+    source = Path("src/commons/miss_lab.py").read_text(encoding="utf-8")
+
+    assert '"near_threshold" if ratio >= 0.80 else "deep"' in source
+    assert "revision_5d_to_3d_mm" in source
+    assert "does not itself justify lowering the live alert threshold" in source
+
+
+def test_exposure_context_is_never_allowed_to_change_morning_rank() -> None:
+    from commons.morning_brief import build_morning_brief
+
+    snapshot = {
+        "generated_at": "2026-09-20T12:00:00Z",
+        "loops": [
+            {
+                "id": "water-rises",
+                "forecast_council": {
+                    "members": [
+                        {"provider": "ecmwf", "precip_peak_daily_mm": 10.0},
+                        {"provider": "gfs", "precip_peak_daily_mm": 10.0},
+                        {"provider": "icon", "precip_peak_daily_mm": 10.0},
+                    ],
+                    "source_errors": [],
+                    "consensus": {
+                        "precip_peak_daily_mm_median": 10.0,
+                        "precip_peak_date": "2026-09-21",
+                    },
+                },
+            }
+        ],
+    }
+    exposure = {
+        "points": [
+            {
+                "point": {"id": "nuwakot"},
+                "population": 9999999,
+                "radius_km": 20,
+                "data_year": 2026,
+            }
+        ]
+    }
+    brief = build_morning_brief(
+        snapshot,
+        attention_report={"thresholds_mm": {"nuwakot": 50.0}},
+        hypothesis_report={"data_quality": {"status": "healthy"}},
+        loop_catalog={"loops": []},
+        exposure_report=exposure,
+    )
+    item = next(x for x in brief["monitors"] if x["point_id"] == "nuwakot")
+
+    assert item["state"] == "quiet"
+    assert item["gate_ratio"] == 0.2
+    assert item["exposure_context"]["population"] == 9999999
+    assert item["exposure_context"]["role"] == "context_only"
+
+
+def test_h13_worldpop_context_runs_weekly_but_remains_insufficient_for_ranking() -> None:
+    workflow = Path(".github/workflows/hypothesis-lab.yml").read_text(encoding="utf-8")
+    source = Path("src/commons/exposure_lab.py").read_text(encoding="utf-8")
+
+    assert "run_exposure_lab.py" in workflow
+    assert "exposure-report.json" in workflow
+    assert '"status": "insufficient"' in source
+    assert "Do not let it change ALERT or PRIORITY" in source
+
+
+def test_attention_ledger_classifies_live_calls_against_observed_outcomes(monkeypatch) -> None:
+    import commons.attention_ledger as ledger_module
+
+    brief = {
+        "generated_at": "2026-09-01T06:00:00Z",
+        "monitors": [
+            {
+                "point_id": "x",
+                "name": "X",
+                "country": "Test",
+                "state": "quiet",
+                "forecast_peak_date": "2026-09-01",
+                "forecast_peak_daily_mm": 5.0,
+                "heavy_rain_gate_mm": 20.0,
+                "gate_ratio": 0.25,
+                "latitude": 1.0,
+                "longitude": 2.0,
+            }
+        ],
+    }
+    monkeypatch.setattr(ledger_module, "_actual_daily_rain_mm", lambda **kwargs: 30.0)
+
+    ledger = ledger_module.update_attention_ledger(
+        brief,
+        today=date(2026, 9, 10),
+    )
+
+    assert ledger["summary"]["verified"] == 1
+    assert ledger["summary"]["quiet_misses"] == 1
+    assert ledger["observations"][0]["classification"] == "quiet_miss"
+
+
+def test_world_model_workflow_closes_live_prediction_outcome_loop() -> None:
+    workflow = Path(".github/workflows/world-model.yml").read_text(encoding="utf-8")
+    page = Path("public/morning.html").read_text(encoding="utf-8")
+    js = Path("public/morning.js").read_text(encoding="utf-8")
+
+    assert "update_attention_ledger.py" in workflow
+    assert "attention-ledger.json" in workflow
+    assert "How are our past calls doing?" in page
+    assert "attention-ledger.json" in js
+    assert "QUIET MISSES" in page

@@ -229,15 +229,26 @@ def _clean(values: Iterable[Any]) -> list[float]:
 
 def summarize_forecast_response(payload: dict[str, Any]) -> dict[str, Any]:
     daily = payload.get("daily") or {}
-    times = daily.get("time") or []
-    precip = _clean((daily.get("precipitation_sum") or [])[:3])
+    times = (daily.get("time") or [])[:3]
+    raw_precip = (daily.get("precipitation_sum") or [])[:3]
+    precip_daily: list[dict[str, Any]] = []
+    for raw_date, raw_value in zip(times, raw_precip):
+        values = _clean([raw_value])
+        if values:
+            precip_daily.append({"date": str(raw_date), "mm": round(values[0], 1)})
+
+    precip = [float(item["mm"]) for item in precip_daily]
     temps = _clean((daily.get("temperature_2m_max") or [])[:3])
     mins = _clean((daily.get("temperature_2m_min") or [])[:3])
     gusts = _clean((daily.get("wind_gusts_10m_max") or [])[:3])
     if not times or not (precip or temps or gusts):
         raise WorldModelError("Forecast response did not contain usable daily data.")
+    peak = max(precip_daily, key=lambda item: item["mm"]) if precip_daily else None
     return {
         "start_date": times[0],
+        "precip_daily_mm": precip_daily,
+        "precip_peak_daily_mm": peak["mm"] if peak else None,
+        "precip_peak_date": peak["date"] if peak else None,
         "precip_72h_mm": round(sum(precip), 1) if precip else None,
         "temp_max_72h_c": round(max(temps), 1) if temps else None,
         "temp_min_72h_c": round(min(mins), 1) if mins else None,
@@ -275,10 +286,34 @@ def build_forecast_council(
     precip = _clean(member.get("precip_72h_mm") for member in members)
     temp = _clean(member.get("temp_max_72h_c") for member in members)
     gust = _clean(member.get("gust_max_72h_kmh") for member in members)
+
+    daily_by_date: dict[str, list[float]] = {}
+    for member in members:
+        for item in member.get("precip_daily_mm") or []:
+            raw_date = item.get("date")
+            values = _clean([item.get("mm")])
+            if raw_date and values:
+                daily_by_date.setdefault(str(raw_date), []).append(values[0])
+    daily_consensus = [
+        {"date": day, "mm": round(median(values), 1)}
+        for day, values in sorted(daily_by_date.items())
+        if len(values) >= 2
+    ]
+    daily_peak = (
+        max(daily_consensus, key=lambda item: item["mm"])
+        if daily_consensus
+        else None
+    )
+
     return {
         "members": members,
         "source_errors": errors,
         "consensus": {
+            "precip_daily_mm_median": daily_consensus,
+            "precip_peak_daily_mm_median": (
+                daily_peak["mm"] if daily_peak else None
+            ),
+            "precip_peak_date": daily_peak["date"] if daily_peak else None,
             "precip_72h_mm_median": round(median(precip), 1) if precip else None,
             "temp_max_72h_c_median": round(median(temp), 1) if temp else None,
             "gust_max_72h_kmh_median": round(median(gust), 1) if gust else None,

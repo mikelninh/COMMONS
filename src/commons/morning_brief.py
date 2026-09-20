@@ -10,21 +10,21 @@ VALIDATED_MONITORS: tuple[dict[str, str], ...] = (
         "loop_id": "water-rises",
         "name": "Nuwakot",
         "country": "Nepal",
-        "signal": "72h rainfall",
+        "signal": "peak daily rainfall · next 72h",
     },
     {
         "point_id": "manila",
         "loop_id": "storm-arrives",
         "name": "Manila",
         "country": "Philippines",
-        "signal": "72h rainfall",
+        "signal": "peak daily rainfall · next 72h",
     },
     {
         "point_id": "delhi",
         "loop_id": "heat-we-cannot-see",
         "name": "Delhi",
         "country": "India",
-        "signal": "72h rainfall",
+        "signal": "peak daily rainfall · next 72h",
     },
 )
 
@@ -58,7 +58,7 @@ def _provider_precip(loop: dict[str, Any] | None) -> dict[str, float]:
     out: dict[str, float] = {}
     for member in council.get("members") or []:
         provider = member.get("provider")
-        raw = member.get("precip_72h_mm")
+        raw = member.get("precip_peak_daily_mm")
         if not provider or raw is None:
             continue
         try:
@@ -70,13 +70,19 @@ def _provider_precip(loop: dict[str, Any] | None) -> dict[str, float]:
 
 def _consensus_precip(loop: dict[str, Any] | None) -> float | None:
     council = (loop or {}).get("forecast_council") or {}
-    raw = (council.get("consensus") or {}).get("precip_72h_mm_median")
+    raw = (council.get("consensus") or {}).get("precip_peak_daily_mm_median")
     if raw is None:
         return None
     try:
         return float(raw)
     except (TypeError, ValueError):
         return None
+
+
+def _consensus_peak_date(loop: dict[str, Any] | None) -> str | None:
+    council = (loop or {}).get("forecast_council") or {}
+    raw = (council.get("consensus") or {}).get("precip_peak_date")
+    return str(raw) if raw else None
 
 
 def _revision_context(
@@ -132,12 +138,18 @@ def build_morning_brief(
     attention_report: dict[str, Any] | None = None,
     hypothesis_report: dict[str, Any] | None = None,
     loop_catalog: dict[str, Any] | None = None,
+    exposure_report: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     current_loops = _loop_map(snapshot)
     previous_loops = _loop_map(previous_snapshot)
     catalog = _catalog_map(loop_catalog)
 
     thresholds = (attention_report or {}).get("thresholds_mm") or {}
+    exposure_by_point = {
+        str((item.get("point") or {}).get("id")): item
+        for item in (exposure_report or {}).get("points") or []
+        if (item.get("point") or {}).get("id")
+    }
     monitored: list[dict[str, Any]] = []
 
     for monitor in VALIDATED_MONITORS:
@@ -146,7 +158,9 @@ def build_morning_brief(
         council = loop.get("forecast_council") or {}
         members = council.get("members") or []
         model_count = len(members)
+        watchpoint = loop.get("watchpoint") or {}
         current_mm = _consensus_precip(loop)
+        peak_date = _consensus_peak_date(loop)
 
         raw_threshold = thresholds.get(monitor["point_id"])
         try:
@@ -188,6 +202,18 @@ def build_morning_brief(
                 "note": "River percentile is context, not the rainfall alert gate.",
             }
 
+        exposure = exposure_by_point.get(monitor["point_id"])
+        exposure_context = None
+        if exposure:
+            exposure_context = {
+                "population": exposure.get("population"),
+                "radius_km": exposure.get("radius_km"),
+                "data_year": exposure.get("data_year"),
+                "source": exposure.get("data_source") or "WorldPop",
+                "role": "context_only",
+                "note": "Nearby population is context, not estimated people impacted.",
+            }
+
         monitored.append(
             {
                 "point_id": monitor["point_id"],
@@ -195,11 +221,17 @@ def build_morning_brief(
                 "loop_title": (catalog.get(loop_id) or {}).get("title"),
                 "name": monitor["name"],
                 "country": monitor["country"],
+                "latitude": watchpoint.get("latitude"),
+                "longitude": watchpoint.get("longitude"),
                 "signal": monitor["signal"],
                 "state": state,
                 "rank_score": round(ratio, 4) if ratio is not None else None,
-                "forecast_72h_mm": (
+                "forecast_peak_daily_mm": (
                     round(current_mm, 1) if current_mm is not None else None
+                ),
+                "forecast_peak_date": peak_date,
+                "forecast_72h_mm": (council.get("consensus") or {}).get(
+                    "precip_72h_mm_median"
                 ),
                 "heavy_rain_gate_mm": (
                     round(threshold, 2) if threshold is not None else None
@@ -212,6 +244,7 @@ def build_morning_brief(
                 "next_step": next_step,
                 "revision": revision,
                 "flood_context": flood_context,
+                "exposure_context": exposure_context,
             }
         )
 
@@ -279,7 +312,7 @@ def build_morning_brief(
             ),
         },
         "ranking_rule": {
-            "primary": "forecast council median / validated local heavy-rain gate",
+            "primary": "peak daily forecast council median / validated daily heavy-rain gate",
             "alert_gate": "ratio >= 1.00",
             "priority_band": "0.80 <= ratio < 1.00",
             "quiet_band": "ratio < 0.80",
@@ -302,7 +335,9 @@ def build_morning_brief(
         "trust_contract": [
             "ALERT means a research threshold crossed; it is not a local emergency warning.",
             "PRIORITY means inspect sooner; it is not a notification tier.",
+            "Live rainfall gates compare daily forecast with daily historical threshold; 72h totals are context only.",
             "Revision direction is context only.",
+            "Population exposure is context only until impact-labelled validation earns ranking authority.",
             "Only validated monitors are ranked.",
             "If evidence health is degraded, COMMONS holds new learning.",
         ],
