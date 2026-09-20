@@ -1654,6 +1654,59 @@ function renderTrustCenterStatus(){
   `;
 }
 
+function claimWhyItMatters(claim){
+  const byId={
+    "nepal-donation-path":"This establishes that a direct, official public action path currently exists.",
+    "nepal-water-outcome":"This is the clearest documented evidence in this case that the response reached people.",
+    "nepal-clinic-capacity":"This shows response capacity on the ground, but not how many patients were actually treated.",
+    "nepal-flood-date":"This anchors the beginning of the case timeline.",
+    "nepal-affected-estimate":"This gives an early sense of scale, while remaining explicitly provisional.",
+    "nepal-appeal-amount":"This shows the scale of the formal emergency appeal, not how much has already been funded.",
+    "bhutan-who-validation":"This is the central independent milestone supporting the elimination story.",
+    "bhutan-zero-deaths":"This makes the outcome tangible: the story is about harm no longer occurring, not merely programme activity.",
+    "bhutan-prevention-continues":"This prevents an elimination milestone from being mistaken for the end of prevention work.",
+    "drc-confirmed-cases":"This is one of the core measures of the outbreak’s current scale.",
+    "drc-confirmed-deaths":"This is why the case cannot be narrated as a success story.",
+    "drc-recoveries":"This is meaningful response evidence, but cannot by itself establish overall improvement.",
+    "drc-mixed-signals":"This is the key interpretive constraint: local progress and national deterioration can coexist.",
+    "drc-no-direct-public-action":"This protects users from a convenient but weakly verified call to action."
+  };
+  return byId[claim.id] || "This claim materially changes how the current case should be understood.";
+}
+
+function claimSourceLinks(claim){
+  return (claim.source_ids||[]).map(id=>{
+    const source=window.COMMONS_TRUST.sourceById(trustRegistry,id);
+    return source?`<a class="claim-source-link" href="${escapeHtml(source.url)}" target="_blank" rel="noopener">${escapeHtml(source.name)} ↗</a>`
+      :`<span class="claim-source-link">MISSING SOURCE · ${escapeHtml(id)}</span>`;
+  }).join("");
+}
+
+function renderInvestigativeClaim(claim,{compact=false,stale=false}={}){
+  const source=window.COMMONS_TRUST.sourceById(trustRegistry,claim.source_ids?.[0]);
+  const freshness=claim.freshness_days==null?"durable milestone":claim.freshness_days+" day freshness window";
+  return `
+    <article class="${compact?"trust-story-claim":"claim-card investigative-claim"} ${stale?"stale":""}">
+      <div class="claim-top">
+        <div>
+          <div class="claim-statement">${escapeHtml(claim.statement)}</div>
+          <div class="claim-meta">${escapeHtml(claim.claim_type.toUpperCase())} · ${escapeHtml(source?.organization||storyLabel(claim.story_id))} · ${escapeHtml(formatTrustDate(claim.as_of))}${compact?"":" · "+escapeHtml(freshness)+" · "+escapeHtml(claim.criticality)+" criticality"}${stale?" · STALE":""}</div>
+        </div>
+        <span class="claim-type ${escapeHtml(claim.claim_type)}">${escapeHtml(claim.claim_type)}</span>
+      </div>
+      <div class="claim-meaning">
+        <b>Why this matters</b>
+        <p>${escapeHtml(claimWhyItMatters(claim))}</p>
+      </div>
+      <div class="claim-limit">
+        <b>What to keep in mind</b>
+        <p>${escapeHtml(claim.limitations)}</p>
+      </div>
+      ${compact?"":`<div class="claim-sources">${claimSourceLinks(claim)}</div>`}
+    </article>
+  `;
+}
+
 function renderTrustSimpleTab(){
   if(!trustRegistry){
     $("trustCenterBody").innerHTML=`
@@ -1680,39 +1733,37 @@ function renderTrustSimpleTab(){
     })
     .slice(0,3);
 
-  const claimCards=currentClaims.map(claim=>{
-    const source=window.COMMONS_TRUST.sourceById(trustRegistry,claim.source_ids?.[0]);
-    return `
-      <article class="trust-simple-claim">
-        <div class="claim-statement">${escapeHtml(claim.statement)}</div>
-        <div class="claim-meta">${escapeHtml(claim.claim_type.toUpperCase())} · ${escapeHtml(source?.organization||"source unavailable")} · ${escapeHtml(formatTrustDate(claim.as_of))} · ${escapeHtml(claim.criticality)} criticality</div>
-        <div class="claim-limits"><strong>Known limitation:</strong> ${escapeHtml(claim.limitations)}</div>
-      </article>
-    `;
-  }).join("");
-
   $("trustCenterBody").innerHTML=`
-    <div class="trust-simple-hero">
-      <div class="trust-simple-kicker">WHAT THIS STATUS MEANS</div>
-      <h3>${trustReport.status==="HEALTHY"?"The evidence is currently within the rules we set for ourselves.":"Some evidence or safety checks need attention."}</h3>
-      <p>Healthy does not mean infallible. It means the claims are sourced, critical evidence is inside its freshness window, conflicts are exposed, and required trust checks currently pass.</p>
-    </div>
+    <section class="investigation-intro">
+      <div class="case-file-line"><span>EVIDENCE DESK · ${escapeHtml(activeStory.country.toUpperCase())}</span><span>Last verified ${escapeHtml(activeStory.updatedAt)}</span></div>
+      <h3>${trustReport.status==="HEALTHY"?"Here’s why this case is currently safe to rely on.":"Here’s what needs attention before relying on this case."}</h3>
+      <p>Healthy does not mean infallible. It means the evidence currently meets the rules COMMONS has declared for provenance, freshness, conflicts and safety.</p>
+    </section>
 
     <div class="trust-proof-list">
-      <div class="trust-proof ${coverage===100?"":"warn"}"><i></i><div><b>Claims have provenance</b><span>Every active material claim should lead back to registered evidence.</span></div><strong>${coverage}%</strong></div>
-      <div class="trust-proof ${stale===0?"":"warn"}"><i></i><div><b>Critical evidence is fresh</b><span>Old emergency numbers are not allowed to stay silently current.</span></div><strong>${stale}</strong></div>
-      <div class="trust-proof ${conflicts===0?"":"warn"}"><i></i><div><b>Conflicts are visible</b><span>Disagreement between sources must be registered, not averaged away.</span></div><strong>${conflicts}</strong></div>
-      <div class="trust-proof ${trustReport.passedChecks===trustReport.totalChecks?"":"warn"}"><i></i><div><b>Required evaluations pass</b><span>Safety and provenance rules are checked independently of the visual design.</span></div><strong>${passing}</strong></div>
+      <div class="trust-proof ${coverage===100?"":"warn"}"><i></i><div><b>We can trace the claims</b><span>Every active material claim should lead back to registered evidence.</span></div><strong>${coverage}%</strong></div>
+      <div class="trust-proof ${stale===0?"":"warn"}"><i></i><div><b>The critical evidence is current</b><span>Emergency numbers cannot stay silently “current” after their freshness window.</span></div><strong>${stale}</strong></div>
+      <div class="trust-proof ${conflicts===0?"":"warn"}"><i></i><div><b>Disagreements are not hidden</b><span>If reliable sources conflict, the conflict belongs in the product.</span></div><strong>${conflicts}</strong></div>
+      <div class="trust-proof ${trustReport.passedChecks===trustReport.totalChecks?"":"warn"}"><i></i><div><b>The safety checks pass</b><span>Provenance and action-safety rules are evaluated independently of this design.</span></div><strong>${passing}</strong></div>
     </div>
 
-    <section class="trust-current-claims">
-      <div class="trust-current-claims-head"><h4>${escapeHtml(activeStory.country)} · what matters most</h4><span>top ${currentClaims.length} current claims</span></div>
-      ${claimCards||'<div class="ledger-empty">No active story claims found.</div>'}
+    <section class="trust-current-claims investigative-current">
+      <div class="trust-current-claims-head">
+        <div><span>WHAT WE CURRENTLY KNOW</span><h4>${escapeHtml(activeStory.country)} · the three claims that shape this case</h4></div>
+      </div>
+      <div class="trust-story-claims">${currentClaims.map(claim=>renderInvestigativeClaim(claim,{compact:true,stale:(trustReport.staleCriticalClaims||[]).some(item=>item.id===claim.id)})).join("")}</div>
+    </section>
+
+    <section class="case-uncertainty">
+      <div class="case-section-kicker">WHAT THIS DOESN’T PROVE</div>
+      <h4>Good evidence still has edges.</h4>
+      <p>${escapeHtml(activeStory.guardrails?.[0]||"The current evidence should not be extended beyond what its sources support.")}</p>
+      <p>${escapeHtml(activeStory.guardrails?.[1]||"Newer evidence may revise this story.")}</p>
     </section>
 
     <div class="trust-simple-actions">
-      <button class="word-button" id="simpleOpenAudit">Open full audit →</button>
-      <a class="word-button muted" href="${escapeHtml(trustRegistry.reporting?.issue_url||"https://github.com/mikelninh/COMMONS/issues/new")}" target="_blank" rel="noopener">Report a problem ↗</a>
+      <button class="case-primary-button" id="simpleOpenAudit">Open the full evidence file →</button>
+      <a class="word-button muted" href="${escapeHtml(trustRegistry.reporting?.issue_url||"https://github.com/mikelninh/COMMONS/issues/new")}" target="_blank" rel="noopener">Something looks wrong? Report it ↗</a>
     </div>
   `;
 
@@ -1782,39 +1833,34 @@ function renderTrustStatusTab(){
 function renderTrustClaimsTab(){
   if(!trustRegistry)return renderTrustStatusTab();
   const staleIds=new Set((trustReport.staleCriticalClaims||[]).map(claim=>claim.id));
-  const claims=[...(trustRegistry.claims||[])].sort((a,b)=>{
-    if(a.story_id===activeStory.id&&b.story_id!==activeStory.id)return -1;
-    if(b.story_id===activeStory.id&&a.story_id!==activeStory.id)return 1;
-    return String(b.as_of).localeCompare(String(a.as_of));
-  });
-
-  const cards=claims.map(claim=>{
-    const sourceLinks=(claim.source_ids||[]).map(id=>{
-      const source=window.COMMONS_TRUST.sourceById(trustRegistry,id);
-      return source?`<a class="claim-source-link" href="${escapeHtml(source.url)}" target="_blank" rel="noopener">${escapeHtml(source.name)} ↗</a>`
-        :`<span class="claim-source-link">MISSING SOURCE · ${escapeHtml(id)}</span>`;
-    }).join("");
-    const freshness=claim.freshness_days==null?"durable milestone":claim.freshness_days+" day freshness window";
-    return `
-      <article class="claim-card">
-        <div class="claim-top">
-          <div>
-            <div class="claim-statement">${escapeHtml(claim.statement)}</div>
-            <div class="claim-meta">${escapeHtml(storyLabel(claim.story_id))} · as of ${escapeHtml(formatTrustDate(claim.as_of))} · ${escapeHtml(freshness)} · ${escapeHtml(claim.criticality)} criticality${staleIds.has(claim.id)?" · STALE":""}</div>
-          </div>
-          <span class="claim-type ${escapeHtml(claim.claim_type)}">${escapeHtml(claim.claim_type)}</span>
-        </div>
-        <div class="claim-sources">${sourceLinks}</div>
-        <div class="claim-limits"><strong>Known limitation:</strong> ${escapeHtml(claim.limitations)}</div>
-      </article>
-    `;
-  }).join("");
+  const current=(trustRegistry.claims||[])
+    .filter(claim=>claim.story_id===activeStory.id && claim.status==="active")
+    .sort((a,b)=>String(b.as_of).localeCompare(String(a.as_of)));
+  const other=(trustRegistry.claims||[])
+    .filter(claim=>claim.story_id!==activeStory.id && claim.status==="active")
+    .sort((a,b)=>String(b.as_of).localeCompare(String(a.as_of)));
 
   $("trustCenterBody").innerHTML=`
-    <div class="trust-section">
-      <div class="trust-intro">Every material claim is classified. <strong>Observed is not inferred. Inferred is not fact. Proposed is not reality.</strong></div>
-      <div class="claim-list">${cards}</div>
-    </div>
+    <section class="audit-case-header">
+      <div class="case-file-line"><span>FULL EVIDENCE FILE · ${escapeHtml(activeStory.country.toUpperCase())}</span><span>${current.length} active claims</span></div>
+      <h3>Follow each claim back to the source.</h3>
+      <p>Observed is not inferred. Inferred is not fact. Proposed is not reality. Every note below explains both <strong>why it matters</strong> and <strong>where it stops.</strong></p>
+    </section>
+
+    <section class="audit-case-section">
+      <div class="case-section-kicker">CURRENT CASE NOTES</div>
+      <div class="claim-list investigative-ledger">
+        ${current.map(claim=>renderInvestigativeClaim(claim,{stale:staleIds.has(claim.id)})).join("")}
+      </div>
+    </section>
+
+    <section class="audit-case-section other-case-notes">
+      <div class="case-section-kicker">OTHER STORIES IN THE ATLAS</div>
+      <p class="audit-section-note">These claims remain part of the same public ledger, but they do not drive the case you are currently reading.</p>
+      <div class="claim-list investigative-ledger">
+        ${other.map(claim=>renderInvestigativeClaim(claim,{stale:staleIds.has(claim.id)})).join("")}
+      </div>
+    </section>
   `;
 }
 
