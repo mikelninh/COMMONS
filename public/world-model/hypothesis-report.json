@@ -1,6 +1,6 @@
 {
-  "schema_version": "0.1",
-  "generated_at": "2026-09-20T17:02:40Z",
+  "schema_version": "0.2",
+  "generated_at": "2026-09-20T17:03:41Z",
   "period": {
     "start": "2026-07-01",
     "end": "2026-09-05"
@@ -9,30 +9,24 @@
     {
       "id": "nuwakot",
       "name": "Nuwakot",
-      "country": "Nepal",
-      "latitude": 27.95,
-      "longitude": 85.18
+      "country": "Nepal"
     },
     {
       "id": "manila",
       "name": "Manila",
-      "country": "Philippines",
-      "latitude": 14.6,
-      "longitude": 120.98
+      "country": "Philippines"
     },
     {
       "id": "delhi",
       "name": "Delhi",
-      "country": "India",
-      "latitude": 28.61,
-      "longitude": 77.21
+      "country": "India"
     }
   ],
-  "models": {
-    "ecmwf": "ecmwf_ifs025",
-    "gfs": "gfs_global",
-    "icon": "icon_global"
-  },
+  "models": [
+    "ECMWF IFS",
+    "NOAA GFS",
+    "DWD ICON"
+  ],
   "leads_days": [
     1,
     3,
@@ -40,101 +34,115 @@
   ],
   "verification": "ERA5 daily precipitation",
   "records": 603,
-  "source_errors": [
-    {
-      "point": "delhi",
-      "source": "icon",
-      "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
-    }
-  ],
-  "summary_by_lead": {
-    "1": {
-      "samples": 201,
-      "provider_mae_mm": {
-        "ecmwf": 7.979,
-        "gfs": 10.191,
-        "icon": 10.304
-      },
-      "average_individual_model_mae_mm": 9.491,
-      "council_median_mae_mm": 7.862,
-      "council_improvement_vs_average_model_pct": 17.2,
-      "spread_error_correlation": 0.322,
-      "low_disagreement_error_mm": 2.461,
-      "high_disagreement_error_mm": 14.762,
-      "high_vs_low_error_ratio": 6.0,
-      "spread_q25_mm": 3.3,
-      "spread_q75_mm": 16.2
+  "source_errors": 0,
+  "headline_metrics": {
+    "council_mean_error_improvement_pct": 13.5,
+    "council_mae_by_lead_mm": {
+      "1": 7.78,
+      "3": 9.37,
+      "5": 10.89
     },
-    "3": {
-      "samples": 201,
-      "provider_mae_mm": {
-        "ecmwf": 9.751,
-        "gfs": 12.284,
-        "icon": 11.237
-      },
-      "average_individual_model_mae_mm": 11.091,
-      "council_median_mae_mm": 9.43,
-      "council_improvement_vs_average_model_pct": 15.0,
-      "spread_error_correlation": 0.22,
-      "low_disagreement_error_mm": 5.217,
-      "high_disagreement_error_mm": 16.387,
-      "high_vs_low_error_ratio": 3.14,
-      "spread_q25_mm": 3.4,
-      "spread_q75_mm": 17.3
-    },
-    "5": {
-      "samples": 201,
-      "provider_mae_mm": {
-        "ecmwf": 11.107,
-        "gfs": 14.532,
-        "icon": 11.75
-      },
-      "average_individual_model_mae_mm": 12.463,
-      "council_median_mae_mm": 10.821,
-      "council_improvement_vs_average_model_pct": 13.2,
-      "spread_error_correlation": 0.199,
-      "low_disagreement_error_mm": 5.114,
-      "high_disagreement_error_mm": 16.572,
-      "high_vs_low_error_ratio": 3.24,
-      "spread_q25_mm": 4.7,
-      "spread_q75_mm": 16.0
-    }
+    "normalized_disagreement_error_correlation": 0.13,
+    "high_vs_low_normalized_error_ratio": 1.04,
+    "heavy_rain_disagreement_error_correlation": -0.27,
+    "abstention_gain_top_disagreement_quartile_pct": -20,
+    "council_heavy_rain_error_improvement_pct": 11.3
   },
   "hypotheses": [
     {
       "id": "H1",
       "claim": "The council median reduces precipitation error versus the average individual model.",
       "status": "supported",
-      "effect": "15.1% mean error improvement",
-      "product_update": "Keep council median as the default headline."
+      "effect": "13.5% mean error improvement",
+      "update": "Keep council median as the default headline."
     },
     {
       "id": "H2",
-      "claim": "Higher model disagreement predicts larger council forecast error.",
-      "status": "supported",
-      "effect": "corr=0.25; high/low error ratio=4.13x",
-      "product_update": "Use disagreement as an explicit confidence penalty."
+      "claim": "Higher model disagreement predicts larger forecast error after normalizing for rainfall magnitude.",
+      "status": "not_supported",
+      "effect": "normalized corr 0.13 · high/low normalized error 1.04× · heavy-rain corr −0.27",
+      "update": "Keep disagreement visible, but do not turn it into a confidence penalty yet."
     },
     {
       "id": "H3",
       "claim": "Forecast skill materially degrades from 1 to 3 to 5 days.",
       "status": "supported",
-      "effect": "7.86 \u2192 9.43 \u2192 10.82 mm MAE",
-      "product_update": "Make forecast horizon a first-class confidence input."
+      "effect": "7.78 → 9.37 → 10.89 mm MAE",
+      "update": "Make forecast horizon a first-class confidence input."
+    },
+    {
+      "id": "H5",
+      "claim": "The council median remains useful on heavy-rain days.",
+      "status": "supported",
+      "effect": "11.3% heavy-rain error improvement",
+      "update": "Keep the council as the main heavy-rain summary."
     },
     {
       "id": "H4",
-      "claim": "COMMONS should lower confidence when model disagreement is high and lead time is long.",
-      "status": "supported",
-      "effect": "confidence = source health + horizon skill + disagreement penalty",
-      "product_update": "confidence = source health + horizon skill + disagreement penalty"
+      "claim": "COMMONS should lower confidence when disagreement is high and lead time is long.",
+      "status": "mixed",
+      "effect": "horizon is supported; disagreement penalty is not",
+      "update": "Confidence v0.2 = source health + empirically measured horizon skill. Show disagreement separately."
     }
   ],
   "limitations": [
     "ERA5 is reanalysis, not a local rain gauge.",
     "Point precipitation is not basin-integrated precipitation.",
-    "This evaluates precipitation forecast skill, not human flood impact.",
+    "This tests precipitation forecast skill, not human flood impact.",
     "Operational model versions change over time.",
-    "The council is a simple median, not a trained probabilistic ensemble."
+    "603 samples are not 603 independent events; dates and locations are correlated."
+  ],
+  "next_hypotheses": [
+    {
+      "id": "H6",
+      "claim": "Antecedent wetness improves high-discharge prediction beyond 3-day rainfall alone.",
+      "signals": [
+        "3-day rain",
+        "10-day antecedent rain",
+        "ERA5 soil moisture",
+        "GloFAS discharge"
+      ],
+      "test": "Compare detection of top-5% discharge days."
+    },
+    {
+      "id": "H7",
+      "claim": "Basin-context rainfall outperforms a single point for river-risk estimation.",
+      "signals": [
+        "center point",
+        "surrounding grid",
+        "GloFAS discharge"
+      ],
+      "test": "Compare point rainfall vs spatially averaged rainfall."
+    },
+    {
+      "id": "H8",
+      "claim": "A forecast revision sustained across multiple runs is more useful than a one-run jump.",
+      "signals": [
+        "6-hour archived snapshots",
+        "forecast deltas",
+        "later verification"
+      ],
+      "test": "Compare one-run changes with 2- and 3-run persistent changes."
+    },
+    {
+      "id": "H9",
+      "claim": "Direction agreement is more useful than raw spread.",
+      "signals": [
+        "model revision direction",
+        "later ERA5 precipitation"
+      ],
+      "test": "Compare 2/3 models revising upward with raw disagreement magnitude."
+    },
+    {
+      "id": "H10",
+      "claim": "River percentile plus antecedent wetness can produce a low-false-alarm attention rule.",
+      "signals": [
+        "river percentile",
+        "soil moisture",
+        "antecedent rain",
+        "later discharge"
+      ],
+      "test": "Optimize precision, miss rate and lead time without using human impact labels."
+    }
   ]
 }
