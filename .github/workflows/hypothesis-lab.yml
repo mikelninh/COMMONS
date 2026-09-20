@@ -36,6 +36,8 @@ on:
       - "scripts/run_external_alert_lab.py"
       - "src/commons/deep_miss_lab.py"
       - "scripts/run_deep_miss_lab.py"
+      - "src/commons/minority_convective_lab.py"
+      - "scripts/run_minority_convective_lab.py"
       - ".github/workflows/hypothesis-lab.yml"
 
 permissions:
@@ -118,6 +120,12 @@ jobs:
             --miss-report public/world-model/miss-report.json \
             --output public/world-model/deep-miss-report.json
 
+      - name: Test minority trust and convective blindness
+        run: |
+          python scripts/run_minority_convective_lab.py \
+            --miss-report public/world-model/miss-report.json \
+            --output public/world-model/minority-convective-report.json
+
       - name: Build WorldPop exposure context
         continue-on-error: true
         run: |
@@ -162,7 +170,8 @@ jobs:
             public/world-model/miss-report.json \
             public/world-model/exposure-report.json \
             public/world-model/external-alert-report.json \
-            public/world-model/deep-miss-report.json
+            public/world-model/deep-miss-report.json \
+            public/world-model/minority-convective-report.json
           if git diff --cached --quiet; then
             echo "Report unchanged"
           else
