@@ -138,12 +138,18 @@ def build_morning_brief(
     attention_report: dict[str, Any] | None = None,
     hypothesis_report: dict[str, Any] | None = None,
     loop_catalog: dict[str, Any] | None = None,
+    exposure_report: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     current_loops = _loop_map(snapshot)
     previous_loops = _loop_map(previous_snapshot)
     catalog = _catalog_map(loop_catalog)
 
     thresholds = (attention_report or {}).get("thresholds_mm") or {}
+    exposure_by_point = {
+        str((item.get("point") or {}).get("id")): item
+        for item in (exposure_report or {}).get("points") or []
+        if (item.get("point") or {}).get("id")
+    }
     monitored: list[dict[str, Any]] = []
 
     for monitor in VALIDATED_MONITORS:
@@ -195,6 +201,18 @@ def build_morning_brief(
                 "note": "River percentile is context, not the rainfall alert gate.",
             }
 
+        exposure = exposure_by_point.get(monitor["point_id"])
+        exposure_context = None
+        if exposure:
+            exposure_context = {
+                "population": exposure.get("population"),
+                "radius_km": exposure.get("radius_km"),
+                "data_year": exposure.get("data_year"),
+                "source": exposure.get("data_source") or "WorldPop",
+                "role": "context_only",
+                "note": "Nearby population is context, not estimated people impacted.",
+            }
+
         monitored.append(
             {
                 "point_id": monitor["point_id"],
@@ -223,6 +241,7 @@ def build_morning_brief(
                 "next_step": next_step,
                 "revision": revision,
                 "flood_context": flood_context,
+                "exposure_context": exposure_context,
             }
         )
 
@@ -315,6 +334,7 @@ def build_morning_brief(
             "PRIORITY means inspect sooner; it is not a notification tier.",
             "Live rainfall gates compare daily forecast with daily historical threshold; 72h totals are context only.",
             "Revision direction is context only.",
+            "Population exposure is context only until impact-labelled validation earns ranking authority.",
             "Only validated monitors are ranked.",
             "If evidence health is degraded, COMMONS holds new learning.",
         ],
