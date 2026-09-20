@@ -1,0 +1,44 @@
+name: Attention Rule H12
+
+on:
+  push:
+    branches: ["world-model-attention-rule-v1"]
+    paths:
+      - "src/commons/attention_rule_lab.py"
+      - "scripts/run_attention_rule_lab.py"
+      - ".github/workflows/attention-rule-h12.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: world-model-attention-rule-v1
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install COMMONS
+        run: pip install -e .
+
+      - name: Run H12 material-change backtest
+        run: |
+          python scripts/run_attention_rule_lab.py \
+            --start-date 2026-07-01 \
+            --end-date 2026-09-05 \
+            --output public/world-model/attention-rule-report.json
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: attention-rule-h12-report
+          path: public/world-model/attention-rule-report.json
+          retention-days: 30
