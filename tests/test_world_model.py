@@ -642,3 +642,44 @@ def test_next_hypotheses_move_toward_attention_quality_and_external_validation()
     h14 = next(item for item in report["next_hypotheses"] if item["id"] == "H14")
     assert "precision, miss rate and lead time" in h12["test"]
     assert "official warnings" in h14["signals"]
+
+
+def test_attention_rule_only_uses_lower_threshold_when_revision_is_upward() -> None:
+    from commons.attention_rule_lab import first_alert_lead
+
+    upward = {
+        "council": {5: 10.0, 3: 17.0, 1: 21.0},
+        "revision_5_to_3": 1,
+        "revision_3_to_1": 1,
+    }
+    downward = {
+        "council": {5: 10.0, 3: 17.0, 1: 21.0},
+        "revision_5_to_3": -1,
+        "revision_3_to_1": -1,
+    }
+
+    assert first_alert_lead(upward, 20.0, policy="strict") == 1
+    assert first_alert_lead(upward, 20.0, policy="loose") == 3
+    assert first_alert_lead(upward, 20.0, policy="revision_aware") == 3
+    assert first_alert_lead(downward, 20.0, policy="revision_aware") == 1
+
+
+def test_attention_rule_benchmark_includes_strict_and_loose_controls() -> None:
+    source = Path("src/commons/attention_rule_lab.py").read_text(encoding="utf-8")
+
+    assert 'policy="strict"' in source
+    assert 'policy="loose"' in source
+    assert 'policy="revision_aware"' in source
+    assert "LOOSE_FACTOR = 0.80" in source
+    assert "revision_beats_strict" in source
+    assert "revision_beats_loose" in source
+
+
+def test_attention_rule_requires_precision_recall_tradeoff_not_engagement() -> None:
+    source = Path("src/commons/attention_rule_lab.py").read_text(encoding="utf-8")
+
+    assert "precision" in source
+    assert "recall" in source
+    assert "miss_rate" in source
+    assert "mean_true_alert_lead_days" in source
+    assert "false_alerts_per_100_days" in source
