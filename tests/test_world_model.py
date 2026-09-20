@@ -1038,3 +1038,32 @@ def test_morning_brief_never_uses_72h_total_as_daily_alert_gate() -> None:
     assert 'get("precip_peak_daily_mm_median")' in source
     assert '"forecast_peak_daily_mm"' in source
     assert "72h totals are context only" in source
+
+
+def test_global_scale_panel_has_thirty_diverse_locations() -> None:
+    from commons.scale_points import GLOBAL_POINTS
+
+    assert len(GLOBAL_POINTS) == 30
+    countries = {point.country for point in GLOBAL_POINTS}
+    assert len(countries) >= 20
+    assert {"Nepal", "Philippines", "Germany", "Nigeria", "Brazil", "Australia"} <= countries
+
+
+def test_scale_and_miss_labs_are_continuously_rerun() -> None:
+    workflow = Path(".github/workflows/hypothesis-lab.yml").read_text(encoding="utf-8")
+    runner = Path("scripts/run_hypothesis_lab.py").read_text(encoding="utf-8")
+
+    assert "run_scale_lab.py" in workflow
+    assert "run_miss_lab.py" in workflow
+    assert "scale-report.json" in workflow
+    assert "miss-report.json" in workflow
+    assert '"id": "H20"' in runner
+    assert '"id": "H21"' in runner
+
+
+def test_miss_lab_keeps_boundary_misses_separate_from_deep_misses() -> None:
+    source = Path("src/commons/miss_lab.py").read_text(encoding="utf-8")
+
+    assert '"near_threshold" if ratio >= 0.80 else "deep"' in source
+    assert "revision_5d_to_3d_mm" in source
+    assert "does not itself justify lowering the live alert threshold" in source
