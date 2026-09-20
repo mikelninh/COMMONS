@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, datetime, timedelta
 import json
 import math
@@ -670,27 +671,39 @@ def run_impact_v0(
         events = fetch_gdacs_events(
             start_date=start.isoformat(),
             end_date=end.isoformat(),
-            pages=6,
+            pages=3,
         )
     except Exception as exc:
         events = []
         source_errors.append({"source": "GDACS events", "error": str(exc)})
 
     consequences: dict[str, dict[str, Any]] = {}
-    for event in events:
+
+    def consequence_task(event: dict[str, Any]):
         key = f'{event["event_type"]}|{event["event_id"]}'
-        try:
-            parsed = parse_consequence(fetch_emdat(event))
-            if parsed:
-                consequences[key] = parsed
-        except Exception as exc:
-            source_errors.append(
-                {
-                    "source": "EM-DAT",
-                    "event_key": key,
-                    "error": str(exc),
-                }
-            )
+        parsed = parse_consequence(fetch_emdat(event))
+        return key, parsed
+
+    with ThreadPoolExecutor(max_workers=min(8, max(1, len(events)))) as executor:
+        future_map = {
+            executor.submit(consequence_task, event): event
+            for event in events
+        }
+        for future in as_completed(future_map):
+            event = future_map[future]
+            key = f'{event["event_type"]}|{event["event_id"]}'
+            try:
+                event_key, parsed = future.result()
+                if parsed:
+                    consequences[event_key] = parsed
+            except Exception as exc:
+                source_errors.append(
+                    {
+                        "source": "EM-DAT",
+                        "event_key": key,
+                        "error": str(exc),
+                    }
+                )
 
     exposure = _exposure_map(exposure_report)
     point_map = {point.id: point for point in points}
