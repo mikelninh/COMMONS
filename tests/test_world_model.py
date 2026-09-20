@@ -913,12 +913,16 @@ def test_morning_brief_uses_threshold_proximity_and_keeps_revisions_context_only
             "id": loop_id,
             "forecast_council": {
                 "members": [
-                    {"provider": "ecmwf", "precip_72h_mm": providers[0]},
-                    {"provider": "gfs", "precip_72h_mm": providers[1]},
-                    {"provider": "icon", "precip_72h_mm": providers[2]},
+                    {"provider": "ecmwf", "precip_peak_daily_mm": providers[0]},
+                    {"provider": "gfs", "precip_peak_daily_mm": providers[1]},
+                    {"provider": "icon", "precip_peak_daily_mm": providers[2]},
                 ],
                 "source_errors": [],
-                "consensus": {"precip_72h_mm_median": rain},
+                "consensus": {
+                    "precip_peak_daily_mm_median": rain,
+                    "precip_peak_date": "2026-09-22",
+                    "precip_72h_mm_median": rain * 1.5,
+                },
             },
         }
 
@@ -1005,3 +1009,32 @@ def test_morning_brief_public_surface_is_calm_and_uses_independent_data_plane() 
     assert "world-model-data/data/world-model/morning-brief.json" in js
     assert "./world-model/morning-brief-seed.json" in js
     assert "Revisions do not change rank." in page
+
+
+def test_live_rain_gate_compares_daily_forecast_with_daily_threshold() -> None:
+    from commons.world_model import summarize_forecast_response
+
+    summary = summarize_forecast_response(
+        {
+            "daily": {
+                "time": ["2026-09-20", "2026-09-21", "2026-09-22"],
+                "precipitation_sum": [5.0, 30.0, 7.0],
+                "temperature_2m_max": [20.0, 21.0, 22.0],
+                "temperature_2m_min": [10.0, 11.0, 12.0],
+                "wind_gusts_10m_max": [25.0, 30.0, 20.0],
+            }
+        }
+    )
+
+    assert summary["precip_72h_mm"] == 42.0
+    assert summary["precip_peak_daily_mm"] == 30.0
+    assert summary["precip_peak_date"] == "2026-09-21"
+    assert len(summary["precip_daily_mm"]) == 3
+
+
+def test_morning_brief_never_uses_72h_total_as_daily_alert_gate() -> None:
+    source = Path("src/commons/morning_brief.py").read_text(encoding="utf-8")
+
+    assert 'get("precip_peak_daily_mm_median")' in source
+    assert '"forecast_peak_daily_mm"' in source
+    assert "72h totals are context only" in source
