@@ -225,6 +225,35 @@ def main() -> int:
                 "heavy_event_rate_lift"
             )
 
+    budget_path = Path("public/world-model/attention-budget-report.json")
+    if budget_path.exists():
+        budget = json.loads(budget_path.read_text(encoding="utf-8"))
+        h18 = budget.get("hypothesis") or {}
+        if h18.get("id") == "H18":
+            report["hypotheses"] = [
+                existing
+                for existing in report["hypotheses"]
+                if existing.get("id") != "H18"
+            ]
+            report["hypotheses"].append(
+                {
+                    "id": "H18",
+                    "claim": h18.get("claim"),
+                    "status": h18.get("status"),
+                    "effect": h18.get("effect"),
+                    "update": h18.get("product_update"),
+                }
+            )
+            comparison = budget.get("comparison") or {}
+            report.setdefault("headline_metrics", {})
+            report["headline_metrics"]["h18_average_precision_gain"] = comparison.get(
+                "average_precision_gain"
+            )
+            report["headline_metrics"]["h18_ndcg_gain"] = comparison.get("ndcg_gain")
+            report["headline_metrics"]["h18_improved_budgets"] = comparison.get(
+                "improved_budgets"
+            )
+
     report["next_hypotheses"] = [
         {
             "id": "H7",
