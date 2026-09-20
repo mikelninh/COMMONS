@@ -1414,10 +1414,10 @@ def test_impact_v0_visual_surface_is_component_first_and_linked() -> None:
     morning = Path("public/morning.html").read_text(encoding="utf-8")
     morning_js = Path("public/morning.js").read_text(encoding="utf-8")
 
-    assert "What could actually matter today?" in page
-    assert "Weather is only the start." in page
+    assert "See what matters." in page
+    assert "Not just what happens." in page
     assert "impact-report.json" in js
-    assert "CRITICAL PLACES" in js
+    assert "CRITICAL SYSTEMS" in js
     assert "./impact.html" in morning
     assert '"H27"' in morning_js
 
@@ -1434,9 +1434,9 @@ def test_impact_v01_connects_live_hazard_to_human_action_loop() -> None:
     js = Path("public/impact.js").read_text(encoding="utf-8")
 
     assert "COMMONS / IMPACT" in page
-    assert "Start with the situation, not the data." in page
-    assert "What you already decided." in page
-    assert 'const ACTION_KEY="commons.impact.actions.v0.2"' in js
+    assert "What could this mean for real life?" in page
+    assert "Beautiful is not enough." in page
+    assert 'const ACTION_KEY="commons.impact.actions.v0.3"' in js
     assert "world-model-data/data/world-model/morning-brief.json" in js
     assert "hazardLanguage" in js
     assert 'data-status="done"' in js
@@ -1464,23 +1464,23 @@ def test_impact_v02_is_plain_language_first() -> None:
     page = Path("public/impact.html").read_text(encoding="utf-8")
     js = Path("public/impact.js").read_text(encoding="utf-8")
 
-    assert "What could actually matter today?" in page
-    assert "Start with the situation, not the data." in page
-    assert "How trustworthy is this?" in page
+    assert "See what matters." in page
+    assert "What could this mean for real life?" in page
+    assert "Show the evidence boundary" in page
     assert "HAZARD AP" not in page
     assert "IMPACT AP" not in page
     assert "TOP-20% RECALL GAIN" not in page
     assert "No immediate weather concern." in js
     assert "This deserves attention now." in js
-    assert "PEOPLE NEARBY" in js
-    assert "CRITICAL PLACES" in js
-    assert "PAST SERIOUS EVENTS" in js
+    assert "PEOPLE" in js
+    assert "CRITICAL SYSTEMS" in js
+    assert "MEMORY" in js
 
 
 def test_impact_v02_keeps_simple_human_decisions_local() -> None:
     js = Path("public/impact.js").read_text(encoding="utf-8")
 
-    assert 'const ACTION_KEY="commons.impact.actions.v0.2"' in js
+    assert 'const ACTION_KEY="commons.impact.actions.v0.3"' in js
     assert 'data-status="done"' in js
     assert 'data-status="not_needed"' in js
     assert "localStorage.setItem" in js
