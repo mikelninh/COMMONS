@@ -1486,3 +1486,39 @@ def test_impact_v02_keeps_simple_human_decisions_local() -> None:
     assert "localStorage.setItem" in js
     assert "POST" not in js
     assert 'data-status="considered"' not in js
+
+
+def test_impact_v03_is_visual_world_story_not_dashboard() -> None:
+    page = Path("public/impact.html").read_text(encoding="utf-8")
+    js = Path("public/impact.js").read_text(encoding="utf-8")
+    css = Path("public/impact.css").read_text(encoding="utf-8")
+
+    assert "See what matters." in page
+    assert "planet-stage" in page
+    assert "Enter the world" in page
+    assert "What could this mean for real life?" in page
+    assert "Beautiful is not enough." in page
+    assert "storyChapter" in js
+    assert "rainMarkup" in js
+    assert "populationMarkup" in js
+    assert "infraMarkup" in js
+    assert "historyMarkup" in js
+    assert "IntersectionObserver" in js
+    assert ".place-chapter" in css
+    assert ".planet" in css
+    assert ".rain-streak" in css
+    assert ".population-glow" in css
+    assert ".history-ring" in css
+
+
+def test_impact_v03_preserves_progressive_disclosure_and_human_authority() -> None:
+    page = Path("public/impact.html").read_text(encoding="utf-8")
+    js = Path("public/impact.js").read_text(encoding="utf-8")
+
+    assert "Show the evidence boundary" in page
+    assert "If this changes, what would we check?" in js
+    assert 'const ACTION_KEY="commons.impact.actions.v0.3"' in js
+    assert 'data-status="done"' in js
+    assert 'data-status="not_needed"' in js
+    assert "POST" not in js
+    assert "localStorage.setItem" in js
