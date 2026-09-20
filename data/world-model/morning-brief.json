@@ -1,7 +1,7 @@
 {
   "schema_version": "0.1",
-  "generated_at": "2026-09-20T22:15:14.780020Z",
-  "previous_generated_at": "2026-09-20T21:45:39.570024Z",
+  "generated_at": "2026-09-20T22:18:22.941110Z",
+  "previous_generated_at": "2026-09-20T22:15:14.780020Z",
   "product": "COMMONS Morning Brief v1",
   "headline": "Nothing in the validated rainfall pilot needs your attention right now.",
   "close_message": "You are caught up.",
@@ -53,8 +53,8 @@
       "revision": {
         "direction": "mixed",
         "supporting_models": 0,
-        "models_compared": 2,
-        "median_delta_mm": 0.2,
+        "models_compared": 3,
+        "median_delta_mm": 0.0,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
@@ -67,7 +67,44 @@
         "role": "context_only",
         "note": "Nearby population is context, not estimated people impacted."
       },
-      "impact_context": null,
+      "impact_context": {
+        "components": {
+          "hazard": {
+            "role": "provided live by Morning Brief",
+            "note": "Impact v0 does not replace the validated hazard gate."
+          },
+          "exposure": {
+            "population_within_radius": 17105184,
+            "radius_km": 20,
+            "source": "WorldPop",
+            "role": "context_only"
+          },
+          "infrastructure": null,
+          "historical_consequence": {
+            "nearby_events": 1,
+            "consequential_events": 0,
+            "examples": [],
+            "source": "GDACS + EM-DAT where available",
+            "role": "context_only"
+          }
+        },
+        "action_options": [
+          {
+            "id": "verify-local",
+            "label": "Verify local authority warnings",
+            "why": "COMMONS is research guidance, not an emergency authority.",
+            "authority": "human"
+          },
+          {
+            "id": "review-exposure",
+            "label": "Review who may be exposed",
+            "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
+            "authority": "human"
+          }
+        ],
+        "role": "context_only",
+        "note": "Impact v0 informs consequence and action context but does not change ALERT."
+      },
       "rank": 1
     },
     {
@@ -113,7 +150,74 @@
         "role": "context_only",
         "note": "Nearby population is context, not estimated people impacted."
       },
-      "impact_context": null,
+      "impact_context": {
+        "components": {
+          "hazard": {
+            "role": "provided live by Morning Brief",
+            "note": "Impact v0 does not replace the validated hazard gate."
+          },
+          "exposure": {
+            "population_within_radius": 376264,
+            "radius_km": 20,
+            "source": "WorldPop",
+            "role": "context_only"
+          },
+          "infrastructure": {
+            "health_facilities": 13,
+            "schools": 465,
+            "power_substations": 8,
+            "bridges": 176,
+            "major_road_segments": 52,
+            "radius_km": 20,
+            "source": "OpenStreetMap via Overpass API",
+            "role": "context_only"
+          },
+          "historical_consequence": {
+            "nearby_events": 1,
+            "consequential_events": 1,
+            "examples": [
+              {
+                "event_type": "FL",
+                "alert_level": "red",
+                "name": "Flood in Nepal",
+                "start_date": "2026-08-26",
+                "distance_km": 75,
+                "label_source": "EM-DAT via GDACS"
+              }
+            ],
+            "source": "GDACS + EM-DAT where available",
+            "role": "context_only"
+          }
+        },
+        "action_options": [
+          {
+            "id": "verify-local",
+            "label": "Verify local authority warnings",
+            "why": "COMMONS is research guidance, not an emergency authority.",
+            "authority": "human"
+          },
+          {
+            "id": "check-access",
+            "label": "Check critical access and services",
+            "why": "Nearby health, road, bridge or power assets can turn weather into disruption.",
+            "authority": "human"
+          },
+          {
+            "id": "review-exposure",
+            "label": "Review who may be exposed",
+            "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
+            "authority": "human"
+          },
+          {
+            "id": "review-precedent",
+            "label": "Review nearby historical consequences",
+            "why": "Past events in the area provide precedent for what failed or mattered.",
+            "authority": "human"
+          }
+        ],
+        "role": "context_only",
+        "note": "Impact v0 informs consequence and action context but does not change ALERT."
+      },
       "rank": 2
     },
     {
@@ -154,7 +258,59 @@
         "role": "context_only",
         "note": "Nearby population is context, not estimated people impacted."
       },
-      "impact_context": null,
+      "impact_context": {
+        "components": {
+          "hazard": {
+            "role": "provided live by Morning Brief",
+            "note": "Impact v0 does not replace the validated hazard gate."
+          },
+          "exposure": {
+            "population_within_radius": 27159668,
+            "radius_km": 20,
+            "source": "WorldPop",
+            "role": "context_only"
+          },
+          "infrastructure": {
+            "health_facilities": 1293,
+            "schools": 1183,
+            "power_substations": 295,
+            "bridges": 3508,
+            "major_road_segments": 2464,
+            "radius_km": 20,
+            "source": "OpenStreetMap via Overpass API",
+            "role": "context_only"
+          },
+          "historical_consequence": {
+            "nearby_events": 0,
+            "consequential_events": 0,
+            "examples": [],
+            "source": "GDACS + EM-DAT where available",
+            "role": "context_only"
+          }
+        },
+        "action_options": [
+          {
+            "id": "verify-local",
+            "label": "Verify local authority warnings",
+            "why": "COMMONS is research guidance, not an emergency authority.",
+            "authority": "human"
+          },
+          {
+            "id": "check-access",
+            "label": "Check critical access and services",
+            "why": "Nearby health, road, bridge or power assets can turn weather into disruption.",
+            "authority": "human"
+          },
+          {
+            "id": "review-exposure",
+            "label": "Review who may be exposed",
+            "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
+            "authority": "human"
+          }
+        ],
+        "role": "context_only",
+        "note": "Impact v0 informs consequence and action context but does not change ALERT."
+      },
       "rank": 3
     }
   ],
