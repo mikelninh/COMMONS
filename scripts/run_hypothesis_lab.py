@@ -364,6 +364,31 @@ def main() -> int:
                 "coverage_status"
             )
 
+    external_path = Path("public/world-model/external-alert-report.json")
+    if external_path.exists():
+        external = json.loads(external_path.read_text(encoding="utf-8"))
+        h22 = external.get("hypothesis") or {}
+        if h22.get("id") == "H22":
+            report["hypotheses"] = [
+                item for item in report["hypotheses"] if item.get("id") != "H22"
+            ]
+            report["hypotheses"].append(
+                {
+                    "id": "H22",
+                    "claim": h22.get("claim"),
+                    "status": h22.get("status"),
+                    "effect": h22.get("effect"),
+                    "update": h22.get("product_update"),
+                }
+            )
+            report.setdefault("headline_metrics", {})
+            report["headline_metrics"]["h22_gdacs_matched_point_days"] = external.get(
+                "matched_point_days"
+            )
+            report["headline_metrics"]["h22_gdacs_overlap_rate"] = external.get(
+                "overlap_rate"
+            )
+
     report["next_hypotheses"] = [
         {
             "id": "H7",
@@ -379,9 +404,9 @@ def main() -> int:
         },
         {
             "id": "H14",
-            "claim": "Official warning changes provide a useful external benchmark for COMMONS attention changes.",
-            "signals": ["official warnings", "COMMONS change signals", "timing"],
-            "test": "Measure agreement, earlier/later detection and false alarms without treating official warnings as perfect ground truth.",
+            "claim": "Source-specific official warning archives improve external validation beyond the global GDACS benchmark.",
+            "signals": ["national warning archives", "COMMONS attention state", "timing", "geography"],
+            "test": "Add authority-specific adapters where archive access is available; keep GDACS separate from official local warning ground truth.",
         },
         {
             "id": "H16",
