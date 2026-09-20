@@ -180,7 +180,7 @@ def test_trust_center_exposes_status_claims_sources_evaluations_incidents() -> N
     assert "function renderTrustSourcesTab" in app
     assert "function renderTrustEvaluationsTab" in app
     assert "function renderTrustIncidentsTab" in app
-    assert 'openTrustCenter("claims")' in app
+    assert 'openTrustCenter("claims","audit")' in app
 
     assert "COMMONS TRUST CENTER" in styles
     assert ".trust-center:not(.open)" in styles
@@ -275,3 +275,91 @@ def test_trust_documentation_states_current_limits() -> None:
     assert "Fail visibly and safely." in doc
     assert "cryptographically signed source attestations" in doc
     assert "independent third-party audit" in doc
+
+
+def test_calm_orientation_is_computed_from_live_product_state() -> None:
+    page = Path("public/index.html").read_text(encoding="utf-8")
+    app = Path("public/app.js").read_text(encoding="utf-8")
+    styles = Path("public/styles.css").read_text(encoding="utf-8")
+
+    assert 'id="calmOrientation"' in page
+    assert 'id="orientationStories"' in page
+    assert 'id="orientationImproving"' in page
+    assert 'id="orientationActions"' in page
+    assert 'id="orientationStale"' in page
+    assert "See what matters. Leave when you’re oriented." in page
+
+    assert "function renderCalmOrientation" in app
+    assert "STORIES.length" in app
+    assert "trustGateForStory(story.id).allowed" in app
+    assert "trustReport.staleCriticalClaims" in app
+
+    assert ".calm-orientation" in styles
+    assert ".calm-metric" in styles
+
+
+def test_trust_center_defaults_to_simple_progressive_disclosure() -> None:
+    page = Path("public/index.html").read_text(encoding="utf-8")
+    app = Path("public/app.js").read_text(encoding="utf-8")
+    styles = Path("public/styles.css").read_text(encoding="utf-8")
+
+    assert 'id="trustModeSimple"' in page
+    assert 'id="trustModeAudit"' in page
+    assert 'let trustMode = "simple"' in app
+    assert "function renderTrustSimpleTab" in app
+    assert "function setTrustMode" in app
+    assert 'openTrustCenter("status","simple")' in app
+    assert 'setTrustMode("audit","claims")' in app
+
+    assert '.trust-center[data-mode="simple"]' in styles
+    assert '.trust-center[data-mode="audit"]' in styles
+    assert '.trust-center[data-mode="simple"] .audit-only{display:none}' in styles
+
+
+def test_simple_trust_mode_explains_status_before_showing_full_audit() -> None:
+    app = Path("public/app.js").read_text(encoding="utf-8")
+
+    assert "Healthy does not mean infallible." in app
+    assert "Claims have provenance" in app
+    assert "Critical evidence is fresh" in app
+    assert "Conflicts are visible" in app
+    assert "Required evaluations pass" in app
+    assert "what matters most" in app
+    assert "top ${currentClaims.length} current claims" in app
+    assert "Open full audit →" in app
+
+
+def test_trust_inspection_recomposes_story_instead_of_only_covering_it() -> None:
+    app = Path("public/app.js").read_text(encoding="utf-8")
+    styles = Path("public/styles.css").read_text(encoding="utf-8")
+
+    assert 'document.body.classList.add("trust-inspection")' in app
+    assert 'document.body.classList.remove("trust-inspection","trust-audit")' in app
+    assert 'document.body.classList.toggle("trust-audit",trustMode==="audit")' in app
+
+    assert "body.trust-inspection #globe" in styles
+    assert "body.trust-inspection .scroll-narrative" in styles
+    assert "body.trust-inspection .story-head" in styles
+    assert "body.trust-inspection .time-instrument" in styles
+    assert "--trust-panel-width" in styles
+
+
+def test_audit_claims_are_more_readable_but_keep_all_limits() -> None:
+    app = Path("public/app.js").read_text(encoding="utf-8")
+    styles = Path("public/styles.css").read_text(encoding="utf-8")
+
+    assert "<strong>Known limitation:</strong>" in app
+    assert '.trust-center[data-mode="audit"] .claim-card' in styles
+    assert '.trust-center[data-mode="audit"] .claim-statement' in styles
+    assert '.trust-center[data-mode="audit"] .claim-limits' in styles
+
+
+def test_simple_mode_status_is_less_dense_than_audit_mode() -> None:
+    app = Path("public/app.js").read_text(encoding="utf-8")
+    styles = Path("public/styles.css").read_text(encoding="utf-8")
+
+    assert 'if(trustMode==="simple")' in app
+    assert "trust-simple-statusbar" in app
+    assert "trust-status-grid" in app
+    assert ".trust-simple-statusbar" in styles
+    assert ".trust-proof-list" in styles

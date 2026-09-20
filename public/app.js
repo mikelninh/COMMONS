@@ -139,6 +139,7 @@ let actionLabMode = "current";
 let trustRegistry = null;
 let trustLoadError = null;
 let trustTab = "status";
+let trustMode = "simple";
 let trustReport = window.COMMONS_TRUST?.degradedState("Trust checks not loaded yet") || {
   status:"DEGRADED", provenanceCoverage:0, staleCriticalClaims:[], unresolvedConflicts:[],
   openHighIncidents:[], checks:[], passedChecks:0, totalChecks:0
@@ -233,6 +234,32 @@ function sceneOffset(scene){
   return scene.offset || [0,0];
 }
 
+function renderCalmOrientation(){
+  if(!$("calmOrientation"))return;
+  const improving=STORIES.filter(story=>
+    (story.bloom||[]).length>0 || String(story.status||"").includes("ELIMINATION")
+  ).length;
+
+  let directActions="—";
+  let stale="—";
+  if(trustRegistry){
+    evaluateTrustNow();
+    stale=String(trustReport.staleCriticalClaims?.length||0);
+    directActions=String(STORIES.filter(story=>{
+      const loop=ACTION_LOOPS[story.id];
+      const hasDirect=(loop?.interventions||[]).some(item=>
+        item.type==="external" && item.actionability==="DIRECT"
+      );
+      return hasDirect && trustGateForStory(story.id).allowed;
+    }).length);
+  }
+
+  $("orientationStories").textContent=String(STORIES.length);
+  $("orientationImproving").textContent=String(improving);
+  $("orientationActions").textContent=directActions;
+  $("orientationStale").textContent=stale;
+}
+
 function renderStoryLibrary(){
   $("storyCards").innerHTML=STORIES.map(story=>{
     const receipts=ledgerForStory(story.id);
@@ -257,6 +284,7 @@ function renderStoryLibrary(){
   qsa(".story-card",$("storyCards")).forEach(card=>{
     card.onclick=()=>enterStory(card.dataset.storyId,0);
   });
+  renderCalmOrientation();
 }
 
 function updateStoryChrome(){
@@ -1534,6 +1562,7 @@ function renderTrustSnapshot(){
   $("trustSnapshotDetail").textContent=trustReport.status==="HEALTHY"
     ? coverage+"% claims sourced · "+stale+" stale critical · "+evalText
     : (trustLoadError||trustReport.reason||"One or more trust checks require attention.");
+  renderCalmOrientation();
 }
 
 function renderTrustCenterStatus(){
@@ -1541,7 +1570,17 @@ function renderTrustCenterStatus(){
   const coverage=Math.round((trustReport.provenanceCoverage||0)*100);
   const stale=trustReport.staleCriticalClaims?.length||0;
   const conflicts=trustReport.unresolvedConflicts?.length||0;
-  const incidents=trustReport.openHighIncidents?.length||0;
+
+  if(trustMode==="simple"){
+    $("trustCenterStatus").innerHTML=`
+      <div class="trust-simple-statusbar ${trustReport.status==="HEALTHY"?"":"degraded"}">
+        <div class="trust-simple-status-main"><i></i><div><b>${escapeHtml(trustReport.status)}</b><span>${escapeHtml(trustReport.status==="HEALTHY"?"All required trust checks pass.":"Attention required before relying on some capabilities.")}</span></div></div>
+        <div class="trust-simple-status-meta">${coverage}% sourced · ${stale} stale critical · ${conflicts} conflicts</div>
+      </div>
+    `;
+    return;
+  }
+
   $("trustCenterStatus").innerHTML=`
     <div class="trust-status-grid">
       <div class="trust-status-primary ${trustReport.status==="HEALTHY"?"":"degraded"}">
@@ -1554,6 +1593,71 @@ function renderTrustCenterStatus(){
       <div class="trust-metric"><b>${trustReport.passedChecks||0}/${trustReport.totalChecks||0}</b><span>trust evaluations passing</span></div>
     </div>
   `;
+}
+
+function renderTrustSimpleTab(){
+  if(!trustRegistry){
+    $("trustCenterBody").innerHTML=`
+      <div class="trust-simple-hero">
+        <div class="trust-simple-kicker">DEGRADED MODE</div>
+        <h3>I can’t prove the trust state right now.</h3>
+        <p>The trust registry is unavailable, so COMMONS refuses to present itself as healthy. Direct trust-gated action remains disabled.</p>
+      </div>
+      <div class="correction-rule">${escapeHtml(trustLoadError||"Unknown trust registry error")}</div>
+    `;
+    return;
+  }
+
+  evaluateTrustNow();
+  const coverage=Math.round((trustReport.provenanceCoverage||0)*100);
+  const stale=trustReport.staleCriticalClaims?.length||0;
+  const conflicts=trustReport.unresolvedConflicts?.length||0;
+  const passing=(trustReport.passedChecks||0)+"/"+(trustReport.totalChecks||0);
+  const currentClaims=(trustRegistry.claims||[])
+    .filter(claim=>claim.story_id===activeStory.id && claim.status==="active")
+    .sort((a,b)=>{
+      const weight={high:3,medium:2,low:1};
+      return (weight[b.criticality]||0)-(weight[a.criticality]||0) || String(b.as_of).localeCompare(String(a.as_of));
+    })
+    .slice(0,3);
+
+  const claimCards=currentClaims.map(claim=>{
+    const source=window.COMMONS_TRUST.sourceById(trustRegistry,claim.source_ids?.[0]);
+    return `
+      <article class="trust-simple-claim">
+        <div class="claim-statement">${escapeHtml(claim.statement)}</div>
+        <div class="claim-meta">${escapeHtml(claim.claim_type.toUpperCase())} · ${escapeHtml(source?.organization||"source unavailable")} · ${escapeHtml(formatTrustDate(claim.as_of))} · ${escapeHtml(claim.criticality)} criticality</div>
+        <div class="claim-limits"><strong>Known limitation:</strong> ${escapeHtml(claim.limitations)}</div>
+      </article>
+    `;
+  }).join("");
+
+  $("trustCenterBody").innerHTML=`
+    <div class="trust-simple-hero">
+      <div class="trust-simple-kicker">WHAT THIS STATUS MEANS</div>
+      <h3>${trustReport.status==="HEALTHY"?"The evidence is currently within the rules we set for ourselves.":"Some evidence or safety checks need attention."}</h3>
+      <p>Healthy does not mean infallible. It means the claims are sourced, critical evidence is inside its freshness window, conflicts are exposed, and required trust checks currently pass.</p>
+    </div>
+
+    <div class="trust-proof-list">
+      <div class="trust-proof ${coverage===100?"":"warn"}"><i></i><div><b>Claims have provenance</b><span>Every active material claim should lead back to registered evidence.</span></div><strong>${coverage}%</strong></div>
+      <div class="trust-proof ${stale===0?"":"warn"}"><i></i><div><b>Critical evidence is fresh</b><span>Old emergency numbers are not allowed to stay silently current.</span></div><strong>${stale}</strong></div>
+      <div class="trust-proof ${conflicts===0?"":"warn"}"><i></i><div><b>Conflicts are visible</b><span>Disagreement between sources must be registered, not averaged away.</span></div><strong>${conflicts}</strong></div>
+      <div class="trust-proof ${trustReport.passedChecks===trustReport.totalChecks?"":"warn"}"><i></i><div><b>Required evaluations pass</b><span>Safety and provenance rules are checked independently of the visual design.</span></div><strong>${passing}</strong></div>
+    </div>
+
+    <section class="trust-current-claims">
+      <div class="trust-current-claims-head"><h4>${escapeHtml(activeStory.country)} · what matters most</h4><span>top ${currentClaims.length} current claims</span></div>
+      ${claimCards||'<div class="ledger-empty">No active story claims found.</div>'}
+    </section>
+
+    <div class="trust-simple-actions">
+      <button class="word-button" id="simpleOpenAudit">Open full audit →</button>
+      <a class="word-button muted" href="${escapeHtml(trustRegistry.reporting?.issue_url||"https://github.com/mikelninh/COMMONS/issues/new")}" target="_blank" rel="noopener">Report a problem ↗</a>
+    </div>
+  `;
+
+  if($("simpleOpenAudit"))$("simpleOpenAudit").onclick=()=>setTrustMode("audit","claims");
 }
 
 function renderTrustStatusTab(){
@@ -1642,7 +1746,7 @@ function renderTrustClaimsTab(){
           <span class="claim-type ${escapeHtml(claim.claim_type)}">${escapeHtml(claim.claim_type)}</span>
         </div>
         <div class="claim-sources">${sourceLinks}</div>
-        <div class="claim-limits"><strong>LIMIT:</strong> ${escapeHtml(claim.limitations)}</div>
+        <div class="claim-limits"><strong>Known limitation:</strong> ${escapeHtml(claim.limitations)}</div>
       </article>
     `;
   }).join("");
@@ -1727,16 +1831,41 @@ function renderTrustIncidentsTab(){
   `;
 }
 
+function updateTrustModeChrome(){
+  if(!$("trustCenter"))return;
+  $("trustCenter").dataset.mode=trustMode;
+  const simple=trustMode==="simple";
+  $("trustModeSimple").classList.toggle("active",simple);
+  $("trustModeAudit").classList.toggle("active",!simple);
+  $("trustModeSimple").setAttribute("aria-pressed",simple?"true":"false");
+  $("trustModeAudit").setAttribute("aria-pressed",simple?"false":"true");
+  document.body.classList.toggle("trust-audit",!simple);
+}
+
+function setTrustMode(mode,tab=trustTab){
+  trustMode=mode==="audit"?"audit":"simple";
+  if(tab)trustTab=tab;
+  updateTrustModeChrome();
+  renderTrustCenter(trustTab);
+}
+
 function renderTrustCenter(tab=trustTab){
   trustTab=tab;
   evaluateTrustNow();
   renderTrustSnapshot();
+  updateTrustModeChrome();
   renderTrustCenterStatus();
+
   qsa("[data-trust-tab]",$("trustCenter")).forEach(button=>{
     const active=button.dataset.trustTab===tab;
     button.classList.toggle("active",active);
     button.setAttribute("aria-selected",active?"true":"false");
   });
+
+  if(trustMode==="simple"){
+    renderTrustSimpleTab();
+    return;
+  }
 
   if(tab==="claims")renderTrustClaimsTab();
   else if(tab==="sources")renderTrustSourcesTab();
@@ -1745,18 +1874,22 @@ function renderTrustCenter(tab=trustTab){
   else renderTrustStatusTab();
 }
 
-function openTrustCenter(tab="status"){
+function openTrustCenter(tab="status",mode=null){
   closeAuxiliaryLayers("trustCenter");
   trustTab=tab;
-  renderTrustCenter(tab);
+  trustMode=mode || (tab==="status"?"simple":"audit");
+  document.body.classList.add("trust-inspection");
+  document.body.classList.toggle("trust-audit",trustMode==="audit");
   $("trustCenter").classList.add("open");
   $("trustCenter").setAttribute("aria-hidden","false");
+  renderTrustCenter(tab);
 }
 
 function closeTrustCenter(){
   if(!$("trustCenter"))return;
   $("trustCenter").classList.remove("open");
   $("trustCenter").setAttribute("aria-hidden","true");
+  document.body.classList.remove("trust-inspection","trust-audit");
 }
 
 function openEvidence(){
@@ -1832,7 +1965,7 @@ function renderEvidence(){
       <button class="word-button" id="evidenceTrustBtn">Open Trust Center →</button>
     </section>
   `;
-  if($("evidenceTrustBtn"))$("evidenceTrustBtn").onclick=()=>openTrustCenter("claims");
+  if($("evidenceTrustBtn"))$("evidenceTrustBtn").onclick=()=>openTrustCenter("claims","audit");
 }
 
 function openShare(){
@@ -2034,9 +2167,12 @@ function bindEvents(){
   $("storyBelief").onclick=openEvidence;
   $("storyActionBtn").onclick=()=>openActionLab("current");
   $("actionLedgerBtn").onclick=()=>openActionLab("ledger");
-  $("trustBtn").onclick=()=>openTrustCenter("status");
-  $("trustSnapshot").onclick=()=>openTrustCenter("status");
+  $("trustBtn").onclick=()=>openTrustCenter("status","simple");
+  $("trustSnapshot").onclick=()=>openTrustCenter("status","simple");
   $("trustCenterClose").onclick=closeTrustCenter;
+  $("trustModeSimple").onclick=()=>setTrustMode("simple","status");
+  $("trustModeAudit").onclick=()=>setTrustMode("audit",trustTab||"claims");
+  if($("browseStoriesInline"))$("browseStoriesInline").onclick=()=>openStories();
   qsa("[data-trust-tab]",$("trustCenter")).forEach(button=>{
     button.onclick=()=>renderTrustCenter(button.dataset.trustTab);
   });

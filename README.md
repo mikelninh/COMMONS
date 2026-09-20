@@ -163,6 +163,7 @@ Read the project documents:
 - [docs/SIMULATION.md](docs/SIMULATION.md) — explicit architecture stress assumptions
 - [NEXT_PHASE.md](NEXT_PHASE.md) — v0.3 evidence + capability network
 - [docs/COMMONS_TRUST_V1.md](docs/COMMONS_TRUST_V1.md) — claim provenance, freshness, evaluations, action safety and incidents
+- [docs/CALM_INSTRUMENT_V1.md](docs/CALM_INSTRUMENT_V1.md) — orientation-first daily UX with full audit depth on demand
 
 ## Status
 
