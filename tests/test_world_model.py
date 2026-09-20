@@ -20,6 +20,11 @@ from commons.world_model import (
 class FakeClient:
     provider_shift = {"ecmwf": 0.0, "gfs": 1.5, "icon": -0.8}
 
+    def __init__(self) -> None:
+        self.history_calls = 0
+        self.flood_history_calls = 0
+        self.flood_forecast_calls = 0
+
     def forecast(self, provider, point):
         shift = self.provider_shift[provider]
         return {
@@ -38,21 +43,14 @@ class FakeClient:
         }
 
     def era5_history(self, point, **kwargs):
+        self.history_calls += 1
         return {
             "daily": {
                 "time": [
-                    "2020-09-18",
-                    "2020-09-19",
-                    "2020-09-20",
-                    "2021-09-18",
-                    "2021-09-19",
-                    "2021-09-20",
-                    "2022-09-18",
-                    "2022-09-19",
-                    "2022-09-20",
-                    "2023-09-18",
-                    "2023-09-19",
-                    "2023-09-20",
+                    "2020-09-18", "2020-09-19", "2020-09-20",
+                    "2021-09-18", "2021-09-19", "2021-09-20",
+                    "2022-09-18", "2022-09-19", "2022-09-20",
+                    "2023-09-18", "2023-09-19", "2023-09-20",
                 ],
                 "precipitation_sum": [
                     4, 5, 6,
@@ -64,29 +62,38 @@ class FakeClient:
             }
         }
 
-    def flood_history_and_forecast(self, point, **kwargs):
+    def flood_history(self, point, **kwargs):
+        self.flood_history_calls += 1
         return {
             "daily": {
                 "time": [
-                    "2026-09-14",
-                    "2026-09-15",
-                    "2026-09-16",
-                    "2026-09-17",
-                    "2026-09-18",
-                    "2026-09-19",
+                    "2018-09-18",
+                    "2019-09-18",
+                    "2020-09-18",
+                    "2021-09-18",
+                    "2022-07-31",
+                ],
+                "river_discharge": [20, 30, 40, 50, 60],
+            }
+        }
+
+    def flood_forecast(self, point, **kwargs):
+        self.flood_forecast_calls += 1
+        return {
+            "daily": {
+                "time": [
                     "2026-09-20",
                     "2026-09-21",
                     "2026-09-22",
                     "2026-09-23",
                 ],
-                "river_discharge": [20, 22, 25, 24, 26, 28, 35, 55, 70, 48],
+                "river_discharge": [35, 55, 70, 48],
             }
         }
 
 
 def test_forecast_council_preserves_independent_members_and_labels_agreement() -> None:
-    point = WATCHPOINTS[0]
-    council = build_forecast_council(point, FakeClient())
+    council = build_forecast_council(WATCHPOINTS[0], FakeClient())
 
     assert [item["provider"] for item in council["members"]] == [
         "ecmwf",
@@ -98,7 +105,7 @@ def test_forecast_council_preserves_independent_members_and_labels_agreement() -
     assert "not a calibrated probability" in council["interpretation"]
 
 
-def test_weather_memory_returns_seasonal_percentile_and_analogues() -> None:
+def test_weather_memory_uses_only_consecutive_three_day_windows() -> None:
     memory = build_weather_memory(
         FakeClient().era5_history(WATCHPOINTS[0]),
         target_precip_72h_mm=32.0,
@@ -107,14 +114,21 @@ def test_weather_memory_returns_seasonal_percentile_and_analogues() -> None:
 
     assert memory["status"] == "ok"
     assert 0 <= memory["seasonal_percentile"] <= 100
-    assert memory["analogues"]
-    assert memory["source"] == "ERA5"
+    starts = {item["start_date"] for item in memory["analogues"]}
+    assert starts <= {
+        "2020-09-18",
+        "2021-09-18",
+        "2022-09-18",
+        "2023-09-18",
+    }
     assert "do not imply similar human impact" in memory["limitation"]
 
 
-def test_flood_signal_separates_guidance_from_local_warning() -> None:
+def test_flood_signal_compares_live_forecast_with_cached_history() -> None:
+    client = FakeClient()
     signal = build_flood_signal(
-        FakeClient().flood_history_and_forecast(WATCHPOINTS[0]),
+        client.flood_history(WATCHPOINTS[0]),
+        client.flood_forecast(WATCHPOINTS[0]),
         now=datetime(2026, 9, 20, tzinfo=timezone.utc).date(),
     )
 
@@ -141,6 +155,28 @@ def test_snapshot_contains_all_ten_loops_but_only_claims_enabled_layers() -> Non
     assert flood["flood_signal"]["status"] == "ok"
     assert outbreak["physical_context"] == "not_applicable"
     assert "commercial" in snapshot["source_contract"]["licensing_note"].lower()
+
+
+def test_expensive_historical_baselines_are_cached_across_refreshes() -> None:
+    client = FakeClient()
+    cache: dict = {}
+
+    build_snapshot(
+        client,
+        now=datetime(2026, 9, 20, 0, tzinfo=timezone.utc),
+        memory_cache=cache,
+    )
+    build_snapshot(
+        client,
+        now=datetime(2026, 9, 20, 6, tzinfo=timezone.utc),
+        memory_cache=cache,
+    )
+
+    assert client.history_calls == 1
+    assert client.flood_history_calls == 1
+    assert client.flood_forecast_calls == 2
+    assert "water-rises" in cache["era5"]
+    assert "water-rises" in cache["flood_history"]
 
 
 def test_commercial_mode_fails_closed_without_customer_configuration(monkeypatch) -> None:
@@ -194,15 +230,19 @@ def test_world_model_public_surface_explains_limits_and_learning_loop() -> None:
     assert "History is not destiny" in page
     assert "Backtest everything" in page
     assert "COMMONS should remember its own predictions." in page
+    assert "NOT YET FOR SALE" in page
     assert "./world-model/latest.json" in js
     assert "./world-model/seed.json" in js
 
 
-def test_snapshot_workflow_runs_every_six_hours_and_archives_history() -> None:
+def test_snapshot_workflow_runs_every_six_hours_archives_and_reuses_history() -> None:
     workflow = Path(".github/workflows/world-model.yml").read_text(encoding="utf-8")
 
     assert 'cron: "17 */6 * * *"' in workflow
     assert "python scripts/build_world_model.py" in workflow
+    assert "--cache-in /tmp/world-model-cache.json" in workflow
+    assert "--cache-out /tmp/world-model-cache-out.json" in workflow
+    assert "memory-cache.json" in workflow
     assert "world-model-data" in workflow
     assert "actions/upload-artifact@v4" in workflow
     assert "Deploy to GitHub Pages" in workflow
@@ -215,12 +255,12 @@ def test_public_home_links_to_world_model() -> None:
     assert "World model" in page
 
 
-def test_for_teams_keeps_public_information_free_and_sells_professional_capability() -> None:
-    page = Path("public/for-teams.html").read_text(encoding="utf-8")
+def test_monetization_plan_keeps_emergency_information_public() -> None:
+    plan = Path("docs/MONETIZATION_V1.md").read_text(encoding="utf-8")
 
-    assert "Organizations pay for monitoring. The public world stays open." in page
-    assert "No emergency paywall" in page
-    assert "No ads" in page
-    assert "No user-data sale" in page
-    assert "€500–1,500 / month" in page
-    assert "product hypotheses, not current published prices" in page
+    assert "Commercial capability subsidizes a useful public commons." in plan
+    assert "paywalling emergency information" in plan
+    assert "€500–1,500 / month" in plan
+    assert "These are hypotheses, not current published prices." in plan
+    assert "Do not activate paid customer revenue" in plan
+    assert "3 organizations × one useful watchlist × recurring monthly payment" in plan
