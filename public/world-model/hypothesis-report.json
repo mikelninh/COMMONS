@@ -216,7 +216,12 @@
     "h25_incremental_false_alerts_per_100": 4.77,
     "h25_precision_change": -0.1386,
     "h25_convective_evidence_status": "insufficient",
-    "h25_convective_bundle_ratio": 0.3333
+    "h25_convective_bundle_ratio": 0.3333,
+    "h27_selected_ordering": "hazard_population_rank",
+    "h27_average_precision_gain": null,
+    "h27_top20_recall_gain": null,
+    "h27_emdat_coverage": 0.0667,
+    "h27_emdat_labels": 20
   },
   "hypotheses": [
     {
@@ -365,6 +370,13 @@
       "status": "insufficient",
       "effect": "selected blind_showers_any50; blind test misses 6; recovery 0.3333; extra false alerts 4.77/100; precision change -0.1386",
       "update": "Convective blindness remains an open hypothesis; archived CAPE/showers coverage or blind-case count is not yet sufficient."
+    },
+    {
+      "id": "H27",
+      "claim": "Explicit hazard + exposure + vulnerability components rank historically consequential flood/cyclone events better than hazard severity alone.",
+      "status": "insufficient",
+      "effect": "selected hazard_population_rank; test n=7; feature coverage 0.0; AP gain None; top20 recall gain None",
+      "update": "Impact labels or component coverage are not sufficient yet; keep Impact v0 context-only."
     }
   ],
   "limitations": [
