@@ -322,11 +322,11 @@ def test_simple_trust_mode_explains_status_before_showing_full_audit() -> None:
     assert "Healthy does not mean infallible." in app
     assert "We can trace the claims" in app
     assert "The critical evidence is current" in app
-    assert "Conflicts are visible" in app
-    assert "Required evaluations pass" in app
-    assert "what matters most" in app
-    assert "top ${currentClaims.length} current claims" in app
-    assert "Open full audit →" in app
+    assert "Disagreements are not hidden" in app
+    assert "The safety checks pass" in app
+    assert "WHAT WE CURRENTLY KNOW" in app
+    assert "the three claims that shape this case" in app
+    assert "Open the full evidence file →" in app
 
 
 def test_trust_inspection_recomposes_story_instead_of_only_covering_it() -> None:
