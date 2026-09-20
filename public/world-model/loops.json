@@ -1,0 +1,139 @@
+{
+  "schema_version": "0.1",
+  "loops": [
+    {
+      "id": "water-rises",
+      "order": 1,
+      "title": "When the Water Rises",
+      "domain": "flood",
+      "human_anchor": "home",
+      "question": "Where is water becoming dangerous, how unusual is it, who is exposed, and what happens next?",
+      "live_sources": [
+        "ECMWF IFS",
+        "NOAA GFS",
+        "DWD ICON",
+        "ERA5",
+        "GloFAS v4"
+      ],
+      "coverage": "live_pilot",
+      "history": "ERA5 precipitation memory + GloFAS discharge history"
+    },
+    {
+      "id": "storm-arrives",
+      "order": 2,
+      "title": "Before the Storm Arrives",
+      "domain": "tropical_cyclone",
+      "human_anchor": "shelter",
+      "question": "What futures do the models see before landfall, and how does uncertainty collapse over time?",
+      "live_sources": [
+        "forecast council"
+      ],
+      "coverage": "physical_context",
+      "history": "IBTrACS planned"
+    },
+    {
+      "id": "heat-we-cannot-see",
+      "order": 3,
+      "title": "The Heat We Cannot See",
+      "domain": "extreme_heat",
+      "human_anchor": "body",
+      "question": "How dangerous is this heat once duration, humidity, night-time recovery and history are considered?",
+      "live_sources": [
+        "forecast council"
+      ],
+      "coverage": "physical_context",
+      "history": "ERA5 heat memory planned"
+    },
+    {
+      "id": "forest-burns",
+      "order": 4,
+      "title": "When the Forest Burns",
+      "domain": "wildfire_smoke",
+      "human_anchor": "land",
+      "question": "Where is fire active, where will smoke move, and who may breathe it?",
+      "live_sources": [
+        "forecast council"
+      ],
+      "coverage": "physical_context",
+      "history": "NASA FIRMS archive planned"
+    },
+    {
+      "id": "air-we-breathe",
+      "order": 5,
+      "title": "The Air We Breathe",
+      "domain": "air_quality",
+      "human_anchor": "breath",
+      "question": "What is in the air, where is it moving, and how unusual is the exposure?",
+      "live_sources": [
+        "forecast council"
+      ],
+      "coverage": "physical_context",
+      "history": "CAMS history planned"
+    },
+    {
+      "id": "rain-doesnt-come",
+      "order": 6,
+      "title": "When Rain Doesn't Come",
+      "domain": "drought",
+      "human_anchor": "water",
+      "question": "How long has the deficit lasted, what is happening to soil and water, and what follows?",
+      "live_sources": [
+        "forecast council"
+      ],
+      "coverage": "physical_context",
+      "history": "ERA5 + drought observatory planned"
+    },
+    {
+      "id": "stop-an-outbreak",
+      "order": 7,
+      "title": "Can We Stop an Outbreak?",
+      "domain": "disease_outbreak",
+      "human_anchor": "health",
+      "question": "Is transmission accelerating or shrinking, what is the response, and what remains unresolved?",
+      "live_sources": [
+        "WHO outbreak evidence"
+      ],
+      "coverage": "story_layer_only",
+      "history": "WHO outbreak history planned"
+    },
+    {
+      "id": "ground-moves",
+      "order": 8,
+      "title": "When the Ground Moves",
+      "domain": "earthquake",
+      "human_anchor": "ground",
+      "question": "What happened, who may have been exposed, and how does response unfold when prediction is not available?",
+      "live_sources": [
+        "USGS"
+      ],
+      "coverage": "ambient_live_source",
+      "history": "USGS earthquake catalogue planned"
+    },
+    {
+      "id": "enough-to-eat",
+      "order": 9,
+      "title": "Will There Be Enough to Eat?",
+      "domain": "food_security",
+      "human_anchor": "food",
+      "question": "How do weather, prices, conflict and access combine into household food insecurity?",
+      "live_sources": [
+        "forecast council"
+      ],
+      "coverage": "physical_context",
+      "history": "WFP / food-security history planned"
+    },
+    {
+      "id": "humanity-succeeds",
+      "order": 10,
+      "title": "When Humanity Succeeds",
+      "domain": "recovery_elimination",
+      "human_anchor": "hope",
+      "question": "What got measurably better, what caused confidence to rise, and what must be sustained?",
+      "live_sources": [
+        "verified response stories"
+      ],
+      "coverage": "story_layer_only",
+      "history": "verified outcome archive planned"
+    }
+  ]
+}

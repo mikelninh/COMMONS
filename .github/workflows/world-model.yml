@@ -1,0 +1,101 @@
+name: Refresh WORLD MODEL
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths:
+      - "src/commons/world_model.py"
+      - "scripts/build_world_model.py"
+      - "public/world-model/**"
+      - "public/world-model.html"
+      - "public/world-model.js"
+      - "public/world-model.css"
+      - ".github/workflows/world-model.yml"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install COMMONS
+        run: pip install -e .
+
+      - name: Prepare historical memory cache
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin world-model-data:world-model-data
+          rm -rf /tmp/world-model-data
+          git worktree add /tmp/world-model-data world-model-data
+          if [ -f /tmp/world-model-data/data/world-model/memory-cache.json ]; then
+            cp /tmp/world-model-data/data/world-model/memory-cache.json /tmp/world-model-cache.json
+          else
+            echo "{}" > /tmp/world-model-cache.json
+          fi
+
+      - name: Build live World Model snapshot
+        run: |
+          python scripts/build_world_model.py \
+            --output public/world-model/latest.json \
+            --cache-in /tmp/world-model-cache.json \
+            --cache-out /tmp/world-model-cache-out.json
+
+      - name: Preserve snapshot artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: world-model-${{ github.run_id }}
+          path: public/world-model/latest.json
+          retention-days: 90
+
+      - name: Archive snapshot on data branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          stamp=$(date -u +"%Y/%m/%d/%H%M%S")
+          git config user.name "commons-world-model"
+          git config user.email "actions@users.noreply.github.com"
+          mkdir -p "/tmp/world-model-data/data/world-model/snapshots/$(dirname "$stamp")"
+          cp public/world-model/latest.json "/tmp/world-model-data/data/world-model/snapshots/${stamp}.json"
+          cp public/world-model/latest.json "/tmp/world-model-data/data/world-model/latest.json"
+          cp /tmp/world-model-cache-out.json "/tmp/world-model-data/data/world-model/memory-cache.json"
+          cd /tmp/world-model-data
+          git add data/world-model
+          if git diff --cached --quiet; then
+            echo "No snapshot change to archive"
+          else
+            git commit -m "world model snapshot ${stamp}"
+            git push origin HEAD:world-model-data
+          fi
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload site with live snapshot
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
