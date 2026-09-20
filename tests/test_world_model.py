@@ -660,8 +660,8 @@ def test_next_hypotheses_move_toward_attention_quality_and_external_validation()
     assert {"H7", "H11", "H13", "H14", "H16"} <= ids
     h16 = next(item for item in report["next_hypotheses"] if item["id"] == "H16")
     h14 = next(item for item in report["next_hypotheses"] if item["id"] == "H14")
-    assert "WATCH" in h16["claim"]
-    assert "monitoring time, ignored watches, useful catches and perceived interruption burden" in h16["test"]
+    assert "PRIORITY" in h16["claim"]
+    assert "monitoring time, unnecessary reviews, useful catches and perceived noise" in h16["test"]
     assert "official warnings" in h14["signals"]
 
 
@@ -768,6 +768,7 @@ def test_next_step_is_human_usefulness_not_more_automatic_confidence() -> None:
 
     assert "monitoring time" in h16["claim"].lower()
     assert "perceived noise" in h16["claim"].lower()
+    assert "priority" in h16["claim"].lower()
     assert "human pilot" in h16["test"].lower()
 
 
