@@ -13,70 +13,65 @@
   "heavy_event_quantile": 0.9,
   "loose_threshold_factor": 0.8,
   "revision_threshold_mm": 1.0,
-  "paths": 134,
-  "source_errors": [
-    {
-      "point": "nuwakot",
-      "source": "era5",
-      "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
-    }
-  ],
+  "paths": 201,
+  "source_errors": [],
   "thresholds_mm": {
+    "nuwakot": 49.18,
     "manila": 29.76,
     "delhi": 17.4
   },
   "policies": {
     "strict": {
       "policy": "strict",
-      "days_evaluated": 134,
-      "heavy_events": 14,
-      "alerts": 24,
-      "true_positives": 10,
+      "days_evaluated": 201,
+      "heavy_events": 21,
+      "alerts": 25,
+      "true_positives": 11,
       "false_alerts": 14,
-      "precision": 0.4167,
-      "recall": 0.7143,
-      "f1": 0.5263,
-      "miss_rate": 0.2857,
-      "false_alerts_per_100_days": 10.45,
-      "mean_true_alert_lead_days": 2.8
+      "precision": 0.44,
+      "recall": 0.5238,
+      "f1": 0.4783,
+      "miss_rate": 0.4762,
+      "false_alerts_per_100_days": 6.97,
+      "mean_true_alert_lead_days": 2.636
     },
     "loose": {
       "policy": "loose",
-      "days_evaluated": 134,
-      "heavy_events": 14,
-      "alerts": 35,
-      "true_positives": 11,
+      "days_evaluated": 201,
+      "heavy_events": 21,
+      "alerts": 36,
+      "true_positives": 12,
       "false_alerts": 24,
-      "precision": 0.3143,
-      "recall": 0.7857,
-      "f1": 0.449,
-      "miss_rate": 0.2143,
-      "false_alerts_per_100_days": 17.91,
-      "mean_true_alert_lead_days": 3.545
+      "precision": 0.3333,
+      "recall": 0.5714,
+      "f1": 0.4211,
+      "miss_rate": 0.4286,
+      "false_alerts_per_100_days": 11.94,
+      "mean_true_alert_lead_days": 3.333
     },
     "revision_aware": {
       "policy": "revision_aware",
-      "days_evaluated": 134,
-      "heavy_events": 14,
-      "alerts": 30,
-      "true_positives": 11,
+      "days_evaluated": 201,
+      "heavy_events": 21,
+      "alerts": 31,
+      "true_positives": 12,
       "false_alerts": 19,
-      "precision": 0.3667,
-      "recall": 0.7857,
-      "f1": 0.5,
-      "miss_rate": 0.2143,
-      "false_alerts_per_100_days": 14.18,
-      "mean_true_alert_lead_days": 3
+      "precision": 0.3871,
+      "recall": 0.5714,
+      "f1": 0.4615,
+      "miss_rate": 0.4286,
+      "false_alerts_per_100_days": 9.45,
+      "mean_true_alert_lead_days": 2.833
     }
   },
   "hypothesis": {
     "id": "H12",
     "claim": "A revision-aware material-change rule improves the precision/recall/lead-time trade-off versus fixed forecast thresholds.",
     "status": "not_supported",
-    "f1_gain_vs_strict": -0.0263,
-    "recall_gain_vs_strict": 0.0714,
-    "precision_change_vs_strict": -0.05,
-    "lead_gain_days_vs_strict": 0.2,
+    "f1_gain_vs_strict": -0.0168,
+    "recall_gain_vs_strict": 0.0476,
+    "precision_change_vs_strict": -0.0529,
+    "lead_gain_days_vs_strict": 0.197,
     "product_update": "Do not replace fixed thresholds with the current revision-aware rule yet."
   },
   "limitations": [

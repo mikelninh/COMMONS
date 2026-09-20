@@ -1,6 +1,6 @@
 {
-  "schema_version": "0.1",
-  "generated_at": "2026-09-20T18:15:23Z",
+  "schema_version": "0.2",
+  "generated_at": "2026-09-20T18:32:03Z",
   "period": {
     "start": "2026-07-12",
     "end": "2026-09-10"
@@ -39,144 +39,196 @@
     5
   ],
   "verification": "ERA5 daily precipitation",
-  "records": 366,
-  "source_errors": [
-    {
-      "point": "manila",
-      "source": "era5",
-      "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
+  "records": 549,
+  "source_errors": [],
+  "data_quality": {
+    "status": "healthy",
+    "expected_records": 549,
+    "observed_records": 549,
+    "temporal_coverage": 1.0,
+    "full_council_ratio": 1.0,
+    "point_coverage": {
+      "nuwakot": 1.0,
+      "manila": 1.0,
+      "delhi": 1.0
     }
-  ],
+  },
   "summary_by_lead": {
     "1": {
-      "samples": 122,
-      "heavy_rain_samples": 60,
+      "samples": 183,
+      "heavy_rain_samples": 88,
       "provider_mae_mm": {
-        "ecmwf": 7.059,
-        "gfs": 7.652,
-        "icon": 8.599
+        "ecmwf": 6.446,
+        "gfs": 9.049,
+        "icon": 8.306
       },
       "provider_heavy_rain_mae_mm": {
-        "ecmwf": 11.892,
-        "gfs": 13.202,
-        "icon": 12.633
+        "ecmwf": 10.401,
+        "gfs": 14.693,
+        "icon": 11.907
       },
-      "average_individual_model_mae_mm": 7.77,
-      "average_individual_model_heavy_rain_mae_mm": 12.576,
-      "council_median_mae_mm": 6.429,
-      "council_median_heavy_rain_mae_mm": 10.728,
-      "council_improvement_vs_average_model_pct": 17.3,
-      "council_heavy_rain_improvement_pct": 14.7,
-      "council_win_rate_vs_daily_average_model_error_pct": 70.5,
-      "raw_spread_vs_absolute_error_correlation": 0.372,
-      "relative_spread_vs_normalized_error_correlation": 0.094,
-      "heavy_rain_relative_spread_vs_normalized_error_correlation": -0.242,
-      "low_disagreement_normalized_error": 0.699,
-      "high_disagreement_normalized_error": 0.745,
-      "high_vs_low_normalized_error_ratio": 1.07,
-      "relative_spread_q25": 0.465,
-      "relative_spread_q75": 1.249,
-      "mae_if_abstain_top_disagreement_quartile_mm": 7.538,
-      "error_reduction_if_abstain_top_disagreement_quartile_pct": -17.3
+      "average_individual_model_mae_mm": 7.934,
+      "average_individual_model_heavy_rain_mae_mm": 12.334,
+      "council_median_mae_mm": 6.421,
+      "council_median_heavy_rain_mae_mm": 9.994,
+      "council_improvement_vs_average_model_pct": 19.1,
+      "council_heavy_rain_improvement_pct": 19.0,
+      "council_win_rate_vs_daily_average_model_error_pct": 71.0,
+      "raw_spread_vs_absolute_error_correlation": 0.35,
+      "relative_spread_vs_normalized_error_correlation": 0.104,
+      "heavy_rain_relative_spread_vs_normalized_error_correlation": -0.181,
+      "low_disagreement_normalized_error": 0.644,
+      "high_disagreement_normalized_error": 0.681,
+      "high_vs_low_normalized_error_ratio": 1.06,
+      "relative_spread_q25": 0.467,
+      "relative_spread_q75": 1.228,
+      "mae_if_abstain_top_disagreement_quartile_mm": 7.361,
+      "error_reduction_if_abstain_top_disagreement_quartile_pct": -14.6
     },
     "3": {
-      "samples": 122,
-      "heavy_rain_samples": 60,
+      "samples": 183,
+      "heavy_rain_samples": 88,
       "provider_mae_mm": {
-        "ecmwf": 8.276,
-        "gfs": 9.759,
-        "icon": 8.293
+        "ecmwf": 8.341,
+        "gfs": 10.591,
+        "icon": 8.761
       },
       "provider_heavy_rain_mae_mm": {
-        "ecmwf": 13.022,
-        "gfs": 16.81,
-        "icon": 12.6
+        "ecmwf": 12.168,
+        "gfs": 15.957,
+        "icon": 12.159
       },
-      "average_individual_model_mae_mm": 8.776,
-      "average_individual_model_heavy_rain_mae_mm": 14.144,
-      "council_median_mae_mm": 7.332,
-      "council_median_heavy_rain_mae_mm": 11.99,
-      "council_improvement_vs_average_model_pct": 16.5,
-      "council_heavy_rain_improvement_pct": 15.2,
-      "council_win_rate_vs_daily_average_model_error_pct": 71.3,
-      "raw_spread_vs_absolute_error_correlation": 0.208,
+      "average_individual_model_mae_mm": 9.231,
+      "average_individual_model_heavy_rain_mae_mm": 13.428,
+      "council_median_mae_mm": 7.766,
+      "council_median_heavy_rain_mae_mm": 11.356,
+      "council_improvement_vs_average_model_pct": 15.9,
+      "council_heavy_rain_improvement_pct": 15.4,
+      "council_win_rate_vs_daily_average_model_error_pct": 69.9,
+      "raw_spread_vs_absolute_error_correlation": 0.24,
       "relative_spread_vs_normalized_error_correlation": 0.109,
-      "heavy_rain_relative_spread_vs_normalized_error_correlation": -0.283,
-      "low_disagreement_normalized_error": 0.906,
-      "high_disagreement_normalized_error": 0.823,
-      "high_vs_low_normalized_error_ratio": 0.91,
-      "relative_spread_q25": 0.424,
-      "relative_spread_q75": 1.362,
-      "mae_if_abstain_top_disagreement_quartile_mm": 8.851,
-      "error_reduction_if_abstain_top_disagreement_quartile_pct": -20.7
+      "heavy_rain_relative_spread_vs_normalized_error_correlation": -0.259,
+      "low_disagreement_normalized_error": 0.834,
+      "high_disagreement_normalized_error": 0.814,
+      "high_vs_low_normalized_error_ratio": 0.98,
+      "relative_spread_q25": 0.462,
+      "relative_spread_q75": 1.4,
+      "mae_if_abstain_top_disagreement_quartile_mm": 9.212,
+      "error_reduction_if_abstain_top_disagreement_quartile_pct": -18.6
     },
     "5": {
-      "samples": 122,
-      "heavy_rain_samples": 60,
+      "samples": 183,
+      "heavy_rain_samples": 88,
       "provider_mae_mm": {
-        "ecmwf": 9.488,
-        "gfs": 9.96,
-        "icon": 8.984
+        "ecmwf": 9.633,
+        "gfs": 12.972,
+        "icon": 9.113
       },
       "provider_heavy_rain_mae_mm": {
-        "ecmwf": 13.852,
-        "gfs": 15.482,
-        "icon": 13.153
+        "ecmwf": 13.095,
+        "gfs": 17.639,
+        "icon": 12.012
       },
-      "average_individual_model_mae_mm": 9.477,
-      "average_individual_model_heavy_rain_mae_mm": 14.162,
-      "council_median_mae_mm": 8.716,
-      "council_median_heavy_rain_mae_mm": 13.455,
-      "council_improvement_vs_average_model_pct": 8.0,
-      "council_heavy_rain_improvement_pct": 5.0,
-      "council_win_rate_vs_daily_average_model_error_pct": 64.8,
-      "raw_spread_vs_absolute_error_correlation": 0.349,
-      "relative_spread_vs_normalized_error_correlation": 0.223,
-      "heavy_rain_relative_spread_vs_normalized_error_correlation": -0.268,
-      "low_disagreement_normalized_error": 0.749,
-      "high_disagreement_normalized_error": 1.083,
-      "high_vs_low_normalized_error_ratio": 1.45,
-      "relative_spread_q25": 0.362,
-      "relative_spread_q75": 1.383,
-      "mae_if_abstain_top_disagreement_quartile_mm": 10.463,
-      "error_reduction_if_abstain_top_disagreement_quartile_pct": -20.0
+      "average_individual_model_mae_mm": 10.573,
+      "average_individual_model_heavy_rain_mae_mm": 14.249,
+      "council_median_mae_mm": 9.158,
+      "council_median_heavy_rain_mae_mm": 12.541,
+      "council_improvement_vs_average_model_pct": 13.4,
+      "council_heavy_rain_improvement_pct": 12.0,
+      "council_win_rate_vs_daily_average_model_error_pct": 63.9,
+      "raw_spread_vs_absolute_error_correlation": 0.267,
+      "relative_spread_vs_normalized_error_correlation": 0.151,
+      "heavy_rain_relative_spread_vs_normalized_error_correlation": -0.245,
+      "low_disagreement_normalized_error": 0.757,
+      "high_disagreement_normalized_error": 0.926,
+      "high_vs_low_normalized_error_ratio": 1.22,
+      "relative_spread_q25": 0.407,
+      "relative_spread_q75": 1.393,
+      "mae_if_abstain_top_disagreement_quartile_mm": 10.622,
+      "error_reduction_if_abstain_top_disagreement_quartile_pct": -16.0
     }
+  },
+  "headline_metrics": {
+    "council_mean_error_improvement_pct": 16.1,
+    "council_heavy_rain_error_improvement_pct": 15.5,
+    "council_mae_by_lead_mm": {
+      "1": 6.421,
+      "3": 7.766,
+      "5": 9.158
+    },
+    "high_vs_low_normalized_error_ratio": 1.09,
+    "h6_mean_auc_gain": 0.0834,
+    "h6_mean_precision_gain_pct": 83.2,
+    "h6_basin_results": {
+      "nuwakot": {
+        "auc_gain": 0.013,
+        "precision_gain_pct": 0
+      },
+      "warsaw": {
+        "auc_gain": 0.2417,
+        "precision_gain_pct": 257.1
+      },
+      "niamey": {
+        "auc_gain": -0.0045,
+        "precision_gain_pct": -7.6
+      }
+    },
+    "h8_persistent_direction_accuracy_pct": 100.0,
+    "h9_majority_direction_accuracy_pct": 71.4,
+    "h10_mean_auc_gain": -0.0693,
+    "h10_mean_precision_gain_pct": -28.5,
+    "h12_strict_f1": 0.4783,
+    "h12_revision_f1": 0.4615,
+    "h12_revision_recall": 0.5714,
+    "h12_revision_precision": 0.3871,
+    "h15_alert_recall": 0.5238,
+    "h15_watch_recall": 0.5714,
+    "h15_watch_burden_per_100_days": 2.99,
+    "h17_revision_up_heavy_rate": 0.3333,
+    "h17_revision_not_up_heavy_rate": 0.2308,
+    "h17_heavy_rate_lift": 0.1026,
+    "h18_average_precision_gain": -0.0179,
+    "h18_ndcg_gain": -0.0089,
+    "h18_improved_budgets": 0,
+    "h19_min_top_k_retention": 0.6316,
+    "h19_min_alert_agreement": 0.957,
+    "h19_max_heavy_event_catch_loss": 1
   },
   "hypotheses": [
     {
       "id": "H1",
       "claim": "The council median reduces precipitation error versus the average individual model.",
       "status": "supported",
-      "effect": "13.9% mean error improvement",
-      "product_update": "Keep council median as the default headline."
+      "effect": "16.1% mean error improvement",
+      "update": "Keep council median as the default headline."
     },
     {
       "id": "H2",
       "claim": "Higher model disagreement predicts larger forecast error even after normalizing for rainfall magnitude.",
       "status": "not_supported",
-      "effect": "normalized corr=0.14; high/low normalized-error ratio=1.14x; heavy-rain corr=-0.26; abstention gain=-19.3%",
-      "product_update": "Keep disagreement visible, but do not convert it into a confidence penalty yet."
+      "effect": "normalized corr=0.12; high/low normalized-error ratio=1.09x; heavy-rain corr=-0.23; abstention gain=-16.4%",
+      "update": "Keep disagreement visible, but do not convert it into a confidence penalty yet."
     },
     {
       "id": "H3",
       "claim": "Forecast skill materially degrades from 1 to 3 to 5 days.",
       "status": "supported",
-      "effect": "6.43 \u2192 7.33 \u2192 8.72 mm MAE",
-      "product_update": "Make forecast horizon a first-class confidence input."
+      "effect": "6.42 \u2192 7.77 \u2192 9.16 mm MAE",
+      "update": "Make forecast horizon a first-class confidence input."
     },
     {
       "id": "H5",
       "claim": "The council median remains useful on heavy-rain days, not only on easy dry days.",
       "status": "supported",
-      "effect": "11.6% heavy-rain error improvement",
-      "product_update": "Keep the council as the main heavy-rain summary."
+      "effect": "15.5% heavy-rain error improvement",
+      "update": "Keep the council as the main heavy-rain summary."
     },
     {
       "id": "H4",
       "claim": "COMMONS should lower confidence when model disagreement is high and lead time is long.",
       "status": "mixed",
       "effect": "confidence should not yet combine both disagreement and horizon as penalties",
-      "product_update": "confidence should not yet combine both disagreement and horizon as penalties"
+      "update": "confidence should not yet combine both disagreement and horizon as penalties"
     },
     {
       "id": "H6",
@@ -210,22 +262,22 @@
       "id": "H12",
       "claim": "A revision-aware material-change rule improves the precision/recall/lead-time trade-off versus fixed forecast thresholds.",
       "status": "not_supported",
-      "effect": "F1 gain -0.0263; recall gain 0.0714; precision change -0.05; lead gain 0.2d",
+      "effect": "F1 gain -0.0168; recall gain 0.0476; precision change -0.0529; lead gain 0.197d",
       "update": "Do not replace fixed thresholds with the current revision-aware rule yet."
     },
     {
       "id": "H15",
       "claim": "Separating WATCH from ALERT gains useful recall without materially increasing interruption burden.",
       "status": "not_supported",
-      "effect": "alert recall 0.5; watch recall 0.5; watch-only precision 0.0; burden 1.49/100d",
+      "effect": "alert recall 0.5238; watch recall 0.5714; watch-only precision 0.1667; burden 2.99/100d",
       "update": "Do not add a separate WATCH tier yet."
     },
     {
       "id": "H17",
       "claim": "Among sub-threshold 3-day forecasts, upward model revisions identify cases that deserve more human attention.",
-      "status": "insufficient",
-      "effect": "upward-revision heavy-event rate 0.3333 vs 0.1667; lift 0.1667; n=9 vs 6",
-      "update": "Keep revision direction observational until the near-threshold sample is larger."
+      "status": "supported",
+      "effect": "upward-revision heavy-event rate 0.3333 vs 0.2308; lift 0.1026; n=12 vs 13",
+      "update": "Use upward revisions to rank sub-threshold WATCH candidates above otherwise similar cases."
     },
     {
       "id": "H18",
@@ -233,6 +285,13 @@
       "status": "insufficient",
       "effect": "improved budgets 0/3; worse 0; AP gain -0.0179; NDCG gain -0.0089",
       "update": "Keep threshold proximity as the primary queue ranking; revision direction does not yet earn priority."
+    },
+    {
+      "id": "H19",
+      "claim": "COMMONS attention ranking remains materially stable when any one forecast model is unavailable.",
+      "status": "insufficient",
+      "effect": "min top-k retention 0.6316; min alert agreement 0.957; max heavy-event catch loss 1; n=93, heavy=4",
+      "update": "Keep model-dropout behavior observational. Do not change production attention rules until the stress test has enough complete holdout events."
     }
   ],
   "limitations": [
@@ -240,43 +299,9 @@
     "Point precipitation is not basin-integrated precipitation.",
     "This evaluates precipitation forecast skill, not human flood impact.",
     "Operational model versions change over time.",
-    "The council is a simple median, not a trained probabilistic ensemble."
+    "The council is a simple median, not a trained probabilistic ensemble.",
+    "Product rules are not updated from runs whose evidence health is degraded or insufficient."
   ],
-  "headline_metrics": {
-    "h6_mean_auc_gain": 0.0834,
-    "h6_mean_precision_gain_pct": 83.2,
-    "h6_basin_results": {
-      "nuwakot": {
-        "auc_gain": 0.013,
-        "precision_gain_pct": 0
-      },
-      "warsaw": {
-        "auc_gain": 0.2417,
-        "precision_gain_pct": 257.1
-      },
-      "niamey": {
-        "auc_gain": -0.0045,
-        "precision_gain_pct": -7.6
-      }
-    },
-    "h8_persistent_direction_accuracy_pct": 100.0,
-    "h9_majority_direction_accuracy_pct": 71.4,
-    "h10_mean_auc_gain": -0.0693,
-    "h10_mean_precision_gain_pct": -28.5,
-    "h12_strict_f1": 0.5263,
-    "h12_revision_f1": 0.5,
-    "h12_revision_recall": 0.7857,
-    "h12_revision_precision": 0.3667,
-    "h15_alert_recall": 0.5,
-    "h15_watch_recall": 0.5,
-    "h15_watch_burden_per_100_days": 1.49,
-    "h17_revision_up_heavy_rate": 0.3333,
-    "h17_revision_not_up_heavy_rate": 0.1667,
-    "h17_heavy_rate_lift": 0.1667,
-    "h18_average_precision_gain": -0.0179,
-    "h18_ndcg_gain": -0.0089,
-    "h18_improved_budgets": 0
-  },
   "next_hypotheses": [
     {
       "id": "H7",

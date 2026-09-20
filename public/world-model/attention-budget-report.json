@@ -9,15 +9,9 @@
     "end": "2026-09-10"
   },
   "verification": "ERA5 heavy-rain event using thresholds learned only from the training period.",
-  "test_cases": 62,
+  "test_cases": 93,
   "heavy_events": 4,
-  "source_errors": [
-    {
-      "point": "nuwakot",
-      "source": "era5",
-      "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
-    }
-  ],
+  "source_errors": [],
   "near_threshold_factor": 0.8,
   "strategies": {
     "threshold_proximity": {
@@ -25,25 +19,25 @@
       "ndcg": 0.8151,
       "budgets": {
         "10pct": {
-          "reviews": 7,
-          "catches": 3,
-          "precision": 0.4286,
-          "recall": 0.75,
-          "reviews_per_catch": 2.333
+          "reviews": 10,
+          "catches": 4,
+          "precision": 0.4,
+          "recall": 1.0,
+          "reviews_per_catch": 2.5
         },
         "20pct": {
-          "reviews": 13,
-          "catches": 4,
-          "precision": 0.3077,
-          "recall": 1.0,
-          "reviews_per_catch": 3.25
-        },
-        "30pct": {
           "reviews": 19,
           "catches": 4,
           "precision": 0.2105,
           "recall": 1.0,
           "reviews_per_catch": 4.75
+        },
+        "30pct": {
+          "reviews": 28,
+          "catches": 4,
+          "precision": 0.1429,
+          "recall": 1.0,
+          "reviews_per_catch": 7.0
         }
       }
     },
@@ -52,25 +46,25 @@
       "ndcg": 0.8062,
       "budgets": {
         "10pct": {
-          "reviews": 7,
-          "catches": 3,
-          "precision": 0.4286,
-          "recall": 0.75,
-          "reviews_per_catch": 2.333
+          "reviews": 10,
+          "catches": 4,
+          "precision": 0.4,
+          "recall": 1.0,
+          "reviews_per_catch": 2.5
         },
         "20pct": {
-          "reviews": 13,
-          "catches": 4,
-          "precision": 0.3077,
-          "recall": 1.0,
-          "reviews_per_catch": 3.25
-        },
-        "30pct": {
           "reviews": 19,
           "catches": 4,
           "precision": 0.2105,
           "recall": 1.0,
           "reviews_per_catch": 4.75
+        },
+        "30pct": {
+          "reviews": 28,
+          "catches": 4,
+          "precision": 0.1429,
+          "recall": 1.0,
+          "reviews_per_catch": 7.0
         }
       }
     }

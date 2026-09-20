@@ -1,0 +1,119 @@
+{
+  "schema_version": "0.1",
+  "train_period": {
+    "start": "2026-07-01",
+    "end": "2026-08-10"
+  },
+  "test_period": {
+    "start": "2026-08-11",
+    "end": "2026-09-10"
+  },
+  "models": [
+    "ecmwf",
+    "gfs",
+    "icon"
+  ],
+  "test_cases": 93,
+  "heavy_events": 4,
+  "incomplete_test_records": 0,
+  "source_errors": [],
+  "dropouts": {
+    "ecmwf": {
+      "alert_agreement": 0.9677,
+      "budgets": {
+        "10pct": {
+          "review_count": 10,
+          "top_k_retention": 0.9,
+          "full_catches": 4,
+          "dropout_catches": 4,
+          "catch_loss": 0
+        },
+        "20pct": {
+          "review_count": 19,
+          "top_k_retention": 0.6316,
+          "full_catches": 4,
+          "dropout_catches": 4,
+          "catch_loss": 0
+        },
+        "30pct": {
+          "review_count": 28,
+          "top_k_retention": 0.8929,
+          "full_catches": 4,
+          "dropout_catches": 4,
+          "catch_loss": 0
+        }
+      }
+    },
+    "gfs": {
+      "alert_agreement": 0.9785,
+      "budgets": {
+        "10pct": {
+          "review_count": 10,
+          "top_k_retention": 0.8,
+          "full_catches": 4,
+          "dropout_catches": 3,
+          "catch_loss": 1
+        },
+        "20pct": {
+          "review_count": 19,
+          "top_k_retention": 0.9474,
+          "full_catches": 4,
+          "dropout_catches": 4,
+          "catch_loss": 0
+        },
+        "30pct": {
+          "review_count": 28,
+          "top_k_retention": 0.8214,
+          "full_catches": 4,
+          "dropout_catches": 4,
+          "catch_loss": 0
+        }
+      }
+    },
+    "icon": {
+      "alert_agreement": 0.957,
+      "budgets": {
+        "10pct": {
+          "review_count": 10,
+          "top_k_retention": 0.8,
+          "full_catches": 4,
+          "dropout_catches": 3,
+          "catch_loss": 1
+        },
+        "20pct": {
+          "review_count": 19,
+          "top_k_retention": 0.6842,
+          "full_catches": 4,
+          "dropout_catches": 4,
+          "catch_loss": 0
+        },
+        "30pct": {
+          "review_count": 28,
+          "top_k_retention": 0.8571,
+          "full_catches": 4,
+          "dropout_catches": 4,
+          "catch_loss": 0
+        }
+      }
+    }
+  },
+  "summary": {
+    "min_top_k_retention": 0.6316,
+    "mean_top_k_retention": 0.815,
+    "min_alert_agreement": 0.957,
+    "max_heavy_event_catch_loss": 1
+  },
+  "hypothesis": {
+    "id": "H19",
+    "claim": "COMMONS attention ranking remains materially stable when any one forecast model is unavailable.",
+    "status": "insufficient",
+    "effect": "min top-k retention 0.6316; min alert agreement 0.957; max heavy-event catch loss 1; n=93, heavy=4",
+    "product_update": "Keep model-dropout behavior observational. Do not change production attention rules until the stress test has enough complete holdout events."
+  },
+  "limitations": [
+    "This simulates single-model dropout using cases where all three models were originally available.",
+    "The stress test covers precipitation ranking, not river impact or emergency-warning performance.",
+    "Only three monitored locations and one temporal holdout are represented.",
+    "Source outages in the underlying data pull make this run insufficient rather than evidence against robustness."
+  ]
+}
