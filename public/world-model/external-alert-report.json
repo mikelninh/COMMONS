@@ -11,10 +11,10 @@
   "gdacs_source_errors": [],
   "weather_source_errors": [],
   "weather_full_council_ratio": 1.0,
-  "matched_point_days": 139,
+  "matched_point_days": 118,
   "commons_alert_days": 61,
-  "commons_alert_on_matched_days": 26,
-  "overlap_rate": 0.1871,
+  "commons_alert_on_matched_days": 24,
+  "overlap_rate": 0.2034,
   "matches": [
     {
       "point_id": "nuwakot",
@@ -1621,7 +1621,7 @@
     "id": "H22",
     "claim": "A public external disaster-alert stream can provide a useful independent benchmark for COMMONS attention changes.",
     "status": "insufficient",
-    "effect": "GDACS events 78; matched point-days 139; COMMONS overlap 0.1871",
+    "effect": "GDACS events 78; matched point-days 118; COMMONS overlap 0.2034",
     "product_update": "Keep GDACS as an external audit signal only. It is not a local official warning feed and must not control ALERT."
   },
   "official_warning_gap": {
