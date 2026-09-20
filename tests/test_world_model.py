@@ -1554,3 +1554,44 @@ def test_impact_real_is_scroll_driven_and_time_scrubbable() -> None:
     assert "renderWeather" in js
     assert "past_days=1" in js
     assert "forecast_days=4" in js
+
+
+def test_city_atlas_supports_four_real_city_stories() -> None:
+    page = Path("public/atlas.html").read_text(encoding="utf-8")
+    js = Path("public/atlas.js").read_text(encoding="utf-8")
+
+    for city in ("Hanoi", "Saigon", "Berlin", "Manila"):
+        assert city in page
+        assert city.lower() in js
+    assert "One world." in page
+    assert "Different stories." in page
+    assert 'defaultLayer:"wetness"' in js
+    assert 'defaultLayer:"heat"' in js
+    assert 'defaultLayer:"air"' in js
+    assert 'defaultLayer:"rain"' in js
+
+
+def test_city_atlas_uses_weather_air_river_systems_and_memory_sources() -> None:
+    js = Path("public/atlas.js").read_text(encoding="utf-8")
+
+    assert "api.open-meteo.com/v1/forecast" in js
+    assert "air-quality-api.open-meteo.com/v1/air-quality" in js
+    assert "flood-api.open-meteo.com/v1/flood" in js
+    assert "overpass-api.de/api/interpreter" in js
+    assert "gdacs.org/gdacsapi/api/Events/geteventlist/SEARCH" in js
+    assert "soil_moisture_0_to_1cm" in js
+    assert "pm2_5" in js
+    assert "river_discharge" in js
+
+
+def test_city_atlas_layers_are_interactive_and_time_scrubbable() -> None:
+    page = Path("public/atlas.html").read_text(encoding="utf-8")
+    js = Path("public/atlas.js").read_text(encoding="utf-8")
+
+    for layer in ("rain","heat","wetness","air","river","systems","memory"):
+        assert f'data-layer="{layer}"' in page
+    assert 'id="timeSlider"' in page
+    assert "renderTemporalLayer" in js
+    assert "renderRiver" in js
+    assert "renderSystems" in js
+    assert "renderMemory" in js
