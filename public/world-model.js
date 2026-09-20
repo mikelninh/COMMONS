@@ -289,11 +289,11 @@ function renderLiveRevisionSignal(frames){
   const word=current.direction>0?"upward":"downward";
   const arrow=current.direction>0?"↑":"↓";
   el.querySelector("strong").textContent=
-    arrow+" "+current.count+"/"+current.total+" models revised rainfall "+word+
+    "WATCH "+arrow+" "+current.count+"/"+current.total+" models revised rainfall "+word+
     (sustained?" · repeated":"");
   el.querySelector("small").textContent=sustained
-    ? "Same-direction revision across two live snapshot transitions. Historical lead-checkpoint persistence was useful; six-hour persistence is still being evaluated."
-    : "Historical lead-checkpoint direction agreement was useful. This live six-hour change remains observational.";
+    ? "Same-direction revision across two live snapshot transitions. Historical lead-checkpoint persistence was useful; six-hour persistence is still being evaluated. WATCH only — alert gate unchanged."
+    : "Historical lead-checkpoint direction agreement was useful. This live six-hour change remains observational. WATCH only — alert gate unchanged.";
   el.dataset.state=current.direction>0?"up":"down";
 }
 
