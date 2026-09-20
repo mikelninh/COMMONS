@@ -3453,3 +3453,10 @@ body{
   .evidence-head{padding:20px}
   .evidence-body{padding:22px 20px 60px}
 }
+
+
+.nav-link{
+  display:inline-flex;
+  align-items:center;
+  text-decoration:none;
+}
