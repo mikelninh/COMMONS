@@ -158,6 +158,7 @@ def build_morning_brief(
         council = loop.get("forecast_council") or {}
         members = council.get("members") or []
         model_count = len(members)
+        watchpoint = loop.get("watchpoint") or {}
         current_mm = _consensus_precip(loop)
         peak_date = _consensus_peak_date(loop)
 
@@ -220,6 +221,8 @@ def build_morning_brief(
                 "loop_title": (catalog.get(loop_id) or {}).get("title"),
                 "name": monitor["name"],
                 "country": monitor["country"],
+                "latitude": watchpoint.get("latitude"),
+                "longitude": watchpoint.get("longitude"),
                 "signal": monitor["signal"],
                 "state": state,
                 "rank_score": round(ratio, 4) if ratio is not None else None,
