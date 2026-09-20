@@ -1,0 +1,766 @@
+{
+  "schema_version": "0.1",
+  "product": "COMMONS Impact v0",
+  "generated_at": "2026-09-20T22:11:52.036877Z",
+  "period": {
+    "start": "2024-09-20",
+    "end": "2026-09-20"
+  },
+  "principle": "Hazard, exposure, infrastructure and historical consequence stay visible as separate components. No opaque production risk score.",
+  "source_health": {
+    "gdacs_events": 600,
+    "emdat_labels": 9,
+    "emdat_coverage": 0.015,
+    "profiles": 3,
+    "source_errors": [
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103745",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103750",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103726",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103738",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103739",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103730",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103736",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103737",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103746",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103741",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103717",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "TC|1001252",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103734",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103731",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103740",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "TC|1001251",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103773",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103670",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "TC|1001248",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103724",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "TC|1001250",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103728",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103729",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "TC|1001249",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103720",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103710",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103719",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103711",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103716",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103713",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103714",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103708",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103709",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103692",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103718",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103712",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103707",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103705",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103701",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "TC|1001247",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103706",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103693",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103703",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103722",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103700",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103704",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103696",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103697",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103698",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103699",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103681",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103715",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "TC|1001243",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "TC|1001245",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103688",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "TC|1001244",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103683",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103686",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103675",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103682",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103695",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103680",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103679",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103690",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103684",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103685",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103677",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103669",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103725",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103668",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103664",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103678",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103657",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103691",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103674",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103671",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103687",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103672",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103676",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "TC|1001241",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103666",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103660",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "TC|1001242",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103667",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103665",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103661",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103662",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103663",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103659",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103655",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103654",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103658",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103649",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103652",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103653",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103689",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103650",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103651",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103638",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103563",
+        "error": "HTTP Error 404: Not Found"
+      }
+    ]
+  },
+  "profiles": [
+    {
+      "point_id": "nuwakot",
+      "name": "Nuwakot",
+      "country": "Nepal",
+      "components": {
+        "hazard": {
+          "role": "provided live by Morning Brief",
+          "note": "Impact v0 does not replace the validated hazard gate."
+        },
+        "exposure": {
+          "population_within_radius": 376264.0,
+          "radius_km": 20.0,
+          "source": "worldpop_R2025A_2026_1km",
+          "role": "context_only"
+        },
+        "infrastructure": {
+          "health_facilities": 13,
+          "schools": 465,
+          "power_substations": 8,
+          "bridges": 176,
+          "major_road_segments": 52,
+          "radius_km": 20.0,
+          "source": "OpenStreetMap via Overpass API",
+          "role": "context_only"
+        },
+        "historical_consequence": {
+          "nearby_events": 4,
+          "consequential_events": 1,
+          "examples": [
+            {
+              "event_id": 1104124,
+              "event_type": "FL",
+              "alert_level": "red",
+              "name": "Flood in Nepal",
+              "country": "Nepal",
+              "latitude": 27.2953,
+              "longitude": 85.3649,
+              "start_date": "2026-08-26",
+              "end_date": "2026-09-01",
+              "hazard_score": 3.0,
+              "population_signal": null,
+              "vulnerability_signal": null,
+              "distance_km": 75.0,
+              "consequence": {
+                "deaths": 6342.0,
+                "affected": 84267.0,
+                "damage_usd": null,
+                "consequential": true,
+                "label_source": "EM-DAT via GDACS"
+              }
+            }
+          ],
+          "source": "GDACS + EM-DAT where available",
+          "role": "context_only"
+        }
+      },
+      "action_options": [
+        {
+          "id": "verify-local",
+          "label": "Verify local authority warnings",
+          "why": "COMMONS is research guidance, not an emergency authority.",
+          "authority": "human"
+        },
+        {
+          "id": "check-access",
+          "label": "Check critical access and services",
+          "why": "Nearby health, road, bridge or power assets can turn weather into disruption.",
+          "authority": "human"
+        },
+        {
+          "id": "review-exposure",
+          "label": "Review who may be exposed",
+          "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
+          "authority": "human"
+        },
+        {
+          "id": "review-precedent",
+          "label": "Review nearby historical consequences",
+          "why": "Past events in the area provide precedent for what failed or mattered.",
+          "authority": "human"
+        }
+      ]
+    },
+    {
+      "point_id": "manila",
+      "name": "Manila",
+      "country": "Philippines",
+      "components": {
+        "hazard": {
+          "role": "provided live by Morning Brief",
+          "note": "Impact v0 does not replace the validated hazard gate."
+        },
+        "exposure": {
+          "population_within_radius": 17105184.0,
+          "radius_km": 20.0,
+          "source": "worldpop_R2025A_2026_1km",
+          "role": "context_only"
+        },
+        "infrastructure": {
+          "health_facilities": 886,
+          "schools": 2112,
+          "power_substations": 86,
+          "bridges": 3124,
+          "major_road_segments": 5926,
+          "radius_km": 20.0,
+          "source": "OpenStreetMap via Overpass API",
+          "role": "context_only"
+        },
+        "historical_consequence": {
+          "nearby_events": 2,
+          "consequential_events": 0,
+          "examples": [],
+          "source": "GDACS + EM-DAT where available",
+          "role": "context_only"
+        }
+      },
+      "action_options": [
+        {
+          "id": "verify-local",
+          "label": "Verify local authority warnings",
+          "why": "COMMONS is research guidance, not an emergency authority.",
+          "authority": "human"
+        },
+        {
+          "id": "check-access",
+          "label": "Check critical access and services",
+          "why": "Nearby health, road, bridge or power assets can turn weather into disruption.",
+          "authority": "human"
+        },
+        {
+          "id": "review-exposure",
+          "label": "Review who may be exposed",
+          "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
+          "authority": "human"
+        }
+      ]
+    },
+    {
+      "point_id": "delhi",
+      "name": "Delhi",
+      "country": "India",
+      "components": {
+        "hazard": {
+          "role": "provided live by Morning Brief",
+          "note": "Impact v0 does not replace the validated hazard gate."
+        },
+        "exposure": {
+          "population_within_radius": 27159668.0,
+          "radius_km": 20.0,
+          "source": "worldpop_R2025A_2026_1km",
+          "role": "context_only"
+        },
+        "infrastructure": {
+          "health_facilities": 1293,
+          "schools": 1183,
+          "power_substations": 295,
+          "bridges": 3508,
+          "major_road_segments": 2464,
+          "radius_km": 20.0,
+          "source": "OpenStreetMap via Overpass API",
+          "role": "context_only"
+        },
+        "historical_consequence": {
+          "nearby_events": 1,
+          "consequential_events": 0,
+          "examples": [],
+          "source": "GDACS + EM-DAT where available",
+          "role": "context_only"
+        }
+      },
+      "action_options": [
+        {
+          "id": "verify-local",
+          "label": "Verify local authority warnings",
+          "why": "COMMONS is research guidance, not an emergency authority.",
+          "authority": "human"
+        },
+        {
+          "id": "check-access",
+          "label": "Check critical access and services",
+          "why": "Nearby health, road, bridge or power assets can turn weather into disruption.",
+          "authority": "human"
+        },
+        {
+          "id": "review-exposure",
+          "label": "Review who may be exposed",
+          "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
+          "authority": "human"
+        }
+      ]
+    }
+  ],
+  "benchmark": {
+    "development_rows": 6,
+    "test_rows": 3,
+    "test_consequential_events": 3,
+    "selected_ordering": "hazard_population_rank",
+    "feature_coverage": 0.0,
+    "hazard_only": {
+      "average_precision": 1.0,
+      "top20_recall": 0.3333
+    },
+    "impact_aware": {
+      "average_precision": null,
+      "top20_recall": null
+    },
+    "comparison": {
+      "average_precision_gain": null,
+      "top20_recall_gain": null
+    },
+    "hypothesis": {
+      "id": "H27",
+      "claim": "Explicit hazard + exposure + vulnerability components rank historically consequential flood/cyclone events better than hazard severity alone.",
+      "status": "insufficient",
+      "effect": "selected hazard_population_rank; test n=3; feature coverage 0.0; AP gain None; top20 recall gain None",
+      "product_update": "Impact labels or component coverage are not sufficient yet; keep Impact v0 context-only."
+    }
+  },
+  "trust_contract": [
+    "Population near a point is not the number of people impacted.",
+    "Infrastructure counts indicate nearby assets, not damage or service failure.",
+    "Historical consequences are precedent, not a forecast of future harm.",
+    "Impact components do not change ALERT unless impact-labelled validation supports it.",
+    "All action options require human authorization."
+  ],
+  "sources": [
+    {
+      "name": "GDACS",
+      "role": "historical disaster events",
+      "url": "https://www.gdacs.org/"
+    },
+    {
+      "name": "EM-DAT via GDACS API",
+      "role": "historical consequence labels when available",
+      "url": "https://www.gdacs.org/gdacsapi/api/Emdat/getemdatbyeventkey"
+    },
+    {
+      "name": "WorldPop",
+      "role": "population exposure context",
+      "url": "https://www.worldpop.org/"
+    },
+    {
+      "name": "OpenStreetMap / Overpass",
+      "role": "nearby critical infrastructure context",
+      "url": "https://wiki.openstreetmap.org/wiki/Overpass_API"
+    }
+  ]
+}
