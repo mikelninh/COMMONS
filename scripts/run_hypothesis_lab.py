@@ -318,9 +318,9 @@ def main() -> int:
         },
         {
             "id": "H16",
-            "claim": "A low-cost WATCH layer reduces analyst monitoring time without creating perceived noise.",
-            "signals": ["watch states", "alert states", "analyst actions", "time-to-orientation"],
-            "test": "Run a human pilot measuring monitoring time, ignored watches, useful catches and perceived interruption burden.",
+            "claim": "A PRIORITY queue reduces analyst monitoring time without creating perceived noise.",
+            "signals": ["priority rank", "alert state", "analyst actions", "time-to-orientation"],
+            "test": "Run a human pilot measuring monitoring time, unnecessary reviews, useful catches and perceived noise.",
         },
     ]
 
