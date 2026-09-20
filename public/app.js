@@ -136,6 +136,13 @@ let lastSoundMilestone = -1;
 let currentMilestone = 0;
 let currentSignal = null;
 let actionLabMode = "current";
+let trustRegistry = null;
+let trustLoadError = null;
+let trustTab = "status";
+let trustReport = window.COMMONS_TRUST?.degradedState("Trust checks not loaded yet") || {
+  status:"DEGRADED", provenanceCoverage:0, staleCriticalClaims:[], unresolvedConflicts:[],
+  openHighIncidents:[], checks:[], passedChecks:0, totalChecks:0
+};
 let initialized = false;
 
 const world = Globe({rendererConfig:{antialias:true,alpha:true}})($("globe"))
@@ -493,6 +500,10 @@ async function refreshSignals(){
   });
   renderSignalList();
   if(!$("story").classList.contains("active"))updateAtlasLayers(false);
+  if(trustRegistry){
+    renderTrustSnapshot();
+    if($("trustCenter")?.classList.contains("open"))renderTrustCenter(trustTab);
+  }
 }
 
 function updateAtlasLayers(storyMode=$("story").classList.contains("active")){
@@ -552,6 +563,7 @@ function closeAuxiliaryLayers(except=null){
   if(except!=="look") $("look").classList.remove("open");
   if(except!=="share") $("share").classList.remove("open");
   if(except!=="actionLab") closeActionLab();
+  if(except!=="trustCenter") closeTrustCenter();
 }
 
 function openLook(){
@@ -1439,6 +1451,277 @@ function bindActionLabControls(){
   if(clear)clear.onclick=clearActionLedger;
 }
 
+function formatTrustDate(value){
+  if(!value)return "unknown";
+  const date=new Date(value);
+  if(Number.isNaN(date.getTime()))return String(value);
+  return new Intl.DateTimeFormat("en",{day:"2-digit",month:"short",year:"numeric"}).format(date);
+}
+
+function storyLabel(storyId){
+  const story=storyById(storyId);
+  return story?story.country+" — "+story.title:storyId;
+}
+
+function evaluateTrustNow(){
+  if(!window.COMMONS_TRUST){
+    trustReport={status:"DEGRADED",reason:"Trust evaluator unavailable",provenanceCoverage:0,staleCriticalClaims:[],unresolvedConflicts:[],openHighIncidents:[],checks:[],passedChecks:0,totalChecks:0};
+    return trustReport;
+  }
+  trustReport=window.COMMONS_TRUST.evaluate(trustRegistry,ACTION_LOOPS,new Date());
+  return trustReport;
+}
+
+async function loadTrustSystem(){
+  if(!window.COMMONS_TRUST){
+    trustLoadError="Trust evaluator unavailable";
+    evaluateTrustNow();
+    renderTrustSnapshot();
+    return;
+  }
+  const loaded=await window.COMMONS_TRUST.load("./trust-registry.json");
+  trustRegistry=loaded.registry;
+  trustLoadError=loaded.error;
+  evaluateTrustNow();
+  renderTrustSnapshot();
+}
+
+function renderTrustSnapshot(){
+  if(!$("trustSnapshot"))return;
+  evaluateTrustNow();
+  $("trustSnapshot").dataset.status=trustReport.status;
+  $("trustSnapshotStatus").textContent=trustReport.status;
+  const coverage=Math.round((trustReport.provenanceCoverage||0)*100);
+  const stale=trustReport.staleCriticalClaims?.length||0;
+  const evalText=trustReport.totalChecks?trustReport.passedChecks+"/"+trustReport.totalChecks+" checks":"checks unavailable";
+  $("trustSnapshotDetail").textContent=trustReport.status==="HEALTHY"
+    ? coverage+"% claims sourced · "+stale+" stale critical · "+evalText
+    : (trustLoadError||trustReport.reason||"One or more trust checks require attention.");
+}
+
+function renderTrustCenterStatus(){
+  evaluateTrustNow();
+  const coverage=Math.round((trustReport.provenanceCoverage||0)*100);
+  const stale=trustReport.staleCriticalClaims?.length||0;
+  const conflicts=trustReport.unresolvedConflicts?.length||0;
+  const incidents=trustReport.openHighIncidents?.length||0;
+  $("trustCenterStatus").innerHTML=`
+    <div class="trust-status-grid">
+      <div class="trust-status-primary ${trustReport.status==="HEALTHY"?"":"degraded"}">
+        <div class="status-line"><i></i><b>${escapeHtml(trustReport.status)}</b></div>
+        <small>${escapeHtml(trustReport.reason||"Trust status unavailable.")}</small>
+      </div>
+      <div class="trust-metric"><b>${coverage}%</b><span>active claims with provenance</span></div>
+      <div class="trust-metric"><b>${stale}</b><span>stale critical claims</span></div>
+      <div class="trust-metric"><b>${conflicts}</b><span>unresolved conflicts</span></div>
+      <div class="trust-metric"><b>${trustReport.passedChecks||0}/${trustReport.totalChecks||0}</b><span>trust evaluations passing</span></div>
+    </div>
+  `;
+}
+
+function renderTrustStatusTab(){
+  if(!trustRegistry){
+    $("trustCenterBody").innerHTML=`
+      <div class="trust-section">
+        <div class="trust-section-label">DEGRADED MODE</div>
+        <h3>Trust registry unavailable.</h3>
+        <p>COMMONS will not present itself as healthy when the registry that supports its trust status cannot be loaded.</p>
+        <div class="correction-rule" style="margin-top:16px">${escapeHtml(trustLoadError||"Unknown registry error")}</div>
+      </div>
+    `;
+    return;
+  }
+
+  const live=sourceStates.length
+    ? sourceStates.map(state=>`<div class="source-card">
+        <div class="source-top">
+          <div><div class="source-name">${escapeHtml(state.name)}</div><div class="source-meta">Runtime public feed · ${state.ok?state.count+" records received":"currently unavailable"}</div></div>
+          <span class="eval-state ${state.ok?"pass":"fail"}">${state.ok?"responding":"unavailable"}</span>
+        </div>
+      </div>`).join("")
+    : '<p>Live source health has not been checked yet.</p>';
+
+  const capabilities=(trustRegistry.capability_levels||[]).map(item=>`
+    <div class="capability-card ${item.enabled?"":"disabled"}">
+      <div class="capability-level">${escapeHtml(item.level)} · ${item.enabled?"ENABLED":"LOCKED"}</div>
+      <h4>${escapeHtml(item.name)}</h4>
+      <p>${escapeHtml(item.description)}</p>
+    </div>
+  `).join("");
+
+  $("trustCenterBody").innerHTML=`
+    <div class="trust-section">
+      <div class="trust-intro"><strong>COMMONS does not ask you to trust an AI.</strong> It exposes the evidence, limits and checks that support each claim — and degrades visibly when those checks fail.</div>
+    </div>
+
+    <section class="trust-section">
+      <div class="trust-section-label">Current authority ceiling</div>
+      <h3>Power stops before consequential execution.</h3>
+      <p>COMMONS currently observes, explains, proposes and hands actions back to the user. Reversible and consequential autonomous execution remain locked.</p>
+      <div class="capability-grid">${capabilities}</div>
+    </section>
+
+    <section class="trust-section">
+      <div class="trust-section-label">Runtime source health</div>
+      <h3>Live feeds fail visibly.</h3>
+      <p>These feeds support the ambient Earth layer. A feed outage does not silently become a model estimate.</p>
+      <div class="source-list">${live}</div>
+    </section>
+
+    <section class="trust-section">
+      <div class="trust-section-label">Correction rule</div>
+      <div class="correction-rule">${escapeHtml(trustRegistry.correction_policy?.description||"Material corrections preserve history and explain why a claim changed.")}</div>
+      <div class="trust-actions">
+        <a class="word-button" href="./trust-registry.json" target="_blank" rel="noopener">Open raw trust registry ↗</a>
+        <a class="word-button muted" href="${escapeHtml(trustRegistry.reporting?.issue_url||"https://github.com/mikelninh/COMMONS/issues/new")}" target="_blank" rel="noopener">Report an issue ↗</a>
+      </div>
+    </section>
+  `;
+}
+
+function renderTrustClaimsTab(){
+  if(!trustRegistry)return renderTrustStatusTab();
+  const staleIds=new Set((trustReport.staleCriticalClaims||[]).map(claim=>claim.id));
+  const claims=[...(trustRegistry.claims||[])].sort((a,b)=>{
+    if(a.story_id===activeStory.id&&b.story_id!==activeStory.id)return -1;
+    if(b.story_id===activeStory.id&&a.story_id!==activeStory.id)return 1;
+    return String(b.as_of).localeCompare(String(a.as_of));
+  });
+
+  const cards=claims.map(claim=>{
+    const sourceLinks=(claim.source_ids||[]).map(id=>{
+      const source=window.COMMONS_TRUST.sourceById(trustRegistry,id);
+      return source?`<a class="claim-source-link" href="${escapeHtml(source.url)}" target="_blank" rel="noopener">${escapeHtml(source.name)} ↗</a>`
+        :`<span class="claim-source-link">MISSING SOURCE · ${escapeHtml(id)}</span>`;
+    }).join("");
+    const freshness=claim.freshness_days==null?"durable milestone":claim.freshness_days+" day freshness window";
+    return `
+      <article class="claim-card">
+        <div class="claim-top">
+          <div>
+            <div class="claim-statement">${escapeHtml(claim.statement)}</div>
+            <div class="claim-meta">${escapeHtml(storyLabel(claim.story_id))} · as of ${escapeHtml(formatTrustDate(claim.as_of))} · ${escapeHtml(freshness)} · ${escapeHtml(claim.criticality)} criticality${staleIds.has(claim.id)?" · STALE":""}</div>
+          </div>
+          <span class="claim-type ${escapeHtml(claim.claim_type)}">${escapeHtml(claim.claim_type)}</span>
+        </div>
+        <div class="claim-sources">${sourceLinks}</div>
+        <div class="claim-limits"><strong>LIMIT:</strong> ${escapeHtml(claim.limitations)}</div>
+      </article>
+    `;
+  }).join("");
+
+  $("trustCenterBody").innerHTML=`
+    <div class="trust-section">
+      <div class="trust-intro">Every material claim is classified. <strong>Observed is not inferred. Inferred is not fact. Proposed is not reality.</strong></div>
+      <div class="claim-list">${cards}</div>
+    </div>
+  `;
+}
+
+function renderTrustSourcesTab(){
+  if(!trustRegistry)return renderTrustStatusTab();
+  const cards=(trustRegistry.sources||[]).map(source=>`
+    <article class="source-card">
+      <div class="source-top">
+        <div>
+          <div class="source-name"><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener">${escapeHtml(source.name)} ↗</a></div>
+          <div class="source-meta">${escapeHtml(source.organization)} · ${escapeHtml(source.domain)} · updates: ${escapeHtml(source.update_pattern)}</div>
+        </div>
+        <span class="source-class">${escapeHtml(source.class.replaceAll("_"," "))}</span>
+      </div>
+      <div class="source-limits"><strong>KNOWN LIMIT:</strong> ${escapeHtml(source.limitations)}</div>
+    </article>
+  `).join("");
+  $("trustCenterBody").innerHTML=`
+    <div class="trust-section">
+      <div class="trust-intro">Sources are not interchangeable. The registry records <strong>who produced the information, what role it plays, how it updates and where it can mislead.</strong></div>
+      <div class="source-list">${cards}</div>
+    </div>
+  `;
+}
+
+function renderTrustEvaluationsTab(){
+  evaluateTrustNow();
+  const cards=(trustReport.checks||[]).map(check=>`
+    <article class="eval-card ${check.passed?"pass":"fail"}">
+      <div class="eval-top">
+        <div class="eval-name">${escapeHtml(check.label)}</div>
+        <span class="eval-state ${check.passed?"pass":"fail"}">${check.passed?"PASS":"FAIL"}</span>
+      </div>
+      <div class="eval-detail">${escapeHtml(check.detail)}</div>
+    </article>
+  `).join("");
+  $("trustCenterBody").innerHTML=`
+    <div class="trust-section">
+      <div class="trust-intro">A release should answer a harder question than “does the page load?”: <strong>does COMMONS still deserve trust?</strong></div>
+      <div class="eval-list">${cards||"<p>No evaluations available.</p>"}</div>
+    </div>
+  `;
+}
+
+function renderTrustIncidentsTab(){
+  if(!trustRegistry)return renderTrustStatusTab();
+  const incidents=(trustRegistry.incidents||[]);
+  const cards=incidents.map(item=>`
+    <article class="incident-card">
+      <div class="incident-top">
+        <div>
+          <div class="incident-title">${escapeHtml(item.title)}</div>
+          <div class="incident-meta">opened ${escapeHtml(formatTrustDate(item.opened_at))}${item.resolved_at?" · resolved "+escapeHtml(formatTrustDate(item.resolved_at)):""} · ${escapeHtml(item.severity)} severity</div>
+        </div>
+        <span class="incident-state ${item.status==="open"?"open":""}">${escapeHtml(item.status)}</span>
+      </div>
+      <div class="incident-detail">
+        <strong>IMPACT</strong> · ${escapeHtml(item.impact)}<br><br>
+        <strong>ROOT CAUSE</strong> · ${escapeHtml(item.root_cause)}<br><br>
+        <strong>CORRECTION</strong> · ${escapeHtml(item.correction)}<br><br>
+        <strong>PREVENTION</strong> · ${escapeHtml(item.prevention)}
+      </div>
+    </article>
+  `).join("");
+  $("trustCenterBody").innerHTML=`
+    <div class="trust-section">
+      <div class="trust-intro">Trust is not the absence of mistakes. It is <strong>visible failure, correction, preserved history and prevention.</strong></div>
+      <div class="incident-list">${cards||'<div class="ledger-empty">No trust incidents recorded.</div>'}</div>
+      <div class="trust-actions">
+        <a class="word-button" href="${escapeHtml(trustRegistry.reporting?.issue_url||"https://github.com/mikelninh/COMMONS/issues/new")}" target="_blank" rel="noopener">Report a problem ↗</a>
+      </div>
+    </div>
+  `;
+}
+
+function renderTrustCenter(tab=trustTab){
+  trustTab=tab;
+  evaluateTrustNow();
+  renderTrustSnapshot();
+  renderTrustCenterStatus();
+  qsa("[data-trust-tab]",$("trustCenter")).forEach(button=>{
+    const active=button.dataset.trustTab===tab;
+    button.classList.toggle("active",active);
+    button.setAttribute("aria-selected",active?"true":"false");
+  });
+
+  if(tab==="claims")renderTrustClaimsTab();
+  else if(tab==="sources")renderTrustSourcesTab();
+  else if(tab==="evaluations")renderTrustEvaluationsTab();
+  else if(tab==="incidents")renderTrustIncidentsTab();
+  else renderTrustStatusTab();
+}
+
+function openTrustCenter(tab="status"){
+  closeAuxiliaryLayers("trustCenter");
+  trustTab=tab;
+  renderTrustCenter(tab);
+  $("trustCenter").classList.add("open");
+  $("trustCenter").setAttribute("aria-hidden","false");
+}
+
+function closeTrustCenter(){
+  if(!$("trustCenter"))return;
+  $("trustCenter").classList.remove("open");
+  $("trustCenter").setAttribute("aria-hidden","true");
+}
+
 function openEvidence(){
   closeAuxiliaryLayers("evidence");
   renderEvidence();
@@ -1505,7 +1788,14 @@ function renderEvidence(){
       <h3>Current Earth layer</h3>
       ${live||"<p>Source health appears after the public feeds respond.</p>"}
     </section>
+
+    <section class="evidence-section">
+      <h3>Inspect the claim ledger</h3>
+      <p>The evidence drawer summarizes this story. The Trust Center exposes the machine-readable claim type, provenance, freshness window and limitation behind each material claim.</p>
+      <button class="word-button" id="evidenceTrustBtn">Open Trust Center →</button>
+    </section>
   `;
+  if($("evidenceTrustBtn"))$("evidenceTrustBtn").onclick=()=>openTrustCenter("claims");
 }
 
 function openShare(){
@@ -1707,6 +1997,12 @@ function bindEvents(){
   $("storyBelief").onclick=openEvidence;
   $("storyActionBtn").onclick=()=>openActionLab("current");
   $("actionLedgerBtn").onclick=()=>openActionLab("ledger");
+  $("trustBtn").onclick=()=>openTrustCenter("status");
+  $("trustSnapshot").onclick=()=>openTrustCenter("status");
+  $("trustCenterClose").onclick=closeTrustCenter;
+  qsa("[data-trust-tab]",$("trustCenter")).forEach(button=>{
+    button.onclick=()=>renderTrustCenter(button.dataset.trustTab);
+  });
   $("actionLabClose").onclick=closeActionLab;
   $("actionCurrentTab").onclick=()=>renderActionLab("current");
   $("actionLedgerTab").onclick=()=>renderActionLab("ledger");
@@ -1734,6 +2030,7 @@ function bindEvents(){
     if(e.key==="Escape"){
       if($("share").classList.contains("open"))return closeShare();
       if($("actionLab").classList.contains("open"))return closeActionLab();
+      if($("trustCenter").classList.contains("open"))return closeTrustCenter();
       if($("evidence").classList.contains("open"))return closeEvidence();
       if($("look").classList.contains("open"))return closeLook();
       if($("story").classList.contains("active"))return stopStory(true);
@@ -1775,8 +2072,9 @@ async function init(){
   updateLedgerCount();
   updateStoryChrome();
   updateSignature();
-  await Promise.allSettled([loadCountries(),refreshSignals()]);
+  await Promise.allSettled([loadTrustSystem(),loadCountries(),refreshSignals()]);
   initialized=true;
+  renderTrustSnapshot();
   buildTerrainMap();
   setHomeGlobe();
   $("loading").classList.add("hide");
