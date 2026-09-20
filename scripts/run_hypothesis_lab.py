@@ -389,6 +389,44 @@ def main() -> int:
                 "overlap_rate"
             )
 
+    deep_miss_path = Path("public/world-model/deep-miss-report.json")
+    if deep_miss_path.exists():
+        deep_miss = json.loads(deep_miss_path.read_text(encoding="utf-8"))
+        h23 = deep_miss.get("hypothesis") or {}
+        if h23.get("id") == "H23":
+            report["hypotheses"] = [
+                item for item in report["hypotheses"] if item.get("id") != "H23"
+            ]
+            report["hypotheses"].append(
+                {
+                    "id": "H23",
+                    "claim": h23.get("claim"),
+                    "status": h23.get("status"),
+                    "effect": h23.get("effect"),
+                    "update": h23.get("product_update"),
+                }
+            )
+            report.setdefault("headline_metrics", {})
+            test = deep_miss.get("test") or {}
+            selected = test.get("selected") or {}
+            comparison = test.get("comparison") or {}
+            semantics = deep_miss.get("live_semantics_correction") or {}
+            report["headline_metrics"]["h23_selected_strategy"] = test.get(
+                "selected_strategy"
+            )
+            report["headline_metrics"]["h23_deep_miss_recovery_rate"] = selected.get(
+                "deep_miss_recovery_rate"
+            )
+            report["headline_metrics"]["h23_incremental_false_alerts_per_100"] = comparison.get(
+                "incremental_false_alerts_per_100"
+            )
+            report["headline_metrics"]["h23_precision_change"] = comparison.get(
+                "precision_change"
+            )
+            report["headline_metrics"]["h23_live_window_resolved_exact_day_deep"] = semantics.get(
+                "no_longer_deep_under_live_72h_window"
+            )
+
     report["next_hypotheses"] = [
         {
             "id": "H7",

@@ -1196,3 +1196,36 @@ def test_morning_brief_my_lens_is_local_and_never_rewrites_global_rank() -> None
     assert "localStorage" in js
     assert "EARTH RANK " in js
     assert "sort(" not in js[js.index("function renderLens"):js.index("function renderLearning")]
+
+
+def test_h23_uses_live_three_day_semantics_and_hard_promotion_gates() -> None:
+    source = Path("src/commons/deep_miss_lab.py").read_text(encoding="utf-8")
+
+    assert "LEADS = (1, 2, 3)" in source
+    assert "RADII_KM = (25, 50, 100)" in source
+    assert "FALSE_ALERT_BUDGET_PER_100 = 3.0" in source
+    assert "MAX_PRECISION_DROP = 0.05" in source
+    assert "MIN_DEEP_MISS_RECOVERY = 0.20" in source
+    assert "spatial_p90_50km" in source or 'aggregate in ("mean", "p90", "max")' in source
+    assert "Morning Brief instead" in source
+
+
+def test_h23_is_rerun_weekly_and_composed_into_research_report() -> None:
+    workflow = Path(".github/workflows/hypothesis-lab.yml").read_text(encoding="utf-8")
+    runner = Path("scripts/run_hypothesis_lab.py").read_text(encoding="utf-8")
+
+    assert "run_deep_miss_lab.py" in workflow
+    assert "deep-miss-report.json" in workflow
+    assert 'deep_miss_path = Path("public/world-model/deep-miss-report.json")' in runner
+    assert '"id": "H23"' in runner
+
+
+def test_h23_failure_taxonomy_distinguishes_model_spatial_and_consensus_blind() -> None:
+    source = Path("src/commons/deep_miss_lab.py").read_text(encoding="utf-8")
+
+    assert '"model_and_spatial"' in source
+    assert '"one_model_saw_it"' in source
+    assert '"spatial_displacement"' in source
+    assert '"consensus_blind"' in source
+    assert '"low_absolute_gate_misses"' in source
+    assert '"extreme_observed_misses"' in source
