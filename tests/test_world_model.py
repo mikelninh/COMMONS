@@ -553,8 +553,9 @@ def test_next_hypotheses_focus_on_hydrology_and_persistence() -> None:
     )
     ids = {item["id"] for item in report["next_hypotheses"]}
 
-    assert {"H7", "H11", "H13", "H14", "H16"} <= ids
+    assert {"H7", "H11", "H14", "H16"} <= ids
     assert "H6" not in ids
+    assert "H13" not in ids  # exposure context is now an active measured hypothesis
     h11 = next(item for item in report["next_hypotheses"] if item["id"] == "H11")
     assert any("basin" in signal.lower() for signal in h11["signals"])
     assert "out-of-sample" in h11["test"]
@@ -657,7 +658,7 @@ def test_next_hypotheses_move_toward_attention_quality_and_external_validation()
     )
     ids = {item["id"] for item in report["next_hypotheses"]}
 
-    assert {"H7", "H11", "H13", "H14", "H16"} <= ids
+    assert {"H7", "H11", "H14", "H16"} <= ids
     h14 = next(item for item in report["next_hypotheses"] if item["id"] == "H14")
     script = Path("scripts/run_hypothesis_lab.py").read_text(encoding="utf-8")
     assert '"id": "H16"' in script
