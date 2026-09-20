@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#060805">
+<title>COMMONS / IMPACT v0</title>
+<link rel="stylesheet" href="./impact.css">
+</head>
+<body>
+<header>
+  <a href="./morning.html">COMMONS / IMPACT v0</a>
+  <nav><a href="./morning.html">Morning Brief</a><a href="./world-model.html">World Model</a></nav>
+</header>
+<main>
+  <section class="hero">
+    <div class="eyebrow">FROM WEATHER → CONSEQUENCE → ACTION</div>
+    <h1>What could actually matter here?</h1>
+    <p>Hazard, exposure, infrastructure and historical consequence stay separate. COMMONS shows the evidence and the next human checks without collapsing them into a fake certainty score.</p>
+    <div class="status-row"><span id="h27Status">H27 · LOADING</span><span id="sourceHealth">CONSEQUENCE LABELS · LOADING</span></div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <div><span>LIVE IMPACT CONTEXT</span><h2>Three validated monitors.</h2></div>
+      <p>Context only. The validated rainfall gate still owns ALERT.</p>
+    </div>
+    <div class="profiles" id="profiles"></div>
+  </section>
+
+  <section class="benchmark">
+    <div class="section-head">
+      <div><span>H27 · IMPACT ORDERING</span><h2>Does consequence-aware ordering beat hazard alone?</h2></div>
+      <p id="benchmarkCopy">Waiting for historical labels…</p>
+    </div>
+    <div class="metric-grid">
+      <article><span>HAZARD AP</span><b id="hazardAP">—</b></article>
+      <article><span>IMPACT AP</span><b id="impactAP">—</b></article>
+      <article><span>AP GAIN</span><b id="apGain">—</b></article>
+      <article><span>TOP-20% RECALL GAIN</span><b id="recallGain">—</b></article>
+    </div>
+  </section>
+
+  <section class="contract">
+    <div><span>TRUST CONTRACT</span><h2>No invisible morality function.</h2></div>
+    <div id="trustList"></div>
+  </section>
+</main>
+<script src="./impact.js"></script>
+</body>
+</html>
