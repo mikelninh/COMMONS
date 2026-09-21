@@ -28,8 +28,8 @@ V.applyLayout=v=>{V.selectedLayout=v;localStorage.setItem('commons-v2-layout',v)
 
 V.renderFeedback=()=>{qsa('.lab-feedback').forEach(box=>box.querySelectorAll('button').forEach(b=>b.classList.toggle('selected',V.ratings[box.dataset.feedbackFor]===b.dataset.rating)));$('labPickCount').textContent=Object.keys(V.ratings).length};
 V.renderPicks=()=>{const n={editorial:'Editorial Pulse',cinematic:'Cinematic Explorer',observatory:'City Observatory'};let h=`<div class="picks-row"><span>Overall shell</span><b>${n[V.selectedLayout]}</b></div>`;for(const[k,v]of Object.entries(V.concepts))h+=`<div class="picks-row"><span>${V.esc(v)}</span><b>${V.esc(V.ratings[k]||'unrated')}</b></div>`;$('picksSummary').innerHTML=h;$('labPickCount').textContent=Object.keys(V.ratings).length};
-V.startPick=(m,title,copy)=>{V.pickMode=m;$('mapPickTitle').textContent=title;$('mapPickCopy').textContent=copy;$('mapPickBanner').classList.remove('hidden');qsa('.experience-card').forEach(c=>c.style.opacity='.2');if(V.map)V.map.getCanvas().style.cursor='crosshair'};
-V.finishPick=()=>{V.pickMode=null;$('mapPickBanner').classList.add('hidden');qsa('.experience-card').forEach(c=>c.style.opacity='');if(V.map)V.map.getCanvas().style.cursor=''};
+V.startPick=(m,title,copy)=>{V.pickMode=m;$('mapPickTitle').textContent=title;$('mapPickCopy').textContent=copy;$('mapPickBanner').classList.remove('hidden');qsa('.experience-card').forEach(c=>{c.style.opacity='.08';c.style.pointerEvents='none'});if(V.map)V.map.getCanvas().style.cursor='crosshair'};
+V.finishPick=()=>{V.pickMode=null;$('mapPickBanner').classList.add('hidden');qsa('.experience-card').forEach(c=>{c.style.opacity='';c.style.pointerEvents=''});if(V.map)V.map.getCanvas().style.cursor=''};
 V.cancelPick=()=>{if(V.pickMode)V.finishPick()};
 
 function init(){
