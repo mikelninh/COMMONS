@@ -67,6 +67,8 @@ try {
         assert.equal(await page.locator('[data-map-retry]').count(), 1);
         await page.locator('#enterBerlin').click();
         await page.waitForFunction(() => document.getElementById('primaryValue').textContent === 'Unavailable');
+        // Visibility transitions finish after the fetch has already failed.
+        await page.locator('#insight').waitFor({state:'visible', timeout:5000});
         assert.equal(await page.locator('#insight').isVisible(), true);
         assert.equal(await page.locator('#insight #mapFallback').count(), 1);
         await page.screenshot({ path:`${output}/${test.name}.png` });
@@ -102,6 +104,7 @@ try {
           await page.locator('#cityTabs [data-city="berlin"]').click();
           await page.waitForFunction(() => document.getElementById('cityName').textContent === 'Berlin');
           await page.locator('#worldButton').click();
+          await page.locator('#worldIntro').waitFor({state:'visible', timeout:5000});
           assert.equal(await page.locator('#worldIntro').isVisible(), true);
         }
       }
