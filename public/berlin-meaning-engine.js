@@ -222,7 +222,9 @@
   E.inspect=async point=>{
     const inspectToken=++E.queryToken;
     M.expanded=false;
-    M.setPoint(point);$('meaningHero').classList.add('hidden');$('meaningPanel').classList.remove('hidden');
+    M.setPoint(point);$('meaningHero').classList.add('hidden');$('meaningPanel').classList.add('hidden');
+    window.BerlinXray?.activate(point);
+    window.dispatchEvent(new CustomEvent('deepcity:place',{detail:{point}}));
     $('placeTitle').textContent=`${point.lat.toFixed(3)}° N · ${point.lon.toFixed(3)}° E`;
     $('placeSubtitle').textContent='Gathering context from 12 city sources…';
     $('meaningCards').innerHTML='<div class="meaning-loading"><i></i><span>Asking the city…</span></div>';
@@ -232,7 +234,7 @@
       E.allCandidates=result;
       E.rerank();
       const ready=Object.values(M.sourceHealth).filter(v=>v==='ready').length;
-      window.BerlinXray?.activate(point);
+      window.dispatchEvent(new CustomEvent('deepcity:meaning',{detail:{point,candidates:E.scored||[],picked:M.current||[]}}));
       $('placeSubtitle').textContent=`Berlin, Germany · ${ready}/12 sources answered · ${PERSONAS[M.persona]?.label||M.persona}`;
     }catch(error){
       $('meaningCards').innerHTML='<div class="meaning-loading"><span>This query was replaced or could not complete.</span></div>';
