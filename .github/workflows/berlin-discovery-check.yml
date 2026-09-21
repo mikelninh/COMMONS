@@ -1,0 +1,56 @@
+name: Berlin Discovery Check
+
+on:
+  pull_request:
+    paths:
+      - "public/berlin*"
+      - "public/data/berlin-pulse/**"
+      - "scripts/collect_berlin_pulse.py"
+      - "scripts/browser-map-smoke.mjs"
+      - "scripts/vendor-maplibre.mjs"
+      - "tests/test_berlin_pulse.py"
+      - ".github/workflows/berlin-discovery-check.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Static and unit checks
+        run: |
+          python -m pip install -q pytest
+          python -m py_compile scripts/collect_berlin_pulse.py tests/test_berlin_pulse.py
+          python -m pytest -q tests/test_berlin_pulse.py
+          node --check public/berlin.js
+          node --check public/berlin-pulse.js
+          node --check scripts/browser-map-smoke.mjs
+
+      - name: Vendor pinned MapLibre
+        run: node scripts/vendor-maplibre.mjs
+
+      - name: Real Chromium smoke
+        run: |
+          npm install --no-save --package-lock=false --ignore-scripts playwright@1.55.0
+          npx playwright install --with-deps chromium
+          node scripts/browser-map-smoke.mjs
+
+      - name: Save browser proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: berlin-discovery-proof
+          path: map-test-results
+          retention-days: 7
