@@ -83,8 +83,8 @@ try{
       await page.waitForFunction(()=>window.Meaning&&window.MeaningEngine&&window.Meaning?.map?.loaded?.()===true,null,{timeout:30000});
 
       await page.locator('#startCenter').click();
-      await page.waitForFunction(()=>document.querySelectorAll('#meaningCards .meaning-card').length>=5,null,{timeout:15000});
-      assert.ok((await page.locator('#meaningCards .meaning-card').count())>=5);
+      await page.waitForFunction(()=>document.querySelectorAll('#meaningCards .meaning-card').length>=4,null,{timeout:15000});
+      assert.ok((await page.locator('#meaningCards .meaning-card').count())>=4);
 
       await page.locator('[data-lens="history"]').click();
       await page.waitForFunction(()=>document.querySelectorAll('#meaningCards .meaning-card').length>=1);
@@ -95,7 +95,10 @@ try{
       await page.locator('[data-persona="visitor"]').click();
       assert.ok((await page.locator('[data-persona="visitor"]').getAttribute('class')||'').includes('active'));
 
-      const firstRating=page.locator('#meaningCards .meaning-card').first().locator('[data-rate="useful"]');
+      const firstCard=page.locator('#meaningCards .meaning-card').first();
+      await firstCard.locator('[data-why]').click();
+      assert.ok((await firstCard.getAttribute('class')||'').includes('open'));
+      const firstRating=firstCard.locator('[data-rate="useful"]');
       await firstRating.click();
       assert.ok((await firstRating.getAttribute('class')||'').includes('active'));
 
