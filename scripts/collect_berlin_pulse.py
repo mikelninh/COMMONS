@@ -10,6 +10,7 @@ import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "public" / "data" / "berlin-pulse"
@@ -19,6 +20,7 @@ LATEST_PATH = DATA_DIR / "latest.json"
 UTC = timezone.utc
 BERLIN = {"lat": 52.52, "lon": 13.405}
 BBOX = {"north": 52.70, "west": 13.08, "south": 52.34, "east": 13.78}
+BERLIN_TZ = ZoneInfo("Europe/Berlin")
 
 
 def now_utc() -> datetime:
@@ -367,6 +369,162 @@ def headline(signals: dict[str, Any]) -> dict[str, str]:
     }
 
 
+
+def build_changes(history: dict[str, Any]) -> list[dict[str, Any]]:
+    snapshots = history.get("snapshots", [])
+    if len(snapshots) < 2:
+        return []
+    previous = snapshots[-2].get("metrics") or {}
+    current = snapshots[-1].get("metrics") or {}
+    specs = {
+        "temperature_2m": ("Temperature", "°C", 1),
+        "pm2_5": ("PM2.5", "µg/m³", 1),
+        "river_discharge": ("Spree / river", "m³/s", 2),
+        "transit_vehicles": ("Transit movement", "vehicles", 0),
+    }
+    changes: list[dict[str, Any]] = []
+    for metric, (label, unit, digits) in specs.items():
+        before, after = safe_float(previous.get(metric)), safe_float(current.get(metric))
+        if before is None or after is None:
+            continue
+        delta = after - before
+        diffs: list[float] = []
+        for left, right in zip(snapshots[:-1], snapshots[1:]):
+            a = safe_float((left.get("metrics") or {}).get(metric))
+            b = safe_float((right.get("metrics") or {}).get(metric))
+            if a is not None and b is not None:
+                diffs.append(abs(b - a))
+        typical = statistics.median(diffs[:-1]) if len(diffs) > 2 else None
+        salience = abs(delta) / typical if typical and typical > 1e-9 else abs(delta)
+        direction = "up" if delta > 0 else "down" if delta < 0 else "flat"
+        pct = (delta / abs(before) * 100) if before else None
+        changes.append({
+            "metric": metric,
+            "label": label,
+            "unit": unit,
+            "digits": digits,
+            "previous": round(before, 3),
+            "current": round(after, 3),
+            "delta": round(delta, 3),
+            "percent": round(pct, 1) if pct is not None else None,
+            "direction": direction,
+            "salience": round(salience, 3),
+            "basis": "since the previous Pulse snapshot",
+        })
+    return sorted(changes, key=lambda item: item["salience"], reverse=True)
+
+
+def build_hypotheses(history: dict[str, Any]) -> list[dict[str, Any]]:
+    snapshots = history.get("snapshots", [])
+    transitions: list[tuple[dict[str, Any], dict[str, Any]]] = []
+    for left, right in zip(snapshots[:-1], snapshots[1:]):
+        try:
+            gap = (parse_iso(right["timestamp"]) - parse_iso(left["timestamp"])).total_seconds() / 3600
+        except Exception:
+            continue
+        if 1.5 <= gap <= 5.5:
+            transitions.append((left.get("metrics") or {}, right.get("metrics") or {}))
+
+    wet_pm: list[float] = []
+    dry_pm: list[float] = []
+    for before, after in transitions:
+        rain = safe_float(before.get("precipitation"))
+        p0, p1 = safe_float(before.get("pm2_5")), safe_float(after.get("pm2_5"))
+        if rain is None or p0 is None or p1 is None:
+            continue
+        (wet_pm if rain >= 0.2 else dry_pm).append(p1 - p0)
+    if len(wet_pm) < 4:
+        air_status = "learning"
+        air_evidence = f"{len(wet_pm)} rainy transitions captured; 4 are required before comparing them with dry periods."
+    else:
+        wet_mean = statistics.fmean(wet_pm)
+        dry_mean = statistics.fmean(dry_pm) if dry_pm else None
+        if dry_mean is None:
+            air_status = "learning"
+            air_evidence = f"Rainy periods changed modeled PM2.5 by {wet_mean:+.1f} µg/m³ on average, but a dry comparison is still missing."
+        else:
+            effect = wet_mean - dry_mean
+            air_status = "candidate" if effect <= -0.5 else "no_clear_signal"
+            air_evidence = f"Rainy transitions vs dry transitions differ by {effect:+.1f} µg/m³ in modeled PM2.5 ({len(wet_pm)} wet / {len(dry_pm)} dry)."
+
+    wet_river: list[float] = []
+    for i, snapshot in enumerate(snapshots):
+        before = snapshot.get("metrics") or {}
+        rain = safe_float(before.get("precipitation"))
+        river0 = safe_float(before.get("river_discharge"))
+        if rain is None or rain < 0.2 or river0 is None:
+            continue
+        try:
+            start = parse_iso(snapshot["timestamp"])
+        except Exception:
+            continue
+        candidates: list[tuple[float, float]] = []
+        for later in snapshots[i + 1:]:
+            try:
+                gap = (parse_iso(later["timestamp"]) - start).total_seconds() / 3600
+            except Exception:
+                continue
+            if 6 <= gap <= 15:
+                river1 = safe_float((later.get("metrics") or {}).get("river_discharge"))
+                if river1 is not None:
+                    candidates.append((abs(gap - 9), river1 - river0))
+        if candidates:
+            wet_river.append(min(candidates)[1])
+    if len(wet_river) < 4:
+        river_status = "learning"
+        river_evidence = f"{len(wet_river)} rain→river lag observations captured; 4 are required before interpreting the pattern."
+    else:
+        river_mean = statistics.fmean(wet_river)
+        river_status = "candidate" if river_mean > 0 else "no_clear_signal"
+        river_evidence = f"After rainy snapshots, river discharge changed by {river_mean:+.3f} m³/s on average 6–15 hours later (n={len(wet_river)})."
+
+    buckets: dict[int, list[float]] = {}
+    for snapshot in snapshots:
+        value = safe_float((snapshot.get("metrics") or {}).get("transit_vehicles"))
+        if value is None:
+            continue
+        try:
+            local = parse_iso(snapshot["timestamp"]).astimezone(BERLIN_TZ)
+        except Exception:
+            continue
+        bucket = (local.hour // 3) * 3
+        buckets.setdefault(bucket, []).append(value)
+    repeated = {hour: values for hour, values in buckets.items() if len(values) >= 3}
+    if len(repeated) < 2:
+        transit_status = "learning"
+        transit_evidence = f"{len(repeated)} time-of-day buckets have 3+ observations; 2 are required to test a repeating daily rhythm."
+    else:
+        medians = {hour: statistics.median(values) for hour, values in repeated.items()}
+        low_hour = min(medians, key=medians.get)
+        high_hour = max(medians, key=medians.get)
+        spread = medians[high_hour] - medians[low_hour]
+        transit_status = "candidate" if spread >= 20 else "no_clear_signal"
+        transit_evidence = f"Median movement differs by {spread:.0f} vehicles between {low_hour:02d}:00 and {high_hour:02d}:00 Berlin-time buckets."
+
+    return [
+        {
+            "id": "rain-air",
+            "question": "Does rain reduce modeled fine-particle air afterwards?",
+            "status": air_status,
+            "evidence": air_evidence,
+            "kind": "observational · modeled air",
+        },
+        {
+            "id": "rain-river",
+            "question": "Does the river respond measurably after rain?",
+            "status": river_status,
+            "evidence": river_evidence,
+            "kind": "lag test · water source may be modeled fallback",
+        },
+        {
+            "id": "transit-rhythm",
+            "question": "Does Berlin's transit pulse repeat by time of day?",
+            "status": transit_status,
+            "evidence": transit_evidence,
+            "kind": "time-of-day pattern · VBB radar",
+        },
+    ]
+
 def main() -> None:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     now = now_utc()
@@ -488,6 +646,8 @@ def main() -> None:
         "sample_count": len(history["snapshots"]),
         "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
         "headline": headline(signals),
+        "changes": build_changes(history),
+        "hypotheses": build_hypotheses(history),
         "signals": signals,
         "forecast_score": forecast_score(ledger),
         "source_health": source_health,
