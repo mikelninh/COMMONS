@@ -1595,3 +1595,79 @@ def test_city_atlas_layers_are_interactive_and_time_scrubbable() -> None:
     assert "renderRiver" in js
     assert "renderSystems" in js
     assert "renderMemory" in js
+
+
+def test_berlin_deep_city_has_four_modes_and_flagship_layers() -> None:
+    page = Path("public/berlin.html").read_text(encoding="utf-8")
+    js = Path("public/berlin.js").read_text(encoding="utf-8")
+
+    assert "Berlin is alive." in page
+    for mode in ("now", "city", "pressure", "memory"):
+        assert f'data-mode="{mode}"' in page
+    for layer in (
+        "movement", "air", "weather", "water", "traffic",
+        "population", "health", "fire", "power", "green", "trees", "solar",
+        "heat", "justice", "noise", "airhistory", "waterhistory", "bikes", "accidents",
+    ):
+        assert f'["{layer}"' in js or f"{layer}:" in js
+    assert "v6.vbb.transport.rest/radar" in js
+    assert "luftdaten.berlin.de/api/stations" in js
+    assert "wasserportal.berlin.de/station.php" in js
+    assert "flood-api.open-meteo.com/v1/flood" in js
+    assert "overpass-api.de/api/interpreter" in js
+
+
+def test_berlin_deep_city_prefers_official_berlin_wfs_layers() -> None:
+    js = Path("public/berlin.js").read_text(encoding="utf-8")
+
+    for endpoint in (
+        "ua_einwohnerdichte_2024",
+        "krankenhaeuser",
+        "feuerwehr",
+        "gruenanlagen",
+        "baumbestand",
+        "ua_solaranlagen_st",
+        "ua_klimaanalyse_2022",
+        "ua_umweltgerechtigkeit2023",
+    ):
+        assert endpoint in js
+    assert "GetCapabilities" in js
+    assert "GetFeature" in js
+    assert 'outputFormat:"application/json"' in js
+
+
+def test_berlin_deep_city_degrades_per_source_instead_of_crashing() -> None:
+    page = Path("public/berlin.html").read_text(encoding="utf-8")
+    js = Path("public/berlin.js").read_text(encoding="utf-8")
+
+    assert "Map unavailable." in page
+    assert "showFallback" in js
+    assert "renderUnavailable" in js
+    assert "Promise" in js
+    assert "MODELED FALLBACK" in js
+    assert "GLOFAS FALLBACK" in js
+    assert "leaves missing evidence blank" in js
+
+
+def test_atlas_uses_resilient_umd_maplibre_loader() -> None:
+    page = Path("public/atlas.html").read_text(encoding="utf-8")
+    js = Path("public/atlas.js").read_text(encoding="utf-8")
+
+    assert "cdn.jsdelivr.net/npm/maplibre-gl@6.10.0/dist/maplibre-gl.js" in page
+    assert "unpkg.com/maplibre-gl@6.10.0/dist/maplibre-gl.js" in page
+    assert 'src="./atlas.js"' in page
+    assert 'type="module"' not in page
+    assert "maplibre-gl.mjs" not in js
+    assert "window.maplibregl" in js
+    assert "atlasFallback" in page
+
+
+def test_browser_javascript_syntax_for_berlin_and_atlas() -> None:
+    import shutil
+    import subprocess
+
+    node = shutil.which("node")
+    if node is None:
+        pytest.skip("node is unavailable in this environment")
+    for path in ("public/berlin.js", "public/atlas.js"):
+        subprocess.run([node, "--check", path], check=True)

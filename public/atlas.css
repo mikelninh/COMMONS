@@ -78,3 +78,5 @@ button{font:inherit}
   .timeline{bottom:15px}.systems-legend,.memory-strip{bottom:15px;left:14px;right:14px}
   .source-health{display:none}
 }
+
+.atlas-fallback{position:fixed;z-index:40;inset:64px 0 0;display:grid;place-content:center;text-align:center;background:radial-gradient(circle,#0b140e,#020504);padding:24px}.atlas-fallback strong{font-size:28px}.atlas-fallback span{display:block;color:#8b9589;font-size:12px;margin-top:8px}.atlas-fallback.hidden{display:none}
