@@ -6,6 +6,7 @@
   const $=M.$,qsa=M.qsa;
   const MODES=['live','people','nature','infra','history'];
   const LENS={live:'now',people:'life',nature:'nature',infra:'infrastructure',history:'history'};
+  const MODE_LABEL={live:'NOW',people:'PEOPLE',nature:'NATURE',infra:'INFRA',history:'MEMORY'};
   const State=window.DeepCityState={
     place:null,camera:null,lens:'live',time:1,comparison:null,selectedInsight:null,
     sheet:'peek',comparePicking:false
@@ -46,13 +47,15 @@
     const top=topFor(E.scored||[],mode);
     State.selectedInsight=top;
     $('continuousInsightTitle').textContent=top?.title||'Reading this layer of the city…';
-    $('continuousStatus').querySelector('span').textContent=`BERLIN · ${mode.toUpperCase()} · ${State.time===0?'PAST':State.time===2?'FUTURE':'NOW'}`;
+    document.body.dataset.deepCityLens=mode;
+    $('continuousStatus').querySelector('span').textContent=`BERLIN · ${MODE_LABEL[mode]||mode.toUpperCase()} · ${State.time===0?'PAST':State.time===2?'FUTURE':'NOW'}`;
     if(State.comparison)renderComparison();
   }
 
   function syncTime(value){
     State.time=Number(value);
-    $('continuousStatus').querySelector('span').textContent=`BERLIN · ${State.lens.toUpperCase()} · ${State.time===0?'PAST':State.time===2?'FUTURE':'NOW'}`;
+    document.body.dataset.deepCityTime=State.time===0?'past':State.time===2?'future':'now';
+    $('continuousStatus').querySelector('span').textContent=`BERLIN · ${MODE_LABEL[State.lens]||State.lens.toUpperCase()} · ${State.time===0?'PAST':State.time===2?'FUTURE':'NOW'}`;
   }
 
   // Wrap state-changing engine calls so there is one canonical interaction state.
