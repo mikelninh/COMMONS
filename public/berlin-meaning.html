@@ -11,6 +11,7 @@
 <script defer src="./berlin-meaning-sources.js?v=m1"></script>
 <script defer src="./berlin-meaning-core.js?v=m2"></script>
 <script defer src="./berlin-meaning-engine.js?v=m2"></script>
+<script defer src="./berlin-xray.js?v=x1"></script>
 </head>
 <body>
 <div id="meaningMap" aria-hidden="true"></div>
@@ -28,6 +29,37 @@
   </div>
   <a class="meaning-back" href="./berlin-v2-lab.html">Concept Lab ↗</a>
 </header>
+
+<section class="xray-stage hidden" id="xrayStage" aria-label="City X-Ray">
+  <div class="xray-story" id="xrayStory">
+    <span id="xrayKicker">CITY X-RAY</span>
+    <strong id="xrayTitle">Pull Berlin apart.</strong>
+    <p id="xrayCopy">Choose a layer of reality, then move through time.</p>
+    <button type="button" id="openMeaningDetails">Open evidence</button>
+  </div>
+
+  <div class="xray-time" id="xrayTime">
+    <span class="xray-axis-label">TIME</span>
+    <div class="xray-time-label top" id="xrayTimeTop">FUTURE</div>
+    <input id="xrayTimeSlider" type="range" min="0" max="2" value="1" step="1" orient="vertical" aria-label="Time">
+    <div class="xray-time-label bottom" id="xrayTimeBottom">PAST</div>
+    <strong id="xrayTimeNow">NOW</strong>
+  </div>
+
+  <nav class="xray-rail" id="xrayRail" aria-label="City layers">
+    <button type="button" data-xray="live" class="active"><i>✦</i><span>LIVE</span><small>movement · weather · air</small></button>
+    <button type="button" data-xray="people"><i>●</i><span>PEOPLE</span><small>density · burden · care</small></button>
+    <button type="button" data-xray="nature"><i>◆</i><span>NATURE</span><small>green · trees · heat</small></button>
+    <button type="button" data-xray="infra"><i>▣</i><span>INFRA</span><small>transit · hospitals · sport</small></button>
+    <button type="button" data-xray="history"><i>▥</i><span>HISTORY</span><small>buildings · wall · traces</small></button>
+  </nav>
+
+  <div class="xray-readout" id="xrayReadout">
+    <span id="xrayReadoutLabel">LIVE / NOW</span>
+    <b id="xrayReadoutValue">—</b>
+    <small id="xrayReadoutMeta">Choose a place to begin.</small>
+  </div>
+</section>
 
 <main class="meaning-shell">
   <section class="meaning-hero" id="meaningHero">
@@ -108,6 +140,7 @@
 </main>
 
 <nav class="tool-dock" aria-label="Meaning tools">
+  <button type="button" id="toolXray"><span>◫</span>X-RAY</button>
   <button type="button" id="toolPick"><span>◎</span>ASK PLACE</button>
   <button type="button" id="toolSurprise"><span>✦</span>SURPRISE</button>
   <button type="button" id="toolSources"><span>≋</span>SOURCES</button>
