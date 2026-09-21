@@ -66,8 +66,12 @@ try {
         assert.equal(await page.locator('#mapFallback').isVisible(), true);
         assert.equal(await page.locator('[data-map-retry]').count(), 1);
         await page.locator('#enterBerlin').click();
-        await page.waitForFunction(() => document.getElementById('primaryValue').textContent === 'Unavailable');
-        // Visibility transitions finish after the fetch has already failed.
+        await page.waitForFunction(() => {
+          const value=document.getElementById('primaryValue')?.textContent||'';
+          const copy=document.getElementById('primaryCopy')?.textContent||'';
+          return value === 'Unavailable' || copy.includes('not live.');
+        });
+        // Visibility transitions finish after the fetch has already failed or fallen back to the tape.
         await page.locator('#insight').waitFor({state:'visible', timeout:5000});
         assert.equal(await page.locator('#insight').isVisible(), true);
         assert.equal(await page.locator('#insight #mapFallback').count(), 1);
@@ -94,11 +98,28 @@ try {
         await page.screenshot({ path:`${output}/${test.name}.png` });
         if (test.app === 'berlin') {
           await page.locator('#enterBerlin').click();
-          await page.waitForFunction(() => document.getElementById('primaryValue').textContent === 'Unavailable');
+          await page.waitForFunction(() => {
+            const value=document.getElementById('primaryValue')?.textContent||'';
+            const copy=document.getElementById('primaryCopy')?.textContent||'';
+            return value === 'Unavailable' || copy.includes('not live.');
+          });
+          assert.equal(await page.locator('#insight').isVisible(), true);
           for (const mode of ['city','pressure','memory','now']) {
             await page.locator(`[data-mode="${mode}"]`).click();
             assert.equal(await page.locator(`[data-mode="${mode}"]`).getAttribute('class'), 'active');
             assert.ok(await page.locator('#layerRail button').count());
+          }
+          await page.locator('#pulseMode').click();
+          await page.locator('#pulsePanel').waitFor({state:'visible',timeout:5000});
+          assert.equal(await page.locator('#pulseSignals .pulse-signal').count(),4);
+          assert.equal(await page.locator('#pulseHypotheses').count(),1);
+          if(test.width<500){
+            await page.locator('#pulseHereButton').click();
+            assert.ok((await page.locator('#pulsePanel').getAttribute('class')).includes('map-picking'));
+            await page.locator('#pulseMapPrompt').waitFor({state:'visible',timeout:5000});
+            await page.mouse.click(Math.round(test.width*.55),Math.round(test.height*.68));
+            await page.locator('#pulseHereResult').waitFor({state:'visible',timeout:10000});
+            assert.ok((await page.locator('#pulseHereResult').textContent()).includes('official mapped trees nearby'));
           }
         } else {
           await page.locator('#cityTabs [data-city="berlin"]').click();

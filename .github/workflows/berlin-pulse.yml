@@ -32,6 +32,11 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Verify Pulse Python
+        run: |
+          python -m py_compile scripts/collect_berlin_pulse.py
+          python -m py_compile tests/test_berlin_pulse.py
+
       - name: Record Berlin Pulse
         run: python scripts/collect_berlin_pulse.py
 

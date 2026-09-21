@@ -84,6 +84,7 @@ function sourceCards(keys){
 }
 function resetPanel(){
   $("timeline").classList.add("hidden");$("cards").classList.add("hidden");$("cards").innerHTML="";
+  $("insight")?.classList.remove("degraded");
   $("primaryValue").textContent="—";$("primaryCopy").textContent="Connecting…";
   for(const [id,label] of [["statA","—"],["statB","—"],["statC","—"]])$(id).textContent=label;
   $("statACopy").textContent="—";$("statBCopy").textContent="—";$("statCCopy").textContent="—";
@@ -160,12 +161,57 @@ async function setLayer(layer){
   const copy=LAYER_COPY[layer]||["BERLIN",layer,""]; $("insightKicker").textContent=copy[0];$("insightTitle").textContent=copy[1];$("insightStory").textContent=copy[2];
   $("sourceDetail").innerHTML="";
   const handlers={movement:showMovement,air:showAir,weather:showWeather,water:showWater,traffic:showTraffic,population:()=>showOfficialWFS("population"),health:()=>showOfficialWFS("health"),fire:()=>showOfficialWFS("fire"),power:showPower,green:()=>showOfficialWFS("green"),trees:()=>showOfficialWFS("trees"),solar:()=>showOfficialWFS("solar"),heat:()=>showOfficialWFS("heat"),justice:()=>showOfficialWFS("justice"),noise:showNoise,airhistory:showAirHistory,waterhistory:showWaterHistory,bikes:showBikes,accidents:showAccidents};
-  try{await (handlers[layer]?.()||Promise.resolve())}catch(e){if(token!==layerToken)return;renderUnavailable(layer,e)}
+  try{
+    await (handlers[layer]?.()||Promise.resolve())
+  }catch(e){
+    if(token!==layerToken)return;
+    const retryable=e?.name==="AbortError"||/abort|timeout|network|fetch/i.test(String(e?.message||e));
+    if(retryable){
+      await new Promise(resolve=>setTimeout(resolve,650));
+      if(token!==layerToken)return;
+      try{await (handlers[layer]?.()||Promise.resolve());return}catch(second){e=second}
+    }
+    if(token!==layerToken)return;
+    renderUnavailable(layer,e);
+  }
 }
-function renderUnavailable(layer,error){
-  $("primaryLabel").textContent="SOURCE STATUS";$("primaryValue").textContent="Unavailable";$("primaryCopy").textContent="This layer failed without taking the rest of Berlin offline.";
-  $("storyNote").textContent="COMMONS leaves missing evidence blank rather than inferring it. "+(error?.message||"");
+function friendlyFailure(error){
+  const raw=String(error?.message||error||"").trim();
+  if(error?.name==="AbortError"||/aborted|timeout/i.test(raw))return "The live source timed out.";
+  if(/failed to fetch|network/i.test(raw))return "The browser could not reach the live source.";
+  return raw&&raw!=="signal is aborted without reason"?raw:"The live source did not answer.";
+}
+async function renderUnavailable(layer,error){
+  $("insight")?.classList.add("degraded");
+  $("primaryLabel").textContent="LIVE SOURCE";
+  $("primaryValue").textContent="Reconnecting…";
+  $("primaryCopy").textContent="Live data failed. Looking for the last recorded observation instead.";
+  $("storyNote").innerHTML="COMMONS leaves missing evidence blank and never invents a replacement. If a dated tape observation exists, it may be shown explicitly as not live. "+friendlyFailure(error)+' <button class="inline-retry" type="button" data-layer-retry>Retry live source</button>';
   $("sourceDetail").innerHTML=sourceCards(layer==="air"||layer==="airhistory"?["air"]:layer==="water"||layer==="waterhistory"?["water"]:layer==="traffic"?["traffic"]:layer==="noise"?["noise"]:layer==="bikes"?["bikes"]:layer==="accidents"?["accidents"]:[layer]);
+  $("storyNote").querySelector("[data-layer-retry]")?.addEventListener("click",()=>setLayer(layer));
+  await renderTapeFallback(layer,error);
+}
+async function renderTapeFallback(layer,error){
+  const key={movement:"transit_vehicles",weather:"temperature_2m",air:"pm2_5",water:"river_discharge"}[layer];
+  if(!key){$("primaryValue").textContent="Unavailable";$("primaryCopy").textContent="No trustworthy recorded fallback exists for this layer yet.";return}
+  try{
+    const response=await fetch("./data/berlin-pulse/latest.json?t="+Date.now(),{cache:"no-store"});
+    if(!response.ok)throw new Error("tape "+response.status);
+    const tape=await response.json(),signal=tape?.signals?.[key];
+    if(!signal||signal.value==null)throw new Error("no recorded value");
+    const age=Math.max(0,Math.round((Date.now()-new Date(tape.generated_at).getTime())/60000));
+    $("primaryLabel").textContent="LAST RECORDED · "+String(signal.source||"COMMONS TAPE").toUpperCase();
+    $("primaryValue").textContent=human(signal.value)+(signal.unit?" "+signal.unit:"");
+    $("primaryCopy").textContent="Recorded "+(age<60?age+" min ago":Math.round(age/60)+" h ago")+" · not live.";
+    $("statA").textContent=signal.anomaly?.label||"learning";$("statACopy").textContent="recent pattern";
+    $("statB").textContent=signal.anomaly?.score==null?"—":fmt(signal.anomaly.score,1);$("statBCopy").textContent="robust z";
+    $("statC").textContent=tape.sample_count||"—";$("statCCopy").textContent="tape samples";
+    $("storyNote").innerHTML="Live failed, so this panel is showing a clearly dated recording instead. "+friendlyFailure(error)+' <button class="inline-retry" type="button" data-layer-retry>Try live again</button>';
+    $("storyNote").querySelector("[data-layer-retry]")?.addEventListener("click",()=>setLayer(layer));
+  }catch{
+    $("primaryValue").textContent="Unavailable";
+    $("primaryCopy").textContent="Neither the live source nor the recorded tape is readable right now.";
+  }
 }
 
 async function showMovement(){

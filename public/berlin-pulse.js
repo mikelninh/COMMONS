@@ -42,6 +42,10 @@
       <h2 id="pulseHeadline">Listening to Berlin.</h2>
       <p class="pulse-explain" id="pulseExplanation">The tape is connecting live signals to recent context.</p>
       <div class="pulse-signals" id="pulseSignals"></div>
+      <section class="pulse-discovery">
+        <div class="pulse-section-head"><span>WHAT CHANGED?</span><b>since the previous tape</b></div>
+        <div class="pulse-changes" id="pulseChanges"></div>
+      </section>
       <div class="pulse-lower">
         <article class="pulse-module">
           <span class="pulse-module-label">FORECAST TEST</span>
@@ -58,14 +62,18 @@
       </div>
       <article class="pulse-here">
         <div>
-          <span class="pulse-module-label">WHY HERE?</span>
+          <span class="pulse-module-label">WHY HERE? · V2</span>
           <strong id="pulseHereTitle">Ask the map about a place.</strong>
-          <p id="pulseHereCopy">We’ll compare local modeled weather, modeled air and nearby live transit with the city pulse. Structural heat and justice remain in Berlin’s official PRESSURE layers.</p>
+          <p id="pulseHereCopy">Live weather, modeled air and transit are combined with nearby official Berlin trees, green space, heat-analysis and environmental-justice features — without collapsing them into a score.</p>
         </div>
         <button id="pulseHereButton" type="button">Choose a place on the map</button>
         <div id="pulseHereResult" class="pulse-here-result hidden"></div>
       </article>
-      <footer class="pulse-foot">OBSERVE → DETECT → EXPLAIN → FORECAST → VERIFY</footer>`;
+      <section class="pulse-hypothesis">
+        <div class="pulse-section-head"><span>HYPOTHESIS LAB</span><b>the tape tries to falsify these</b></div>
+        <div class="pulse-hypothesis-grid" id="pulseHypotheses"></div>
+      </section>
+      <footer class="pulse-foot">OBSERVE → DETECT → EXPLAIN → HYPOTHESIZE → FORECAST → VERIFY</footer>`;
     document.body.append(panel);
 
     button.addEventListener('click', openPulse);
@@ -94,7 +102,9 @@
 
   function closePulseQuiet() {
     $p('pulsePanel')?.classList.add('hidden');
+    $p('pulsePanel')?.classList.remove('map-picking');
     $p('pulseMode')?.classList.remove('active');
+    $p('pulseMapPrompt')?.remove();
     whyHereArmed = false;
   }
 
@@ -165,8 +175,43 @@
     const order = ['temperature_2m','pm2_5','river_discharge','transit_vehicles'];
     $p('pulseSignals').innerHTML = order.map(key => signalCard(key,pulse.signals?.[key])).join('');
     $p('pulseSignals').querySelectorAll('[data-pulse-layer]').forEach(el => el.addEventListener('click', () => openLayer(el.dataset.pulseLayer)));
+    renderChanges();
     renderForecastScore();
     renderTape();
+    renderHypotheses();
+  }
+
+  function renderChanges() {
+    const changes = Array.isArray(pulse.changes) ? pulse.changes.slice(0,4) : [];
+    if (!changes.length) {
+      $p('pulseChanges').innerHTML = '<div class="pulse-empty">The tape needs one more comparable snapshot before it can rank what changed.</div>';
+      return;
+    }
+    $p('pulseChanges').innerHTML = changes.map(change => {
+      const digits = Number(change.digits ?? 1);
+      const delta = finite(change.delta) ? signed(change.delta,digits) : '—';
+      const percent = finite(change.percent) ? ` · ${signed(change.percent,1)}%` : '';
+      const arrow = change.direction === 'up' ? '↑' : change.direction === 'down' ? '↓' : '→';
+      return `<button class="pulse-change" data-pulse-layer="${escapeHtml(layerBySignal[change.metric]||'')}">
+        <span>${escapeHtml(change.label||change.metric)}</span>
+        <b>${arrow} ${delta} ${escapeHtml(change.unit||'')}${percent}</b>
+        <small>${escapeHtml(change.basis||'since the previous tape')}</small>
+      </button>`;
+    }).join('');
+    $p('pulseChanges').querySelectorAll('[data-pulse-layer]').forEach(el => el.addEventListener('click',()=>openLayer(el.dataset.pulseLayer)));
+  }
+
+  function renderHypotheses() {
+    const hypotheses = Array.isArray(pulse.hypotheses) ? pulse.hypotheses : [];
+    if (!hypotheses.length) {
+      $p('pulseHypotheses').innerHTML = '<div class="pulse-empty">The first hypotheses will appear after the next recorded tape run.</div>';
+      return;
+    }
+    $p('pulseHypotheses').innerHTML = hypotheses.map(h => `<article class="pulse-h-card ${escapeHtml(h.status||'learning')}">
+      <div><span>${escapeHtml((h.status||'learning').replaceAll('_',' '))}</span><small>${escapeHtml(h.kind||'observational')}</small></div>
+      <strong>${escapeHtml(h.question||'Untitled hypothesis')}</strong>
+      <p>${escapeHtml(h.evidence||'Learning.')}</p>
+    </article>`).join('');
   }
 
   function signalCard(key, signal={}) {
@@ -228,6 +273,7 @@
     map.on('click', event => {
       if (!whyHereArmed) return;
       whyHereArmed = false;
+      endMapPick();
       $p('pulseHereButton').textContent = 'Choose another place';
       inspectHere(event.lngLat.lng, event.lngLat.lat);
     });
@@ -238,35 +284,76 @@
     $p('pulseHereButton').textContent = 'Click anywhere on Berlin…';
     $p('pulseHereTitle').textContent = 'The map is listening.';
     $p('pulseHereCopy').textContent = 'Choose a point. The answer will stay explicit about what is modeled, measured and merely nearby.';
+    if(window.innerWidth<=900){
+      $p('pulsePanel')?.classList.add('map-picking');
+      $p('pulseMapPrompt')?.remove();
+      const prompt=document.createElement('div');
+      prompt.id='pulseMapPrompt';prompt.className='pulse-map-prompt';
+      prompt.innerHTML='<strong>Tap a place on Berlin</strong><span>Why Here will inspect this point.</span><button type="button">Cancel</button>';
+      prompt.querySelector('button').addEventListener('click',()=>{whyHereArmed=false;endMapPick()});
+      document.body.append(prompt);
+    }
+  }
+
+  function endMapPick(){
+    $p('pulsePanel')?.classList.remove('map-picking');
+    $p('pulseMapPrompt')?.remove();
+  }
+
+  async function wfsAround(key,lon,lat) {
+    if(typeof WFS_CONFIG==='undefined'||typeof discoverFeatureTypes!=='function')throw new Error('Berlin WFS helpers unavailable');
+    const cfg=WFS_CONFIG[key];if(!cfg)throw new Error('unknown WFS layer');
+    const types=await discoverFeatureTypes(cfg.endpoint);
+    const typeName=types.find(type=>cfg.patterns.some(pattern=>pattern.test(type)))||types[0];
+    if(!typeName)throw new Error('no feature type');
+    const dx=.010,dy=.007;
+    const params=new URLSearchParams({
+      service:'WFS',version:'2.0.0',request:'GetFeature',typeNames:typeName,
+      outputFormat:'application/json',srsName:'EPSG:4326',count:'140',
+      bbox:`${lon-dx},${lat-dy},${lon+dx},${lat+dy},EPSG:4326`
+    });
+    const response=await fetch(cfg.endpoint+'?'+params.toString(),{cache:'no-store'});
+    if(!response.ok)throw new Error('WFS '+response.status);
+    const raw=await response.json();
+    return {count:Array.isArray(raw.features)?raw.features.length:0,typeName};
   }
 
   async function inspectHere(lon,lat) {
     const result = $p('pulseHereResult');
     result.classList.remove('hidden');
-    result.innerHTML = '<span>Reading this place…</span>';
+    result.innerHTML = '<span>Reading live + structural context…</span>';
     addHereMarker(lon,lat);
     const delta = .018;
     const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,apparent_temperature,precipitation&timezone=UTC`;
     const airUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=pm2_5,nitrogen_dioxide,ozone&timezone=UTC`;
     const transitUrl = `https://v6.vbb.transport.rest/radar?north=${lat+delta}&west=${lon-delta}&south=${lat-delta}&east=${lon+delta}&results=180&duration=30`;
-    const [weather,air,transit] = await Promise.allSettled([
+    const [weather,air,transit,trees,green,heat,justice] = await Promise.allSettled([
       fetch(weatherUrl,{cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject()),
       fetch(airUrl,{cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject()),
-      fetch(transitUrl,{cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject())
+      fetch(transitUrl,{cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject()),
+      wfsAround('trees',lon,lat),wfsAround('green',lon,lat),wfsAround('heat',lon,lat),wfsAround('justice',lon,lat)
     ]);
     const w = weather.status==='fulfilled' ? weather.value.current||{} : {};
     const a = air.status==='fulfilled' ? air.value.current||{} : {};
     const t = transit.status==='fulfilled' ? (transit.value.movements||transit.value||[]) : [];
+    const count = settled => settled.status==='fulfilled' ? settled.value.count : null;
+    const treeCount=count(trees),greenCount=count(green),heatCount=count(heat),justiceCount=count(justice);
     const cityTemp = pulse?.signals?.temperature_2m?.value;
     const cityPm = pulse?.signals?.pm2_5?.value;
     const tempDelta = finite(w.temperature_2m) && finite(cityTemp) ? Number(w.temperature_2m)-Number(cityTemp) : null;
     const pmDelta = finite(a.pm2_5) && finite(cityPm) ? Number(a.pm2_5)-Number(cityPm) : null;
-    $p('pulseHereTitle').textContent = `52° ${lat.toFixed(3)} · 13° ${lon.toFixed(3)}`;
-    $p('pulseHereCopy').textContent = 'Immediate local context only. Open PRESSURE for official structural heat and environmental-justice evidence.';
+    $p('pulseHereTitle').textContent = `${lat.toFixed(3)}° N · ${lon.toFixed(3)}° E`;
+    const structuralReadable=[treeCount,greenCount,heatCount,justiceCount].some(v=>v!==null);
+    $p('pulseHereCopy').textContent = structuralReadable
+      ? 'Live context plus official Berlin features in a small box around this point. Feature presence is context, not a severity score.'
+      : 'Live context is readable. Official structural WFS layers did not answer in this browser, so no structural claim is made.';
     result.innerHTML = `
       <div><span>modeled temperature</span><b>${fmt(w.temperature_2m,1)}°C</b><small>${finite(tempDelta)?`${signed(tempDelta,1)}° vs city pulse`:'city comparison unavailable'}</small></div>
       <div><span>modeled PM2.5</span><b>${fmt(a.pm2_5,1)}</b><small>${finite(pmDelta)?`${signed(pmDelta,1)} µg/m³ vs city pulse`:'city comparison unavailable'}</small></div>
-      <div><span>live transit nearby</span><b>${Array.isArray(t)?t.length:'—'}</b><small>VBB vehicles in roughly a 2 km box</small></div>`;
+      <div><span>live transit nearby</span><b>${Array.isArray(t)?t.length:'—'}</b><small>VBB vehicles in roughly a 2 km box</small></div>
+      <div><span>official mapped trees nearby</span><b>${treeCount??'—'}</b><small>features returned in the local Berlin WFS box</small></div>
+      <div><span>official green-space features</span><b>${greenCount??'—'}</b><small>nearby feature count, not area or quality</small></div>
+      <div><span>official pressure context</span><b>${heatCount===null&&justiceCount===null?'—':`${heatCount??0} · ${justiceCount??0}`}</b><small>heat-analysis · environmental-justice features nearby; presence ≠ burden level</small></div>`;
   }
 
   function addHereMarker(lon,lat) {
