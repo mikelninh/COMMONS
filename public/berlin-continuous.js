@@ -156,6 +156,14 @@
 
   M.ready.then(()=>{
     ensureCompareLayer();
+    if(M.map){
+      const center=M.map.getCenter();
+      State.camera={center:[center.lng,center.lat],zoom:M.map.getZoom(),bearing:M.map.getBearing(),pitch:M.map.getPitch()};
+      M.map.on('moveend',()=>{
+        const c=M.map.getCenter();
+        State.camera={center:[c.lng,c.lat],zoom:M.map.getZoom(),bearing:M.map.getBearing(),pitch:M.map.getPitch()};
+      });
+    }
     M.map?.on('click',event=>{
       if(!State.comparePicking)return;
       chooseCompare({lon:event.lngLat.lng,lat:event.lngLat.lat});
