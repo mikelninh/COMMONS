@@ -118,7 +118,7 @@ try {
             assert.ok((await page.locator('#pulsePanel').getAttribute('class')).includes('map-picking'));
             await page.locator('#pulseMapPrompt').waitFor({state:'visible',timeout:5000});
             await page.mouse.click(Math.round(test.width*.55),Math.round(test.height*.68));
-            await page.locator('#pulseHereResult').waitFor({state:'visible',timeout:10000});
+            await page.waitForFunction(() => (document.getElementById('pulseHereResult')?.textContent||'').includes('official mapped trees nearby'), null, {timeout:10000});
             assert.ok((await page.locator('#pulseHereResult').textContent()).includes('official mapped trees nearby'));
           }
         } else {
