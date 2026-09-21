@@ -232,6 +232,7 @@
       E.allCandidates=result;
       E.rerank();
       const ready=Object.values(M.sourceHealth).filter(v=>v==='ready').length;
+      window.BerlinXray?.activate(point);
       $('placeSubtitle').textContent=`Berlin, Germany · ${ready}/12 sources answered · ${PERSONAS[M.persona]?.label||M.persona}`;
     }catch(error){
       $('meaningCards').innerHTML='<div class="meaning-loading"><span>This query was replaced or could not complete.</span></div>';
