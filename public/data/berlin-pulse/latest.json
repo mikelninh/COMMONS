@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "generated_at": "2026-09-21T00:42:58Z",
+  "generated_at": "2026-09-21T00:45:43Z",
   "status": "recorded",
-  "sample_count": 1,
-  "history_basis": "Direct Pulse snapshots accumulate twice daily; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
+  "sample_count": 2,
+  "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
     "level": "watch",
     "title": "Modeled fine-particle air is unusually low.",
@@ -12,12 +12,12 @@
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 13.1,
+      "value": 13.0,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
         "label": "usual",
-        "score": -1.246,
+        "score": -1.276,
         "n": 48,
         "baseline": 17.35,
         "baseline_scope": "previous 48 model-hours"
@@ -71,7 +71,7 @@
       "anomaly": {
         "label": "learning",
         "score": null,
-        "n": 0,
+        "n": 1,
         "baseline": null,
         "baseline_scope": "recorded Pulse snapshots"
       }
@@ -91,8 +91,8 @@
     "water": "modeled fallback"
   },
   "transit_modes": {
-    "bus": 164,
-    "tram": 22,
+    "bus": 165,
+    "tram": 21,
     "subway": 0,
     "train": 1,
     "other": 0
