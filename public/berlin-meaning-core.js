@@ -5,7 +5,7 @@
   const qsa=s=>[...document.querySelectorAll(s)];
   const M=window.Meaning={
     $,qsa,map:null,persona:'local',lens:'all',point:null,picking:false,current:[],sourceHealth:{},
-    ratings:loadJSON('meaning-card-ratings',{}),testRunning:false
+    ratings:loadJSON('meaning-card-ratings',{}),testRunning:false,expanded:false
   };
 
   function loadJSON(key,fallback){try{return JSON.parse(localStorage.getItem(key)||'')||fallback}catch{return fallback}}
@@ -38,6 +38,7 @@
       M.map.addSource('meaning-point',{type:'geojson',data:{type:'FeatureCollection',features:[]}});
       M.map.addLayer({id:'meaning-point-halo',type:'circle',source:'meaning-point',paint:{'circle-radius':17,'circle-color':'#b9ff70','circle-opacity':.13}});
       M.map.addLayer({id:'meaning-point-core',type:'circle',source:'meaning-point',paint:{'circle-radius':6,'circle-color':'#ffffff','circle-stroke-width':3,'circle-stroke-color':'rgba(185,255,112,.48)'}});
+      M.map.addControl(new lib.NavigationControl({showCompass:true,showZoom:true,visualizePitch:true}),'top-right');
       M.map.on('click',e=>{if(!M.picking)return;M.finishPick();window.MeaningEngine?.inspect({lon:e.lngLat.lng,lat:e.lngLat.lat})});
       $('meaningStatus').textContent='MAP · LIVE';
     }catch(error){
@@ -101,12 +102,19 @@
 
   M.initChrome=()=>{
     qsa('#meaningMode [data-persona]').forEach(b=>b.addEventListener('click',()=>{
-      M.persona=b.dataset.persona;qsa('#meaningMode [data-persona]').forEach(x=>x.classList.toggle('active',x===b));
+      M.persona=b.dataset.persona;M.expanded=false;qsa('#meaningMode [data-persona]').forEach(x=>x.classList.toggle('active',x===b));
       if(M.point)window.MeaningEngine?.rerank();
     }));
     qsa('#lensTabs [data-lens]').forEach(b=>b.addEventListener('click',()=>{
-      M.lens=b.dataset.lens;qsa('#lensTabs [data-lens]').forEach(x=>x.classList.toggle('active',x===b));window.MeaningEngine?.render();
+      M.lens=b.dataset.lens;M.expanded=false;qsa('#lensTabs [data-lens]').forEach(x=>x.classList.toggle('active',x===b));window.MeaningEngine?.render();
     }));
+
+    qsa('[data-jump-lens]').forEach(tile=>tile.addEventListener('click',()=>{
+      const lens=tile.dataset.jumpLens;M.lens=lens;M.expanded=false;
+      qsa('#lensTabs [data-lens]').forEach(x=>x.classList.toggle('active',x.dataset.lens===lens));
+      window.MeaningEngine?.render();
+    }));
+    $('meaningMore').addEventListener('click',()=>{M.expanded=!M.expanded;window.MeaningEngine?.render()});
 
     $('startMeaning').addEventListener('click',()=>M.startPick('Pick anywhere. Meaning changes with place.'));
     $('toolPick').addEventListener('click',()=>M.startPick('Ask any point in Berlin.'));

@@ -221,6 +221,7 @@
 
   E.inspect=async point=>{
     const inspectToken=++E.queryToken;
+    M.expanded=false;
     M.setPoint(point);$('meaningHero').classList.add('hidden');$('meaningPanel').classList.remove('hidden');
     $('placeTitle').textContent=`${point.lat.toFixed(3)}° N · ${point.lon.toFixed(3)}° E`;
     $('placeSubtitle').textContent='Gathering context from 12 city sources…';
@@ -231,7 +232,7 @@
       E.allCandidates=result;
       E.rerank();
       const ready=Object.values(M.sourceHealth).filter(v=>v==='ready').length;
-      $('placeSubtitle').textContent=`${ready}/12 sources answered · ${PERSONAS[M.persona]?.label||M.persona} lens`;
+      $('placeSubtitle').textContent=`Berlin, Germany · ${ready}/12 sources answered · ${PERSONAS[M.persona]?.label||M.persona}`;
     }catch(error){
       $('meaningCards').innerHTML='<div class="meaning-loading"><span>This query was replaced or could not complete.</span></div>';
     }
@@ -242,22 +243,53 @@
   };
 
   E.render=()=>{
-    const list=(M.lens==='all'?M.current:(E.scored||[]).filter(c=>c.lens===M.lens).slice(0,5));
+    const fullList=(M.lens==='all'?M.current:(E.scored||[]).filter(c=>c.lens===M.lens).slice(0,5));
+    const list=M.expanded?fullList:fullList.slice(0,4);
     $('meaningCards').innerHTML=list.length?list.map(c=>E.card(c)).join(''):'<div class="meaning-loading"><span>No readable evidence in this lens at this point.</span></div>';
+    const more=$('meaningMoreWrap'),button=$('meaningMore');
+    if(fullList.length>4){more.classList.remove('hidden');button.textContent=M.expanded?'Show less':`Show ${fullList.length-4} more nearby`;}else more.classList.add('hidden');
+
     $('meaningCards').querySelectorAll('[data-rate]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();M.rate(b.closest('.meaning-card').dataset.cardId,b.dataset.rate)}));
-    $('meaningCards').querySelectorAll('.meaning-card').forEach(card=>card.addEventListener('click',()=>{const c=list.find(x=>x.id===card.dataset.cardId);if(c?.focus&&M.map)M.map.easeTo({center:[c.focus.lon,c.focus.lat],zoom:12.6,duration:650})}));
+    $('meaningCards').querySelectorAll('[data-why]').forEach(b=>b.addEventListener('click',e=>{
+      e.stopPropagation();const card=b.closest('.meaning-card');card.classList.toggle('open');b.textContent=card.classList.contains('open')?'hide details':'why this matters →';
+    }));
+    $('meaningCards').querySelectorAll('.meaning-card').forEach(card=>card.addEventListener('click',e=>{
+      if(e.target.closest('button'))return;
+      const candidate=list.find(x=>x.id===card.dataset.cardId);
+      if(candidate?.focus&&M.map)M.map.easeTo({center:[candidate.focus.lon,candidate.focus.lat],zoom:12.6,duration:650});
+    }));
+  };
+
+  E.whyText=c=>{
+    const source=SOURCES[c.sourceKey]||{},reasons=[];
+    if(M.finite(c.distanceM)&&c.distanceM<250)reasons.push('very close to the selected point');
+    else if(M.finite(c.distanceM)&&c.distanceM<800)reasons.push('nearby');
+    if(c.specificity>=.85)reasons.push('specific to this place');
+    if((c.surpriseBoost??source.surprise)>=.75)reasons.push('potentially easy to miss');
+    if(source.freshness>=.9)reasons.push('from a relatively fresh source');
+    const lensWeight=(PERSONAS[M.persona]?.lensWeights||{})[c.lens]||1;
+    if(lensWeight>1.1)reasons.push(`especially relevant to the ${PERSONAS[M.persona]?.label||M.persona} perspective`);
+    return reasons.length?`Deep City surfaced this because it is ${reasons.slice(0,3).join(', ')}.`:'Deep City surfaced this because it scored well across proximity, confidence, usefulness and place-specificity.';
   };
 
   E.card=c=>{
     const rating=M.ratings[c.id],distance=M.finite(c.distanceM)?(c.distanceM<1000?`~${Math.max(10,Math.round(c.distanceM/10)*10)} m`:`~${(c.distanceM/1000).toFixed(1)} km`):'at this point';
+    const visual=`visual-${M.esc(c.lens)} visual-${M.esc(c.sourceKey)}`;
+    const sourceLabel=(SOURCES[c.sourceKey]?.label||c.sourceKey).toUpperCase();
     return `<article class="meaning-card" data-card-id="${M.esc(c.id)}">
-      <div class="meaning-card-top"><span>${M.esc(c.lens)} · ${M.esc(c.kind)}</span><b>${M.esc(distance)}</b></div>
-      <h3>${M.esc(c.title)}</h3><p>${M.esc(c.body)}</p>
-      <div class="meaning-card-foot"><span>${M.esc(c.source)}</span><em>why this? ${Math.round(c.score*100)}</em></div>
-      <div class="card-rating">
-        <button type="button" data-rate="useful" class="${rating==='useful'?'active':''}">Useful</button>
-        <button type="button" data-rate="surprising" class="${rating==='surprising'?'active':''}">Surprising</button>
-        <button type="button" data-rate="skip" class="${rating==='skip'?'active':''}">Skip</button>
+      <div class="meaning-card-visual ${visual}"><span>${M.esc(sourceLabel)}</span></div>
+      <div class="meaning-card-body">
+        <div class="meaning-card-top"><span>${M.esc(c.lens)} · ${M.esc(c.kind)}</span><b>${M.esc(distance)}</b></div>
+        <h3>${M.esc(c.title)}</h3><p>${M.esc(c.body)}</p>
+        <div class="meaning-card-foot"><span>${M.esc(c.source)}</span><button type="button" class="why-button" data-why>why this matters →</button></div>
+      </div>
+      <div class="meaning-card-why">
+        <strong>Why Deep City showed this</strong><p>${M.esc(E.whyText(c))}</p>
+        <div class="card-rating">
+          <button type="button" data-rate="useful" class="${rating==='useful'?'active':''}">Useful</button>
+          <button type="button" data-rate="surprising" class="${rating==='surprising'?'active':''}">Surprising</button>
+          <button type="button" data-rate="skip" class="${rating==='skip'?'active':''}">Skip</button>
+        </div>
       </div>
     </article>`;
   };
