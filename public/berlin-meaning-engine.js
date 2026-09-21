@@ -185,7 +185,7 @@
   };
 
   E.query=async(point,{radius=.012,keys=null}={})=>{
-    const token=++E.queryToken;await E.loadPulse();
+    await E.loadPulse();
     const selected=keys||Object.keys(SOURCES),tasks=selected.map(async key=>{
       const s=SOURCES[key];
       try{
@@ -198,7 +198,6 @@
       }catch(error){M.sourceHealth[key]='unavailable';return null}
     });
     const values=(await Promise.all(tasks)).filter(Boolean);
-    if(token!==E.queryToken)throw Error('superseded');
     return values;
   };
 
@@ -221,12 +220,15 @@
   };
 
   E.inspect=async point=>{
+    const inspectToken=++E.queryToken;
     M.setPoint(point);$('meaningHero').classList.add('hidden');$('meaningPanel').classList.remove('hidden');
     $('placeTitle').textContent=`${point.lat.toFixed(3)}° N · ${point.lon.toFixed(3)}° E`;
     $('placeSubtitle').textContent='Gathering context from 12 city sources…';
     $('meaningCards').innerHTML='<div class="meaning-loading"><i></i><span>Asking the city…</span></div>';
     try{
-      E.allCandidates=await E.query(point);
+      const result=await E.query(point);
+      if(inspectToken!==E.queryToken)return;
+      E.allCandidates=result;
       E.rerank();
       const ready=Object.values(M.sourceHealth).filter(v=>v==='ready').length;
       $('placeSubtitle').textContent=`${ready}/12 sources answered · ${PERSONAS[M.persona]?.label||M.persona} lens`;
