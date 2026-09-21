@@ -23,8 +23,8 @@ def test_meaning_engine_ranks_meaning_instead_of_exposing_layer_toggles() -> Non
     page = Path("public/berlin-meaning.html").read_text(encoding="utf-8")
     engine = Path("public/berlin-meaning-engine.js").read_text(encoding="utf-8")
 
-    assert "Tap Berlin." in page
-    assert "See what matters here." in page
+    assert "Touch the city." in page
+    assert "One map. One place." in page
     assert "VISITING" in page
     assert "I LIVE HERE" in page
     assert "SURPRISE ME" in page
