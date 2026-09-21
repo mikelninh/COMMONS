@@ -30,7 +30,10 @@ def iso(dt: datetime) -> str:
 
 
 def parse_iso(value: str) -> datetime:
-    return datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(UTC)
+    parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=UTC)
+    return parsed.astimezone(UTC)
 
 
 def load_json(path: Path, default: Any) -> Any:
