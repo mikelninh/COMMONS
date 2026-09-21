@@ -1,0 +1,70 @@
+name: Repair obsolete MapLibre test contract
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/repair-map-test-contract.yml]
+permissions:
+  contents: write
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Replace only the verified obsolete test
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('tests/test_world_model.py')
+          source = path.read_text(encoding='utf-8')
+          start = source.index('def test_atlas_uses_resilient_umd_maplibre_loader() -> None:')
+          end = source.index('\n\ndef test_browser_javascript_syntax_for_berlin_and_atlas', start)
+          old = source[start:end]
+          assert 'cdn.jsdelivr.net/npm/maplibre-gl@6.10.0/dist/maplibre-gl.js' in old
+          assert 'unpkg.com/maplibre-gl@6.10.0/dist/maplibre-gl.js' in old
+          assert old.count('\ndef ') == 0
+          replacement = '''def test_maps_use_ordered_same_origin_esm_maplibre_loader() -> None:
+              loader = Path("public/map-loader.js").read_text(encoding="utf-8")
+              vendor = Path("scripts/vendor-maplibre.mjs").read_text(encoding="utf-8")
+              workflow = Path(".github/workflows/pages.yml").read_text(encoding="utf-8")
+              for app in ("berlin", "atlas"):
+                  page = Path(f"public/{app}.html").read_text(encoding="utf-8")
+                  assert f'data-map-app="{app}"' in page
+                  assert './map-loader.js?v=map6-local-1' in page
+                  assert './vendor/maplibre-6.10.0/maplibre-gl.css' in page
+                  assert 'cdn.jsdelivr.net/npm/maplibre-gl' not in page
+                  assert 'unpkg.com/maplibre-gl' not in page
+                  assert f'<script defer src="./{app}.js"' not in page
+              assert "maplibre-gl.mjs" in loader
+              assert "maplibre-gl-worker.mjs" in loader
+              assert "lib.setWorkerUrl" in loader
+              assert "await deadline(import(" in loader
+              assert "window.maplibregl = lib" in loader
+              assert "maplibre-gl-shared.mjs" in vendor
+              assert "browser-map-smoke.mjs" in workflow
+              assert "Verify the public deployment in Chromium" in workflow
+              assert 'id="atlasFallback"' in Path("public/atlas.html").read_text(encoding="utf-8")
+          '''
+          # Dedent the function body embedded in this one-shot migration.
+          import textwrap
+          lines = replacement.splitlines()
+          replacement = lines[0] + '\n' + textwrap.dedent('\n'.join(lines[1:]))
+          replacement = lines[0] + '\n' + '\n'.join('    ' + line if line else '' for line in textwrap.dedent('\n'.join(lines[1:])).splitlines())
+          path.write_text(source[:start] + replacement.rstrip() + source[end:], encoding='utf-8')
+          PY
+      - name: Validate complete suite before committing the migration
+        run: |
+          pip install -e '.[dev]'
+          pytest -q
+      - name: Commit only the migrated regression test
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add tests/test_world_model.py
+          git commit -m 'Replace invalid MapLibre v6 UMD test with local ESM loading contract'
+          git push origin HEAD:main
