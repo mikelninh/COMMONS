@@ -100,6 +100,7 @@ try{
 
       await page.locator('[data-xray="nature"]').click();
       await page.waitForFunction(()=>document.body.classList.contains('xray-nature'));
+      await page.waitForFunction(()=>document.getElementById('xrayReadoutMeta')?.textContent?.includes('official Berlin WFS'),null,{timeout:15000});
       assert.ok((await page.locator('#xrayReadoutMeta').textContent()).includes('official Berlin WFS'));
 
       await page.locator('[data-xray="live"]').click();
