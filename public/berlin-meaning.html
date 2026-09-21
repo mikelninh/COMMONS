@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050807">
+<meta name="description" content="Berlin Deep City Meaning Engine v0 — one place, ranked meaning from live and official city evidence.">
+<title>COMMONS / BERLIN MEANING ENGINE</title>
+<link rel="stylesheet" href="./vendor/maplibre-6.10.0/maplibre-gl.css">
+<link rel="stylesheet" href="./berlin-meaning.css">
+<script defer src="./berlin-meaning-sources.js?v=m1"></script>
+<script defer src="./berlin-meaning-core.js?v=m1"></script>
+<script defer src="./berlin-meaning-engine.js?v=m1"></script>
+</head>
+<body>
+<div id="meaningMap" aria-hidden="true"></div>
+<div class="meaning-shade"></div>
+
+<header class="meaning-topbar">
+  <a class="meaning-brand" href="./berlin.html">COMMONS / BERLIN</a>
+  <div class="meaning-mode" id="meaningMode" aria-label="Perspective">
+    <button type="button" data-persona="visitor">VISITING</button>
+    <button type="button" data-persona="local" class="active">I LIVE HERE</button>
+    <button type="button" data-persona="surprise">SURPRISE ME</button>
+  </div>
+  <a class="meaning-back" href="./berlin-v2-lab.html">Concept Lab ↗</a>
+</header>
+
+<main class="meaning-shell">
+  <section class="meaning-hero" id="meaningHero">
+    <span class="meaning-eyebrow"><i></i> MEANING ENGINE · V0</span>
+    <h1>Tap Berlin.<br><em>See what matters here.</em></h1>
+    <p>Deep City asks many sources one question: <strong>what makes this place meaningful right now?</strong></p>
+    <div class="hero-actions">
+      <button type="button" class="primary" id="startMeaning">Choose a place</button>
+      <button type="button" id="startCenter">Try central Berlin</button>
+    </div>
+    <small>Observed, modeled, structural and historical evidence stay visibly separate.</small>
+  </section>
+
+  <aside class="meaning-panel hidden" id="meaningPanel">
+    <div class="panel-head">
+      <div>
+        <span class="meaning-eyebrow">THIS PLACE</span>
+        <h2 id="placeTitle">Berlin</h2>
+        <p id="placeSubtitle">Reading the city…</p>
+      </div>
+      <button type="button" id="closeMeaning" aria-label="Close panel">×</button>
+    </div>
+
+    <div class="place-fingerprint" id="placeFingerprint" aria-label="Place fingerprint">
+      <div data-axis="now"><span>NOW</span><b>—</b></div>
+      <div data-axis="life"><span>LIFE</span><b>—</b></div>
+      <div data-axis="history"><span>HISTORY</span><b>—</b></div>
+      <div data-axis="infrastructure"><span>INFRA</span><b>—</b></div>
+      <div data-axis="nature"><span>NATURE</span><b>—</b></div>
+    </div>
+
+    <nav class="lens-tabs" id="lensTabs" aria-label="Meaning lenses">
+      <button type="button" data-lens="all" class="active">BEST OF</button>
+      <button type="button" data-lens="now">NOW</button>
+      <button type="button" data-lens="life">LIFE</button>
+      <button type="button" data-lens="history">HISTORY</button>
+      <button type="button" data-lens="infrastructure">INFRA</button>
+      <button type="button" data-lens="nature">NATURE</button>
+    </nav>
+
+    <div class="meaning-cards" id="meaningCards" aria-live="polite">
+      <div class="meaning-loading"><i></i><span>Asking the city…</span></div>
+    </div>
+
+    <div class="meaning-actions">
+      <button type="button" class="primary" id="surpriseNearby">Surprise me nearby</button>
+      <button type="button" id="pickAnother">Pick another place</button>
+      <button type="button" id="shareMeaning">Share this place</button>
+    </div>
+
+    <details class="meaning-evidence">
+      <summary>How did Deep City choose these? <b>+</b></summary>
+      <div id="rankingExplain"></div>
+    </details>
+  </aside>
+
+  <aside class="source-drawer hidden" id="sourceDrawer">
+    <div class="source-head">
+      <div><span>12-SOURCE CONTEXT PACK</span><strong>What the engine can ask</strong></div>
+      <button type="button" id="closeSources">×</button>
+    </div>
+    <div id="sourceRegistryView"></div>
+  </aside>
+
+  <aside class="test-drawer hidden" id="testDrawer">
+    <div class="source-head">
+      <div><span>ENGINE TEST</span><strong>Does it produce useful meaning?</strong></div>
+      <button type="button" id="closeTest">×</button>
+    </div>
+    <p class="test-intro">Sample Berlin points, measure source coverage and lens diversity, then rate cards while you explore.</p>
+    <button type="button" class="primary test-run" id="runMeaningTest">Run 12-place test</button>
+    <div class="test-results" id="testResults"></div>
+    <div class="human-score" id="humanScore"></div>
+  </aside>
+</main>
+
+<nav class="tool-dock" aria-label="Meaning tools">
+  <button type="button" id="toolPick"><span>◎</span>ASK PLACE</button>
+  <button type="button" id="toolSurprise"><span>✦</span>SURPRISE</button>
+  <button type="button" id="toolSources"><span>≋</span>SOURCES</button>
+  <button type="button" id="toolTest"><span>△</span>TEST ENGINE</button>
+</nav>
+
+<div class="meaning-pick hidden" id="meaningPick">
+  <div><strong>Tap anywhere on Berlin</strong><span id="pickCopy">The engine will inspect this place.</span></div>
+  <button type="button" id="cancelPick">Cancel</button>
+</div>
+
+<div class="meaning-toast hidden" id="meaningToast" role="status"></div>
+<div class="meaning-status" id="meaningStatus">MAP · CONNECTING</div>
+</body>
+</html>
