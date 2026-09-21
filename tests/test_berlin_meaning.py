@@ -96,3 +96,40 @@ def test_meaning_engine_design_a_keeps_primary_view_readable() -> None:
     assert ".meaning-card-visual" in css
     assert ".why-button" in css
     assert "why this?" not in engine
+
+
+def test_city_xray_is_the_primary_post_selection_instrument() -> None:
+    page = Path("public/berlin-meaning.html").read_text(encoding="utf-8")
+    engine = Path("public/berlin-meaning-engine.js").read_text(encoding="utf-8")
+    xray = Path("public/berlin-xray.js").read_text(encoding="utf-8")
+    css = Path("public/berlin-meaning.css").read_text(encoding="utf-8")
+
+    assert 'id="xrayStage"' in page
+    assert 'id="xrayTimeSlider"' in page
+    for mode in ("live", "people", "nature", "infra", "history"):
+        assert f'data-xray="{mode}"' in page
+
+    assert "window.BerlinXray?.activate(point)" in engine
+    assert "renderLive" in xray
+    assert "renderPeople" in xray
+    assert "renderNature" in xray
+    assert "renderInfra" in xray
+    assert "renderHistory" in xray
+    assert "−12H" in xray
+    assert "+12H" in xray
+    assert "NO MODEL" in xray
+    assert "No synthetic future history" in xray
+    assert ".xray-rail" in css
+    assert ".xray-time" in css
+
+
+def test_city_xray_changes_the_map_not_only_the_copy() -> None:
+    xray = Path("public/berlin-xray.js").read_text(encoding="utf-8")
+
+    for source_id in ("xray-heat", "xray-area", "xray-line", "xray-point", "xray-transit"):
+        assert source_id in xray
+    for layer_id in ("xray-heat-layer", "xray-area-layer", "xray-line-layer", "xray-point-layer", "xray-transit-layer"):
+        assert layer_id in xray
+    assert "setPaintProperty" in xray
+    assert "setLayoutProperty" in xray
+    assert "setData" in xray
