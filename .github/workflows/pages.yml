@@ -8,6 +8,7 @@ on:
       - "scripts/vendor-maplibre.mjs"
       - "scripts/browser-map-smoke.mjs"
       - "scripts/browser-v2-lab-smoke.mjs"
+      - "scripts/browser-meaning-smoke.mjs"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -44,6 +45,9 @@ jobs:
           node --check public/berlin-v2-lab-core.js
           node --check public/berlin-v2-lab-explore.js
           node --check public/berlin-v2-lab-stories.js
+          node --check public/berlin-meaning-sources.js
+          node --check public/berlin-meaning-core.js
+          node --check public/berlin-meaning-engine.js
           node --check public/atlas.js
       - name: Install browser test runner
         run: |
@@ -53,6 +57,8 @@ jobs:
         run: node scripts/browser-map-smoke.mjs
       - name: Test Berlin v2 concept lab
         run: node scripts/browser-v2-lab-smoke.mjs
+      - name: Test Berlin Meaning Engine
+        run: node scripts/browser-meaning-smoke.mjs
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
