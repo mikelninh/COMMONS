@@ -304,6 +304,9 @@
     if(!map.getLayer('xray-line-layer'))map.addLayer({id:'xray-line-layer',type:'line',source:'xray-line',paint:{'line-color':'#ffd06a','line-width':['interpolate',['linear'],['zoom'],9,1.4,13,3],'line-opacity':.9}});
     if(!map.getLayer('xray-point-layer'))map.addLayer({id:'xray-point-layer',type:'circle',source:'xray-point',paint:{'circle-radius':['interpolate',['linear'],['zoom'],9,3,13,5.5],'circle-color':'#9df56d','circle-opacity':.88,'circle-stroke-width':1,'circle-stroke-color':'rgba(0,0,0,.55)'}});
     if(!map.getLayer('xray-transit-layer'))map.addLayer({id:'xray-transit-layer',type:'circle',source:'xray-transit',paint:{'circle-radius':['interpolate',['linear'],['zoom'],8,2.2,12,4.3],'circle-color':'#73d8ff','circle-opacity':.82,'circle-stroke-width':.7,'circle-stroke-color':'rgba(0,0,0,.6)'}});
+    for(const [layer,prop] of [['xray-heat-layer','heatmap-opacity'],['xray-area-layer','fill-opacity'],['xray-line-layer','line-opacity'],['xray-point-layer','circle-opacity'],['xray-transit-layer','circle-opacity']]){
+      try{map.setPaintProperty(layer,prop+'-transition',{duration:420,delay:0})}catch{}
+    }
     clear();X.ready=true;
   }
 
