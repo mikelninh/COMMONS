@@ -28,11 +28,11 @@ def test_berlin_pulse_tape_records_and_scores_forecasts() -> None:
     assert "resolve_predictions" in collector
     assert "issue_prediction" in collector
     assert "candidate_abs_error" in collector
-    assert "baseline_abs_error" in collector
+    assert "baseline_abs_error" in collector\n    assert "collection missed the 90-minute scoring window" in collector
     assert "v6.vbb.transport.rest/radar" in collector
     assert "wasserportal.berlin.de/station.php" in collector
     assert "air-quality-api.open-meteo.com/v1/air-quality" in collector
-    assert "cron: '17 5,17 * * *'" in workflow
+    assert "cron: '17 */3 * * *'" in workflow
     assert "contents: write" in workflow
     assert "python scripts/collect_berlin_pulse.py" in workflow
 

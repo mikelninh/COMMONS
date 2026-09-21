@@ -7,7 +7,7 @@ on:
       - "scripts/collect_berlin_pulse.py"
       - ".github/workflows/berlin-pulse.yml"
   schedule:
-    - cron: '17 5,17 * * *'
+    - cron: '17 */3 * * *'
   workflow_dispatch:
 
 permissions:
