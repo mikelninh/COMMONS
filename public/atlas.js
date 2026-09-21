@@ -1,4 +1,4 @@
-import * as maplibregl from 'https://unpkg.com/maplibre-gl@6.10.0/dist/maplibre-gl.mjs';
+const maplibregl=window.maplibregl;
 
 const $=id=>document.getElementById(id);
 
@@ -56,6 +56,12 @@ function emptyFC(){return {type:"FeatureCollection",features:[]}}
 function fc(features){return {type:"FeatureCollection",features}}
 
 function initMap(){
+  if(!maplibregl){
+    const fallback=document.getElementById("atlasFallback");
+    if(fallback)fallback.classList.remove("hidden");
+    return;
+  }
+  try{
   map=new maplibregl.Map({
     container:"map",
     style:"https://tiles.openfreemap.org/styles/liberty",
@@ -67,6 +73,16 @@ function initMap(){
     renderCityPins();
     showWorld(false);
   });
+  map.on("error",event=>{
+    if(!map.loaded() && String(event?.error||"").includes("style")){
+      const fallback=document.getElementById("atlasFallback");
+      if(fallback)fallback.classList.remove("hidden");
+    }
+  });
+  }catch(error){
+    const fallback=document.getElementById("atlasFallback");
+    if(fallback)fallback.classList.remove("hidden");
+  }
 }
 function addSources(){
   map.addSource("city-pins",{type:"geojson",data:emptyFC()});
