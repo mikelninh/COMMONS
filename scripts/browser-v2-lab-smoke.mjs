@@ -36,6 +36,7 @@ try{
   try{
     await page.goto(base+'berlin-v2-lab.html',{waitUntil:'domcontentloaded',timeout:45000});
     await page.waitForFunction(()=>window.V2&&window.V2App&&document.querySelectorAll('.layout-option').length===3,null,{timeout:15000});
+    await page.waitForFunction(()=>window.V2?.map?.loaded?.()===true,null,{timeout:30000});
     assert.equal(await page.locator('.layout-option').count(),3);
     await page.locator('[data-try-layout="editorial"]').click();
     await page.locator('[data-panel="discover"]').waitFor({state:'visible'});
@@ -45,8 +46,11 @@ try{
     await page.locator('[data-view="why"]').click();
     await page.locator('#whyPick').click();
     await page.waitForFunction(()=>document.getElementById('mapPickBanner')&&!document.getElementById('mapPickBanner').classList.contains('hidden'));
-    await page.mouse.click(Math.round(spec.width*.62),Math.round(spec.height*.56));
-    await page.waitForFunction(()=>document.getElementById('whyAnswer')?.textContent?.includes('EVIDENCE HEALTH'),null,{timeout:12000});
+    const canvas=page.locator('#labMap canvas');
+    const box=await canvas.boundingBox();
+    assert.ok(box,'Map canvas must exist before Why Here picking.');
+    await page.mouse.click(Math.round(box.x+box.width*.72),Math.round(box.y+box.height*.62));
+    await page.waitForFunction(()=>document.getElementById('whyAnswer')?.textContent?.includes('EVIDENCE HEALTH'),null,{timeout:15000});
     assert.ok((await page.locator('#whyAnswer').textContent()).includes('EVIDENCE HEALTH'));
 
     await page.locator('[data-view="time"]').click();
