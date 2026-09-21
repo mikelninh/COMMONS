@@ -7,6 +7,7 @@ on:
       - "public/**"
       - "scripts/vendor-maplibre.mjs"
       - "scripts/browser-map-smoke.mjs"
+      - "scripts/browser-v2-lab-smoke.mjs"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
