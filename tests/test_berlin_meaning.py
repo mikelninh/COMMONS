@@ -92,7 +92,7 @@ def test_meaning_engine_design_a_keeps_primary_view_readable() -> None:
     assert "data-jump-lens" in page
     assert "meaning-card-visual" in engine
     assert "why this matters" in engine
-    assert "Math.min(4,M.current.length)" in engine
+    assert "fullList.slice(0,4)" in engine
     assert ".meaning-card-visual" in css
     assert ".why-button" in css
     assert "why this?" not in engine
