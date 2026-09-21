@@ -103,7 +103,7 @@ button.primary{border-color:rgba(157,245,109,.34)!important;background:rgba(157,
 .meaning-card h3{font-size:15px;line-height:1.18;letter-spacing:-.018em;margin:7px 0 5px}
 .meaning-card p{font-size:8px;line-height:1.5;color:#8a9689;margin:0}
 .meaning-card-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:9px;padding-top:8px;border-top:1px solid rgba(255,255,255,.055)}
-.meaning-card-foot span{font-size:6px;color:#667166}.meaning-card-foot em{font-size:6px;color:var(--green);font-style:normal;font-weight:700}
+.meaning-card-foot span{font-size:6px;color:#667166}.why-button{appearance:none;border:0;background:transparent;color:var(--green);font-size:6px;font-weight:750;padding:2px 0;cursor:pointer;text-align:right}.why-button:hover{text-decoration:underline;text-underline-offset:2px}
 .meaning-card-why{display:none;grid-column:1/-1;margin-top:2px;padding:12px 12px 3px;border-top:1px solid rgba(255,255,255,.06)}
 .meaning-card.open .meaning-card-why{display:block}
 .meaning-card-why strong{display:block;font-size:8px;color:#cbd5c8;margin-bottom:5px}
