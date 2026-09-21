@@ -1649,18 +1649,27 @@ def test_berlin_deep_city_degrades_per_source_instead_of_crashing() -> None:
     assert "leaves missing evidence blank" in js
 
 
-def test_atlas_uses_resilient_umd_maplibre_loader() -> None:
-    page = Path("public/atlas.html").read_text(encoding="utf-8")
-    js = Path("public/atlas.js").read_text(encoding="utf-8")
-
-    assert "cdn.jsdelivr.net/npm/maplibre-gl@6.10.0/dist/maplibre-gl.js" in page
-    assert "unpkg.com/maplibre-gl@6.10.0/dist/maplibre-gl.js" in page
-    assert 'src="./atlas.js"' in page
-    assert 'type="module"' not in page
-    assert "maplibre-gl.mjs" not in js
-    assert "window.maplibregl" in js
-    assert "atlasFallback" in page
-
+def test_maps_use_ordered_same_origin_esm_maplibre_loader() -> None:
+    loader = Path("public/map-loader.js").read_text(encoding="utf-8")
+    vendor = Path("scripts/vendor-maplibre.mjs").read_text(encoding="utf-8")
+    workflow = Path(".github/workflows/pages.yml").read_text(encoding="utf-8")
+    for app in ("berlin", "atlas"):
+        page = Path(f"public/{app}.html").read_text(encoding="utf-8")
+        assert f'data-map-app="{app}"' in page
+        assert './map-loader.js?v=map6-local-1' in page
+        assert './vendor/maplibre-6.10.0/maplibre-gl.css' in page
+        assert 'cdn.jsdelivr.net/npm/maplibre-gl' not in page
+        assert 'unpkg.com/maplibre-gl' not in page
+        assert f'<script defer src="./{app}.js"' not in page
+    assert "maplibre-gl.mjs" in loader
+    assert "maplibre-gl-worker.mjs" in loader
+    assert "lib.setWorkerUrl" in loader
+    assert "await deadline(import(" in loader
+    assert "window.maplibregl = lib" in loader
+    assert "maplibre-gl-shared.mjs" in vendor
+    assert "browser-map-smoke.mjs" in workflow
+    assert "Verify the public deployment in Chromium" in workflow
+    assert 'id="atlasFallback"' in Path("public/atlas.html").read_text(encoding="utf-8")
 
 def test_browser_javascript_syntax_for_berlin_and_atlas() -> None:
     import shutil
