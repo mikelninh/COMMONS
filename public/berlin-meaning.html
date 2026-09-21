@@ -4,124 +4,58 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#050807">
-<meta name="description" content="Berlin Deep City Meaning Engine v0 — one place, ranked meaning from live and official city evidence.">
-<title>COMMONS / BERLIN MEANING ENGINE</title>
+<meta name="description" content="COMMONS Berlin Deep City — one continuous interface for exploring place, systems and time.">
+<title>COMMONS / BERLIN DEEP CITY</title>
 <link rel="stylesheet" href="./vendor/maplibre-6.10.0/maplibre-gl.css">
 <link rel="stylesheet" href="./berlin-meaning.css">
 <script defer src="./berlin-meaning-sources.js?v=m1"></script>
-<script defer src="./berlin-meaning-core.js?v=m2"></script>
-<script defer src="./berlin-meaning-engine.js?v=m2"></script>
-<script defer src="./berlin-xray.js?v=x1"></script>
+<script defer src="./berlin-meaning-core.js?v=m3"></script>
+<script defer src="./berlin-meaning-engine.js?v=m3"></script>
+<script defer src="./berlin-xray.js?v=x2"></script>
+<script defer src="./berlin-continuous.js?v=c1"></script>
 </head>
-<body>
+<body class="continuous-berlin">
 <div id="meaningMap" aria-hidden="true"></div>
 <div class="meaning-shade"></div>
 
 <header class="meaning-topbar">
   <a class="meaning-brand" href="./berlin.html">
     <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
-    <span class="brand-copy"><b>COMMONS / BERLIN</b><small>PEOPLE · PLACES · A DEEPER TOMORROW</small></span>
+    <span class="brand-copy"><b>COMMONS / BERLIN</b><small>DEEP CITY</small></span>
   </a>
-  <div class="meaning-mode" id="meaningMode" aria-label="Perspective">
+  <div class="continuous-status" id="continuousStatus"><i></i><span>BERLIN · LIVE MAP</span></div>
+  <button type="button" class="continuous-menu" id="continuousMenu" aria-label="More options">•••</button>
+</header>
+
+<!-- Compatibility controls stay in the DOM for the data engine, but are not part of the primary experience. -->
+<div class="compat-controls" aria-hidden="true">
+  <div class="meaning-mode" id="meaningMode">
     <button type="button" data-persona="visitor">VISITING</button>
     <button type="button" data-persona="local" class="active">I LIVE HERE</button>
     <button type="button" data-persona="surprise">SURPRISE ME</button>
   </div>
-  <a class="meaning-back" href="./berlin-v2-lab.html">Concept Lab ↗</a>
-</header>
-
-<section class="xray-stage hidden" id="xrayStage" aria-label="City X-Ray">
-  <div class="xray-story" id="xrayStory">
-    <span id="xrayKicker">CITY X-RAY</span>
-    <strong id="xrayTitle">Pull Berlin apart.</strong>
-    <p id="xrayCopy">Choose a layer of reality, then move through time.</p>
-    <button type="button" id="openMeaningDetails">Open evidence</button>
-  </div>
-
-  <div class="xray-time" id="xrayTime">
-    <span class="xray-axis-label">TIME</span>
-    <div class="xray-time-label top" id="xrayTimeTop">FUTURE</div>
-    <input id="xrayTimeSlider" type="range" min="0" max="2" value="1" step="1" orient="vertical" aria-label="Time">
-    <div class="xray-time-label bottom" id="xrayTimeBottom">PAST</div>
-    <strong id="xrayTimeNow">NOW</strong>
-  </div>
-
-  <nav class="xray-rail" id="xrayRail" aria-label="City layers">
-    <button type="button" data-xray="live" class="active"><i>✦</i><span>LIVE</span><small>movement · weather · air</small></button>
-    <button type="button" data-xray="people"><i>●</i><span>PEOPLE</span><small>density · burden · care</small></button>
-    <button type="button" data-xray="nature"><i>◆</i><span>NATURE</span><small>green · trees · heat</small></button>
-    <button type="button" data-xray="infra"><i>▣</i><span>INFRA</span><small>transit · hospitals · sport</small></button>
-    <button type="button" data-xray="history"><i>▥</i><span>HISTORY</span><small>buildings · wall · traces</small></button>
-  </nav>
-
-  <div class="xray-readout" id="xrayReadout">
-    <span id="xrayReadoutLabel">LIVE / NOW</span>
-    <b id="xrayReadoutValue">—</b>
-    <small id="xrayReadoutMeta">Choose a place to begin.</small>
-  </div>
-</section>
+  <button id="toolXray" type="button">X-RAY</button>
+  <button id="toolPick" type="button">ASK PLACE</button>
+  <button id="toolSurprise" type="button">SURPRISE</button>
+  <button id="toolSources" type="button">SOURCES</button>
+  <button id="toolTest" type="button">TEST ENGINE</button>
+</div>
 
 <main class="meaning-shell">
   <section class="meaning-hero" id="meaningHero">
-    <span class="meaning-eyebrow"><i></i> MEANING ENGINE · V0</span>
-    <h1>Tap Berlin.<br><em>See what matters here.</em></h1>
-    <p>Deep City asks many sources one question: <strong>what makes this place meaningful right now?</strong></p>
+    <span class="meaning-eyebrow"><i></i> BERLIN DEEP CITY</span>
+    <h1>Touch the city.</h1>
+    <p>Pick one place. Then move through <strong>what it is, what shaped it, and what changes over time.</strong></p>
     <div class="hero-actions">
       <button type="button" class="primary" id="startMeaning">Choose a place</button>
-      <button type="button" id="startCenter">Try central Berlin</button>
+      <button type="button" id="startCenter">Start in central Berlin</button>
     </div>
-    <small>Observed, modeled, structural and historical evidence stay visibly separate.</small>
+    <small>One map. One place. No invented layers.</small>
   </section>
-
-  <aside class="meaning-panel hidden" id="meaningPanel">
-    <div class="panel-head">
-      <div>
-        <span class="meaning-eyebrow">THIS PLACE</span>
-        <h2 id="placeTitle">Berlin</h2>
-        <p id="placeSubtitle">Reading the city…</p>
-      </div>
-      <button type="button" id="closeMeaning" aria-label="Close panel">×</button>
-    </div>
-
-    <div class="place-fingerprint" id="placeFingerprint" aria-label="Place fingerprint">
-      <button type="button" data-axis="nature" data-jump-lens="nature"><i>◆</i><span>NATURE</span><b>—</b></button>
-      <button type="button" data-axis="life" data-jump-lens="life"><i>●</i><span>LIFE</span><b>—</b></button>
-      <button type="button" data-axis="history" data-jump-lens="history"><i>▥</i><span>HISTORY</span><b>—</b></button>
-      <button type="button" data-axis="infrastructure" data-jump-lens="infrastructure"><i>▣</i><span>INFRA</span><b>—</b></button>
-      <button type="button" data-axis="now" data-jump-lens="now"><i>✦</i><span>NOW</span><b>—</b></button>
-    </div>
-
-    <nav class="lens-tabs" id="lensTabs" aria-label="Meaning lenses">
-      <button type="button" data-lens="all" class="active">BEST OF</button>
-      <button type="button" data-lens="now">NOW</button>
-      <button type="button" data-lens="life">LIFE</button>
-      <button type="button" data-lens="history">HISTORY</button>
-      <button type="button" data-lens="infrastructure">INFRA</button>
-      <button type="button" data-lens="nature">NATURE</button>
-    </nav>
-
-    <div class="meaning-cards" id="meaningCards" aria-live="polite">
-      <div class="meaning-loading"><i></i><span>Asking the city…</span></div>
-    </div>
-    <div class="meaning-more hidden" id="meaningMoreWrap">
-      <button type="button" id="meaningMore">Show more nearby</button>
-    </div>
-
-    <div class="meaning-actions">
-      <button type="button" class="primary" id="surpriseNearby">Surprise me nearby</button>
-      <button type="button" id="pickAnother">Pick another place</button>
-      <button type="button" id="shareMeaning">Share this place</button>
-    </div>
-
-    <details class="meaning-evidence">
-      <summary>How did Deep City choose these? <b>+</b></summary>
-      <div id="rankingExplain"></div>
-    </details>
-  </aside>
 
   <aside class="source-drawer hidden" id="sourceDrawer">
     <div class="source-head">
-      <div><span>12-SOURCE CONTEXT PACK</span><strong>What the engine can ask</strong></div>
+      <div><span>SOURCES</span><strong>What Deep City can read</strong></div>
       <button type="button" id="closeSources">×</button>
     </div>
     <div id="sourceRegistryView"></div>
@@ -139,17 +73,129 @@
   </aside>
 </main>
 
-<nav class="tool-dock" aria-label="Meaning tools">
-  <button type="button" id="toolXray"><span>◫</span>X-RAY</button>
-  <button type="button" id="toolPick"><span>◎</span>ASK PLACE</button>
-  <button type="button" id="toolSurprise"><span>✦</span>SURPRISE</button>
-  <button type="button" id="toolSources"><span>≋</span>SOURCES</button>
-  <button type="button" id="toolTest"><span>△</span>TEST ENGINE</button>
-</nav>
+<section class="xray-stage hidden" id="xrayStage" aria-label="Deep City instrument">
+  <div class="continuous-sheet" id="continuousSheet" data-sheet-state="peek">
+    <button type="button" class="sheet-handle" id="sheetHandle" aria-label="Expand or collapse place details"><span></span></button>
+
+    <div class="continuous-place">
+      <div>
+        <span class="continuous-kicker">THIS PLACE</span>
+        <strong id="continuousPlace">Berlin</strong>
+      </div>
+      <div class="continuous-actions">
+        <button type="button" id="continuousSurprise" title="Find something nearby">✦ <span>Surprise</span></button>
+        <button type="button" id="continuousCompare" title="Compare another point">↔ <span>Compare</span></button>
+        <button type="button" id="continuousShare" title="Share this place">↗ <span>Share</span></button>
+        <button type="button" id="continuousRepick" title="Choose another place">◎ <span>Move</span></button>
+      </div>
+    </div>
+
+    <div class="xray-story" id="xrayStory">
+      <span id="xrayKicker">LIVE · NOW</span>
+      <strong id="xrayTitle">Berlin is happening now.</strong>
+      <p id="xrayCopy">Movement, weather and air become one live surface.</p>
+    </div>
+
+    <div class="continuous-meaning-hint" id="continuousMeaningHint">
+      <span>WHAT TO NOTICE</span>
+      <strong id="continuousInsightTitle">Reading this place…</strong>
+      <button type="button" id="openMeaningDetails">Evidence</button>
+    </div>
+
+    <div class="xray-readout" id="xrayReadout">
+      <span id="xrayReadoutLabel">LIVE / NOW</span>
+      <b id="xrayReadoutValue">—</b>
+      <small id="xrayReadoutMeta">Reading this layer of Berlin…</small>
+    </div>
+
+    <nav class="xray-rail" id="xrayRail" aria-label="City layers">
+      <button type="button" data-xray="live" class="active"><i>✦</i><span>LIVE</span><small>movement · weather · air</small></button>
+      <button type="button" data-xray="people"><i>●</i><span>PEOPLE</span><small>density · burden · care</small></button>
+      <button type="button" data-xray="nature"><i>◆</i><span>NATURE</span><small>green · trees · heat</small></button>
+      <button type="button" data-xray="infra"><i>▣</i><span>INFRA</span><small>transit · hospitals · sport</small></button>
+      <button type="button" data-xray="history"><i>▥</i><span>HISTORY</span><small>buildings · wall · traces</small></button>
+    </nav>
+
+    <div class="continuous-compare-result hidden" id="continuousCompareResult">
+      <div>
+        <span>A · CURRENT PLACE</span>
+        <strong id="comparePlaceA">—</strong>
+        <small id="compareInsightA">—</small>
+      </div>
+      <i>↔</i>
+      <div>
+        <span>B · COMPARISON</span>
+        <strong id="comparePlaceB">—</strong>
+        <small id="compareInsightB">—</small>
+      </div>
+      <button type="button" id="closeContinuousCompare" aria-label="Close comparison">×</button>
+    </div>
+
+    <aside class="meaning-panel hidden" id="meaningPanel">
+      <div class="panel-head">
+        <div>
+          <span class="meaning-eyebrow">EVIDENCE</span>
+          <h2 id="placeTitle">Berlin</h2>
+          <p id="placeSubtitle">Reading the city…</p>
+        </div>
+        <button type="button" id="closeMeaning" aria-label="Close evidence">×</button>
+      </div>
+
+      <div class="place-fingerprint" id="placeFingerprint" aria-label="Place fingerprint">
+        <button type="button" data-axis="nature" data-jump-lens="nature"><i>◆</i><span>NATURE</span><b>—</b></button>
+        <button type="button" data-axis="life" data-jump-lens="life"><i>●</i><span>LIFE</span><b>—</b></button>
+        <button type="button" data-axis="history" data-jump-lens="history"><i>▥</i><span>HISTORY</span><b>—</b></button>
+        <button type="button" data-axis="infrastructure" data-jump-lens="infrastructure"><i>▣</i><span>INFRA</span><b>—</b></button>
+        <button type="button" data-axis="now" data-jump-lens="now"><i>✦</i><span>NOW</span><b>—</b></button>
+      </div>
+
+      <nav class="lens-tabs" id="lensTabs" aria-label="Meaning lenses">
+        <button type="button" data-lens="all" class="active">BEST OF</button>
+        <button type="button" data-lens="now">NOW</button>
+        <button type="button" data-lens="life">LIFE</button>
+        <button type="button" data-lens="history">HISTORY</button>
+        <button type="button" data-lens="infrastructure">INFRA</button>
+        <button type="button" data-lens="nature">NATURE</button>
+      </nav>
+
+      <div class="meaning-cards" id="meaningCards" aria-live="polite">
+        <div class="meaning-loading"><i></i><span>Asking the city…</span></div>
+      </div>
+      <div class="meaning-more hidden" id="meaningMoreWrap"><button type="button" id="meaningMore">Show more nearby</button></div>
+
+      <div class="meaning-actions">
+        <button type="button" class="primary" id="surpriseNearby">Surprise me nearby</button>
+        <button type="button" id="pickAnother">Pick another place</button>
+        <button type="button" id="shareMeaning">Share this place</button>
+      </div>
+
+      <details class="meaning-evidence">
+        <summary>How did Deep City choose these? <b>+</b></summary>
+        <div id="rankingExplain"></div>
+      </details>
+    </aside>
+  </div>
+
+  <div class="xray-time" id="xrayTime">
+    <span class="xray-axis-label">TIME</span>
+    <div class="xray-time-label top" id="xrayTimeTop">+12H</div>
+    <input id="xrayTimeSlider" type="range" min="0" max="2" value="1" step="1" orient="vertical" aria-label="Time">
+    <div class="xray-time-label bottom" id="xrayTimeBottom">−12H</div>
+    <strong id="xrayTimeNow">NOW</strong>
+  </div>
+</section>
 
 <div class="meaning-pick hidden" id="meaningPick">
-  <div><strong>Tap anywhere on Berlin</strong><span id="pickCopy">The engine will inspect this place.</span></div>
+  <div><strong>Tap anywhere on Berlin</strong><span id="pickCopy">This place will stay fixed while you explore it.</span></div>
   <button type="button" id="cancelPick">Cancel</button>
+</div>
+
+<div class="continuous-menu-drawer hidden" id="continuousMenuDrawer">
+  <button type="button" data-menu-action="visitor">Visiting Berlin</button>
+  <button type="button" data-menu-action="local">I live here</button>
+  <button type="button" data-menu-action="sources">Sources</button>
+  <button type="button" data-menu-action="test">Test engine</button>
+  <a href="./berlin-v2-lab.html">Concept Lab ↗</a>
 </div>
 
 <div class="meaning-toast hidden" id="meaningToast" role="status"></div>

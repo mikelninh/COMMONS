@@ -9,6 +9,7 @@ on:
       - "scripts/browser-map-smoke.mjs"
       - "scripts/browser-v2-lab-smoke.mjs"
       - "scripts/browser-meaning-smoke.mjs"
+      - "public/berlin-continuous.js"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -49,6 +50,7 @@ jobs:
           node --check public/berlin-meaning-core.js
           node --check public/berlin-meaning-engine.js
           node --check public/berlin-xray.js
+          node --check public/berlin-continuous.js
           node --check public/atlas.js
       - name: Install browser test runner
         run: |

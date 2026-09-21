@@ -23,8 +23,8 @@ def test_meaning_engine_ranks_meaning_instead_of_exposing_layer_toggles() -> Non
     page = Path("public/berlin-meaning.html").read_text(encoding="utf-8")
     engine = Path("public/berlin-meaning-engine.js").read_text(encoding="utf-8")
 
-    assert "Tap Berlin." in page
-    assert "See what matters here." in page
+    assert "Touch the city." in page
+    assert "One map. One place." in page
     assert "VISITING" in page
     assert "I LIVE HERE" in page
     assert "SURPRISE ME" in page
@@ -77,6 +77,7 @@ def test_meaning_engine_browser_javascript_syntax() -> None:
         "public/berlin-meaning-sources.js",
         "public/berlin-meaning-core.js",
         "public/berlin-meaning-engine.js",
+        "public/berlin-continuous.js",
         "scripts/browser-meaning-smoke.mjs",
     ):
         subprocess.run([node, "--check", path], check=True)
@@ -133,3 +134,25 @@ def test_city_xray_changes_the_map_not_only_the_copy() -> None:
     assert "setPaintProperty" in xray
     assert "setLayoutProperty" in xray
     assert "setData" in xray
+
+
+def test_one_continuous_berlin_unifies_place_lens_time_and_compare() -> None:
+    page = Path("public/berlin-meaning.html").read_text(encoding="utf-8")
+    continuous = Path("public/berlin-continuous.js").read_text(encoding="utf-8")
+    css = Path("public/berlin-meaning.css").read_text(encoding="utf-8")
+
+    assert 'id="continuousSheet"' in page
+    assert 'id="continuousInsightTitle"' in page
+    assert 'id="continuousCompare"' in page
+    assert 'id="continuousShare"' in page
+    assert 'id="continuousRepick"' in page
+    assert "compat-controls" in page
+    assert "tool-dock" not in page
+
+    for key in ("place:null", "lens:'live'", "time:1", "comparison:null", "selectedInsight:null"):
+        assert key in continuous
+    assert "cameraBefore" in Path("scripts/browser-meaning-smoke.mjs").read_text(encoding="utf-8")
+    assert "startCompare" in continuous
+    assert "chooseCompare" in continuous
+    assert "data-sheet-state" in css
+    assert ".continuous-sheet" in css
