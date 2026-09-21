@@ -127,6 +127,8 @@ try{
       await page.locator('#continuousMenu').click();
       await page.locator('[data-menu-action="visitor"]').click();
       assert.ok((await page.locator('[data-persona="visitor"]').getAttribute('class')||'').includes('active'));
+      await page.locator('#openMeaningDetails').click();
+      await page.waitForFunction(()=>!document.getElementById('meaningPanel').classList.contains('hidden'));
 
       const firstCard=page.locator('#meaningCards .meaning-card').first();
       await firstCard.locator('[data-why]').click();
