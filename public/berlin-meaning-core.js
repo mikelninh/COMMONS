@@ -32,7 +32,7 @@
       lib.setWorkerUrl(new URL('./vendor/maplibre-6.10.0/maplibre-gl-worker.mjs',location.href).href);
       M.map=new lib.Map({
         container:'meaningMap',style:'https://tiles.openfreemap.org/styles/liberty',
-        center:[13.405,52.52],zoom:10.15,pitch:46,bearing:-12,antialias:true,attributionControl:true
+        center:[13.405,52.52],zoom:10.25,pitch:26,bearing:0,antialias:true,attributionControl:true
       });
       await new Promise((resolve,reject)=>{M.map.once('load',resolve);M.map.once('error',e=>reject(e.error||e))});
       M.map.addSource('meaning-point',{type:'geojson',data:{type:'FeatureCollection',features:[]}});
@@ -51,7 +51,7 @@
     M.point=p;
     if(M.map?.getSource('meaning-point')){
       M.map.getSource('meaning-point').setData({type:'FeatureCollection',features:[{type:'Feature',properties:{},geometry:{type:'Point',coordinates:[p.lon,p.lat]}}]});
-      M.map.easeTo({center:[p.lon,p.lat],zoom:11.7,pitch:50,duration:650});
+      M.map.easeTo({center:[p.lon,p.lat],zoom:12.15,pitch:34,bearing:0,duration:760});
     }
   };
 
