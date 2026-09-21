@@ -309,8 +309,7 @@
 
   async function init(){
     await M.ready;
-    if(M.map?.loaded?.())addLayers();
-    else M.map?.once('load',addLayers);
+    addLayers();
 
     M.qsa('[data-xray]').forEach(b=>b.addEventListener('click',()=>X.setMode(b.dataset.xray)));
     $('xrayTimeSlider').addEventListener('input',e=>X.setTime(e.target.value));
