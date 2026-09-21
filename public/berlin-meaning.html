@@ -9,15 +9,18 @@
 <link rel="stylesheet" href="./vendor/maplibre-6.10.0/maplibre-gl.css">
 <link rel="stylesheet" href="./berlin-meaning.css">
 <script defer src="./berlin-meaning-sources.js?v=m1"></script>
-<script defer src="./berlin-meaning-core.js?v=m1"></script>
-<script defer src="./berlin-meaning-engine.js?v=m1"></script>
+<script defer src="./berlin-meaning-core.js?v=m2"></script>
+<script defer src="./berlin-meaning-engine.js?v=m2"></script>
 </head>
 <body>
 <div id="meaningMap" aria-hidden="true"></div>
 <div class="meaning-shade"></div>
 
 <header class="meaning-topbar">
-  <a class="meaning-brand" href="./berlin.html">COMMONS / BERLIN</a>
+  <a class="meaning-brand" href="./berlin.html">
+    <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
+    <span class="brand-copy"><b>COMMONS / BERLIN</b><small>PEOPLE · PLACES · A DEEPER TOMORROW</small></span>
+  </a>
   <div class="meaning-mode" id="meaningMode" aria-label="Perspective">
     <button type="button" data-persona="visitor">VISITING</button>
     <button type="button" data-persona="local" class="active">I LIVE HERE</button>
@@ -49,11 +52,11 @@
     </div>
 
     <div class="place-fingerprint" id="placeFingerprint" aria-label="Place fingerprint">
-      <div data-axis="now"><span>NOW</span><b>—</b></div>
-      <div data-axis="life"><span>LIFE</span><b>—</b></div>
-      <div data-axis="history"><span>HISTORY</span><b>—</b></div>
-      <div data-axis="infrastructure"><span>INFRA</span><b>—</b></div>
-      <div data-axis="nature"><span>NATURE</span><b>—</b></div>
+      <button type="button" data-axis="nature" data-jump-lens="nature"><i>◆</i><span>NATURE</span><b>—</b></button>
+      <button type="button" data-axis="life" data-jump-lens="life"><i>●</i><span>LIFE</span><b>—</b></button>
+      <button type="button" data-axis="history" data-jump-lens="history"><i>▥</i><span>HISTORY</span><b>—</b></button>
+      <button type="button" data-axis="infrastructure" data-jump-lens="infrastructure"><i>▣</i><span>INFRA</span><b>—</b></button>
+      <button type="button" data-axis="now" data-jump-lens="now"><i>✦</i><span>NOW</span><b>—</b></button>
     </div>
 
     <nav class="lens-tabs" id="lensTabs" aria-label="Meaning lenses">
@@ -67,6 +70,9 @@
 
     <div class="meaning-cards" id="meaningCards" aria-live="polite">
       <div class="meaning-loading"><i></i><span>Asking the city…</span></div>
+    </div>
+    <div class="meaning-more hidden" id="meaningMoreWrap">
+      <button type="button" id="meaningMore">Show more nearby</button>
     </div>
 
     <div class="meaning-actions">
