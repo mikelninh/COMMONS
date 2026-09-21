@@ -1660,3 +1660,14 @@ def test_atlas_uses_resilient_umd_maplibre_loader() -> None:
     assert "maplibre-gl.mjs" not in js
     assert "window.maplibregl" in js
     assert "atlasFallback" in page
+
+
+def test_browser_javascript_syntax_for_berlin_and_atlas() -> None:
+    import shutil
+    import subprocess
+
+    node = shutil.which("node")
+    if node is None:
+        pytest.skip("node is unavailable in this environment")
+    for path in ("public/berlin.js", "public/atlas.js"):
+        subprocess.run([node, "--check", path], check=True)
