@@ -108,11 +108,24 @@ try{
       await page.waitForFunction(()=>document.body.classList.contains('xray-future'));
       assert.ok((await page.locator('#xrayStory').textContent()).includes('twelve hours from now'));
 
+      const cameraBefore=await page.evaluate(()=>({center:window.Meaning.map.getCenter().toArray(),zoom:window.Meaning.map.getZoom()}));
+      await page.locator('[data-xray="people"]').click();
+      await page.waitForFunction(()=>document.body.classList.contains('xray-people'));
+      const cameraAfterLens=await page.evaluate(()=>({center:window.Meaning.map.getCenter().toArray(),zoom:window.Meaning.map.getZoom()}));
+      assert.ok(Math.abs(cameraBefore.center[0]-cameraAfterLens.center[0])<0.0001);
+      assert.ok(Math.abs(cameraBefore.center[1]-cameraAfterLens.center[1])<0.0001);
+      assert.ok(Math.abs(cameraBefore.zoom-cameraAfterLens.zoom)<0.001);
+
       await page.locator('#openMeaningDetails').click();
       await page.waitForFunction(()=>!document.getElementById('meaningPanel').classList.contains('hidden'));
+      assert.equal(await page.locator('#continuousSheet').getAttribute('data-sheet-state'),'expanded');
       assert.ok((await page.locator('#meaningCards .meaning-card').count())>=4);
 
-      await page.locator('[data-persona="visitor"]').click();
+      await page.locator('#closeMeaning').click();
+      assert.equal(await page.locator('#continuousSheet').getAttribute('data-sheet-state'),'peek');
+
+      await page.locator('#continuousMenu').click();
+      await page.locator('[data-menu-action="visitor"]').click();
       assert.ok((await page.locator('[data-persona="visitor"]').getAttribute('class')||'').includes('active'));
 
       const firstCard=page.locator('#meaningCards .meaning-card').first();
@@ -123,7 +136,18 @@ try{
       assert.ok((await firstRating.getAttribute('class')||'').includes('active'));
 
       if(spec.name==='desktop'){
-        await page.locator('#toolTest').click();
+        await page.locator('#continuousCompare').click();
+        await page.waitForFunction(()=>!document.getElementById('meaningPick').classList.contains('hidden'));
+        const canvas=page.locator('#meaningMap canvas');
+        const box=await canvas.boundingBox();
+        assert.ok(box);
+        await page.mouse.click(Math.round(box.x+box.width*.72),Math.round(box.y+box.height*.42));
+        await page.waitForFunction(()=>!document.getElementById('continuousCompareResult').classList.contains('hidden'),null,{timeout:15000});
+        assert.ok((await page.locator('#compareInsightB').textContent()).length>3);
+        await page.locator('#closeContinuousCompare').click();
+
+        await page.locator('#continuousMenu').click();
+        await page.locator('[data-menu-action="test"]').click();
         await page.locator('#runMeaningTest').click();
         await page.waitForFunction(()=>document.getElementById('testResults')?.textContent?.includes('Average candidate count'),null,{timeout:30000});
         assert.ok((await page.locator('#testResults').textContent()).includes('2+ lenses represented'));
