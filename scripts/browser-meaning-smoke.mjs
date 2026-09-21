@@ -136,6 +136,9 @@ try{
       const firstRating=firstCard.locator('[data-rate="useful"]');
       await firstRating.click();
       assert.ok((await firstRating.getAttribute('class')||'').includes('active'));
+      await page.locator('#closeMeaning').click();
+      await page.waitForFunction(()=>document.getElementById('meaningPanel').classList.contains('hidden'));
+      assert.equal(await page.locator('#continuousSheet').getAttribute('data-sheet-state'),'peek');
 
       if(spec.name==='desktop'){
         await page.locator('#continuousCompare').click();
