@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "snapshots": [
+    {
+      "timestamp": "2026-09-21T00:42:58Z",
+      "metrics": {
+        "temperature_2m": 13.1,
+        "apparent_temperature": 10.4,
+        "precipitation": 0.0,
+        "wind_speed_10m": 16.2,
+        "pm2_5": 3.8,
+        "nitrogen_dioxide": 3.0,
+        "ozone": 62.0,
+        "river_discharge": 0.52,
+        "transit_vehicles": 187.0
+      },
+      "source_health": {
+        "weather": "ready",
+        "air": "ready",
+        "flood": "ready",
+        "transit": "ready",
+        "water": "modeled fallback"
+      }
+    }
+  ]
+}
