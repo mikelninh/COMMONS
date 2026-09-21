@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050807">
+<meta name="description" content="Berlin Deep City v2 Concept Lab — compare discovery-first product directions before choosing what ships.">
+<title>COMMONS / BERLIN V2 CONCEPT LAB</title>
+<link rel="stylesheet" href="./vendor/maplibre-6.10.0/maplibre-gl.css">
+<link rel="stylesheet" href="./berlin-v2-lab.css">
+<script defer src="./berlin-v2-lab-core.js?v=lab1"></script>
+<script defer src="./berlin-v2-lab-explore.js?v=lab1"></script>\n<script defer src="./berlin-v2-lab-stories.js?v=lab1"></script>
+</head>
+<body>
+<div id="labMap" aria-hidden="true"></div>
+<div class="lab-map-shade"></div>
+
+<header class="lab-topbar">
+  <div class="lab-brand">
+    <a href="./berlin.html">COMMONS / BERLIN</a>
+    <span>V2 CONCEPT LAB</span>
+  </div>
+  <nav class="lab-nav" id="labNav" aria-label="Concepts">
+    <button type="button" data-view="layouts" class="active">Layouts</button>
+    <button type="button" data-view="discover">Discover</button>
+    <button type="button" data-view="why">Why Here</button>
+    <button type="button" data-view="compare">Compare</button>
+    <button type="button" data-view="time">Time</button>
+    <button type="button" data-view="lab">Lab</button>
+    <button type="button" data-view="share">Share</button>
+  </nav>
+  <button type="button" class="lab-picks-button" id="labPicksButton">My picks <span id="labPickCount">0</span></button>
+</header>
+
+<main class="lab-stage">
+  <section class="lab-view active" data-panel="layouts" aria-labelledby="layoutsTitle">
+    <div class="lab-intro-card">
+      <div class="lab-kicker">FOUNDATION · PICK THE FEEL</div>
+      <h1 id="layoutsTitle">How should Berlin reveal itself?</h1>
+      <p>Three different shells. Same evidence underneath. Click each one and judge the experience, not the pitch.</p>
+    </div>
+    <div class="layout-grid">
+      <article class="layout-option" data-layout="editorial">
+        <div class="layout-mini editorial-mini">
+          <span class="mini-top">COMMONS / BERLIN</span>
+          <div class="mini-story"><small>NOW</small><strong>Berlin is moving.</strong><span>One story leads. The map supports it.</span></div>
+          <div class="mini-rail"><i></i><i></i><i></i></div>
+        </div>
+        <div class="layout-copy">
+          <span>A · EDITORIAL PULSE</span>
+          <h2>Meaning first.</h2>
+          <p>One strong city story, one beautiful map, one discovery rail. Calm and legible.</p>
+          <button type="button" data-try-layout="editorial">Try this shell</button>
+        </div>
+      </article>
+
+      <article class="layout-option" data-layout="cinematic">
+        <div class="layout-mini cinematic-mini">
+          <span class="mini-top">BERLIN / 12:16</span>
+          <div class="mini-center"><small>THE CITY RIGHT NOW</small><strong>Nothing unusual is shouting.</strong></div>
+          <div class="mini-bottom"><i></i><i></i></div>
+        </div>
+        <div class="layout-copy">
+          <span>B · CINEMATIC EXPLORER</span>
+          <h2>Atmosphere first.</h2>
+          <p>More emotional, more spacious. The map becomes a stage and stories arrive like scenes.</p>
+          <button type="button" data-try-layout="cinematic">Try this shell</button>
+        </div>
+      </article>
+
+      <article class="layout-option" data-layout="observatory">
+        <div class="layout-mini observatory-mini">
+          <span class="mini-top">BERLIN OBSERVATORY</span>
+          <div class="mini-instruments"><i></i><i></i><i></i><i></i></div>
+          <div class="mini-meter"></div>
+        </div>
+        <div class="layout-copy">
+          <span>C · CITY OBSERVATORY</span>
+          <h2>Instrument first.</h2>
+          <p>Sharper, denser, more analytical. For people who want to inspect the machinery of the city.</p>
+          <button type="button" data-try-layout="observatory">Try this shell</button>
+        </div>
+      </article>
+    </div>
+    <div class="lab-feedback" data-feedback-for="layouts"></div>
+  </section>
+
+  <section class="lab-view" data-panel="discover" aria-labelledby="discoverTitle">
+    <div class="experience-card discovery-card">
+      <div class="lab-kicker">DISCOVERY-FIRST HOME</div>
+      <h1 id="discoverTitle">What deserves attention?</h1>
+      <p id="discoverHeadline">Loading the Berlin tape…</p>
+      <div class="discovery-actions">
+        <button type="button" class="primary-action" id="surpriseMe">Show me something</button>
+        <button type="button" id="showChanged">What changed?</button>
+      </div>
+      <div class="changed-rail" id="changedRail"></div>
+      <div class="discovery-focus" id="discoveryFocus" aria-live="polite"></div>
+    </div>
+    <div class="lab-feedback" data-feedback-for="discover"></div>
+  </section>
+
+  <section class="lab-view" data-panel="why" aria-labelledby="whyTitle">
+    <div class="experience-card why-card">
+      <div class="lab-kicker">WHY HERE?</div>
+      <h1 id="whyTitle">Tap Berlin. Ask the place.</h1>
+      <p>The point becomes the question. We bring back only context we can source.</p>
+      <button type="button" class="primary-action" id="whyPick">Choose a place on the map</button>
+      <div class="place-answer" id="whyAnswer">
+        <div class="place-empty">Pick anywhere on the map to begin.</div>
+      </div>
+    </div>
+    <div class="lab-feedback" data-feedback-for="why"></div>
+  </section>
+
+  <section class="lab-view" data-panel="compare" aria-labelledby="compareTitle">
+    <div class="experience-card compare-card">
+      <div class="lab-kicker">COMPARE TWO PLACES</div>
+      <h1 id="compareTitle">Same city. Different context.</h1>
+      <p>Select two points. No winner, no score — just the measurable differences.</p>
+      <div class="compare-actions">
+        <button type="button" class="primary-action" id="pickA">Pick A</button>
+        <button type="button" id="pickB">Pick B</button>
+        <button type="button" id="resetCompare">Reset</button>
+      </div>
+      <div class="compare-grid">
+        <article><span>POINT A</span><strong id="compareALabel">Not selected</strong><div id="compareA"></div></article>
+        <article><span>POINT B</span><strong id="compareBLabel">Not selected</strong><div id="compareB"></div></article>
+      </div>
+      <div class="compare-story" id="compareStory">Choose two places to reveal their differences.</div>
+    </div>
+    <div class="lab-feedback" data-feedback-for="compare"></div>
+  </section>
+
+  <section class="lab-view" data-panel="time" aria-labelledby="timeTitle">
+    <div class="experience-card time-card">
+      <div class="lab-kicker">CITY TIME MACHINE</div>
+      <h1 id="timeTitle">Scrub the tape.</h1>
+      <p>Past recordings and the near forecast live on one simple line.</p>
+      <div class="time-readout">
+        <span id="timeStamp">—</span>
+        <strong id="timeStory">Loading city memory…</strong>
+      </div>
+      <input id="timeMachine" type="range" min="0" max="1" value="0" step="1" aria-label="Berlin tape time">
+      <div class="time-scale"><span>PAST</span><span>NOW</span><span>FORECAST</span></div>
+      <div class="time-metrics" id="timeMetrics"></div>
+    </div>
+    <div class="lab-feedback" data-feedback-for="time"></div>
+  </section>
+
+  <section class="lab-view" data-panel="lab" aria-labelledby="labTitle">
+    <div class="experience-card hypotheses-card">
+      <div class="lab-kicker">HYPOTHESIS LAB</div>
+      <h1 id="labTitle">Questions that have to survive reality.</h1>
+      <p>We keep the “learning” state visible. Failed ideas are useful too.</p>
+      <div class="hypothesis-grid" id="hypothesisGrid"></div>
+      <div class="forecast-proof" id="forecastProof"></div>
+    </div>
+    <div class="lab-feedback" data-feedback-for="lab"></div>
+  </section>
+
+  <section class="lab-view" data-panel="share" aria-labelledby="shareTitle">
+    <div class="experience-card share-studio">
+      <div class="lab-kicker">SHARE STUDIO</div>
+      <h1 id="shareTitle">Share the insight, not the dashboard.</h1>
+      <p>Five directions. Tap a card to enlarge it, then decide which visual language feels like COMMONS.</p>
+      <div class="share-grid" id="shareGrid">
+        <button type="button" class="share-concept pulse-share" data-share="pulse">
+          <span>BERLIN · TODAY</span><strong>The city is warming.</strong><b>+0.6°C</b><small>since the previous Pulse</small>
+        </button>
+        <button type="button" class="share-concept discovery-share" data-share="discovery">
+          <span>BERLIN DEEP CITY</span><strong>Air is cleaner than usual.</strong><b>4.0</b><small>µg/m³ modeled PM2.5</small>
+        </button>
+        <button type="button" class="share-concept here-share" data-share="here">
+          <span>WHY HERE?</span><strong>52.520° N · 13.405° E</strong><b>local context</b><small>live + structural evidence</small>
+        </button>
+        <button type="button" class="share-concept compare-share" data-share="compare">
+          <span>A ↔ B</span><strong>Same city. Different conditions.</strong><b>compare</b><small>without a winner</small>
+        </button>
+        <button type="button" class="share-concept daily-share" data-share="daily">
+          <span>BERLIN TODAY</span><strong>One thing changed. Two stayed quiet.</strong><b>21 SEP</b><small>a daily city snapshot</small>
+        </button>
+      </div>
+      <div class="share-preview" id="sharePreview"></div>
+    </div>
+    <div class="lab-feedback" data-feedback-for="share"></div>
+  </section>
+</main>
+
+<div class="map-pick-banner hidden" id="mapPickBanner">
+  <div><strong id="mapPickTitle">Tap the map</strong><span id="mapPickCopy">Choose a point in Berlin.</span></div>
+  <button type="button" id="cancelMapPick">Cancel</button>
+</div>
+
+<aside class="picks-drawer hidden" id="picksDrawer" aria-label="Your concept picks">
+  <div class="picks-head"><div><span>YOUR V2 PICKS</span><strong>What stays?</strong></div><button type="button" id="closePicks">×</button></div>
+  <div id="picksSummary"></div>
+  <label for="overallNote">Overall note</label>
+  <textarea id="overallNote" rows="3" placeholder="What should Berlin Deep City feel like?"></textarea>
+  <button type="button" class="primary-action" id="copyFeedback">Copy feedback summary</button>
+  <small id="copyStatus" aria-live="polite"></small>
+</aside>
+
+<div class="lab-map-status" id="labMapStatus">MAP · CONNECTING</div>
+</body>
+</html>
