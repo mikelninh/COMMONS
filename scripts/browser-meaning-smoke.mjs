@@ -92,7 +92,7 @@ try{
 
       await page.locator('[data-xray="history"]').click();
       await page.waitForFunction(()=>document.getElementById('xrayReadoutMeta')?.textContent?.includes('historical/structural evidence'),null,{timeout:15000});
-      assert.ok((await page.locator('#xrayStory').textContent()).includes('city underneath'));
+      assert.ok((await page.locator('#xrayStory').textContent()).includes('Old Berlin still leaks through'));
 
       await page.locator('#xrayTimeSlider').fill('0');
       await page.waitForFunction(()=>document.body.classList.contains('xray-past'));
