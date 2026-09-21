@@ -275,6 +275,11 @@ def resolve_predictions(ledger: dict[str, Any], metrics: dict[str, Any], now: da
             continue
         if target > now + timedelta(minutes=15):
             continue
+        if now - target > timedelta(minutes=90):
+            prediction["status"] = "expired"
+            prediction["resolved_at"] = iso(now)
+            prediction["reason"] = "collection missed the 90-minute scoring window"
+            continue
         actual = safe_float(metrics.get(prediction.get("metric")))
         if actual is None:
             continue
@@ -475,13 +480,13 @@ def main() -> None:
         },
     }
 
-    ledger["predictions"] = ledger.get("predictions", [])[-500:]
+    ledger["predictions"] = ledger.get("predictions", [])[-1500:]
     latest = {
         "version": 1,
         "generated_at": iso(now),
         "status": "recorded",
         "sample_count": len(history["snapshots"]),
-        "history_basis": "Direct Pulse snapshots accumulate twice daily; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
+        "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
         "headline": headline(signals),
         "signals": signals,
         "forecast_score": forecast_score(ledger),
