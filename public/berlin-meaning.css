@@ -151,3 +151,65 @@ button.primary{border-color:rgba(157,245,109,.34)!important;background:rgba(157,
   .tool-dock button{font-size:6px;padding:8px}.source-drawer,.test-drawer{padding-bottom:70px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+
+/* CITY X-RAY */
+.xray-stage{position:fixed;z-index:18;inset:68px 0 0;pointer-events:none}
+.xray-stage>*{pointer-events:auto}
+.xray-story{position:absolute;left:22px;bottom:112px;width:min(360px,calc(100vw - 44px));padding:16px 18px;border:1px solid rgba(255,255,255,.09);border-radius:18px;background:rgba(3,8,6,.76);backdrop-filter:blur(18px);box-shadow:0 20px 70px rgba(0,0,0,.28)}
+.xray-story>span{display:block;font-size:6px;letter-spacing:.16em;color:var(--green);font-weight:800}
+.xray-story>strong{display:block;font-size:22px;line-height:1.05;letter-spacing:-.03em;margin-top:7px}
+.xray-story>p{font-size:8px;line-height:1.55;color:#8c988b;margin:7px 0 11px}
+.xray-story>button{border:0;background:transparent;color:var(--green);font-size:7px;font-weight:750;padding:0;cursor:pointer}
+.xray-story>button:hover{text-decoration:underline;text-underline-offset:3px}
+
+.xray-rail{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:flex;gap:4px;padding:6px;border:1px solid rgba(255,255,255,.09);border-radius:18px;background:rgba(3,8,6,.90);backdrop-filter:blur(18px);box-shadow:0 14px 55px rgba(0,0,0,.3)}
+.xray-rail button{appearance:none;display:grid;grid-template-columns:22px auto;grid-template-rows:auto auto;column-gap:8px;align-items:center;min-width:126px;border:1px solid transparent;border-radius:13px;background:transparent;padding:9px 11px;color:#758175;cursor:pointer;text-align:left;transition:.16s}
+.xray-rail button:hover{background:rgba(255,255,255,.035);color:#cbd4c8}
+.xray-rail button.active{border-color:rgba(157,245,109,.28);background:rgba(157,245,109,.07);color:#f4f8f1}
+.xray-rail i{grid-row:1/3;font-style:normal;font-size:16px;color:var(--green)}
+.xray-rail span{font-size:7px;font-weight:800;letter-spacing:.09em}
+.xray-rail small{font-size:5px;color:#637063;margin-top:2px;white-space:nowrap}
+.xray-rail button.active small{color:#879386}
+
+.xray-time{position:absolute;right:24px;top:50%;transform:translateY(-50%);width:78px;height:330px;padding:13px 10px;border:1px solid rgba(255,255,255,.09);border-radius:20px;background:rgba(3,8,6,.88);backdrop-filter:blur(18px);display:flex;flex-direction:column;align-items:center;box-shadow:0 18px 70px rgba(0,0,0,.28)}
+.xray-axis-label{font-size:6px;letter-spacing:.18em;color:#647064}
+.xray-time-label{font-size:6px;letter-spacing:.1em;color:#7e8a7d}
+.xray-time-label.top{margin-top:12px}.xray-time-label.bottom{margin-bottom:12px}
+#xrayTimeSlider{writing-mode:vertical-lr;direction:rtl;appearance:none;width:3px;flex:1;margin:10px 0;background:linear-gradient(180deg,var(--violet),var(--green),var(--blue));border-radius:99px;accent-color:var(--green)}
+#xrayTimeSlider::-webkit-slider-thumb{appearance:none;width:17px;height:17px;border-radius:50%;background:#f3f7f0;border:4px solid rgba(157,245,109,.7);box-shadow:0 0 0 5px rgba(157,245,109,.08)}
+.xray-time>strong{position:absolute;right:88px;top:50%;transform:translateY(-50%);font-size:7px;letter-spacing:.1em;color:var(--green);white-space:nowrap}
+
+.xray-readout{position:absolute;right:116px;bottom:24px;min-width:170px;padding:12px 14px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(3,8,6,.76);backdrop-filter:blur(16px)}
+.xray-readout span{display:block;font-size:5px;letter-spacing:.13em;color:#6f7c6f}
+.xray-readout b{display:block;font-size:19px;letter-spacing:-.03em;margin-top:5px}
+.xray-readout small{display:block;font-size:6px;color:#748074;margin-top:4px;max-width:190px;line-height:1.4}
+
+body.xray-live #meaningMap canvas{filter:saturate(.9) brightness(.56) contrast(1.16)}
+body.xray-people #meaningMap canvas{filter:saturate(.48) brightness(.46) contrast(1.2)}
+body.xray-nature #meaningMap canvas{filter:saturate(1.05) brightness(.5) contrast(1.12)}
+body.xray-infra #meaningMap canvas{filter:saturate(.42) brightness(.42) contrast(1.25)}
+body.xray-history #meaningMap canvas{filter:sepia(.24) saturate(.48) brightness(.48) contrast(1.16)}
+body.xray-past .meaning-shade{background:linear-gradient(180deg,rgba(22,16,12,.18),transparent 60%,rgba(18,11,9,.52))}
+body.xray-future .meaning-shade{background:linear-gradient(180deg,rgba(26,20,49,.14),transparent 58%,rgba(6,11,21,.55))}
+
+@media(max-width:900px){
+  .xray-stage{inset:108px 0 0}
+  .xray-story{left:10px;right:10px;bottom:145px;width:auto;padding:13px 14px}
+  .xray-story>strong{font-size:18px}.xray-story>p{font-size:7px}
+  .xray-rail{left:10px;right:10px;bottom:66px;transform:none;overflow-x:auto;justify-content:flex-start;scrollbar-width:none}
+  .xray-rail::-webkit-scrollbar{display:none}
+  .xray-rail button{min-width:108px;padding:8px 9px}
+  .xray-time{right:10px;top:calc(50% - 25px);height:250px;width:64px}
+  .xray-time>strong{right:70px}
+  .xray-readout{left:10px;right:auto;bottom:230px;min-width:150px}
+}
+@media(max-width:520px){
+  .xray-story{bottom:165px}
+  .xray-rail{bottom:66px}
+  .xray-rail button{grid-template-columns:18px auto;min-width:98px}
+  .xray-rail small{display:none}
+  .xray-time{height:220px;width:58px}
+  .xray-time>strong{right:64px}
+  .xray-readout{bottom:265px;max-width:190px}
+}

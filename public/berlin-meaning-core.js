@@ -121,7 +121,11 @@
     $('pickAnother').addEventListener('click',()=>M.startPick('Choose another place.'));
     $('cancelPick').addEventListener('click',M.finishPick);
     $('startCenter').addEventListener('click',()=>window.MeaningEngine?.inspect({lon:13.405,lat:52.52}));
-    $('closeMeaning').addEventListener('click',()=>{$('meaningPanel').classList.add('hidden');$('meaningHero').classList.remove('hidden')});
+    $('closeMeaning').addEventListener('click',()=>{
+      $('meaningPanel').classList.add('hidden');
+      if(window.BerlinXray?.active)return;
+      $('meaningHero').classList.remove('hidden');
+    });
     $('surpriseNearby').addEventListener('click',()=>window.MeaningEngine?.surpriseNearby());
     $('toolSurprise').addEventListener('click',()=>{M.persona='surprise';qsa('#meaningMode [data-persona]').forEach(x=>x.classList.toggle('active',x.dataset.persona==='surprise'));if(M.point)window.MeaningEngine?.surpriseNearby();else window.MeaningEngine?.inspect({lon:13.405,lat:52.52})});
     $('shareMeaning').addEventListener('click',M.shareCurrent);

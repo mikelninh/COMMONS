@@ -48,6 +48,7 @@ jobs:
           node --check public/berlin-meaning-sources.js
           node --check public/berlin-meaning-core.js
           node --check public/berlin-meaning-engine.js
+          node --check public/berlin-xray.js
           node --check public/atlas.js
       - name: Install browser test runner
         run: |

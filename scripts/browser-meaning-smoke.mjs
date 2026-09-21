@@ -28,6 +28,7 @@ const typeByPath={
   berlinermauer:'berlinermauer:mauer',
   ua_klimaanalyse_2022:'ua_klimaanalyse_2022:klima',
   ua_umweltgerechtigkeit2023:'ua_umweltgerechtigkeit2023:umwelt',
+  ua_einwohnerdichte_2024:'ua_einwohnerdichte_2024:einwohnerdichte',
   krankenhaeuser:'krankenhaeuser:standorte',
   sportstandorte:'sportstandorte:sport',
   badegewaesser:'badegewaesser:badestellen'
@@ -42,6 +43,7 @@ function featuresFor(path){
   if(path.includes('berlinermauer'))return [{type:'Feature',properties:{name:'Berliner Mauer'},geometry:{type:'LineString',coordinates:[[13.399,52.515],[13.403,52.519],[13.408,52.524]]}}];
   if(path.includes('ua_klimaanalyse_2022'))return [{type:'Feature',properties:{klasse:'planning context'},geometry:square(13.405,52.52,.008)}];
   if(path.includes('ua_umweltgerechtigkeit2023'))return [{type:'Feature',properties:{klasse:'context'},geometry:square(13.406,52.519,.007)}];
+  if(path.includes('ua_einwohnerdichte_2024'))return [{type:'Feature',properties:{density:11200},geometry:square(13.405,52.52,.012)}];
   if(path.includes('krankenhaeuser'))return [{type:'Feature',properties:{name:'Test Hospital'},geometry:{type:'Point',coordinates:[13.414,52.521]}}];
   if(path.includes('sportstandorte'))return [{type:'Feature',properties:{name:'Test Sportanlage'},geometry:{type:'Point',coordinates:[13.411,52.517]}}];
   if(path.includes('badegewaesser'))return [{type:'Feature',properties:{name:'Test Badestelle'},geometry:{type:'Point',coordinates:[13.43,52.52]}}];
@@ -83,15 +85,31 @@ try{
       await page.waitForFunction(()=>window.Meaning&&window.MeaningEngine&&window.Meaning?.map?.loaded?.()===true,null,{timeout:30000});
 
       await page.locator('#startCenter').click();
-      await page.waitForFunction(()=>document.querySelectorAll('#meaningCards .meaning-card').length>=4,null,{timeout:15000});
+      await page.waitForFunction(()=>window.BerlinXray?.active===true && !document.getElementById('xrayStage').classList.contains('hidden'),null,{timeout:15000});
+      assert.equal(await page.locator('#xrayStage').isVisible(),true);
+      assert.equal(await page.locator('#meaningPanel').isVisible(),false);
+
+      await page.locator('[data-xray="history"]').click();
+      await page.waitForFunction(()=>document.getElementById('xrayReadoutMeta')?.textContent?.includes('historical/structural evidence'),null,{timeout:15000});
+      assert.ok((await page.locator('#xrayStory').textContent()).includes('city underneath'));
+
+      await page.locator('#xrayTimeSlider').fill('0');
+      await page.waitForFunction(()=>document.body.classList.contains('xray-past'));
+      assert.ok((await page.locator('#xrayReadoutLabel').textContent()).includes('BUILT / 1989'));
+
+      await page.locator('[data-xray="nature"]').click();
+      await page.waitForFunction(()=>document.body.classList.contains('xray-nature'));
+      assert.ok((await page.locator('#xrayReadoutMeta').textContent()).includes('official Berlin WFS'));
+
+      await page.locator('[data-xray="live"]').click();
+      await page.locator('#xrayTimeSlider').fill('2');
+      await page.waitForFunction(()=>document.body.classList.contains('xray-future'));
+      assert.ok((await page.locator('#xrayStory').textContent()).includes('twelve hours from now'));
+
+      await page.locator('#openMeaningDetails').click();
+      await page.waitForFunction(()=>!document.getElementById('meaningPanel').classList.contains('hidden'));
       assert.ok((await page.locator('#meaningCards .meaning-card').count())>=4);
 
-      await page.locator('[data-lens="history"]').click();
-      await page.waitForFunction(()=>document.querySelectorAll('#meaningCards .meaning-card').length>=1);
-      const historyText=await page.locator('#meaningCards').textContent();
-      assert.ok(/Wall|building-age|residential fabric|building/i.test(historyText));
-
-      await page.locator('[data-lens="all"]').click();
       await page.locator('[data-persona="visitor"]').click();
       assert.ok((await page.locator('[data-persona="visitor"]').getAttribute('class')||'').includes('active'));
 
@@ -101,9 +119,6 @@ try{
       const firstRating=firstCard.locator('[data-rate="useful"]');
       await firstRating.click();
       assert.ok((await firstRating.getAttribute('class')||'').includes('active'));
-
-      await page.locator('#surpriseNearby').click();
-      await page.waitForFunction(()=>document.querySelectorAll('#meaningCards .meaning-card').length>=4,null,{timeout:15000});
 
       if(spec.name==='desktop'){
         await page.locator('#toolTest').click();
