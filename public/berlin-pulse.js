@@ -102,7 +102,9 @@
 
   function closePulseQuiet() {
     $p('pulsePanel')?.classList.add('hidden');
+    $p('pulsePanel')?.classList.remove('map-picking');
     $p('pulseMode')?.classList.remove('active');
+    $p('pulseMapPrompt')?.remove();
     whyHereArmed = false;
   }
 
@@ -271,6 +273,7 @@
     map.on('click', event => {
       if (!whyHereArmed) return;
       whyHereArmed = false;
+      endMapPick();
       $p('pulseHereButton').textContent = 'Choose another place';
       inspectHere(event.lngLat.lng, event.lngLat.lat);
     });
@@ -281,6 +284,20 @@
     $p('pulseHereButton').textContent = 'Click anywhere on Berlin…';
     $p('pulseHereTitle').textContent = 'The map is listening.';
     $p('pulseHereCopy').textContent = 'Choose a point. The answer will stay explicit about what is modeled, measured and merely nearby.';
+    if(window.innerWidth<=900){
+      $p('pulsePanel')?.classList.add('map-picking');
+      $p('pulseMapPrompt')?.remove();
+      const prompt=document.createElement('div');
+      prompt.id='pulseMapPrompt';prompt.className='pulse-map-prompt';
+      prompt.innerHTML='<strong>Tap a place on Berlin</strong><span>Why Here will inspect this point.</span><button type="button">Cancel</button>';
+      prompt.querySelector('button').addEventListener('click',()=>{whyHereArmed=false;endMapPick()});
+      document.body.append(prompt);
+    }
+  }
+
+  function endMapPick(){
+    $p('pulsePanel')?.classList.remove('map-picking');
+    $p('pulseMapPrompt')?.remove();
   }
 
   async function wfsAround(key,lon,lat) {
