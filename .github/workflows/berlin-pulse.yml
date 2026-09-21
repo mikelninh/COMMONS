@@ -1,6 +1,11 @@
 name: Berlin Pulse Tape
 
 on:
+  push:
+    branches: ["main"]
+    paths:
+      - "scripts/collect_berlin_pulse.py"
+      - ".github/workflows/berlin-pulse.yml"
   schedule:
     - cron: '17 5,17 * * *'
   workflow_dispatch:
