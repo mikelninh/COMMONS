@@ -6,7 +6,7 @@
   const $=M.$;
   const X=window.BerlinXray={
     mode:'live',time:1,ready:false,point:{lon:13.405,lat:52.52},
-    cache:{},typeCache:{},active:false
+    cache:{},typeCache:{},active:false,renderToken:0
   };
 
   const BBOX={west:13.08,south:52.34,east:13.78,north:52.70};
@@ -70,8 +70,8 @@
     return best;
   }
 
-  async function renderWeather(time){
-    const rows=await weatherGrid(),times=rows[0]?.hourly?.time||[];
+  async function renderWeather(time,token){
+    const rows=await weatherGrid();if(token!==X.renderToken)return null;const times=rows[0]?.hourly?.time||[];
     const target=Date.now()+(time===0?-12:time===2?12:0)*3600000;
     const index=nearestIndex(times,target);
     const vals=rows.map(r=>Number(r.hourly?.temperature_2m?.[index])).filter(Number.isFinite);
@@ -157,11 +157,11 @@
     if(style?.point)safePaint('xray-point-layer','circle-color',style.point);
   }
 
-  async function renderLive(time){
-    const weather=await renderWeather(time);
+  async function renderLive(time,token){
+    const weather=await renderWeather(time,token);if(token!==X.renderToken||!weather)return;
     if(time===1){
       try{
-        const vehicles=await transit();source('xray-transit',fc(vehicles));show('xray-transit-layer',vehicles.length>0);
+        const vehicles=await transit();if(token!==X.renderToken)return;source('xray-transit',fc(vehicles));show('xray-transit-layer',vehicles.length>0);
         setText('xrayReadoutMeta',`${vehicles.length} live VBB vehicles · modeled temperature ${M.fmt(weather.avg,1)} °C`);
       }catch{setText('xrayReadoutMeta','VBB unavailable · weather field remains visible')}
     }
@@ -169,7 +169,7 @@
     setText('xrayCopy',time===1?'Weather is a modeled field; transit points are live VBB movement.':time===0?'This is the modeled atmospheric past, not reconstructed human movement.':'This is a weather forecast. We do not invent future transit movement.');
   }
 
-  async function renderPeople(time){
+  async function renderPeople(time,token){
     const defs=[
       {type:'population',endpoint:'https://gdi.berlin.de/services/wfs/ua_einwohnerdichte_2024',patterns:[/einwohner/i,/dichte/i]},
       {type:'justice',endpoint:'https://gdi.berlin.de/services/wfs/ua_umweltgerechtigkeit2023',patterns:[/umwelt/i,/gerecht/i,/belast/i]},
@@ -180,22 +180,22 @@
       setText('xrayCopy','Deep City leaves this future blank rather than turning planning assumptions into reality.');
       setText('xrayReadoutValue','NO MODEL');setText('xrayReadoutMeta','Future people-state intentionally unavailable.');return;
     }
-    const features=await loadWfsSet('people',defs);renderGeo(features,{area:['match',['get','_xrayType'],'population','#73d8ff','justice','#c49cff','#8aa88b'],areaOpacity:.19,point:'#f5f8f4'});
+    const features=await loadWfsSet('people',defs);if(token!==X.renderToken)return;renderGeo(features,{area:['match',['get','_xrayType'],'population','#73d8ff','justice','#c49cff','#8aa88b'],areaOpacity:.19,point:'#f5f8f4'});
     setText('xrayTitle',time===0?'Berlin’s population baseline.':'People are not evenly distributed.');
     setText('xrayCopy',time===0?'2024 population density and recent environmental-justice structure form the baseline.':'Population, burden context and nearby care infrastructure overlap here.');
     setText('xrayReadoutValue',features.length+' features');setText('xrayReadoutMeta','Population + environmental justice + hospitals · official Berlin WFS');
   }
 
-  async function renderNature(time){
+  async function renderNature(time,token){
     const defs=[
       {type:'green',endpoint:'https://gdi.berlin.de/services/wfs/gruenanlagen',patterns:[/gruen/i,/anlage/i],count:350},
       {type:'trees',endpoint:'https://gdi.berlin.de/services/wfs/baumbestand',patterns:[/baum/i],radius:.035,count:700},
       {type:'heat',endpoint:'https://gdi.berlin.de/services/wfs/ua_klimaanalyse_2022',patterns:[/klima/i,/therm/i,/pet/i,/utci/i],count:300}
     ];
-    const features=await loadWfsSet('nature',defs);
+    const features=await loadWfsSet('nature',defs);if(token!==X.renderToken)return;
     renderGeo(features,{area:['match',['get','_xrayType'],'green','#70df86','heat','#ff8d7f','#76b987'],areaOpacity:.2,point:'#9df56d'});
     if(time===2){
-      await renderWeather(2);
+      await renderWeather(2,token);if(token!==X.renderToken)return;
       setText('xrayTitle','Tomorrow’s atmosphere meets today’s green structure.');
       setText('xrayCopy','The +12h temperature field is forecast; green, trees and heat-analysis context remain structural.');
     }else{
@@ -205,14 +205,14 @@
     }
   }
 
-  async function renderInfra(time){
+  async function renderInfra(time,token){
     const defs=[
       {type:'hospital',endpoint:'https://gdi.berlin.de/services/wfs/krankenhaeuser',patterns:[/kranken/i,/hospital/i],radius:.09,count:180},
       {type:'sport',endpoint:'https://gdi.berlin.de/services/wfs/sportstandorte',patterns:[/sport/i,/standort/i],radius:.09,count:220}
     ];
-    const features=await loadWfsSet('infra',defs);renderGeo(features,{point:['match',['get','_xrayType'],'hospital','#f4f7f1','sport','#ffd06a','#9df56d']});
+    const features=await loadWfsSet('infra',defs);if(token!==X.renderToken)return;renderGeo(features,{point:['match',['get','_xrayType'],'hospital','#f4f7f1','sport','#ffd06a','#9df56d']});
     if(time===1){
-      try{const vehicles=await transit();source('xray-transit',fc(vehicles));show('xray-transit-layer',vehicles.length>0);setText('xrayReadoutValue',vehicles.length+' moving');setText('xrayReadoutMeta',features.length+' structural facilities nearby · VBB live now')}
+      try{const vehicles=await transit();if(token!==X.renderToken)return;source('xray-transit',fc(vehicles));show('xray-transit-layer',vehicles.length>0);setText('xrayReadoutValue',vehicles.length+' moving');setText('xrayReadoutMeta',features.length+' structural facilities nearby · VBB live now')}
       catch{setText('xrayReadoutValue',features.length+' facilities');setText('xrayReadoutMeta','Live transit unavailable · structural infrastructure remains')}
       setText('xrayTitle','The city’s supporting skeleton is active.');
       setText('xrayCopy','Live movement sits on top of hospitals and public sports infrastructure.');
@@ -227,7 +227,7 @@
     }
   }
 
-  async function renderHistory(time){
+  async function renderHistory(time,token){
     const defs=[
       {type:'buildingAge',endpoint:'https://gdi.berlin.de/services/wfs/ua_gebaeudealter',patterns:[/gebaeude/i,/alter/i,/bau/i],count:320},
       {type:'wall',endpoint:'https://gdi.berlin.de/services/wfs/berlinermauer',patterns:[/mauer/i,/grenz/i],radius:.08,count:300}
@@ -237,7 +237,7 @@
       setText('xrayCopy','Move back down the time axis to read the traces that still shape Berlin.');
       setText('xrayReadoutValue','—');setText('xrayReadoutMeta','No synthetic future history.');return;
     }
-    const features=await loadWfsSet('history',defs);
+    const features=await loadWfsSet('history',defs);if(token!==X.renderToken)return;
     renderGeo(features,{area:'#9d7bb6',areaOpacity:time===0?.22:.09,line:'#ffd06a',point:'#c49cff'});
     setText('xrayTitle',time===0?'Berlin before the present map.':'Old Berlin still leaks through.');
     setText('xrayCopy',time===0?'Residential building-age context and the 1989 Wall are pulled forward over today’s geography.':'Historical geometry becomes a ghost layer against the current city.');
@@ -246,6 +246,7 @@
 
   X.render=async()=>{
     if(!X.ready||!X.active)return;
+    const token=++X.renderToken;
     clear();
     document.body.classList.remove('xray-live','xray-people','xray-nature','xray-infra','xray-history','xray-past','xray-future');
     document.body.classList.add('xray-'+X.mode);
@@ -258,12 +259,13 @@
     setText('xrayReadoutValue','…');setText('xrayReadoutMeta','Reading this layer of Berlin…');
     setText('xrayTitle',cfg.title);setText('xrayCopy',cfg.copy);
     try{
-      if(X.mode==='live')await renderLive(X.time);
-      else if(X.mode==='people')await renderPeople(X.time);
-      else if(X.mode==='nature')await renderNature(X.time);
-      else if(X.mode==='infra')await renderInfra(X.time);
-      else if(X.mode==='history')await renderHistory(X.time);
+      if(X.mode==='live')await renderLive(X.time,token);
+      else if(X.mode==='people')await renderPeople(X.time,token);
+      else if(X.mode==='nature')await renderNature(X.time,token);
+      else if(X.mode==='infra')await renderInfra(X.time,token);
+      else if(X.mode==='history')await renderHistory(X.time,token);
     }catch(error){
+      if(token!==X.renderToken)return;
       setText('xrayReadoutValue','PARTIAL');
       setText('xrayReadoutMeta','One or more sources did not answer. The map keeps only readable evidence.');
     }
