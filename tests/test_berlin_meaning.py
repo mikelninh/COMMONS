@@ -80,3 +80,19 @@ def test_meaning_engine_browser_javascript_syntax() -> None:
         "scripts/browser-meaning-smoke.mjs",
     ):
         subprocess.run([node, "--check", path], check=True)
+
+
+def test_meaning_engine_design_a_keeps_primary_view_readable() -> None:
+    page = Path("public/berlin-meaning.html").read_text(encoding="utf-8")
+    css = Path("public/berlin-meaning.css").read_text(encoding="utf-8")
+    engine = Path("public/berlin-meaning-engine.js").read_text(encoding="utf-8")
+
+    assert "brand-mark" in page
+    assert "meaningMore" in page
+    assert "data-jump-lens" in page
+    assert "meaning-card-visual" in engine
+    assert "why this matters" in engine
+    assert "Math.min(4,M.current.length)" in engine
+    assert ".meaning-card-visual" in css
+    assert ".why-button" in css
+    assert "why this?" not in engine
