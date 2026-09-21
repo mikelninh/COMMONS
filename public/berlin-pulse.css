@@ -19,3 +19,6 @@
   .pulse-here-result{grid-template-columns:1fr 1fr}.pulse-here-result>div:last-child{grid-column:1/-1}
   .pulse-section-head{align-items:flex-start}.pulse-section-head b{text-align:right}
 }
+
+.pulse-map-prompt{position:fixed;z-index:28;top:132px;left:12px;right:12px;padding:13px 14px;border:1px solid rgba(185,255,112,.26);border-radius:16px;background:rgba(3,7,5,.9);backdrop-filter:blur(16px);box-shadow:0 14px 50px rgba(0,0,0,.32)}.pulse-map-prompt strong,.pulse-map-prompt span{display:block}.pulse-map-prompt strong{font-size:12px}.pulse-map-prompt span{font-size:8px;color:#7d897d;margin-top:3px}.pulse-map-prompt button{position:absolute;right:10px;top:10px;border:0;background:transparent;color:#9aa59a;font-size:8px;cursor:pointer}
+@media(max-width:900px){.pulse-panel.map-picking{transform:translateY(110vh)!important;opacity:0!important;pointer-events:none!important}}
