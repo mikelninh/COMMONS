@@ -1,23 +1,87 @@
 {
   "version": 1,
-  "generated_at": "2026-09-21T08:56:51Z",
+  "generated_at": "2026-09-21T09:21:50Z",
   "status": "recorded",
-  "sample_count": 3,
+  "sample_count": 4,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
     "level": "usual",
     "title": "Nothing unusual is shouting right now.",
     "explanation": "All scored signals are inside their recent baselines. Quiet is a result too."
   },
+  "changes": [
+    {
+      "metric": "temperature_2m",
+      "label": "Temperature",
+      "unit": "°C",
+      "digits": 1,
+      "previous": 15.1,
+      "current": 15.7,
+      "delta": 0.6,
+      "percent": 4.0,
+      "direction": "up",
+      "salience": 0.545,
+      "basis": "since the previous Pulse snapshot"
+    },
+    {
+      "metric": "pm2_5",
+      "label": "PM2.5",
+      "unit": "µg/m³",
+      "digits": 1,
+      "previous": 4.0,
+      "current": 4.0,
+      "delta": 0.0,
+      "percent": 0.0,
+      "direction": "flat",
+      "salience": 0.0,
+      "basis": "since the previous Pulse snapshot"
+    },
+    {
+      "metric": "river_discharge",
+      "label": "Spree / river",
+      "unit": "m³/s",
+      "digits": 2,
+      "previous": 0.52,
+      "current": 0.52,
+      "delta": 0.0,
+      "percent": 0.0,
+      "direction": "flat",
+      "salience": 0.0,
+      "basis": "since the previous Pulse snapshot"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "rain-air",
+      "question": "Does rain reduce modeled fine-particle air afterwards?",
+      "status": "learning",
+      "evidence": "0 rainy transitions captured; 4 are required before comparing them with dry periods.",
+      "kind": "observational · modeled air"
+    },
+    {
+      "id": "rain-river",
+      "question": "Does the river respond measurably after rain?",
+      "status": "learning",
+      "evidence": "0 rain→river lag observations captured; 4 are required before interpreting the pattern.",
+      "kind": "lag test · water source may be modeled fallback"
+    },
+    {
+      "id": "transit-rhythm",
+      "question": "Does Berlin's transit pulse repeat by time of day?",
+      "status": "learning",
+      "evidence": "0 time-of-day buckets have 3+ observations; 2 are required to test a repeating daily rhythm.",
+      "kind": "time-of-day pattern · VBB radar"
+    }
+  ],
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 15.1,
+      "value": 15.7,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
         "label": "usual",
-        "score": -0.646,
+        "score": -0.474,
         "n": 48,
         "baseline": 17.35,
         "baseline_scope": "previous 48 model-hours"
@@ -37,9 +101,9 @@
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
         "label": "usual",
-        "score": -1.068,
+        "score": -0.824,
         "n": 48,
-        "baseline": 5.9,
+        "baseline": 5.65,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
