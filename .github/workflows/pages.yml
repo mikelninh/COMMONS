@@ -39,6 +39,7 @@ jobs:
         run: |
           node --check public/map-loader.js
           node --check public/berlin.js
+          node --check public/berlin-pulse.js
           node --check public/atlas.js
       - name: Install browser test runner
         run: |
