@@ -1,53 +1,53 @@
 {
   "version": 1,
-  "generated_at": "2026-09-21T00:45:43Z",
+  "generated_at": "2026-09-21T08:56:51Z",
   "status": "recorded",
-  "sample_count": 2,
+  "sample_count": 3,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
-    "level": "watch",
-    "title": "Modeled fine-particle air is unusually low.",
-    "explanation": "PM2.5 is below a recent median baseline (robust z -1.9, n=48)."
+    "level": "usual",
+    "title": "Nothing unusual is shouting right now.",
+    "explanation": "All scored signals are inside their recent baselines. Quiet is a result too."
   },
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 13.0,
+      "value": 15.1,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
         "label": "usual",
-        "score": -1.276,
+        "score": -0.646,
         "n": 48,
         "baseline": 17.35,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 17.5,
+        "value": 13.1,
         "unit": "°C",
         "source": "Open-Meteo",
-        "target_at": "2026-09-21T13:00"
+        "target_at": "2026-09-21T21:00"
       }
     },
     "pm2_5": {
       "label": "PM2.5",
-      "value": 3.8,
+      "value": 4.0,
       "unit": "µg/m³",
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
-        "label": "watch",
-        "score": -1.889,
+        "label": "usual",
+        "score": -1.068,
         "n": 48,
-        "baseline": 6.6,
+        "baseline": 5.9,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 3.2,
+        "value": 4.5,
         "unit": "µg/m³",
         "source": "CAMS",
-        "target_at": "2026-09-21T13:00"
+        "target_at": "2026-09-21T21:00"
       }
     },
     "river_discharge": {
@@ -65,13 +65,13 @@
     },
     "transit_vehicles": {
       "label": "Transit movement",
-      "value": 187.0,
+      "value": null,
       "unit": "vehicles",
       "source": "VBB realtime radar",
       "anomaly": {
         "label": "learning",
         "score": null,
-        "n": 1,
+        "n": 2,
         "baseline": null,
         "baseline_scope": "recorded Pulse snapshots"
       }
@@ -87,15 +87,9 @@
     "weather": "ready",
     "air": "ready",
     "flood": "ready",
-    "transit": "ready",
+    "transit": "unavailable: TimeoutError",
     "water": "modeled fallback"
   },
-  "transit_modes": {
-    "bus": 165,
-    "tram": 21,
-    "subway": 0,
-    "train": 1,
-    "other": 0
-  },
+  "transit_modes": null,
   "principle": "Missing evidence stays missing. Forecast skill is compared with persistence before trust is earned."
 }
