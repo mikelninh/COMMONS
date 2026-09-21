@@ -9,7 +9,9 @@
 <link rel="stylesheet" href="./vendor/maplibre-6.10.0/maplibre-gl.css">
 <link rel="stylesheet" href="./berlin-v2-lab.css">
 <script defer src="./berlin-v2-lab-core.js?v=lab1"></script>
-<script defer src="./berlin-v2-lab-explore.js?v=lab1"></script>\n<script defer src="./berlin-v2-lab-stories.js?v=lab1"></script>
+<script defer src="./berlin-v2-lab-explore.js?v=lab2"></script>
+<script defer src="./berlin-v2-lab-stories.js?v=lab2"></script>
+<script defer src="./berlin-v2-first-run.js?v=first1"></script>
 </head>
 <body>
 <div id="labMap" aria-hidden="true"></div>
@@ -29,7 +31,7 @@
     <button type="button" data-view="lab">Lab</button>
     <button type="button" data-view="share">Share</button>
   </nav>
-  <button type="button" class="lab-picks-button" id="labPicksButton">My picks <span id="labPickCount">0</span></button>
+  <div class="lab-top-actions"><button type="button" class="lab-replay-button" id="replayIntro">Replay intro</button><button type="button" class="lab-picks-button" id="labPicksButton">My picks <span id="labPickCount">0</span></button></div>
 </header>
 
 <main class="lab-stage">
@@ -186,6 +188,55 @@
     <div class="lab-feedback" data-feedback-for="share"></div>
   </section>
 </main>
+
+<section class="first-run hidden" id="firstRun" aria-live="polite">
+  <div class="first-run-progress" aria-hidden="true"><i data-fr-dot="0"></i><i data-fr-dot="1"></i><i data-fr-dot="2"></i><i data-fr-dot="3"></i></div>
+  <button type="button" class="first-run-skip" id="firstRunSkip">Skip to sandbox</button>
+
+  <div class="first-run-step" data-fr-step="0">
+    <div class="first-run-kicker"><span></span> BERLIN · RIGHT NOW</div>
+    <h1 id="frHeadline">Listening to the city…</h1>
+    <p id="frHeadlineCopy">Deep City is reading the latest recorded signals.</p>
+    <div class="first-run-signals" id="frSignals"></div>
+    <button type="button" class="first-run-primary" id="frBegin">Show me what changed</button>
+    <small>About 60 seconds. No tutorial required.</small>
+  </div>
+
+  <div class="first-run-step hidden" data-fr-step="1">
+    <div class="first-run-kicker">NOTICE</div>
+    <h1 id="frNoticeTitle">Something changed.</h1>
+    <p id="frNoticeCopy">The tape is comparing Berlin with its previous recording.</p>
+    <div class="first-run-change" id="frNoticeCard"></div>
+    <button type="button" class="first-run-primary" id="frTouch">Now touch the city</button>
+    <small>Pick any place. Berlin will answer from the evidence it can read.</small>
+  </div>
+
+  <div class="first-run-step hidden" data-fr-step="2">
+    <div class="first-run-kicker">YOUR PLACE</div>
+    <h1 id="frPlaceTitle">This point has a context.</h1>
+    <p id="frPlaceCopy">Live conditions are compared with the current city pulse.</p>
+    <div class="first-run-place" id="frPlaceResult"></div>
+    <button type="button" class="first-run-primary" id="frTime">Bend time</button>
+  </div>
+
+  <div class="first-run-step hidden" data-fr-step="3">
+    <div class="first-run-kicker">TIME MACHINE</div>
+    <h1>Berlin has a memory now.</h1>
+    <p>Scrub the tape from a recorded moment into the near forecast.</p>
+    <div class="first-run-time-head"><span id="frTimeStamp">—</span><strong id="frTimeStory">—</strong></div>
+    <input id="frTimeSlider" type="range" min="0" max="1" value="0" step="1" aria-label="First-run Berlin time">
+    <div class="first-run-time-scale"><span>PAST</span><span>NOW</span><span>FORECAST</span></div>
+    <div class="first-run-time-metrics" id="frTimeMetrics"></div>
+    <button type="button" class="first-run-primary" id="frFinish">Open the city sandbox</button>
+    <small>Now explore however you like: Discover, Why Here, Compare, Time, Lab, Share.</small>
+  </div>
+</section>
+
+<div class="first-run-map-prompt hidden" id="firstRunMapPrompt">
+  <strong>Tap anywhere on Berlin</strong>
+  <span>There is no wrong place.</span>
+  <button type="button" id="firstRunMapCancel">Cancel</button>
+</div>
 
 <div class="map-pick-banner hidden" id="mapPickBanner">
   <div><strong id="mapPickTitle">Tap the map</strong><span id="mapPickCopy">Choose a point in Berlin.</span></div>
