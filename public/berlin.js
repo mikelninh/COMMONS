@@ -186,7 +186,7 @@ async function renderUnavailable(layer,error){
   $("primaryLabel").textContent="LIVE SOURCE";
   $("primaryValue").textContent="Reconnecting…";
   $("primaryCopy").textContent="Live data failed. Looking for the last recorded observation instead.";
-  $("storyNote").innerHTML="COMMONS keeps the failure visible and never invents a replacement. "+friendlyFailure(error)+' <button class="inline-retry" type="button" data-layer-retry>Retry live source</button>';
+  $("storyNote").innerHTML="COMMONS leaves missing evidence blank and never invents a replacement. If a dated tape observation exists, it may be shown explicitly as not live. "+friendlyFailure(error)+' <button class="inline-retry" type="button" data-layer-retry>Retry live source</button>';
   $("sourceDetail").innerHTML=sourceCards(layer==="air"||layer==="airhistory"?["air"]:layer==="water"||layer==="waterhistory"?["water"]:layer==="traffic"?["traffic"]:layer==="noise"?["noise"]:layer==="bikes"?["bikes"]:layer==="accidents"?["accidents"]:[layer]);
   $("storyNote").querySelector("[data-layer-retry]")?.addEventListener("click",()=>setLayer(layer));
   await renderTapeFallback(layer,error);
