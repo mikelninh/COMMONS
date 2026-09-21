@@ -5,6 +5,8 @@ on:
     branches: ["main"]
     paths:
       - "public/**"
+      - "scripts/vendor-maplibre.mjs"
+      - "scripts/browser-map-smoke.mjs"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -23,20 +25,47 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Vendor pinned MapLibre ESM, worker, shared module and CSS
+        run: node scripts/vendor-maplibre.mjs
+      - name: Parse browser JavaScript
+        run: |
+          node --check public/map-loader.js
+          node --check public/berlin.js
+          node --check public/atlas.js
+      - name: Install browser test runner
+        run: |
+          npm install --no-save --package-lock=false --ignore-scripts playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Render desktop and mobile with CDNs blocked
+        run: node scripts/browser-map-smoke.mjs
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
-
       - name: Upload WORLD PULSE
         uses: actions/upload-pages-artifact@v3
         with:
           path: public
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Verify the public deployment in Chromium
+        env:
+          SMOKE_BASE_URL: ${{ steps.deployment.outputs.page_url }}
+          SMOKE_LABEL: deployed
+        run: node scripts/browser-map-smoke.mjs
+      - name: Save browser screenshots and reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: map-browser-proof
+          path: map-test-results
+          retention-days: 7
