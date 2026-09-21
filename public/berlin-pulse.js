@@ -11,7 +11,7 @@
   let mapClickBound = false;
 
   const $p = id => document.getElementById(id);
-  const finite = value => Number.isFinite(Number(value));
+  const finite = value => value !== null && value !== undefined && value !== '' && Number.isFinite(Number(value));
   const fmt = (value, digits=1) => finite(value) ? Number(value).toFixed(digits) : '—';
   const signed = (value, digits=1) => finite(value) ? `${Number(value) >= 0 ? '+' : ''}${Number(value).toFixed(digits)}` : '—';
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
@@ -72,7 +72,6 @@
     $p('pulseClose').addEventListener('click', closePulse);
     $p('pulseHereButton').addEventListener('click', armWhyHere);
     document.querySelectorAll('[data-mode]').forEach(el => el.addEventListener('click', closePulseQuiet));
-    $p('enterBerlin')?.addEventListener('click', () => setTimeout(openPulse, 0));
 
     bindMapClickWhenReady();
     refreshPulse();
