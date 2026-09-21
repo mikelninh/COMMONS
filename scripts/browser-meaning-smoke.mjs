@@ -83,6 +83,7 @@ try{
     try{
       await page.goto(base+'berlin-meaning.html',{waitUntil:'domcontentloaded',timeout:45000});
       await page.waitForFunction(()=>window.Meaning&&window.MeaningEngine&&window.Meaning?.map?.loaded?.()===true,null,{timeout:30000});
+      await page.waitForFunction(()=>window.BerlinXray?.ready===true,null,{timeout:10000});
 
       await page.locator('#startCenter').click();
       await page.waitForFunction(()=>window.BerlinXray?.active===true && !document.getElementById('xrayStage').classList.contains('hidden'),null,{timeout:15000});
