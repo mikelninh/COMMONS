@@ -1,5 +1,6 @@
 [build]
   publish = "public"
+  command = "node scripts/vendor-maplibre.mjs"
 
 [[redirects]]
   from = "/world"

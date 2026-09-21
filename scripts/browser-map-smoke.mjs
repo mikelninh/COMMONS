@@ -34,7 +34,8 @@ try {
     { name:'berlin-desktop-cdns-blocked', app:'berlin', width:1440, height:960 },
     { name:'berlin-mobile-cdns-blocked', app:'berlin', width:390, height:844 },
     { name:'atlas-desktop-cdns-blocked', app:'atlas', width:1440, height:960 },
-    { name:'berlin-local-module-failure', app:'berlin', width:1440, height:960, brokenModule:true }
+    { name:'berlin-local-module-failure', app:'berlin', width:1440, height:960, brokenModule:true },
+    { name:'berlin-mobile-module-failure', app:'berlin', width:390, height:844, brokenModule:true }
   ]) {
     const context = await browser.newContext({ viewport:{width:test.width,height:test.height}, reducedMotion:'reduce' });
     const page = await context.newPage();
@@ -43,10 +44,11 @@ try {
     const localFailures = [];
     page.on('pageerror', error => exceptions.push(error.message));
     page.on('response', response => { if (response.url().startsWith(base) && response.status() >= 400) localFailures.push({url:response.url(),status:response.status()}); });
+    let blockModule = Boolean(test.brokenModule);
     await context.route('**/*', route => {
       const url = new URL(route.request().url());
       if (['cdn.jsdelivr.net','unpkg.com'].includes(url.hostname)) { cdnRequests.push(url.href); return route.abort(); }
-      if (test.brokenModule && url.pathname.includes('/vendor/')) return route.abort();
+      if (blockModule && url.pathname.includes('/vendor/')) return route.abort();
       // Geography is real. Live feeds are unavailable on purpose, never replaced by invented values.
       if (url.origin === new URL(base).origin || url.hostname.endsWith('openfreemap.org') || !['http:','https:'].includes(url.protocol)) return route.continue();
       return route.abort();
@@ -66,12 +68,23 @@ try {
         await page.locator('#enterBerlin').click();
         await page.waitForFunction(() => document.getElementById('primaryValue').textContent === 'Unavailable');
         assert.equal(await page.locator('#insight').isVisible(), true);
+        assert.equal(await page.locator('#insight #mapFallback').count(), 1);
+        await page.screenshot({ path:`${output}/${test.name}.png` });
+        // Restore the local module, then exercise the actual recovery button.
+        blockModule = false;
+        await page.locator('[data-map-retry]').click();
+        await page.waitForFunction(() => window.__COMMONS_MAP_BOOT__?.module === 'ready' && window.__COMMONS_MAP_BOOT__?.app === 'ready', null, {timeout:25000});
+        await page.waitForFunction(() => typeof map !== 'undefined' && map?.getLayer('transit-points') && map.queryRenderedFeatures().some(f=>f.sourceLayer), null, {timeout:60000});
+        assert.equal(await page.locator('#mapFallback').isVisible(), false);
+        result.recovery = 'passed';
+        await page.screenshot({ path:`${output}/${test.name}-recovered.png` });
       } else {
         assert.equal(boot.module, 'ready');
         assert.equal(boot.version, '6.10.0');
         const layer = test.app === 'berlin' ? 'transit-points' : 'city-pins-core';
         await page.waitForFunction(id => typeof map !== 'undefined' && typeof map.getLayer === 'function' && map.getLayer(id), layer, { timeout:60000 });
         await page.waitForFunction(() => map.queryRenderedFeatures().some(f => f.sourceLayer), null, { timeout:60000 });
+        await page.waitForFunction(() => !map.isMoving(), null, {timeout:10000});
         result.render = await page.evaluate(() => ({ width:map.getCanvas().width, height:map.getCanvas().height, basemapFeatures:map.queryRenderedFeatures().filter(f=>f.sourceLayer).length, sources:Object.keys(map.getStyle().sources) }));
         assert.ok(result.render.width > 0 && result.render.height > 0);
         assert.ok(result.render.basemapFeatures > 0);
