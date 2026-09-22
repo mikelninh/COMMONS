@@ -1,7 +1,7 @@
 {
   "schema_version": "0.1",
   "loop_id": "water-rises",
-  "frame_count": 25,
+  "frame_count": 26,
   "frames": [
     {
       "generated_at": "2026-09-20T13:50:38.275704Z",
@@ -2252,6 +2252,127 @@
       "weather_memory": {
         "status": "ok",
         "seasonal_percentile": 37.7
+      },
+      "flood_signal": {
+        "status": "ok",
+        "forecast_peak_date": "2026-09-26",
+        "forecast_peak_discharge_m3s": 30.3,
+        "historical_percentile": 87.5
+      }
+    },
+    {
+      "generated_at": "2026-09-22T05:04:24.450616Z",
+      "watchpoint": {
+        "name": "Nuwakot",
+        "country": "Nepal",
+        "latitude": 27.95,
+        "longitude": 85.18
+      },
+      "members": [
+        {
+          "provider": "ecmwf",
+          "label": "ECMWF IFS",
+          "start_date": "2026-09-22",
+          "precip_daily_mm": [
+            {
+              "date": "2026-09-22",
+              "mm": 6.4
+            },
+            {
+              "date": "2026-09-23",
+              "mm": 8.8
+            },
+            {
+              "date": "2026-09-24",
+              "mm": 33.9
+            }
+          ],
+          "precip_peak_daily_mm": 33.9,
+          "precip_peak_date": "2026-09-24",
+          "precip_72h_mm": 49.1,
+          "temp_max_72h_c": 27.8,
+          "temp_min_72h_c": 19.8,
+          "gust_max_72h_kmh": 23.0
+        },
+        {
+          "provider": "gfs",
+          "label": "NOAA GFS",
+          "start_date": "2026-09-22",
+          "precip_daily_mm": [
+            {
+              "date": "2026-09-22",
+              "mm": 9.2
+            },
+            {
+              "date": "2026-09-23",
+              "mm": 14.7
+            },
+            {
+              "date": "2026-09-24",
+              "mm": 12.8
+            }
+          ],
+          "precip_peak_daily_mm": 14.7,
+          "precip_peak_date": "2026-09-23",
+          "precip_72h_mm": 36.7,
+          "temp_max_72h_c": 28.6,
+          "temp_min_72h_c": 18.8,
+          "gust_max_72h_kmh": 10.8
+        },
+        {
+          "provider": "icon",
+          "label": "DWD ICON",
+          "start_date": "2026-09-22",
+          "precip_daily_mm": [
+            {
+              "date": "2026-09-22",
+              "mm": 5.1
+            },
+            {
+              "date": "2026-09-23",
+              "mm": 2.5
+            },
+            {
+              "date": "2026-09-24",
+              "mm": 6.3
+            }
+          ],
+          "precip_peak_daily_mm": 6.3,
+          "precip_peak_date": "2026-09-24",
+          "precip_72h_mm": 13.9,
+          "temp_max_72h_c": 28.8,
+          "temp_min_72h_c": 19.0,
+          "gust_max_72h_kmh": 15.1
+        }
+      ],
+      "consensus": {
+        "precip_daily_mm_median": [
+          {
+            "date": "2026-09-22",
+            "mm": 6.4
+          },
+          {
+            "date": "2026-09-23",
+            "mm": 8.8
+          },
+          {
+            "date": "2026-09-24",
+            "mm": 12.8
+          }
+        ],
+        "precip_peak_daily_mm_median": 12.8,
+        "precip_peak_date": "2026-09-24",
+        "precip_72h_mm_median": 36.7,
+        "temp_max_72h_c_median": 28.6,
+        "gust_max_72h_kmh_median": 15.1,
+        "precip_agreement": "low",
+        "temperature_agreement": "high",
+        "gust_agreement": "low"
+      },
+      "source_errors": [],
+      "weather_memory": {
+        "status": "ok",
+        "seasonal_percentile": 67.3
       },
       "flood_signal": {
         "status": "ok",
