@@ -1,39 +1,39 @@
 {
   "version": 1,
-  "generated_at": "2026-09-22T04:56:08Z",
+  "generated_at": "2026-09-22T11:38:28Z",
   "status": "recorded",
-  "sample_count": 7,
+  "sample_count": 8,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
-    "level": "watch",
-    "title": "Spree discharge is below its recent pattern.",
-    "explanation": "Spree / river is below a recent median baseline (robust z -2.1, n=6)."
+    "level": "unusual",
+    "title": "Modeled fine-particle air is unusually low.",
+    "explanation": "PM2.5 is below a recent median baseline (robust z -5.1, n=48)."
   },
   "changes": [
-    {
-      "metric": "temperature_2m",
-      "label": "Temperature",
-      "unit": "°C",
-      "digits": 1,
-      "previous": 13.6,
-      "current": 9.3,
-      "delta": -4.3,
-      "percent": -31.6,
-      "direction": "down",
-      "salience": 4.3,
-      "basis": "since the previous Pulse snapshot"
-    },
     {
       "metric": "pm2_5",
       "label": "PM2.5",
       "unit": "µg/m³",
       "digits": 1,
-      "previous": 3.8,
-      "current": 4.4,
-      "delta": 0.6,
-      "percent": 15.8,
+      "previous": 4.4,
+      "current": 2.4,
+      "delta": -2.0,
+      "percent": -45.5,
+      "direction": "down",
+      "salience": 20.0,
+      "basis": "since the previous Pulse snapshot"
+    },
+    {
+      "metric": "temperature_2m",
+      "label": "Temperature",
+      "unit": "°C",
+      "digits": 1,
+      "previous": 9.3,
+      "current": 17.3,
+      "delta": 8.0,
+      "percent": 86.0,
       "direction": "up",
-      "salience": 0.6,
+      "salience": 5.161,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -76,42 +76,42 @@
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 9.3,
+      "value": 17.3,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
-        "label": "watch",
-        "score": -1.956,
+        "label": "usual",
+        "score": 1.371,
         "n": 48,
-        "baseline": 15.1,
+        "baseline": 14.25,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 17.7,
+        "value": 11.2,
         "unit": "°C",
         "source": "Open-Meteo",
-        "target_at": "2026-09-22T17:00"
+        "target_at": "2026-09-23T00:00"
       }
     },
     "pm2_5": {
       "label": "PM2.5",
-      "value": 4.4,
+      "value": 2.4,
       "unit": "µg/m³",
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
-        "label": "usual",
-        "score": 0.899,
+        "label": "unusual",
+        "score": -5.059,
         "n": 48,
-        "baseline": 4.0,
+        "baseline": 3.9,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 2.9,
+        "value": 4.4,
         "unit": "µg/m³",
         "source": "CAMS",
-        "target_at": "2026-09-22T17:00"
+        "target_at": "2026-09-23T00:00"
       }
     },
     "river_discharge": {
@@ -121,15 +121,15 @@
       "source": "GloFAS via Open-Meteo · modeled fallback",
       "anomaly": {
         "label": "watch",
-        "score": -2.121,
-        "n": 6,
+        "score": -2.021,
+        "n": 7,
         "baseline": 0.52,
         "baseline_scope": "recent water series"
       }
     },
     "transit_vehicles": {
       "label": "Transit movement",
-      "value": null,
+      "value": 600.0,
       "unit": "vehicles",
       "source": "VBB realtime radar",
       "anomaly": {
@@ -151,9 +151,15 @@
     "weather": "ready",
     "air": "ready",
     "flood": "ready",
-    "transit": "unavailable: TimeoutError",
+    "transit": "ready",
     "water": "modeled fallback"
   },
-  "transit_modes": null,
+  "transit_modes": {
+    "bus": 338,
+    "tram": 192,
+    "subway": 0,
+    "train": 70,
+    "other": 0
+  },
   "principle": "Missing evidence stays missing. Forecast skill is compared with persistence before trust is earned."
 }
