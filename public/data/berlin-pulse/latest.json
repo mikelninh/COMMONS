@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "generated_at": "2026-09-24T04:50:45Z",
+  "generated_at": "2026-09-24T11:45:58Z",
   "status": "recorded",
-  "sample_count": 15,
+  "sample_count": 16,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
     "level": "usual",
@@ -11,29 +11,29 @@
   },
   "changes": [
     {
-      "metric": "temperature_2m",
-      "label": "Temperature",
-      "unit": "°C",
-      "digits": 1,
-      "previous": 15.6,
-      "current": 13.1,
-      "delta": -2.5,
-      "percent": -16.0,
-      "direction": "down",
-      "salience": 0.806,
-      "basis": "since the previous Pulse snapshot"
-    },
-    {
       "metric": "pm2_5",
       "label": "PM2.5",
       "unit": "µg/m³",
       "digits": 1,
-      "previous": 8.6,
-      "current": 8.7,
-      "delta": 0.1,
-      "percent": 1.2,
+      "previous": 8.7,
+      "current": 3.2,
+      "delta": -5.5,
+      "percent": -63.2,
+      "direction": "down",
+      "salience": 13.75,
+      "basis": "since the previous Pulse snapshot"
+    },
+    {
+      "metric": "temperature_2m",
+      "label": "Temperature",
+      "unit": "°C",
+      "digits": 1,
+      "previous": 13.1,
+      "current": 15.3,
+      "delta": 2.2,
+      "percent": 16.8,
       "direction": "up",
-      "salience": 0.167,
+      "salience": 0.786,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -68,50 +68,50 @@
     {
       "id": "transit-rhythm",
       "question": "Does Berlin's transit pulse repeat by time of day?",
-      "status": "learning",
-      "evidence": "1 time-of-day buckets have 3+ observations; 2 are required to test a repeating daily rhythm.",
+      "status": "no_clear_signal",
+      "evidence": "Median movement differs by 0 vehicles between 21:00 and 21:00 Berlin-time buckets.",
       "kind": "time-of-day pattern · VBB radar"
     }
   ],
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 13.1,
+      "value": 15.3,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
         "label": "usual",
-        "score": -0.291,
+        "score": 0.193,
         "n": 48,
         "baseline": 14.5,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 14.0,
+        "value": 12.7,
         "unit": "°C",
         "source": "Open-Meteo",
-        "target_at": "2026-09-24T17:00"
+        "target_at": "2026-09-25T00:00"
       }
     },
     "pm2_5": {
       "label": "PM2.5",
-      "value": 8.7,
+      "value": 3.2,
       "unit": "µg/m³",
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
         "label": "usual",
-        "score": 1.234,
+        "score": -0.54,
         "n": 48,
-        "baseline": 4.95,
+        "baseline": 4.8,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 4.6,
+        "value": 5.4,
         "unit": "µg/m³",
         "source": "CAMS",
-        "target_at": "2026-09-24T17:00"
+        "target_at": "2026-09-25T00:00"
       }
     },
     "river_discharge": {
@@ -122,21 +122,21 @@
       "anomaly": {
         "label": "usual",
         "score": 0.0,
-        "n": 14,
+        "n": 15,
         "baseline": 0.5,
         "baseline_scope": "recent water series"
       }
     },
     "transit_vehicles": {
       "label": "Transit movement",
-      "value": null,
+      "value": 600.0,
       "unit": "vehicles",
       "source": "VBB realtime radar",
       "anomaly": {
-        "label": "learning",
-        "score": null,
+        "label": "usual",
+        "score": 0.0,
         "n": 7,
-        "baseline": null,
+        "baseline": 600.0,
         "baseline_scope": "recorded Pulse snapshots"
       }
     }
@@ -151,9 +151,15 @@
     "weather": "ready",
     "air": "ready",
     "flood": "ready",
-    "transit": "unavailable: TimeoutError",
+    "transit": "ready",
     "water": "modeled fallback"
   },
-  "transit_modes": null,
+  "transit_modes": {
+    "bus": 341,
+    "tram": 186,
+    "subway": 0,
+    "train": 71,
+    "other": 2
+  },
   "principle": "Missing evidence stays missing. Forecast skill is compared with persistence before trust is earned."
 }
