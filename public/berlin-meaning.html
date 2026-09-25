@@ -8,6 +8,7 @@
 <title>COMMONS / BERLIN DEEP CITY</title>
 <link rel="stylesheet" href="./vendor/maplibre-6.10.0/maplibre-gl.css">
 <link rel="stylesheet" href="./berlin-meaning.css">
+<link rel="stylesheet" href="./berlin-cinematic.css?v=cinematic1">
 <script defer src="./berlin-meaning-sources.js?v=m1"></script>
 <script defer src="./berlin-meaning-core.js?v=m3"></script>
 <script defer src="./berlin-meaning-engine.js?v=m3"></script>
@@ -23,7 +24,7 @@
     <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
     <span class="brand-copy"><b>COMMONS / BERLIN</b><small>DEEP CITY</small></span>
   </a>
-  <div class="continuous-status" id="continuousStatus"><i></i><span>BERLIN · LIVE MAP</span></div>
+  <div class="continuous-status" id="continuousStatus"><i></i><span>BERLIN · NOW</span></div>
   <button type="button" class="continuous-menu" id="continuousMenu" aria-label="More options">•••</button>
 </header>
 
@@ -43,14 +44,14 @@
 
 <main class="meaning-shell">
   <section class="meaning-hero" id="meaningHero">
-    <span class="meaning-eyebrow"><i></i> BERLIN DEEP CITY</span>
-    <h1>Touch the city.</h1>
-    <p>Pick one place. Then move through <strong>what it is, what shaped it, and what changes over time.</strong></p>
+    <span class="meaning-eyebrow"><i></i> BERLIN · NOW · MEMORY</span>
+    <h1>Berlin has layers.</h1>
+    <p>Choose one place. Watch <strong>what moves through it, what supports it, what pressures it, and what the city remembers.</strong></p>
     <div class="hero-actions">
-      <button type="button" class="primary" id="startMeaning">Choose a place</button>
-      <button type="button" id="startCenter">Start in central Berlin</button>
+      <button type="button" class="primary" id="startMeaning">Reveal a place</button>
+      <button type="button" id="startCenter">Begin in Mitte</button>
     </div>
-    <small>One map. One place. No invented layers.</small>
+    <small>One city. Real sources. Evidence before interpretation.</small>
   </section>
 
   <aside class="source-drawer hidden" id="sourceDrawer">
@@ -79,7 +80,7 @@
 
     <div class="continuous-place">
       <div>
-        <span class="continuous-kicker">THIS PLACE</span>
+        <span class="continuous-kicker">THIS PLACE · BERLIN</span>
         <strong id="continuousPlace">Berlin</strong>
       </div>
       <div class="continuous-actions">
@@ -92,12 +93,12 @@
 
     <div class="xray-story" id="xrayStory">
       <span id="xrayKicker">LIVE · NOW</span>
-      <strong id="xrayTitle">Berlin is happening now.</strong>
-      <p id="xrayCopy">Movement, weather and air become one live surface.</p>
+      <strong id="xrayTitle">Berlin is happening here.</strong>
+      <p id="xrayCopy">Live systems surface around this exact point.</p>
     </div>
 
     <div class="continuous-meaning-hint" id="continuousMeaningHint">
-      <span>WHAT TO NOTICE</span>
+      <span>NOTICE THIS</span>
       <strong id="continuousInsightTitle">Reading this place…</strong>
       <button type="button" id="openMeaningDetails">Evidence</button>
     </div>
@@ -113,7 +114,7 @@
       <button type="button" data-xray="people"><i>●</i><span>PEOPLE</span><small>density · burden · care</small></button>
       <button type="button" data-xray="nature"><i>◆</i><span>NATURE</span><small>green · trees · heat</small></button>
       <button type="button" data-xray="infra"><i>▣</i><span>INFRA</span><small>transit · hospitals · sport</small></button>
-      <button type="button" data-xray="history"><i>▥</i><span>HISTORY</span><small>buildings · wall · traces</small></button>
+      <button type="button" data-xray="history"><i>▥</i><span>MEMORY</span><small>buildings · wall · traces</small></button>
     </nav>
 
     <div class="continuous-compare-result hidden" id="continuousCompareResult">
