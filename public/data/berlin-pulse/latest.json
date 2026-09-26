@@ -1,26 +1,39 @@
 {
   "version": 1,
-  "generated_at": "2026-09-26T21:10:35Z",
+  "generated_at": "2026-09-26T23:38:07Z",
   "status": "recorded",
-  "sample_count": 26,
+  "sample_count": 27,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
     "level": "watch",
-    "title": "Spree discharge is above its recent pattern.",
-    "explanation": "Spree / river is above a recent median baseline (robust z +2.0, n=25)."
+    "title": "Transit movement is unusually quiet for the tape.",
+    "explanation": "Transit movement is below a recent median baseline (robust z -2.3, n=15)."
   },
   "changes": [
+    {
+      "metric": "transit_vehicles",
+      "label": "Transit movement",
+      "unit": "vehicles",
+      "digits": 0,
+      "previous": 600.0,
+      "current": 273.0,
+      "delta": -327.0,
+      "percent": -54.5,
+      "direction": "down",
+      "salience": 327.0,
+      "basis": "since the previous Pulse snapshot"
+    },
     {
       "metric": "pm2_5",
       "label": "PM2.5",
       "unit": "µg/m³",
       "digits": 1,
-      "previous": 8.0,
-      "current": 12.0,
-      "delta": 4.0,
-      "percent": 50.0,
+      "previous": 12.0,
+      "current": 12.9,
+      "delta": 0.9,
+      "percent": 7.5,
       "direction": "up",
-      "salience": 3.636,
+      "salience": 0.818,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -28,12 +41,12 @@
       "label": "Temperature",
       "unit": "°C",
       "digits": 1,
-      "previous": 20.5,
-      "current": 15.7,
-      "delta": -4.8,
-      "percent": -23.4,
+      "previous": 15.7,
+      "current": 14.3,
+      "delta": -1.4,
+      "percent": -8.9,
       "direction": "down",
-      "salience": 2.182,
+      "salience": 0.636,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -43,19 +56,6 @@
       "digits": 2,
       "previous": 0.58,
       "current": 0.58,
-      "delta": 0.0,
-      "percent": 0.0,
-      "direction": "flat",
-      "salience": 0.0,
-      "basis": "since the previous Pulse snapshot"
-    },
-    {
-      "metric": "transit_vehicles",
-      "label": "Transit movement",
-      "unit": "vehicles",
-      "digits": 0,
-      "previous": 600.0,
-      "current": 600.0,
       "delta": 0.0,
       "percent": 0.0,
       "direction": "flat",
@@ -81,50 +81,50 @@
     {
       "id": "transit-rhythm",
       "question": "Does Berlin's transit pulse repeat by time of day?",
-      "status": "no_clear_signal",
-      "evidence": "Median movement differs by 0 vehicles between 21:00 and 21:00 Berlin-time buckets.",
+      "status": "candidate",
+      "evidence": "Median movement differs by 413 vehicles between 00:00 and 21:00 Berlin-time buckets.",
       "kind": "time-of-day pattern · VBB radar"
     }
   ],
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 15.7,
+      "value": 14.3,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
         "label": "usual",
-        "score": 0.777,
+        "score": 0.314,
         "n": 48,
-        "baseline": 13.05,
+        "baseline": 13.3,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 17.8,
+        "value": 22.7,
         "unit": "°C",
         "source": "Open-Meteo",
-        "target_at": "2026-09-27T09:00"
+        "target_at": "2026-09-27T12:00"
       }
     },
     "pm2_5": {
       "label": "PM2.5",
-      "value": 12.0,
+      "value": 12.9,
       "unit": "µg/m³",
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
         "label": "usual",
-        "score": 1.226,
+        "score": 1.49,
         "n": 48,
-        "baseline": 8.0,
+        "baseline": 8.15,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 11.4,
+        "value": 11.0,
         "unit": "µg/m³",
         "source": "CAMS",
-        "target_at": "2026-09-27T09:00"
+        "target_at": "2026-09-27T12:00"
       }
     },
     "river_discharge": {
@@ -135,30 +135,30 @@
       "anomaly": {
         "label": "watch",
         "score": 2.023,
-        "n": 25,
+        "n": 26,
         "baseline": 0.52,
         "baseline_scope": "recent water series"
       }
     },
     "transit_vehicles": {
       "label": "Transit movement",
-      "value": 600.0,
+      "value": 273.0,
       "unit": "vehicles",
       "source": "VBB realtime radar",
       "anomaly": {
-        "label": "usual",
-        "score": 0.0,
-        "n": 14,
+        "label": "watch",
+        "score": -2.329,
+        "n": 15,
         "baseline": 600.0,
         "baseline_scope": "recorded Pulse snapshots"
       }
     }
   },
   "forecast_score": {
-    "resolved": 24,
-    "candidate_mae": 0.6792,
-    "baseline_mae": 3.9375,
-    "candidate_better_rate": 0.9167
+    "resolved": 26,
+    "candidate_mae": 0.7308,
+    "baseline_mae": 3.9346,
+    "candidate_better_rate": 0.9231
   },
   "source_health": {
     "weather": "ready",
@@ -168,10 +168,10 @@
     "water": "modeled fallback"
   },
   "transit_modes": {
-    "bus": 384,
-    "tram": 114,
-    "subway": 65,
-    "train": 37,
+    "bus": 140,
+    "tram": 33,
+    "subway": 42,
+    "train": 58,
     "other": 0
   },
   "principle": "Missing evidence stays missing. Forecast skill is compared with persistence before trust is earned."
