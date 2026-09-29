@@ -1,39 +1,39 @@
 {
   "version": 1,
-  "generated_at": "2026-09-29T09:49:45Z",
+  "generated_at": "2026-09-29T18:05:05Z",
   "status": "recorded",
-  "sample_count": 36,
+  "sample_count": 37,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
-    "level": "usual",
-    "title": "Nothing unusual is shouting right now.",
-    "explanation": "All scored signals are inside their recent baselines. Quiet is a result too."
+    "level": "watch",
+    "title": "Spree discharge is below its recent pattern.",
+    "explanation": "Spree / river is below a recent median baseline (robust z -2.0, n=36)."
   },
   "changes": [
-    {
-      "metric": "temperature_2m",
-      "label": "Temperature",
-      "unit": "°C",
-      "digits": 1,
-      "previous": 15.7,
-      "current": 20.5,
-      "delta": 4.8,
-      "percent": 30.6,
-      "direction": "up",
-      "salience": 2.0,
-      "basis": "since the previous Pulse snapshot"
-    },
     {
       "metric": "pm2_5",
       "label": "PM2.5",
       "unit": "µg/m³",
       "digits": 1,
-      "previous": 8.4,
-      "current": 7.9,
-      "delta": -0.5,
-      "percent": -6.0,
+      "previous": 7.9,
+      "current": 7.3,
+      "delta": -0.6,
+      "percent": -7.6,
       "direction": "down",
-      "salience": 0.455,
+      "salience": 0.545,
+      "basis": "since the previous Pulse snapshot"
+    },
+    {
+      "metric": "temperature_2m",
+      "label": "Temperature",
+      "unit": "°C",
+      "digits": 1,
+      "previous": 20.5,
+      "current": 20.8,
+      "delta": 0.3,
+      "percent": 1.5,
+      "direction": "up",
+      "salience": 0.12,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -42,11 +42,11 @@
       "unit": "m³/s",
       "digits": 2,
       "previous": 0.51,
-      "current": 0.51,
-      "delta": 0.0,
-      "percent": 0.0,
-      "direction": "flat",
-      "salience": 0.0,
+      "current": 0.49,
+      "delta": -0.02,
+      "percent": -3.9,
+      "direction": "down",
+      "salience": 0.02,
       "basis": "since the previous Pulse snapshot"
     }
   ],
@@ -76,53 +76,53 @@
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 20.5,
+      "value": 20.8,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
         "label": "usual",
-        "score": 0.569,
+        "score": 0.609,
         "n": 48,
         "baseline": 17.55,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 16.4,
+        "value": 12.9,
         "unit": "°C",
         "source": "Open-Meteo",
-        "target_at": "2026-09-29T22:00"
+        "target_at": "2026-09-30T06:00"
       }
     },
     "pm2_5": {
       "label": "PM2.5",
-      "value": 7.9,
+      "value": 7.3,
       "unit": "µg/m³",
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
         "label": "usual",
-        "score": -0.726,
+        "score": -0.927,
         "n": 48,
-        "baseline": 8.6,
+        "baseline": 8.4,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 7.2,
+        "value": 10.4,
         "unit": "µg/m³",
         "source": "CAMS",
-        "target_at": "2026-09-29T22:00"
+        "target_at": "2026-09-30T06:00"
       }
     },
     "river_discharge": {
       "label": "Spree / river",
-      "value": 0.51,
+      "value": 0.49,
       "unit": "m³/s",
       "source": "GloFAS via Open-Meteo · modeled fallback",
       "anomaly": {
-        "label": "usual",
-        "score": -0.674,
-        "n": 35,
+        "label": "watch",
+        "score": -2.023,
+        "n": 36,
         "baseline": 0.52,
         "baseline_scope": "recent water series"
       }
