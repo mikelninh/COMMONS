@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "generated_at": "2026-09-29T22:15:11Z",
+  "generated_at": "2026-09-30T05:32:39Z",
   "status": "recorded",
-  "sample_count": 38,
+  "sample_count": 39,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
-    "level": "watch",
-    "title": "Spree discharge is below its recent pattern.",
-    "explanation": "Spree / river is below a recent median baseline (robust z -2.0, n=37)."
+    "level": "usual",
+    "title": "Nothing unusual is shouting right now.",
+    "explanation": "All scored signals are inside their recent baselines. Quiet is a result too."
   },
   "changes": [
     {
@@ -15,12 +15,12 @@
       "label": "Temperature",
       "unit": "°C",
       "digits": 1,
-      "previous": 20.8,
-      "current": 16.7,
-      "delta": -4.1,
-      "percent": -19.7,
+      "previous": 16.7,
+      "current": 13.6,
+      "delta": -3.1,
+      "percent": -18.6,
       "direction": "down",
-      "salience": 1.708,
+      "salience": 1.24,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -28,10 +28,10 @@
       "label": "PM2.5",
       "unit": "µg/m³",
       "digits": 1,
-      "previous": 7.3,
-      "current": 8.3,
+      "previous": 8.3,
+      "current": 9.3,
       "delta": 1.0,
-      "percent": 13.7,
+      "percent": 12.0,
       "direction": "up",
       "salience": 0.909,
       "basis": "since the previous Pulse snapshot"
@@ -76,14 +76,14 @@
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 16.7,
+      "value": 13.6,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
         "label": "usual",
-        "score": -0.209,
+        "score": -0.841,
         "n": 48,
-        "baseline": 17.8,
+        "baseline": 17.9,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
@@ -91,27 +91,27 @@
         "value": 20.1,
         "unit": "°C",
         "source": "Open-Meteo",
-        "target_at": "2026-09-30T10:00"
+        "target_at": "2026-09-30T18:00"
       }
     },
     "pm2_5": {
       "label": "PM2.5",
-      "value": 8.3,
+      "value": 9.3,
       "unit": "µg/m³",
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
         "label": "usual",
-        "score": -0.09,
+        "score": 1.214,
         "n": 48,
         "baseline": 8.4,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 6.1,
+        "value": 6.9,
         "unit": "µg/m³",
         "source": "CAMS",
-        "target_at": "2026-09-30T10:00"
+        "target_at": "2026-09-30T18:00"
       }
     },
     "river_discharge": {
@@ -120,23 +120,23 @@
       "unit": "m³/s",
       "source": "GloFAS via Open-Meteo · modeled fallback",
       "anomaly": {
-        "label": "watch",
-        "score": -2.023,
-        "n": 37,
+        "label": "usual",
+        "score": -1.349,
+        "n": 38,
         "baseline": 0.52,
         "baseline_scope": "recent water series"
       }
     },
     "transit_vehicles": {
       "label": "Transit movement",
-      "value": null,
+      "value": 600.0,
       "unit": "vehicles",
       "source": "VBB realtime radar",
       "anomaly": {
-        "label": "learning",
-        "score": null,
+        "label": "usual",
+        "score": 0.0,
         "n": 21,
-        "baseline": null,
+        "baseline": 600.0,
         "baseline_scope": "recorded Pulse snapshots"
       }
     }
@@ -151,9 +151,15 @@
     "weather": "ready",
     "air": "ready",
     "flood": "ready",
-    "transit": "unavailable: TimeoutError",
+    "transit": "ready",
     "water": "modeled fallback"
   },
-  "transit_modes": null,
+  "transit_modes": {
+    "bus": 194,
+    "tram": 208,
+    "subway": 119,
+    "train": 79,
+    "other": 0
+  },
   "principle": "Missing evidence stays missing. Forecast skill is compared with persistence before trust is earned."
 }
