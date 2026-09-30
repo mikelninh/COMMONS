@@ -185,6 +185,7 @@ Read the project documents:
 - [docs/COMMONS_TRUST_V1.md](docs/COMMONS_TRUST_V1.md) — claim provenance, freshness, evaluations, action safety and incidents
 - [docs/CALM_INSTRUMENT_V1.md](docs/CALM_INSTRUMENT_V1.md) — orientation-first daily UX with full audit depth on demand
 - [docs/ONE_HUMAN_FLOW_V1.md](docs/ONE_HUMAN_FLOW_V1.md) — the primary human journey
+- [docs/OUTCOME_LEDGER_V1.md](docs/OUTCOME_LEDGER_V1.md) — portable Agency Receipts → outcome evidence → next learning
 - [docs/WORLD_MODEL_V0.md](docs/WORLD_MODEL_V0.md) — forecast council, weather memory and flood pilot
 - [docs/MONETIZATION_V1.md](docs/MONETIZATION_V1.md) — aligned business model and cost discipline
 
