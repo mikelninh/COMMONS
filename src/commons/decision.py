@@ -32,6 +32,7 @@ CAPABILITY_CRITERIA = {
     "coordinate": "Coordinate people, organisations, tasks, resources or hand-offs.",
     "public_service_navigation": "Navigate a government, public-administration, benefits or public-service process. Do not use this for private landlord, utility, banking or ordinary commercial disputes.",
     "translate": "Translate or mediate language as the primary capability.",
+    "verify": "Check whether claimed evidence, identity, delivery, completion or outcome proof is sufficient, independent and trustworthy before money, authority or verified status is granted.",
     "specialist": "A qualified domain specialist is needed, for example for consequential legal, financial, clinical or technical interpretation or advice.",
     "workflow": "Use software tools or APIs to execute a bounded multi-step task.",
     "human": "A human expert or accountable reviewer is the appropriate next capability.",
@@ -54,11 +55,21 @@ def _input_tokens(response: Any) -> int | None:
         return None
 
 
+def _sum_tokens(*responses: Any) -> int | None:
+    values = [value for value in (_input_tokens(r) for r in responses) if value is not None]
+    return sum(values) if values else None
+
+
 class JevDecisionEngine:
-    """Turn messy problem state into typed probabilistic judgments."""
+    """Turn messy problem state into typed probabilistic judgments.
+
+    Jev questions that depend on a prior decision are intentionally staged.
+    Stage 1 selects the need/capability. Stage 2 evaluates the selected
+    capability's authority, evidence and reversibility requirements.
+    """
 
     def evaluate(self, problem: ProblemInput) -> Assessment:
-        state: dict[str, Any] = {
+        base_state: dict[str, Any] = {
             "problem": problem.text,
             "language": problem.language,
             "mode": problem.mode,
@@ -69,7 +80,8 @@ class JevDecisionEngine:
             ),
         }
 
-        questions = {
+        # Stage 1: independent judgments over the original problem state.
+        stage_one_questions = {
             "domain": Choice(
                 instructions="What is the primary domain of the concrete need?",
                 criteria=DOMAIN_CRITERIA,
@@ -97,15 +109,6 @@ class JevDecisionEngine:
             "enough_information": Noul(
                 instructions="Is there enough information to select a useful next capability without inventing missing facts?",
             ),
-            "safe_to_automate": Noul(
-                instructions=(
-                    "Would it be safe for software to perform the next consequential action automatically "
-                    "without explicit human approval, under ordinary least-privilege permissions?"
-                ),
-            ),
-            "needs_human_review": Noul(
-                instructions="Should an accountable or qualified human review the situation before consequential action is taken?",
-            ),
             "affected_groups_present": Noul(
                 instructions="Does the decision materially affect people beyond the person asking?",
             ),
@@ -114,20 +117,6 @@ class JevDecisionEngine:
                     "Does this situation contain legitimate value trade-offs where reasonable people may disagree "
                     "about goals, fairness, rights, distribution or acceptable costs?"
                 ),
-            ),
-            "evidence_need": Score(
-                instructions="How much additional evidence is needed before a consequential decision?",
-                criteria=["None.", "Minor.", "Moderate.", "Substantial.", "Critical."],
-            ),
-            "reversibility": Score(
-                instructions="How reversible is the likely next action?",
-                criteria=[
-                    "Effectively irreversible.",
-                    "Hard to reverse.",
-                    "Partly reversible.",
-                    "Mostly reversible.",
-                    "Fully reversible.",
-                ],
             ),
             "capability": Choice(
                 instructions=(
@@ -138,25 +127,81 @@ class JevDecisionEngine:
         }
 
         with TypeSafeClient() as client:
-            response = client.system_one(state=state, questions=questions)
+            stage_one = client.system_one(
+                state=base_state,
+                questions=stage_one_questions,
+            )
 
-        domain = response.choices["domain"]
-        capability = response.choices["capability"]
+        domain = stage_one.choices["domain"]
+        capability = stage_one.choices["capability"]
+
+        # Stage 2: these judgments depend on the capability selected in stage 1.
+        governed_state = {
+            **base_state,
+            "selected_domain": domain.choice,
+            "selected_capability": capability.choice,
+            "selected_capability_definition": CAPABILITY_CRITERIA.get(
+                capability.choice,
+                CAPABILITY_CRITERIA["other"],
+            ),
+            "instruction": (
+                "Evaluate the selected capability above. Do not silently replace it "
+                "with a different action when judging automation, review, evidence or reversibility."
+            ),
+        }
+
+        stage_two_questions = {
+            "safe_to_automate": Noul(
+                instructions=(
+                    "Would performing the selected capability be safe for software to carry out automatically "
+                    "without explicit human approval, under ordinary least-privilege permissions?"
+                ),
+            ),
+            "needs_human_review": Noul(
+                instructions=(
+                    "Should an accountable or qualified human review the selected capability's output "
+                    "before any consequential action or reliance?"
+                ),
+            ),
+            "evidence_need": Score(
+                instructions=(
+                    "How much additional evidence is needed before relying on the selected capability "
+                    "for a consequential next step?"
+                ),
+                criteria=["None.", "Minor.", "Moderate.", "Substantial.", "Critical."],
+            ),
+            "reversibility": Score(
+                instructions="How reversible is performing or relying on the selected capability?",
+                criteria=[
+                    "Effectively irreversible.",
+                    "Hard to reverse.",
+                    "Partly reversible.",
+                    "Mostly reversible.",
+                    "Fully reversible.",
+                ],
+            ),
+        }
+
+        with TypeSafeClient() as client:
+            stage_two = client.system_one(
+                state=governed_state,
+                questions=stage_two_questions,
+            )
 
         return Assessment(
             domain=domain.choice,
-            urgency=float(response.scores["urgency"].score),
-            high_stakes=float(response.nouls["high_stakes"].noul),
-            enough_information=float(response.nouls["enough_information"].noul),
-            safe_to_automate=float(response.nouls["safe_to_automate"].noul),
-            needs_human_review=float(response.nouls["needs_human_review"].noul),
-            affected_groups_present=float(response.nouls["affected_groups_present"].noul),
-            contested_values_present=float(response.nouls["contested_values_present"].noul),
-            evidence_need=float(response.scores["evidence_need"].score),
-            reversibility=float(response.scores["reversibility"].score),
+            urgency=float(stage_one.scores["urgency"].score),
+            high_stakes=float(stage_one.nouls["high_stakes"].noul),
+            enough_information=float(stage_one.nouls["enough_information"].noul),
+            safe_to_automate=float(stage_two.nouls["safe_to_automate"].noul),
+            needs_human_review=float(stage_two.nouls["needs_human_review"].noul),
+            affected_groups_present=float(stage_one.nouls["affected_groups_present"].noul),
+            contested_values_present=float(stage_one.nouls["contested_values_present"].noul),
+            evidence_need=float(stage_two.scores["evidence_need"].score),
+            reversibility=float(stage_two.scores["reversibility"].score),
             capability=capability.choice,
             domain_confidence=getattr(domain, "confidence", None),
             capability_confidence=getattr(capability, "confidence", None),
-            model=getattr(response, "model", None),
-            input_tokens=_input_tokens(response),
+            model=getattr(stage_one, "model", None),
+            input_tokens=_sum_tokens(stage_one, stage_two),
         )
