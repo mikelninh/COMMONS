@@ -23,8 +23,8 @@ def test_meaning_engine_ranks_meaning_instead_of_exposing_layer_toggles() -> Non
     page = Path("public/berlin-meaning.html").read_text(encoding="utf-8")
     engine = Path("public/berlin-meaning-engine.js").read_text(encoding="utf-8")
 
-    assert "Touch the city." in page
-    assert "One map. One place." in page
+    assert "Berlin has layers." in page
+    assert "One city. Real sources." in page
     assert "VISITING" in page
     assert "I LIVE HERE" in page
     assert "SURPRISE ME" in page
@@ -156,3 +156,14 @@ def test_one_continuous_berlin_unifies_place_lens_time_and_compare() -> None:
     assert "chooseCompare" in continuous
     assert "data-sheet-state" in css
     assert ".continuous-sheet" in css
+
+
+def test_cinematic_atlas_skin_is_loaded_after_base_meaning_styles() -> None:
+    page = Path("public/berlin-meaning.html").read_text(encoding="utf-8")
+    cinematic = Path("public/berlin-cinematic.css").read_text(encoding="utf-8")
+
+    assert page.index("berlin-meaning.css") < page.index("berlin-cinematic.css")
+    assert "BERLIN · NOW · MEMORY" in page
+    assert ".continuous-sheet" in cinematic
+    assert "--atlas-serif" in cinematic
+    assert "@media(max-width:900px)" in cinematic

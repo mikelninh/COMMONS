@@ -1,0 +1,607 @@
+
+/* BERLIN CINEMATIC ATLAS — editorial map-first redesign
+   This file intentionally overrides the existing Deep City skin without changing data logic. */
+
+body.continuous-berlin{
+  --atlas-accent:#b9f27c;
+  --atlas-accent-soft:rgba(185,242,124,.14);
+  --atlas-ink:#f3f1e8;
+  --atlas-muted:#a8ad9f;
+  --atlas-faint:#717a6c;
+  --atlas-glass:rgba(8,13,11,.76);
+  --atlas-glass-strong:rgba(7,12,10,.92);
+  --atlas-border:rgba(242,245,233,.13);
+  --atlas-serif:"Iowan Old Style","Palatino Linotype",Palatino,Baskerville,Georgia,serif;
+  --atlas-sans:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:#0b110f;
+}
+body.xray-live{--atlas-accent:#bdf47f;--atlas-accent-soft:rgba(189,244,127,.13)}
+body.xray-people{--atlas-accent:#8fd7ef;--atlas-accent-soft:rgba(143,215,239,.13)}
+body.xray-nature{--atlas-accent:#8be18e;--atlas-accent-soft:rgba(139,225,142,.13)}
+body.xray-infra{--atlas-accent:#e0c27f;--atlas-accent-soft:rgba(224,194,127,.13)}
+body.xray-history{--atlas-accent:#d6b1d7;--atlas-accent-soft:rgba(214,177,215,.13)}
+
+/* The map should feel like the product, not a muted wallpaper. */
+.continuous-berlin #meaningMap{background:#b8b8aa}
+.continuous-berlin #meaningMap canvas{
+  filter:saturate(.72) sepia(.06) brightness(.86) contrast(.98);
+  transition:filter .65s ease;
+}
+.continuous-berlin.xray-live #meaningMap canvas{filter:saturate(.78) sepia(.03) brightness(.88) contrast(.98)}
+.continuous-berlin.xray-people #meaningMap canvas{filter:saturate(.58) sepia(.05) brightness(.84) contrast(1)}
+.continuous-berlin.xray-nature #meaningMap canvas{filter:saturate(.9) sepia(.03) brightness(.84) contrast(.96)}
+.continuous-berlin.xray-infra #meaningMap canvas{filter:saturate(.56) sepia(.08) brightness(.83) contrast(1.02)}
+.continuous-berlin.xray-history #meaningMap canvas{filter:sepia(.24) saturate(.56) brightness(.82) contrast(.98)}
+
+.continuous-berlin .meaning-shade{
+  background:
+    radial-gradient(circle at 52% 42%,transparent 0 38%,rgba(7,12,10,.05) 70%,rgba(7,12,10,.18) 100%),
+    linear-gradient(180deg,rgba(8,13,11,.12),transparent 18%,transparent 70%,rgba(8,13,11,.26));
+}
+.continuous-berlin.xray-past .meaning-shade{
+  background:
+    linear-gradient(180deg,rgba(67,48,30,.08),transparent 34%,rgba(46,33,24,.16)),
+    radial-gradient(circle at 52% 42%,transparent 0 46%,rgba(23,17,12,.12) 100%);
+}
+.continuous-berlin.xray-future .meaning-shade{
+  background:
+    linear-gradient(180deg,rgba(40,50,74,.07),transparent 34%,rgba(18,27,42,.15)),
+    radial-gradient(circle at 52% 42%,transparent 0 46%,rgba(16,24,34,.12) 100%);
+}
+
+/* Minimal chrome. */
+.continuous-berlin .meaning-topbar{
+  height:62px;
+  padding:0 22px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  background:linear-gradient(180deg,rgba(9,14,12,.88),rgba(9,14,12,.64));
+  backdrop-filter:blur(22px) saturate(1.1);
+}
+.continuous-berlin .meaning-brand{gap:11px}
+.continuous-berlin .brand-mark{width:24px;height:24px}
+.continuous-berlin .brand-mark i{width:17px;height:17px;background:var(--atlas-accent)}
+.continuous-berlin .brand-copy b{font-size:9px;letter-spacing:.18em;color:#f0f2eb}
+.continuous-berlin .brand-copy small{font-size:5px;color:#7d867a;letter-spacing:.2em;margin-top:3px}
+.continuous-status{
+  gap:7px;
+  font-size:6px;
+  letter-spacing:.15em;
+  color:#9ca69a;
+  opacity:.9;
+}
+.continuous-status i{width:5px;height:5px;background:var(--atlas-accent);box-shadow:0 0 12px var(--atlas-accent)}
+.continuous-menu{
+  width:38px;height:38px;padding:0;
+  border:1px solid rgba(255,255,255,.11);
+  background:rgba(255,255,255,.035);
+  backdrop-filter:blur(12px);
+  color:#b8c0b4;
+}
+.continuous-menu:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18)}
+.continuous-berlin .meaning-shell{inset:62px 0 0}
+
+/* Opening moment: an editorial invitation, not a dashboard card. */
+.continuous-berlin .meaning-hero{
+  left:clamp(24px,5vw,76px);
+  right:auto;
+  top:auto;
+  bottom:clamp(42px,8vh,88px);
+  transform:none;
+  width:min(610px,calc(100vw - 48px));
+  padding:0;
+  text-align:left;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  backdrop-filter:none;
+  box-shadow:none;
+  overflow:visible;
+}
+.continuous-berlin .meaning-hero:before{
+  content:"";
+  position:absolute;
+  inset:-32px -54px -34px -40px;
+  z-index:-1;
+  pointer-events:none;
+  background:radial-gradient(ellipse at 24% 52%,rgba(6,11,9,.72),rgba(6,11,9,.43) 46%,transparent 75%);
+  filter:blur(3px);
+}
+.continuous-berlin .meaning-hero .meaning-eyebrow{
+  display:flex;align-items:center;gap:8px;
+  color:var(--atlas-accent);
+  font-size:7px;letter-spacing:.18em;
+}
+.continuous-berlin .meaning-hero h1{
+  max-width:580px;
+  margin:16px 0 15px;
+  font-family:var(--atlas-serif);
+  font-size:clamp(60px,7vw,104px);
+  font-weight:500;
+  line-height:.88;
+  letter-spacing:-.055em;
+  text-wrap:balance;
+  color:var(--atlas-ink);
+  text-shadow:0 2px 30px rgba(0,0,0,.2);
+}
+.continuous-berlin .meaning-hero p{
+  margin:0;
+  max-width:520px;
+  color:#c3c8bc;
+  font-size:13px;
+  line-height:1.55;
+  text-shadow:0 1px 16px rgba(0,0,0,.28);
+}
+.continuous-berlin .meaning-hero p strong{color:#f0f2e9;font-weight:600}
+.continuous-berlin .meaning-hero small{
+  color:#939c90;
+  font-size:7px;
+  letter-spacing:.02em;
+  margin-top:15px;
+}
+.continuous-berlin .hero-actions{justify-content:flex-start;margin-top:22px;gap:9px}
+.continuous-berlin .meaning-hero button{
+  min-height:42px;
+  padding:0 16px;
+  border-radius:999px;
+  font-size:8px;
+  letter-spacing:.01em;
+  backdrop-filter:blur(16px);
+}
+.continuous-berlin .meaning-hero button.primary{
+  border-color:color-mix(in srgb,var(--atlas-accent) 48%,transparent)!important;
+  background:color-mix(in srgb,var(--atlas-accent) 14%,rgba(8,13,11,.72))!important;
+  color:#f1f4eb!important;
+}
+.continuous-berlin .meaning-hero #startCenter{
+  color:#d5d9d0;
+  background:rgba(10,16,13,.54);
+  border-color:rgba(255,255,255,.13);
+}
+
+/* The selected place becomes an editorial story sheet, not a control dashboard. */
+.continuous-berlin .xray-stage{inset:62px 0 0}
+.continuous-sheet{
+  left:clamp(18px,3vw,46px);
+  bottom:clamp(18px,3vw,38px);
+  transform:none;
+  width:min(560px,calc(100vw - 150px));
+  height:328px;
+  padding:24px 26px 22px;
+  overflow:hidden;
+  border:1px solid var(--atlas-border);
+  border-radius:26px;
+  background:
+    linear-gradient(135deg,rgba(10,16,13,.9),rgba(9,14,12,.76) 72%,rgba(9,14,12,.6));
+  backdrop-filter:blur(28px) saturate(1.12);
+  box-shadow:0 28px 90px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.025);
+  transition:
+    height .4s cubic-bezier(.2,.8,.2,1),
+    width .4s cubic-bezier(.2,.8,.2,1),
+    background .4s ease;
+}
+.continuous-sheet:before{
+  content:"";
+  position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,transparent,var(--atlas-accent) 26%,var(--atlas-accent) 68%,transparent);
+  opacity:.72;
+}
+.continuous-sheet[data-sheet-state="expanded"]{
+  width:min(650px,calc(100vw - 120px));
+  height:min(76vh,720px);
+  background:rgba(8,13,11,.965);
+}
+.sheet-handle{
+  top:7px;
+  width:58px;height:15px;
+  opacity:.55;
+}
+.sheet-handle span{height:2px;background:rgba(255,255,255,.35)}
+
+.continuous-place{
+  margin-top:7px;
+  padding-bottom:12px;
+  gap:18px;
+  border-bottom:1px solid rgba(255,255,255,.065);
+}
+.continuous-kicker{font-size:6px;letter-spacing:.17em;color:#7d897d}
+.continuous-place strong{
+  margin-top:5px;
+  font-family:var(--atlas-serif);
+  font-size:17px;
+  font-weight:500;
+  color:#f0f1e9;
+  letter-spacing:-.01em;
+}
+.continuous-actions{gap:6px}
+.continuous-actions button{
+  min-height:34px;
+  padding:0 11px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.028);
+  color:#b5beb2;
+  font-size:7px;
+  transition:.16s ease;
+}
+.continuous-actions button:hover{
+  border-color:color-mix(in srgb,var(--atlas-accent) 35%,transparent);
+  background:var(--atlas-accent-soft);
+  color:#f3f5ed;
+}
+
+/* Narrative hierarchy. */
+.continuous-berlin .xray-story{
+  position:static;
+  max-width:505px;
+  width:auto;
+  padding:17px 0 0;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+  backdrop-filter:none;
+}
+.continuous-berlin .xray-story>span{
+  color:var(--atlas-accent);
+  font-size:6px;
+  letter-spacing:.16em;
+}
+.continuous-berlin .xray-story>strong{
+  display:block;
+  max-width:500px;
+  margin-top:7px;
+  font-family:var(--atlas-serif);
+  font-size:30px;
+  font-weight:500;
+  line-height:1.02;
+  letter-spacing:-.035em;
+  color:var(--atlas-ink);
+  text-wrap:balance;
+}
+.continuous-berlin .xray-story>p{
+  max-width:470px;
+  margin:8px 0 0;
+  color:#aeb7aa;
+  font-size:9px;
+  line-height:1.55;
+}
+.continuous-meaning-hint{
+  position:static;
+  width:auto;
+  margin-top:16px;
+  padding:13px 0 0;
+  border-left:0;
+  border-top:1px solid rgba(255,255,255,.065);
+  display:grid;
+  grid-template-columns:92px minmax(0,1fr) auto;
+  gap:10px;
+  align-items:start;
+}
+.continuous-meaning-hint>span{
+  display:block;
+  padding-top:2px;
+  color:#788377;
+  font-size:5px;
+  letter-spacing:.16em;
+}
+.continuous-meaning-hint>strong{
+  display:block;
+  margin:0;
+  max-height:42px;
+  overflow:hidden;
+  font-size:9px;
+  font-weight:600;
+  line-height:1.45;
+  color:#d9ddd4;
+}
+.continuous-meaning-hint>button{
+  padding:2px 0 0;
+  color:var(--atlas-accent);
+  font-size:6px;
+  letter-spacing:.04em;
+}
+
+/* One metric, not a stats wall. */
+.continuous-berlin .xray-readout{
+  position:absolute;
+  left:26px;
+  right:26px;
+  bottom:67px;
+  min-width:0;
+  padding:0;
+  border:0;
+  background:transparent;
+  backdrop-filter:none;
+  display:flex;
+  align-items:baseline;
+  gap:9px;
+  overflow:hidden;
+}
+.continuous-berlin .xray-readout span{display:none}
+.continuous-berlin .xray-readout b{
+  flex:0 0 auto;
+  margin:0;
+  font-family:var(--atlas-serif);
+  font-size:17px;
+  font-weight:500;
+  color:#f0f1ea;
+}
+.continuous-berlin .xray-readout small{
+  min-width:0;
+  max-width:none;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#788277;
+  font-size:6px;
+}
+
+/* Lenses become a quiet instrument bar. */
+.continuous-berlin .xray-rail{
+  left:17px;right:17px;bottom:13px;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:3px;
+  padding:4px;
+  border:1px solid rgba(255,255,255,.055);
+  border-radius:14px;
+  background:rgba(255,255,255,.018);
+}
+.continuous-berlin .xray-rail button{
+  min-width:0;
+  padding:7px 5px;
+  border:1px solid transparent;
+  border-radius:10px;
+  background:transparent;
+  color:#818c80;
+  display:grid;
+  grid-template-columns:15px auto;
+  grid-template-rows:auto;
+  gap:5px;
+  justify-content:center;
+  align-items:center;
+}
+.continuous-berlin .xray-rail i{
+  margin:0;
+  font-size:10px;
+  color:#879186;
+}
+.continuous-berlin .xray-rail span{
+  font-size:6px;
+  letter-spacing:.08em;
+}
+.continuous-berlin .xray-rail small{display:none}
+.continuous-berlin .xray-rail button.active{
+  border-color:color-mix(in srgb,var(--atlas-accent) 24%,transparent);
+  background:var(--atlas-accent-soft);
+  color:#eef1e8;
+}
+.continuous-berlin .xray-rail button.active i{color:var(--atlas-accent)}
+
+/* Time becomes a slim piece of instrumentation instead of a second card. */
+.continuous-berlin .xray-time{
+  right:22px;
+  top:50%;
+  width:48px;
+  height:276px;
+  padding:14px 0;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:24px;
+  background:rgba(8,13,11,.7);
+  backdrop-filter:blur(18px);
+  box-shadow:0 18px 58px rgba(0,0,0,.18);
+}
+.continuous-berlin .xray-time:before{left:23px;background:rgba(255,255,255,.16)}
+.continuous-berlin .xray-time-label{
+  right:57px;
+  color:#8e988c;
+  font-size:5px;
+  letter-spacing:.12em;
+}
+.continuous-berlin .xray-axis-label{top:12px;color:#687267}
+.continuous-berlin .xray-time>strong{
+  right:58px;
+  color:var(--atlas-accent);
+  font-size:6px;
+}
+.continuous-berlin #xrayTimeSlider{left:21px}
+.continuous-berlin #xrayTimeSlider::-webkit-slider-thumb{
+  width:16px;height:16px;
+  border:4px solid color-mix(in srgb,var(--atlas-accent) 70%,transparent);
+  box-shadow:0 0 0 5px var(--atlas-accent-soft);
+}
+
+/* Evidence is a proper reading surface when requested. */
+.continuous-berlin .meaning-panel{
+  padding:32px 28px 24px;
+  border:0;
+  border-radius:24px;
+  background:linear-gradient(180deg,rgba(8,13,11,.99),rgba(8,13,11,.97));
+}
+.continuous-berlin .meaning-panel .panel-head h2{
+  margin-top:10px;
+  font-family:var(--atlas-serif);
+  font-size:29px;
+  font-weight:500;
+  letter-spacing:-.025em;
+}
+.continuous-berlin .meaning-card{
+  border-color:rgba(255,255,255,.075);
+  background:rgba(255,255,255,.02);
+}
+.continuous-berlin .meaning-card:hover,
+.continuous-berlin .meaning-card.open{
+  border-color:color-mix(in srgb,var(--atlas-accent) 28%,transparent);
+  background:color-mix(in srgb,var(--atlas-accent) 4%,rgba(255,255,255,.025));
+}
+.continuous-berlin .lens-tabs button.active{
+  border-color:color-mix(in srgb,var(--atlas-accent) 34%,transparent);
+  background:var(--atlas-accent-soft);
+}
+
+/* Comparison: editorial split, not modal-dashboard chrome. */
+.continuous-compare-result{
+  left:26px;right:26px;top:66px;bottom:74px;
+  grid-template-columns:1fr 30px 1fr;
+  padding:18px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:18px;
+  background:rgba(8,13,11,.97);
+}
+.continuous-compare-result>div strong{
+  font-family:var(--atlas-serif);
+  font-size:14px;
+  font-weight:500;
+}
+.continuous-compare-result>i{color:var(--atlas-accent)}
+
+/* Secondary surfaces. */
+.continuous-menu-drawer{
+  top:70px;
+  right:16px;
+  width:210px;
+  padding:7px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(8,13,11,.94);
+  backdrop-filter:blur(22px);
+}
+.continuous-menu-drawer button:hover,
+.continuous-menu-drawer a:hover{background:var(--atlas-accent-soft)}
+.continuous-berlin .source-drawer,
+.continuous-berlin .test-drawer{
+  top:16px;right:16px;
+  width:min(440px,calc(100vw - 32px));
+  border-color:rgba(255,255,255,.09);
+  background:rgba(8,13,11,.96);
+}
+.continuous-berlin .meaning-pick{
+  top:78px;
+  left:50%;
+  right:auto;
+  transform:translateX(-50%);
+  width:min(520px,calc(100vw - 28px));
+  background:rgba(8,13,11,.9);
+  border-color:rgba(255,255,255,.11);
+  backdrop-filter:blur(20px);
+}
+
+/* Map controls should recede. */
+.continuous-berlin .maplibregl-ctrl-top-right{top:70px;right:14px}
+.continuous-berlin .maplibregl-ctrl-group{
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.09)!important;
+  border-radius:14px!important;
+  background:rgba(8,13,11,.72)!important;
+  box-shadow:none!important;
+  backdrop-filter:blur(16px);
+}
+.continuous-berlin .maplibregl-ctrl-group button{background:transparent!important}
+.continuous-berlin .maplibregl-ctrl-group button+button{border-top-color:rgba(255,255,255,.08)!important}
+.continuous-berlin .maplibregl-ctrl-group button span{filter:invert(1);opacity:.68}
+.continuous-berlin .maplibregl-ctrl-attrib{
+  background:rgba(8,13,11,.64)!important;
+  color:#858e82!important;
+}
+.continuous-berlin .maplibregl-ctrl-attrib a{color:#aab2a6!important}
+
+/* Mobile: keep the map visible and turn the sheet into a compact story card. */
+@media(max-width:900px){
+  .continuous-berlin .meaning-topbar{height:56px;padding:0 12px}
+  .continuous-berlin .meaning-shell{inset:56px 0 0}
+  .continuous-berlin .xray-stage{inset:56px 0 0}
+  .continuous-status{justify-self:center}
+  .continuous-status span{display:none}
+  .continuous-berlin .meaning-hero{
+    left:18px;right:18px;bottom:34px;width:auto;
+  }
+  .continuous-berlin .meaning-hero:before{inset:-28px -22px -26px -24px}
+  .continuous-berlin .meaning-hero h1{
+    max-width:460px;
+    font-size:clamp(52px,15vw,74px);
+  }
+  .continuous-berlin .meaning-hero p{font-size:11px;max-width:440px}
+  .continuous-sheet{
+    left:8px;right:8px;bottom:8px;
+    width:auto;
+    height:300px;
+    padding:20px 16px 15px;
+    border-radius:22px;
+  }
+  .continuous-sheet[data-sheet-state="expanded"]{
+    width:auto;
+    height:min(79vh,660px);
+  }
+  .continuous-place{margin-top:6px;padding-bottom:10px}
+  .continuous-place strong{font-size:15px}
+  .continuous-actions span{display:none}
+  .continuous-actions button{width:32px;height:32px;min-height:32px;padding:0}
+  .continuous-berlin .xray-story{padding-top:14px}
+  .continuous-berlin .xray-story>strong{font-size:25px;line-height:1.02}
+  .continuous-berlin .xray-story>p{
+    font-size:8px;
+    white-space:normal;
+    overflow:visible;
+  }
+  .continuous-meaning-hint{
+    margin-top:12px;padding-top:10px;
+    grid-template-columns:minmax(0,1fr) auto;
+  }
+  .continuous-meaning-hint>span{display:none}
+  .continuous-meaning-hint>strong{
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    max-height:none;
+  }
+  .continuous-berlin .xray-readout{left:16px;right:16px;bottom:61px}
+  .continuous-berlin .xray-readout small{max-width:none}
+  .continuous-berlin .xray-rail{left:10px;right:10px;bottom:9px}
+  .continuous-berlin .xray-rail button{grid-template-columns:auto;gap:0;padding:8px 2px}
+  .continuous-berlin .xray-rail i{display:none}
+  .continuous-berlin .xray-rail span{font-size:5px}
+  .continuous-berlin .xray-time{
+    right:8px;
+    top:35%;
+    width:42px;
+    height:194px;
+  }
+  .continuous-berlin .xray-time:before{left:20px}
+  .continuous-berlin #xrayTimeSlider{left:18px}
+  .continuous-berlin .xray-time-label{right:49px}
+  .continuous-berlin .xray-time>strong{right:50px}
+  .continuous-berlin .meaning-panel{padding:26px 14px 16px}
+  .continuous-berlin .meaning-pick{top:66px}
+  .continuous-menu-drawer{top:62px;right:8px}
+  .continuous-berlin .maplibregl-ctrl-top-right{top:62px;right:8px}
+}
+
+@media(max-width:520px){
+  .continuous-berlin .brand-copy b{font-size:8px}
+  .continuous-berlin .brand-copy small{font-size:4px}
+  .continuous-berlin .meaning-hero h1{font-size:55px}
+  .continuous-berlin .hero-actions{gap:7px}
+  .continuous-berlin .meaning-hero button{padding:0 13px;font-size:7px}
+  .continuous-sheet{height:292px}
+  .continuous-sheet[data-sheet-state="expanded"]{height:80vh}
+  .continuous-berlin .xray-story>strong{font-size:22px}
+  .continuous-berlin .xray-story>p{font-size:7px;line-height:1.45}
+  .continuous-meaning-hint>strong{font-size:8px}
+  .continuous-berlin .xray-readout b{font-size:15px}
+  .continuous-berlin .xray-readout small{font-size:5px}
+  .continuous-berlin .xray-time{height:178px;width:40px}
+  .continuous-berlin .xray-time:before{left:19px}
+  .continuous-berlin #xrayTimeSlider{left:17px}
+  .continuous-berlin .xray-time-label{right:46px}
+  .continuous-berlin .xray-time>strong{right:47px}
+  .continuous-compare-result{
+    left:14px;right:14px;top:58px;bottom:70px;
+    grid-template-columns:1fr;
+    gap:10px;
+    overflow:auto;
+  }
+  .continuous-compare-result>i{display:none}
+}
+
+/* Reduced motion keeps the experience legible without cinematic transitions. */
+@media(prefers-reduced-motion:reduce){
+  .continuous-berlin #meaningMap canvas,
+  .continuous-sheet,
+  .continuous-actions button{transition:none!important}
+}
