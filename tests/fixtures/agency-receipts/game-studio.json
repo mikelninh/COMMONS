@@ -1,0 +1,33 @@
+{
+  "schema": "openaction.agency-receipt.v1",
+  "mission_id": "mission_game_studio_patch_review",
+  "project": "Game Studio / Agent Lab",
+  "observed_at": "2026-09-30T12:00:00Z",
+  "evidence": [
+    {
+      "ref": "Agent Lab deterministic conformance + replay report"
+    },
+    {
+      "ref": "patch comparison and representative seeds"
+    }
+  ],
+  "decision": {
+    "owner": "human",
+    "rationale": "Use machine evidence to gate mechanics, but do not call the patch fun until real players say so."
+  },
+  "action": {
+    "authority": "prepare",
+    "external_side_effects": false,
+    "description": "Prepare the patch and targeted human playtest after synthetic mechanics checks."
+  },
+  "outcome": {
+    "status": "partial",
+    "evidence_class": "synthetic",
+    "evidence": [
+      "mechanics gate passed; human experience gate still open"
+    ]
+  },
+  "learning": {
+    "next_unknown": "Do real players find the patch clearer, more enjoyable and worth replaying?"
+  }
+}

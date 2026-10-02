@@ -1,0 +1,34 @@
+{
+  "schema": "openaction.agency-receipt.v1",
+  "mission_id": "mission_demo_shadow_fixture",
+  "project": "Digital Worker Factory / OpsPilot",
+  "observed_at": "2026-09-30T00:00:00Z",
+  "evidence": [
+    {
+      "ref": "synthetic 12-case shadow replay fixture"
+    },
+    {
+      "ref": "synthetic case-level before/after timing"
+    }
+  ],
+  "decision": {
+    "owner": "human",
+    "rationale": "Prove the value/safety measurement machinery without pretending synthetic time savings are customer ROI."
+  },
+  "action": {
+    "authority": "prepare",
+    "external_side_effects": false,
+    "description": "Prepare synthetic shadow-mode work for deterministic human-review simulation."
+  },
+  "outcome": {
+    "status": "succeeded",
+    "evidence_class": "synthetic",
+    "evidence": [
+      "synthetic replay receipt",
+      "synthetic case-level metrics"
+    ]
+  },
+  "learning": {
+    "next_unknown": "What time saving, correction burden and continuation intent appear in a real supervised customer batch?"
+  }
+}
