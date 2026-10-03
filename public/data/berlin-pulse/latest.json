@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "generated_at": "2026-10-03T11:39:38Z",
+  "generated_at": "2026-10-03T16:17:45Z",
   "status": "recorded",
-  "sample_count": 50,
+  "sample_count": 51,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
     "level": "watch",
     "title": "Spree discharge is below its recent pattern.",
-    "explanation": "Spree / river is below a recent median baseline (robust z -2.0, n=40)."
+    "explanation": "Spree / river is below a recent median baseline (robust z -2.5, n=40)."
   },
   "changes": [
     {
@@ -15,12 +15,12 @@
       "label": "PM2.5",
       "unit": "µg/m³",
       "digits": 1,
-      "previous": 10.5,
-      "current": 8.2,
-      "delta": -2.3,
-      "percent": -21.9,
+      "previous": 8.2,
+      "current": 7.1,
+      "delta": -1.1,
+      "percent": -13.4,
       "direction": "down",
-      "salience": 2.091,
+      "salience": 1.0,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -28,12 +28,12 @@
       "label": "Temperature",
       "unit": "°C",
       "digits": 1,
-      "previous": 13.4,
-      "current": 18.1,
-      "delta": 4.7,
-      "percent": 35.1,
+      "previous": 18.1,
+      "current": 18.5,
+      "delta": 0.4,
+      "percent": 2.2,
       "direction": "up",
-      "salience": 1.918,
+      "salience": 0.16,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -42,24 +42,11 @@
       "unit": "m³/s",
       "digits": 2,
       "previous": 0.46,
-      "current": 0.46,
-      "delta": 0.0,
-      "percent": 0.0,
-      "direction": "flat",
-      "salience": 0.0,
-      "basis": "since the previous Pulse snapshot"
-    },
-    {
-      "metric": "transit_vehicles",
-      "label": "Transit movement",
-      "unit": "vehicles",
-      "digits": 0,
-      "previous": 600.0,
-      "current": 600.0,
-      "delta": 0.0,
-      "percent": 0.0,
-      "direction": "flat",
-      "salience": 0.0,
+      "current": 0.45,
+      "delta": -0.01,
+      "percent": -2.2,
+      "direction": "down",
+      "salience": 0.01,
       "basis": "since the previous Pulse snapshot"
     }
   ],
@@ -89,52 +76,52 @@
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 18.1,
+      "value": 18.5,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
         "label": "usual",
-        "score": 0.97,
+        "score": 1.138,
         "n": 48,
         "baseline": 15.8,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 15.5,
+        "value": 13.6,
         "unit": "°C",
         "source": "Open-Meteo",
-        "target_at": "2026-10-04T00:00"
+        "target_at": "2026-10-04T04:00"
       }
     },
     "pm2_5": {
       "label": "PM2.5",
-      "value": 8.2,
+      "value": 7.1,
       "unit": "µg/m³",
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
         "label": "usual",
-        "score": -0.575,
+        "score": -0.411,
         "n": 48,
-        "baseline": 9.65,
+        "baseline": 8.5,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 11.9,
+        "value": 16.2,
         "unit": "µg/m³",
         "source": "CAMS",
-        "target_at": "2026-10-04T00:00"
+        "target_at": "2026-10-04T04:00"
       }
     },
     "river_discharge": {
       "label": "Spree / river",
-      "value": 0.46,
+      "value": 0.45,
       "unit": "m³/s",
       "source": "GloFAS via Open-Meteo · modeled fallback",
       "anomaly": {
         "label": "watch",
-        "score": -2.023,
+        "score": -2.473,
         "n": 40,
         "baseline": 0.505,
         "baseline_scope": "recent water series"
@@ -142,14 +129,14 @@
     },
     "transit_vehicles": {
       "label": "Transit movement",
-      "value": 600.0,
+      "value": null,
       "unit": "vehicles",
       "source": "VBB realtime radar",
       "anomaly": {
-        "label": "usual",
-        "score": 0.0,
+        "label": "learning",
+        "score": null,
         "n": 27,
-        "baseline": 600.0,
+        "baseline": null,
         "baseline_scope": "recorded Pulse snapshots"
       }
     }
@@ -164,15 +151,9 @@
     "weather": "ready",
     "air": "ready",
     "flood": "ready",
-    "transit": "ready",
+    "transit": "unavailable: TimeoutError",
     "water": "modeled fallback"
   },
-  "transit_modes": {
-    "bus": 321,
-    "tram": 140,
-    "subway": 105,
-    "train": 34,
-    "other": 0
-  },
+  "transit_modes": null,
   "principle": "Missing evidence stays missing. Forecast skill is compared with persistence before trust is earned."
 }
