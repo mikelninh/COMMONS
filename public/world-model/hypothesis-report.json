@@ -1,9 +1,9 @@
 {
   "schema_version": "0.2",
-  "generated_at": "2026-09-27T10:59:23Z",
+  "generated_at": "2026-10-04T11:32:58Z",
   "period": {
-    "start": "2026-07-19",
-    "end": "2026-09-17"
+    "start": "2026-07-26",
+    "end": "2026-09-24"
   },
   "points": [
     {
@@ -56,107 +56,107 @@
   "summary_by_lead": {
     "1": {
       "samples": 183,
-      "heavy_rain_samples": 84,
+      "heavy_rain_samples": 80,
       "provider_mae_mm": {
-        "ecmwf": 6.116,
-        "gfs": 8.704,
-        "icon": 7.974
+        "ecmwf": 6.034,
+        "gfs": 8.257,
+        "icon": 7.696
       },
       "provider_heavy_rain_mae_mm": {
-        "ecmwf": 9.583,
-        "gfs": 13.623,
-        "icon": 11.194
+        "ecmwf": 9.929,
+        "gfs": 13.415,
+        "icon": 11.325
       },
-      "average_individual_model_mae_mm": 7.598,
-      "average_individual_model_heavy_rain_mae_mm": 11.467,
-      "council_median_mae_mm": 6.145,
-      "council_median_heavy_rain_mae_mm": 9.214,
-      "council_improvement_vs_average_model_pct": 19.1,
-      "council_heavy_rain_improvement_pct": 19.6,
+      "average_individual_model_mae_mm": 7.329,
+      "average_individual_model_heavy_rain_mae_mm": 11.556,
+      "council_median_mae_mm": 6.035,
+      "council_median_heavy_rain_mae_mm": 9.531,
+      "council_improvement_vs_average_model_pct": 17.7,
+      "council_heavy_rain_improvement_pct": 17.5,
       "council_win_rate_vs_daily_average_model_error_pct": 69.4,
-      "raw_spread_vs_absolute_error_correlation": 0.362,
-      "relative_spread_vs_normalized_error_correlation": 0.034,
-      "heavy_rain_relative_spread_vs_normalized_error_correlation": -0.204,
-      "low_disagreement_normalized_error": 0.663,
-      "high_disagreement_normalized_error": 0.651,
-      "high_vs_low_normalized_error_ratio": 0.98,
-      "relative_spread_q25": 0.503,
-      "relative_spread_q75": 1.273,
-      "mae_if_abstain_top_disagreement_quartile_mm": 6.975,
-      "error_reduction_if_abstain_top_disagreement_quartile_pct": -13.5
+      "raw_spread_vs_absolute_error_correlation": 0.379,
+      "relative_spread_vs_normalized_error_correlation": 0.054,
+      "heavy_rain_relative_spread_vs_normalized_error_correlation": -0.222,
+      "low_disagreement_normalized_error": 0.653,
+      "high_disagreement_normalized_error": 0.71,
+      "high_vs_low_normalized_error_ratio": 1.09,
+      "relative_spread_q25": 0.435,
+      "relative_spread_q75": 1.287,
+      "mae_if_abstain_top_disagreement_quartile_mm": 6.839,
+      "error_reduction_if_abstain_top_disagreement_quartile_pct": -13.3
     },
     "3": {
       "samples": 183,
-      "heavy_rain_samples": 84,
+      "heavy_rain_samples": 80,
       "provider_mae_mm": {
-        "ecmwf": 7.548,
-        "gfs": 9.701,
-        "icon": 7.749
+        "ecmwf": 7.232,
+        "gfs": 9.727,
+        "icon": 7.487
       },
       "provider_heavy_rain_mae_mm": {
-        "ecmwf": 10.621,
-        "gfs": 14.254,
-        "icon": 10.512
+        "ecmwf": 10.482,
+        "gfs": 15.019,
+        "icon": 10.814
       },
-      "average_individual_model_mae_mm": 8.333,
-      "average_individual_model_heavy_rain_mae_mm": 11.796,
-      "council_median_mae_mm": 6.902,
-      "council_median_heavy_rain_mae_mm": 9.712,
-      "council_improvement_vs_average_model_pct": 17.2,
-      "council_heavy_rain_improvement_pct": 17.7,
-      "council_win_rate_vs_daily_average_model_error_pct": 69.9,
-      "raw_spread_vs_absolute_error_correlation": 0.296,
-      "relative_spread_vs_normalized_error_correlation": 0.116,
-      "heavy_rain_relative_spread_vs_normalized_error_correlation": -0.248,
-      "low_disagreement_normalized_error": 0.764,
-      "high_disagreement_normalized_error": 0.774,
-      "high_vs_low_normalized_error_ratio": 1.01,
-      "relative_spread_q25": 0.478,
-      "relative_spread_q75": 1.436,
-      "mae_if_abstain_top_disagreement_quartile_mm": 8.002,
-      "error_reduction_if_abstain_top_disagreement_quartile_pct": -15.9
+      "average_individual_model_mae_mm": 8.149,
+      "average_individual_model_heavy_rain_mae_mm": 12.105,
+      "council_median_mae_mm": 6.897,
+      "council_median_heavy_rain_mae_mm": 10.315,
+      "council_improvement_vs_average_model_pct": 15.4,
+      "council_heavy_rain_improvement_pct": 14.8,
+      "council_win_rate_vs_daily_average_model_error_pct": 70.5,
+      "raw_spread_vs_absolute_error_correlation": 0.337,
+      "relative_spread_vs_normalized_error_correlation": 0.128,
+      "heavy_rain_relative_spread_vs_normalized_error_correlation": -0.246,
+      "low_disagreement_normalized_error": 0.858,
+      "high_disagreement_normalized_error": 0.853,
+      "high_vs_low_normalized_error_ratio": 0.99,
+      "relative_spread_q25": 0.422,
+      "relative_spread_q75": 1.435,
+      "mae_if_abstain_top_disagreement_quartile_mm": 8.046,
+      "error_reduction_if_abstain_top_disagreement_quartile_pct": -16.7
     },
     "5": {
       "samples": 183,
-      "heavy_rain_samples": 84,
+      "heavy_rain_samples": 80,
       "provider_mae_mm": {
-        "ecmwf": 8.234,
-        "gfs": 10.876,
-        "icon": 8.508
+        "ecmwf": 7.711,
+        "gfs": 10.538,
+        "icon": 7.791
       },
       "provider_heavy_rain_mae_mm": {
-        "ecmwf": 11.039,
-        "gfs": 14.361,
-        "icon": 10.938
+        "ecmwf": 11.148,
+        "gfs": 14.925,
+        "icon": 10.824
       },
-      "average_individual_model_mae_mm": 9.206,
-      "average_individual_model_heavy_rain_mae_mm": 12.113,
-      "council_median_mae_mm": 7.943,
-      "council_median_heavy_rain_mae_mm": 10.583,
-      "council_improvement_vs_average_model_pct": 13.7,
-      "council_heavy_rain_improvement_pct": 12.6,
-      "council_win_rate_vs_daily_average_model_error_pct": 64.5,
-      "raw_spread_vs_absolute_error_correlation": 0.281,
-      "relative_spread_vs_normalized_error_correlation": 0.134,
-      "heavy_rain_relative_spread_vs_normalized_error_correlation": -0.175,
-      "low_disagreement_normalized_error": 0.689,
-      "high_disagreement_normalized_error": 0.88,
-      "high_vs_low_normalized_error_ratio": 1.28,
-      "relative_spread_q25": 0.422,
-      "relative_spread_q75": 1.401,
-      "mae_if_abstain_top_disagreement_quartile_mm": 9.047,
-      "error_reduction_if_abstain_top_disagreement_quartile_pct": -13.9
+      "average_individual_model_mae_mm": 8.68,
+      "average_individual_model_heavy_rain_mae_mm": 12.299,
+      "council_median_mae_mm": 7.539,
+      "council_median_heavy_rain_mae_mm": 10.893,
+      "council_improvement_vs_average_model_pct": 13.1,
+      "council_heavy_rain_improvement_pct": 11.4,
+      "council_win_rate_vs_daily_average_model_error_pct": 67.2,
+      "raw_spread_vs_absolute_error_correlation": 0.255,
+      "relative_spread_vs_normalized_error_correlation": 0.139,
+      "heavy_rain_relative_spread_vs_normalized_error_correlation": -0.207,
+      "low_disagreement_normalized_error": 0.694,
+      "high_disagreement_normalized_error": 0.894,
+      "high_vs_low_normalized_error_ratio": 1.29,
+      "relative_spread_q25": 0.372,
+      "relative_spread_q75": 1.393,
+      "mae_if_abstain_top_disagreement_quartile_mm": 8.684,
+      "error_reduction_if_abstain_top_disagreement_quartile_pct": -15.2
     }
   },
   "headline_metrics": {
-    "council_mean_error_improvement_pct": 16.7,
-    "council_heavy_rain_error_improvement_pct": 16.6,
+    "council_mean_error_improvement_pct": 15.4,
+    "council_heavy_rain_error_improvement_pct": 14.6,
     "council_mae_by_lead_mm": {
-      "1": 6.145,
-      "3": 6.902,
-      "5": 7.943
+      "1": 6.035,
+      "3": 6.897,
+      "5": 7.539
     },
-    "high_vs_low_normalized_error_ratio": 1.09,
+    "high_vs_low_normalized_error_ratio": 1.12,
     "h6_mean_auc_gain": 0.0834,
     "h6_mean_precision_gain_pct": 83.2,
     "h6_basin_results": {
@@ -193,58 +193,58 @@
     "h19_min_top_k_retention": 0.6316,
     "h19_min_alert_agreement": 0.957,
     "h19_max_heavy_event_catch_loss": 1,
-    "h20_council_win_rate": 0.9,
-    "h20_median_improvement_pct": 19.4,
-    "h21_misses": 59,
-    "h21_near_threshold_share": 0.0847,
+    "h20_council_win_rate": 0.8966,
+    "h20_median_improvement_pct": 19.6,
+    "h21_misses": 48,
+    "h21_near_threshold_share": 0.0625,
     "h13_exposure_usable_points": 30,
     "h13_exposure_coverage_status": "healthy",
-    "h22_gdacs_matched_point_days": 78,
-    "h22_gdacs_overlap_rate": 0.1795,
+    "h22_gdacs_matched_point_days": 96,
+    "h22_gdacs_overlap_rate": 0.1667,
     "h23_selected_strategy": "spatial_max_100km",
-    "h23_deep_miss_recovery_rate": 0.7955,
-    "h23_incremental_false_alerts_per_100": 9.15,
-    "h23_precision_change": -0.0739,
-    "h23_live_window_resolved_exact_day_deep": 16,
+    "h23_deep_miss_recovery_rate": 0.75,
+    "h23_incremental_false_alerts_per_100": 17.9,
+    "h23_precision_change": -0.184,
+    "h23_live_window_resolved_exact_day_deep": 15,
     "h24_selected_rule": "minority_footprint_50km",
-    "h24_deep_miss_recovery_rate": 0.6136,
-    "h24_incremental_false_alerts_per_100": 7.19,
-    "h25_selected_rule": "blind_cape_council_q90",
-    "h25_blind_miss_recovery_rate": 0.0,
-    "h25_blind_test_misses": 7,
+    "h24_deep_miss_recovery_rate": 0.55,
+    "h24_incremental_false_alerts_per_100": 9.26,
+    "h25_selected_rule": "blind_showers_any50",
+    "h25_blind_miss_recovery_rate": 0.5,
+    "h25_blind_test_misses": 4,
     "h25_convective_evidence_status": "insufficient",
     "h27_selected_ordering": "hazard_population_rank",
     "h27_average_precision_gain": null,
     "h27_top20_recall_gain": null,
-    "h27_emdat_coverage": 0.0669
+    "h27_emdat_coverage": 0.0671
   },
   "hypotheses": [
     {
       "id": "H1",
       "claim": "The council median reduces precipitation error versus the average individual model.",
       "status": "supported",
-      "effect": "16.7% mean error improvement",
+      "effect": "15.4% mean error improvement",
       "update": "Keep council median as the default headline."
     },
     {
       "id": "H2",
       "claim": "Higher model disagreement predicts larger forecast error even after normalizing for rainfall magnitude.",
       "status": "not_supported",
-      "effect": "normalized corr=0.09; high/low normalized-error ratio=1.09x; heavy-rain corr=-0.21; abstention gain=-14.4%",
+      "effect": "normalized corr=0.11; high/low normalized-error ratio=1.12x; heavy-rain corr=-0.23; abstention gain=-15.1%",
       "update": "Keep disagreement visible, but do not convert it into a confidence penalty yet."
     },
     {
       "id": "H3",
       "claim": "Forecast skill materially degrades from 1 to 3 to 5 days.",
       "status": "supported",
-      "effect": "6.14 \u2192 6.90 \u2192 7.94 mm MAE",
+      "effect": "6.04 \u2192 6.90 \u2192 7.54 mm MAE",
       "update": "Make forecast horizon a first-class confidence input."
     },
     {
       "id": "H5",
       "claim": "The council median remains useful on heavy-rain days, not only on easy dry days.",
       "status": "supported",
-      "effect": "16.6% heavy-rain error improvement",
+      "effect": "14.6% heavy-rain error improvement",
       "update": "Keep the council as the main heavy-rain summary."
     },
     {
@@ -321,14 +321,14 @@
       "id": "H20",
       "claim": "The three-model council improves 3-day daily-precipitation accuracy across diverse global climates, not only the original pilot locations.",
       "status": "supported",
-      "effect": "wins 27/30 locations; median improvement 19.4%",
+      "effect": "wins 26/29 locations; median improvement 19.6%",
       "update": "The council generalises well enough to justify expanding validated monitoring, while preserving location-specific thresholds."
     },
     {
       "id": "H21",
       "claim": "Most strict-threshold heavy-event misses are near the decision boundary rather than deep misses.",
       "status": "not_supported",
-      "effect": "near 5; deep 54; near share 0.0847; misses 59",
+      "effect": "near 3; deep 45; near share 0.0625; misses 48",
       "update": "Misses are not mainly boundary cases. Audit deep misses for missing physical variables, model failure modes, and spatial context."
     },
     {
@@ -342,28 +342,28 @@
       "id": "H22",
       "claim": "A public external disaster-alert stream can provide a useful independent benchmark for COMMONS attention changes.",
       "status": "insufficient",
-      "effect": "GDACS events 75; matched point-days 78; COMMONS overlap 0.1795",
+      "effect": "GDACS events 79; matched point-days 96; COMMONS overlap 0.1667",
       "update": "Keep GDACS as an external audit signal only. It is not a local official warning feed and must not control ALERT."
     },
     {
       "id": "H23",
       "claim": "A predeclared spatial or single-model rescue strategy recovers at least 20% of live-window deep misses while adding no more than 3 false alerts per 100 decisions and losing no more than 5 percentage points of precision.",
       "status": "not_supported",
-      "effect": "selected spatial_max_100km; test deep-miss recovery 0.7955; incremental false alerts 9.15/100; precision change -0.0739",
+      "effect": "selected spatial_max_100km; test deep-miss recovery 0.75; incremental false alerts 17.9/100; precision change -0.184",
       "update": "Do not add the tested spatial or single-model rescue rule to live ALERT. Deep misses remain a model/physics problem; continue with basin context, convective/local signals and impact-labelled evaluation."
     },
     {
       "id": "H24",
       "claim": "A minority-model heavy-rain signal becomes trustworthy enough for a shadow rescue only when the same provider is spatially corroborated.",
       "status": "not_supported",
-      "effect": "selected minority_footprint_50km; test recovery 0.6136; extra false alerts 7.19/100; precision change -0.0646",
+      "effect": "selected minority_footprint_50km; test recovery 0.55; extra false alerts 9.26/100; precision change -0.0983",
       "update": "Do not give minority rainfall signals ranking authority yet; keep them inspectable context and continue learning provider/spatial reliability."
     },
     {
       "id": "H25",
       "claim": "Archived convective instability and shower forecasts recover at least one third of rainfall-consensus-blind heavy events within the same scarcity guardrails.",
       "status": "insufficient",
-      "effect": "selected blind_cape_council_q90; blind test misses 7; recovery 0.0; extra false alerts 0.0/100; precision change 0.0",
+      "effect": "selected blind_showers_any50; blind test misses 4; recovery 0.5; extra false alerts 3.09/100; precision change -0.0663",
       "update": "Convective blindness remains an open hypothesis; archived CAPE/showers coverage or blind-case count is not yet sufficient."
     },
     {

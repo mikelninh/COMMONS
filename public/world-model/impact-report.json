@@ -1,10 +1,10 @@
 {
   "schema_version": "0.1",
   "product": "COMMONS Impact v0",
-  "generated_at": "2026-09-27T10:59:20.904935Z",
+  "generated_at": "2026-10-04T11:32:56.166290Z",
   "period": {
-    "start": "2024-09-27",
-    "end": "2026-09-27"
+    "start": "2024-10-04",
+    "end": "2026-10-04"
   },
   "benchmark_period": {
     "start": "2023-01-01",
@@ -13,14 +13,24 @@
   "principle": "Hazard, exposure, infrastructure and historical consequence stay visible as separate components. No opaque production risk score.",
   "source_health": {
     "gdacs_profile_events": 100,
-    "gdacs_benchmark_events": 299,
+    "gdacs_benchmark_events": 298,
     "emdat_labels": 20,
-    "emdat_coverage": 0.0669,
+    "emdat_coverage": 0.0671,
     "profiles": 3,
     "source_errors": [
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103512",
+        "event_key": "TC|1001218",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103530",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "TC|1001215",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -30,12 +40,7 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103549",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103529",
+        "event_key": "FL|1103512",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -45,17 +50,22 @@
       },
       {
         "source": "EM-DAT",
+        "event_key": "FL|1103549",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
         "event_key": "FL|1103526",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "TC|1001213",
+        "event_key": "FL|1103528",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103528",
+        "event_key": "TC|1001213",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -70,12 +80,12 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103524",
+        "event_key": "FL|1103521",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103521",
+        "event_key": "FL|1103524",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -95,17 +105,12 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "TC|1001210",
+        "event_key": "FL|1103504",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
         "event_key": "FL|1103514",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103504",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -120,17 +125,22 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103517",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
         "event_key": "FL|1103511",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
+        "event_key": "FL|1103517",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
         "event_key": "FL|1103502",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "TC|1001210",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -150,12 +160,12 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103509",
+        "event_key": "FL|1103554",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103554",
+        "event_key": "FL|1103509",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -170,12 +180,12 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103506",
+        "event_key": "FL|1103508",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103508",
+        "event_key": "FL|1103506",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -190,22 +200,17 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "TC|1001208",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
         "event_key": "FL|1103488",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103491",
+        "event_key": "TC|1001208",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103454",
+        "event_key": "FL|1103491",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -220,12 +225,7 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103471",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103443",
+        "event_key": "FL|1103454",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -240,6 +240,16 @@
       },
       {
         "source": "EM-DAT",
+        "event_key": "FL|1103471",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103443",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
         "event_key": "FL|1103493",
         "error": "HTTP Error 404: Not Found"
       },
@@ -250,12 +260,12 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103492",
+        "event_key": "TC|1001203",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "TC|1001203",
+        "event_key": "FL|1103492",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -270,7 +280,7 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103495",
+        "event_key": "FL|1103445",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -280,7 +290,7 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103445",
+        "event_key": "FL|1103495",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -290,12 +300,12 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "TC|1001205",
+        "event_key": "FL|1103486",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103486",
+        "event_key": "TC|1001205",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -325,6 +335,11 @@
       },
       {
         "source": "EM-DAT",
+        "event_key": "FL|1103501",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
         "event_key": "FL|1103478",
         "error": "HTTP Error 404: Not Found"
       },
@@ -340,17 +355,12 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103501",
+        "event_key": "FL|1103485",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
         "event_key": "FL|1103433",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103485",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -365,6 +375,11 @@
       },
       {
         "source": "EM-DAT",
+        "event_key": "FL|1103472",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
         "event_key": "TC|1001200",
         "error": "HTTP Error 404: Not Found"
       },
@@ -375,22 +390,17 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103472",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
         "event_key": "FL|1103476",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103468",
+        "event_key": "FL|1103467",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103467",
+        "event_key": "FL|1103468",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -415,12 +425,12 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103463",
+        "event_key": "FL|1103444",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103444",
+        "event_key": "FL|1103463",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -435,12 +445,12 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103431",
+        "event_key": "FL|1103438",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103438",
+        "event_key": "FL|1103431",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -460,12 +470,12 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103458",
+        "event_key": "FL|1103470",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103470",
+        "event_key": "FL|1103458",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -507,16 +517,6 @@
         "source": "EM-DAT",
         "event_key": "FL|1103449",
         "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "OpenStreetMap/Overpass",
-        "point_id": "manila",
-        "error": "All Overpass endpoints failed: The read operation timed out"
-      },
-      {
-        "source": "OpenStreetMap/Overpass",
-        "point_id": "delhi",
-        "error": "All Overpass endpoints failed: The read operation timed out"
       }
     ]
   },
@@ -540,14 +540,14 @@
           "health_facilities": 13,
           "schools": 465,
           "power_substations": 8,
-          "bridges": 177,
+          "bridges": 179,
           "major_road_segments": 56,
           "radius_km": 20.0,
           "source": "OpenStreetMap via Overpass API",
           "role": "context_only"
         },
         "historical_consequence": {
-          "nearby_events": 1,
+          "nearby_events": 3,
           "consequential_events": 1,
           "examples": [
             {
@@ -619,9 +619,18 @@
           "source": "worldpop_R2025A_2026_1km",
           "role": "context_only"
         },
-        "infrastructure": null,
+        "infrastructure": {
+          "health_facilities": 886,
+          "schools": 2112,
+          "power_substations": 90,
+          "bridges": 3120,
+          "major_road_segments": 5931,
+          "radius_km": 20.0,
+          "source": "OpenStreetMap via Overpass API",
+          "role": "context_only"
+        },
         "historical_consequence": {
-          "nearby_events": 2,
+          "nearby_events": 0,
           "consequential_events": 0,
           "examples": [],
           "source": "GDACS + EM-DAT where available",
@@ -633,6 +642,12 @@
           "id": "verify-local",
           "label": "Verify local authority warnings",
           "why": "COMMONS is research guidance, not an emergency authority.",
+          "authority": "human"
+        },
+        {
+          "id": "check-access",
+          "label": "Check critical access and services",
+          "why": "Nearby health, road, bridge or power assets can turn weather into disruption.",
           "authority": "human"
         },
         {
@@ -658,7 +673,16 @@
           "source": "worldpop_R2025A_2026_1km",
           "role": "context_only"
         },
-        "infrastructure": null,
+        "infrastructure": {
+          "health_facilities": 1293,
+          "schools": 1183,
+          "power_substations": 295,
+          "bridges": 3511,
+          "major_road_segments": 2464,
+          "radius_km": 20.0,
+          "source": "OpenStreetMap via Overpass API",
+          "role": "context_only"
+        },
         "historical_consequence": {
           "nearby_events": 0,
           "consequential_events": 0,
@@ -672,6 +696,12 @@
           "id": "verify-local",
           "label": "Verify local authority warnings",
           "why": "COMMONS is research guidance, not an emergency authority.",
+          "authority": "human"
+        },
+        {
+          "id": "check-access",
+          "label": "Check critical access and services",
+          "why": "Nearby health, road, bridge or power assets can turn weather into disruption.",
           "authority": "human"
         },
         {
