@@ -1,0 +1,36 @@
+{
+  "schema": "openaction.agency-receipt.v1",
+  "mission_id": "mission_hana_live_dry_run",
+  "project": "HANA Commerce",
+  "observed_at": "2026-09-30T12:00:00Z",
+  "evidence": [
+    {
+      "ref": "HANA canon v1 machine-readable constraints"
+    },
+    {
+      "ref": "two-hour deterministic live-host soak"
+    },
+    {
+      "ref": "commerce policy red-team tests"
+    }
+  ],
+  "decision": {
+    "owner": "human",
+    "rationale": "Keep the host in bounded dry-run mode until truthfulness, pressure boundaries and operator handoff survive adversarial tests."
+  },
+  "action": {
+    "authority": "prepare",
+    "external_side_effects": false,
+    "description": "Run HANA as a simulated live host with no checkout or autonomous purchase action."
+  },
+  "outcome": {
+    "status": "succeeded",
+    "evidence_class": "synthetic",
+    "evidence": [
+      "CI verifies runtime invariants, canon constraints, policy red-team and safe fallback behaviour"
+    ]
+  },
+  "learning": {
+    "next_unknown": "Can real viewers trust and enjoy Hana without pressure, fabricated claims or identity drift?"
+  }
+}
