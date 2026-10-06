@@ -7,6 +7,7 @@ on:
       - "scripts/fetch_berlin_heat.py"
       - "tests/test_berlin_heat_wfs.py"
       - "scripts/inspect_berlin_context.py"
+      - "scripts/inspect_berlin_context_point.py"
       - "pyproject.toml"
       - ".github/workflows/semantic-city-live.yml"
   workflow_dispatch:
@@ -31,6 +32,8 @@ jobs:
         run: pytest -q tests/test_berlin_heat_wfs.py
       - name: Inspect cross-domain Berlin schemas
         run: python scripts/inspect_berlin_context.py
+      - name: Inspect cross-domain Berlin point context
+        run: python scripts/inspect_berlin_context_point.py
       - name: Fetch official Berlin climate feature
         run: |
           python scripts/fetch_berlin_heat.py \
