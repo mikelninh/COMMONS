@@ -1,0 +1,16 @@
+{
+  "adapter": "cologne-v0.1",
+  "status": "official-tree-cadastre-path",
+  "truth_boundary": "The Cologne adapter ingests the official municipal tree cadastre. It covers city-managed trees only and must not be interpreted as the full urban tree population or as a substitute for an official site survey.",
+  "tree_cadastre": {
+    "publisher": "Stadt Köln",
+    "dataset": "Baumkataster - Stadt Köln",
+    "type": "WFS",
+    "endpoint": "https://geoportal.stadt-koeln.de/wss/service/baumkataster_extern_wfs/guest",
+    "catalogue": "https://data.gov.de/suche/daten/baumkataster-stadt-koln",
+    "license": "Datenlizenz Deutschland – Zero – Version 2.0",
+    "evidence_class": "official-operational-cadastre",
+    "schema_strategy": "discover_feature_type_then_normalize_present_fields",
+    "coverage_caveat": "Only trees managed by the City of Cologne are included; exact positional accuracy is not guaranteed for construction surveying."
+  }
+}
