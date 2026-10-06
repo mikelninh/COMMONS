@@ -22,6 +22,12 @@ city:ObservationShape a sh:NodeShape ;
     sh:path city:evidenceClass ;
     sh:minCount 1 ;
     sh:maxCount 1
+  ] ;
+  sh:property [
+    sh:path city:isDemoValue ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
   ] .
 
 city:RecommendationShape a sh:NodeShape ;
@@ -40,4 +46,21 @@ city:RecommendationShape a sh:NodeShape ;
     sh:minCount 1 ;
     sh:maxCount 1 ;
     sh:datatype xsd:boolean
+  ] .
+
+city:EvidenceRecordShape a sh:NodeShape ;
+  sh:targetClass city:EvidenceRecord ;
+  sh:property [
+    sh:path city:evidenceSource ;
+    sh:minCount 1
+  ] ;
+  sh:property [
+    sh:path city:sourceFeatureType ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] ;
+  sh:property [
+    sh:path city:sourceFeatureId ;
+    sh:minCount 1 ;
+    sh:maxCount 1
   ] .
