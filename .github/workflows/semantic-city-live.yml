@@ -1,0 +1,63 @@
+name: Semantic City - Berlin WFS proof
+
+on:
+  pull_request:
+    paths:
+      - "src/commons/berlin_heat_wfs.py"
+      - "scripts/fetch_berlin_heat.py"
+      - "tests/test_berlin_heat_wfs.py"
+      - "pyproject.toml"
+      - ".github/workflows/semantic-city-live.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  berlin-heat-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install COMMONS
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Deterministic WFS adapter tests
+        run: pytest -q tests/test_berlin_heat_wfs.py
+      - name: Fetch official Berlin climate feature
+        run: |
+          python scripts/fetch_berlin_heat.py \
+            --lat 52.5219 \
+            --lon 13.4132 \
+            --radius-m 25 \
+            --strict-point \
+            --output /tmp/berlin-heat-latest.json
+      - name: Verify official fields and truth boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = json.loads(Path('/tmp/berlin-heat-latest.json').read_text())
+          assert p['status'] == 'official_structural_record'
+          assert p['record']['match_mode'] == 'point_bbox'
+          fields = p['record']['properties']
+          assert any(k in fields for k in ('pet14h', 'utci14h', 't2m14h', 'uhi'))
+          assert p['scenario']['validation']['conforms'] is True
+          assert 'not current weather' in p['truth_boundary'].lower()
+          print(json.dumps({
+              'feature_type': p['record']['feature_type'],
+              'feature_id': p['record']['feature_id'],
+              'properties': fields,
+              'retrieved_at': p['record']['retrieved_at'],
+          }, ensure_ascii=False))
+          PY
+      - name: Upload official-source proof
+        uses: actions/upload-artifact@v4
+        with:
+          name: semantic-city-berlin-heat-proof
+          path: /tmp/berlin-heat-latest.json
+          retention-days: 14
