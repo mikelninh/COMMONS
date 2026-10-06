@@ -7,6 +7,11 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 
 from commons.berlin_heat_wfs import WFSFetchError, fetch_record, run_official_heat
+from commons.berlin_heat_context import (
+    BerlinContextFetchError,
+    fetch_context as fetch_berlin_heat_context,
+    run_cross_domain_heat,
+)
 from commons.cologne_tree_wfs import (
     CologneWFSFetchError,
     fetch_record as fetch_cologne_tree,
@@ -110,6 +115,9 @@ def semantic_city_berlin_heat(
             detail=f"Berlin WFS evidence unavailable: {exc}",
         ) from exc
 
+
+@app.get("/semantic-city/berlin/heat/context")
+def semantic_city_berlin_heat_context(\n    lon: float = 13.4132,\n    lat: float = 52.5219,\n) -> dict[str, object]:\n    """Join official Berlin heat, justice, green and hospital evidence."""\n    try:\n        context = fetch_berlin_heat_context(\n            longitude=lon,\n            latitude=lat,\n        )\n        return run_cross_domain_heat(context)\n    except (BerlinContextFetchError, WFSFetchError) as exc:\n        raise HTTPException(\n            status_code=502,\n            detail=f"Berlin cross-domain evidence unavailable: {exc}",\n        ) from exc\n
 
 @app.get("/semantic-city/berlin/heat/ngsi-ld")
 def semantic_city_berlin_heat_ngsi_ld(
