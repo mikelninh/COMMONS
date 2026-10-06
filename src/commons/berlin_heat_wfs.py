@@ -12,6 +12,7 @@ import xml.etree.ElementTree as ET
 from rdflib import Graph, Literal, RDF, RDFS, URIRef, XSD
 
 from commons.semantic_city import Authority, CITY, PROV, validate_graph
+from commons.semantic_interop import attach_geosparql_point
 
 ENDPOINT = "https://gdi.berlin.de/services/wfs/ua_klimaanalyse_2022"
 METRICS = ("pet14h", "utci14h", "t2m14h", "uhi")
@@ -567,6 +568,12 @@ def build_graph(record: BerlinHeatRecord) -> Graph:
         )
     )
     graph.add((area, CITY.locatedIn, berlin))
+    attach_geosparql_point(
+        graph,
+        area,
+        record.longitude,
+        record.latitude,
+    )
     graph.add(
         (
             area,
