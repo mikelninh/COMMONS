@@ -17,6 +17,16 @@ def main() -> None:
     args = parser.parse_args()
 
     record = fetch_record(longitude=args.lon, latitude=args.lat, radius_m=args.radius_m)
+    diagnostic = {
+        "feature_type": record.feature_type,
+        "feature_id": record.feature_id,
+        "match_mode": record.match_mode,
+        "join_mode": record.join_mode,
+        "properties": record.properties,
+        "layers": record.layers,
+        "retrieved_at": record.retrieved_at,
+    }
+    print("WFS_DIAGNOSTIC=" + json.dumps(diagnostic, ensure_ascii=False, separators=(",", ":")))
     if args.strict_point and record.match_mode != "point_bbox":
         raise SystemExit(f"Expected point_bbox match, got {record.match_mode}")
 
@@ -35,7 +45,9 @@ def main() -> None:
         "feature_type": record.feature_type,
         "feature_id": record.feature_id,
         "match_mode": record.match_mode,
+        "join_mode": record.join_mode,
         "properties": record.properties,
+        "layers": record.layers,
         "retrieved_at": record.retrieved_at,
         "validation": payload["scenario"]["validation"],
     }, ensure_ascii=False, separators=(",", ":")))
