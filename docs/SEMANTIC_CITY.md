@@ -1,10 +1,10 @@
-# COMMONS Semantic City - v0.2
+# COMMONS Semantic City - v0.3
 
 > One reusable semantic foundation for municipal questions - with provenance, validation and explicit human authority.
 
 ## What v0.2 proves
 
-Semantic City now has one **verified official-data path** in addition to the deterministic four-scenario fixture:
+Semantic City now has **two municipal adapters** in addition to the deterministic four-scenario fixture:
 
     Berlin WFS
       -> discover compatible climate layers
@@ -52,11 +52,11 @@ queryable while keeping evidence, uncertainty and authority inspectable.
 - **RDF / OWL:** `semantic/semantic-city-ontology.ttl`
 - **SHACL:** `semantic/semantic-city-shapes.ttl`
 - **SPARQL:** executable queries in `src/commons/semantic_city.py` and `src/commons/berlin_heat_wfs.py`
-- **Source adapter:** `semantic/adapters/berlin.json`
+- **Source adapters:** `semantic/adapters/berlin.json`, `semantic/adapters/cologne.json`
 - **RDF runtime:** RDFLib
 - **SHACL runtime:** pySHACL
 - **CRS transformation:** pyproj, WGS84 -> EPSG:25833
-- **Live proof:** `.github/workflows/semantic-city-live.yml`
+- **Live proofs:** `.github/workflows/semantic-city-live.yml`, `.github/workflows/semantic-city-portability.yml`
 
 ## Important architecture choice: discover, do not hard-code
 
@@ -76,17 +76,37 @@ v0.2 therefore:
 
 That behaviour is much closer to a reusable municipal adapter than a hard-coded demo.
 
+## Portability proof: Cologne
+
+The second adapter targets the official **Baumkataster - Stadt Köln** WFS.
+
+    Cologne WFS
+      -> discover available feature types
+      -> choose the tree-cadastre layer by semantic name
+      -> parse only fields actually returned
+      -> normalize common concepts such as species / street / tree number when present
+      -> preserve the raw source properties and exact feature ID
+      -> transform to the same RDF / PROV / SHACL contract
+      -> query with SPARQL
+
+The adapter deliberately does **not** assume Berlin field names. It also preserves
+Cologne's published caveat: the cadastre covers city-managed trees only and is
+not a complete inventory of every tree in the city or a substitute for an
+official site survey.
+
 ## Run it
 
     pip install -e ".[dev]"
     python scripts/semantic_city_demo.py --scenario heat
     python scripts/fetch_berlin_heat.py --lat 52.5219 --lon 13.4132 --radius-m 25 --strict-point
+    python scripts/fetch_cologne_tree.py
 
 API:
 
     GET /semantic-city/scenarios
     GET /semantic-city/scenarios/{heat|resilience|energy|flood}
     GET /semantic-city/berlin/heat?lat=52.5219&lon=13.4132&radius_m=25
+    GET /semantic-city/cologne/tree
 
 Public interface:
 
@@ -112,11 +132,11 @@ Public interface:
 - [x] deterministic tests cover graph, queries and authority behaviour
 - [x] one scenario ingests official records end-to-end
 - [x] live CI proves the official Berlin WFS path
-- [ ] second municipal adapter demonstrates portability
+- [x] second municipal adapter demonstrates portability
 - [ ] NGSI-LD / GeoSPARQL mapping is implemented
 
 ## Next technical step
 
-Build a second municipality adapter and run the same semantic contract against
-its source catalogue. That is the cleanest proof that this is a reusable
-product segment rather than a Berlin-specific integration.
+Add **NGSI-LD / GeoSPARQL mappings** so the same graph can interoperate more
+directly with smart-city and digital-twin infrastructure instead of stopping at
+our internal RDF vocabulary.
