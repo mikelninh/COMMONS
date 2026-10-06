@@ -1,8 +1,8 @@
-# COMMONS Semantic City - v0.4
+# COMMONS Semantic City - v0.5
 
 > One reusable semantic foundation for municipal questions - with provenance, validation and explicit human authority.
 
-## What v0.2 proves
+## What v0.5 proves
 
 Semantic City now has **two municipal adapters** in addition to the deterministic four-scenario fixture:
 
@@ -30,6 +30,54 @@ resolved and joined by the shared ISU5 key `0000000001000265`:
 
 These are **structural modeled values from Klimaanalysekarten 2022**, not
 weather observations from 6 October 2026. Retrieval time is not observation time.
+
+## Cross-domain heat decision proof
+
+The verified Berlin point is no longer a climate-only demo. The same graph now joins four official source families:
+
+```text
+Klimaanalysekarten 2022
+        +
+Umweltgerechtigkeit 2023/2024
+        +
+Grünanlagenbestand
+        +
+Krankenhäuser Berlin
+        ↓
+RDF / PROV → SHACL → SPARQL
+        ↓
+explainable recommendation
+        ↓
+explicit evidence gaps
+        ↓
+accountable human decision
+```
+
+Verified snapshot at **52.5219, 13.4132** on 6 October 2026:
+
+| Evidence | Verified value |
+| --- | --- |
+| PET 14:00 | 40.56 °C |
+| UTCI 14:00 | 36.31 °C |
+| Urban heat island | 2.18 K |
+| Planning area | Alexanderplatzviertel |
+| Multiple burden | dreifach |
+| Bioclimate burden | hoch |
+| Green provision | mittel |
+| Social status index | mittlerer Status-Index |
+| Nearest mapped public green | Fernsehturmanlage zw. Fernsehturm u. Spandauer Str. · ~249 m |
+| Nearest mapped hospital | St. Hedwig-Krankenhaus · ~1.10 km · 415 reported beds |
+
+The resulting semantic graph contains **281 triples**, passes SHACL, uses **4 official source families**, and contains **0 synthetic values** in this cross-domain path.
+
+The system deliberately does not create a new opaque vulnerability score. Instead it exposes the contributing evidence and four blockers before consequential action:
+
+1. current heat warning / forecast,
+2. current distribution of heat-vulnerable people and institutions,
+3. usable cooling / shade availability and accessibility,
+4. current hospital capacity and relevant service availability.
+
+This means the output can say **“review this area early if a current heat trigger is present”** while refusing to claim **“allocate resources here automatically.”**
 
 ## Why this exists
 
@@ -101,6 +149,7 @@ official site survey.
     pip install -e ".[dev]"
     python scripts/semantic_city_demo.py --scenario heat
     python scripts/fetch_berlin_heat.py --lat 52.5219 --lon 13.4132 --radius-m 25 --strict-point
+    python scripts/fetch_berlin_heat_context.py --lat 52.5219 --lon 13.4132
     python scripts/fetch_cologne_tree.py
 
 API:
@@ -108,6 +157,7 @@ API:
     GET /semantic-city/scenarios
     GET /semantic-city/scenarios/{heat|resilience|energy|flood}
     GET /semantic-city/berlin/heat?lat=52.5219&lon=13.4132&radius_m=25
+    GET /semantic-city/berlin/heat/context?lat=52.5219&lon=13.4132
     GET /semantic-city/cologne/tree
     GET /semantic-city/berlin/heat/ngsi-ld?lat=52.5219&lon=13.4132&radius_m=25
 
@@ -137,9 +187,13 @@ Public interface:
 - [x] live CI proves the official Berlin WFS path
 - [x] second municipal adapter demonstrates portability
 - [x] NGSI-LD / GeoSPARQL mapping is implemented
+- [x] cross-domain Berlin heat decision joins four official source families
+- [x] verified browser snapshot contains zero synthetic values
+- [x] missing evidence is modeled explicitly before consequential action
 
 ## Next technical step
 
-Connect one **cross-domain decision** end-to-end: combine Berlin heat geometry
-with a second official social or green-space source, then show exactly which
-evidence changed the recommendation and which evidence is still missing.
+Turn the verified point proof into a **city-wide prioritisation experiment**:
+sample multiple planning areas, compare evidence coverage and test whether the
+system can identify useful review candidates without hiding policy choices in a
+single score. Keep the current point-level proof as the deterministic reference.
