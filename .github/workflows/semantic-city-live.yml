@@ -1,13 +1,17 @@
-name: Semantic City - Berlin WFS proof
+name: Semantic City - Berlin official evidence proof
 
 on:
   pull_request:
     paths:
       - "src/commons/berlin_heat_wfs.py"
+      - "src/commons/berlin_heat_context.py"
+      - "src/commons/semantic_interop.py"
       - "scripts/fetch_berlin_heat.py"
+      - "scripts/fetch_berlin_heat_context.py"
       - "tests/test_berlin_heat_wfs.py"
-      - "scripts/inspect_berlin_context.py"
-      - "scripts/inspect_berlin_context_point.py"
+      - "tests/test_berlin_heat_context.py"
+      - "tests/test_semantic_interop.py"
+      - "semantic/semantic-city-ontology.ttl"
       - "pyproject.toml"
       - ".github/workflows/semantic-city-live.yml"
   workflow_dispatch:
@@ -16,24 +20,28 @@ permissions:
   contents: read
 
 jobs:
-  berlin-heat-proof:
+  berlin-evidence-proof:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
       - name: Install COMMONS
         run: |
           python -m pip install --upgrade pip
           pip install -e ".[dev]"
-      - name: Deterministic WFS adapter tests
-        run: pytest -q tests/test_berlin_heat_wfs.py
-      - name: Inspect cross-domain Berlin schemas
-        run: python scripts/inspect_berlin_context.py
-      - name: Inspect cross-domain Berlin point context
-        run: python scripts/inspect_berlin_context_point.py
+
+      - name: Deterministic semantic evidence tests
+        run: |
+          pytest -q \
+            tests/test_berlin_heat_wfs.py \
+            tests/test_berlin_heat_context.py \
+            tests/test_semantic_interop.py
+
       - name: Fetch official Berlin climate feature
         run: |
           python scripts/fetch_berlin_heat.py \
@@ -42,28 +50,80 @@ jobs:
             --radius-m 25 \
             --strict-point \
             --output /tmp/berlin-heat-latest.json
-      - name: Verify official fields and truth boundary
+
+      - name: Fetch official cross-domain heat context
+        run: |
+          python scripts/fetch_berlin_heat_context.py \
+            --lat 52.5219 \
+            --lon 13.4132 \
+            --output /tmp/berlin-heat-context.json
+
+      - name: Verify truth and authority boundaries
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          p = json.loads(Path('/tmp/berlin-heat-latest.json').read_text())
-          assert p['status'] == 'official_structural_record'
-          assert p['record']['match_mode'] == 'point_bbox'
-          fields = p['record']['properties']
-          assert any(k in fields for k in ('pet14h', 'utci14h', 't2m14h', 'uhi'))
-          assert p['scenario']['validation']['conforms'] is True
-          assert 'not current weather' in p['truth_boundary'].lower()
-          print(json.dumps({
-              'feature_type': p['record']['feature_type'],
-              'feature_id': p['record']['feature_id'],
-              'properties': fields,
-              'retrieved_at': p['record']['retrieved_at'],
-          }, ensure_ascii=False))
+
+          heat = json.loads(
+              Path(
+                  "/tmp/berlin-heat-latest.json"
+              ).read_text()
+          )
+          context = json.loads(
+              Path(
+                  "/tmp/berlin-heat-context.json"
+              ).read_text()
+          )
+
+          assert heat["status"] == "official_structural_record"
+          assert heat["record"]["match_mode"] == "point_bbox"
+          assert heat["scenario"]["validation"]["conforms"] is True
+          assert "not current weather" in heat["truth_boundary"].lower()
+
+          assert context["status"] == "official_cross_domain_context"
+          assert context["validation"]["conforms"] is True
+          assert context["authority"] == "human_decision_required"
+          assert context["graph_stats"]["synthetic_values"] == 0
+          assert len(context["evidence_gaps"]) >= 4
+          assert context["rows"]
+          assert context["rows"][0]["planName"]
+          assert context["rows"][0]["greenName"]
+          assert context["rows"][0]["hospitalName"]
+
+          print(
+              json.dumps(
+                  {
+                      "plan": context["rows"][0]["planName"],
+                      "multiple_burden": context["rows"][0][
+                          "multipleBurden"
+                      ],
+                      "bioclimate": context["rows"][0][
+                          "bioclimate"
+                      ],
+                      "green": {
+                          "name": context["rows"][0]["greenName"],
+                          "distance_m": context["rows"][0][
+                              "greenDistance"
+                          ],
+                      },
+                      "hospital": {
+                          "name": context["rows"][0]["hospitalName"],
+                          "distance_m": context["rows"][0][
+                              "hospitalDistance"
+                          ],
+                      },
+                      "gaps": len(context["evidence_gaps"]),
+                  },
+                  ensure_ascii=False,
+              )
+          )
           PY
-      - name: Upload official-source proof
+
+      - name: Upload official-source proofs
         uses: actions/upload-artifact@v4
         with:
-          name: semantic-city-berlin-heat-proof
-          path: /tmp/berlin-heat-latest.json
+          name: semantic-city-berlin-evidence-proof
+          path: |
+            /tmp/berlin-heat-latest.json
+            /tmp/berlin-heat-context.json
           retention-days: 14
