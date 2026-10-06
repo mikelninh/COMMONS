@@ -1,4 +1,4 @@
-# COMMONS Semantic City - v0.3
+# COMMONS Semantic City - v0.4
 
 > One reusable semantic foundation for municipal questions - with provenance, validation and explicit human authority.
 
@@ -51,7 +51,9 @@ queryable while keeping evidence, uncertainty and authority inspectable.
 
 - **RDF / OWL:** `semantic/semantic-city-ontology.ttl`
 - **SHACL:** `semantic/semantic-city-shapes.ttl`
-- **SPARQL:** executable queries in `src/commons/semantic_city.py` and `src/commons/berlin_heat_wfs.py`
+- **SPARQL:** executable queries in `src/commons/semantic_city.py` and municipal adapters
+- **GeoSPARQL:** Berlin official records carry CRS84 WKT geometry
+- **NGSI-LD:** Berlin heat evidence can be exported as interoperable context entities
 - **Source adapters:** `semantic/adapters/berlin.json`, `semantic/adapters/cologne.json`
 - **RDF runtime:** RDFLib
 - **SHACL runtime:** pySHACL
@@ -107,6 +109,7 @@ API:
     GET /semantic-city/scenarios/{heat|resilience|energy|flood}
     GET /semantic-city/berlin/heat?lat=52.5219&lon=13.4132&radius_m=25
     GET /semantic-city/cologne/tree
+    GET /semantic-city/berlin/heat/ngsi-ld?lat=52.5219&lon=13.4132&radius_m=25
 
 Public interface:
 
@@ -133,10 +136,10 @@ Public interface:
 - [x] one scenario ingests official records end-to-end
 - [x] live CI proves the official Berlin WFS path
 - [x] second municipal adapter demonstrates portability
-- [ ] NGSI-LD / GeoSPARQL mapping is implemented
+- [x] NGSI-LD / GeoSPARQL mapping is implemented
 
 ## Next technical step
 
-Add **NGSI-LD / GeoSPARQL mappings** so the same graph can interoperate more
-directly with smart-city and digital-twin infrastructure instead of stopping at
-our internal RDF vocabulary.
+Connect one **cross-domain decision** end-to-end: combine Berlin heat geometry
+with a second official social or green-space source, then show exactly which
+evidence changed the recommendation and which evidence is still missing.
