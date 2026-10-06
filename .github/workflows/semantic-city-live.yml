@@ -6,6 +6,7 @@ on:
       - "src/commons/berlin_heat_wfs.py"
       - "scripts/fetch_berlin_heat.py"
       - "tests/test_berlin_heat_wfs.py"
+      - "scripts/inspect_berlin_context.py"
       - "pyproject.toml"
       - ".github/workflows/semantic-city-live.yml"
   workflow_dispatch:
@@ -28,6 +29,8 @@ jobs:
           pip install -e ".[dev]"
       - name: Deterministic WFS adapter tests
         run: pytest -q tests/test_berlin_heat_wfs.py
+      - name: Inspect cross-domain Berlin schemas
+        run: python scripts/inspect_berlin_context.py
       - name: Fetch official Berlin climate feature
         run: |
           python scripts/fetch_berlin_heat.py \
