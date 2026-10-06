@@ -93,6 +93,8 @@ def test_public_semantic_city_demo_exposes_provenance_and_truth_boundary() -> No
     assert "Ask the city" in page
     assert "SHOW FULL PROVENANCE" in page
     assert "Truth boundary" in page
+    assert "OFFICIAL DATA PATH" in page
+    assert "berlin-heat-latest.json" in script
     for scenario in SCENARIOS:
         assert f'data-scenario="{scenario}"' in page
         assert f"{scenario}:" in script
