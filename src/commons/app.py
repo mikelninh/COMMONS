@@ -7,6 +7,11 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 
 from commons.berlin_heat_wfs import WFSFetchError, fetch_record, run_official_heat
+from commons.cologne_tree_wfs import (
+    CologneWFSFetchError,
+    fetch_record as fetch_cologne_tree,
+    run_official_tree,
+)
 from commons.models import CaseRecord, OutcomeInput, OutcomeRecord, ProblemInput
 from commons.semantic_city import list_scenarios, run_scenario
 from commons.service import CommonsService
@@ -102,6 +107,27 @@ def semantic_city_berlin_heat(
         raise HTTPException(
             status_code=502,
             detail=f"Berlin WFS evidence unavailable: {exc}",
+        ) from exc
+
+
+@app.get("/semantic-city/cologne/tree")
+def semantic_city_cologne_tree() -> dict[str, object]:
+    """Fetch one official Cologne tree-cadastre record."""
+    try:
+        record = fetch_cologne_tree()
+        return {
+            "status": "official_municipal_record",
+            "truth_boundary": (
+                "The Cologne cadastre covers city-managed trees "
+                "only and does not replace an official site survey."
+            ),
+            "record": record.to_dict(),
+            "scenario": run_official_tree(record),
+        }
+    except CologneWFSFetchError as exc:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Cologne WFS evidence unavailable: {exc}",
         ) from exc
 
 
