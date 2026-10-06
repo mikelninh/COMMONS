@@ -14,6 +14,7 @@ from commons.cologne_tree_wfs import (
 )
 from commons.models import CaseRecord, OutcomeInput, OutcomeRecord, ProblemInput
 from commons.semantic_city import list_scenarios, run_scenario
+from commons.semantic_interop import berlin_heat_ngsi_ld
 from commons.service import CommonsService
 
 app = FastAPI(
@@ -109,6 +110,9 @@ def semantic_city_berlin_heat(
             detail=f"Berlin WFS evidence unavailable: {exc}",
         ) from exc
 
+
+@app.get("/semantic-city/berlin/heat/ngsi-ld")
+def semantic_city_berlin_heat_ngsi_ld(\n    lon: float = 13.4132,\n    lat: float = 52.5219,\n    radius_m: float = 25.0,\n) -> list[dict[str, object]]:\n    """Return official Berlin heat evidence as NGSI-LD."""\n    if radius_m <= 0 or radius_m > 500:\n        raise HTTPException(\n            status_code=400,\n            detail="radius_m must be > 0 and <= 500",\n        )\n    try:\n        record = fetch_record(\n            longitude=lon,\n            latitude=lat,\n            radius_m=radius_m,\n            allow_fallback=False,\n        )\n        return berlin_heat_ngsi_ld(record)\n    except WFSFetchError as exc:\n        raise HTTPException(\n            status_code=502,\n            detail=f"Berlin WFS evidence unavailable: {exc}",\n        ) from exc\n
 
 @app.get("/semantic-city/cologne/tree")
 def semantic_city_cologne_tree() -> dict[str, object]:
