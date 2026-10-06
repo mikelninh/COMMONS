@@ -1,3 +1,5 @@
+from urllib.parse import parse_qs, urlparse
+
 from commons.berlin_heat_context import (
     BerlinHeatDecisionContext,
     JusticeRecord,
@@ -13,7 +15,9 @@ from commons.semantic_city import CITY
 
 
 def fake_json(url: str) -> dict:
-    if "z_gesamt_umwelt2023" in url:
+    query = parse_qs(urlparse(url).query)
+    feature_type = (query.get("typeNames") or query.get("TYPENAMES") or [""])[0]
+    if "z_gesamt_umwelt2023" in feature_type:
         return {
             "features": [
                 {
@@ -60,7 +64,7 @@ def fake_json(url: str) -> dict:
                 },
             ]
         }
-    if "gruenanlagen:gruenanlagen" in url:
+    if feature_type == "gruenanlagen:gruenanlagen":
         return {
             "features": [
                 {
@@ -86,7 +90,7 @@ def fake_json(url: str) -> dict:
                 },
             ]
         }
-    if "plankrankenhaeuser" in url:
+    if "plankrankenhaeuser" in feature_type:
         return {
             "features": [
                 {
@@ -102,7 +106,7 @@ def fake_json(url: str) -> dict:
                 }
             ]
         }
-    if "weitere_krankenhaeuser" in url:
+    if "weitere_krankenhaeuser" in feature_type:
         return {
             "features": [
                 {
