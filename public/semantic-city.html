@@ -22,13 +22,13 @@
 <main>
   <section class="hero">
     <div>
-      <p class="eyebrow"><i></i> BERLIN - REPRODUCIBLE DEMO FIXTURE</p>
+      <p class="eyebrow"><i></i> BERLIN · OFFICIAL HEAT PATH VERIFIED</p>
       <h1>Ask the city<br><em>why.</em></h1>
       <p class="lede">A reusable knowledge graph connects places, people, infrastructure, observations, rules and responsibility - then keeps consequential decisions with accountable humans.</p>
     </div>
     <div class="hero-stats" aria-label="Graph summary">
       <div><b>4</b><span>decision scenarios</span></div>
-      <div><b>1</b><span>shared ontology</span></div>
+      <div><b>1</b><span>official WFS path</span></div>
       <div><b>0</b><span>autonomous high-stakes actions</span></div>
     </div>
   </section>
@@ -38,6 +38,24 @@
     <button class="scenario" data-scenario="resilience"><span>02</span><b>Resilience</b><small>What breaks if this breaks?</small></button>
     <button class="scenario" data-scenario="energy"><span>03</span><b>Energy</b><small>Where should we assess first?</small></button>
     <button class="scenario" data-scenario="flood"><span>04</span><b>Flood</b><small>What needs attention before impact?</small></button>
+  </section>
+
+  <section class="official-proof" id="officialProof">
+    <div class="proof-copy">
+      <span>OFFICIAL DATA PATH · VERIFIED SNAPSHOT</span>
+      <h2>Berlin WFS → RDF → SHACL → SPARQL</h2>
+      <p>The heat path now resolves the correct land-use-specific climate layers at one Berlin point, joins them by the shared ISU5 key and keeps the original feature provenance.</p>
+    </div>
+    <div class="proof-metrics">
+      <div><span>PET · 14:00</span><b id="proofPet">—</b><small>°C · structural model</small></div>
+      <div><span>UTCI · 14:00</span><b id="proofUtci">—</b><small>°C · structural model</small></div>
+      <div><span>AIR TEMP · 14:00</span><b id="proofTemp">—</b><small>°C · structural model</small></div>
+      <div><span>UHI</span><b id="proofUhi">—</b><small>K · heat-island effect</small></div>
+    </div>
+    <div class="proof-foot">
+      <strong id="officialProofStatus">LOADING VERIFIED SNAPSHOT…</strong>
+      <small id="officialProofMeta">Klimaanalysekarten 2022 · not current weather</small>
+    </div>
   </section>
 
   <section class="workspace">
@@ -102,10 +120,10 @@
 
   <section class="truth-note">
     <b>Truth boundary</b>
-    <p>All numeric values and infrastructure dependencies shown in this prototype are intentionally synthetic/illustrative. Source mappings point to real data families already used by Berlin Deep City. Production deployment must ingest current official records and preserve provenance, timestamps and caveats.</p>
+    <p>The Heat scenario includes a verified official Berlin WFS snapshot retrieved on 6 October 2026. Its PET, UTCI, 14:00 air-temperature and UHI values come from Klimaanalysekarten 2022 and are structural modeled evidence — not current weather. Resilience, Energy and Flood remain explicitly synthetic fixtures.</p>
   </section>
 </main>
 
-<footer><span>COMMONS - CITY GRAPH v0.1</span><span>information -> understanding -> decision support -> accountable human action</span></footer>
+<footer><span>COMMONS - CITY GRAPH v0.2</span><span>information -> understanding -> decision support -> accountable human action</span></footer>
 </body>
 </html>
