@@ -1,7 +1,7 @@
 {
-  "adapter": "berlin-v0.2",
-  "status": "official-heat-path-verified",
-  "truth_boundary": "Heat has a verified official WFS ingestion path. Other scenario values remain synthetic fixtures unless explicitly marked otherwise.",
+  "adapter": "berlin-v0.5",
+  "status": "official-cross-domain-heat-path-verified",
+  "truth_boundary": "The verified heat-planning path joins official climate, environmental-justice, public-green and hospital evidence. The sources have different reference dates and purposes; mapped proximity is not live service availability, and structural climate evidence is not current weather.",
   "heat": {
     "publisher": "Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen Berlin",
     "dataset": "Klimaanalysekarten 2022",
@@ -11,7 +11,7 @@
     "join_key": "schl5",
     "evidence_class": "official-structural-modeled",
     "verified_snapshot": {
-      "retrieved_at": "2026-10-06T09:01:57.921676Z",
+      "retrieved_at": "2026-10-06T09:36:23.204564Z",
       "latitude": 52.5219,
       "longitude": 13.4132,
       "feature_id": "0000000001000265",
@@ -32,21 +32,21 @@
       "type": "WFS",
       "endpoint": "https://gdi.berlin.de/services/wfs/ua_umweltgerechtigkeit2023",
       "evidence_class": "structural",
-      "status": "mapped_not_ingested"
+      "status": "verified_ingested_in_cross_domain_heat"
     },
     "green_space": {
       "publisher": "Geoportal Berlin",
       "type": "WFS",
       "endpoint": "https://gdi.berlin.de/services/wfs/gruenanlagen",
       "evidence_class": "structural",
-      "status": "mapped_not_ingested"
+      "status": "verified_ingested_in_cross_domain_heat"
     },
     "hospitals": {
       "publisher": "Geoportal Berlin",
       "type": "WFS",
       "endpoint": "https://gdi.berlin.de/services/wfs/krankenhaeuser",
       "evidence_class": "structural",
-      "status": "mapped_not_ingested"
+      "status": "verified_ingested_in_cross_domain_heat"
     },
     "weather": {
       "publisher": "Open-Meteo",
@@ -62,5 +62,31 @@
       "evidence_class": "live",
       "status": "used_elsewhere_in_commons"
     }
+  },
+  "cross_domain_heat": {
+    "status": "verified",
+    "planning_area": {
+      "id": "01100310",
+      "name": "Alexanderplatzviertel",
+      "multiple_burden": "dreifach",
+      "bioclimate": "hoch",
+      "green_provision": "mittel",
+      "social_status": "mittlerer Status-Index"
+    },
+    "nearest_public_green": {
+      "name": "Fernsehturmanlage zw. Fernsehturm u. Spandauer Str.",
+      "approximate_distance_m": 248.6
+    },
+    "nearest_hospital": {
+      "name": "St. Hedwig-Krankenhaus",
+      "approximate_distance_m": 1096.3,
+      "reported_beds": 415
+    },
+    "evidence_gaps": [
+      "current heat warning or forecast",
+      "current distribution of heat-vulnerable people and institutions",
+      "usable cooling/shade availability and accessibility",
+      "current hospital capacity and relevant service availability"
+    ]
   }
 }
