@@ -6,6 +6,7 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 
+from commons.berlin_heat_wfs import WFSFetchError, fetch_record, run_official_heat
 from commons.models import CaseRecord, OutcomeInput, OutcomeRecord, ProblemInput
 from commons.semantic_city import list_scenarios, run_scenario
 from commons.service import CommonsService
@@ -66,6 +67,41 @@ def semantic_city_scenario(
         raise HTTPException(
             status_code=404,
             detail=str(exc),
+        ) from exc
+
+
+@app.get("/semantic-city/berlin/heat")
+def semantic_city_berlin_heat(
+    lon: float = 13.4132,
+    lat: float = 52.5219,
+    radius_m: float = 25.0,
+) -> dict[str, object]:
+    """Fetch official Berlin structural heat evidence for one point."""
+    if radius_m <= 0 or radius_m > 500:
+        raise HTTPException(
+            status_code=400,
+            detail="radius_m must be > 0 and <= 500",
+        )
+    try:
+        record = fetch_record(
+            longitude=lon,
+            latitude=lat,
+            radius_m=radius_m,
+            allow_fallback=False,
+        )
+        return {
+            "status": "official_structural_record",
+            "truth_boundary": (
+                "Klimaanalysekarten 2022 are structural modeled "
+                "evidence, not current weather."
+            ),
+            "record": record.to_dict(),
+            "scenario": run_official_heat(record),
+        }
+    except WFSFetchError as exc:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Berlin WFS evidence unavailable: {exc}",
         ) from exc
 
 
