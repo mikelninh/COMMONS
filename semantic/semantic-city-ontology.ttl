@@ -1,0 +1,58 @@
+@prefix city: <https://commons.local/semantic-city/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+city:SemanticCityOntology a owl:Ontology ;
+  rdfs:label "COMMONS Semantic City Ontology" ;
+  rdfs:comment "Small reusable vocabulary for accountable municipal decision support." .
+
+city:City a owl:Class .
+city:Area a owl:Class .
+city:PopulationGroup a owl:Class .
+city:InfrastructureAsset a owl:Class .
+city:Building a owl:Class ;
+  rdfs:subClassOf city:InfrastructureAsset .
+city:Service a owl:Class .
+city:MobilityService a owl:Class ;
+  rdfs:subClassOf city:Service .
+city:CareService a owl:Class ;
+  rdfs:subClassOf city:Service .
+city:Observation a owl:Class .
+city:EvidenceSource a owl:Class .
+city:Action a owl:Class .
+city:Recommendation a owl:Class .
+city:HumanAuthority a owl:Class .
+
+city:locatedIn a owl:ObjectProperty ;
+  rdfs:range city:City .
+city:livesIn a owl:ObjectProperty ;
+  rdfs:range city:Area .
+city:containsPopulation a owl:ObjectProperty ;
+  rdfs:range city:PopulationGroup .
+city:dependsOn a owl:ObjectProperty .
+city:hasObservation a owl:ObjectProperty ;
+  rdfs:range city:Observation .
+city:about a owl:ObjectProperty .
+city:evidenceSource a owl:ObjectProperty ;
+  rdfs:range city:EvidenceSource .
+city:controlledBy a owl:ObjectProperty ;
+  rdfs:range city:HumanAuthority .
+city:targets a owl:ObjectProperty .
+
+city:metric a owl:DatatypeProperty ;
+  rdfs:range xsd:string .
+city:value a owl:DatatypeProperty .
+city:unit a owl:DatatypeProperty ;
+  rdfs:range xsd:string .
+city:evidenceClass a owl:DatatypeProperty ;
+  rdfs:range xsd:string .
+city:authority a owl:DatatypeProperty ;
+  rdfs:range xsd:string .
+city:because a owl:DatatypeProperty ;
+  rdfs:range xsd:string .
+city:requiresHumanApproval a owl:DatatypeProperty ;
+  rdfs:range xsd:boolean .
+city:isDemoValue a owl:DatatypeProperty ;
+  rdfs:range xsd:boolean .
