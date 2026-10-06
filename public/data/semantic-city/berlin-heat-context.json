@@ -75,11 +75,11 @@
   "context": {
     "longitude": 13.4132,
     "latitude": 52.5219,
-    "retrieved_at": "2026-10-06T09:37:40.115156Z",
+    "retrieved_at": "2026-10-06T09:38:31.237250Z",
     "heat": {
       "feature_type": "multi-layer-wfs",
       "feature_id": "0000000001000265",
-      "retrieved_at": "2026-10-06T09:37:37.464342Z",
+      "retrieved_at": "2026-10-06T09:38:28.651362Z",
       "longitude": 13.4132,
       "latitude": 52.5219,
       "radius_m": 25.0,
@@ -148,7 +148,7 @@
       "air": "hoch",
       "social_status": "mittlerer Status-Index",
       "population_band": "unter 10.000",
-      "retrieved_at": "2026-10-06T09:37:37.917418Z",
+      "retrieved_at": "2026-10-06T09:38:29.331239Z",
       "raw_properties": {
         "plr_id": "01100310",
         "plr_name": "Alexanderplatzviertel",
@@ -184,7 +184,7 @@
         "plannr": "01100310",
         "planname": "Alexanderplatzviertel"
       },
-      "retrieved_at": "2026-10-06T09:37:39.257500Z",
+      "retrieved_at": "2026-10-06T09:38:30.524885Z",
       "source_endpoint": "https://gdi.berlin.de/services/wfs/gruenanlagen"
     },
     "nearest_hospital": {
@@ -204,7 +204,7 @@
         "gc_ortsteil": "Mitte",
         "betten_insgesamt": "415"
       },
-      "retrieved_at": "2026-10-06T09:37:39.705864Z",
+      "retrieved_at": "2026-10-06T09:38:30.868512Z",
       "source_endpoint": "https://gdi.berlin.de/services/wfs/krankenhaeuser"
     },
     "green_features_within_radius": 82,
