@@ -1,43 +1,66 @@
 {
-  "adapter": "berlin-v0",
-  "status": "source-mapping-demo",
-  "truth_boundary": "Mappings point to real source families; no live values are bundled here.",
-  "mappings": {
-    "heat": {
-      "publisher": "Umweltatlas Berlin",
-      "type": "WFS",
-      "endpoint": "https://gdi.berlin.de/services/wfs/ua_klimaanalyse_2022",
-      "evidence_class": "structural"
+  "adapter": "berlin-v0.2",
+  "status": "official-heat-path-verified",
+  "truth_boundary": "Heat has a verified official WFS ingestion path. Other scenario values remain synthetic fixtures unless explicitly marked otherwise.",
+  "heat": {
+    "publisher": "Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen Berlin",
+    "dataset": "Klimaanalysekarten 2022",
+    "type": "WFS",
+    "endpoint": "https://gdi.berlin.de/services/wfs/ua_klimaanalyse_2022",
+    "source_crs": "EPSG:25833",
+    "join_key": "schl5",
+    "evidence_class": "official-structural-modeled",
+    "verified_snapshot": {
+      "retrieved_at": "2026-10-06T09:01:57.921676Z",
+      "latitude": 52.5219,
+      "longitude": 13.4132,
+      "feature_id": "0000000001000265",
+      "typklar": "Straße",
+      "match_mode": "point_bbox",
+      "join_mode": "shared_schl5"
     },
+    "metrics": {
+      "pet14h": "ua_klimaanalyse_2022:pb_ua_pet_str_2022",
+      "utci14h": "ua_klimaanalyse_2022:rb_ua_utci_str_2022",
+      "t2m14h": "ua_klimaanalyse_2022:hb_ua_lufttemp_str_t2m_14h_2022",
+      "uhi": "ua_klimaanalyse_2022:th_kak_verkehrsfl_2022"
+    }
+  },
+  "mappings": {
     "environmental_justice": {
       "publisher": "Umweltatlas Berlin",
       "type": "WFS",
       "endpoint": "https://gdi.berlin.de/services/wfs/ua_umweltgerechtigkeit2023",
-      "evidence_class": "structural"
+      "evidence_class": "structural",
+      "status": "mapped_not_ingested"
     },
     "green_space": {
       "publisher": "Geoportal Berlin",
       "type": "WFS",
       "endpoint": "https://gdi.berlin.de/services/wfs/gruenanlagen",
-      "evidence_class": "structural"
+      "evidence_class": "structural",
+      "status": "mapped_not_ingested"
     },
     "hospitals": {
       "publisher": "Geoportal Berlin",
       "type": "WFS",
       "endpoint": "https://gdi.berlin.de/services/wfs/krankenhaeuser",
-      "evidence_class": "structural"
+      "evidence_class": "structural",
+      "status": "mapped_not_ingested"
     },
     "weather": {
       "publisher": "Open-Meteo",
       "type": "API",
       "endpoint": "https://api.open-meteo.com/",
-      "evidence_class": "modeled"
+      "evidence_class": "modeled",
+      "status": "used_elsewhere_in_commons"
     },
     "transit": {
       "publisher": "VBB",
       "type": "API",
       "endpoint": "https://vbb.transport.rest/",
-      "evidence_class": "live"
+      "evidence_class": "live",
+      "status": "used_elsewhere_in_commons"
     }
   }
 }
