@@ -117,7 +117,22 @@ def semantic_city_berlin_heat(
 
 
 @app.get("/semantic-city/berlin/heat/context")
-def semantic_city_berlin_heat_context(\n    lon: float = 13.4132,\n    lat: float = 52.5219,\n) -> dict[str, object]:\n    """Join official Berlin heat, justice, green and hospital evidence."""\n    try:\n        context = fetch_berlin_heat_context(\n            longitude=lon,\n            latitude=lat,\n        )\n        return run_cross_domain_heat(context)\n    except (BerlinContextFetchError, WFSFetchError) as exc:\n        raise HTTPException(\n            status_code=502,\n            detail=f"Berlin cross-domain evidence unavailable: {exc}",\n        ) from exc\n
+def semantic_city_berlin_heat_context(
+    lon: float = 13.4132,
+    lat: float = 52.5219,
+) -> dict[str, object]:
+    """Join official Berlin heat, justice, green and hospital evidence."""
+    try:
+        context = fetch_berlin_heat_context(
+            longitude=lon,
+            latitude=lat,
+        )
+        return run_cross_domain_heat(context)
+    except (BerlinContextFetchError, WFSFetchError) as exc:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Berlin cross-domain evidence unavailable: {exc}",
+        ) from exc
 
 @app.get("/semantic-city/berlin/heat/ngsi-ld")
 def semantic_city_berlin_heat_ngsi_ld(
