@@ -21,6 +21,7 @@ city:CareService a owl:Class ;
   rdfs:subClassOf city:Service .
 city:Observation a owl:Class .
 city:EvidenceSource a owl:Class .
+city:EvidenceRecord a owl:Class .
 city:Action a owl:Class .
 city:Recommendation a owl:Class .
 city:HumanAuthority a owl:Class .
@@ -56,3 +57,13 @@ city:requiresHumanApproval a owl:DatatypeProperty ;
   rdfs:range xsd:boolean .
 city:isDemoValue a owl:DatatypeProperty ;
   rdfs:range xsd:boolean .
+
+city:publisher a owl:DatatypeProperty ; rdfs:range xsd:string .
+city:endpoint a owl:DatatypeProperty .
+city:caveat a owl:DatatypeProperty ; rdfs:range xsd:string .
+city:sourceFeatureType a owl:DatatypeProperty ; rdfs:range xsd:string .
+city:sourceFeatureId a owl:DatatypeProperty ; rdfs:range xsd:string .
+city:rawField a owl:DatatypeProperty ; rdfs:range xsd:string .
+city:matchMode a owl:DatatypeProperty ; rdfs:range xsd:string .
+city:joinMode a owl:DatatypeProperty ; rdfs:range xsd:string .
+city:structureType a owl:DatatypeProperty ; rdfs:range xsd:string .
