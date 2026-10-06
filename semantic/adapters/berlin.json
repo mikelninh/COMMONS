@@ -1,0 +1,43 @@
+{
+  "adapter": "berlin-v0",
+  "status": "source-mapping-demo",
+  "truth_boundary": "Mappings point to real source families; no live values are bundled here.",
+  "mappings": {
+    "heat": {
+      "publisher": "Umweltatlas Berlin",
+      "type": "WFS",
+      "endpoint": "https://gdi.berlin.de/services/wfs/ua_klimaanalyse_2022",
+      "evidence_class": "structural"
+    },
+    "environmental_justice": {
+      "publisher": "Umweltatlas Berlin",
+      "type": "WFS",
+      "endpoint": "https://gdi.berlin.de/services/wfs/ua_umweltgerechtigkeit2023",
+      "evidence_class": "structural"
+    },
+    "green_space": {
+      "publisher": "Geoportal Berlin",
+      "type": "WFS",
+      "endpoint": "https://gdi.berlin.de/services/wfs/gruenanlagen",
+      "evidence_class": "structural"
+    },
+    "hospitals": {
+      "publisher": "Geoportal Berlin",
+      "type": "WFS",
+      "endpoint": "https://gdi.berlin.de/services/wfs/krankenhaeuser",
+      "evidence_class": "structural"
+    },
+    "weather": {
+      "publisher": "Open-Meteo",
+      "type": "API",
+      "endpoint": "https://api.open-meteo.com/",
+      "evidence_class": "modeled"
+    },
+    "transit": {
+      "publisher": "VBB",
+      "type": "API",
+      "endpoint": "https://vbb.transport.rest/",
+      "evidence_class": "live"
+    }
+  }
+}
