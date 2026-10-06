@@ -16,6 +16,9 @@ city:Building a owl:Class ;
   rdfs:subClassOf city:InfrastructureAsset .
 city:UrbanTree a owl:Class ;
   rdfs:subClassOf city:InfrastructureAsset .
+city:PublicGreenSpace a owl:Class ;
+  rdfs:subClassOf city:InfrastructureAsset .
+city:EvidenceGap a owl:Class .
 city:Service a owl:Class .
 city:MobilityService a owl:Class ;
   rdfs:subClassOf city:Service .
@@ -75,3 +78,8 @@ city:species a owl:DatatypeProperty ; rdfs:range xsd:string .
 city:street a owl:DatatypeProperty ; rdfs:range xsd:string .
 city:sourceStatus a owl:DatatypeProperty ; rdfs:range xsd:string .
 city:rawPropertiesJson a owl:DatatypeProperty ; rdfs:range xsd:string .
+
+city:overlapsPlanningArea a owl:ObjectProperty ; rdfs:range city:Area .
+city:nearestPublicGreen a owl:ObjectProperty ; rdfs:range city:PublicGreenSpace .
+city:nearestHospital a owl:ObjectProperty ; rdfs:range city:CareService .
+city:blockedByEvidenceGap a owl:ObjectProperty ; rdfs:range city:EvidenceGap .
