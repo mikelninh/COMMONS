@@ -1,0 +1,224 @@
+{
+  "status": "official_cross_domain_context",
+  "title": "Heat resilience — cross-domain Berlin evidence",
+  "question": "If a severe heat event is forecast, what official context should a planner review here, and what is still missing before action?",
+  "authority": "human_decision_required",
+  "decision": "Prioritise accountable review of this planning area when a current heat trigger is present.",
+  "recommendation": "The official structural heat evidence and environmental-justice context make this location a meaningful candidate for early review. Use green-space and hospital proximity as context, not proof of cooling access or care capacity. Do not allocate resources until the listed live evidence gaps are checked.",
+  "truth_boundary": "This joins official datasets with different reference dates and purposes. Klimaanalysekarten 2022 are structural modeled evidence; Umweltgerechtigkeit 2023/2024 is relative planning context; green and hospital layers are mapped assets, not live service state.",
+  "rationale": [
+    {
+      "signal": "Structural heat",
+      "value": "PET 40.56 °C; UTCI 36.31 °C; UHI 2.18 K",
+      "meaning": "Official Klimaanalysekarten 2022 planning evidence."
+    },
+    {
+      "signal": "Environmental justice",
+      "value": "Alexanderplatzviertel: dreifach; bioclimate hoch; green provision mittel; mittlerer Status-Index",
+      "meaning": "Official 2023/2024 planning-area context; no new composite score."
+    },
+    {
+      "signal": "Nearby public green",
+      "value": "Fernsehturmanlage zw. Fernsehturm u. Spandauer Str. · 249 m approx.; 82 mapped features within 1200 m query radius",
+      "meaning": "Proximity does not prove shade, cooling quality or accessibility."
+    },
+    {
+      "signal": "Nearby hospital",
+      "value": "St. Hedwig-Krankenhaus · 1096 m approx.",
+      "meaning": "Location and reported beds do not prove live capacity."
+    }
+  ],
+  "evidence_gaps": [
+    {
+      "id": "current-heat-event",
+      "label": "Current heat warning / forecast at decision time"
+    },
+    {
+      "id": "vulnerable-populations",
+      "label": "Current distribution of heat-vulnerable people and institutions"
+    },
+    {
+      "id": "cooling-access",
+      "label": "Cooling-space availability, opening hours, accessibility and usable shade"
+    },
+    {
+      "id": "hospital-live-capacity",
+      "label": "Current hospital capacity and relevant service availability"
+    }
+  ],
+  "what_would_change_this": [
+    "A current forecast or warning that no longer meets the municipality's heat-response trigger.",
+    "Verified cooling/shade access that materially reduces exposure for affected groups.",
+    "More precise population-vulnerability evidence that changes who should be prioritised.",
+    "Live care-capacity or accessibility evidence that changes the feasible response."
+  ],
+  "query": "PREFIX city: <https://commons.local/semantic-city/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT\n  ?area ?pet ?utci ?uhi\n  ?plan ?planName ?multipleBurden ?bioclimate\n  ?greenProvision ?socialStatus\n  ?greenDistance ?greenName\n  ?hospitalDistance ?hospitalName ?hospitalBeds\nWHERE {\n  ?area a city:Area ;\n        city:overlapsPlanningArea ?plan ;\n        city:nearestPublicGreen ?green ;\n        city:nearestHospital ?hospital .\n\n  ?p city:about ?area ; city:metric \"pet14h\" ; city:value ?pet .\n  ?u city:about ?area ; city:metric \"utci14h\" ; city:value ?utci .\n  ?h city:about ?area ; city:metric \"uhi\" ; city:value ?uhi .\n\n  ?plan rdfs:label ?planName .\n  ?m city:about ?plan ;\n     city:metric \"multipleBurdenCategory\" ;\n     city:value ?multipleBurden .\n  ?b city:about ?plan ;\n     city:metric \"bioclimateBurden\" ;\n     city:value ?bioclimate .\n  ?g city:about ?plan ;\n     city:metric \"greenProvision\" ;\n     city:value ?greenProvision .\n  ?s city:about ?plan ;\n     city:metric \"socialStatusIndex\" ;\n     city:value ?socialStatus .\n\n  ?green rdfs:label ?greenName .\n  ?gd city:about ?area ;\n      city:metric \"nearestPublicGreenDistanceM\" ;\n      city:value ?greenDistance .\n\n  ?hospital rdfs:label ?hospitalName .\n  ?hd city:about ?area ;\n      city:metric \"nearestHospitalDistanceM\" ;\n      city:value ?hospitalDistance .\n  OPTIONAL {\n    ?beds city:about ?hospital ;\n          city:metric \"reportedBeds\" ;\n          city:value ?hospitalBeds .\n  }\n}",
+  "rows": [
+    {
+      "area": "city:area/berlin-heat/0000000001000265",
+      "pet": 40.56,
+      "utci": 36.31,
+      "uhi": 2.18,
+      "plan": "city:area/berlin-planning/01100310",
+      "planName": "Alexanderplatzviertel",
+      "multipleBurden": "dreifach",
+      "bioclimate": "hoch",
+      "greenProvision": "mittel",
+      "socialStatus": "mittlerer Status-Index",
+      "greenDistance": 248.6,
+      "greenName": "Fernsehturmanlage zw. Fernsehturm u. Spandauer Str.",
+      "hospitalDistance": 1096.3,
+      "hospitalName": "St. Hedwig-Krankenhaus",
+      "hospitalBeds": 415
+    }
+  ],
+  "context": {
+    "longitude": 13.4132,
+    "latitude": 52.5219,
+    "retrieved_at": "2026-10-06T09:36:23.204564Z",
+    "heat": {
+      "feature_type": "multi-layer-wfs",
+      "feature_id": "0000000001000265",
+      "retrieved_at": "2026-10-06T09:36:20.618570Z",
+      "longitude": 13.4132,
+      "latitude": 52.5219,
+      "radius_m": 25.0,
+      "match_mode": "point_bbox",
+      "join_mode": "shared_schl5",
+      "properties": {
+        "pet14h": 40.56,
+        "schl5": "0000000001000265",
+        "utci14h": 36.31,
+        "t2m14h": 32.82,
+        "uhi": 2.18,
+        "typklar": "Straße"
+      },
+      "layers": {
+        "pet14h": {
+          "feature_type": "ua_klimaanalyse_2022:pb_ua_pet_str_2022",
+          "feature_id": "pb_ua_pet_str_2022.0000000001000265",
+          "raw_field": "pet14h",
+          "value": 40.56,
+          "schl5": "0000000001000265",
+          "typklar": null,
+          "match_mode": "point_bbox"
+        },
+        "utci14h": {
+          "feature_type": "ua_klimaanalyse_2022:rb_ua_utci_str_2022",
+          "feature_id": "rb_ua_utci_str_2022.0000000001000265",
+          "raw_field": "utci14h",
+          "value": 36.31,
+          "schl5": "0000000001000265",
+          "typklar": null,
+          "match_mode": "point_bbox"
+        },
+        "t2m14h": {
+          "feature_type": "ua_klimaanalyse_2022:hb_ua_lufttemp_str_t2m_14h_2022",
+          "feature_id": "hb_ua_lufttemp_str_t2m_14h_2022.0000000001000265",
+          "raw_field": "t2m14h",
+          "value": 32.82,
+          "schl5": "0000000001000265",
+          "typklar": null,
+          "match_mode": "point_bbox"
+        },
+        "uhi": {
+          "feature_type": "ua_klimaanalyse_2022:th_kak_verkehrsfl_2022",
+          "feature_id": "th_kak_verkehrsfl_2022.0000000001000265",
+          "raw_field": "uhi",
+          "value": 2.18,
+          "schl5": "0000000001000265",
+          "typklar": "Straße",
+          "match_mode": "point_bbox"
+        }
+      },
+      "source_endpoint": "https://gdi.berlin.de/services/wfs/ua_klimaanalyse_2022",
+      "source_crs": "EPSG:25833",
+      "dataset_model_year": "2022",
+      "dataset_release_date": "2024-06-01",
+      "license": "Datenlizenz Deutschland – Zero – Version 2.0"
+    },
+    "justice": {
+      "feature_id": "z_gesamt_umwelt2023.01100310",
+      "planning_area_id": "01100310",
+      "planning_area_name": "Alexanderplatzviertel",
+      "multiple_burden": "dreifach",
+      "bioclimate": "hoch",
+      "green_provision": "mittel",
+      "noise": "hoch",
+      "air": "hoch",
+      "social_status": "mittlerer Status-Index",
+      "population_band": "unter 10.000",
+      "retrieved_at": "2026-10-06T09:36:21.250967Z",
+      "raw_properties": {
+        "plr_id": "01100310",
+        "plr_name": "Alexanderplatzviertel",
+        "kategorie": "dreifach",
+        "bioklima": "hoch",
+        "gruenvers": "mittel",
+        "laerm": "hoch",
+        "luft": "hoch",
+        "status_ind": "mittlerer Status-Index",
+        "einwohner": "unter 10.000",
+        "wol_l_l": null
+      },
+      "source_endpoint": "https://gdi.berlin.de/services/wfs/ua_umweltgerechtigkeit2023",
+      "feature_type": "ua_umweltgerechtigkeit2023:z_gesamt_umwelt2023"
+    },
+    "nearest_green": {
+      "feature_id": "gruenanlagen.00008100_0014b7f7",
+      "feature_type": "gruenanlagen:gruenanlagen",
+      "name": "Fernsehturmanlage zw. Fernsehturm u. Spandauer Str.",
+      "distance_m": 248.6,
+      "properties": {
+        "pitid": "00008100:0014b7f7",
+        "kennzeich": "109510",
+        "bezirkname": "Mitte",
+        "ortstlname": "Mitte",
+        "objartname": "Grünanlage",
+        "namenr": "Fernsehturmanlage zw. Fernsehturm u. Spandauer Str.",
+        "namezusatz": "Fernsehturmanlage mit Kaskaden und Neptunbrunnen",
+        "baujahr": " ",
+        "sanierjahr": " ",
+        "katasterfl": 47060,
+        "widmung": "gewidmet",
+        "plannr": "01100310",
+        "planname": "Alexanderplatzviertel"
+      },
+      "retrieved_at": "2026-10-06T09:36:22.475287Z",
+      "source_endpoint": "https://gdi.berlin.de/services/wfs/gruenanlagen"
+    },
+    "nearest_hospital": {
+      "feature_id": "plankrankenhaeuser.1",
+      "feature_type": "krankenhaeuser:plankrankenhaeuser",
+      "name": "St. Hedwig-Krankenhaus",
+      "distance_m": 1096.3,
+      "properties": {
+        "gisid": 1,
+        "nr_standort": "1",
+        "kkh_standort": "St. Hedwig-Krankenhaus",
+        "nr_kkh": "1",
+        "kkh": "Alexianer St. Hedwig-Kliniken Berlin",
+        "gc_strasse": "Große Hamburger Straße",
+        "gc_haus": "5 - 11",
+        "gc_plz": "10115",
+        "gc_ortsteil": "Mitte",
+        "betten_insgesamt": "415"
+      },
+      "retrieved_at": "2026-10-06T09:36:22.832194Z",
+      "source_endpoint": "https://gdi.berlin.de/services/wfs/krankenhaeuser"
+    },
+    "green_features_within_radius": 82,
+    "green_radius_m": 1200.0,
+    "hospital_radius_m": 4000.0
+  },
+  "validation": {
+    "engine": "pyshacl",
+    "conforms": true,
+    "summary": "Validation Report"
+  },
+  "graph_stats": {
+    "triples": 281,
+    "official_sources": 4,
+    "synthetic_values": 0
+  }
+}

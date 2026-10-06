@@ -4,7 +4,7 @@
   "record": {
     "feature_type": "multi-layer-wfs",
     "feature_id": "0000000001000265",
-    "retrieved_at": "2026-10-06T09:01:57.921676Z",
+    "retrieved_at": "2026-10-06T09:36:13.829804Z",
     "longitude": 13.4132,
     "latitude": 52.5219,
     "radius_m": 25.0,
@@ -69,19 +69,23 @@
     "recommendation": "Use PET, UTCI, 14:00 air temperature and heat-island evidence for human review. Do not infer a current heat emergency or vulnerable residents without additional evidence.",
     "caveat": "Klimaanalysekarten 2022 model a representative autochthonous summer day. Retrieval time is not observation time.",
     "query": "PREFIX city: <https://commons.local/semantic-city/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?area ?label ?pet ?utci ?temp ?uhi WHERE {\n  ?area a city:Area ; rdfs:label ?label .\n  OPTIONAL { ?p city:about ?area ; city:metric \"pet14h\" ; city:value ?pet . }\n  OPTIONAL { ?u city:about ?area ; city:metric \"utci14h\" ; city:value ?utci . }\n  OPTIONAL { ?t city:about ?area ; city:metric \"t2m14h\" ; city:value ?temp . }\n  OPTIONAL { ?h city:about ?area ; city:metric \"uhi\" ; city:value ?uhi . }\n  FILTER(BOUND(?pet) || BOUND(?utci) || BOUND(?temp) || BOUND(?uhi))\n}",
-    "rows": [{
-      "area": "city:area/berlin-heat/0000000001000265",
-      "label": "Berlin climate location 0000000001000265",
-      "pet": 40.56,
-      "utci": 36.31,
-      "temp": 32.82,
-      "uhi": 2.18
-    }],
+    "rows": [
+      {
+        "area": "city:area/berlin-heat/0000000001000265",
+        "label": "Berlin climate location 0000000001000265",
+        "pet": 40.56,
+        "utci": 36.31,
+        "temp": 32.82,
+        "uhi": 2.18
+      }
+    ],
     "validation": {
       "engine": "pyshacl",
       "conforms": true,
       "summary": "Validation Report"
     },
-    "graph_stats": {"triples": 97}
+    "graph_stats": {
+      "triples": 100
+    }
   }
 }
