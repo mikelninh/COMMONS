@@ -57,7 +57,8 @@ city:ObservationShape a sh:NodeShape ;
     sh:property [ sh:path city:metric ; sh:minCount 1 ; sh:maxCount 1 ] ;
     sh:property [ sh:path city:value ; sh:minCount 1 ; sh:maxCount 1 ] ;
     sh:property [ sh:path city:evidenceSource ; sh:minCount 1 ] ;
-    sh:property [ sh:path city:evidenceClass ; sh:minCount 1 ; sh:maxCount 1 ] .
+    sh:property [ sh:path city:evidenceClass ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path city:isDemoValue ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ] .
 
 city:RecommendationShape a sh:NodeShape ;
     sh:targetClass city:Recommendation ;
@@ -389,6 +390,7 @@ def validate_graph(graph: Graph) -> dict[str, Any]:
                 CITY.value,
                 CITY.evidenceSource,
                 CITY.evidenceClass,
+                CITY.isDemoValue,
             ):
                 if graph.value(obs, required) is None:
                     problems.append(f"{obs} missing {required}")
