@@ -470,8 +470,7 @@ def run_scenario(
         authority=spec.authority.value,
         recommendation=spec.recommendation,
         caveat=spec.caveat,
-        query="
-".join(
+        query="\n".join(
             line.rstrip()
             for line in spec.query.strip().splitlines()
         ),
