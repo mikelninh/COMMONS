@@ -1,91 +1,92 @@
-# COMMONS Semantic City - v0.1
+# COMMONS Semantic City - v0.2
 
 > One reusable semantic foundation for municipal questions - with provenance, validation and explicit human authority.
 
+## What v0.2 proves
+
+Semantic City now has one **verified official-data path** in addition to the deterministic four-scenario fixture:
+
+    Berlin WFS
+      -> discover compatible climate layers
+      -> select the layer that covers the requested location
+      -> preserve exact feature provenance
+      -> transform to RDF
+      -> validate with SHACL
+      -> query with SPARQL
+      -> keep consequential authority with a human
+
+The live GitHub Actions proof passed on 6 October 2026 against Berlin's official
+Klimaanalysekarten 2022 WFS.
+
+At the proof point (52.5219, 13.4132), four land-use-specific WFS layers were
+resolved and joined by the shared ISU5 key `0000000001000265`:
+
+| Metric | Official feature type | Snapshot value |
+| --- | --- | ---: |
+| PET 14:00 | `pb_ua_pet_str_2022` | 40.56 °C |
+| UTCI 14:00 | `rb_ua_utci_str_2022` | 36.31 °C |
+| Air temperature 14:00 | `hb_ua_lufttemp_str_t2m_14h_2022` | 32.82 °C |
+| Urban heat island | `th_kak_verkehrsfl_2022` | 2.18 K |
+
+These are **structural modeled values from Klimaanalysekarten 2022**, not
+weather observations from 6 October 2026. Retrieval time is not observation time.
+
 ## Why this exists
 
-Urban data is usually separated by department, system and file format. A map can show layers, but a decision often depends on relationships across them: a vulnerable population lives in an area; the area has heat exposure; a care service depends on a route; the route depends on infrastructure; a recommendation is supported by evidence but controlled by a human authority.
-
-Semantic City makes those relationships queryable.
+Urban data is separated by departments, systems and formats. A decision often
+depends on relationships across them. Semantic City makes those relationships
+queryable while keeping evidence, uncertainty and authority inspectable.
 
     sources -> semantic model -> validation -> query / AI
             -> recommendation -> human authority
 
-The prototype deliberately avoids claiming operational accuracy. Relationships are representative and all numeric fixture values are marked city:isDemoValue true.
-
 ## Four scenarios on one graph
 
-1. **Heat resilience** - connect heat, social burden, green access and modeled weather without hiding them inside one opaque score.
-2. **Critical infrastructure cascade** - traverse dependsOn+ from one asset to affected mobility and care services.
-3. **Energy transition** - compare carbon benefit, cost and social context while leaving policy weights explicit.
-4. **Heavy rain / flood attention** - connect modeled exposure to critical services and escalate attention without issuing operational commands.
+1. **Heat resilience** - official Berlin structural heat evidence is now wired end-to-end.
+2. **Critical infrastructure cascade** - synthetic dependency traversal via `dependsOn+`.
+3. **Energy transition** - synthetic carbon/cost/social trade-off with explicit policy weights.
+4. **Heavy rain / flood attention** - synthetic exposure-to-service chain with no autonomous command path.
 
-## Standards used
+## Standards and implementation
 
-- **RDF / OWL:** semantic/semantic-city-ontology.ttl
-- **SHACL:** semantic/semantic-city-shapes.ttl
-- **SPARQL:** executable queries in src/commons/semantic_city.py
-- **Source adapter:** semantic/adapters/berlin.json
-- **Python graph runtime:** RDFLib
-- **SHACL runtime:** pySHACL, with a structural fallback for constrained environments
+- **RDF / OWL:** `semantic/semantic-city-ontology.ttl`
+- **SHACL:** `semantic/semantic-city-shapes.ttl`
+- **SPARQL:** executable queries in `src/commons/semantic_city.py` and `src/commons/berlin_heat_wfs.py`
+- **Source adapter:** `semantic/adapters/berlin.json`
+- **RDF runtime:** RDFLib
+- **SHACL runtime:** pySHACL
+- **CRS transformation:** pyproj, WGS84 -> EPSG:25833
+- **Live proof:** `.github/workflows/semantic-city-live.yml`
 
-## Core ontology
+## Important architecture choice: discover, do not hard-code
 
-    City
-    Area
-    PopulationGroup
-    InfrastructureAsset
-    Building
-    Service
-    Observation
-    EvidenceSource
-    Action
-    Recommendation
-    HumanAuthority
+The first live attempt correctly failed because PET, UTCI, air temperature and
+UHI are not exposed as one universal table. Berlin separates climate layers by
+land-use family such as traffic, settlement and green/open space.
 
-Important relationships:
+v0.2 therefore:
 
-    locatedIn
-    livesIn
-    containsPopulation
-    dependsOn
-    hasObservation
-    about
-    evidenceSource
-    controlledBy
-    requiresHumanApproval
+1. reads WFS capabilities,
+2. inspects feature schemas,
+3. finds every layer compatible with each metric,
+4. queries candidates at the requested point,
+5. selects the layer that actually covers that point,
+6. joins records by `schl5` when possible, otherwise records a spatial join,
+7. preserves each source feature ID in provenance.
 
-The important design choice is that **authority is part of the model**, not an afterthought in the UI.
-
-## Berlin adapter
-
-The first adapter maps graph concepts to source families already used by Berlin Deep City:
-
-- Umweltatlas Berlin climate analysis
-- Umweltatlas Berlin environmental-justice context
-- Geoportal Berlin green spaces
-- Geoportal Berlin hospitals
-- Open-Meteo modeled weather
-- VBB transit movement
-
-The adapter stores mapping metadata, not copied live facts. Replacing Berlin with another municipality should primarily mean replacing the source adapter and transformations, while preserving the ontology and scenario logic where appropriate.
+That behaviour is much closer to a reusable municipal adapter than a hard-coded demo.
 
 ## Run it
 
     pip install -e ".[dev]"
     python scripts/semantic_city_demo.py --scenario heat
-    python scripts/semantic_city_demo.py --scenario resilience
-    python scripts/semantic_city_demo.py --scenario energy
-    python scripts/semantic_city_demo.py --scenario flood
-
-Export the RDF fixture:
-
-    python scripts/semantic_city_demo.py --format turtle
+    python scripts/fetch_berlin_heat.py --lat 52.5219 --lon 13.4132 --radius-m 25 --strict-point
 
 API:
 
     GET /semantic-city/scenarios
     GET /semantic-city/scenarios/{heat|resilience|energy|flood}
+    GET /semantic-city/berlin/heat?lat=52.5219&lon=13.4132&radius_m=25
 
 Public interface:
 
@@ -93,29 +94,29 @@ Public interface:
 
 ## Governance contract
 
-Semantic City distinguishes **decision support** from **decision authority**.
-
 - AI may retrieve, connect, compare, explain and recommend.
-- High-impact operational actions are never executed from this prototype.
-- Budget allocation, emergency routing, closures and public-resource decisions remain with accountable humans.
-- Missing or stale evidence should remain visible rather than being filled with invented certainty.
+- Every observation must state whether it is a demo value.
+- Official records preserve source layer and feature provenance.
+- Budget allocation, emergency routing, closures and public-resource decisions stay with accountable humans.
+- Missing evidence stays missing; retrieval time is never presented as observation time.
 
 ## Release gates
 
-v0.1 is ready when:
-
 - [x] one shared graph supports four distinct municipal scenarios
 - [x] SPARQL queries execute against the graph
-- [x] SHACL constraints cover observations and recommendations
-- [x] demo values are explicitly marked as demo values
+- [x] SHACL validates observations and recommendations
+- [x] demo values are explicitly marked
 - [x] evidence source metadata and caveats are inspectable
 - [x] consequential scenarios expose a human authority gate
 - [x] public UI can explain WHY? and show query/provenance
-- [x] deterministic tests cover graph, queries and authority behavior
-- [ ] one scenario ingests live official records end-to-end
-- [ ] second municipal adapter demonstrates portability with real source mappings
-- [ ] NGSI-LD / GeoSPARQL mapping is implemented rather than documented only
+- [x] deterministic tests cover graph, queries and authority behaviour
+- [x] one scenario ingests official records end-to-end
+- [x] live CI proves the official Berlin WFS path
+- [ ] second municipal adapter demonstrates portability
+- [ ] NGSI-LD / GeoSPARQL mapping is implemented
 
 ## Next technical step
 
-The highest-value next step is **not more scenarios**. It is replacing one demo fixture - heat is the best candidate - with a reproducible official-data ingestion path while retaining the same RDF model, SHACL validation, SPARQL query and human-gate behavior.
+Build a second municipality adapter and run the same semantic contract against
+its source catalogue. That is the cleanest proof that this is a reusable
+product segment rather than a Berlin-specific integration.
