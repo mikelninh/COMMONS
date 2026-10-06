@@ -160,12 +160,12 @@ def _schema_fields(
 
 def discover_metric_layers(
     fetch: Callable[[str], bytes] = _default_fetch,
-) -> dict[str, MetricLayer]:
-    """Discover the actual WFS layer that carries each heat metric.
+) -> dict[str, tuple[MetricLayer, ...]]:
+    """Discover all compatible WFS layers for each heat metric.
 
-    Berlin publishes Klimaanalysekarten as several feature types. The adapter
-    intentionally discovers that split instead of assuming all climate fields
-    live in one table.
+    Berlin separates climate evidence by land-use family. Keeping all matching
+    schemas lets the point query choose the layer that actually covers the
+    requested location instead of assuming one global table.
     """
     feature_types = _feature_types(fetch)
     schemas: dict[str, set[str]] = {}
@@ -180,14 +180,13 @@ def discover_metric_layers(
             for feature_type in feature_types
         }
         for future in as_completed(futures):
-            feature_type = futures[future]
             try:
                 name, fields = future.result()
             except Exception:
                 continue
             schemas[name] = fields
 
-    layers: dict[str, MetricLayer] = {}
+    discovered: dict[str, tuple[MetricLayer, ...]] = {}
     for metric in METRICS:
         candidates = [
             (name, fields)
@@ -205,8 +204,6 @@ def discover_metric_layers(
                 f"Relevant discovered schemas: {overlaps}"
             )
 
-        # Prefer a layer that also carries the shared ISU5 key; then prefer
-        # richer context. Stable name ordering keeps discovery deterministic.
         candidates.sort(
             key=lambda item: (
                 "schl5" in item[1],
@@ -216,13 +213,15 @@ def discover_metric_layers(
             ),
             reverse=True,
         )
-        name, fields = candidates[0]
-        layers[metric] = MetricLayer(
-            metric=metric,
-            feature_type=name,
-            fields=tuple(sorted(fields)),
+        discovered[metric] = tuple(
+            MetricLayer(
+                metric=metric,
+                feature_type=name,
+                fields=tuple(sorted(fields)),
+            )
+            for name, fields in candidates
         )
-    return layers
+    return discovered
 
 
 def _coerce(name: str, value: str) -> Any:
@@ -294,15 +293,15 @@ def _project(
     return transformer.transform(longitude, latitude)
 
 
-def _fetch_metric(
+def _fetch_metric_from_layer(
     layer: MetricLayer,
     x: float,
     y: float,
     radius_m: float,
     fetch: Callable[[str], bytes],
     *,
-    allow_fallback: bool,
-) -> tuple[str, dict[str, Any], str]:
+    point_only: bool,
+) -> tuple[str, dict[str, Any], str] | None:
     available = set(layer.fields)
     requested = [
         field
@@ -330,33 +329,89 @@ def _fetch_metric(
     try:
         found = _records(fetch(_url(point)), allowed)
     except WFSFetchError:
-        # Some WFS deployments are fussy about PROPERTYNAME. Retrying without
-        # projection keeps the spatial filter while preserving source fidelity.
         point.pop("PROPERTYNAME", None)
-        found = _records(fetch(_url(point)), set(INTEREST_FIELDS))
-
-    match_mode = "point_bbox"
-    if not found and allow_fallback:
-        fallback = dict(base)
-        fallback.pop("PROPERTYNAME", None)
         found = _records(
-            fetch(_url(fallback)),
+            fetch(_url(point)),
             set(INTEREST_FIELDS),
         )
-        match_mode = "fallback_first_feature"
 
     candidates = [
         item
         for item in found
         if isinstance(item[1].get(layer.metric), (int, float))
     ]
+    if candidates:
+        feature_id, props = candidates[0]
+        return feature_id, props, "point_bbox"
+
+    if point_only:
+        return None
+
+    fallback = dict(base)
+    fallback.pop("PROPERTYNAME", None)
+    found = _records(
+        fetch(_url(fallback)),
+        set(INTEREST_FIELDS),
+    )
+    candidates = [
+        item
+        for item in found
+        if isinstance(item[1].get(layer.metric), (int, float))
+    ]
     if not candidates:
-        raise WFSFetchError(
-            f"No numeric '{layer.metric}' feature from "
-            f"{layer.feature_type} near the requested point"
-        )
+        return None
     feature_id, props = candidates[0]
-    return feature_id, props, match_mode
+    return feature_id, props, "fallback_first_feature"
+
+
+def _fetch_metric(
+    layers: tuple[MetricLayer, ...],
+    x: float,
+    y: float,
+    radius_m: float,
+    fetch: Callable[[str], bytes],
+    *,
+    allow_fallback: bool,
+) -> tuple[MetricLayer, str, dict[str, Any], str]:
+    attempted: list[str] = []
+
+    # First try every schema-compatible layer at the actual location. This is
+    # essential because Berlin publishes separate climate layers for green/open,
+    # traffic and settlement areas.
+    for layer in layers:
+        attempted.append(layer.feature_type)
+        result = _fetch_metric_from_layer(
+            layer,
+            x,
+            y,
+            radius_m,
+            fetch,
+            point_only=True,
+        )
+        if result is not None:
+            feature_id, props, mode = result
+            return layer, feature_id, props, mode
+
+    if allow_fallback:
+        # Diagnostic/demo fallback only. Production proof uses --strict-point
+        # and therefore rejects any record containing this mode.
+        for layer in layers:
+            result = _fetch_metric_from_layer(
+                layer,
+                x,
+                y,
+                radius_m,
+                fetch,
+                point_only=False,
+            )
+            if result is not None:
+                feature_id, props, mode = result
+                return layer, feature_id, props, mode
+
+    raise WFSFetchError(
+        "No point-matched Berlin climate feature for "
+        f"'{layers[0].metric}' across {attempted}"
+    )
 
 
 def fetch_record(
@@ -367,19 +422,17 @@ def fetch_record(
     *,
     allow_fallback: bool = True,
 ) -> BerlinHeatRecord:
-    layers = discover_metric_layers(fetch)
+    metric_layers = discover_metric_layers(fetch)
     x, y = _project(longitude, latitude)
 
     combined: dict[str, Any] = {}
     layer_records: dict[str, dict[str, Any]] = {}
-    ids: list[str] = []
     shared_keys: list[str] = []
     modes: list[str] = []
 
     for metric in METRICS:
-        layer = layers[metric]
-        feature_id, props, match_mode = _fetch_metric(
-            layer,
+        layer, feature_id, props, match_mode = _fetch_metric(
+            metric_layers[metric],
             x,
             y,
             radius_m,
@@ -392,7 +445,6 @@ def fetch_record(
                 combined[context] = props[context]
         if props.get("schl5"):
             shared_keys.append(str(props["schl5"]))
-        ids.append(feature_id)
         modes.append(match_mode)
         layer_records[metric] = {
             "feature_type": layer.feature_type,
