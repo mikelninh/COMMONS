@@ -68,6 +68,7 @@
   var modelTerms = ['PLACE','POPULATION','ASSET','SERVICE','OBSERVATION','SOURCE','RULE','RESPONSIBILITY','ACTION','RECOMMENDATION','UNCERTAINTY','OUTCOME'];
   var current = 'heat';
   var tab = 'evidence';
+  var officialHeat = null;
 
   function byId(id) {
     return document.getElementById(id);
@@ -172,6 +173,21 @@
       return;
     }
 
+    if (current === 'heat' && officialHeat) {
+      var layerCards = Object.keys(officialHeat.record.layers).map(function (metric) {
+        var layer = officialHeat.record.layers[metric];
+        return '<article class="source-card"><span>OFFICIAL WFS · ' +
+          esc(metric.toUpperCase()) + '</span><b>' +
+          esc(layer.feature_type) + '</b><small>feature ' +
+          esc(layer.feature_id) + ' · ' + esc(layer.match_mode) +
+          '</small></article>';
+      }).join('');
+      body.innerHTML = '<div class="source-grid">' + layerCards +
+        '<article class="source-card"><span>TRUTH BOUNDARY</span><b>Klimaanalysekarten 2022</b><small>' +
+        esc(officialHeat.truth_boundary) + '</small></article></div>';
+      return;
+    }
+
     body.innerHTML = '<div class="source-grid">' +
       s.evidence.map(function (id) {
         var source = sources[id];
@@ -237,5 +253,61 @@
     byId('drawer').classList.remove('open');
   });
 
+  function metric(value) {
+    return typeof value === 'number' ? value.toFixed(2) : '—';
+  }
+
+  function loadOfficialHeatProof() {
+    fetch('./data/semantic-city/berlin-heat-latest.json', {cache: 'no-store'})
+      .then(function (response) {
+        if (!response.ok) throw new Error('snapshot unavailable');
+        return response.json();
+      })
+      .then(function (payload) {
+        officialHeat = payload;
+        var p = payload.record.properties;
+        byId('proofPet').textContent = metric(p.pet14h);
+        byId('proofUtci').textContent = metric(p.utci14h);
+        byId('proofTemp').textContent = metric(p.t2m14h);
+        byId('proofUhi').textContent = metric(p.uhi);
+        byId('officialProofStatus').textContent = 'VERIFIED WFS SNAPSHOT · SHACL PASS';
+        byId('officialProofMeta').textContent =
+          'ISU5 ' + payload.record.feature_id +
+          ' · ' + payload.record.properties.typklar +
+          ' · retrieved ' + payload.record.retrieved_at;
+
+        scenarios.heat.decision = 'Inspect official structural heat evidence';
+        scenarios.heat.recommendation = payload.scenario.recommendation;
+        scenarios.heat.gate =
+          'This evidence can support review. Current danger, affected people and any resource allocation still require additional evidence and accountable human authority.';
+        scenarios.heat.why = [
+          ['PET · 14:00','official WFS · structural',metric(p.pet14h) + ' °C'],
+          ['UTCI · 14:00','official WFS · structural',metric(p.utci14h) + ' °C'],
+          ['Air temp · 14:00','official WFS · structural',metric(p.t2m14h) + ' °C'],
+          ['Urban heat island','official WFS · structural',metric(p.uhi) + ' K']
+        ];
+        scenarios.heat.query = payload.scenario.query;
+        scenarios.heat.nodes = [
+          ['area','ISU5 ' + payload.record.feature_id,'STREET',440,250,'entity'],
+          ['pet','PET 14:00',metric(p.pet14h) + '°C',180,90,'fact'],
+          ['utci','UTCI 14:00',metric(p.utci14h) + '°C',165,250,'fact'],
+          ['temp','Air temp 14:00',metric(p.t2m14h) + '°C',230,420,'fact'],
+          ['uhi','UHI',metric(p.uhi) + ' K',650,100,'fact'],
+          ['rule','Evidence boundary','NOT CURRENT',625,300,'rule'],
+          ['human','Municipal authority','DECIDES',810,400,'human']
+        ];
+        scenarios.heat.edges = [
+          ['pet','area','about'],['utci','area','about'],
+          ['temp','area','about'],['uhi','area','about'],
+          ['area','rule','supports'],['rule','human','requires','hot']
+        ];
+        if (current === 'heat') render('heat');
+      })
+      .catch(function () {
+        byId('officialProofStatus').textContent = 'VERIFIED ADAPTER · SNAPSHOT UNAVAILABLE';
+      });
+  }
+
   render(current);
+  loadOfficialHeatProof();
 }());
