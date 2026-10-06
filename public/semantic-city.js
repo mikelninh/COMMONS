@@ -69,6 +69,7 @@
   var current = 'heat';
   var tab = 'evidence';
   var officialHeat = null;
+  var officialContext = null;
 
   function byId(id) {
     return document.getElementById(id);
@@ -173,11 +174,47 @@
       return;
     }
 
+    if (current === 'heat' && officialContext) {
+      var ctx = officialContext.context;
+      var heat = ctx.heat;
+      var justice = ctx.justice;
+      var green = ctx.nearest_green;
+      var hospital = ctx.nearest_hospital;
+      var cards = [
+        ['OFFICIAL CLIMATE','Klimaanalysekarten 2022',
+          'PET ' + metric(heat.properties.pet14h) + ' °C · UTCI ' +
+          metric(heat.properties.utci14h) + ' °C · structural model'],
+        ['OFFICIAL JUSTICE','Umweltgerechtigkeit 2023/2024',
+          justice.planning_area_name + ' · ' +
+          (justice.multiple_burden || 'burden unknown') + ' · bioclimate ' +
+          (justice.bioclimate || 'unknown') + ' · green ' +
+          (justice.green_provision || 'unknown')],
+        ['OFFICIAL GREEN',green.name,
+          Math.round(green.distance_m) + ' m approx. · mapped public green space; not verified shade/cooling access'],
+        ['OFFICIAL CARE',hospital.name,
+          Math.round(hospital.distance_m) + ' m approx. · mapped hospital; not live capacity']
+      ];
+      var sourceCards = cards.map(function (card) {
+        return '<article class="source-card"><span>' + esc(card[0]) +
+          '</span><b>' + esc(card[1]) + '</b><small>' +
+          esc(card[2]) + '</small></article>';
+      }).join('');
+      var gaps = officialContext.evidence_gaps.map(function (gap) {
+        return '<li>' + esc(gap.label) + '</li>';
+      }).join('');
+      body.innerHTML = '<div class="source-grid">' + sourceCards +
+        '<article class="source-card"><span>TRUTH BOUNDARY</span><b>Different dates · different meanings</b><small>' +
+        esc(officialContext.truth_boundary) +
+        '</small></article></div><div class="missing-grid"><strong>MISSING BEFORE ACTION</strong><ul>' +
+        gaps + '</ul></div>';
+      return;
+    }
+
     if (current === 'heat' && officialHeat) {
-      var layerCards = Object.keys(officialHeat.record.layers).map(function (metric) {
-        var layer = officialHeat.record.layers[metric];
+      var layerCards = Object.keys(officialHeat.record.layers).map(function (metricName) {
+        var layer = officialHeat.record.layers[metricName];
         return '<article class="source-card"><span>OFFICIAL WFS · ' +
-          esc(metric.toUpperCase()) + '</span><b>' +
+          esc(metricName.toUpperCase()) + '</span><b>' +
           esc(layer.feature_type) + '</b><small>feature ' +
           esc(layer.feature_id) + ' · ' + esc(layer.match_mode) +
           '</small></article>';
@@ -199,6 +236,20 @@
       '</div>';
   }
 
+  function renderGaps() {
+    var box = byId('evidenceGaps');
+    var rows = byId('gapRows');
+    if (current !== 'heat' || !officialContext) {
+      box.style.display = 'none';
+      rows.innerHTML = '';
+      return;
+    }
+    box.style.display = 'block';
+    rows.innerHTML = officialContext.evidence_gaps.slice(0, 4).map(function (gap) {
+      return '<div class="gap-row">' + esc(gap.label) + '</div>';
+    }).join('');
+  }
+
   function render(id) {
     current = id;
     var s = scenarios[id];
@@ -215,6 +266,7 @@
     byId('gateCopy').textContent = s.gate;
     renderWhy(s);
     renderGraph(s);
+    renderGaps();
     renderDrawer();
   }
 
@@ -257,54 +309,98 @@
     return typeof value === 'number' ? value.toFixed(2) : '—';
   }
 
+  function applyCrossDomainHeat(payload) {
+    officialContext = payload;
+    var ctx = payload.context;
+    var p = ctx.heat.properties;
+    var justice = ctx.justice;
+    var green = ctx.nearest_green;
+    var hospital = ctx.nearest_hospital;
+
+    byId('proofPet').textContent = metric(p.pet14h);
+    byId('proofJustice').textContent =
+      justice.multiple_burden || '—';
+    byId('proofGreen').textContent =
+      Math.round(green.distance_m) + ' m';
+    byId('proofHospital').textContent =
+      Math.round(hospital.distance_m) + ' m';
+
+    byId('officialProofStatus').textContent =
+      '4 OFFICIAL SOURCES · SHACL PASS · NO MAGIC SCORE';
+    byId('officialProofMeta').textContent =
+      justice.planning_area_name + ' · climate 2022 · justice 2023/24 · asset layers keep their own dates';
+
+    scenarios.heat.decision = payload.decision;
+    scenarios.heat.recommendation = payload.recommendation;
+    scenarios.heat.gate =
+      'The graph may explain and recommend review. Current warnings, vulnerable populations, usable cooling access and live care capacity must still be verified before consequential action.';
+    scenarios.heat.why = payload.rationale.slice(0, 4).map(function (item) {
+      return [item.signal, item.meaning, item.value];
+    });
+    scenarios.heat.query = payload.query;
+    scenarios.heat.nodes = [
+      ['area',justice.planning_area_name,'PLANNING AREA',430,255,'entity'],
+      ['heat','Structural heat','PET ' + metric(p.pet14h) + '°C',165,95,'fact'],
+      ['justice','Env. justice',justice.multiple_burden || '—',165,275,'fact'],
+      ['green','Public green',Math.round(green.distance_m) + ' m',275,440,'entity'],
+      ['hospital','Hospital',Math.round(hospital.distance_m) + ' m',655,105,'entity'],
+      ['gap','Evidence gaps',String(payload.evidence_gaps.length) + ' OPEN',650,275,'rule'],
+      ['rule','Human review','NO AUTO ALLOCATION',610,440,'rule'],
+      ['human','Municipal authority','DECIDES',820,410,'human']
+    ];
+    scenarios.heat.edges = [
+      ['heat','area','about'],
+      ['justice','area','planning context'],
+      ['green','area','nearest'],
+      ['hospital','area','nearest'],
+      ['area','gap','still missing','hot'],
+      ['area','rule','supports'],
+      ['gap','rule','blocks action','hot'],
+      ['rule','human','requires approval','hot']
+    ];
+    if (current === 'heat') render('heat');
+  }
+
+  function applyHeatFallback(payload) {
+    officialHeat = payload;
+    var p = payload.record.properties;
+    byId('proofPet').textContent = metric(p.pet14h);
+    byId('proofJustice').textContent = '—';
+    byId('proofGreen').textContent = '—';
+    byId('proofHospital').textContent = '—';
+    byId('officialProofStatus').textContent =
+      'CLIMATE PATH VERIFIED · CROSS-DOMAIN SNAPSHOT UNAVAILABLE';
+    byId('officialProofMeta').textContent =
+      'Klimaanalysekarten 2022 · not current weather';
+    scenarios.heat.decision =
+      'Inspect official structural heat evidence';
+    scenarios.heat.recommendation = payload.scenario.recommendation;
+    scenarios.heat.query = payload.scenario.query;
+    if (current === 'heat') render('heat');
+  }
+
   function loadOfficialHeatProof() {
-    fetch('./data/semantic-city/berlin-heat-latest.json', {cache: 'no-store'})
+    fetch('./data/semantic-city/berlin-heat-context.json', {
+      cache: 'no-store'
+    })
       .then(function (response) {
-        if (!response.ok) throw new Error('snapshot unavailable');
+        if (!response.ok) throw new Error('context unavailable');
         return response.json();
       })
-      .then(function (payload) {
-        officialHeat = payload;
-        var p = payload.record.properties;
-        byId('proofPet').textContent = metric(p.pet14h);
-        byId('proofUtci').textContent = metric(p.utci14h);
-        byId('proofTemp').textContent = metric(p.t2m14h);
-        byId('proofUhi').textContent = metric(p.uhi);
-        byId('officialProofStatus').textContent = 'VERIFIED WFS SNAPSHOT · SHACL PASS';
-        byId('officialProofMeta').textContent =
-          'ISU5 ' + payload.record.feature_id +
-          ' · ' + payload.record.properties.typklar +
-          ' · retrieved ' + payload.record.retrieved_at;
-
-        scenarios.heat.decision = 'Inspect official structural heat evidence';
-        scenarios.heat.recommendation = payload.scenario.recommendation;
-        scenarios.heat.gate =
-          'This evidence can support review. Current danger, affected people and any resource allocation still require additional evidence and accountable human authority.';
-        scenarios.heat.why = [
-          ['PET · 14:00','official WFS · structural',metric(p.pet14h) + ' °C'],
-          ['UTCI · 14:00','official WFS · structural',metric(p.utci14h) + ' °C'],
-          ['Air temp · 14:00','official WFS · structural',metric(p.t2m14h) + ' °C'],
-          ['Urban heat island','official WFS · structural',metric(p.uhi) + ' K']
-        ];
-        scenarios.heat.query = payload.scenario.query;
-        scenarios.heat.nodes = [
-          ['area','ISU5 ' + payload.record.feature_id,'STREET',440,250,'entity'],
-          ['pet','PET 14:00',metric(p.pet14h) + '°C',180,90,'fact'],
-          ['utci','UTCI 14:00',metric(p.utci14h) + '°C',165,250,'fact'],
-          ['temp','Air temp 14:00',metric(p.t2m14h) + '°C',230,420,'fact'],
-          ['uhi','UHI',metric(p.uhi) + ' K',650,100,'fact'],
-          ['rule','Evidence boundary','NOT CURRENT',625,300,'rule'],
-          ['human','Municipal authority','DECIDES',810,400,'human']
-        ];
-        scenarios.heat.edges = [
-          ['pet','area','about'],['utci','area','about'],
-          ['temp','area','about'],['uhi','area','about'],
-          ['area','rule','supports'],['rule','human','requires','hot']
-        ];
-        if (current === 'heat') render('heat');
-      })
+      .then(applyCrossDomainHeat)
       .catch(function () {
-        byId('officialProofStatus').textContent = 'VERIFIED ADAPTER · SNAPSHOT UNAVAILABLE';
+        return fetch('./data/semantic-city/berlin-heat-latest.json', {
+          cache: 'no-store'
+        })
+          .then(function (response) {
+            if (!response.ok) throw new Error('snapshot unavailable');
+            return response.json();
+          })
+          .then(applyHeatFallback)
+          .catch(function () {
+            byId('officialProofStatus').textContent =
+              'VERIFIED ADAPTERS · SNAPSHOT UNAVAILABLE';
+          });
       });
   }
 
