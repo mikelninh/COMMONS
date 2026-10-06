@@ -77,10 +77,10 @@ def fake_wfs(url: str) -> bytes:
 def test_discovers_each_metric_from_realistic_split_layers() -> None:
     layers = discover_metric_layers(fake_wfs)
     assert set(layers) == set(METRICS)
-    assert layers["pet14h"].feature_type == "fis:pet"
-    assert layers["utci14h"].feature_type == "fis:utci"
-    assert layers["t2m14h"].feature_type == "fis:temp"
-    assert layers["uhi"].feature_type == "fis:uhi"
+    assert layers["pet14h"][0].feature_type == "fis:pet"
+    assert layers["utci14h"][0].feature_type == "fis:utci"
+    assert layers["t2m14h"][0].feature_type == "fis:temp"
+    assert layers["uhi"][0].feature_type == "fis:uhi"
 
 
 def test_official_multilayer_record_flows_to_rdf_shacl_sparql() -> None:
