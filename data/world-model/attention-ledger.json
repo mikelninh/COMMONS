@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1",
-  "updated_at": "2026-10-08T06:13:55.286579Z",
+  "updated_at": "2026-10-08T13:39:34.954435Z",
   "observations": [
     {
       "observation_id": "manila|2026-09-20T19:54:40.421641Z|2026-09-22",
@@ -3753,6 +3753,57 @@
       "verification_status": "pending",
       "classification": null,
       "actual_daily_mm": null
+    },
+    {
+      "observation_id": "nuwakot|2026-10-08T13:38:20.034796Z|2026-10-09",
+      "generated_at": "2026-10-08T13:38:20.034796Z",
+      "point_id": "nuwakot",
+      "name": "Nuwakot",
+      "country": "Nepal",
+      "state": "quiet",
+      "forecast_peak_date": "2026-10-09",
+      "forecast_peak_daily_mm": 9.8,
+      "heavy_rain_gate_mm": 49.18,
+      "gate_ratio": 0.1993,
+      "latitude": 27.95,
+      "longitude": 85.18,
+      "verification_status": "pending",
+      "classification": null,
+      "actual_daily_mm": null
+    },
+    {
+      "observation_id": "manila|2026-10-08T13:38:20.034796Z|2026-10-08",
+      "generated_at": "2026-10-08T13:38:20.034796Z",
+      "point_id": "manila",
+      "name": "Manila",
+      "country": "Philippines",
+      "state": "quiet",
+      "forecast_peak_date": "2026-10-08",
+      "forecast_peak_daily_mm": 4.9,
+      "heavy_rain_gate_mm": 29.76,
+      "gate_ratio": 0.1647,
+      "latitude": 14.6,
+      "longitude": 120.98,
+      "verification_status": "pending",
+      "classification": null,
+      "actual_daily_mm": null
+    },
+    {
+      "observation_id": "delhi|2026-10-08T13:38:20.034796Z|2026-10-08",
+      "generated_at": "2026-10-08T13:38:20.034796Z",
+      "point_id": "delhi",
+      "name": "Delhi",
+      "country": "India",
+      "state": "quiet",
+      "forecast_peak_date": "2026-10-08",
+      "forecast_peak_daily_mm": 0.0,
+      "heavy_rain_gate_mm": 17.4,
+      "gate_ratio": 0.0,
+      "latitude": 28.61,
+      "longitude": 77.21,
+      "verification_status": "pending",
+      "classification": null,
+      "actual_daily_mm": null
     }
   ],
   "verification_cache": {
@@ -3904,8 +3955,8 @@
   },
   "source_errors": [],
   "summary": {
-    "total_observations": 204,
-    "pending": 62,
+    "total_observations": 207,
+    "pending": 65,
     "verified": 142,
     "classifications": {
       "correct_quiet": 130,
