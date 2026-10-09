@@ -88,9 +88,7 @@ def main() -> None:
 
     heavy = [p for p in samples if p["heat"] in {"ungünstig","sehr ungünstig"}]
     uncovered = [p for p in heavy if min(haversine(p,w) for w in waters) > 300]
-    best = max(
-        (sum(haversine(s,q) <= 300 for q in uncovered),s) for s in uncovered
-    , key=lambda t:t[0])
+    best = max(((sum(haversine(s,q) <= 300 for q in uncovered),s) for s in uncovered), key=lambda t:t[0])
     assert samples and heavy and uncovered and best[0] > 0
     print(f"PASS 4/4 source pages: {len(waters)} unique WFS fountains; {len(zones)} unique 2022 climate polygons")
     print(f"PASS RDF/SPARQL: {rdf_water_count} fountains and {len(climate_nodes)} heat zones")
