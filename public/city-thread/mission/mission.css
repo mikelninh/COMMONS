@@ -334,3 +334,5 @@ a{color:inherit}
 @keyframes impact-bloom{0%{transform:translateY(4px);opacity:.56}100%{transform:translateY(0);opacity:1}}
 @media(max-width:940px){#basemap-map{max-height:none;height:530px}}
 @media(max-width:620px){#basemap-map{height:480px;min-height:480px}}
+
+#review-hint.error{color:#B55445;font-weight:760;background:#FCEBE3;padding:9px 11px;border-radius:8px;border:1px solid #EAC0B3}
