@@ -1,0 +1,1133 @@
+@prefix ct: <https://citythread.example/ontology#> .
+@prefix fountain: <https://citythread.example/fountain/> .
+@prefix district: <https://citythread.example/district/> .
+@prefix dataset: <https://citythread.example/dataset/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+
+# CITY THREAD v0.2 — materialized RDF from real Berlin WFS extract.
+# Snapshot date: 2026-10-09; records: 120/242.
+# For learning. This is not the live state or a complete dataset.
+
+dataset:BerlinFountainsWFS20261009 a dcat:Dataset ;
+  dct:title "Berliner Trinkwasserbrunnen"@de ;
+  dct:source <https://gdi.berlin.de/services/wfs/trinkwasserbrunnen?service=WFS&version=2.0.0&request=GetFeature&typeNames=trinkwasserbrunnen%3Atrinkwasserbrunnen&outputFormat=application%2Fjson&srsName=EPSG%3A4326&count=120> ;
+  dct:license <https://www.govdata.de/dl-de/zero-2-0> ;
+  ct:sampleSize 120 .
+
+district:charlottenburg-wilmersdorf a ct:District ; rdfs:label "Charlottenburg-Wilmersdorf"@de .
+
+district:friedrichshain-kreuzberg a ct:District ; rdfs:label "Friedrichshain-Kreuzberg"@de .
+
+district:lichtenberg a ct:District ; rdfs:label "Lichtenberg"@de .
+
+district:marzahn-hellersdorf a ct:District ; rdfs:label "Marzahn-Hellersdorf"@de .
+
+district:mitte a ct:District ; rdfs:label "Mitte"@de .
+
+district:neukolln a ct:District ; rdfs:label "Neukölln"@de .
+
+district:pankow a ct:District ; rdfs:label "Pankow"@de .
+
+district:reinickendorf a ct:District ; rdfs:label "Reinickendorf"@de .
+
+district:spandau a ct:District ; rdfs:label "Spandau"@de .
+
+district:steglitz-zehlendorf a ct:District ; rdfs:label "Steglitz-Zehlendorf"@de .
+
+district:tempelhof-schoneberg a ct:District ; rdfs:label "Tempelhof-Schöneberg"@de .
+
+district:treptow-kopenick a ct:District ; rdfs:label "Treptow-Köpenick"@de .
+
+fountain:f1 a ct:DrinkingFountain ;
+  rdfs:label "Sangerhauser Weg/ Haselnussweg (am Britzer Garten nahe Rosengarten)"@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.43135104"^^xsd:decimal ;
+  geo:long "13.415048"^^xsd:decimal ;
+  ct:yearBuilt 1985 ;
+  ct:reportedRestriction "zur Zeit wegen Reparatur außer Betrieb"@de ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f2 a ct:DrinkingFountain ;
+  rdfs:label "Britzer Garten (nahe Tennishalle)"@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.43135104"^^xsd:decimal ;
+  geo:long "13.415048"^^xsd:decimal ;
+  ct:yearBuilt 1985 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f3 a ct:DrinkingFountain ;
+  rdfs:label "Kurfürstendamm/ Fasanenstr."@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50326204"^^xsd:decimal ;
+  geo:long "13.327725"^^xsd:decimal ;
+  ct:yearBuilt 1985 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f4 a ct:DrinkingFountain ;
+  rdfs:label "Am Friedrichshain (Straße, im Volkspark Friedrichshain)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.52929004"^^xsd:decimal ;
+  geo:long "13.435318"^^xsd:decimal ;
+  ct:yearBuilt 1985 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f5 a ct:DrinkingFountain ;
+  rdfs:label "Zingster Str. / Ahrenshooper Str."@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.56613504"^^xsd:decimal ;
+  geo:long "13.502551"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f6 a ct:DrinkingFountain ;
+  rdfs:label "Kottbusser Str./ Reichenberger Str."@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.49856704"^^xsd:decimal ;
+  geo:long "13.418931"^^xsd:decimal ;
+  ct:yearBuilt 1985 ;
+  ct:reportedRestriction "zur Zeit wegen Reparatur außer Betrieb"@de ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f7 a ct:DrinkingFountain ;
+  rdfs:label "Bogenstr. 9-14"@de ;
+  ct:inDistrict district:steglitz-zehlendorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.42522004"^^xsd:decimal ;
+  geo:long "13.318058"^^xsd:decimal ;
+  ct:yearBuilt 1985 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f8 a ct:DrinkingFountain ;
+  rdfs:label "Mehrower Allee 28 (Freifläche Ringkolonnaden)"@de ;
+  ct:inDistrict district:marzahn-hellersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.55503804"^^xsd:decimal ;
+  geo:long "13.56245"^^xsd:decimal ;
+  ct:yearBuilt 1985 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f9 a ct:DrinkingFountain ;
+  rdfs:label "Neue Jüdenstr. 1"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51549604"^^xsd:decimal ;
+  geo:long "13.410771"^^xsd:decimal ;
+  ct:yearBuilt 1985 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f10 a ct:DrinkingFountain ;
+  rdfs:label "Alt-Rudow (ggü. Krokusstr.)"@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.42021704"^^xsd:decimal ;
+  geo:long "13.492139"^^xsd:decimal ;
+  ct:yearBuilt 1985 ;
+  ct:reportedRestriction "zur Zeit wegen Reparatur außer Betrieb"@de ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f11 a ct:DrinkingFountain ;
+  rdfs:label "Kanner Str./ Richardstr."@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.47220904"^^xsd:decimal ;
+  geo:long "13.446165"^^xsd:decimal ;
+  ct:yearBuilt 1985 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f12 a ct:DrinkingFountain ;
+  rdfs:label "Gorkistr. 9"@de ;
+  ct:inDistrict district:reinickendorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.59001004"^^xsd:decimal ;
+  geo:long "13.286387"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f13 a ct:DrinkingFountain ;
+  rdfs:label "Obermaierweg/ Stresowplatz"@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.53467604"^^xsd:decimal ;
+  geo:long "13.20702"^^xsd:decimal ;
+  ct:yearBuilt 1985 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f14 a ct:DrinkingFountain ;
+  rdfs:label "Am Koeltzepark 13"@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.54625004"^^xsd:decimal ;
+  geo:long "13.206"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f15 a ct:DrinkingFountain ;
+  rdfs:label "Spandauer Damm 148"@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.52014304"^^xsd:decimal ;
+  geo:long "13.27345"^^xsd:decimal ;
+  ct:yearBuilt 1985 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f16 a ct:DrinkingFountain ;
+  rdfs:label "Metzer Platz/ Pichelsdorfer Str."@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.52503004"^^xsd:decimal ;
+  geo:long "13.197262"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f17 a ct:DrinkingFountain ;
+  rdfs:label "Königin-Luise-Str. 6 (Botanischer Garten innen)"@de ;
+  ct:inDistrict district:steglitz-zehlendorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.45883404"^^xsd:decimal ;
+  geo:long "13.305358"^^xsd:decimal ;
+  ct:yearBuilt 1985 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f18 a ct:DrinkingFountain ;
+  rdfs:label "Bernauer Str. 140"@de ;
+  ct:inDistrict district:reinickendorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.57534704"^^xsd:decimal ;
+  geo:long "13.265879"^^xsd:decimal ;
+  ct:yearBuilt 1985 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f19 a ct:DrinkingFountain ;
+  rdfs:label "Prinzenallee/ Badstr."@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.55251304"^^xsd:decimal ;
+  geo:long "13.381296"^^xsd:decimal ;
+  ct:yearBuilt 1985 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f20 a ct:DrinkingFountain ;
+  rdfs:label "Kurfürstendamm/ Grolmannstr."@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Wiener Brunnen " ;
+  geo:lat "52.50267904"^^xsd:decimal ;
+  geo:long "13.325001"^^xsd:decimal ;
+  ct:yearBuilt 1994 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f21 a ct:DrinkingFountain ;
+  rdfs:label "Forsthaus \"Alte Saubucht\""@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Brunnen für Jogger" ;
+  geo:lat "52.47776204"^^xsd:decimal ;
+  geo:long "13.210373"^^xsd:decimal ;
+  ct:yearBuilt 2008 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f22 a ct:DrinkingFountain ;
+  rdfs:label "Joachimsthaler Platz (nahe U-Bahnhof Kurfürstendamm)"@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.50341104"^^xsd:decimal ;
+  geo:long "13.330358"^^xsd:decimal ;
+  ct:yearBuilt 2010 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f23 a ct:DrinkingFountain ;
+  rdfs:label "Hobrechtstr./ Weserstr."@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.48834104"^^xsd:decimal ;
+  geo:long "13.426999"^^xsd:decimal ;
+  ct:yearBuilt 2010 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f24 a ct:DrinkingFountain ;
+  rdfs:label "Dennewitzstr./ Gleisdreieck (Park Gleisdreieck Ostpark)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.49938604"^^xsd:decimal ;
+  geo:long "13.372958"^^xsd:decimal ;
+  ct:yearBuilt 2013 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f25 a ct:DrinkingFountain ;
+  rdfs:label "Ehrenfelsstr. (nahe Johannes-Fest-Platz)"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.48207804"^^xsd:decimal ;
+  geo:long "13.526772"^^xsd:decimal ;
+  ct:yearBuilt 2013 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f26 a ct:DrinkingFountain ;
+  rdfs:label "Teufelssee (im Ökowerk)"@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Brunnen für Jogger" ;
+  geo:lat "52.49224004"^^xsd:decimal ;
+  geo:long "13.23595"^^xsd:decimal ;
+  ct:yearBuilt 2014 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f27 a ct:DrinkingFountain ;
+  rdfs:label "Kleiner Tiergarten/ Stromstr."@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.52553704"^^xsd:decimal ;
+  geo:long "13.342751"^^xsd:decimal ;
+  ct:yearBuilt 2014 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f28 a ct:DrinkingFountain ;
+  rdfs:label "Schloß Charlottenburg/Schloßstr."@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51845104"^^xsd:decimal ;
+  geo:long "13.296481"^^xsd:decimal ;
+  ct:yearBuilt 2015 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f29 a ct:DrinkingFountain ;
+  rdfs:label "Elknerplatz/ Bahnhofstr. (S-Bahnhof Köpenick)"@de ;
+  ct:inDistrict district:treptow-kopenick ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.45813004"^^xsd:decimal ;
+  geo:long "13.58109"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f30 a ct:DrinkingFountain ;
+  rdfs:label "Rathenaustr./ Wilhelminenhofstr. "@de ;
+  ct:inDistrict district:treptow-kopenick ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.45863904"^^xsd:decimal ;
+  geo:long "13.526672"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f31 a ct:DrinkingFountain ;
+  rdfs:label "Bölschestr. (Marktplatz)"@de ;
+  ct:inDistrict district:treptow-kopenick ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.45284304"^^xsd:decimal ;
+  geo:long "13.625264"^^xsd:decimal ;
+  ct:yearBuilt 2015 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f32 a ct:DrinkingFountain ;
+  rdfs:label "Turmstr. 21"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.52670404"^^xsd:decimal ;
+  geo:long "13.346288"^^xsd:decimal ;
+  ct:yearBuilt 2015 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f33 a ct:DrinkingFountain ;
+  rdfs:label "An der Wuhlheide (Haupteingang zum FEZ)"@de ;
+  ct:inDistrict district:treptow-kopenick ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.46211804"^^xsd:decimal ;
+  geo:long "13.548048"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f34 a ct:DrinkingFountain ;
+  rdfs:label "S-Bahnhof Lichtenberg/ Weitlingstr."@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.51021804"^^xsd:decimal ;
+  geo:long "13.499024"^^xsd:decimal ;
+  ct:yearBuilt 2016 ;
+  ct:reportedRestriction "zur Zeit wegen Reparatur außer Betrieb"@de ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f35 a ct:DrinkingFountain ;
+  rdfs:label "Eisenacherstr. 99/ Blumberger Damm (Gärten der Wel)"@de ;
+  ct:inDistrict district:marzahn-hellersdorf ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.54024804"^^xsd:decimal ;
+  geo:long "13.575449"^^xsd:decimal ;
+  ct:yearBuilt 2016 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f36 a ct:DrinkingFountain ;
+  rdfs:label "Seydelstr./ Spittelmarkt"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.51103004"^^xsd:decimal ;
+  geo:long "13.401817"^^xsd:decimal ;
+  ct:yearBuilt 2016 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f37 a ct:DrinkingFountain ;
+  rdfs:label "Berliner Str./ Breite Str. (Marktplatz)"@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.56969404"^^xsd:decimal ;
+  geo:long "13.404666"^^xsd:decimal ;
+  ct:yearBuilt 2016 ;
+  ct:reportedRestriction "zur Zeit wegen Reparatur außer Betrieb"@de ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f38 a ct:DrinkingFountain ;
+  rdfs:label "Behmstr. 4/ Badstr. (S-Bhf Gesundbrunnen)"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.54912604"^^xsd:decimal ;
+  geo:long "13.387266"^^xsd:decimal ;
+  ct:yearBuilt 2017 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f39 a ct:DrinkingFountain ;
+  rdfs:label "Gärten der Welt (ehem. IGA) / Gelände"@de ;
+  ct:inDistrict district:marzahn-hellersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.53451504"^^xsd:decimal ;
+  geo:long "13.574819"^^xsd:decimal ;
+  ct:yearBuilt 2017 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f40 a ct:DrinkingFountain ;
+  rdfs:label "Vinetaplatz/ Swinemünder Str."@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.54119704"^^xsd:decimal ;
+  geo:long "13.398702"^^xsd:decimal ;
+  ct:yearBuilt 2017 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f41 a ct:DrinkingFountain ;
+  rdfs:label "Garbatyplatz/ Ecke Florastr. "@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.56733504"^^xsd:decimal ;
+  geo:long "13.41139"^^xsd:decimal ;
+  ct:yearBuilt 2017 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f42 a ct:DrinkingFountain ;
+  rdfs:label "Berliner Str. / Veithstr. "@de ;
+  ct:inDistrict district:reinickendorf ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.58527204"^^xsd:decimal ;
+  geo:long "13.287352"^^xsd:decimal ;
+  ct:yearBuilt 2017 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f43 a ct:DrinkingFountain ;
+  rdfs:label "Greenwichpromenade"@de ;
+  ct:inDistrict district:reinickendorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.58676104"^^xsd:decimal ;
+  geo:long "13.274756"^^xsd:decimal ;
+  ct:yearBuilt 2017 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f44 a ct:DrinkingFountain ;
+  rdfs:label "Torellstr./ Gubener Str. (Comeniusplatz)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51135404"^^xsd:decimal ;
+  geo:long "13.448724"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f45 a ct:DrinkingFountain ;
+  rdfs:label "Park Gleisdreieck/ Westpark (nahe Skatepark)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.49530804"^^xsd:decimal ;
+  geo:long "13.37617"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f46 a ct:DrinkingFountain ;
+  rdfs:label "Paul-Linke Ufer/ Forster Str."@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.49311404"^^xsd:decimal ;
+  geo:long "13.431231"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f47 a ct:DrinkingFountain ;
+  rdfs:label "Fischerstr./ Max-Taut-Schule "@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50130904"^^xsd:decimal ;
+  geo:long "13.487097"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f48 a ct:DrinkingFountain ;
+  rdfs:label "Anton-Saefkow-Platz (nähe Schwimmhalle/ Spielplatz)"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.52996004"^^xsd:decimal ;
+  geo:long "13.471391"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f49 a ct:DrinkingFountain ;
+  rdfs:label "Nöldnerplatz (Nähe Nöldnerstr./ Skatepark)"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50224804"^^xsd:decimal ;
+  geo:long "13.483912"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  ct:reportedRestriction "wegen Baumaßnahme der DB AG außer Betrieb"@de ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f50 a ct:DrinkingFountain ;
+  rdfs:label "Am Tierpark 41/ vor Schloß Friedrichsfelde"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50386104"^^xsd:decimal ;
+  geo:long "13.520824"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f51 a ct:DrinkingFountain ;
+  rdfs:label "Elsterwerdaer Platz (nahe Buswendeplatz)"@de ;
+  ct:inDistrict district:marzahn-hellersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50603304"^^xsd:decimal ;
+  geo:long "13.560743"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f52 a ct:DrinkingFountain ;
+  rdfs:label "Helene-Weigel-Platz (Wochenmarktplatz)"@de ;
+  ct:inDistrict district:marzahn-hellersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.52794004"^^xsd:decimal ;
+  geo:long "13.538564"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f53 a ct:DrinkingFountain ;
+  rdfs:label "Eastgate"@de ;
+  ct:inDistrict district:marzahn-hellersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.54315604"^^xsd:decimal ;
+  geo:long "13.543539"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f54 a ct:DrinkingFountain ;
+  rdfs:label "Rathaus Hellersdorf/ Alice-Salomon-Platz 1"@de ;
+  ct:inDistrict district:marzahn-hellersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.53717504"^^xsd:decimal ;
+  geo:long "13.603953"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f55 a ct:DrinkingFountain ;
+  rdfs:label "Luisenstr./ Charité"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.52569704"^^xsd:decimal ;
+  geo:long "13.380463"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f56 a ct:DrinkingFountain ;
+  rdfs:label "Leipziger Platz (Nähe Leipziger Str.)"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50963104"^^xsd:decimal ;
+  geo:long "13.379394"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f57 a ct:DrinkingFountain ;
+  rdfs:label "Friedrichstr./ Mauerstr. (am Checkpoint Charlie)"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50796304"^^xsd:decimal ;
+  geo:long "13.390238"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f58 a ct:DrinkingFountain ;
+  rdfs:label "Unter den Linden/ Glinkastr."@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51673704"^^xsd:decimal ;
+  geo:long "13.386043"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f59 a ct:DrinkingFountain ;
+  rdfs:label "Max-Josef-Metzger-Platz (Seite Müllerstr.)"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.54376804"^^xsd:decimal ;
+  geo:long "13.36416"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f60 a ct:DrinkingFountain ;
+  rdfs:label "Marchlewskistr. 83"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51020804"^^xsd:decimal ;
+  geo:long "13.447429"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f61 a ct:DrinkingFountain ;
+  rdfs:label "Stadtpark / Bismarckstr."@de ;
+  ct:inDistrict district:steglitz-zehlendorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.44858504"^^xsd:decimal ;
+  geo:long "13.335542"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f62 a ct:DrinkingFountain ;
+  rdfs:label "Fehrbelliner Platz 5"@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.49043904"^^xsd:decimal ;
+  geo:long "13.313541"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f63 a ct:DrinkingFountain ;
+  rdfs:label "Masurenallee 8-14"@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50868404"^^xsd:decimal ;
+  geo:long "13.274036"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f64 a ct:DrinkingFountain ;
+  rdfs:label "Pfalzburger Str. / Ludwigkirchstr."@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.49764404"^^xsd:decimal ;
+  geo:long "13.322796"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f65 a ct:DrinkingFountain ;
+  rdfs:label "Herrmann-Stöhr-Platz (hinter Ostbahnhof)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51157504"^^xsd:decimal ;
+  geo:long "13.433995"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f66 a ct:DrinkingFountain ;
+  rdfs:label "Hohenstaufenplatz (nahe Kottbusser Damm/Pflügerstr.)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.49089604"^^xsd:decimal ;
+  geo:long "13.423177"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f67 a ct:DrinkingFountain ;
+  rdfs:label "Bahnhof Wuhletal / Altentreptower Str."@de ;
+  ct:inDistrict district:marzahn-hellersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51323404"^^xsd:decimal ;
+  geo:long "13.57377"^^xsd:decimal ;
+  ct:yearBuilt 2018 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f68 a ct:DrinkingFountain ;
+  rdfs:label "Wilmersdorfer Str. / Goethestr. 42"@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50877104"^^xsd:decimal ;
+  geo:long "13.306013"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f69 a ct:DrinkingFountain ;
+  rdfs:label "Wilmersdorfer Str. 108"@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50578004"^^xsd:decimal ;
+  geo:long "13.306938"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f70 a ct:DrinkingFountain ;
+  rdfs:label "Mariannenplatz (links vor Künstlerhaus Bethanien)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50367404"^^xsd:decimal ;
+  geo:long "13.424648"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f71 a ct:DrinkingFountain ;
+  rdfs:label "Rathaus Reinickendorf (Vorplatz)"@de ;
+  ct:inDistrict district:reinickendorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.58879904"^^xsd:decimal ;
+  geo:long "13.324595"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f72 a ct:DrinkingFountain ;
+  rdfs:label "Breslauer Platz (vor Lauterstr. 16)"@de ;
+  ct:inDistrict district:tempelhof-schoneberg ;
+  ct:fountainType "Botsch" ;
+  geo:lat "52.47203004"^^xsd:decimal ;
+  geo:long "13.335247"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f73 a ct:DrinkingFountain ;
+  rdfs:label "Poststr. 11 (Nikolaiviertel)"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51663104"^^xsd:decimal ;
+  geo:long "13.406459"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f74 a ct:DrinkingFountain ;
+  rdfs:label "Königin-Luise-Platz/ Eingang Botanischer Garten"@de ;
+  ct:inDistrict district:steglitz-zehlendorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.45863404"^^xsd:decimal ;
+  geo:long "13.304122"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f75 a ct:DrinkingFountain ;
+  rdfs:label "U-Bhf. Dahlem / Königin-Luise-Str. 48"@de ;
+  ct:inDistrict district:steglitz-zehlendorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.45792004"^^xsd:decimal ;
+  geo:long "13.290011"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f76 a ct:DrinkingFountain ;
+  rdfs:label "Kirchstr. 2 (Dorfaue Zehlendorf)"@de ;
+  ct:inDistrict district:steglitz-zehlendorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.43335604"^^xsd:decimal ;
+  geo:long "13.258964"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f77 a ct:DrinkingFountain ;
+  rdfs:label "Karl-Marx-Str. / Erkstr. (Rathausvorplatz)"@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.48096404"^^xsd:decimal ;
+  geo:long "13.435418"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f78 a ct:DrinkingFountain ;
+  rdfs:label "Mecklenburgische Str. 7 (am Park)"@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.48334304"^^xsd:decimal ;
+  geo:long "13.318921"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f79 a ct:DrinkingFountain ;
+  rdfs:label "Zeltinger Platz/ Wiltinger Str."@de ;
+  ct:inDistrict district:reinickendorf ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.63439804"^^xsd:decimal ;
+  geo:long "13.290271"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f80 a ct:DrinkingFountain ;
+  rdfs:label "Am Schäfersee (ggü. Nr. 23)"@de ;
+  ct:inDistrict district:reinickendorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.56332304"^^xsd:decimal ;
+  geo:long "13.361912"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f81 a ct:DrinkingFountain ;
+  rdfs:label "Bäkestr."@de ;
+  ct:inDistrict district:steglitz-zehlendorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.43417504"^^xsd:decimal ;
+  geo:long "13.31705"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  ct:reportedRestriction "wegen Baumaßnahme der NBB außer Betrieb"@de ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f82 a ct:DrinkingFountain ;
+  rdfs:label "Frieda-Arnheim-Promenade"@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.54609504"^^xsd:decimal ;
+  geo:long "13.211134"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f83 a ct:DrinkingFountain ;
+  rdfs:label "U Bhf. Ruhleben"@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.52579604"^^xsd:decimal ;
+  geo:long "13.241332"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f84 a ct:DrinkingFountain ;
+  rdfs:label "Pichelsdorfer Str. / Tharsanderweg"@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51331404"^^xsd:decimal ;
+  geo:long "13.196968"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f85 a ct:DrinkingFountain ;
+  rdfs:label "Wiclefstr. 16"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.53047604"^^xsd:decimal ;
+  geo:long "13.335429"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f86 a ct:DrinkingFountain ;
+  rdfs:label "Altstädter Ring (Rathaus Spandau/ Münsingerpark)"@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.53605104"^^xsd:decimal ;
+  geo:long "13.198919"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f87 a ct:DrinkingFountain ;
+  rdfs:label "Forckenbeckplatz (nahe Eldenaer Str. 45)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51990504"^^xsd:decimal ;
+  geo:long "13.460949"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f88 a ct:DrinkingFountain ;
+  rdfs:label "Adenauer Platz / Wilmersdorfer Str. 92"@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50076804"^^xsd:decimal ;
+  geo:long "13.307344"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f89 a ct:DrinkingFountain ;
+  rdfs:label "Wilmersdorfer Str./ Pestalozzistr. "@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50782004"^^xsd:decimal ;
+  geo:long "13.306367"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f90 a ct:DrinkingFountain ;
+  rdfs:label "Antonplatz (Max-Steinke-Str./Kino Toni)"@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.54870304"^^xsd:decimal ;
+  geo:long "13.451041"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f91 a ct:DrinkingFountain ;
+  rdfs:label "Rhinower Str./ Kopenhagener Str."@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.54888604"^^xsd:decimal ;
+  geo:long "13.410037"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f92 a ct:DrinkingFountain ;
+  rdfs:label "Marheinekeplatz (vor Eingang Markthalle, nahe Springbrunnen)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.48900704"^^xsd:decimal ;
+  geo:long "13.395851"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f93 a ct:DrinkingFountain ;
+  rdfs:label "Ludwig-Beck-Platz"@de ;
+  ct:inDistrict district:steglitz-zehlendorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.44297304"^^xsd:decimal ;
+  geo:long "13.312794"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f94 a ct:DrinkingFountain ;
+  rdfs:label "Sderotplatz"@de ;
+  ct:inDistrict district:steglitz-zehlendorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.43544404"^^xsd:decimal ;
+  geo:long "13.257834"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f95 a ct:DrinkingFountain ;
+  rdfs:label "Leon-Jessel-Platz"@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.48934904"^^xsd:decimal ;
+  geo:long "13.319599"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f96 a ct:DrinkingFountain ;
+  rdfs:label "Leubnitzer Weg (Pankeingang)"@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.52137404"^^xsd:decimal ;
+  geo:long "13.172288"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f97 a ct:DrinkingFountain ;
+  rdfs:label "Körnerpark (Jonasstr.)"@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.47209104"^^xsd:decimal ;
+  geo:long "13.43812"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f98 a ct:DrinkingFountain ;
+  rdfs:label "Schierker Platz"@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.47004104"^^xsd:decimal ;
+  geo:long "13.43755"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f99 a ct:DrinkingFountain ;
+  rdfs:label "Ilsestr./ Nougatstr. "@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.46981504"^^xsd:decimal ;
+  geo:long "13.435509"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f100 a ct:DrinkingFountain ;
+  rdfs:label "Herrmann-Ehlers-Platz (Seite Albrechtstr.)"@de ;
+  ct:inDistrict district:steglitz-zehlendorf ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.45674404"^^xsd:decimal ;
+  geo:long "13.322057"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f101 a ct:DrinkingFountain ;
+  rdfs:label "Franz-Amrehn-Platz"@de ;
+  ct:inDistrict district:steglitz-zehlendorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.46131604"^^xsd:decimal ;
+  geo:long "13.324599"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f102 a ct:DrinkingFountain ;
+  rdfs:label "Stadtpark/ Eingang Kielblockstr."@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51906204"^^xsd:decimal ;
+  geo:long "13.478319"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f103 a ct:DrinkingFountain ;
+  rdfs:label "nahe Strausberger Platz 9"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51870204"^^xsd:decimal ;
+  geo:long "13.429307"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f104 a ct:DrinkingFountain ;
+  rdfs:label "nahe Karl-Marx-Allee 73/ 75"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51778704"^^xsd:decimal ;
+  geo:long "13.438653"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f105 a ct:DrinkingFountain ;
+  rdfs:label "nahe Karl-Marx-Allee 105 (U-Weberwiese, Rosengarten)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51720904"^^xsd:decimal ;
+  geo:long "13.444908"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f106 a ct:DrinkingFountain ;
+  rdfs:label "Eldenaer Str./ Samariterstr."@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.52009404"^^xsd:decimal ;
+  geo:long "13.466938"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f107 a ct:DrinkingFountain ;
+  rdfs:label "Schreinerstr. 48"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51714404"^^xsd:decimal ;
+  geo:long "13.46673"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f108 a ct:DrinkingFountain ;
+  rdfs:label "Marchlewskistr./ Hildegard-Jadamowitzstr. (Weberwiese)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51604704"^^xsd:decimal ;
+  geo:long "13.442812"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f109 a ct:DrinkingFountain ;
+  rdfs:label "U-Bhf Südstern/ nahe Körtestr. 38"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.48947904"^^xsd:decimal ;
+  geo:long "13.407814"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f110 a ct:DrinkingFountain ;
+  rdfs:label "Lohmühlenbrücke/ Maybachufer"@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.48945704"^^xsd:decimal ;
+  geo:long "13.439191"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f111 a ct:DrinkingFountain ;
+  rdfs:label "Herrfurthplatz"@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.47661304"^^xsd:decimal ;
+  geo:long "13.422234"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f112 a ct:DrinkingFountain ;
+  rdfs:label "Grüntaler Str. 34 (nahe Bornholmer Str.)"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.55543604"^^xsd:decimal ;
+  geo:long "13.39212"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f113 a ct:DrinkingFountain ;
+  rdfs:label "Nauener Platz (nahe Spielplatz)"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.55195304"^^xsd:decimal ;
+  geo:long "13.367565"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f114 a ct:DrinkingFountain ;
+  rdfs:label "Nettelbeckplatz"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.54444104"^^xsd:decimal ;
+  geo:long "13.369039"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f115 a ct:DrinkingFountain ;
+  rdfs:label "Utrechter Str./ Malplaquetstr."@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.55070704"^^xsd:decimal ;
+  geo:long "13.359816"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f116 a ct:DrinkingFountain ;
+  rdfs:label "Tempelhofer Feld (in der Nähe vom Eingang Südwest -Tempelhofer Damm)"@de ;
+  ct:inDistrict district:tempelhof-schoneberg ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.47160504"^^xsd:decimal ;
+  geo:long "13.386741"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f117 a ct:DrinkingFountain ;
+  rdfs:label "Tempelhofer Feld/ Eingang Columbiadamm"@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.48231804"^^xsd:decimal ;
+  geo:long "13.407019"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f118 a ct:DrinkingFountain ;
+  rdfs:label "Kiefholzstr. (Friedhof Baumschulenweg)"@de ;
+  ct:inDistrict district:treptow-kopenick ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.46044704"^^xsd:decimal ;
+  geo:long "13.493198"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f119 a ct:DrinkingFountain ;
+  rdfs:label "S-Bhf. Wilhelmshagen, nahe City Toilette"@de ;
+  ct:inDistrict district:treptow-kopenick ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.43904304"^^xsd:decimal ;
+  geo:long "13.7209"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
+fountain:f120 a ct:DrinkingFountain ;
+  rdfs:label "Kollwitzstr. 69/ Kollwitzplatz"@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "alter Brunnen BA" ;
+  geo:lat "52.53670304"^^xsd:decimal ;
+  geo:long "13.418305"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom dataset:BerlinFountainsWFS20261009 .
+
