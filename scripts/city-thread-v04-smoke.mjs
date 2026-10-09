@@ -40,13 +40,13 @@ try{
   const initial=await page.locator("#site-coordinate").textContent();
   await page.locator("#suggestion-buttons button").nth(1).click();
   assert.notEqual(await page.locator("#site-coordinate").textContent(),initial);
-  await page.locator("#layer-heat").uncheck({force:true});
+  await page.locator("label:has(#layer-heat)").click();
   assert.equal(await page.locator("#mission-map .heat-polygon").count(),0);
-  await page.locator("#layer-heat").check({force:true});
+  await page.locator("label:has(#layer-heat)").click();
   assert.equal(await page.locator("#mission-map .heat-polygon").count(),154);
-  await page.locator("#layer-water").uncheck({force:true});
+  await page.locator("label:has(#layer-water)").click();
   assert.equal(await page.locator("#mission-map .fountain-dot").count(),0);
-  await page.locator("#layer-water").check({force:true});
+  await page.locator("label:has(#layer-water)").click();
   await page.locator("#radius").fill("400");
   assert.equal(await page.locator("#radius-label").textContent(),"400 m");
  });
