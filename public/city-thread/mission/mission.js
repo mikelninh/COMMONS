@@ -19,6 +19,7 @@ const fmt=n=>Number(n).toFixed(5);
 const B=[13.385,52.490,13.407,52.512];
 const CENTER_LAT=(B[1]+B[3])/2, RAD=Math.PI/180, METERS_PER_LAT=111132, METERS_PER_LON=111320*Math.cos(CENTER_LAT*RAD);
 const S={loaded:false,fountains:[],zones:[],grid:[],heated:[],radius:300,site:null,visibleHeat:true,visibleWater:true,visibleReach:true,suggestions:[],model:null,dragging:null,snapshot:'2026-10-09',count:0,review:false,history:[],compare:'after',interacted:false,lastGain:null};
+let ripple=null;
 const W=720,H=700,TOP=55,BOTTOM=642;
 const availableW=620,availableH=BOTTOM-TOP,zoneWidthM=(B[2]-B[0])*METERS_PER_LON,zoneHeightM=(B[3]-B[1])*METERS_PER_LAT;
 const PIX_PER_M=Math.min(availableW/zoneWidthM,availableH/zoneHeightM);
@@ -105,6 +106,7 @@ let paintFrame=0;
 function setSite(p,action='manual',log=true){
  if(!S.loaded)return;
  S.site={lon:clamp(p.lon,B[0],B[2]),lat:clamp(p.lat,B[1],B[3])};
+ ripple?.onPlace(S.site,action);
  if(log)record(action);
  if(action!=='initial-demo-suggestion'&&action!=='shared-scenario-loaded'){
     S.interacted=true;
@@ -115,6 +117,10 @@ function setSite(p,action='manual',log=true){
  }else{
    if(paintFrame){cancelAnimationFrame(paintFrame);paintFrame=0;}
    updateModel();
+ }
+ if(action==='suggestion'||action==='keyboard'){
+   ripple?.onRelease();
+   renderMap();
  }
 }
 function updateModel(){
@@ -164,6 +170,7 @@ function updateModel(){
  ['prov:wasDerivedFrom','climate:WFS2022 + water:WFS2026']
  ];
  for(const [k,v] of triples){const row=add(rows,el('div',undefined,'evidence-row'));add(row,el('span',k));add(row,el('span',v))}
+ ripple?.onModelChange();
  highlightSuggestion();renderMap();
 }
 function toast(msg){
@@ -261,6 +268,7 @@ function renderMap(){
      if(f.r)add(pts,svg('circle',{cx:xy[0],cy:xy[1],r:8.4,fill:'none',stroke:'#BA6955','stroke-width':1.2,'stroke-dasharray':'2 2','pointer-events':'none'}));
    }
  }
+ ripple?.drawConnections(host);
  if(S.site&&S.compare==='after'){
    const [x,y]=pointCoord(S.site.lon,S.site.lat);
    const proposal=add(host,svg('g',{'pointer-events':'none'}));
@@ -268,7 +276,7 @@ function renderMap(){
     add(proposal,svg('circle',{cx:x,cy:y,r:S.radius*PIX_PER_M,fill:'#545FC8','fill-opacity':'.095',stroke:'#434CC2','stroke-width':2.2,'stroke-dasharray':'8 7',class:'scenario-reach'}));
    }
    add(proposal,svg('circle',{cx:x,cy:y,r:22,fill:'#4557C6','fill-opacity':'.16'}));
-   add(proposal,svg('circle',{cx:x,cy:y,r:10,fill:'#E78A72',stroke:'#FFFEFA','stroke-width':3}));
+   add(proposal,svg('circle',{cx:x,cy:y,r:10,fill:ripple?.activeColor()??'#E78A72',stroke:'#FFFEFA','stroke-width':3}));
    add(proposal,svg('circle',{cx:x,cy:y,r:3.3,fill:'#FFFFFF'}));
    const hit=add(host,svg('circle',{id:'candidate-hit',cx:x,cy:y,r:23,fill:'transparent',role:'button',tabindex:0,class:'candidate-marker', 'aria-label':'Vorgeschlagenen Trinkbrunnen ziehen oder mit Pfeiltasten um 30 Meter bewegen'}));
    hit.addEventListener('keydown',e=>{
@@ -280,8 +288,9 @@ function renderMap(){
      if(e.key==='ArrowUp')n.lat+=dlat;if(e.key==='ArrowDown')n.lat-=dlat;
      setSite(n,'keyboard');$('#candidate-hit')?.focus();
    });
-   const label=add(host,svg('text',{x:Math.max(80,Math.min(W-80,x)),y:y-31,fill:'#3B47A8','font-weight':850,'font-size':12,'text-anchor':'middle','pointer-events':'none'}));label.textContent='DEIN BRUNNEN ✳';
+   const label=add(host,svg('text',{x:Math.max(80,Math.min(W-80,x)),y:y-31,fill:'#3B47A8','font-weight':850,'font-size':12,'text-anchor':'middle','pointer-events':'none'}));label.textContent=ripple?.activeMapLabel()??'DEIN BRUNNEN ✳';
  }
+ ripple?.drawOther(host);
  const bar=$('.scale-mark');if(bar){
    const bounds=host.getBoundingClientRect(),view=host.viewBox.baseVal;
    const zoom=Math.min(bounds.width/view.width,bounds.height/view.height);
@@ -316,9 +325,13 @@ canvas.addEventListener('pointermove',e=>{
  const p=svgPoint(e);if(!p)return;
  setSite(invXY(p.x,p.y),'map-drag',false);
 });
-function endDrag(e){if(S.dragging!==e.pointerId)return;S.dragging=null;record('map-drag-complete');updateModel();try{canvas.releasePointerCapture(e.pointerId)}catch{}}
+function endDrag(e){
+ if(S.dragging!==e.pointerId)return;
+ S.dragging=null;record('map-drag-complete');ripple?.onRelease();
+ updateModel();try{canvas.releasePointerCapture(e.pointerId)}catch{}
+}
 canvas.addEventListener('pointerup',endDrag);
-canvas.addEventListener('pointercancel',e=>{if(S.dragging!==e.pointerId)return;S.dragging=null;if(S.dragStart){S.site=S.dragStart;record('drag-cancelled');updateModel();}try{canvas.releasePointerCapture(e.pointerId)}catch{}});
+canvas.addEventListener('pointercancel',e=>{if(S.dragging!==e.pointerId)return;S.dragging=null;if(S.dragStart){S.site=S.dragStart;ripple?.onPlace(S.site,'drag-cancelled');record('drag-cancelled');updateModel();}try{canvas.releasePointerCapture(e.pointerId)}catch{}});
 $('#layer-heat').addEventListener('change',e=>{S.visibleHeat=e.target.checked;renderMap()});
 $('#layer-water').addEventListener('change',e=>{S.visibleWater=e.target.checked;renderMap()});
 $('#layer-reach').addEventListener('change',e=>{S.visibleReach=e.target.checked;renderMap()});
@@ -352,7 +365,7 @@ document.addEventListener('keydown',e=>{
 });
 document.addEventListener('click',e=>{const d=$('#layers-menu');if(d.open&&!d.contains(e.target))d.open=false});
 $('#reset-scenario').addEventListener('click',()=>{
- S.radius=300;S.compare='after';$('#radius').value='300';S.site=S.suggestions[0]??null;
+ ripple?.reset();S.radius=300;S.compare='after';$('#radius').value='300';S.site=S.suggestions[0]??null;
  record('reset');pickSuggestions();if(!S.site&&S.suggestions.length)S.site=S.suggestions[0];
  updateModel();toast('Szenario zurückgesetzt.');
 });
@@ -361,14 +374,14 @@ $('#review-checkbox').addEventListener('change',e=>{S.review=e.target.checked;$(
 function scenarioUrl(){
  const u=new URL(location.href);u.searchParams.delete('lon');u.searchParams.delete('lat');u.searchParams.delete('radius');
  if(S.site){u.searchParams.set('lon',S.site.lon.toFixed(6));u.searchParams.set('lat',S.site.lat.toFixed(6));}
- u.searchParams.set('radius',String(S.radius));u.hash='mission-workbench';return u.toString();
+ u.searchParams.set('radius',String(S.radius));ripple?.addQueryParams(u);u.hash='mission-workbench';return u.toString();
 }
 function reportMarkdown(){
  const M=S.model;
  const site=S.site;
  const now=new Date().toISOString();
  const answer=[
- '# CITY THREAD v0.5 | THE MISSING FOUNTAIN',
+ '# CITY THREAD v0.6 | THE RIPPLE / THE MISSING FOUNTAIN',
  '',
  '**Unabhängiger, hypothetischer Untersuchungsentwurf – keine Bauempfehlung und keine Einreichung.**',
  '',
@@ -408,6 +421,7 @@ function reportMarkdown(){
  '2. Planungshinweiskarten Stadtklima 2022 · WFS-Polygone · Abruf 2026-10-09 · https://daten.berlin.de/datensaetze/klimabewertungskarten-2022-umweltatlas-wfs-ac0751a2',
  '3. Materialisiertes semantisches RDF-Modell: https://mikelninh.github.io/COMMONS/city-thread/mission.ttl',
  '',
+ ...ripple?.reportLines()??[],
  'Human-review acknowledgement in browser: '+(S.review?'yes (not official approval)':'no'),
  'Teilbares Szenario: '+scenarioUrl(),
  '',
@@ -466,6 +480,7 @@ async function boot(){
    makeGrid();initBasemap();const fromLink=parseLink();
    pickSuggestions();
    S.site=fromLink??(S.suggestions[0]?{lon:S.suggestions[0].lon,lat:S.suggestions[0].lat}:null);
+   ripple?.restoreFromUrl();
    record(fromLink?'shared-scenario-loaded':'initial-demo-suggestion');
    updateModel();
    $('#map-data-status').textContent='242 STANDORTE / 154 POLYGONE · WFS-SNAPSHOT';
@@ -473,6 +488,10 @@ async function boot(){
    if(location.hash==='#mission-workbench')setTimeout(()=>$('#mission-workbench').scrollIntoView({block:'start'}),200);
    // No request modifies live WFS, and the only generated output is a local Markdown file.
  }catch(error){loadError(error)}
+}
+if(window.CityThreadRipple){
+  ripple=window.CityThreadRipple({S,model,dist,svg,add,pointCoord,PIX_PER_M,
+    updateModel,record,toast,inWindow});
 }
 boot();
 })();

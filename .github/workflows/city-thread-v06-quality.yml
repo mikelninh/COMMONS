@@ -1,0 +1,40 @@
+name: CITY THREAD v0.6 — Ripple Interaction Gate
+
+on:
+  pull_request:
+    paths:
+      - "public/city-thread/mission/**"
+      - "scripts/city-thread-v06-smoke.mjs"
+      - ".github/workflows/city-thread-v06-quality.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  interaction-quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify runtime and test syntax
+        run: |
+          node --check public/city-thread/mission/ripple.js
+          node --check public/city-thread/mission/mission.js
+          node --check scripts/city-thread-v06-smoke.mjs
+      - name: Install Playwright
+        run: |
+          npm install --no-save --package-lock=false --ignore-scripts playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Run Ripple + Duel desktop/mobile QA
+        run: node scripts/city-thread-v06-smoke.mjs
+      - name: Save actual UI screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: city-thread-v06-ripple-duel
+          path: map-test-results/city-thread-v06-*.png
+          retention-days: 7

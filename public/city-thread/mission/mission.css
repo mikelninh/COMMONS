@@ -344,3 +344,72 @@ a{color:inherit}
 #mission-map,#basemap-map{position:absolute;inset:0;width:100%;height:100%;min-height:0;max-height:none}
 @media(max-width:940px){.map-stage{min-height:525px;height:525px;flex:0 0 auto}}
 @media(max-width:620px){.map-stage{min-height:480px;height:480px;flex:0 0 auto}}
+
+
+/* ═══════════ CITY THREAD v0.6 / THE RIPPLE ═══════════ */
+.ripple-sound{white-space:nowrap;height:36px;min-width:56px;border:1px solid #E0DDD7;border-radius:22px;background:#FFFEFC;color:#8C91A2;font-weight:750;font-size:11px}
+.ripple-sound:hover,.ripple-sound[aria-pressed="true"]{background:#EFEFFA;color:#4555BE;border-color:#BAC1ED}
+.ripple-threads{pointer-events:none}
+.ripple-thread{stroke-opacity:.32;stroke-width:1.35;stroke-linecap:round;stroke-dasharray:2 5}
+.ripple-thread.firing{stroke-opacity:.62;stroke-width:1.8;animation:ripple-thread-in 1s ease-out var(--delay,0ms) both}
+.ripple-wave{pointer-events:none;opacity:0;animation:ripple-wave-out 1.22s cubic-bezier(.12,.58,.42,1) both}
+.duel-ghost{pointer-events:none}
+.duel-other-hit{pointer-events:all;cursor:pointer}
+.duel-other-hit:focus-visible{stroke:#F8D6A8;stroke-width:3;outline:none}
+@keyframes ripple-thread-in{0%{stroke-dashoffset:50;stroke-opacity:0}45%{stroke-opacity:.75}100%{stroke-dashoffset:0;stroke-opacity:.32}}
+@keyframes ripple-wave-out{0%{transform:scale(.10);opacity:.65}45%{opacity:.35}100%{transform:scale(1.1);opacity:0}}
+.ripple-message{position:absolute;top:78px;left:50%;transform:translateX(-50%);z-index:6;pointer-events:none;display:flex;align-items:center;gap:10px;white-space:nowrap;max-width:min(85%,460px);padding:11px 17px;background:#FFFDF9F2;color:#4052AA;border:1px solid #E8E4D7;border-radius:27px;box-shadow:0 12px 25px #3A496B2A;backdrop-filter:blur(10px);opacity:0;font-size:11px;font-weight:820}
+.ripple-message[hidden]{display:none}
+.ripple-message.ripple-show{animation:ripple-bubble 1.45s ease-out both}
+.ripple-message .ripple-mark{color:#F0987D;font-size:19px;line-height:1}
+.ripple-message>span:last-child{color:#E6B56B}
+@keyframes ripple-bubble{0%{transform:translate(-50%,8px) scale(.96);opacity:0}17%,72%{transform:translate(-50%,0) scale(1);opacity:1}100%{transform:translate(-50%,-9px) scale(.98);opacity:0}}
+/* Duel — framed like a compact physical experiment, not an admin table. */
+.duel-section{margin-top:15px;padding:13px;border-radius:11px;background:linear-gradient(125deg,#F8E7DF 0%,#F0EFFC 100%);border:1px solid #E7D8D2}
+.duel-heading-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.duel-eyebrow{font-size:9px;color:#966A65;font-weight:900;letter-spacing:1.1px;white-space:nowrap}
+.duel-eyebrow span{color:#D47E65;font-size:15px;vertical-align:-1px;margin-right:3px}
+#duel-toggle{border:0;border-radius:18px;background:#FFFEFBD9;color:#454EAA;font-weight:790;font-size:10px;padding:8px 10px;white-space:nowrap}
+#duel-toggle:hover,#duel-toggle[aria-pressed="true"]{background:#E1E5FB}
+#duel-toggle span{font-size:12px;margin-left:4px}
+.duel-board[hidden]{display:none}
+.duel-board{margin-top:13px}
+.duel-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.duel-choices button{background:#FFFEFCDA;border:1px solid #E8D8D1;border-radius:10px;padding:10px;display:flex;align-items:center;text-align:left;gap:9px;min-width:0;transition:background .15s,transform .15s,border-color .15s}
+.duel-choices button:hover{transform:translateY(-1px);border-color:#9299DE}
+.duel-choices button.active{border:2px solid #5660C5;background:#FFF;box-shadow:0 6px 13px #454CAD12;padding:9px}
+.duel-letter{flex:none;width:29px;height:29px;border-radius:50%;display:grid;place-items:center;color:white;font:800 13px "Segoe UI",sans-serif}
+.duel-letter.a{background:#DE8A73}.duel-letter.b{background:#5763CB}
+.duel-choice-copy{display:flex;flex-direction:column;flex:1;min-width:0}
+.duel-choice-copy strong{font:400 22px/1.15 Georgia,serif;color:#42548B}
+.duel-choice-copy small{font-size:8px;color:#8B9398}
+.duel-edit{font-size:13px;color:#A8ADB8}
+.duel-result{margin-top:12px;font-size:11px;font-weight:730;line-height:1.5;color:#41518E}
+.duel-caption{font-size:9px;color:#8F8C95;line-height:1.55;margin-top:5px}
+@media(max-width:940px){
+ .duel-choices button{min-width:0}
+ .ripple-message{top:85px}
+}
+@media(max-width:620px){
+ .ripple-sound{height:32px;min-width:45px;font-size:9px}
+ .map-tool-actions{gap:5px}
+ .duel-section{margin-top:14px}
+ .duel-heading-row{gap:3px}
+ .duel-eyebrow{font-size:8px;letter-spacing:.7px}
+ #duel-toggle{font-size:9px;padding:7px 8px}
+ .ripple-message{top:58px;padding:9px 12px;font-size:9px;max-width:calc(100% - 24px)}
+ .ripple-message .ripple-mark{font-size:16px}
+ .duel-result{font-size:10px}
+ .duel-caption{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){
+ .ripple-thread.firing,.ripple-wave,.ripple-message.ripple-show{animation:none!important}
+ .ripple-wave{display:none}
+ .ripple-message{display:none!important}
+}
+
+
+/* Short-lived sparks are tethered to mathematically reached grid samples. */
+.ripple-spark{pointer-events:none;opacity:0;animation:ripple-spark-pop .78s cubic-bezier(.17,.7,.23,1) var(--delay,0ms) both}
+@keyframes ripple-spark-pop{0%{transform:scale(.2);opacity:0}25%,55%{transform:scale(1.0);opacity:.95}100%{transform:scale(1.7);opacity:0}}
+@media(prefers-reduced-motion:reduce){.ripple-spark{display:none!important;animation:none!important}}

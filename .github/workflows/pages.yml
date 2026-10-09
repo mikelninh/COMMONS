@@ -54,6 +54,8 @@ jobs:
           node --check public/atlas.js
           node --check public/city-thread/app.js
           node --check public/city-thread/mission/mission.js
+          node --check public/city-thread/mission/ripple.js
+          node --check scripts/city-thread-v06-smoke.mjs
       - name: Install browser test runner
         run: |
           npm install --no-save --package-lock=false --ignore-scripts playwright@1.55.0
@@ -72,6 +74,8 @@ jobs:
           python scripts/city-thread-v04-verify.py
       - name: Smoke test CITY THREAD v0.4 desktop and mobile
         run: node scripts/city-thread-v04-smoke.mjs
+      - name: Test CITY THREAD v0.6 Ripple and Duel before deployment
+        run: node scripts/city-thread-v06-smoke.mjs
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
@@ -98,6 +102,11 @@ jobs:
           SMOKE_BASE_URL: ${{ steps.deployment.outputs.page_url }}
           SMOKE_LABEL: deployed
         run: node scripts/city-thread-v04-smoke.mjs
+      - name: Verify deployed CITY THREAD v0.6 Ripple and Duel
+        env:
+          SMOKE_BASE_URL: ${{ steps.deployment.outputs.page_url }}
+          SMOKE_LABEL: deployed
+        run: node scripts/city-thread-v06-smoke.mjs
       - name: Save browser screenshots and reports
         if: always()
         uses: actions/upload-artifact@v4
