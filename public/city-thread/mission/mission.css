@@ -323,3 +323,14 @@ a{color:inherit}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
 }
+
+/* Optional street context from © OpenStreetMap; the actual evidence polygons
+   and spatial calculations remain our own independent WFS geometry. */
+#basemap-map{position:absolute;inset:0;width:100%;height:100%;min-height:545px;max-height:660px;pointer-events:none;z-index:0;opacity:.66;filter:grayscale(.83) saturate(.52) contrast(.88)}
+#basemap-map image{pointer-events:none}
+#mission-map{position:relative;z-index:1}
+.map-fade{z-index:2}
+.impact-box.just-changed .big-impact strong{animation:impact-bloom .4s cubic-bezier(.17,.8,.36,1)}
+@keyframes impact-bloom{0%{transform:translateY(4px);opacity:.56}100%{transform:translateY(0);opacity:1}}
+@media(max-width:940px){#basemap-map{max-height:none;height:530px}}
+@media(max-width:620px){#basemap-map{height:480px;min-height:480px}}
