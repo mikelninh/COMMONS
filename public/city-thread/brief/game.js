@@ -125,7 +125,7 @@ function renderCards(){
      const letter=add(card,E('span',c.id,'letter'));letter.setAttribute('aria-hidden','true');
      const body=add(card,E('span',undefined,'body'));
      add(body,E('strong',c.title));
-     add(body,E('small',kind==='initial'?c.subtitle:('+'+c.gain+' Rasterpunkte · '+c.severe+' „sehr ungünstig“'));
+     add(body,E('small',kind==='initial'?c.subtitle:('+'+c.gain+' Rasterpunkte · '+c.severe+' „sehr ungünstig“')));
      const score=add(card,E('span',undefined,'score'));
      add(score,E('b','+'+c.gain));add(score,E('span','Modellpunkte'));
      add(card,E('span','✓','tick'));
