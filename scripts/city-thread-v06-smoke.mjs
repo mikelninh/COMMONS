@@ -52,6 +52,7 @@ try{
   assert.ok(g>=0);
   assert.equal(await page.locator("#mission-map .ripple-thread").count(),Math.min(g,46));
   assert.equal(await page.locator("#mission-map .ripple-wave").count(),g?1:0);
+  if(g>0)assert.equal(await page.locator("#mission-map .ripple-spark").count(),Math.min(g,46),"Only genuinely computed endpoints sparkle");
   assert.equal(await page.locator("#ripple-message").isVisible(),g>0);
   await page.locator("#ripple-sound").click();
   assert.equal(await page.locator("#ripple-sound").getAttribute("aria-pressed"),"true");
