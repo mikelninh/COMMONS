@@ -36,6 +36,7 @@ $$('[data-view]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.view)))
 $('.brand').addEventListener('click',e=>{e.preventDefault();go('discover');});
 window.addEventListener('popstate',()=>go(location.hash.slice(1)||'discover',{push:false}));
 $('#start-explore').addEventListener('click',()=>$('#explore').scrollIntoView({behavior:'smooth',block:'start'}));
+$$('[data-goto]').forEach(b=>b.addEventListener('click',()=>{go('discover');requestAnimationFrame(()=>$('#explore').scrollIntoView({behavior:'smooth',block:'start'}));}));
 $('#share').addEventListener('click',async()=>{
  const link=location.origin+location.pathname;
  try{await navigator.clipboard.writeText(link);toast('Der Link ist kopiert ✳');}
@@ -69,7 +70,9 @@ function renderMap(){
       add(points,ssvg('circle',{cx:x,cy:y,r:22,fill:'#E77C66','fill-opacity':'.12'}));
       add(points,ssvg('circle',{cx:x,cy:y,r:15,fill:'none',stroke:'#EC957F','stroke-width':1.8,'stroke-dasharray':'3 4'}));
     }
-    const c=add(points,ssvg('circle',{cx:x,cy:y,r:active?7.3:4.3,fill:active?'#F0846D':'#454CBD',stroke:'#FFFDF9','stroke-width':active?2:1.4,role:'button',tabindex:'0','aria-label':r.n+', '+r.d,class:'map-dot'}));
+    add(points,ssvg('circle',{cx:x,cy:y,r:active?7.3:4.3,fill:active?'#F0846D':'#454CBD',stroke:'#FFFDF9','stroke-width':active?2:1.4,'pointer-events':'none'}));
+    // Larger invisible interactive targets retain precise dots but improve touch usability.
+    const c=add(points,ssvg('circle',{cx:x,cy:y,r:14,fill:'transparent',stroke:'none',role:'button',tabindex:'0','aria-label':r.n+', '+r.d,class:'map-dot'}));
     const title=add(c,ssvg('title'));title.textContent=r.n+' · '+r.d;
     c.addEventListener('click',()=>selectPlace(r));
     c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectPlace(r);}});
@@ -304,7 +307,7 @@ async function init(){
    $('#metric-districts').textContent=fmt(districts.length);
    const select=$('#district');
    districts.forEach(d=>{const opt=node('option',d);opt.value=d;add(select,opt);});
-   state.selected=state.records.find(r=>r.id===24)??state.records[0];
+   state.selected=state.records[0];
    renderPlaces();renderGraph();renderAnswers();renderLearningTriple();
    // v0.3 uses no AI, live fountain-status claims or heat-risk ranking.
  }catch(err){loadFailure(err);}
