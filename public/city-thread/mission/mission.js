@@ -108,7 +108,7 @@ function setSite(p,action='manual',log=true){
  if(log)record(action);
  if(action!=='initial-demo-suggestion'&&action!=='shared-scenario-loaded'){
     S.interacted=true;
-    $('#map-instruction')?.classList.add('hidden');
+    $('#map-guidance')?.classList.add('hidden');
  }
  if(action==='map-drag'){
    if(!paintFrame)paintFrame=requestAnimationFrame(()=>{paintFrame=0;updateModel();});
@@ -334,7 +334,7 @@ $('#read-method').addEventListener('click',()=>openEvidence(true));
 $('#jump-evidence').addEventListener('click',()=>openEvidence(false));
 $('#close-evidence').addEventListener('click',()=>$('#evidence').close());
 $('#evidence').addEventListener('click',e=>{if(e.target===$('#evidence'))$('#evidence').close()});
-$('#dismiss-tip').addEventListener('click',()=>{$('#map-instruction').classList.add('hidden');});
+$('#dismiss-tip').addEventListener('click',()=>{$('#map-guidance').classList.add('hidden');});
 function compare(mode){
  S.compare=mode;record('compare-'+mode);
  $('#map-stage').classList.toggle('is-before',mode==='before');
