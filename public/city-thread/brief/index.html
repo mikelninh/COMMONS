@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f5ee">
+  <meta name="description" content="CITY THREAD v0.7 — THE BRIEF: Eine spielbare Stadtmission mit drei prüfbaren Kandidaten, realen Berliner Geodaten und einer bewussten menschlichen Entscheidung.">
+  <meta property="og:title" content="THE BRIEF — One fountain. One choice.">
+  <meta property="og:description" content="Drei Möglichkeiten. Eine Prüfung. Was würdest du priorisieren? CITY THREAD · Eine interaktive Stadtmission mit echten Berliner Geodaten.">
+  <title>THE BRIEF · CITY THREAD v0.7</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./game.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#game-map">Direkt zu den Kandidaten springen</a>
+<div class="paper-grain" aria-hidden="true"></div>
+<header class="topbar">
+ <div class="topbar-inner">
+  <a class="logotype" href="../" aria-label="CITY THREAD – zur Startseite">
+   <span class="logomark" aria-hidden="true"><svg viewBox="0 0 38 38" fill="none"><path d="M8 10 29 16 19 30 8 10" stroke="#394960" stroke-width="1.8"/><circle cx="8" cy="10" r="4" fill="#E98A70"/><circle cx="29" cy="16" r="4" fill="#4D55C6"/><circle cx="19" cy="30" r="4" fill="#E5C078"/></svg></span>
+   <span>CITY <em>THREAD</em><small>OPEN CIVIC EXPERIMENT</small></span>
+  </a>
+  <div class="chapter-label"><span class="chapter-dot"></span> FIELD NOTE <strong>007</strong> <span class="chapter-sep">/</span> BERLIN</div>
+  <div class="top-actions"><a href="../mission/" class="previous-link">Open Lab ↗</a><button type="button" id="header-share" class="share-top" aria-label="Mission teilen">Teilen <span aria-hidden="true">↗</span></button></div>
+ </div>
+</header>
+
+<main class="shell">
+ <div class="progress" aria-label="Fortschritt deiner Mission">
+  <div class="progress-title"><span class="flower">✳</span> THE BRIEF <span class="progress-separator">/</span> EINE KLEINE STADTMISSION</div>
+  <nav class="steps" aria-label="Mission-Kapitel">
+   <button type="button" class="step active" data-step="0" aria-current="step"><span>01</span> Der Auftrag</button>
+   <span class="step-connector" aria-hidden="true">→</span>
+   <button type="button" class="step" data-step="1" disabled><span>02</span> Die Erkenntnis</button>
+   <span class="step-connector" aria-hidden="true">→</span>
+   <button type="button" class="step" data-step="2" disabled><span>03</span> Die Wahl</button>
+  </nav>
+  <div class="progress-clock">SPIELDAUER · ETWA 3 MIN.</div>
+ </div>
+
+ <div class="game-layout">
+  <section class="story" aria-label="Dein Stadtauftrag">
+   <div id="loading" class="load-screen" role="status"><span class="load-symbol">✳</span><strong>Wir holen die Stadt in deine Hände.</strong><span>Berliner Wasser- und Klimadaten werden geprüft …</span></div>
+   <div id="error" class="error-screen" role="alert" hidden><span>!</span><h2>Die Stadt kann gerade nicht antworten.</h2><p id="error-message">Die Quelldaten konnten nicht geprüft werden. Ohne Daten treffen wir keine Entscheidung.</p><button type="button" id="retry">Erneut versuchen ↻</button></div>
+
+   <!-- The user must make a provisional choice before any deeper evidence opens. -->
+   <div class="story-page" id="stage-brief" hidden>
+    <div class="paper-head"><span>01 / DER AUFTRAG</span><span class="paper-seal">FIKTIVE MISSION</span></div>
+    <div class="letter-heading"><span class="chapter-spark" aria-hidden="true">✳</span><h1>One fountain.<br><em>One choice.</em></h1></div>
+    <p class="scene-narrative">Stell dir vor: Du kannst heute <strong>nur einen Standort</strong> für eine vertiefte Vor-Ort-Prüfung vorschlagen.</p>
+    <p class="scene-muted">Drei Möglichkeiten liegen auf deinem Tisch. Wo würdest du zuerst hinschauen?</p>
+    <div class="brief-note"><span class="brief-corner">?</span><strong>Dein erster Instinkt zählt.</strong><p>Du darfst dich später umentscheiden. Gute Entscheidungen beginnen oft mit einer Frage.</p></div>
+    <div class="pick-heading"><span>WÄHLE DEINEN ERSTEN KANDIDATEN</span><span>01 / 03</span></div>
+    <div id="brief-options" class="candidate-list" role="group" aria-label="Drei Brunnenstandorte zur ersten Wahl"></div>
+    <div class="stage-footer">
+      <span id="initial-hint" class="inline-hint" aria-live="polite">Wähle A, B oder C auf der Karte oder hier.</span>
+      <button type="button" class="next-btn" id="to-evidence" disabled>Erste Wahl festhalten <span>→</span></button>
+    </div>
+   </div>
+
+   <div class="story-page" id="stage-evidence" hidden>
+    <div class="paper-head"><span>02 / DIE ERKENNTNIS</span><span class="paper-seal">NEUER BLICK</span></div>
+    <div class="letter-heading"><span class="chapter-spark" aria-hidden="true">◇</span><h2>Die Zahl ist<br><em>nicht alles.</em></h2></div>
+    <p class="scene-narrative">Du hast dich zuerst für <strong id="first-choice">—</strong> entschieden. Aber die gleichen Quelldaten erzählen noch mehr.</p>
+    <div class="reveal-card">
+     <div class="reveal-card-overline"><span>✳</span> EIN ZWEITER BLICK</div>
+     <p id="reveal-copy">Neben der gesamten Modellreichweite zeigen wir nun die stärkere Klimabelastung und die Distanz zum nächsten inventarisierten Brunnen.</p>
+    </div>
+    <div class="evidence-legend"><span>ALLE ANGABEN AUS DEM MODELL</span><button type="button" id="open-method-1">Wie berechnet? ↗</button></div>
+    <div id="evidence-rows" class="evidence-rows"></div>
+    <div class="priority-question">Was ist dir für die <strong>erste fachliche Prüfung</strong> besonders wichtig?</div>
+    <div class="priority-group" role="group" aria-label="Deine Priorität">
+      <button class="priority" type="button" data-priority="coverage" aria-pressed="false"><span class="priority-icon">◉</span><span><strong>Breite Modellreichweite</strong><small>Mehr Rasterpunkte im Radius</small></span></button>
+      <button class="priority" type="button" data-priority="severity" aria-pressed="false"><span class="priority-icon">✳</span><span><strong>Stärkere Klimaklasse</strong><small>Mehr „sehr ungünstig“-Punkte</small></span></button>
+      <button class="priority" type="button" data-priority="gap" aria-pressed="false"><span class="priority-icon">◎</span><span><strong>Grössere Abstandslücke</strong><small>Weiter vom nächsten Inventarstandort</small></span></button>
+    </div>
+    <div id="priority-feedback" class="priority-feedback" aria-live="polite">Du kannst eine andere Priorität wählen – nicht alles lässt sich in einer einzigen Zahl ausdrücken.</div>
+    <div class="stage-footer">
+      <button class="back-btn" type="button" data-back="0">← Zurück</button>
+      <button type="button" class="next-btn" id="to-decision" disabled>Abwägung beginnen <span>→</span></button>
+    </div>
+   </div>
+
+   <div class="story-page" id="stage-decision" hidden>
+    <div class="paper-head"><span>03 / DIE WAHL</span><span class="paper-seal">DEIN URTEIL</span></div>
+    <div class="letter-heading"><span class="chapter-spark" aria-hidden="true">✳</span><h2>Jetzt wird es<br><em>deine Wahl.</em></h2></div>
+    <p class="scene-narrative">Es gibt keine automatisch richtige Antwort. Du priorisierst <strong>einen Prüfort</strong> – und benennst, was dafür noch geklärt werden muss.</p>
+    <div class="decision-options" id="decision-options" role="group" aria-label="Finaler Standort für eine fachliche Prüfung"></div>
+    <div class="tradeoff">
+      <span>WAS DEINE WAHL BEDEUTET</span>
+      <p id="tradeoff-copy" aria-live="polite">Du musst einen der drei Kandidaten wählen.</p>
+    </div>
+    <div class="verification-question">Was sollte vor Ort <em>zuerst</em> geprüft werden?</div>
+    <div class="check-options" role="group" aria-label="Priorität für den nächsten Prüfschritt">
+      <button type="button" data-check="operation" aria-pressed="false"><span>01</span> Funktionieren bestehende Brunnen aktuell?</button>
+      <button type="button" data-check="access" aria-pressed="false"><span>02</span> Welche Fusswege und barrierefreien Zugänge gibt es?</button>
+      <button type="button" data-check="feasibility" aria-pressed="false"><span>03</span> Sind Fläche, Anschluss und Genehmigung möglich?</button>
+    </div>
+    <label class="consent"><input type="checkbox" id="consent"><span>Ich verstehe: Das ist eine <strong>spielerische Priorisierung zur Prüfung</strong> – kein realer Bauauftrag und keine behördliche Empfehlung.</span></label>
+    <p id="decision-feedback" class="inline-hint" role="status" aria-live="polite">Wähle einen Prüfschritt und bestätige die Modellgrenze.</p>
+    <div class="stage-footer">
+      <button class="back-btn" type="button" data-back="1">← Noch einmal prüfen</button>
+      <button type="button" class="next-btn commit-btn" id="commit" disabled>Entscheidung festhalten <span>↗</span></button>
+    </div>
+   </div>
+
+   <div class="story-page" id="stage-result" hidden>
+    <div class="paper-head"><span>CASE FILE / 007</span><span class="paper-seal">NICHT EINGEREICHT</span></div>
+    <div class="receipt-star">✳</div>
+    <h2 class="result-title">You made<br><em>a choice.</em></h2>
+    <p class="result-subtitle">Nicht der Brunnen wurde gebaut. Du hast eine überprüfbare Frage vorbereitet.</p>
+    <div class="receipt">
+      <div class="receipt-head"><span>DEINE FALLAKTE</span><span>BERLIN · 2026</span></div>
+      <div class="receipt-main"><span id="result-letter">A</span><div><strong id="result-name">—</strong><small>Priorität für fachliche Prüfung</small></div></div>
+      <div class="receipt-line"><span>MODELLREICHWEITE</span><strong id="result-gain">—</strong></div>
+      <div class="receipt-line"><span>DEIN ENTSCHEIDUNGSKRITERIUM</span><strong id="result-priority">—</strong></div>
+      <div class="receipt-line"><span>NÄCHSTER PRÜFSCHRITT</span><strong id="result-check">—</strong></div>
+      <div class="receipt-unknown"><span>WAS WIR NOCH NICHT WISSEN</span><p id="result-unknown">Der Modellvergleich ersetzt keine Prüfung.</p></div>
+      <div class="stamp">FOR HUMAN REVIEW <span>✳</span></div>
+    </div>
+    <p class="result-reflection" id="result-reflection"></p>
+    <div class="result-actions">
+      <button type="button" id="download-case" class="next-btn">Fallakte herunterladen <span>↓</span></button>
+      <button type="button" id="share-case" class="share-case">Entscheidung teilen ↗</button>
+    </div>
+    <button type="button" id="play-again" class="play-again">Eine andere Entscheidung ausprobieren ↺</button>
+   </div>
+  </section>
+
+  <section class="world" aria-label="Interaktive Kartenwelt" id="game-map">
+   <div class="world-header">
+     <div><span>✳ LIVE STUDY</span><strong>Drei Orte. Ein Viertel.</strong></div>
+     <div class="world-stat"><span id="world-stat">QUELLEN WERDEN GEPRÜFT …</span><span class="world-status-dot" aria-hidden="true"></span></div>
+   </div>
+   <div class="world-stage">
+     <svg class="basemap" id="basemap" viewBox="0 0 800 650" aria-hidden="true" focusable="false"></svg>
+     <svg id="map-svg" viewBox="0 0 800 650" role="img" aria-label="Interaktive Karte: die Kandidaten A, B und C auf einer georeferenzierten Berliner Untersuchungsfläche. Auswahl per Karte oder Auswahlkarten." tabindex="0"></svg>
+     <div class="world-overlay-top"><span>52° N / 13° E</span><span>SEMTANTIC CITY LAB / 2026</span></div>
+     <div class="map-legend"><span><i class="legend-red"></i> Sehr ungünstig</span><span><i class="legend-apricot"></i> Ungünstig</span><span><i class="legend-blue"></i> Wasser (WFS)</span></div>
+     <div class="map-caption" id="map-caption" aria-live="polite"><span>✳</span><span id="caption-text">Wähle deinen ersten Kandidaten.</span></div>
+     <div class="map-north">N ↑</div>
+     <div class="map-data-label">ILLUSTRIERTER RAHMEN · REALE POSITIONEN UND KLIMAPOLYGONE</div>
+   </div>
+   <div class="world-footer"><span>242 dokumentierte Brunnen <span class="world-sep">/</span> 154 historische Klimapolygone</span><span>SIMULATION · 90-M-RASTER · 300-M-LUFTLINIE</span></div>
+   <div class="world-lesson">
+     <span class="world-lesson-icon">i</span>
+     <p>**Was die Punkte bedeuten:** Wir vergleichen Luftlinienabstände an Modell-Rasterpunkten. Sie sind <strong>keine Einwohnerzahlen</strong>. Die Farben stehen für die historische bioklimatische Bewertung von Siedlungsflächen, nicht für aktuelle Temperaturen.</p>
+     <button type="button" id="open-method-2">Belege ansehen ↗</button>
+   </div>
+  </section>
+ </div>
+
+ <footer class="footer">
+  <span>THE BRIEF · CITY THREAD V0.7 · FIKTIVE AUFGABE, ECHTE WFS-DATEN</span>
+  <span>Keine Anmeldung · Kein Tracking · Keine behördliche Einreichung</span>
+  <a href="../mission/">Offenes Experiment v0.6 ↗</a>
+ </footer>
+</main>
+
+<dialog id="method-dialog" class="method-dialog" aria-labelledby="method-heading">
+ <header><span>HOW WE KNOW / QUELLEN UND GRENZEN</span><button id="close-method" type="button" aria-label="Schliessen">×</button></header>
+ <div class="method-body">
+  <h2 id="method-heading">Die Stadt erzählt<br><em>keine Märchen.</em></h2>
+  <p>THE BRIEF ist eine fiktive Spielmission mit echten, aber zeitlich begrenzten offenen Daten. Die drei Prüfstandorte wurden mit transparenten Regeln aus demselben Datenausschnitt ausgewählt.</p>
+  <div class="method-facts">
+    <div><strong>242</strong><span>Berliner Trinkbrunnen-Standorte im WFS-Auszug vom 9.10.2026, ohne geprüften aktuellen Betriebsstatus</span></div>
+    <div><strong>154</strong><span>historische 2022er Klima-Gesamtbewertungspolygone, die unser kleines Kreuzberger Studienfenster schneiden</span></div>
+    <div><strong>90 m</strong><span>Abstand des Rechenrasters; jeder Punkt ist ein geometrischer Stichprobenpunkt, nicht eine Person</span></div>
+  </div>
+  <h3>Unsere einfache Screening-Regel</h3>
+  <p>Wir wählen Rasterpunkte mit der Siedlungsflächen-Bewertung „ungünstig“ oder „sehr ungünstig“, messen die Luftlinie zu allen 242 inventarisierten Trinkbrunnen und zählen die bisher ausserhalb von 300 Metern liegenden Punkte, die mit einem hypothetischen Standort innerhalb des Radius wären. Für die Abwägung zeigen wir zusätzlich die Zahl der „sehr ungünstig“-Punkte und den Abstand zum nächstgelegenen inventarisierten Brunnen.</p>
+  <p>Wir kennen dadurch <strong>weder die Zahl betroffener Menschen noch Fusswege, tatsächliche Betriebsbereitschaft, Barrierefreiheit, Eigentumsverhältnisse, Wasseranschluss oder Kosten</strong>. Entscheidungen über einen realen Standort müssen zuständige Menschen treffen.</p>
+  <h3>Nachvollziehbare Originalquellen</h3>
+  <a href="https://daten.berlin.de/datensaetze/trinkwasserbrunnen-wfs-47dba2c3" target="_blank" rel="noopener noreferrer">Berliner Trinkwasserbrunnen – offizieller WFS-Dienst ↗</a>
+  <a href="https://daten.berlin.de/datensaetze/klimabewertungskarten-2022-umweltatlas-wfs-ac0751a2" target="_blank" rel="noopener noreferrer">Berliner Umweltatlas – Klimabewertungskarten 2022 ↗</a>
+  <a href="https://github.com/mikelninh/COMMONS/tree/main/public/city-thread/brief" target="_blank" rel="noopener noreferrer">Quellcode und Rechenregeln auf GitHub ↗</a>
+  <p class="method-license">Datenlizenz Deutschland – Zero – Version 2.0. Unabhängiges Bildungsprojekt, nicht von DKSR, CIVORA oder dem Land Berlin betrieben.</p>
+ </div>
+</dialog>
+<div id="toast" class="toast" aria-live="polite" role="status"></div>
+</body>
+</html>
