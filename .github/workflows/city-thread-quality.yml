@@ -1,0 +1,39 @@
+name: CITY THREAD v0.3 Quality Gate
+
+on:
+  pull_request:
+    paths:
+      - "public/city-thread/**"
+      - "scripts/city-thread-smoke.mjs"
+      - ".github/workflows/city-thread-quality.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check JavaScript syntax
+        run: |
+          node --check public/city-thread/app.js
+          node --check scripts/city-thread-smoke.mjs
+      - name: Install browser test runner
+        run: |
+          npm install --no-save --package-lock=false --ignore-scripts playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Test CITY THREAD in Chromium
+        run: node scripts/city-thread-smoke.mjs
+      - name: Save desktop and mobile screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: city-thread-v03-quality
+          path: map-test-results/city-thread-v03-*.png
+          retention-days: 7
