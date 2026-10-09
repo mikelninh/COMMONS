@@ -1,67 +1,175 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#0b1515">
-  <meta name="description" content="CITY THREAD — ein offenes Stadt-Datenlabor. Echte Berliner Trinkbrunnen-Daten, nachvollziehbare Beziehungen und ein Lernspiel über semantische KI.">
-  <title>CITY THREAD · Die Stadt zwischen den Zeilen</title>
+  <meta name="theme-color" content="#f8f5ee">
+  <meta name="description" content="CITY THREAD: Eine kleine Entdeckungsreise durch echte Berliner Stadtdaten. Orte, Beziehungen, überprüfbare Quellen und eine spielerische Einführung in Knowledge Graphs.">
+  <meta property="og:title" content="CITY THREAD — Die Stadt, zwischen den Zeilen.">
+  <meta property="og:description" content="120 echte Berliner Trinkbrunnen. 12 Bezirke. Folge einer Verbindung und entdecke, wie eine Stadt lesbar wird.">
+  <title>CITY THREAD — Die Stadt zwischen den Zeilen</title>
   <link rel="stylesheet" href="./styles.css">
-  <script src="./app.js" defer></script>
+  <script defer src="./app.js"></script>
 </head>
 <body>
-<div class="app">
- <aside class="sidebar">
-  <a class="brand" href="#atlas" aria-label="CITY THREAD Startseite"><span class="mark"><svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M9 10 30 15 19 31 9 10" stroke="#d5e8c9" stroke-width="1.4"/><circle cx="9" cy="10" r="4" fill="#c7e2b0"/><circle cx="30" cy="15" r="4" fill="#bca37f"/><circle cx="19" cy="31" r="4" fill="#85bfc1"/></svg></span><span>CITY<span class="serif">THREAD</span><small>SEMANTIC CITY LAB</small></span></a>
-  <div class="workspace"><div class="eyebrow">FIELD NOTES / 002</div><div class="workspace-title"><span class="city-icon">B</span><span>Berlin <small>Public learning lab · v0.2</small></span></div></div>
-  <div class="sidebar-title">EXPLORE THE CITY</div>
-  <nav class="nav" aria-label="Hauptnavigation">
-   <button type="button" data-nav="atlas" class="active"><span class="navsymbol">◈</span> Atlas <span class="num">01</span></button>
-   <button type="button" data-nav="graph"><span class="navsymbol">◎</span> Knowledge graph <span class="num">02</span></button>
-   <button type="button" data-nav="query"><span class="navsymbol">⌘</span> Query lab <span class="num">03</span></button>
-   <button type="button" data-nav="trust"><span class="navsymbol">◇</span> Trust & evidence <span class="num">04</span></button>
-   <button type="button" data-nav="learn"><span class="navsymbol">✳</span> Learn by doing <span class="num">05</span></button>
-  </nav>
-  <div class="side-bottom"><div class="online"><span class="pulse"></span> VERIFIED WFS SNAPSHOT</div><p>Better questions.<br><em>Better decisions.</em></p><div class="small">Independent educational prototype.<br>Not an official city service.</div></div>
- </aside>
- <div class="main">
-  <header class="topbar"><span class="crumb">BERLIN DEEP CITY <b>/</b> <strong id="crumb">Atlas</strong></span><div class="topright"><span class="data-pill"><span></span> REAL LOCATION DATA</span><button id="share" class="share-btn" type="button">Share experiment ↗</button></div></header>
-  <main>
-   <section class="page active" id="page-atlas">
-    <div class="toplabel"><span>CHAPTER I — FOLLOW THE CONNECTIONS</span><span>EXP. 002 / 09 OCT 2026</span></div>
-    <div class="hero">
-     <div><div class="tiny-star">✳ OPEN CIVIC INTELLIGENCE</div><h1>A city is more<br>than <em>its data.</em></h1><p>What if every place could tell us <strong>what it is, where it belongs, and how we know?</strong> Start with real Berlin drinking fountains. Follow their connections.</p><div class="hero-actions"><button class="primary" data-goto="atlas-map">Explore the atlas <span>↗</span></button><button class="secondary" data-nav="learn">Learn one triple <span>↗</span></button></div><div class="language">RDF <b>·</b> SPARQL <b>·</b> PROVENANCE <b>·</b> HUMAN JUDGEMENT</div></div>
-     <div class="hero-visual" aria-hidden="true"><div class="canvas-caption">FIG. 01 / RELATIONSHIPS</div><svg viewBox="0 0 480 330"><defs><radialGradient id="halo"><stop stop-color="#9dbb9a" stop-opacity=".16"/><stop offset="1" stop-color="#9dbb9a" stop-opacity="0"/></radialGradient></defs><circle cx="246" cy="164" r="165" fill="url(#halo)"/><circle cx="246" cy="164" r="126" stroke="#b9c7a9" stroke-opacity=".1" stroke-dasharray="1 9" fill="none"/><g stroke="#9bb5a5" stroke-opacity=".47"><path d="M97 143 246 164 351 77M246 164 357 253M246 164 118 253M97 143 118 253" fill="none"/></g><circle cx="246" cy="164" r="39" stroke="#c6e4b1" stroke-opacity=".28" fill="#152c26"/><circle cx="246" cy="164" r="13" fill="#d0edb7"/><circle cx="351" cy="77" r="9" fill="#d0b58c"/><circle cx="357" cy="253" r="9" fill="#90c3c6"/><circle cx="118" cy="253" r="7" fill="#c8e5ae"/><circle cx="97" cy="143" r="9" fill="#8aa99d"/><g fill="#aab9aa" font-size="10" letter-spacing="1.5"><text x="222" y="223">PLACE</text><text x="345" y="56">DISTRICT</text><text x="364" y="275">SOURCE</text><text x="76" y="127">RULE</text><text x="90" y="279">DATA</text></g></svg><div class="canvas-footer">NOT JUST DOTS ON A MAP <span>◇</span></div></div>
+  <a class="skip-link" href="#content">Zum Inhalt springen</a>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#discover" class="brand" aria-label="CITY THREAD — Startseite">
+        <span class="brand-emblem" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none">
+            <path d="M9 11 30 17 19 31 9 11" stroke="currentColor" stroke-width="1.9"/>
+            <circle cx="9" cy="11" r="4" fill="#F28E72"/><circle cx="30" cy="17" r="4" fill="#464AC5"/><circle cx="19" cy="31" r="4" fill="#E0BD62"/>
+          </svg>
+        </span>
+        <span class="brand-text">CITY <span>THREAD</span><small>OFFENES STADTLABOR</small></span>
+      </a>
+      <nav class="nav" aria-label="Kapitel">
+        <button class="nav-item active" data-view="discover" aria-current="page" type="button">Entdecken</button>
+        <button class="nav-item" data-view="graph" type="button">Verbindungen</button>
+        <button class="nav-item" data-view="ask" type="button">Fragen</button>
+        <button class="nav-item" data-view="trust" type="button">Vertrauen</button>
+        <button class="nav-item" data-view="learn" type="button">Lernen <span class="nav-spark">✳</span></button>
+      </nav>
+      <div class="header-actions">
+        <span class="edition"><span class="edition-dot"></span> BERLIN · V0.3</span>
+        <button class="share" id="share" type="button" aria-label="Link zur Website teilen"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M20 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Teilen</span></button>
+      </div>
     </div>
-    <div class="metrics"><div><span>VERIFIED LOCATIONS · SAMPLE</span><strong id="m-locations">—</strong><small>Official WFS records loaded</small></div><div><span>REPRESENTED DISTRICTS</span><strong id="m-districts">—</strong><small>From this data extract</small></div><div><span>DATA MODEL</span><strong>RDF</strong><small>Named relationships</small></div><div><span>POLICY RECOMMENDATIONS</span><strong>0</strong><small>Without climate join, no ranking</small></div></div>
-    <div class="section-heading" id="atlas-map"><span>01 / THE WATER ATLAS</span><span>VERIFIABLE PLACES, NOT GUESSES</span></div>
-    <div class="atlas-layout">
-     <div class="list-pane"><div class="pane-header"><h2>Start somewhere.</h2><p>Pick a public drinking fountain to follow its connections.</p></div><label for="district" class="field-label">DISTRICT</label><select id="district"><option value="">All districts</option></select><label for="search" class="field-label">FIND A PLACE</label><input id="search" placeholder="Search streets, districts, places…" autocomplete="off"><div class="results-heading"><span id="results-count">— LOCATIONS</span><span>↘</span></div><div id="place-list" class="place-list" aria-live="polite"><p class="muted">Loading the city…</p></div></div>
-     <div class="map-pane"><div class="map-top"><div><strong>BERLIN / WATER</strong><small>WGS84 geospatial plot</small></div><div class="legend"><i></i> Location <i class="gold"></i> Selected</div></div><svg id="atlas-svg" viewBox="0 0 720 490" role="img" aria-label="Standorte der im Auszug enthaltenen Berliner Trinkwasserbrunnen"></svg><div class="map-bottom"><span>SCHEMATIC WGS84 PLOT · NOT FOR NAVIGATION</span><span id="map-count">— POINTS</span></div><div class="map-inspector" id="map-inspector"><div class="eyebrow">SELECTED PLACE</div><strong>Choose a dot or a place.</strong><span>Every place contains a story of relationships.</span></div></div>
-    </div>
-    <div class="notice"><span class="notice-icon">i</span><p><strong>Evidence boundary.</strong> Dieser eingefrorene Auszug enthält nur die ersten <span id="record-sample">120</span> von <span id="record-total">—</span> WFS-Einträgen. Er ist <strong>keine vollständige Bestandsaufnahme</strong>. Für den aktuellen Betriebsstatus ist die Quelle zu prüfen. <a href="https://daten.berlin.de/datensaetze/trinkwasserbrunnen-wfs-47dba2c3" target="_blank" rel="noopener noreferrer">Originalquelle ↗</a></p></div>
-   </section>
-   <section class="page" id="page-graph">
-    <div class="page-kicker">CHAPTER II / KNOWLEDGE GRAPH</div><h1>Follow the <em>thread.</em></h1><p class="lead">A map gives you a point. A knowledge graph tells you what that point <strong>means</strong> — and what we can actually prove.</p>
-    <div class="graph-layout"><div class="graph-card"><div class="graph-head"><span>RDF RELATIONSHIPS / LIVE INSPECTION</span><span class="online"><i class="pulse"></i> CONNECTED</span></div><svg id="graph-svg" viewBox="0 0 700 420" role="img" aria-label="Visualisierung von RDF-Ressourcen und ihren Beziehungen"></svg><div class="graph-legend"><span>◉ FEATURE</span><span>◉ DISTRICT</span><span>◉ DATASET</span></div></div><div class="inspect-card"><div class="eyebrow">INSPECTOR / SELECTED RESOURCE</div><h2 id="inspect-title">Select a place</h2><p id="inspect-description">Click any place in the Atlas to load its RDF relationships.</p><div id="triple-list" class="triples"></div><button class="secondary wide" data-nav="atlas">Choose another place ↗</button></div></div>
-    <div class="quote">“The relationship is data, too.”</div>
-   </section>
-   <section class="page" id="page-query">
-    <div class="page-kicker">CHAPTER III / THE QUESTION</div><h1>Ask with <em>precision.</em></h1><p class="lead">Explore SPARQL query patterns and inspect computed results. <strong>This shared static preview runs fixed client-side evaluators</strong> — the downloadable Python edition executes actual SPARQL with RDFLib.</p>
-    <div class="query-layout"><div class="preset-pane"><div class="eyebrow">CHOOSE AN EXPLORATION</div><div id="presets"></div><div class="query-help">Why patterns? A question becomes useful when we know precisely which relationships we are asking about.</div></div><div class="editor-pane"><div class="editor-head"><span><i></i> SPARQL PATTERN / READ ONLY</span><button id="copy-sparql" type="button">Copy query ↗</button></div><pre id="sparql"></pre><div class="editor-actions"><button class="primary" id="run-query" type="button">Run sample query ↗</button><small>Local preview evaluator · no remote AI</small></div><div class="query-result-head"><span>RESULTS FROM VERIFIED EXTRACT</span><span id="query-count">—</span></div><div class="query-results" id="query-results"><p class="muted">Choose a query.</p></div></div></div>
-   </section>
-   <section class="page" id="page-trust">
-    <div class="page-kicker">CHAPTER IV / TRUST</div><h1>Proof before <em>confidence.</em></h1><p class="lead">Trust is not a badge. It is a habit: check sources, name uncertainty, and refuse to fill gaps with imagination.</p>
-    <div class="trust-layout"><div class="trust-card"><div class="eyebrow">01 / PROVENANCE</div><h2>Where did this come from?</h2><p>The Berlin drinking-fountain records are a dated, immutable extract from the official Berliner Wasserbetriebe WFS. The climate dataset is currently a reference only.</p><div class="source-line"><span>WATER</span><a href="https://daten.berlin.de/datensaetze/trinkwasserbrunnen-wfs-47dba2c3" target="_blank" rel="noopener noreferrer">WFS · Berliner Wasserbetriebe ↗</a></div><div class="source-line"><span>CLIMATE</span><a href="https://daten.berlin.de/datensaetze/klimabewertungskarten-2022-umweltatlas-wfs-ac0751a2" target="_blank" rel="noopener noreferrer">Climate atlas 2022 · Not joined ↗</a></div><div class="source-line"><span>LICENSE</span><span>dl-de-zero-2.0</span></div><div class="source-line"><span>SNAPSHOT</span><span>09.10.2026 · first 120 of total</span></div></div><div class="trust-card"><div class="eyebrow">02 / DATA QUALITY</div><h2>Catch a broken link.</h2><p>Run transparent browser checks against this source snapshot. Inject a broken location and see what the checker catches.</p><div class="scenario-buttons"><button type="button" data-scenario="clean" class="selected">Source extract</button><button type="button" data-scenario="missing">Remove provenance</button><button type="button" data-scenario="invalid">Invalid coordinate</button></div><button class="primary" id="validate" type="button">Check the data ↗</button><div id="validation-output" aria-live="polite"></div><p class="micro">These are lightweight browser constraints, <strong>not</strong> a full SHACL implementation. The Python edition contains SHACL rules.</p></div></div>
-    <div class="boundary"><span>WHAT WE WILL NOT CLAIM</span><p>“Which neighbourhood needs a new fountain because of heat?”</p><strong>Not answerable yet.</strong><small>No validated geospatial heat join, service availability, accessibility assessment or planning authority approval. Missing evidence stays missing.</small></div>
-   </section>
-   <section class="page" id="page-learn">
-    <div class="page-kicker">CHAPTER V / YOUR FIRST SEMANTIC STEP</div><h1>One thought. <em>Three parts.</em></h1><p class="lead">You don't need to memorise an entire ontology. Start by understanding a single relationship.</p>
-    <div class="lesson-layout"><div class="lesson-card"><div class="eyebrow">THE ANATOMY OF AN RDF TRIPLE</div><div class="triple-lesson"><div><small>SUBJECT</small><strong>Quartier A</strong><span>Who or what?</span></div><div class="arrow">→</div><div><small>PREDICATE</small><strong>hasObservation</strong><span>How connected?</span></div><div class="arrow">→</div><div><small>OBJECT</small><strong>Hitze A</strong><span>Connected to what?</span></div></div><p class="lesson-explain"><strong>Übersetzt:</strong> „Quartier A hat eine verknüpfte Hitzebeobachtung A.“ Genau so verbindet RDF Informationen. Nicht als freie Erzählung, sondern als explizite Beziehung.</p><div class="lesson-mini">Our real-data version: <code>fountain:24 ct:inDistrict district:Friedrichshain-Kreuzberg</code></div></div><div class="quiz-card"><div class="eyebrow">YOUR FIRST LITTLE CHALLENGE</div><h2>Which relation means <em>“is located in”</em>?</h2><p>A fountain belongs to a district. Choose the predicate.</p><div id="choices" class="choices"><button type="button" data-choice="heat">ct:heatIndex</button><button type="button" data-choice="district">ct:inDistrict</button><button type="button" data-choice="source">prov:wasDerivedFrom</button></div><div id="quiz-feedback" class="quiz-feedback">One choice. One concept. Real understanding.</div><div class="lesson-next"><button data-nav="graph" class="secondary">Inspect a real example ↗</button></div></div></div>
-    <div class="quote">“Understanding grows one connection at a time.”</div>
-   </section>
+  </header>
+  <main id="content">
+    <section class="view active" id="view-discover" aria-labelledby="hero-title">
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="hero-eyebrow"><span class="sun-spark">✳</span> EIN DIGITALES EXPERIMENT ÜBER UNSERE STADT <span class="hero-no">№ 003</span></div>
+          <h1 id="hero-title">Eine Stadt.<br><span class="headline-accent">Tausend</span><br>Verbindungen<span class="period">.</span></h1>
+          <p class="hero-description">Was wäre, wenn wir eine Stadt nicht nur auf einer Karte sehen, sondern <strong>verstehen könnten, wie alles zusammenhängt?</strong></p>
+          <p class="hero-secondary">Wir beginnen mit etwas ganz Alltäglichem: Trinkbrunnen in Berlin.</p>
+          <div class="hero-cta">
+            <button class="btn btn-blue" id="start-explore" type="button">Stadt entdecken <span aria-hidden="true">↗</span></button>
+            <button class="link-button" data-view="learn" type="button">Erst mal verstehen <span aria-hidden="true">→</span></button>
+          </div>
+          <div class="hero-note"><span class="note-mark">✓</span> Reale Berliner Daten · unabhängig &amp; frei zugänglich</div>
+        </div>
+        <div class="hero-art" aria-label="Illustration einer Brunnen-Szene mit Städtenetz aus Linien, Gebäuden und Datenpunkten">
+          <div class="hero-art-top"><span>POSTKARTE AUS BERLIN</span><span>01 / VERBINDUNGEN</span></div>
+          <svg class="illustration" viewBox="0 0 610 580" role="img" aria-label="Illustration: Stadtblöcke und ein Brunnen, verknüpft durch farbige Verbindungslinien">
+            <defs>
+              <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#FAE6D7"/><stop offset="1" stop-color="#F5F0E8"/></linearGradient>
+              <linearGradient id="water" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#637BE3"/><stop offset="1" stop-color="#323EB1"/></linearGradient>
+            </defs>
+            <rect width="610" height="580" fill="url(#sky)"/>
+            <circle cx="421" cy="182" r="105" fill="#FFD27F" opacity=".68"/>
+            <circle cx="421" cy="182" r="134" fill="none" stroke="#E49B65" stroke-opacity=".38" stroke-dasharray="3 9"/>
+            <path d="M0 415 Q98 390 156 404 T312 398 T475 417 T610 405 V580 H0Z" fill="#E1E2D5"/>
+            <path d="M46 410V282h102v128 M75 282v-41h82v169 M165 413V304h94v110 M445 410V263h103v146 M514 411V311h88v100" fill="#E9D2BE" stroke="#283948" stroke-width="2.2" stroke-linejoin="round"/>
+            <path d="M75 268v-65h72v72 M198 304v-68h37v67 M458 263v-57h66v55 M540 311v-67h51v65" fill="#E8BFA6" stroke="#283948" stroke-width="2"/>
+            <g stroke="#283948" stroke-width="2" fill="#FBF3E8">
+              <rect x="62" y="307" width="26" height="37"/><rect x="105" y="307" width="26" height="37"/>
+              <rect x="63" y="364" width="26" height="37"/><rect x="104" y="364" width="26" height="37"/>
+              <rect x="188" y="331" width="22" height="34"/><rect x="226" y="331" width="21" height="34"/>
+              <rect x="466" y="296" width="25" height="34"/><rect x="508" y="296" width="24" height="34"/>
+              <rect x="470" y="350" width="25" height="34"/><rect x="511" y="350" width="24" height="34"/>
+              <rect x="555" y="337" width="20" height="32"/>
+            </g>
+            <g stroke="#454DC4" stroke-width="2.5" stroke-dasharray="5 9" fill="none" opacity=".8">
+              <path d="M106 246 C171 165 229 139 303 201 S436 211 470 122"/>
+              <path d="M106 246 C169 320 227 324 283 354"/>
+              <path d="M470 122 C510 224 466 325 422 389"/>
+            </g>
+            <g fill="#F8F4EC" stroke="#454DC4" stroke-width="3"><circle cx="106" cy="246" r="10"/><circle cx="470" cy="122" r="10"/><circle cx="422" cy="389" r="9"/></g>
+            <g>
+              <path d="M279 402v-122c0-28 23-51 51-51s51 23 51 51v122" stroke="#293F61" stroke-width="13" stroke-linecap="round" fill="none"/>
+              <path d="M269 403h123" stroke="#293F61" stroke-width="14" stroke-linecap="round"/>
+              <path d="M285 295c19-9 40-9 57 0" fill="none" stroke="#FBF4E9" stroke-width="7"/>
+              <path d="M300 277c5-21 14-38 24-52" fill="none" stroke="url(#water)" stroke-width="7" stroke-linecap="round"/>
+              <path d="M325 217c21 29 23 67 13 108" fill="none" stroke="url(#water)" stroke-width="8" stroke-linecap="round"/>
+              <path d="M324 218c-34 24-51 53-53 87" fill="none" stroke="#6A86E5" stroke-width="6" stroke-linecap="round"/>
+              <path d="M290 353q36 13 70 0" fill="none" stroke="#3E57CE" stroke-width="5"/>
+              <circle cx="325" cy="217" r="7" fill="#718DEA"/>
+            </g>
+            <path d="M0 461c125-45 216-45 306 0s198 40 304-5" fill="none" stroke="#5F7AD5" stroke-width="3" opacity=".7"/>
+            <path d="M0 479c131-42 217-41 306 0s197 39 304-3" fill="none" stroke="#5F7AD5" stroke-width="1.5" opacity=".3"/>
+            <g fill="#283948"><circle cx="84" cy="125" r="4"/><circle cx="512" cy="468" r="4"/><circle cx="172" cy="183" r="3"/></g>
+            <g stroke="#283948" stroke-width="2"><path d="M75 120h20M85 110v20M503 468h18M512 459v18"/></g>
+            <g fill="#293F61" font-size="13" font-family="sans-serif" font-weight="700" letter-spacing="2"><text x="52" y="80">THE INVISIBLE THREAD</text><text x="47" y="544">BERLIN / 52° 31′ N</text></g>
+          </svg>
+          <div class="floating-note floating-note-a"><span>01 · ORT</span><strong>Wo steht er?</strong><small>Ein Punkt auf der Karte</small></div>
+          <div class="floating-note floating-note-b"><span>02 · BEZIEHUNG</span><strong>Was verbindet ihn?</strong><small>Der unsichtbare Faden</small></div>
+          <span class="hero-art-bottom">DATEN WERDEN ZUSAMMENHÄNGE <span aria-hidden="true">✳</span></span>
+        </div>
+      </div>
+      <div class="facts-bar">
+        <div><span>DATENSAUSSCHNITT</span><strong id="metric-places">—</strong><small>echte Trinkbrunnen</small></div>
+        <div><span>BEZIRKE IM AUSZUG</span><strong id="metric-districts">—</strong><small>von Berlin</small></div>
+        <div><span>QUELLE</span><strong class="metric-word">WFS <span class="blue-dot">●</span></strong><small>öffentliche Geodaten</small></div>
+        <div class="facts-message"><span>UNSER VERSPRECHEN</span><p>Lieber <em>eine ehrliche Lücke</em> als eine schöne, erfundene Antwort.</p></div>
+      </div>
+      <div class="section-wrap" id="explore">
+        <div class="section-intro">
+          <div class="section-kicker">01 / DIE STADT ENTDECKEN <span class="kicker-line"></span> BERLIN</div>
+          <h2>Fang irgendwo <em>an.</em></h2>
+          <p>Ein Brunnen ist ein guter Anfang. Wähle einen Ort und wir zeigen dir, mit welchen Informationen er verknüpft ist.</p>
+        </div>
+        <div class="explorer">
+          <div class="explorer-list">
+            <div class="explorer-head"><strong>Orte finden</strong><span id="result-count">—</span></div>
+            <label class="sr-only" for="search">Trinkbrunnen suchen</label>
+            <div class="search-wrapper"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Strasse oder Ort suchen …" autocomplete="off"></div>
+            <label class="sr-only" for="district">Bezirksfilter</label>
+            <select id="district"><option value="">Alle Bezirke</option></select>
+            <div class="list-caption"><span>TRINKBRUNNEN / AUSZUG</span><span>↘</span></div>
+            <div class="place-list" id="place-list" aria-live="polite"><div class="loading">Die Stadt wird geladen …</div></div>
+            <button id="load-more" class="load-more" type="button">Weitere Orte anzeigen <span>↓</span></button>
+          </div>
+          <div class="explorer-map">
+            <div class="map-topbar"><div><span class="map-overline">BERLIN / WGS84</span><strong>Der Stadtatlas</strong></div><div class="map-legend"><span class="pin-dot"></span> Standort <span class="pin-dot selected-dot"></span> ausgewählt</div></div>
+            <svg id="atlas-svg" viewBox="0 0 740 450" role="img" aria-label="Interaktive schematische Karte der Berliner Trinkbrunnen in diesem Datenauszug"></svg>
+            <div class="map-watermark">52.52° N / 13.40° E <span id="map-count">— Punkte</span></div>
+            <div class="spotlight" id="spotlight" aria-live="polite"><div class="spotlight-top"><span class="spotlight-tag">AUSGEWÄHLTER ORT</span><span class="spotlight-icon">↗</span></div><h3>Wähle einen Brunnen.</h3><p>Jeder Punkt erzählt einen Zusammenhang.</p></div>
+          </div>
+        </div>
+        <div class="bridge"><div class="bridge-symbol" aria-hidden="true">↗</div><div><strong>Du siehst einen Punkt. Was steckt dahinter?</strong><p>Der nächste Schritt zeigt seine Beziehungen zu Bezirk, Quelle und Datensatz.</p></div><button class="btn btn-ink" data-view="graph" type="button">Faden folgen <span>→</span></button></div>
+      </div>
+      <div class="method-strip"><span>UNSER KLEINER WEG ZU MEHR VERSTÄNDNIS</span><div class="method-cards"><button data-view="discover" type="button"><b>01</b><strong>Einen Ort finden</strong><small>Ein konkreter Anfang</small><span>↗</span></button><button data-view="graph" type="button"><b>02</b><strong>Verbindungen sehen</strong><small>Ein Netz aus Bedeutung</small><span>↗</span></button><button data-view="trust" type="button"><b>03</b><strong>Quellen prüfen</strong><small>Wissen, was wir wissen</small><span>↗</span></button></div></div>
+    </section>
+
+    <section class="view" id="view-graph" aria-labelledby="graph-title">
+      <div class="inner-hero"><div class="section-kicker">02 / EIN BLICK UNTER DIE OBERFLÄCHE</div><h1 id="graph-title">Hier beginnen<br><em>die Verbindungen.</em></h1><p>Der Brunnen hat einen Namen, einen Bezirk, Koordinaten und eine Quelle. Jede Verbindung ist eine explizite Aussage – kein KI-Rätsel.</p><button class="text-link" data-view="discover" type="button">← Anderen Ort wählen</button></div>
+      <div class="graph-layout"><div class="graph-board"><div class="board-header"><span>BEZIEHUNGEN / WISSENSGRAPH</span><span class="board-live">● AUS RDF-QUELLE</span></div><svg id="graph-svg" viewBox="0 0 780 500" role="img" aria-label="Beziehungsdiagramm des ausgewählten Brunnens"></svg><div class="board-footer"><span>SUBJEKT — PRÄDIKAT — OBJEKT</span><span>WÄHLE EINEN KNOTEN AUS</span></div></div><aside class="graph-inspector"><span class="chapter-number">EIN ORT. VIELE BEZIEHUNGEN.</span><h2 id="inspect-name">Wähle einen Ort</h2><p id="inspect-location" class="inspector-location">Berlin</p><div class="graph-explain"><span>WAS BEDEUTET DAS?</span><p id="edge-explanation">Klicke auf einen Knoten. Wir erklären dir die Verbindung in normaler Sprache.</p></div><div id="triple-list" class="triple-list"></div><button class="btn btn-ink full" data-view="ask" type="button">Eine Frage stellen <span>→</span></button></aside></div>
+      <div class="learning-prompt"><span class="learning-asterisk">✳</span><p>Ein bisschen neugierig auf RDF? <strong>Drei Teile, eine Aussage.</strong></p><button class="text-link" data-view="learn" type="button">In zwei Minuten lernen →</button></div>
+    </section>
+
+    <section class="view" id="view-ask" aria-labelledby="ask-title">
+      <div class="inner-hero"><div class="section-kicker">03 / FRAGEN STELLEN</div><h1 id="ask-title">Gute Fragen.<br><em>Klare Antworten.</em></h1><p>Wir fragen nur, was der Datenausschnitt belegen kann. Und zeigen dir auf Wunsch sogar die SPARQL-Abfrage dahinter.</p></div>
+      <div class="question-layout">
+        <div class="question-list"><span class="chapter-number">WAS MÖCHTEST DU WISSEN?</span><div id="question-choices" class="question-choices"></div><div class="question-hint"><span>i</span> Das sind vorgegebene Fragen über einen eingefrorenen WFS-Auszug, kein freies KI-Gespräch.</div></div>
+        <div class="question-answer">
+          <div class="answer-head"><div><span>ERGEBNIS / BERLIN</span><strong id="answer-title">Die Stadt antwortet</strong></div><span id="answer-pill" class="answer-pill">AUS DEM AUSZUG</span></div>
+          <div id="answer-summary" class="answer-summary">Wähle links eine Frage.</div>
+          <div class="answer-table-wrap" id="answer-table"></div>
+          <div class="answer-bottom"><button id="toggle-code" type="button" class="code-toggle" aria-expanded="false" aria-controls="code-panel"><span aria-hidden="true">{ }</span> SPARQL ansehen <span class="chev">↓</span></button><span>Quellengebundene Beispieldaten</span></div>
+          <div class="code-panel" id="code-panel" hidden><div class="code-panel-top"><span>LESBARE ABFRAGESPRACHE</span><button type="button" id="copy-code">Code kopieren ↗</button></div><pre id="sparql-code"></pre><p>Transparenz: Die öffentliche Webversion wertet diese vier festen Abfragemuster direkt im Browser aus. Die RDF-Datei kann mit einem echten SPARQL-Prozessor abgefragt werden.</p></div>
+        </div>
+      </div>
+      <div class="learn-next"><span>NEUGIER STATT BLACK BOX.</span><button type="button" data-view="trust">Woher wissen wir das? →</button></div>
+    </section>
+
+    <section class="view" id="view-trust" aria-labelledby="trust-title">
+      <div class="inner-hero"><div class="section-kicker">04 / QUELLEN &amp; GRENZEN</div><h1 id="trust-title">Vertrauen braucht<br><em>Belege.</em></h1><p>Eine gute KI erkennt nicht nur Zusammenhänge. Sie weiss auch, wann sie nicht entscheiden darf. Hier kannst du unsere Daten auf Herz und Nieren prüfen.</p></div>
+      <div class="trust-header"><div><span>WAS IST BELEGT?</span><h2>Eine ehrliche Bestandsaufnahme.</h2></div><div class="trust-seal">DATEN ≠ GEWISSHEIT <span>✳</span></div></div>
+      <div class="trust-grid"><article class="truth-card"><span class="truth-number">01 / ORIGINAL</span><div class="truth-icon blue">↗</div><h3>Woher stammen die Orte?</h3><p>Offizielle Berliner WFS-Geodaten der Trinkwasserbrunnen. Wir zeigen Standort, Bezirk und vorhandene Metadaten.</p><a href="https://gdi.berlin.de/services/wfs/trinkwasserbrunnen?service=WFS%26request=GetCapabilities" class="source-link" target="_blank" rel="noopener noreferrer">WFS-Quelle besuchen ↗</a></article><article class="truth-card"><span class="truth-number">02 / AUSSCHNITT</span><div class="truth-icon orange">120 / 242</div><h3>Was fehlt noch?</h3><p>Die ersten 120 von 242 WFS-Einträgen am 9. Oktober 2026. Kein vollständiges Stadtinventar und keine Live-Auskunft über Betriebszeiten.</p><a href="./fountains.json" class="source-link" target="_blank" rel="noopener noreferrer">Auszug als JSON ↗</a></article><article class="truth-card"><span class="truth-number">03 / ENTSCHEIDUNG</span><div class="truth-icon yellow">?</div><h3>Was behaupten wir nicht?</h3><p>Wo ein neuer Brunnen entstehen sollte. Dafür fehlen ein geprüfter Hitze-Geodaten-Abgleich und kommunale Entscheidungsgrundlagen.</p><a href="./data.ttl" class="source-link" target="_blank" rel="noopener noreferrer">RDF-Graph ansehen ↗</a></article></div>
+      <div class="trust-test"><div class="test-copy"><div class="section-kicker">KLEINES QUALITÄTS-LABOR</div><h2>Mach einen Fehler.<br><em>Absichtlich.</em></h2><p>Ein Datensatz ohne Quelle? Ein Standort auf dem falschen Planeten? Wähle einen Test und beobachte, wie einfache Validierungsregeln reagieren.</p><div class="test-controls"><button class="scenario active" type="button" data-scenario="clean">✓ Original</button><button class="scenario" type="button" data-scenario="source">Quelle löschen</button><button class="scenario" type="button" data-scenario="coords">Koordinaten verdrehen</button></div><button id="run-validation" type="button" class="btn btn-blue">Daten prüfen <span>↗</span></button><p class="test-footnote">Browser-Checks, keine SHACL-Laufzeit. Die vollständigen SHACL-Regeln gibt es als <a href="./shapes.ttl" target="_blank" rel="noopener noreferrer">Turtle-Datei ↗</a>.</p></div><div class="test-terminal"><div class="terminal-top"><span class="terminal-dots"><i></i><i></i><i></i></span><span>VALIDATION REPORT</span><span class="terminal-id">CT / 003</span></div><div id="validation-output" class="validation-output" aria-live="polite"><span class="terminal-placeholder">Bereit für den Test.</span></div></div></div>
+    </section>
+
+    <section class="view" id="view-learn" aria-labelledby="learn-title">
+      <div class="inner-hero"><div class="section-kicker">05 / EIN KLEINES AHA-ERLEBNIS</div><h1 id="learn-title">Drei Teile.<br><em>Ein Gedanke.</em></h1><p>RDF klingt komplizierter als es ist. Du kennst die Idee längst: Ein Ding hat eine Beziehung zu einem anderen Ding.</p></div>
+      <div class="lesson-paper"><div class="lesson-overline"><span>LEKTION 01 / RDF TRIPLE</span><span>DAUER: 2 MINUTEN</span></div><div class="lesson-trio"><div class="lesson-block subject"><span>01 / SUBJEKT</span><strong>Quartier A</strong><small>Worüber sprechen wir?</small></div><div class="lesson-arrow">→</div><div class="lesson-block relation"><span>02 / PRÄDIKAT</span><strong>hat Beobachtung</strong><small>Welche Beziehung?</small></div><div class="lesson-arrow">→</div><div class="lesson-block object"><span>03 / OBJEKT</span><strong>Hitze A</strong><small>Wozu gehört es?</small></div></div><p class="lesson-translation"><span class="lesson-star">✳</span> <strong>Ganz einfach:</strong> Quartier A hat eine verknüpfte Hitzebeobachtung. Ein RDF-Triple macht diese Aussage maschinenlesbar.</p><div class="lesson-divider"></div><p class="lesson-real-label">MIT EINEM ECHTEN BERLINER BRUNNEN</p><div id="real-triple" class="real-triple"><code>fountain:f24</code> <span>→</span> <code>ct:inDistrict</code> <span>→</span> <code>district:friedrichshain-kreuzberg</code></div></div>
+      <div class="quiz-paper"><div class="quiz-left"><span class="quiz-label">MINI-QUIZ ✳</span><h2>Welche Verbindung bedeutet <em>„liegt in“?</em></h2><p>Ein Trinkbrunnen gehört zu einem Bezirk. Welches Prädikat beschreibt das?</p></div><div class="quiz-right"><div class="quiz-options"><button type="button" data-choice="heat">ct:heatIndex <span>↗</span></button><button type="button" data-choice="district">ct:inDistrict <span>↗</span></button><button type="button" data-choice="source">prov:wasDerivedFrom <span>↗</span></button></div><div id="quiz-feedback" class="quiz-feedback" aria-live="polite">Du darfst ruhig raten. So lernt man.</div><button type="button" class="text-link quiz-next" data-view="graph">Am echten Graphen entdecken →</button></div></div>
+    </section>
   </main>
-  <footer><span>CITY THREAD · AN OPEN LEARNING EXPERIMENT</span><span>BUILT WITH CARE <span class="heart">♥</span> · 2026</span></footer>
- </div>
-</div>
-</body></html>
+  <footer class="site-footer"><div class="footer-inner"><div><span class="footer-brand">CITY THREAD <span>✳</span></span><p>Eine kleine Einladung, unsere Städte besser zu verstehen.</p></div><div class="footer-links"><a href="./data.ttl" target="_blank" rel="noopener noreferrer">RDF-Daten ↗</a><a href="./shapes.ttl" target="_blank" rel="noopener noreferrer">SHACL ↗</a><a href="https://github.com/mikelninh/COMMONS/tree/main/public/city-thread" target="_blank" rel="noopener noreferrer">Open Source ↗</a></div><div class="footer-note">UNABHÄNGIGES LERNEXPERIMENT · KEIN OFFIZIELLER STADTDIENST · 2026</div></div></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
