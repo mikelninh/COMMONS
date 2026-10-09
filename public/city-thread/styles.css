@@ -339,3 +339,46 @@ h1,h2,h3,p{margin-top:0}
 @media(max-width:1080px){.mission-feature{margin-left:30px;margin-right:30px}.mission-feature-copy{padding:27px}.mission-feature-illustration{min-height:300px}}
 @media(max-width:850px){.mission-feature{grid-template-columns:1fr 1.2fr}.mission-feature-copy h2{font-size:36px}.mission-feature-illustration{min-height:310px}.hero-mission-cta{min-width:0}}
 @media(max-width:600px){.nav-item.mission-nav-feature{font-size:10.5px;padding:8px 10px}.mission-new{display:none}.mission-feature{grid-template-columns:1fr;margin:32px 17px 0;border-radius:15px}.mission-feature-illustration{min-height:183px}.teaser-grid{inset:16px;background-size:25px 25px}.teaser-halo{width:39%;top:7%;left:40%}.teaser-pin.p3{width:44px;height:44px;font-size:21px}.teaser-label{font-size:8px;bottom:12px}.mission-feature-copy{padding:26px 23px}.mission-feature-copy h2{font-size:36px}.mission-feature-copy p{font-size:12px}.mission-feature-copy .btn{width:100%}}
+
+
+/* v0.7 featured release: the genuine decision game is now the first invitation,
+   while previous experiments remain playable and their tests stay valid. */
+.brief-feature{max-width:1360px;margin:57px auto 21px;display:grid;grid-template-columns:minmax(265px,.83fr) minmax(0,1.17fr);border:1px solid #E6DFD4;background:#FFFDF9;border-radius:18px;min-height:355px;overflow:hidden;box-shadow:0 19px 45px #5262670C}
+.brief-feature-visual{background:radial-gradient(circle at 60% 40%,#FCE6D8 0%,#EDD9CC 56%,#EAD9CC 100%);position:relative;min-height:330px;overflow:hidden}
+.brief-art-overline,.brief-art-bottom{position:absolute;top:21px;left:23px;right:23px;display:flex;justify-content:space-between;gap:8px;z-index:1;font-size:8px;font-weight:850;letter-spacing:1.55px;color:#8D7D7E}
+.brief-art-bottom{top:auto;bottom:21px}
+.brief-art-inner{position:absolute;inset:0;display:grid;place-items:center}
+.brief-art-stamp{position:relative;border:2px solid #43539B;border-radius:9px;background:#FFFEF8;box-shadow:12px 16px 0 #5258C01B,0 18px 38px #52617820;transform:rotate(-7deg);width:196px;height:222px;padding:35px 27px;color:#253C54;font:400 45px/1 Georgia,serif}
+.brief-art-stamp em{font-weight:400;color:#4A50BD}
+.brief-art-stamp>span{position:absolute;bottom:21px;right:21px;font-size:33px;color:#E29C7D}
+.brief-art-triangle{position:absolute;inset:0;pointer-events:none}
+.brief-art-triangle>span{position:absolute;display:grid;place-items:center;border:3px solid #FFF;background:#E78B76;box-shadow:0 8px 18px #4A52642C;width:57px;height:57px;border-radius:50%;color:#fff;font:italic 25px/1 Georgia,serif}
+.brief-art-triangle>span small{font:10px/1 Arial,sans-serif;position:absolute;bottom:7px}
+.brief-art-triangle>span:nth-child(1){left:12%;top:30%}
+.brief-art-triangle>span:nth-child(2){right:12%;top:21%;background:#555DC9}
+.brief-art-triangle>span:nth-child(3){right:16%;bottom:18%;background:#91A784}
+.brief-art-question{position:absolute;left:18%;bottom:10%;font:italic 70px Georgia,serif;color:#D1A78C;transform:rotate(-12deg)}
+.brief-feature-copy{padding:43px 47px;display:flex;flex-direction:column;justify-content:center;align-items:start}
+.brief-feature-copy h2{font:400 clamp(39px,4.4vw,63px)/1.06 Georgia,serif;letter-spacing:-2px;margin:18px 0}
+.brief-feature-copy h2 em{color:#4A53BE;font-weight:400}
+.brief-feature-copy p{max-width:580px;color:#77858C;font-size:13px;line-height:1.77;margin:0 0 23px}
+.brief-feature-copy .btn{min-width:209px}
+.brief-feature-copy>small{font-size:10px;color:#9EA5A5;margin-top:16px}
+@media(max-width:1450px){.brief-feature{margin-left:40px;margin-right:40px}}
+@media(max-width:1080px){.brief-feature{margin-left:30px;margin-right:30px}.brief-feature-copy{padding:30px}.brief-feature-visual{min-height:325px}}
+@media(max-width:850px){.brief-feature{grid-template-columns:1fr 1.1fr}.brief-art-stamp{width:140px;height:185px;padding:30px 17px;font-size:35px}.brief-feature-copy h2{font-size:46px}}
+@media(max-width:600px){
+ .brief-feature{grid-template-columns:1fr;margin:27px 17px 16px;min-height:0}
+ .brief-feature-visual{min-height:178px}
+ .brief-art-stamp{width:129px;height:151px;font-size:31px;padding:20px 18px}
+ .brief-art-stamp>span{font-size:22px;bottom:12px;right:12px}
+ .brief-art-triangle>span{width:43px;height:43px;font-size:19px}
+ .brief-art-triangle>span small{font-size:8px;bottom:5px}
+ .brief-art-question{font-size:46px}
+ .brief-art-overline,.brief-art-bottom{font-size:7px;top:11px;left:13px;right:13px}
+ .brief-art-bottom{top:auto;bottom:10px}
+ .brief-feature-copy{padding:26px 23px}
+ .brief-feature-copy h2{font-size:44px;margin:15px 0}
+ .brief-feature-copy p{font-size:12px}
+ .brief-feature-copy .btn{width:100%}
+}

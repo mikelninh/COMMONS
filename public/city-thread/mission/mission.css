@@ -413,3 +413,9 @@ a{color:inherit}
 .ripple-spark{pointer-events:none;opacity:0;animation:ripple-spark-pop .78s cubic-bezier(.17,.7,.23,1) var(--delay,0ms) both}
 @keyframes ripple-spark-pop{0%{transform:scale(.2);opacity:0}25%,55%{transform:scale(1.0);opacity:.95}100%{transform:scale(1.7);opacity:0}}
 @media(prefers-reduced-motion:reduce){.ripple-spark{display:none!important;animation:none!important}}
+
+
+/* Invite existing Ripple users into the consequential v0.7 Decision Mission. */
+.nav-v07{display:inline-flex;align-items:center;text-decoration:none;background:#F8E1D5;color:#9E5D4D;border:1px solid #ECD1C2;border-radius:22px;padding:9px 13px;font-weight:850;font-size:11px;white-space:nowrap}
+.nav-v07:hover{background:#EDCDBA;color:#854735}
+@media(max-width:620px){.nav-v07{padding:7px 8px;font-size:10px}}

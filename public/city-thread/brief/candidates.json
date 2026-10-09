@@ -1,0 +1,74 @@
+{
+  "version": "0.7",
+  "missionTitle": "THE BRIEF",
+  "fictionalBrief": true,
+  "brief": "Fiktiver Übungsauftrag: nur ein Standort darf für die nächste fachliche Prüfung priorisiert werden – kein reales Bau- oder Haushaltsbudget.",
+  "dataSource": {
+    "water": "Berlin public fountain WFS (242 records, snapshot 2026-10-09)",
+    "climate": "Berlin bioclimate settlement appraisal 2022 (154 study-window polygons, snapshot 2026-10-09)",
+    "license": "dl-de-zero-2.0",
+    "bbox": [
+      13.385,
+      52.49,
+      13.407,
+      52.512
+    ],
+    "baselineSampleCount": 126,
+    "heatSampleCount": 192,
+    "sampleSpacingMetres": 90,
+    "hypotheticalRadiusMetres": 300
+  },
+  "candidates": [
+    {
+      "id": "A",
+      "title": "Das weite Netz",
+      "subtitle": "Mehr Punkte im Modellradius",
+      "lat": 52.506602,
+      "lon": 13.398945,
+      "design": "reach",
+      "expected": {
+        "gain": 24,
+        "severe": 7,
+        "nearestMeters": 529,
+        "nearestId": 36,
+        "nearestName": "Seydelstr./ Spittelmarkt",
+        "nearestReportedRestriction": null,
+        "heatClass": "ungünstig"
+      }
+    },
+    {
+      "id": "B",
+      "title": "Der heissere Kern",
+      "subtitle": "Mehr Punkte in stark belasteter Klasse",
+      "lat": 52.493644,
+      "lon": 13.397617,
+      "design": "severe",
+      "expected": {
+        "gain": 21,
+        "severe": 10,
+        "nearestMeters": 529,
+        "nearestId": 92,
+        "nearestName": "Marheinekeplatz (vor Eingang Markthalle, nahe Springbrunnen)",
+        "nearestReportedRestriction": null,
+        "heatClass": "sehr ungünstig"
+      }
+    },
+    {
+      "id": "C",
+      "title": "Die grössere Lücke",
+      "subtitle": "Weiter vom nächsten erfassten Brunnen",
+      "lat": 52.494454,
+      "lon": 13.38832,
+      "design": "gap",
+      "expected": {
+        "gain": 20,
+        "severe": 5,
+        "nearestMeters": 738,
+        "nearestId": 122,
+        "nearestName": "Deutsches Technikmuseum / Möckernstr. 26",
+        "nearestReportedRestriction": null,
+        "heatClass": "ungünstig"
+      }
+    }
+  ]
+}
