@@ -1,0 +1,1100 @@
+@prefix ct: <https://citythread.example/ontology#> .
+@prefix fountain: <https://citythread.example/fountain/> .
+@prefix district: <https://citythread.example/district/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Official fountain inventory 2026-10-09, not verified live operational availability.
+
+fountain:f122 a ct:DrinkingFountain ;
+  rdfs:label "Deutsches Technikmuseum / Möckernstr. 26"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.49648404"^^xsd:decimal ;
+  geo:long "13.377941"^^xsd:decimal ;
+  ct:yearBuilt 2019 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f123 a ct:DrinkingFountain ;
+  rdfs:label "Olivaer Platz (ggü. Wielandstr.)"@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.49940704"^^xsd:decimal ;
+  geo:long "13.314957"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f124 a ct:DrinkingFountain ;
+  rdfs:label "Mehringplatz/ Friedrichstr."@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.50098604"^^xsd:decimal ;
+  geo:long "13.39162"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f125 a ct:DrinkingFountain ;
+  rdfs:label "Havelstr./ Reformationsplatz"@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.53869504"^^xsd:decimal ;
+  geo:long "13.206147"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f126 a ct:DrinkingFountain ;
+  rdfs:label "Waltersdorfer Chaussee 122-124 (nahe Bushaltestelle Narkauer Weg)"@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.40675204"^^xsd:decimal ;
+  geo:long "13.508135"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f127 a ct:DrinkingFountain ;
+  rdfs:label "Egon-Erwin-Kisch-Str. 106"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.56774204"^^xsd:decimal ;
+  geo:long "13.51303"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f128 a ct:DrinkingFountain ;
+  rdfs:label "Vicent-van-Gogh-Str./ Warnitzer Str."@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.56712104"^^xsd:decimal ;
+  geo:long "13.519056"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f129 a ct:DrinkingFountain ;
+  rdfs:label "Park Herzberge (Am Stadtpark/ Kielblockstr.)"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51913404"^^xsd:decimal ;
+  geo:long "13.478267"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f130 a ct:DrinkingFountain ;
+  rdfs:label "Heinz-Knobloch-Platz (ggü. Samländische Str. 3)"@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.56234504"^^xsd:decimal ;
+  geo:long "13.411902"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f131 a ct:DrinkingFountain ;
+  rdfs:label " Bürgerpark (Eingang Wilhelm-Kuhr-Str. ggü. Hausnr.78)"@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.56890404"^^xsd:decimal ;
+  geo:long "13.396116"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  ct:reportedRestriction "zur Zeit wegen Reparatur außer Betrieb"@de ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f132 a ct:DrinkingFountain ;
+  rdfs:label "Besselstr./ Friedrichstr. (nahe Besselpark)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.50415804"^^xsd:decimal ;
+  geo:long "13.391295"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f133 a ct:DrinkingFountain ;
+  rdfs:label "Mierendorffplatz/ Osnabrücker Str."@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.52578604"^^xsd:decimal ;
+  geo:long "13.304054"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f134 a ct:DrinkingFountain ;
+  rdfs:label "Bürgerpark (Eingang Heinrich-Mann-Str.)"@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.57104804"^^xsd:decimal ;
+  geo:long "13.397924"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f135 a ct:DrinkingFountain ;
+  rdfs:label "Ernst-Thälmann-Park (Eingang Diesterwegstr.)"@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.54237404"^^xsd:decimal ;
+  geo:long "13.42995"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f136 a ct:DrinkingFountain ;
+  rdfs:label "Arndtplatz"@de ;
+  ct:inDistrict district:treptow-kopenick ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.43524304"^^xsd:decimal ;
+  geo:long "13.553602"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f137 a ct:DrinkingFountain ;
+  rdfs:label "Volkspark Köpenick (Eingang Pablo-Neruda-Str. 4)"@de ;
+  ct:inDistrict district:treptow-kopenick ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.44084704"^^xsd:decimal ;
+  geo:long "13.589086"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f138 a ct:DrinkingFountain ;
+  rdfs:label "Thomas-Mann-Str. 37"@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.54201204"^^xsd:decimal ;
+  geo:long "13.446343"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f139 a ct:DrinkingFountain ;
+  rdfs:label "Margarete-Sommer- Str./ Virchowstr. (nahe Volkspark Friedrichshain)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.52656404"^^xsd:decimal ;
+  geo:long "13.440618"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f140 a ct:DrinkingFountain ;
+  rdfs:label "Park Rostocker Str. (ggü. Hausnr. 42-46)"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.57171804"^^xsd:decimal ;
+  geo:long "13.509175"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f141 a ct:DrinkingFountain ;
+  rdfs:label "Fischerhüttenstr. 68/ Argentinische Allee"@de ;
+  ct:inDistrict district:steglitz-zehlendorf ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.44241204"^^xsd:decimal ;
+  geo:long "13.240269"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f142 a ct:DrinkingFountain ;
+  rdfs:label "Ahrensfelder Platz/ Havemannstr."@de ;
+  ct:inDistrict district:marzahn-hellersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.56991204"^^xsd:decimal ;
+  geo:long "13.566124"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f143 a ct:DrinkingFountain ;
+  rdfs:label "Marienburger Str. 41-46 (Spielplatz)"@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.53486304"^^xsd:decimal ;
+  geo:long "13.424365"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f144 a ct:DrinkingFountain ;
+  rdfs:label "Lewaldstr./ Kuglerstr. "@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.55202704"^^xsd:decimal ;
+  geo:long "13.420266"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f145 a ct:DrinkingFountain ;
+  rdfs:label "Hanna-Renate-Laurien Platz (neben Wall Toilette)"@de ;
+  ct:inDistrict district:steglitz-zehlendorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.43898904"^^xsd:decimal ;
+  geo:long "13.343146"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f146 a ct:DrinkingFountain ;
+  rdfs:label "Senftenberger Ring/ Packereigraben"@de ;
+  ct:inDistrict district:reinickendorf ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.60009104"^^xsd:decimal ;
+  geo:long "13.353194"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f147 a ct:DrinkingFountain ;
+  rdfs:label "U- Bhf. Residenzstr."@de ;
+  ct:inDistrict district:reinickendorf ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.57222804"^^xsd:decimal ;
+  geo:long "13.360174"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f148 a ct:DrinkingFountain ;
+  rdfs:label "Sredzkistr./ Rykestr. (vor Spielplatz)"@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.53784604"^^xsd:decimal ;
+  geo:long "13.42188"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f149 a ct:DrinkingFountain ;
+  rdfs:label "Bremer Str./ Birkenstr."@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.53293504"^^xsd:decimal ;
+  geo:long "13.339381"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f150 a ct:DrinkingFountain ;
+  rdfs:label "Schönagelstr. 68"@de ;
+  ct:inDistrict district:marzahn-hellersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.54885404"^^xsd:decimal ;
+  geo:long "13.570387"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f151 a ct:DrinkingFountain ;
+  rdfs:label "Victor-Klemperer-Platz (nahe Marzahner Promenade)"@de ;
+  ct:inDistrict district:marzahn-hellersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.54661904"^^xsd:decimal ;
+  geo:long "13.556812"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f152 a ct:DrinkingFountain ;
+  rdfs:label "Kummerower Ring 42-44"@de ;
+  ct:inDistrict district:marzahn-hellersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.52736704"^^xsd:decimal ;
+  geo:long "13.585824"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f153 a ct:DrinkingFountain ;
+  rdfs:label "Wildenbruchpark (Eingang Innstr./ Weigandufer)"@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.48359204"^^xsd:decimal ;
+  geo:long "13.446437"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f154 a ct:DrinkingFountain ;
+  rdfs:label "Türrschmidtstr./ Kaskelstr."@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50348504"^^xsd:decimal ;
+  geo:long "13.482354"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f155 a ct:DrinkingFountain ;
+  rdfs:label "Harnackstr. (vor Spielplatz)"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51133804"^^xsd:decimal ;
+  geo:long "13.486094"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f156 a ct:DrinkingFountain ;
+  rdfs:label "Münsterlandstr./ Wönnichstr. (Münsterlandplatz)"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50352604"^^xsd:decimal ;
+  geo:long "13.496404"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f157 a ct:DrinkingFountain ;
+  rdfs:label "Mellenseestr./ Quartierspark"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.49199304"^^xsd:decimal ;
+  geo:long "13.510869"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f158 a ct:DrinkingFountain ;
+  rdfs:label "Trusepark (Roseggerstr.)"@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.48187804"^^xsd:decimal ;
+  geo:long "13.448475"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f159 a ct:DrinkingFountain ;
+  rdfs:label "Streitstr./ Hohenzollernring (Maselakepark)"@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.55548804"^^xsd:decimal ;
+  geo:long "13.207905"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f160 a ct:DrinkingFountain ;
+  rdfs:label "Wröhmännerpark (ggü. Neuendorfer Str. 99)"@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.54275904"^^xsd:decimal ;
+  geo:long "13.206759"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f161 a ct:DrinkingFountain ;
+  rdfs:label "Westerwaldstr. 9a (Am Falkenhagener Feld)"@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.55023104"^^xsd:decimal ;
+  geo:long "13.178263"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f162 a ct:DrinkingFountain ;
+  rdfs:label "Ostseestr. 8 (Spielplatz)"@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.55020104"^^xsd:decimal ;
+  geo:long "13.432122"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f163 a ct:DrinkingFountain ;
+  rdfs:label "Stuttgarter Platz 15-17 (Grünfläche)"@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50511204"^^xsd:decimal ;
+  geo:long "13.301302"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f164 a ct:DrinkingFountain ;
+  rdfs:label "Am Rudolfplatz/ Danneckerstr."@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.50433504"^^xsd:decimal ;
+  geo:long "13.455524"^^xsd:decimal ;
+  ct:yearBuilt 2020 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f165 a ct:DrinkingFountain ;
+  rdfs:label "Sparrplatz"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.54165304"^^xsd:decimal ;
+  geo:long "13.360842"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f166 a ct:DrinkingFountain ;
+  rdfs:label "Schulstr./ Prinz-Eugen-Str. (Leopoldplatz)"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.54888704"^^xsd:decimal ;
+  geo:long "13.362864"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f167 a ct:DrinkingFountain ;
+  rdfs:label "Große-Leege-Str./ Wriezenerstr. (Grünfläche)"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.54201104"^^xsd:decimal ;
+  geo:long "13.495309"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f168 a ct:DrinkingFountain ;
+  rdfs:label "Altenhoferstr. (ggü. Landsberger Allee 225)"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.53551204"^^xsd:decimal ;
+  geo:long "13.484279"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f169 a ct:DrinkingFountain ;
+  rdfs:label "Werneuchener str./Genslerstr."@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.53547504"^^xsd:decimal ;
+  geo:long "13.498549"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f170 a ct:DrinkingFountain ;
+  rdfs:label "Paul-Junius-Str. (vor Nr. 50)"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.52617104"^^xsd:decimal ;
+  geo:long "13.475479"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f171 a ct:DrinkingFountain ;
+  rdfs:label "Prinzenstr./ Gitschiner Str. (vor Prinzenbad)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.49799904"^^xsd:decimal ;
+  geo:long "13.406199"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f172 a ct:DrinkingFountain ;
+  rdfs:label "Mehrower Allee 2 (Vorplatz S Bhf. Mehrower Allee)"@de ;
+  ct:inDistrict district:marzahn-hellersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.55731004"^^xsd:decimal ;
+  geo:long "13.554688"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f173 a ct:DrinkingFountain ;
+  rdfs:label "Martha-Arendsee-Str. 15 (hinter Viktor Klemperer Kolleg)"@de ;
+  ct:inDistrict district:marzahn-hellersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.53595904"^^xsd:decimal ;
+  geo:long "13.539102"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f174 a ct:DrinkingFountain ;
+  rdfs:label "Oderstr./ Herfurthstr. (Tempelhofer Feld)"@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.47652004"^^xsd:decimal ;
+  geo:long "13.418498"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f175 a ct:DrinkingFountain ;
+  rdfs:label "Oderstr. Süd (Tempelhofer Feld)"@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.47097104"^^xsd:decimal ;
+  geo:long "13.420108"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f176 a ct:DrinkingFountain ;
+  rdfs:label "Hugo-Cassirer-Str. (Calisthenics Park)"@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.55942204"^^xsd:decimal ;
+  geo:long "13.217567"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f177 a ct:DrinkingFountain ;
+  rdfs:label "Fehrbelliner Tor/ Hohenzollernring"@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.55517804"^^xsd:decimal ;
+  geo:long "13.198132"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f178 a ct:DrinkingFountain ;
+  rdfs:label "Bahnhofstr. 44 (nahe Lichtenrader Graben)"@de ;
+  ct:inDistrict district:tempelhof-schoneberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.38655804"^^xsd:decimal ;
+  geo:long "13.400291"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f179 a ct:DrinkingFountain ;
+  rdfs:label "Tunnelstr.1/ Alt-Stralau"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.48925004"^^xsd:decimal ;
+  geo:long "13.482062"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f180 a ct:DrinkingFountain ;
+  rdfs:label "Planufer (nahe Admiralbrücke)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.49495404"^^xsd:decimal ;
+  geo:long "13.415032"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f181 a ct:DrinkingFountain ;
+  rdfs:label "Fennpfuhlpark Süd (ggü. Paul-Junius-Str.)"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.52742304"^^xsd:decimal ;
+  geo:long "13.474309"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f182 a ct:DrinkingFountain ;
+  rdfs:label "Rathauspark (Seite Möllendorfstr.)"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51513604"^^xsd:decimal ;
+  geo:long "13.478717"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f183 a ct:DrinkingFountain ;
+  rdfs:label "Schifffahrtsufer/ Ziegelhof"@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.52848904"^^xsd:decimal ;
+  geo:long "13.19999"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f184 a ct:DrinkingFountain ;
+  rdfs:label "Waidmannsluster Damm (Steinbergpark)"@de ;
+  ct:inDistrict district:reinickendorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.60183104"^^xsd:decimal ;
+  geo:long "13.30617"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f185 a ct:DrinkingFountain ;
+  rdfs:label "Zeppelinplatz (Eingang Ostender Str.)"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.54626004"^^xsd:decimal ;
+  geo:long "13.35222"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f186 a ct:DrinkingFountain ;
+  rdfs:label "Pekinger Platz (Nordufer/ Torfstr.)"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.53987804"^^xsd:decimal ;
+  geo:long "13.352908"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f187 a ct:DrinkingFountain ;
+  rdfs:label "Lausitzer Platz (ggü. Haus Nr. 10/11)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.50046704"^^xsd:decimal ;
+  geo:long "13.431536"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f188 a ct:DrinkingFountain ;
+  rdfs:label "Lausitzer Platz (ggü. Haus Nr. 14/15)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.50082504"^^xsd:decimal ;
+  geo:long "13.430566"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f189 a ct:DrinkingFountain ;
+  rdfs:label "Böcklerpark (Skaterplatz/ Eingang Prinzenstr.) "@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.49683604"^^xsd:decimal ;
+  geo:long "13.405741"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f190 a ct:DrinkingFountain ;
+  rdfs:label "Mauerpark I (neben Skaterpark/ Eingang Bernauer Str.)"@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.54310804"^^xsd:decimal ;
+  geo:long "13.402045"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f191 a ct:DrinkingFountain ;
+  rdfs:label "Weg zum Obersee neben Käthestr. 6 "@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.54820704"^^xsd:decimal ;
+  geo:long "13.49255"^^xsd:decimal ;
+  ct:yearBuilt 2021 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f192 a ct:DrinkingFountain ;
+  rdfs:label "Waldowstr./ Lindenweg (Spielplatz)"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.54636604"^^xsd:decimal ;
+  geo:long "13.491901"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f193 a ct:DrinkingFountain ;
+  rdfs:label "Mahlerstr. 30 (Spielplatz)"@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.54640704"^^xsd:decimal ;
+  geo:long "13.453942"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f194 a ct:DrinkingFountain ;
+  rdfs:label "Waldeyerstr. (ggü. Haus Nr. 7)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.51552004"^^xsd:decimal ;
+  geo:long "13.472324"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f195 a ct:DrinkingFountain ;
+  rdfs:label "Hohenfriedbergstr. 25 (nahe Spielplatz)"@de ;
+  ct:inDistrict district:tempelhof-schoneberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.48778804"^^xsd:decimal ;
+  geo:long "13.365102"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f196 a ct:DrinkingFountain ;
+  rdfs:label "Gotenstr. 83 (Spielplatz)"@de ;
+  ct:inDistrict district:tempelhof-schoneberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.48512704"^^xsd:decimal ;
+  geo:long "13.360309"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f197 a ct:DrinkingFountain ;
+  rdfs:label "Heinrich-Lassen-Park Eingang Belziger Str. (ggü. Gothaerstr.)"@de ;
+  ct:inDistrict district:tempelhof-schoneberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.48539804"^^xsd:decimal ;
+  geo:long "13.34817"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f199 a ct:DrinkingFountain ;
+  rdfs:label "Földerichplatz (vor der Grundschule, nahe Spielplatz)"@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.52033904"^^xsd:decimal ;
+  geo:long "13.193374"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f200 a ct:DrinkingFountain ;
+  rdfs:label "ggü. Groß-Ziethener-Chaussee 86 (Eingang Spielplatz)"@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.41229304"^^xsd:decimal ;
+  geo:long "13.484616"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f201 a ct:DrinkingFountain ;
+  rdfs:label "Lobeckstr./ Ritterstr. (Park Eingang Jakobikirchstr.)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50311504"^^xsd:decimal ;
+  geo:long "13.405684"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f202 a ct:DrinkingFountain ;
+  rdfs:label "Maximilian Kraft Platz (Yorkstr./Katzlerstr.)"@de ;
+  ct:inDistrict district:tempelhof-schoneberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.49259004"^^xsd:decimal ;
+  geo:long "13.369114"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f203 a ct:DrinkingFountain ;
+  rdfs:label "Volkspark Wuhlheide (verlängerte Rathenaustr./Eichgestell)"@de ;
+  ct:inDistrict district:treptow-kopenick ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.46426804"^^xsd:decimal ;
+  geo:long "13.53477"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f204 a ct:DrinkingFountain ;
+  rdfs:label "Mauerpark II (Spielplatz)"@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.54392204"^^xsd:decimal ;
+  geo:long "13.400392"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f205 a ct:DrinkingFountain ;
+  rdfs:label "Roedeliusplatz"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51530504"^^xsd:decimal ;
+  geo:long "13.489023"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f206 a ct:DrinkingFountain ;
+  rdfs:label "Halemweg (ggü. Eingang Popitzweg)"@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.53684804"^^xsd:decimal ;
+  geo:long "13.279561"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f207 a ct:DrinkingFountain ;
+  rdfs:label "Dolgenseestr. vor Nr. 60"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.49399604"^^xsd:decimal ;
+  geo:long "13.506301"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f208 a ct:DrinkingFountain ;
+  rdfs:label "Am Schlachtensee/Paul-Ernst-Park (ggü. S-Bhf.)"@de ;
+  ct:inDistrict district:steglitz-zehlendorf ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.44016904"^^xsd:decimal ;
+  geo:long "13.21438"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f209 a ct:DrinkingFountain ;
+  rdfs:label "Heinrich-Dathe-Platz (ggü. Nr.3)"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.49764604"^^xsd:decimal ;
+  geo:long "13.521274"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f210 a ct:DrinkingFountain ;
+  rdfs:label "Skalitzerstr. 99-116 (Skalitzer Park)"@de ;
+  ct:inDistrict district:friedrichshain-kreuzberg ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.49924804"^^xsd:decimal ;
+  geo:long "13.423795"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f211 a ct:DrinkingFountain ;
+  rdfs:label "Leopoldplatz (nahe Turinerstr.)"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.54844204"^^xsd:decimal ;
+  geo:long "13.3609"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f212 a ct:DrinkingFountain ;
+  rdfs:label "Fischerinsel (Eingang Mühlendamm)"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51444904"^^xsd:decimal ;
+  geo:long "13.40658"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f213 a ct:DrinkingFountain ;
+  rdfs:label "Bendastr. 11b (Zugang Carl-Weder-Park)"@de ;
+  ct:inDistrict district:neukolln ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.46298004"^^xsd:decimal ;
+  geo:long "13.437703"^^xsd:decimal ;
+  ct:yearBuilt 2022 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f214 a ct:DrinkingFountain ;
+  rdfs:label "Prager Platz (neben Prager Str. 1)"@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.49351904"^^xsd:decimal ;
+  geo:long "13.33326"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f215 a ct:DrinkingFountain ;
+  rdfs:label "Herbartstr./ Neue Kantstr."@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50661804"^^xsd:decimal ;
+  geo:long "13.28566"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f216 a ct:DrinkingFountain ;
+  rdfs:label "Wundtstr./ Kaiserdamm (Eingang Lietzenseepark)"@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51018504"^^xsd:decimal ;
+  geo:long "13.291079"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f217 a ct:DrinkingFountain ;
+  rdfs:label "Siemenspark (Eingang Rohrdamm)"@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.54176804"^^xsd:decimal ;
+  geo:long "13.262449"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f218 a ct:DrinkingFountain ;
+  rdfs:label "Gatower Str. 19 (Eingang Kombibad)"@de ;
+  ct:inDistrict district:spandau ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51890304"^^xsd:decimal ;
+  geo:long "13.187081"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f219 a ct:DrinkingFountain ;
+  rdfs:label "Alte Potsdamer Str. (ggü. Nr. 9)"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.50838404"^^xsd:decimal ;
+  geo:long "13.3743"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f220 a ct:DrinkingFountain ;
+  rdfs:label "Wullenwebersteg/ Wullenweberstr."@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51756204"^^xsd:decimal ;
+  geo:long "13.334465"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f221 a ct:DrinkingFountain ;
+  rdfs:label "Eberbacher Str. /Binger Str."@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.47327504"^^xsd:decimal ;
+  geo:long "13.309489"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f222 a ct:DrinkingFountain ;
+  rdfs:label "Otto-Grüneberg-Weg/ Hebbelstr."@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51527304"^^xsd:decimal ;
+  geo:long "13.299113"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f223 a ct:DrinkingFountain ;
+  rdfs:label "Grazer Platz (Grazer Damm ggü. Nr.147)"@de ;
+  ct:inDistrict district:tempelhof-schoneberg ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.46760104"^^xsd:decimal ;
+  geo:long "13.347818"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f224 a ct:DrinkingFountain ;
+  rdfs:label "Munsterdamm 80 (vor dem Sommerbad)"@de ;
+  ct:inDistrict district:steglitz-zehlendorf ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.45673404"^^xsd:decimal ;
+  geo:long "13.349031"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f225 a ct:DrinkingFountain ;
+  rdfs:label " Alte Hellersdorfer Str. /Gut Hellersdorf"@de ;
+  ct:inDistrict district:marzahn-hellersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.53981204"^^xsd:decimal ;
+  geo:long "13.591908"^^xsd:decimal ;
+  ct:yearBuilt 2024 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f226 a ct:DrinkingFountain ;
+  rdfs:label "Am Eierhäuschen - Spreepark"@de ;
+  ct:inDistrict district:treptow-kopenick ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.48226504"^^xsd:decimal ;
+  geo:long "13.493651"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f227 a ct:DrinkingFountain ;
+  rdfs:label "Küstriner Str. 11 (ggü. Ehrenmal)"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.54034304"^^xsd:decimal ;
+  geo:long "13.489811"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f228 a ct:DrinkingFountain ;
+  rdfs:label "Quartiersplatz Kosmosviertel (Schönefelder Ch. 215)"@de ;
+  ct:inDistrict district:treptow-kopenick ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.40324404"^^xsd:decimal ;
+  geo:long "13.525957"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f229 a ct:DrinkingFountain ;
+  rdfs:label "Lehnepark (Parkstr.)"@de ;
+  ct:inDistrict district:tempelhof-schoneberg ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.46329304"^^xsd:decimal ;
+  geo:long "13.382991"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f230 a ct:DrinkingFountain ;
+  rdfs:label "Achillesstr./ Bucher Chaussee"@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.61807004"^^xsd:decimal ;
+  geo:long "13.487548"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f231 a ct:DrinkingFountain ;
+  rdfs:label "Park am Weissen See (Eingang Berliner Allee 125)"@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.55274104"^^xsd:decimal ;
+  geo:long "13.462334"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f232 a ct:DrinkingFountain ;
+  rdfs:label "Elberfelder Str./Essener Str."@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.52339104"^^xsd:decimal ;
+  geo:long "13.336133"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f233 a ct:DrinkingFountain ;
+  rdfs:label "Hagenower Ring (ggü. Nr. 9 Grünfläche)"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.57665204"^^xsd:decimal ;
+  geo:long "13.503449"^^xsd:decimal ;
+  ct:yearBuilt 2024 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f234 a ct:DrinkingFountain ;
+  rdfs:label "Wustrower Str./ Ribnitzer Str. 1"@de ;
+  ct:inDistrict district:lichtenberg ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.57179304"^^xsd:decimal ;
+  geo:long "13.503875"^^xsd:decimal ;
+  ct:yearBuilt 2024 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f235 a ct:DrinkingFountain ;
+  rdfs:label "Hanns-Braun-Str./Gutsmutsweg am (Olympiapark)"@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.51821404"^^xsd:decimal ;
+  geo:long "13.24128"^^xsd:decimal ;
+  ct:yearBuilt 2024 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f236 a ct:DrinkingFountain ;
+  rdfs:label "Gutsmuthsweg (Toilettenhaus Block 79)"@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.51437104"^^xsd:decimal ;
+  geo:long "13.243664"^^xsd:decimal ;
+  ct:yearBuilt 2024 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f237 a ct:DrinkingFountain ;
+  rdfs:label "Coubertinplatz/ Trakehner Allee (vor Wall-Toilette)"@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.51202004"^^xsd:decimal ;
+  geo:long "13.240515"^^xsd:decimal ;
+  ct:yearBuilt 2024 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f238 a ct:DrinkingFountain ;
+  rdfs:label "Uhlandstr./ Str. am Schoelerpark"@de ;
+  ct:inDistrict district:charlottenburg-wilmersdorf ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.48428704"^^xsd:decimal ;
+  geo:long "13.322137"^^xsd:decimal ;
+  ct:yearBuilt 2024 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f239 a ct:DrinkingFountain ;
+  rdfs:label "Gertrude-Classen-Platz/ Naugarder Str."@de ;
+  ct:inDistrict district:pankow ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.54483004"^^xsd:decimal ;
+  geo:long "13.437521"^^xsd:decimal ;
+  ct:yearBuilt 2023 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f240 a ct:DrinkingFountain ;
+  rdfs:label "Fischerhüttenstr./ Elvirastr."@de ;
+  ct:inDistrict district:steglitz-zehlendorf ;
+  ct:fountainType "Bituma" ;
+  geo:lat "52.44711404"^^xsd:decimal ;
+  geo:long "13.230222"^^xsd:decimal ;
+  ct:yearBuilt 2024 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f241 a ct:DrinkingFountain ;
+  rdfs:label "Soldiner Str./ Holzstr."@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.56092404"^^xsd:decimal ;
+  geo:long "13.378655"^^xsd:decimal ;
+  ct:yearBuilt 2024 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f242 a ct:DrinkingFountain ;
+  rdfs:label "Koloniestr. 133"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.55832004"^^xsd:decimal ;
+  geo:long "13.378683"^^xsd:decimal ;
+  ct:yearBuilt 2024 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
+fountain:f243 a ct:DrinkingFountain ;
+  rdfs:label "Soldiner Str. (neben Nr. 76)"@de ;
+  ct:inDistrict district:mitte ;
+  ct:fountainType "Kaiser" ;
+  geo:lat "52.55951504"^^xsd:decimal ;
+  geo:long "13.3831"^^xsd:decimal ;
+  ct:yearBuilt 2024 ;
+  prov:wasDerivedFrom ct:waterDataset2026 .
+
