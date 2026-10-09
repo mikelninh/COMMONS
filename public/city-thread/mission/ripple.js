@@ -200,7 +200,7 @@
    if(soundButton)soundButton.addEventListener('click',()=>{
      soundOn=!soundOn;
      soundButton.setAttribute('aria-pressed',String(soundOn));
-     soundButton.setAttribute('aria-label','Ton '+(soundOn?'einschalten':'ausschalten'));
+     soundButton.setAttribute('aria-label','Ton '+(soundOn?'ausschalten':'einschalten'));
      soundButton.textContent=soundOn?'♪ An':'♪ Aus';
      if(soundOn)playTone();
    });
