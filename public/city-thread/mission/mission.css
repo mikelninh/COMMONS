@@ -336,3 +336,11 @@ a{color:inherit}
 @media(max-width:620px){#basemap-map{height:480px;min-height:480px}}
 
 #review-hint.error{color:#B55445;font-weight:760;background:#FCEBE3;padding:9px 11px;border-radius:8px;border:1px solid #EAC0B3}
+
+
+/* Final viewport polish: map fills the entire studio area rather than ending
+   before the companion insight panel. Preserve the SVG viewBox projection. */
+.map-stage{min-height:560px;flex:1}
+#mission-map,#basemap-map{position:absolute;inset:0;width:100%;height:100%;min-height:0;max-height:none}
+@media(max-width:940px){.map-stage{min-height:525px;height:525px;flex:0 0 auto}}
+@media(max-width:620px){.map-stage{min-height:480px;height:480px;flex:0 0 auto}}
