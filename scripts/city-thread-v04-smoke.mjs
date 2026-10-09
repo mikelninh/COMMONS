@@ -40,6 +40,7 @@ try{
   const initial=await page.locator("#site-coordinate").textContent();
   await page.locator("#suggestion-buttons button").nth(1).click();
   assert.notEqual(await page.locator("#site-coordinate").textContent(),initial);
+  await page.locator("#layers-menu summary").click();
   await page.locator("label:has(#layer-heat)").click();
   assert.equal(await page.locator("#mission-map .heat-polygon").count(),0);
   await page.locator("label:has(#layer-heat)").click();
@@ -47,8 +48,20 @@ try{
   await page.locator("label:has(#layer-water)").click();
   assert.equal(await page.locator("#mission-map .fountain-dot").count(),0);
   await page.locator("label:has(#layer-water)").click();
+  await page.locator("#layers-menu summary").click();
   await page.locator("#radius").fill("400");
   assert.equal(await page.locator("#radius-label").textContent(),"400 m");
+ });
+ await check("Compare shows a real before and after map state",async()=>{
+  const before=await page.locator("#before-count").textContent(),after=await page.locator("#after-count").textContent();
+  await page.locator("#view-before").click();
+  assert.equal(await page.locator("#view-before").getAttribute("aria-pressed"),"true");
+  assert.equal(await page.locator("#candidate-hit").count(),0);
+  await page.locator("#view-after").click();
+  assert.equal(await page.locator("#view-after").getAttribute("aria-pressed"),"true");
+  assert.equal(await page.locator("#candidate-hit").count(),1);
+  assert.equal(await page.locator("#before-count").textContent(),before);
+  assert.equal(await page.locator("#after-count").textContent(),after);
  });
  await check("Click map to update site and trace its semantic evidence",async()=>{
   const initial=await page.locator("#site-coordinate").textContent();
@@ -59,6 +72,8 @@ try{
   assert.match(await page.locator("#evidence-triples").textContent(),/ct:nearestDistanceMeters/);
  });
  await check("Explicit human acknowledgement gates actual Markdown download",async()=>{
+  await page.locator("#jump-evidence").click();
+  assert.equal(await page.locator("#evidence").getAttribute("open"),"");
   await page.locator("#download-report").click();
   assert.match(await page.locator("#toast").textContent(),/bestätigen/);
   await page.locator("#review-checkbox").check();
@@ -68,6 +83,8 @@ try{
   const content=await readFile(local,"utf8");
   assert.match(content,/242 WFS-Inventarstandorte/);assert.match(content,/keine Bauempfehlung/);
   assert.match(content,/yes \(not official approval\)/);
+  await page.locator("#close-evidence").click();
+  assert.equal(await page.locator("#evidence").getAttribute("open"),null);
  });
  await check("Round-trip shared scenario and homepage discovery",async()=>{
   await page.locator("#copy-scenario").click();
@@ -88,6 +105,9 @@ try{
  await check("Mobile touch layout, source loading and no horizontal overflow",async()=>{
   await load(mobile);
   const widths=await mobile.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:innerWidth}));
+  assert.ok((await mobile.locator("#mission-map").boundingBox()).y<844,"Primary map must be visible without scrolling");
+  assert.equal(await mobile.locator("#mobile-feedback").isVisible(),true);
+  assert.match(await mobile.locator("#gain-overlay").textContent(),/\+\d+/);
   assert.ok(widths.scroll<=widths.viewport+2,JSON.stringify(widths));
   await mobile.locator("#suggestion-buttons button").nth(1).click();
   assert.match(await mobile.locator("#site-coordinate").textContent(),/52\./);
@@ -96,4 +116,4 @@ try{
  await mobileContext.close();await context.close();
 }finally{await browser.close();if(server)await new Promise(done=>server.close(done));}
 if(errors.length){console.error(JSON.stringify(errors,null,2));process.exitCode=1;}
-else console.log("CITY THREAD v0.4: 6/6 checks PASS (desktop and mobile).");
+else console.log("CITY THREAD v0.5: 7/7 checks PASS (desktop and mobile).");
