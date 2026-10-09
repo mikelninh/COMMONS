@@ -160,6 +160,8 @@ function pathOf(geo){
 }
 function renderMap(){
  const host=empty($('#mission-map'));
+ // Crop the decorative horizontal margins on small screens without changing map projection.
+ host.setAttribute('viewBox',window.innerWidth<=600?'155 0 410 700':'0 0 720 700');
  const defs=add(host,svg('defs'));
  const tile=add(defs,svg('pattern',{id:'paper-grid',width:42,height:42,patternUnits:'userSpaceOnUse'}));
  add(tile,svg('path',{d:'M42 0H0V42',fill:'none',stroke:'#ABB9BD','stroke-width':'1','stroke-opacity':'.20'}));
@@ -226,17 +228,23 @@ function renderMap(){
    });
    const label=add(host,svg('text',{x:Math.max(80,Math.min(W-80,x)),y:y-31,fill:'#3B47A8','font-weight':850,'font-size':12,'text-anchor':'middle','pointer-events':'none'}));label.textContent='DEIN BRUNNEN ✳';
  }
- const bar=$('.scale-mark');if(bar)bar.style.width=(200*PIX_PER_M).toFixed(1)+'px';
+ const bar=$('.scale-mark');if(bar){
+   const bounds=host.getBoundingClientRect(),view=host.viewBox.baseVal;
+   const zoom=Math.min(bounds.width/view.width,bounds.height/view.height);
+   bar.style.width=(200*PIX_PER_M*zoom).toFixed(1)+'px';
+ }
  $('#scale-caption').textContent='200 m';
 }
 function svgPoint(evt){
- const host=$('#mission-map'),rect=host.getBoundingClientRect();
+ const host=$('#mission-map'),rect=host.getBoundingClientRect(),view=host.viewBox.baseVal;
  if(!rect.width||!rect.height)return null;
- // SVG viewBox, uniform scaling with letterboxing (preserveAspectRatio=meet).
- const ratio=Math.min(rect.width/W,rect.height/H);
- const ox=(rect.width-W*ratio)/2,oy=(rect.height-H*ratio)/2;
- return {x:(evt.clientX-rect.left-ox)/ratio,y:(evt.clientY-rect.top-oy)/ratio};
+ // Account for the actual dynamic viewBox and preserveAspectRatio letterboxing.
+ const ratio=Math.min(rect.width/view.width,rect.height/view.height);
+ const ox=(rect.width-view.width*ratio)/2,oy=(rect.height-view.height*ratio)/2;
+ return {x:view.x+(evt.clientX-rect.left-ox)/ratio,y:view.y+(evt.clientY-rect.top-oy)/ratio};
 }
+let resizeRaf=0;
+window.addEventListener('resize',()=>{window.cancelAnimationFrame(resizeRaf);resizeRaf=requestAnimationFrame(()=>{if(S.loaded)renderMap()});});
 const canvas=$('#mission-map');
 canvas.addEventListener('pointerdown',e=>{
  if(!S.loaded||!(e.isPrimary??true)||e.button>0)return;
