@@ -18,7 +18,7 @@ const num=n=>Number(n).toLocaleString('de-DE');
 const fmt=n=>Number(n).toFixed(5);
 const B=[13.385,52.490,13.407,52.512];
 const CENTER_LAT=(B[1]+B[3])/2, RAD=Math.PI/180, METERS_PER_LAT=111132, METERS_PER_LON=111320*Math.cos(CENTER_LAT*RAD);
-const S={loaded:false,fountains:[],zones:[],grid:[],heated:[],radius:300,site:null,visibleHeat:true,visibleWater:true,visibleReach:true,suggestions:[],model:null,dragging:null,snapshot:'2026-10-09',count:0,review:false,history:[]};
+const S={loaded:false,fountains:[],zones:[],grid:[],heated:[],radius:300,site:null,visibleHeat:true,visibleWater:true,visibleReach:true,suggestions:[],model:null,dragging:null,snapshot:'2026-10-09',count:0,review:false,history:[],compare:'after',interacted:false,lastGain:null};
 const W=720,H=700,TOP=55,BOTTOM=642;
 const availableW=620,availableH=BOTTOM-TOP,zoneWidthM=(B[2]-B[0])*METERS_PER_LON,zoneHeightM=(B[3]-B[1])*METERS_PER_LAT;
 const PIX_PER_M=Math.min(availableW/zoneWidthM,availableH/zoneHeightM);
@@ -101,11 +101,21 @@ function record(action){
   S.history.push({action,at:new Date().toISOString(),site:S.site?{lon:+S.site.lon.toFixed(6),lat:+S.site.lat.toFixed(6)}:null,radius:S.radius});
   if(S.history.length>40)S.history.shift();
 }
+let paintFrame=0;
 function setSite(p,action='manual',log=true){
  if(!S.loaded)return;
  S.site={lon:clamp(p.lon,B[0],B[2]),lat:clamp(p.lat,B[1],B[3])};
  if(log)record(action);
- updateModel();
+ if(action!=='initial-demo-suggestion'&&action!=='shared-scenario-loaded'){
+    S.interacted=true;
+    $('#map-instruction')?.classList.add('hidden');
+ }
+ if(action==='map-drag'){
+   if(!paintFrame)paintFrame=requestAnimationFrame(()=>{paintFrame=0;updateModel();});
+ }else{
+   if(paintFrame){cancelAnimationFrame(paintFrame);paintFrame=0;}
+   updateModel();
+ }
 }
 function updateModel(){
  if(!S.loaded)return;
@@ -119,16 +129,28 @@ function updateModel(){
  $('#newly-covered').textContent=(S.site?'+'+num(M.gain):'—')+' Rasterpunkte neu in Reichweite';
  $('#uncovered-total').textContent=num(M.baseline)+' vorher ausserhalb';
  $('#improvement-bar').style.width=M.baseline>0?(100*M.gain/M.baseline).toFixed(1)+'%':'0%';
- let msg='Dieser Standort liegt ';const active=M.gain>0;
- if(!S.site)msg='Wähle einen Standort, um den Vergleich zu starten.';
- else if(active)msg='Im Modell liegen '+num(M.gain)+' zusätzliche Hitzeklassen-Rasterpunkte innerhalb deines '+S.radius+'-m-Luftlinienradius. Das ist ein Hinweis zur Prüfung, keine Aussage über Menschen oder Baukosten.';
- else msg='An dieser Position entstehen unter den gewählten Modellannahmen keine zusätzlich erreichten Hitzeklassen-Rasterpunkte. Probiere einen anderen Ort oder Radius.';
+ let msg='';const active=M.gain>0;
+ if(!S.site)msg='Tippe auf das Studiengebiet, um einen Standort zu setzen.';
+ else if(active)msg='+'+M.gain+' Rasterpunkte im angenommene '+S.radius+'-m-Luftlinienradius. Was dies für Menschen bedeutet, ist ungeprüft.';
+ else msg='In diesem Modell entsteht hier keine zusätzliche Abdeckung. Teste einen anderen Punkt.';
  $('#narrative').textContent=msg;
  $('#scenario-status').className='scenario-status '+(active?'ready':'warning');
  $('#scenario-status').lastElementChild.textContent=active?'Hypothese verändert · menschliche Prüfung erforderlich':'Keine belegte Verbesserung · Standort weiter prüfen';
  $('#report-coords').textContent=S.site?fmt(S.site.lat)+', '+fmt(S.site.lon):'—';
  $('#report-radius').textContent=S.radius+' m Luftlinie';
  $('#report-gain').textContent=S.site?'+'+M.gain+' von '+M.baseline+' Rasterpunkten':'—';
+ $('#gain-value').textContent=S.site?num(M.gain):'—';
+ $('#gain-overlay').textContent=S.site?'+'+num(M.gain):'+—';
+ const stage=$('#map-stage');stage.classList.toggle('is-before',S.compare==='before');
+ $('#view-before').classList.toggle('active',S.compare==='before');
+ $('#view-after').classList.toggle('active',S.compare==='after');
+ $('#view-before').setAttribute('aria-pressed',String(S.compare==='before'));
+ $('#view-after').setAttribute('aria-pressed',String(S.compare==='after'));
+ if(S.lastGain!==M.gain && S.interacted && S.compare==='after'){
+   const impact=$('.impact-box');impact.classList.remove('just-changed');void impact.offsetWidth;
+   impact.classList.add('just-changed');
+ }
+ S.lastGain=M.gain;
  const rows=empty($('#evidence-triples'));
  const triples=[
  ['rdf:type','ct:ScenarioProposal'],
@@ -192,7 +214,7 @@ function renderMap(){
  }
  const cells=add(host,svg('g',{'clip-path':'url(#study-clip)'}));
  for(const p of S.heated){
-   const baselineUncovered=p.nearest>S.radius,reachable=baselineUncovered&&S.site&&dist(p,S.site)<=S.radius;
+   const baselineUncovered=p.nearest>S.radius,reachable=baselineUncovered&&S.compare==='after'&&S.site&&dist(p,S.site)<=S.radius;
    if(!baselineUncovered&&!reachable)continue;
    const xy=pointCoord(p.lon,p.lat);
    add(cells,svg('circle',{cx:xy[0],cy:xy[1],r:reachable?4.1:2.25,fill:reachable?'#4D58C9':'#A7694F','fill-opacity':reachable?'.92':'.31',stroke:reachable?'#fff': 'none','stroke-width':1.1,class:'sample-dot'}));
@@ -207,7 +229,7 @@ function renderMap(){
      if(f.r)add(pts,svg('circle',{cx:xy[0],cy:xy[1],r:8.4,fill:'none',stroke:'#BA6955','stroke-width':1.2,'stroke-dasharray':'2 2','pointer-events':'none'}));
    }
  }
- if(S.site){
+ if(S.site&&S.compare==='after'){
    const [x,y]=pointCoord(S.site.lon,S.site.lat);
    const proposal=add(host,svg('g',{'pointer-events':'none'}));
    if(S.visibleReach){
@@ -249,8 +271,10 @@ const canvas=$('#mission-map');
 canvas.addEventListener('pointerdown',e=>{
  if(!S.loaded||!(e.isPrimary??true)||e.button>0)return;
  const p=svgPoint(e);if(!p)return;
- if(p.x<left||p.x>right||p.y<top||p.y>bottom)return;
- e.preventDefault();S.dragging=e.pointerId;
+ if(p.x<left||p.x>right||p.y<top||p.y>bottom){toast('Standort bitte innerhalb des hervorgehobenen Studiengebiets setzen.');return;}
+ e.preventDefault();
+ if(S.compare==='before'){S.compare='after';}
+ S.dragging=e.pointerId;
  try{canvas.setPointerCapture(e.pointerId)}catch{}
  setSite(invXY(p.x,p.y),'map-place');
 });
@@ -259,7 +283,7 @@ canvas.addEventListener('pointermove',e=>{
  const p=svgPoint(e);if(!p)return;
  setSite(invXY(p.x,p.y),'map-drag',false);
 });
-function endDrag(e){if(S.dragging!==e.pointerId)return;S.dragging=null;record('map-drag-complete');try{canvas.releasePointerCapture(e.pointerId)}catch{}}
+function endDrag(e){if(S.dragging!==e.pointerId)return;S.dragging=null;record('map-drag-complete');updateModel();try{canvas.releasePointerCapture(e.pointerId)}catch{}}
 canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);
 $('#layer-heat').addEventListener('change',e=>{S.visibleHeat=e.target.checked;renderMap()});
 $('#layer-water').addEventListener('change',e=>{S.visibleWater=e.target.checked;renderMap()});
@@ -269,14 +293,36 @@ $('#radius').addEventListener('input',e=>{
  if(!S.loaded){$('#radius-label').textContent=S.radius+' m';return;}
  pickSuggestions();record('radius-changed');updateModel();
 });
-$('#about-metric').addEventListener('click',()=>{$('#methodology-note').scrollIntoView({behavior:'smooth',block:'center'});toast('90-m-Rasterpunkte, keine Einwohnerzahlen.')});
+function openEvidence(scrollToMethod=false){
+ const d=$('#evidence');if(!d.open)d.showModal();
+ if(scrollToMethod)requestAnimationFrame(()=>$('#methodology-note').scrollIntoView({behavior:'smooth',block:'center'}));
+}
+$('#about-metric').addEventListener('click',()=>openEvidence(true));
+$('#read-method').addEventListener('click',()=>openEvidence(true));
+$('#jump-evidence').addEventListener('click',()=>openEvidence(false));
+$('#close-evidence').addEventListener('click',()=>$('#evidence').close());
+$('#evidence').addEventListener('click',e=>{if(e.target===$('#evidence'))$('#evidence').close()});
+$('#dismiss-tip').addEventListener('click',()=>{$('#map-instruction').classList.add('hidden');});
+function compare(mode){
+ S.compare=mode;record('compare-'+mode);
+ $('#map-stage').classList.toggle('is-before',mode==='before');
+ $('#view-before').classList.toggle('active',mode==='before');$('#view-after').classList.toggle('active',mode==='after');
+ $('#view-before').setAttribute('aria-pressed',String(mode==='before'));
+ $('#view-after').setAttribute('aria-pressed',String(mode==='after'));
+ renderMap();
+}
+$('#view-before').addEventListener('click',()=>compare('before'));
+$('#view-after').addEventListener('click',()=>compare('after'));
+document.addEventListener('keydown',e=>{
+ if(e.key==='Escape')$('#layers-menu').open=false;
+});
+document.addEventListener('click',e=>{const d=$('#layers-menu');if(d.open&&!d.contains(e.target))d.open=false});
 $('#reset-scenario').addEventListener('click',()=>{
- S.radius=300;$('#radius').value='300';S.site=S.suggestions[0]??null;
+ S.radius=300;S.compare='after';$('#radius').value='300';S.site=S.suggestions[0]??null;
  record('reset');pickSuggestions();if(!S.site&&S.suggestions.length)S.site=S.suggestions[0];
  updateModel();toast('Szenario zurückgesetzt.');
 });
-$('#jump-evidence').addEventListener('click',()=>$('#evidence').scrollIntoView({behavior:'smooth',block:'start'}));
-$('#begin-mission').addEventListener('click',()=>$('#mission-workbench').scrollIntoView({behavior:'smooth',block:'start'}));
+
 $('#review-checkbox').addEventListener('change',e=>{S.review=e.target.checked;record(e.target.checked?'human-reviewed-disclaimer':'review-unchecked');$('#review-hint').textContent=e.target.checked?'✓ Kenntnisnahme im Browser protokolliert. Keine Einreichung, kein offizieller Freigabeschritt.':'Ein Mensch muss diesen Vorschlag beurteilen. Der Bericht wird ausschliesslich lokal erstellt und nirgendwo eingereicht.'});
 function scenarioUrl(){
  const u=new URL(location.href);u.searchParams.delete('lon');u.searchParams.delete('lat');u.searchParams.delete('radius');
@@ -288,7 +334,7 @@ function reportMarkdown(){
  const site=S.site;
  const now=new Date().toISOString();
  const answer=[
- '# CITY THREAD v0.4 | THE MISSING FOUNTAIN',
+ '# CITY THREAD v0.5 | THE MISSING FOUNTAIN',
  '',
  '**Unabhängiger, hypothetischer Untersuchungsentwurf – keine Bauempfehlung und keine Einreichung.**',
  '',
@@ -365,7 +411,7 @@ function loadError(error){
  $('#map-data-status').textContent='QUELLE NICHT VERFÜGBAR';
  $('#narrative').textContent='Wir behaupten ohne Quelldaten keine Verbesserung. Bitte die Seite später erneut laden.';
  empty($('#suggestion-buttons')).appendChild(el('p','Datenabruf fehlgeschlagen.','loading'));
- $('#begin-mission').disabled=true;$('#download-report').disabled=true;
+ $('#download-report').disabled=true;
 }
 async function boot(){
  try{
