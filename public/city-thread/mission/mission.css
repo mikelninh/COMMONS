@@ -311,3 +311,11 @@ button[disabled]{opacity:.55;cursor:not-allowed}
 @media(prefers-reduced-motion:reduce){
  *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
+
+/* Screenshot-driven refinement: no stretched blank space below the map card. */
+@media(min-width:871px){.map-lab{align-self:start}}
+.map-controls label:focus-within{outline:2px solid #4C57C2;outline-offset:3px}
+@media(max-width:600px){
+  .map-location-pill{letter-spacing:.6px}
+  .map-legend{right:7px;top:52px;max-width:135px}
+}
