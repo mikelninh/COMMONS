@@ -101,11 +101,10 @@ function effectTradeoff(c){
  const a=s.byId.get('A'),b=s.byId.get('B'),g=s.byId.get('C');
  if(c.id===leader.id){
    const others=[];
-   if(c.id!=='A')others.push('A erreicht '+(a.gain-c.gain)+' zusätzliche Rasterpunkte mehr'.replace('+-','-'));
-   if(c.id!=='B')others.push('B erreicht '+(b.severe-c.severe)+' Punkte der Klasse „sehr ungünstig“ mehr'.replace('+-','-'));
-   if(c.id!=='C')others.push('C hat einen '+F(g.nearestMeters-c.nearestMeters)+' m grösseren Abstand zum nächsten Inventarbrunnen');
-   const useful=others.filter(x=>!x.includes(' -')&&!x.includes(' 0 '));
-   return 'Dein Kriterium spricht im Modell für '+c.id+'. Aber auch andere Werte zählen: '+(useful[0]??'Die anderen Orte haben andere Stärken')+'.';
+   if(c.id!=='A'&&a.gain>c.gain)others.push('A erreicht '+(a.gain-c.gain)+' zusätzliche Modellpunkte mehr');
+   if(c.id!=='B'&&b.severe>c.severe)others.push('B erreicht '+(b.severe-c.severe)+' weitere „sehr ungünstig“-Punkte');
+   if(c.id!=='C'&&g.nearestMeters>c.nearestMeters)others.push('C liegt '+F(g.nearestMeters-c.nearestMeters)+' m weiter vom nächsten inventarisierten Brunnen entfernt');
+   return 'Dein Kriterium spricht im Modell für '+c.id+'. Aber andere Kandidaten haben andere Stärken: '+(others[0]??'Nicht alle Prüffragen sind schon beantwortet')+'.';
  }
  const delta=metricFor(leader,s.priority)-metricFor(c,s.priority);
  const units=s.priority==='gap'?' Meter':' Rasterpunkte';
