@@ -4,11 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#f9f7f1">
-<meta name="description" content="CITY THREAD v0.5 — Berühre die Stadt. Setze einen hypothetischen Brunnen und sieh direkt, was sich in einem transparenten Modell verändert.">
-<meta property="og:title" content="CITY THREAD · Berühre die Stadt">
+<meta name="description" content="CITY THREAD v0.6 — The Ripple. Berühre die Stadt und vergleiche zwei hypothetische Brunnenstandorte auf der Basis echter Berliner Geodaten.">
+<meta property="og:title" content="CITY THREAD v0.6 · The Ripple ✳">
 <meta property="og:description" content="Eine Berührung. Ein neuer Brunnen. Ein überprüfbares Was-wäre-wenn-Experiment mit echten Berliner Daten.">
-<title>CITY THREAD v0.5 · Berühre die Stadt</title>
+<title>CITY THREAD v0.6 · The Ripple</title>
 <link rel="stylesheet" href="./mission.css">
+<script defer src="./ripple.js"></script>
 <script defer src="./mission.js"></script>
 </head>
 <body>
@@ -29,9 +30,9 @@
 
 <main class="main" id="mission-workbench">
  <div class="intro">
-  <div class="intro-left"><span class="eyebrow"><span class="asterisk">✳</span> THE MISSING FOUNTAIN <span class="divider-mark">/</span> EXPERIENCE 0.5</span>
-   <h1>Wo würdest du <em>einen Brunnen</em> setzen?</h1>
-   <p>Berühre die Karte. Bewege den Punkt. Beobachte, was sich verändert.</p>
+  <div class="intro-left"><span class="eyebrow"><span class="asterisk">✳</span> THE MISSING FOUNTAIN <span class="divider-mark">/</span> EXPERIENCE 0.6</span>
+   <h1>Eine Idee. <em>Ein Ripple.</em></h1>
+   <p>Zieh einen Brunnen. Sieh reale Modellverbindungen entstehen. Vergleiche zwei Standorte.</p>
   </div>
   <div class="intro-right"><span class="source-dot"></span> <span>2 echte Berliner Datensätze</span><span class="intro-divider">·</span><span>1 hypothetisches Experiment</span></div>
  </div>
@@ -39,7 +40,7 @@
  <section class="workspace" aria-label="Interaktives Stadtstudio">
   <div class="map-area">
    <div class="map-toolbar">
-    <div class="map-heading"><span class="map-kicker">DEIN SPIELFELD</span><strong>Kreuzberg <span class="asterisk">✳</span></strong><span class="map-caption">Berlin · historischer Klima-Datenausschnitt 2022</span></div>
+    <div class="map-heading"><span class="map-kicker">THE RIPPLE / LIVE SCENARIO</span><strong>Kreuzberg <span class="asterisk">✳</span></strong><span class="map-caption">Berlin · historischer Klima-Datenausschnitt 2022</span></div>
     <div class="map-tool-actions">
      <details class="layers-menu" id="layers-menu">
       <summary aria-label="Kartenebenen wählen"><span class="layers-icon">◈</span> Ebenen <span class="chevron">⌄</span></summary>
@@ -58,9 +59,12 @@
     <svg id="basemap-map" viewBox="0 0 720 700" aria-hidden="true" focusable="false"></svg>
     <svg id="mission-map" viewBox="0 0 720 700" role="img" tabindex="0" aria-label="Interaktive georeferenzierte Karte. Tippe oder ziehe den hypothetischen Trinkbrunnen. Pfeiltasten verschieben den markierten Standort." aria-describedby="map-guidance"></svg>
     <div class="map-fade" aria-hidden="true"></div>
-    <div class="map-instruction" id="map-guidance"><span class="tap-glyph" aria-hidden="true">✳</span><span><strong>Du bist dran.</strong> Tippe auf die Karte oder ziehe den Korallenpunkt.</span><button id="dismiss-tip" aria-label="Hinweis schliessen" type="button">×</button></div>
+    <div class="map-instruction" id="map-guidance"><span class="tap-glyph" aria-hidden="true">✳</span><span><strong>Du bist dran.</strong> Setze Brunnen A – und beobachte die Verbindungen.</span><button id="dismiss-tip" aria-label="Hinweis schliessen" type="button">×</button></div>
     <div class="map-corner-label">STUDY AREA · BERLIN</div>
     <div class="map-impact-peek" id="mobile-feedback" aria-live="polite"><span>DEIN MODELL-EFFEKT</span><strong id="gain-overlay">+—</strong><small>Rasterpunkte in Reichweite</small></div>
+    <div class="ripple-message" id="ripple-message" aria-live="polite" aria-atomic="true" hidden>
+      <span class="ripple-mark">✳</span><strong id="ripple-message-text">Ein kleiner Impuls.</strong><span>✦</span>
+    </div>
     <div class="compare-dock" role="group" aria-label="Kartenansicht vergleichen">
       <span class="dock-label">VERGLEICHEN</span>
       <div class="compare-toggle"><button type="button" id="view-before" aria-pressed="false">Vorher</button><button type="button" id="view-after" aria-pressed="true" class="active">Mit deiner Idee <span>✳</span></button></div>
@@ -72,9 +76,9 @@
   </div>
 
   <aside class="idea-panel" aria-label="Direkte Auswirkungen deines Szenarios">
-   <div class="idea-top"><span class="smallcaps">DEINE IDEE</span><span class="step-chip">01 / WAS WÄRE WENN?</span></div>
-   <h2>Ein Punkt.<br><em>Neue Perspektiven.</em></h2>
-   <p class="idea-subtitle">Setze einen möglichen Brunnen. Wir zeigen, wie sich die modellhafte Luftliniennähe verändert.</p>
+   <div class="idea-top"><span class="smallcaps">DEIN EXPERIMENT</span><span class="step-chip">01 / WAS WÄRE WENN?</span></div>
+   <h2>Zieh einen Punkt.<br><em>Sieh, was passiert.</em></h2>
+   <p class="idea-subtitle">Jede sichtbare Verbindung führt zu einem berechneten Rasterpunkt. Der Radius ist ein Modell, keine Gehstrecke.</p>
    <div id="scenario-status" class="scenario-status"><span class="status-dot"></span><span>Lade echte Geodaten …</span></div>
 
    <div class="impact-box">
@@ -86,8 +90,26 @@
     <div class="impact-meta"><span id="newly-covered">— neue Rasterpunkte</span><span id="uncovered-total">— vorher ausserhalb</span></div>
    </div>
 
+   <section class="duel-section" aria-labelledby="duel-heading">
+    <div class="duel-heading-row">
+      <span id="duel-heading" class="duel-eyebrow"><span>✳</span> SCENARIO DUEL</span>
+      <button id="duel-toggle" type="button" aria-pressed="false" aria-controls="duel-board">Zweiten Ort vergleichen <span>↗</span></button>
+    </div>
+    <div id="duel-board" class="duel-board" hidden>
+      <div class="duel-choices" role="group" aria-label="Welchen Standort verschieben?">
+        <button id="duel-a" type="button" aria-pressed="false">
+          <span class="duel-letter a">A</span><span class="duel-choice-copy"><strong id="duel-score-a">+—</strong><small>Rasterpunkte</small></span><span class="duel-edit">↗</span>
+        </button>
+        <button id="duel-b" type="button" aria-pressed="false">
+          <span class="duel-letter b">B</span><span class="duel-choice-copy"><strong id="duel-score-b">+—</strong><small>Rasterpunkte</small></span><span class="duel-edit">↗</span>
+        </button>
+      </div>
+      <div class="duel-result" id="duel-verdict" aria-live="polite">Zwei Szenarien – dieselbe Ausgangslage.</div>
+      <div class="duel-caption">Wähle A oder B und verschiebe den Punkt. Beide werden einzeln mit dem Ausgangszustand verglichen.</div>
+    </div>
+   </section>
    <section class="places-section">
-    <div class="subheading"><span>FANG HIER AN</span><span class="subheading-secondary">3 VORSCHLÄGE ZUM TESTEN</span></div>
+    <div class="subheading"><span>FANG HIER AN</span><span class="subheading-secondary">3 TESTPUNKTE</span></div>
     <div id="suggestion-buttons" class="suggestion-buttons" aria-label="Drei modellbasierte Einstiegspunkte"></div>
    </section>
 
@@ -137,7 +159,7 @@
  </dialog>
 
  <div id="toast" class="toast" role="status" aria-live="polite"></div>
- <footer class="footer"><span>CITY THREAD <span class="asterisk">✳</span> · OPEN CIVIC EXPERIMENT · V0.5</span><span>© OpenStreetMap contributors (Basiskarte, falls geladen) · Land Berlin / Berliner Wasserbetriebe (Fachdaten)</span><a href="https://github.com/mikelninh/COMMONS/tree/main/public/city-thread" target="_blank" rel="noopener noreferrer">Open source ↗</a></footer>
+ <footer class="footer"><span>CITY THREAD <span class="asterisk">✳</span> · OPEN CIVIC EXPERIMENT · V0.6</span><span>© OpenStreetMap contributors (Basiskarte, falls geladen) · Land Berlin / Berliner Wasserbetriebe (Fachdaten)</span><a href="https://github.com/mikelninh/COMMONS/tree/main/public/city-thread" target="_blank" rel="noopener noreferrer">Open source ↗</a></footer>
 </main>
 </body>
 </html>
