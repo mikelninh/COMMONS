@@ -1,0 +1,952 @@
+@prefix ct: <https://citythread.example/ontology#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# Real WFS data provenance. Geometry arrays are preserved in linked heat-N.json snapshots.
+# The classification is the historical urban-climate overall settlement appraisal from 2022.
+# Spatial relations mean a polygon INTERSECTS the rectangular study window, not wholly inside it.
+ct:kreuzbergStudy2026 a ct:StudyArea ;
+  rdfs:label "Kreuzberg und Umgebung — Studienfenster"@de ;
+  ct:bbox "13.385,52.490,13.407,52.512" ;
+  ct:gridStepMeters 90 ;
+  ct:isSimulation true .
+ct:heatDataset2022 a dcat:Dataset ;
+  dct:title "Klimabewertungskarten 2022 — Siedlungsflächen, Gesamtbewertung"@de ;
+  dct:source <https://daten.berlin.de/datensaetze/klimabewertungskarten-2022-umweltatlas-wfs-ac0751a2> ;
+  dct:license <https://www.govdata.de/dl-de/zero-2-0> ;
+  ct:downloadDate "2026-10-09"^^xsd:date ;
+  ct:recordCount 154 .
+ct:waterDataset2026 a dcat:Dataset ;
+  dct:title "Trinkwasserbrunnen Berlin — WFS Snapshot"@de ;
+  dct:source <https://daten.berlin.de/datensaetze/trinkwasserbrunnen-wfs-47dba2c3> ;
+  dct:license <https://www.govdata.de/dl-de/zero-2-0> ;
+  ct:downloadDate "2026-10-09"^^xsd:date ;
+  ct:recordCount 242 .
+
+ct:zone0101030061000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101030061000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030071000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101030071000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030071000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101030071000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030071000300 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101030071000300" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030091000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0101030091000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030101000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0101030101000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030111000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0101030111000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030121000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0101030121000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030151000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0101030151000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030171000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101030171000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030311000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0101030311000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030321000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0101030321000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030331000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101030331000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030341000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0101030341000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030471000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101030471000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030481000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101030481000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030631000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101030631000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030641000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101030641000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030661000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101030661000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030661000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0101030661000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030671000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0101030671000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030691000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101030691000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030691000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101030691000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030701000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0101030701000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030721000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0101030721000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030731000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101030731000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030741000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101030741000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030751000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101030751000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030761000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0101030761000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101030771000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0101030771000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101036081000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0101036081000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101036091000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101036091000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101036091000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101036091000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101036101000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101036101000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101036101000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101036101000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101036101000300 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0101036101000300" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101036131000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101036131000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101036201000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101036201000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101036211000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101036211000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101036231000500 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0101036231000500" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101036231000600 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0101036231000600" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101036231000700 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0101036231000700" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101036241000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0101036241000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101040021000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0101040021000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101040021000300 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0101040021000300" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101040051000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101040051000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101040081000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0101040081000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101040091000400 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101040091000400" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0101046071000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0101046071000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120031000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600120031000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120041000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600120041000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120051000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0600120051000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120091000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600120091000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120101000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600120101000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120101000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600120101000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120111000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600120111000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120121000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600120121000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120151000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600120151000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120161000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600120161000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120171000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600120171000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120171000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600120171000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120181000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600120181000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120191000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600120191000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120211000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0600120211000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120241000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0600120241000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120251000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600120251000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120281000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600120281000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120311000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600120311000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120361000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600120361000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120411000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600120411000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600120501000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600120501000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126011000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600126011000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126021000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600126021000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126031000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600126031000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126031000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600126031000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126061000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600126061000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126061000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0600126061000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126061000300 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600126061000300" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126081000400 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600126081000400" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126081000500 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600126081000500" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126091000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600126091000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126151000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600126151000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126161000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600126161000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126221000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600126221000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126221000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600126221000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126221000300 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600126221000300" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126261000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600126261000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126271000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600126271000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126331000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600126331000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600126331000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600126331000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600130381000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600130381000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600130391000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600130391000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600130511000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600130511000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600130601000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600130601000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600130631000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600130631000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600130671000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600130671000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600130681000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600130681000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600130691000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600130691000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600136041000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600136041000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600136051000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600136051000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600136071000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600136071000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600136071000300 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600136071000300" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600136071000400 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0600136071000400" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600136201000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600136201000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600136201000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600136201000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600136241000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600136241000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600136241000300 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600136241000300" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161581000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0600161581000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161631000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0600161631000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161641000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600161641000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161651000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600161651000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161661000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600161661000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161671000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600161671000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161681000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600161681000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161691000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600161691000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161741000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600161741000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161751000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600161751000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161761000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600161761000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161811000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0600161811000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161821000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0600161821000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161831000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600161831000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161831000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600161831000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161841000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600161841000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161851000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600161851000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161861000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600161861000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161871000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0600161871000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161881000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600161881000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600161891000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0600161891000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600162151000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0600162151000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600162151000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600162151000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600162161000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600162161000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600162171000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600162171000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600162181000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0600162181000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600162191000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600162191000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600162201000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600162201000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600162221000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0600162221000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600162251000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600162251000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600166101000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600166101000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600166101000300 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600166101000300" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600166121000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600166121000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600166131000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600166131000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600166181000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "sehr ungünstig"@de ;
+  ct:featureId "0600166181000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600166191000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600166191000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600166231000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600166231000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600171521000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600171521000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600171531000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600171531000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600171621000100 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600171621000100" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600171621000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600171621000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600171621000300 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600171621000300" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600172051000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600172051000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600172091000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600172091000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600172131000200 a ct:HeatAssessmentZone ;
+  ct:heatClass "weniger günstig"@de ;
+  ct:featureId "0600172131000200" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600172141000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600172141000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
+ct:zone0600176171000000 a ct:HeatAssessmentZone ;
+  ct:heatClass "ungünstig"@de ;
+  ct:featureId "0600176171000000" ;
+  ct:intersectsStudyArea ct:kreuzbergStudy2026 ;
+  prov:wasDerivedFrom ct:heatDataset2022 .
+
