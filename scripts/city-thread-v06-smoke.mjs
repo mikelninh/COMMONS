@@ -77,7 +77,18 @@ try{
   assert.equal(await page.locator("#duel-a").getAttribute("aria-pressed"),"true");
   assert.equal(await page.locator("#gain-value").textContent(),String(a));
  });
+ await page.evaluate(()=>window.scrollTo(0,0));
  await page.screenshot({path:join(screenshots,"city-thread-v06-"+label+"-duel-desktop.png"),fullPage:true});
+ await check("Other marker selects its slot and keyboard moves the active proposal",async()=>{
+  await page.locator("#duel-b").click();
+  assert.equal(await page.locator("#duel-b").getAttribute("aria-pressed"),"true");
+  await page.locator("#mission-map .duel-other-hit").click({force:true});
+  assert.equal(await page.locator("#duel-a").getAttribute("aria-pressed"),"true");
+  const before=await page.locator("#site-coordinate").textContent();
+  await page.locator("#candidate-hit").focus();
+  await page.keyboard.press("ArrowRight");
+  assert.notEqual(await page.locator("#site-coordinate").textContent(),before);
+ });
  await check("Before/after hides proposals, return restores A and B",async()=>{
   await page.locator("#view-before").click();
   assert.equal(await page.locator("#candidate-hit").count(),0);
@@ -137,10 +148,11 @@ try{
   assert.equal(await mobile.locator("#duel-board").isVisible(),true);
   await mobile.locator("#duel-a").click();
   assert.equal(await mobile.locator("#duel-a").getAttribute("aria-pressed"),"true");
+  await mobile.evaluate(()=>window.scrollTo(0,0));
   await mobile.screenshot({path:join(screenshots,"city-thread-v06-"+label+"-mobile.png"),fullPage:true});
   await mobileCtx.close();
  });
  await desktopContext.close();
 }finally{await browser.close();if(server)await new Promise(done=>server.close(done))}
 if(errors.length){console.error(JSON.stringify(errors,null,2));process.exitCode=1}
-else console.log("CITY THREAD v0.6: 7/7 browser checks PASS.");
+else console.log("CITY THREAD v0.6: 8/8 browser checks PASS.");
