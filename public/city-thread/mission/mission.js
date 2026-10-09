@@ -122,7 +122,7 @@ function updateModel(){
  S.model=model(S.site);
  const M=S.model,zone=M.zone;
  $('#site-coordinate').textContent=S.site?fmt(S.site.lat)+'° N, '+fmt(S.site.lon)+'° E':'Noch kein Standort';
- $('#site-class').textContent=zone?'Klimaklasse am Punkt: '+zone.heat+' · Bewertung 2022':'Kein Siedlungs-Klimapolygon am Punkt – Aussage unvollständig';
+ $('#site-class').textContent=zone?'Historische Klimaklasse: '+zone.heat+' · 2022':'Ausserhalb bewerteter Siedlungsflächen';
  $('#radius-label').textContent=S.radius+' m';
  $('#before-count').textContent=num(M.baseline);
  $('#after-count').textContent=S.site?num(M.after):'—';
@@ -180,17 +180,49 @@ function pathOf(geo){
  }
  return out;
 }
+
+/* Optional georeferenced map context, © OpenStreetMap contributors.
+   The WFS overlays and all calculations are valid even if tiles cannot load.
+   Only tiles visible within this viewport are requested, with no prefetching. */
+function initBasemap(){
+ const host=empty($('#basemap-map'));
+ const z=15,scale=Math.pow(2,z);
+ const tx=lon=>(lon+180)/360*scale;
+ const ty=lat=>(1-Math.asinh(Math.tan(lat*RAD))/Math.PI)/2*scale;
+ const lonOf=x=>x/scale*360-180;
+ const latOf=y=>Math.atan(Math.sinh(Math.PI*(1-2*y/scale)))/RAD;
+ const westLon=B[0]-(left/(METERS_PER_LON*PIX_PER_M));
+ const eastLon=B[0]+(W-left)/(METERS_PER_LON*PIX_PER_M);
+ const northLat=B[3]+top/(METERS_PER_LAT*PIX_PER_M);
+ const southLat=B[3]-(H-top)/(METERS_PER_LAT*PIX_PER_M);
+ const xmin=Math.floor(tx(westLon)),xmax=Math.ceil(tx(eastLon));
+ const ymin=Math.floor(ty(northLat)),ymax=Math.ceil(ty(southLat));
+ for(let x=xmin;x<=xmax;x++)for(let y=ymin;y<=ymax;y++){
+   if(x<0||x>=scale||y<0||y>=scale)continue;
+   const leftX=xCoord(lonOf(x)),rightX=xCoord(lonOf(x+1));
+   const topY=yCoord(latOf(y)),bottomY=yCoord(latOf(y+1));
+   const image=add(host,svg('image',{x:leftX,y:topY,width:rightX-leftX,height:bottomY-topY,
+    href:'https://tile.openstreetmap.org/'+z+'/'+x+'/'+y+'.png',
+    preserveAspectRatio:'none','pointer-events':'none',class:'osm-tile'}));
+   // No analytics, API keys, bulk prefetches or cross-origin canvas readback.
+ }
+ syncBasemap();
+}
+function syncBasemap(){
+ const bg=$('#basemap-map'),front=$('#mission-map');
+ if(bg&&front)bg.setAttribute('viewBox',front.getAttribute('viewBox'));
+}
+
 function renderMap(){
  const host=empty($('#mission-map'));
  // Crop the decorative horizontal margins on small screens without changing map projection.
  host.setAttribute('viewBox',window.innerWidth<=600?'155 0 410 700':'0 0 720 700');
+ syncBasemap();
  const defs=add(host,svg('defs'));
  const tile=add(defs,svg('pattern',{id:'paper-grid',width:42,height:42,patternUnits:'userSpaceOnUse'}));
- add(tile,svg('path',{d:'M42 0H0V42',fill:'none',stroke:'#ABB9BD','stroke-width':'1','stroke-opacity':'.20'}));
+ add(tile,svg('path',{d:'M42 0H0V42',fill:'none',stroke:'#ABB9BD','stroke-width':'1','stroke-opacity':'.09'}));
  add(host,svg('rect',{width:W,height:H,fill:'url(#paper-grid)'}));
- // Decorative rings and ruled lines are NOT street data.
- const backdrop=add(host,svg('g',{fill:'none',stroke:'#C3C1B6','stroke-opacity':'.45'}));
- for(const radius of [100,160,220,290])add(backdrop,svg('ellipse',{cx:W/2,cy:H/2,rx:radius,ry:radius*.73,'stroke-dasharray':'2 11','stroke-width':1.2}));
+ // Street context is optional and never used in the model.
  const halo=add(host,svg('rect',{x:left,y:top,width:BOXW,height:BOXH,fill:'#FAF8F0','fill-opacity':'.49',stroke:'#9CA6AF','stroke-width':1.5,'stroke-dasharray':'6 7',rx:2}));
  const clip=add(defs,svg('clipPath',{id:'study-clip'}));add(clip,svg('rect',{x:left,y:top,width:BOXW,height:BOXH}));
  const north=add(host,svg('text',{x:left+7,y:top-13,fill:'#647682','font-size':10,'font-weight':'750','letter-spacing':'2'}));north.textContent='STUDY WINDOW';
@@ -429,7 +461,7 @@ async function boot(){
    if(!f.every(p=>Number.isFinite(p.lon)&&Number.isFinite(p.lat)&&p.n&&p.d)||!zones.every(z=>z.g&&z.heat&&z.id))
      throw Error('Malformed WFS snapshot');
    S.fountains=f;S.zones=zones;S.loaded=true;
-   makeGrid();const fromLink=parseLink();
+   makeGrid();initBasemap();const fromLink=parseLink();
    pickSuggestions();
    S.site=fromLink??(S.suggestions[0]?{lon:S.suggestions[0].lon,lat:S.suggestions[0].lat}:null);
    record(fromLink?'shared-scenario-loaded':'initial-demo-suggestion');
