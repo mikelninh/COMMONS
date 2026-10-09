@@ -1,0 +1,40 @@
+@prefix ct: <https://citythread.example/ontology#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+# CITY THREAD v0.4: human-readable declared data quality rules.
+# Executed by CI using pySHACL (see scripts/city-thread-v04-verify.py).
+
+ct:StudyAreaShape a sh:NodeShape ;
+  sh:targetClass ct:StudyArea ;
+  sh:property [ sh:path rdfs:label ; sh:minCount 1 ; sh:datatype rdf:langString ] ;
+  sh:property [ sh:path ct:bbox ; sh:minCount 1 ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path ct:gridStepMeters ; sh:minCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 30 ; sh:maxInclusive 500 ] .
+
+ct:HeatAssessmentShape a sh:NodeShape ;
+  sh:targetClass ct:HeatAssessmentZone ;
+  sh:property [ sh:path ct:heatClass ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:in ( "sehr ungünstig"@de "ungünstig"@de "weniger günstig"@de "günstig"@de ) ] ;
+  sh:property [ sh:path ct:featureId ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path ct:intersectsStudyArea ; sh:minCount 1 ; sh:maxCount 1 ; sh:class ct:StudyArea ] ;
+  sh:property [ sh:path prov:wasDerivedFrom ; sh:minCount 1 ; sh:maxCount 1 ; sh:class dcat:Dataset ] .
+
+ct:WaterPointShape a sh:NodeShape ;
+  sh:targetClass ct:DrinkingFountain ;
+  sh:property [ sh:path rdfs:label ; sh:minCount 1 ; sh:datatype rdf:langString ] ;
+  sh:property [ sh:path ct:inDistrict ; sh:minCount 1 ; sh:class ct:District ] ;
+  sh:property [ sh:path geo:lat ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive -90 ; sh:maxInclusive 90 ] ;
+  sh:property [ sh:path geo:long ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive -180 ; sh:maxInclusive 180 ] ;
+  sh:property [ sh:path prov:wasDerivedFrom ; sh:minCount 1 ; sh:maxCount 1 ; sh:class dcat:Dataset ] .
+
+ct:DatasetShape a sh:NodeShape ;
+  sh:targetClass dcat:Dataset ;
+  sh:property [ sh:path dct:source ; sh:minCount 1 ; sh:nodeKind sh:IRI ] ;
+  sh:property [ sh:path dct:license ; sh:minCount 1 ; sh:nodeKind sh:IRI ] ;
+  sh:property [ sh:path ct:downloadDate ; sh:minCount 1 ; sh:datatype xsd:date ] .
