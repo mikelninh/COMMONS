@@ -75,7 +75,7 @@ try{
   await page.locator("#jump-evidence").click();
   assert.equal(await page.locator("#evidence").getAttribute("open"),"");
   await page.locator("#download-report").click();
-  assert.match(await page.locator("#toast").textContent(),/bestätigen/);
+  assert.match(await page.locator("#review-hint").textContent(),/Bitte zuerst bestätigen/);
   await page.locator("#review-checkbox").check();
   const [download]=await Promise.all([page.waitForEvent("download"),page.locator("#download-report").click()]);
   assert.equal(download.suggestedFilename(),"city-thread-standortpruefung-v04.md");
