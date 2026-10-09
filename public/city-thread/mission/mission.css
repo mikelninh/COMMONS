@@ -407,3 +407,9 @@ a{color:inherit}
  .ripple-wave{display:none}
  .ripple-message{display:none!important}
 }
+
+
+/* Short-lived sparks are tethered to mathematically reached grid samples. */
+.ripple-spark{pointer-events:none;opacity:0;animation:ripple-spark-pop .78s cubic-bezier(.17,.7,.23,1) var(--delay,0ms) both}
+@keyframes ripple-spark-pop{0%{transform:scale(.2);opacity:0}25%,55%{transform:scale(1.0);opacity:.95}100%{transform:scale(1.7);opacity:0}}
+@media(prefers-reduced-motion:reduce){.ripple-spark{display:none!important;animation:none!important}}
