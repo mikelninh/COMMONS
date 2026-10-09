@@ -307,6 +307,7 @@ canvas.addEventListener('pointerdown',e=>{
  e.preventDefault();
  if(S.compare==='before'){S.compare='after';}
  S.dragging=e.pointerId;
+ S.dragStart=S.site?{...S.site}:null;
  try{canvas.setPointerCapture(e.pointerId)}catch{}
  setSite(invXY(p.x,p.y),'map-place');
 });
@@ -316,7 +317,8 @@ canvas.addEventListener('pointermove',e=>{
  setSite(invXY(p.x,p.y),'map-drag',false);
 });
 function endDrag(e){if(S.dragging!==e.pointerId)return;S.dragging=null;record('map-drag-complete');updateModel();try{canvas.releasePointerCapture(e.pointerId)}catch{}}
-canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);
+canvas.addEventListener('pointerup',endDrag);
+canvas.addEventListener('pointercancel',e=>{if(S.dragging!==e.pointerId)return;S.dragging=null;if(S.dragStart){S.site=S.dragStart;record('drag-cancelled');updateModel();}try{canvas.releasePointerCapture(e.pointerId)}catch{}});
 $('#layer-heat').addEventListener('change',e=>{S.visibleHeat=e.target.checked;renderMap()});
 $('#layer-water').addEventListener('change',e=>{S.visibleWater=e.target.checked;renderMap()});
 $('#layer-reach').addEventListener('change',e=>{S.visibleReach=e.target.checked;renderMap()});
@@ -355,7 +357,7 @@ $('#reset-scenario').addEventListener('click',()=>{
  updateModel();toast('Szenario zurückgesetzt.');
 });
 
-$('#review-checkbox').addEventListener('change',e=>{S.review=e.target.checked;record(e.target.checked?'human-reviewed-disclaimer':'review-unchecked');$('#review-hint').textContent=e.target.checked?'✓ Kenntnisnahme im Browser protokolliert. Keine Einreichung, kein offizieller Freigabeschritt.':'Ein Mensch muss diesen Vorschlag beurteilen. Der Bericht wird ausschliesslich lokal erstellt und nirgendwo eingereicht.'});
+$('#review-checkbox').addEventListener('change',e=>{S.review=e.target.checked;$('#review-hint').classList.remove('error');record(e.target.checked?'human-reviewed-disclaimer':'review-unchecked');$('#review-hint').textContent=e.target.checked?'✓ Kenntnisnahme im Browser protokolliert. Keine Einreichung, kein offizieller Freigabeschritt.':'Ein Mensch muss diesen Vorschlag beurteilen. Der Bericht wird ausschliesslich lokal erstellt und nirgendwo eingereicht.'});
 function scenarioUrl(){
  const u=new URL(location.href);u.searchParams.delete('lon');u.searchParams.delete('lat');u.searchParams.delete('radius');
  if(S.site){u.searchParams.set('lon',S.site.lon.toFixed(6));u.searchParams.set('lat',S.site.lat.toFixed(6));}
@@ -418,11 +420,11 @@ function reportMarkdown(){
 }
 $('#download-report').addEventListener('click',()=>{
  if(!S.loaded||!S.model||!S.site){toast('Bitte zuerst einen Standort wählen.');return}
- if(!S.review){toast('Bitte zuerst bestätigen: nur eine Hypothese, keine Bauempfehlung.');$('#review-checkbox').focus();return}
+ if(!S.review){$('#review-hint').textContent='Bitte zuerst bestätigen: Dies ist ein hypothetisches Szenario, keine Bauempfehlung.';$('#review-hint').classList.add('error');$('#review-checkbox').focus();return}
  record('report-generated');
  const data=reportMarkdown(),blob=new Blob([data],{type:'text/markdown;charset=utf-8'});
  const a=el('a');a.href=URL.createObjectURL(blob);a.download='city-thread-standortpruefung-v04.md';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
- toast('Dein Prüfbericht wurde lokal erstellt. ✳');
+ $('#review-hint').textContent='✓ Dein Prüfprotokoll wurde lokal erstellt. Es wurde nichts an Behörden übermittelt.';
 });
 async function copyText(text){
  try{await navigator.clipboard.writeText(text);return true}catch{window.prompt('Link kopieren:',text);return false}
