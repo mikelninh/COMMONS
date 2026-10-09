@@ -1,7 +1,7 @@
 {
   "schema_version": "0.1",
-  "generated_at": "2026-10-09T06:15:51.534755Z",
-  "previous_generated_at": "2026-10-08T23:24:40.407530Z",
+  "generated_at": "2026-10-09T13:28:07.240834Z",
+  "previous_generated_at": "2026-10-09T06:15:51.534755Z",
   "product": "COMMONS Morning Brief v1",
   "headline": "Nothing in the validated rainfall pilot needs your attention right now.",
   "close_message": "You are caught up.",
@@ -30,99 +30,6 @@
   },
   "monitors": [
     {
-      "point_id": "manila",
-      "loop_id": "storm-arrives",
-      "loop_title": "Before the Storm Arrives",
-      "name": "Manila",
-      "country": "Philippines",
-      "latitude": 14.6,
-      "longitude": 120.98,
-      "signal": "peak daily rainfall · next 72h",
-      "state": "quiet",
-      "rank_score": 0.1445,
-      "forecast_peak_daily_mm": 4.3,
-      "forecast_peak_date": "2026-10-11",
-      "forecast_72h_mm": 4.6,
-      "heavy_rain_gate_mm": 29.76,
-      "gate_ratio": 0.1445,
-      "models_available": 3,
-      "models_expected": 3,
-      "source_errors": [],
-      "why": "Forecast rainfall remains below the current priority band.",
-      "next_step": "No review needed from this rainfall monitor.",
-      "revision": {
-        "direction": "down",
-        "supporting_models": 3,
-        "models_compared": 3,
-        "median_delta_mm": -1.5,
-        "role": "context_only",
-        "note": "Six-hour revision context is visible but does not change priority rank."
-      },
-      "flood_context": null,
-      "exposure_context": {
-        "population": 17105184,
-        "radius_km": 20.0,
-        "data_year": 2026,
-        "source": "worldpop_R2025A_2026_1km",
-        "role": "context_only",
-        "note": "Nearby population is context, not estimated people impacted."
-      },
-      "impact_context": {
-        "components": {
-          "hazard": {
-            "role": "provided live by Morning Brief",
-            "note": "Impact v0 does not replace the validated hazard gate."
-          },
-          "exposure": {
-            "population_within_radius": 17105184.0,
-            "radius_km": 20.0,
-            "source": "worldpop_R2025A_2026_1km",
-            "role": "context_only"
-          },
-          "infrastructure": {
-            "health_facilities": 886,
-            "schools": 2112,
-            "power_substations": 90,
-            "bridges": 3120,
-            "major_road_segments": 5931,
-            "radius_km": 20.0,
-            "source": "OpenStreetMap via Overpass API",
-            "role": "context_only"
-          },
-          "historical_consequence": {
-            "nearby_events": 0,
-            "consequential_events": 0,
-            "examples": [],
-            "source": "GDACS + EM-DAT where available",
-            "role": "context_only"
-          }
-        },
-        "action_options": [
-          {
-            "id": "verify-local",
-            "label": "Verify local authority warnings",
-            "why": "COMMONS is research guidance, not an emergency authority.",
-            "authority": "human"
-          },
-          {
-            "id": "check-access",
-            "label": "Check critical access and services",
-            "why": "Nearby health, road, bridge or power assets can turn weather into disruption.",
-            "authority": "human"
-          },
-          {
-            "id": "review-exposure",
-            "label": "Review who may be exposed",
-            "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
-            "authority": "human"
-          }
-        ],
-        "role": "context_only",
-        "note": "Impact v0 informs consequence and action context but does not change ALERT."
-      },
-      "rank": 1
-    },
-    {
       "point_id": "nuwakot",
       "loop_id": "water-rises",
       "loop_title": "When the Water Rises",
@@ -132,22 +39,22 @@
       "longitude": 85.18,
       "signal": "peak daily rainfall · next 72h",
       "state": "quiet",
-      "rank_score": 0.12,
-      "forecast_peak_daily_mm": 5.9,
+      "rank_score": 0.185,
+      "forecast_peak_daily_mm": 9.1,
       "forecast_peak_date": "2026-10-09",
-      "forecast_72h_mm": 12.7,
+      "forecast_72h_mm": 16.3,
       "heavy_rain_gate_mm": 49.18,
-      "gate_ratio": 0.12,
+      "gate_ratio": 0.185,
       "models_available": 3,
       "models_expected": 3,
       "source_errors": [],
       "why": "Forecast rainfall remains below the current priority band.",
       "next_step": "No review needed from this rainfall monitor.",
       "revision": {
-        "direction": "down",
-        "supporting_models": 2,
+        "direction": "up",
+        "supporting_models": 3,
         "models_compared": 3,
-        "median_delta_mm": 0.8,
+        "median_delta_mm": 3.2,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
@@ -247,6 +154,99 @@
         "role": "context_only",
         "note": "Impact v0 informs consequence and action context but does not change ALERT."
       },
+      "rank": 1
+    },
+    {
+      "point_id": "manila",
+      "loop_id": "storm-arrives",
+      "loop_title": "Before the Storm Arrives",
+      "name": "Manila",
+      "country": "Philippines",
+      "latitude": 14.6,
+      "longitude": 120.98,
+      "signal": "peak daily rainfall · next 72h",
+      "state": "quiet",
+      "rank_score": 0.0571,
+      "forecast_peak_daily_mm": 1.7,
+      "forecast_peak_date": "2026-10-11",
+      "forecast_72h_mm": 2.2,
+      "heavy_rain_gate_mm": 29.76,
+      "gate_ratio": 0.0571,
+      "models_available": 3,
+      "models_expected": 3,
+      "source_errors": [],
+      "why": "Forecast rainfall remains below the current priority band.",
+      "next_step": "No review needed from this rainfall monitor.",
+      "revision": {
+        "direction": "down",
+        "supporting_models": 3,
+        "models_compared": 3,
+        "median_delta_mm": -2.6,
+        "role": "context_only",
+        "note": "Six-hour revision context is visible but does not change priority rank."
+      },
+      "flood_context": null,
+      "exposure_context": {
+        "population": 17105184,
+        "radius_km": 20.0,
+        "data_year": 2026,
+        "source": "worldpop_R2025A_2026_1km",
+        "role": "context_only",
+        "note": "Nearby population is context, not estimated people impacted."
+      },
+      "impact_context": {
+        "components": {
+          "hazard": {
+            "role": "provided live by Morning Brief",
+            "note": "Impact v0 does not replace the validated hazard gate."
+          },
+          "exposure": {
+            "population_within_radius": 17105184.0,
+            "radius_km": 20.0,
+            "source": "worldpop_R2025A_2026_1km",
+            "role": "context_only"
+          },
+          "infrastructure": {
+            "health_facilities": 886,
+            "schools": 2112,
+            "power_substations": 90,
+            "bridges": 3120,
+            "major_road_segments": 5931,
+            "radius_km": 20.0,
+            "source": "OpenStreetMap via Overpass API",
+            "role": "context_only"
+          },
+          "historical_consequence": {
+            "nearby_events": 0,
+            "consequential_events": 0,
+            "examples": [],
+            "source": "GDACS + EM-DAT where available",
+            "role": "context_only"
+          }
+        },
+        "action_options": [
+          {
+            "id": "verify-local",
+            "label": "Verify local authority warnings",
+            "why": "COMMONS is research guidance, not an emergency authority.",
+            "authority": "human"
+          },
+          {
+            "id": "check-access",
+            "label": "Check critical access and services",
+            "why": "Nearby health, road, bridge or power assets can turn weather into disruption.",
+            "authority": "human"
+          },
+          {
+            "id": "review-exposure",
+            "label": "Review who may be exposed",
+            "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
+            "authority": "human"
+          }
+        ],
+        "role": "context_only",
+        "note": "Impact v0 informs consequence and action context but does not change ALERT."
+      },
       "rank": 2
     },
     {
@@ -259,12 +259,12 @@
       "longitude": 77.21,
       "signal": "peak daily rainfall · next 72h",
       "state": "quiet",
-      "rank_score": 0.069,
-      "forecast_peak_daily_mm": 1.2,
-      "forecast_peak_date": "2026-10-11",
-      "forecast_72h_mm": 1.2,
+      "rank_score": 0.0345,
+      "forecast_peak_daily_mm": 0.6,
+      "forecast_peak_date": "2026-10-09",
+      "forecast_72h_mm": 1.0,
       "heavy_rain_gate_mm": 17.4,
-      "gate_ratio": 0.069,
+      "gate_ratio": 0.0345,
       "models_available": 3,
       "models_expected": 3,
       "source_errors": [],
@@ -274,7 +274,7 @@
         "direction": "mixed",
         "supporting_models": 0,
         "models_compared": 3,
-        "median_delta_mm": 0.3,
+        "median_delta_mm": -0.6,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
