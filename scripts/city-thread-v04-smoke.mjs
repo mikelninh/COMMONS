@@ -34,6 +34,11 @@ try{
   assert.ok(before>after&&after>=0,"Expected actual improvement, got "+before+" to "+after);
   assert.equal(await page.locator("#suggestion-buttons button").count(),3);
   assert.equal(await page.locator("#mission-map .heat-polygon").count(),154);
+  const geometry=await page.evaluate(()=>({
+     stage:document.querySelector(".map-stage").getBoundingClientRect().height,
+     svg:document.querySelector("#mission-map").getBoundingClientRect().height
+  }));
+  assert.ok(Math.abs(geometry.stage-geometry.svg)<2,"Map must fill its interactive stage: "+JSON.stringify(geometry));
  });
  await page.screenshot({path:join(out,"city-thread-v04-"+label+"-desktop.png"),fullPage:true});
  await check("Map layers, alternative locations and distance sensitivity",async()=>{
