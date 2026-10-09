@@ -183,7 +183,7 @@ function renderUI(){
  $('#caption-text').textContent=s.completed?'Deine Wahl: '+s.selected+' · zur Prüfung, nicht zum Bau.':s.selected?
    (s.selected+': +'+chosen().gain+' Modellpunkte im Radius. Welche Frage folgt daraus?'):'Tippe auf A, B oder C – auf der Karte oder links.';
 }
-function go(stage,{scroll=true}={}){
+function go(stage,{scroll=true,focusHeading=true}={}){
  if(stage!==3&&stage>s.furthest)return;
  s.stage=stage;s.furthest=Math.max(s.furthest,stage);
  for(let i=0;i<stages.length;i++)$('#stage-'+stages[i]).hidden=i!==stage;
@@ -197,8 +197,8 @@ function go(stage,{scroll=true}={}){
  if(stage===1)renderEvidence();
  renderMap({animate:false});
  if(scroll)window.scrollTo({top:0,behavior:reduceMotion()?'auto':'smooth'});
- const focus=stage===3?'#stage-result .result-title':stage===0?'#stage-brief h1':stage===1?'#stage-evidence h2':'#stage-decision h2';
- $(focus)?.setAttribute('tabindex','-1');$(focus)?.focus({preventScroll:true});
+ const focusTarget=stage===3?'#stage-result .result-title':stage===0?'#stage-brief h1':stage===1?'#stage-evidence h2':'#stage-decision h2';
+ if(focusHeading){$(focusTarget)?.setAttribute('tabindex','-1');$(focusTarget)?.focus({preventScroll:true})}
 }
 function shareLink(){
  const u=new URL(location.href);
@@ -419,7 +419,7 @@ async function boot(){
  try{
   await fetchData();initBasemap();restoreFromUrl();
   $('#loading').hidden=true;renderUI();
-  go(s.completed?3:s.stage,{scroll:false});
+  go(s.completed?3:s.stage,{scroll:false,focusHeading:false});
   $('#world-stat').textContent=s.completed?'FALLAKTE BEREIT':'03 KANDIDATEN · ECHTE WFS-DATEN';
   // All choices and the hypothetical task are local; no report is sent anywhere.
  }catch(e){
