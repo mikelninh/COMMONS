@@ -1,0 +1,48 @@
+name: CITY THREAD v0.4 Mission Gate
+
+on:
+  pull_request:
+    paths:
+      - "public/city-thread/**"
+      - "scripts/city-thread-v04-*.py"
+      - "scripts/city-thread-v04-*.mjs"
+      - ".github/workflows/city-thread-v04-quality.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-city-mission:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run syntax checks
+        run: |
+          node --check public/city-thread/mission/mission.js
+          node --check scripts/city-thread-v04-smoke.mjs
+          python -m py_compile scripts/city-thread-v04-verify.py
+      - name: Install RDF, SHACL and geometry validators
+        run: python -m pip install "rdflib>=7.0,<8" "pyshacl>=0.29,<1" "shapely>=2.0,<3"
+      - name: Validate actual RDF, SHACL, SPARQL, full WFS data and spatial calculation
+        run: python scripts/city-thread-v04-verify.py
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save --package-lock=false --ignore-scripts playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Test interactive Mission on desktop and mobile
+        run: node scripts/city-thread-v04-smoke.mjs
+      - name: Preserve browser screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: city-thread-v04-mission
+          path: map-test-results/city-thread-v04-*.png
+          retention-days: 7
