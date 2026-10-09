@@ -118,6 +118,13 @@
          class:'ripple-thread'+(isBurst?' firing':''),
          style:'--delay:'+Math.min(i*15,450)+'ms','stroke':activeColor()});
        add(group,line);
+       // Each transient spark marks a *real modeled* newly reached sample point.
+       if(isBurst){
+         add(group,svg('circle',{cx:xy[0],cy:xy[1],r:3.3,
+           fill:'#FFF8EF',stroke:activeColor(),'stroke-width':1.4,
+           class:'ripple-spark',
+           style:'--delay:'+Math.min(i*15,450)+'ms;transform-origin:'+xy[0].toFixed(1)+'px '+xy[1].toFixed(1)+'px'}));
+       }
      });
      if(isBurst){
        const r=Math.min(S.radius*PIX_PER_M,350);
