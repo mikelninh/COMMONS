@@ -36,7 +36,7 @@ $$('[data-view]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.view)))
 $('.brand').addEventListener('click',e=>{e.preventDefault();go('discover');});
 window.addEventListener('popstate',()=>go(location.hash.slice(1)||'discover',{push:false}));
 $('#start-explore').addEventListener('click',()=>$('#explore').scrollIntoView({behavior:'smooth',block:'start'}));
-$('[data-goto]').forEach(b=>b.addEventListener('click',()=>{go('discover');requestAnimationFrame(()=>$('#explore').scrollIntoView({behavior:'smooth',block:'start'}));}));
+$$('[data-goto]').forEach(b=>b.addEventListener('click',()=>{go('discover');requestAnimationFrame(()=>$('#explore').scrollIntoView({behavior:'smooth',block:'start'}));}));
 $('#share').addEventListener('click',async()=>{
  const link=location.origin+location.pathname;
  try{await navigator.clipboard.writeText(link);toast('Der Link ist kopiert ✳');}
