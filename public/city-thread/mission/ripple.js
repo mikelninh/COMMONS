@@ -52,7 +52,7 @@
    function pulse(reason){
      pulseAt=performance.now();
      if(soundOn)playTone();
-     if(S.model?.gain!=null)transient('+'+S.model.gain+' echte Rasterpunkte im Modell erreicht');
+     if(S.model?.gain!=null)transient('+'+S.model.gain+' Modell-Rasterpunkte neu im Radius');
    }
    function toggleDuel(){
      if(!S.loaded){toast('Die Quelldaten müssen erst laden.');return}
