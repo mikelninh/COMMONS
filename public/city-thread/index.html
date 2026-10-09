@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#f8f5ee">
-  <meta name="description" content="CITY THREAD: Eine kleine Entdeckungsreise durch echte Berliner Stadtdaten. Orte, Beziehungen, überprüfbare Quellen und eine spielerische Einführung in Knowledge Graphs.">
+  <meta name="description" content="CITY THREAD v0.4: Entdecke Berliner Stadtdaten und spiele THE MISSING FOUNTAIN – eine nachvollziehbare Stadtmission mit echten Klima- und Trinkbrunnen-Geodaten.">
   <meta property="og:title" content="CITY THREAD — Die Stadt, zwischen den Zeilen.">
   <meta property="og:description" content="120 echte Berliner Trinkbrunnen. 12 Bezirke. Folge einer Verbindung und entdecke, wie eine Stadt lesbar wird.">
   <title>CITY THREAD — Die Stadt zwischen den Zeilen</title>
@@ -29,11 +29,12 @@
         <button class="nav-item active" data-view="discover" aria-current="page" type="button">Entdecken</button>
         <button class="nav-item" data-view="graph" type="button">Verbindungen</button>
         <button class="nav-item" data-view="ask" type="button">Fragen</button>
+        <a href="./mission/" class="nav-item mission-nav-feature">✳ Mission <span class="mission-new">NEW</span></a>
         <button class="nav-item" data-view="trust" type="button">Vertrauen</button>
         <button class="nav-item" data-view="learn" type="button">Lernen <span class="nav-spark">✳</span></button>
       </nav>
       <div class="header-actions">
-        <span class="edition"><span class="edition-dot"></span> BERLIN · V0.3</span>
+        <span class="edition"><span class="edition-dot"></span> BERLIN · V0.4</span>
         <button class="share" id="share" type="button" aria-label="Link zur Website teilen"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 4h7v7M20 4l-9 9M20 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Teilen</span></button>
       </div>
     </div>
@@ -42,12 +43,13 @@
     <section class="view active" id="view-discover" aria-labelledby="hero-title">
       <div class="hero-container">
         <div class="hero-content">
-          <div class="hero-eyebrow"><span class="sun-spark">✳</span> EIN DIGITALES EXPERIMENT ÜBER UNSERE STADT <span class="hero-no">№ 003</span></div>
+          <div class="hero-eyebrow"><span class="sun-spark">✳</span> EIN DIGITALES EXPERIMENT ÜBER UNSERE STADT <span class="hero-no">№ 004</span></div>
           <h1 id="hero-title">Eine Stadt.<br><span class="headline-accent">Tausend</span><br>Verbindungen<span class="period">.</span></h1>
           <p class="hero-description">Was wäre, wenn wir eine Stadt nicht nur auf einer Karte sehen, sondern <strong>verstehen könnten, wie alles zusammenhängt?</strong></p>
           <p class="hero-secondary">Wir beginnen mit etwas ganz Alltäglichem: Trinkbrunnen in Berlin.</p>
           <div class="hero-cta">
-            <button class="btn btn-blue" id="start-explore" type="button">Stadt entdecken <span aria-hidden="true">↗</span></button>
+            <a class="btn btn-blue hero-mission-cta" href="./mission/">Neue Mission starten <span aria-hidden="true">↗</span></a>
+            <button class="link-button" id="start-explore" type="button">Atlas entdecken <span aria-hidden="true">→</span></button>
             <button class="link-button" data-view="learn" type="button">Erst mal verstehen <span aria-hidden="true">→</span></button>
           </div>
           <div class="hero-note"><span class="note-mark">✓</span> Reale Berliner Daten · unabhängig &amp; frei zugänglich</div>
@@ -106,6 +108,10 @@
         <div><span>QUELLE</span><strong class="metric-word">WFS <span class="blue-dot">●</span></strong><small>öffentliche Geodaten</small></div>
         <div class="facts-message"><span>UNSER VERSPRECHEN</span><p>Lieber <em>eine ehrliche Lücke</em> als eine schöne, erfundene Antwort.</p></div>
       </div>
+      <section class="mission-feature" aria-label="Neue interaktive Stadtmission">
+        <div class="mission-feature-illustration" aria-hidden="true"><div class="teaser-halo"></div><div class="teaser-grid"><span class="teaser-pin p1">●</span><span class="teaser-pin p2">●</span><span class="teaser-pin p3">✳</span><span class="teaser-pin p4">●</span></div><div class="teaser-label">02 DATENSÄTZE · 01 FRAGE</div></div>
+        <div class="mission-feature-copy"><div class="section-kicker">NEU / FIELD NOTE 004 <span class="kicker-line"></span> WHAT IF?</div><h2>Was wäre, wenn <em>hier</em> ein Brunnen stünde?</h2><p>242 inventarisierte Trinkbrunnen, echte Berliner Klimaklassen und ein frei platzierbarer Vorschlag. Experimentiere, vergleiche und finde heraus, welche Fragen Menschen als Nächstes prüfen sollten.</p><a href="./mission/" class="btn btn-ink">THE MISSING FOUNTAIN spielen <span>↗</span></a><small>Keine Bauempfehlung. Ein prüfbarer, hypothetischer Versuch.</small></div>
+      </section>
       <div class="section-wrap" id="explore">
         <div class="section-intro">
           <div class="section-kicker">01 / DIE STADT ENTDECKEN <span class="kicker-line"></span> BERLIN</div>

@@ -53,6 +53,7 @@ jobs:
           node --check public/berlin-continuous.js
           node --check public/atlas.js
           node --check public/city-thread/app.js
+          node --check public/city-thread/mission/mission.js
       - name: Install browser test runner
         run: |
           npm install --no-save --package-lock=false --ignore-scripts playwright@1.55.0
@@ -65,6 +66,12 @@ jobs:
         run: node scripts/browser-meaning-smoke.mjs
       - name: Smoke test CITY THREAD v0.3 desktop and mobile
         run: node scripts/city-thread-smoke.mjs
+      - name: Verify CITY THREAD v0.4 source data, SPARQL and SHACL
+        run: |
+          python -m pip install "rdflib>=7.0,<8" "pyshacl>=0.29,<1" "shapely>=2.0,<3"
+          python scripts/city-thread-v04-verify.py
+      - name: Smoke test CITY THREAD v0.4 desktop and mobile
+        run: node scripts/city-thread-v04-smoke.mjs
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
@@ -86,6 +93,11 @@ jobs:
           SMOKE_BASE_URL: ${{ steps.deployment.outputs.page_url }}
           SMOKE_LABEL: deployed
         run: node scripts/city-thread-smoke.mjs
+      - name: Verify deployed CITY THREAD v0.4
+        env:
+          SMOKE_BASE_URL: ${{ steps.deployment.outputs.page_url }}
+          SMOKE_LABEL: deployed
+        run: node scripts/city-thread-v04-smoke.mjs
       - name: Save browser screenshots and reports
         if: always()
         uses: actions/upload-artifact@v4
