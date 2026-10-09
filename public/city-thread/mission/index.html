@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f8f5ee">
+  <meta name="description" content="THE MISSING FOUNTAIN — Eine spielbare Berliner Stadtmission mit realen Klima- und Trinkbrunnen-Geodaten. Simuliere, prüfe, entscheide menschlich.">
+  <meta property="og:title" content="THE MISSING FOUNTAIN ✳ CITY THREAD v0.4">
+  <meta property="og:description" content="Ein Stadtproblem. Zwei offene Datensätze. Deine Entscheidung. Eine öffentliche interaktive Geo-Mission für Berlin.">
+  <title>THE MISSING FOUNTAIN ✳ CITY THREAD v0.4</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="./mission.css">
+  <script defer src="./mission.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#mission-workbench">Zur Mission springen</a>
+<div class="grain" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../" class="brand" aria-label="CITY THREAD — Zurück zur Startseite"><span class="brand-emblem" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><path d="M9 11 30 17 19 31 9 11" stroke="currentColor" stroke-width="1.9"/><circle cx="9" cy="11" r="4" fill="#F28E72"/><circle cx="30" cy="17" r="4" fill="#464AC5"/><circle cx="19" cy="31" r="4" fill="#E0BD62"/></svg></span><span class="brand-text">CITY <span>THREAD</span><small>OFFENES STADTLABOR</small></span></a>
+    <nav class="nav mission-nav" aria-label="Navigation">
+      <a class="mission-nav-link" href="../#discover">Entdecken</a>
+      <a class="mission-nav-link" href="../#graph">Verbindungen</a>
+      <span class="mission-nav-link mission-active" aria-current="page">✳ Die Mission</span>
+      <a class="mission-nav-link" href="../#trust">Vertrauen</a>
+    </nav>
+    <div class="header-actions"><span class="edition"><span class="edition-dot"></span> BERLIN · V0.4</span><button type="button" class="share" id="share-mission"><svg viewBox="0 0 24 24" fill="none"><path d="M13 4h7v7M20 4l-9 9M20 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Teilen</span></button></div>
+  </div>
+</header>
+
+<main>
+  <section class="mission-intro" aria-labelledby="mission-title">
+    <div class="mission-copy">
+      <div class="mission-kicker"><span class="mini-sun">✳</span> CITY THREAD / EINE STADT-MISSION <span class="mission-number">FIELD NOTE № 004</span></div>
+      <h1 id="mission-title">The missing<br><em>fountain.</em><span class="full-stop">✳</span></h1>
+      <p class="mission-lead">Manchmal beginnt eine bessere Stadt mit einer ziemlich einfachen Frage: <strong>Wo könnte ein weiterer Trinkbrunnen sinnvoll sein?</strong></p>
+      <p class="mission-quiet">Wir verbinden zwei echte Berliner Datensätze. Du platzierst einen möglichen neuen Standort – und siehst, welche Hypothese sich dadurch verändert.</p>
+      <div class="mission-hero-cta"><button type="button" class="btn btn-blue" id="begin-mission">Mission starten <span>↗</span></button><span><span class="tiny-check">✓</span> Echte Geodaten · hypothetisches Szenario</span></div>
+    </div>
+    <div class="mission-art" aria-hidden="true">
+      <div class="art-labels"><span>AN IDEA FOR A COOLER CITY</span><span>04 / WHAT IF?</span></div>
+      <svg viewBox="0 0 580 380" preserveAspectRatio="xMidYMid meet">
+        <defs><linearGradient id="artFill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#FFE6D1"/><stop offset="1" stop-color="#EFE5D7"/></linearGradient></defs>
+        <rect width="580" height="380" fill="url(#artFill)"/>
+        <circle cx="434" cy="132" r="74" fill="#F5C66D" opacity=".83"/>
+        <g fill="#D8BEB0" stroke="#344555" stroke-width="2.5"><path d="M48 310V181h79v129z"/><path d="M118 310V141h84v169z"/><path d="M198 310V205h63v105z"/><path d="M438 310V163h74v147z"/><path d="M498 310V198h54v112z"/></g>
+        <g fill="#FAF1E7" stroke="#344555" stroke-width="1.6"><path d="M65 200h15v22H65zM93 200h15v22H93zM65 240h15v22H65zM93 240h15v22H93zM139 166h17v26h-17zM170 166h17v26h-17zM139 212h17v26h-17zM170 212h17v26h-17zM459 187h17v29h-17zM488 187h16v29h-16z"/></g>
+        <g stroke="#414FBB" stroke-width="3" stroke-dasharray="5 9" fill="none" opacity=".8"><path d="M83 151Q200 58 315 180T490 76"/><path d="M315 180L150 323M315 180L475 280"/></g>
+        <g fill="#FFFCF4" stroke="#414FBB" stroke-width="3"><circle cx="83" cy="151" r="9"/><circle cx="150" cy="323" r="9"/><circle cx="490" cy="76" r="9"/></g>
+        <g transform="translate(309,222)">
+          <circle r="89" fill="#4D55C0" opacity=".1"/><circle r="64" fill="none" stroke="#5564C1" stroke-dasharray="4 8" stroke-width="2.5"/>
+          <circle r="11" fill="#F0826B" stroke="#FFFFFF" stroke-width="4"/><path d="M0-17V-67" stroke="#3C4CC0" stroke-width="6" stroke-linecap="round"/>
+          <path d="M-42 15Q0 35 42 15" stroke="#344555" fill="none" stroke-width="5" stroke-linecap="round"/>
+          <path d="M-23-16Q0-41 23-16" stroke="#344555" fill="none" stroke-width="5" stroke-linecap="round"/>
+          <path d="M0-66q-18 20-10 32M0-66q18 20 10 32" stroke="#5E7EDC" stroke-width="6" fill="none" stroke-linecap="round"/>
+        </g>
+        <path d="M0 319Q147 283 295 315T580 310V380H0Z" fill="#C8D8D4" opacity=".75"/>
+        <path d="M0 335Q145 302 293 338T580 326" fill="none" stroke="#788EDB" stroke-width="2.5"/>
+        <g fill="#304455" font-family="sans-serif" font-weight="700" font-size="12" letter-spacing="2"><text x="34" y="60">A SMALL POSSIBILITY.</text></g>
+      </svg>
+      <div class="art-sticker"><span>WHAT IF?</span><strong>One new<br>possibility.</strong></div>
+      <span class="art-caption">BERLIN · WASSER + HITZE + MENSCHLICHES URTEIL</span>
+    </div>
+  </section>
+
+  <section class="mission-progress" aria-label="Drei Schritte">
+    <div><span class="step-number">01</span><div><strong>Entdecken</strong><small>Wie sieht es heute aus?</small></div></div>
+    <span class="step-arrow">→</span>
+    <div><span class="step-number">02</span><div><strong>Ausprobieren</strong><small>Was wäre, wenn …?</small></div></div>
+    <span class="step-arrow">→</span>
+    <div><span class="step-number">03</span><div><strong>Begründen</strong><small>Was müsste geprüft werden?</small></div></div>
+  </section>
+
+  <section class="studio-heading" id="mission-workbench" aria-labelledby="studio-title">
+    <div class="section-kicker">01 & 02 / ENTDECKEN & AUSPROBIEREN <span class="kicker-line"></span> KREUZBERG</div>
+    <div class="studio-heading-row"><h2 id="studio-title">Die Stadt ist <em>dein Labor.</em></h2><p>Unsere Testfläche ist bewusst klein. Tippe auf die Karte oder bewege den neuen Brunnen. Beobachte, was die Daten wirklich sagen – und was nicht.</p></div>
+  </section>
+
+  <div class="mission-studio">
+    <section class="map-lab" aria-label="Interaktive Untersuchungsfläche">
+      <div class="map-head">
+        <div class="map-title"><span>UNTERSUCHUNGSGEBIET / BERLIN</span><h3>Kreuzberg <span class="map-sun">✳</span></h3></div>
+        <span class="map-status"><i></i> DATENAUSSCHNITT 2022 / 2026</span>
+      </div>
+      <div class="map-controls" role="group" aria-label="Kartenebenen">
+        <label><input type="checkbox" id="layer-heat" checked><span class="checkbox-icon heat"></span> Klimabewertung</label>
+        <label><input type="checkbox" id="layer-water" checked><span class="checkbox-icon water"></span> Trinkbrunnen</label>
+        <label><input type="checkbox" id="layer-reach" checked><span class="checkbox-icon reach"></span> Einzugsradius</label>
+      </div>
+      <div class="map-stage" id="map-stage">
+        <svg id="mission-map" viewBox="0 0 720 700" role="img" aria-label="Geographisch proportionale Untersuchungsfläche mit echten 2022 Klimapolygonen und Brunnenstandorten. Klicke oder ziehe den hypothetischen neuen Brunnen."></svg>
+        <div class="map-location-pill"><span class="location-cross">⌖</span> KREUZBERG / STUDIENFENSTER</div>
+        <div class="map-legend" aria-label="Klimaklassen">
+          <div><i class="legend-marker leg-coral"></i> sehr ungünstig</div>
+          <div><i class="legend-marker leg-peach"></i> ungünstig</div>
+          <div><i class="legend-marker leg-yellow"></i> weniger günstig</div>
+          <div class="legend-divider"></div>
+          <small>Gesamtbewertung 2022 · Siedlungsflächen</small>
+        </div>
+        <div class="map-scale"><span class="north">N ↑</span><span class="scale-mark"></span><span id="scale-caption">200 m</span></div>
+        <div class="map-help"><span>✳</span> <span>Klick / Tippen / Ziehen, um einen Brunnen vorzuschlagen.</span></div>
+      </div>
+      <div class="map-foot"><span>GEOREFERENZIERTE STUDIENKARTE · EPSG:4326</span><span id="map-data-status">QUELLEN WERDEN GELADEN …</span></div>
+    </section>
+
+    <aside class="mission-panel" aria-label="Dein Standortvorschlag">
+      <div class="panel-top"><span class="chapter-number">DEINE STADT-MISSION</span><span class="panel-version">WHAT IF? / 01</span></div>
+      <h2>Ein Brunnen.<br><em>Was ändert sich?</em></h2>
+      <p class="panel-intro">Wähle einen möglichen neuen Standort. Wir vergleichen die Reichweite in einem Modell – nicht die echte Zugänglichkeit.</p>
+      <div id="scenario-status" class="scenario-status" aria-live="polite"><span class="status-dot"></span><span>Wir laden die Berliner Originaldaten …</span></div>
+      <div class="scenario-placement">
+        <div class="measurement-label">DEIN HYPOTHETISCHER STANDORT</div>
+        <div id="site-coordinate" class="site-coordinate">—</div>
+        <div class="site-context" id="site-class">Warten auf Geodaten …</div>
+      </div>
+      <div class="radius-control">
+        <div class="radius-head"><label for="radius">Angenommener Luftlinienradius</label><strong id="radius-label">300 m</strong></div>
+        <input id="radius" type="range" min="150" max="500" value="300" step="50" aria-label="Hypothetischer Luftlinienradius zwischen 150 und 500 Metern"/>
+        <div class="radius-ticks"><span>150 m</span><span>300 m</span><span>500 m</span></div>
+        <p>Ein experimenteller Parameter, kein offizieller Versorgungsstandard.</p>
+      </div>
+      <div class="metrics-panel" aria-live="polite">
+        <div class="metric-upper"><span>UNABGEDECKTE HITZE-RASTERPUNKTE</span><button id="about-metric" type="button" aria-label="Berechnung erklären" title="Berechnung erklären">i</button></div>
+        <div class="metric-numbers"><div><small>HEUTE (MODELL)</small><strong id="before-count">—</strong></div><span class="compare-arrow">→</span><div class="after"><small>MIT DEINEM VORSCHLAG</small><strong id="after-count">—</strong></div></div>
+        <div class="progress-track"><div id="improvement-bar" class="progress-fill"></div></div>
+        <div class="metric-foot"><span id="newly-covered">—</span><span id="uncovered-total">—</span></div>
+      </div>
+      <div id="narrative" class="scenario-narrative">Jeder Standort ist eine Hypothese. Wähle einen Ort und wir machen die Annahmen sichtbar.</div>
+      <div class="suggestions"><div class="measurement-label">NEUGIERIG? STARTE MIT EINEM ORT</div><div id="suggestion-buttons" class="suggestion-buttons"></div></div>
+      <div class="panel-bottom">
+        <button class="btn btn-blue" type="button" id="jump-evidence">Ergebnis verstehen <span>↘</span></button>
+        <button class="text-link" type="button" id="reset-scenario">Zurücksetzen ↻</button>
+      </div>
+    </aside>
+  </div>
+
+  <section class="methodology-note" id="methodology-note">
+    <div class="methodology-icon">i</div>
+    <p><strong>Was zählt hier?</strong> Wir testen ein gleichmässiges 90-m-Raster auf Flächen mit der städtischen Bewertung «ungünstig» oder «sehr ungünstig». Ein Punkt gilt als modellhaft erreichbar, wenn ein verzeichneter Trinkbrunnen innerhalb deines <strong>Luftlinienradius</strong> liegt. Rasterpunkte sind <em>keine Einwohnerzahlen</em>. Brunnenbetriebsstatus und Fusswege wurden nicht geprüft.</p>
+    <span class="methodology-tag">SCENARIO ONLY</span>
+  </section>
+
+  <section class="evidence-section" id="evidence" aria-labelledby="evidence-title">
+    <div class="section-kicker">03 / BEGRÜNDEN & ENTSCHEIDEN <span class="kicker-line"></span> OPEN EVIDENCE</div>
+    <div class="evidence-intro"><h2 id="evidence-title">Warum hier?<br><em>Zeig es mir.</em></h2><p>Eine Entscheidung beginnt nicht mit einer überzeugenden KI-Antwort, sondern mit prüfbaren Fakten. Wir zeigen, welche Verbindung hinter deinem Szenario steht – und wo unsere Wissensgrenze liegt.</p></div>
+    <div class="evidence-cards">
+      <article class="evidence-card evidence-graph"><div class="card-kicker">01 / DER ENTSCHEIDUNGSFADEN</div><div class="thread-line" aria-label="Datenfluss"><div class="thread-node"><span class="thread-glyph coral">◈</span><strong>Hitze 2022</strong><small>Bioklimatische Polygonklasse</small></div><span class="thread-arrow">→</span><div class="thread-node"><span class="thread-glyph indigo">●</span><strong>Wasser-WFS</strong><small>242 verzeichnete Standorte</small></div><span class="thread-arrow">→</span><div class="thread-node"><span class="thread-glyph gold">✳</span><strong>Dein Versuch</strong><small>Distanz & Rasterpunkte</small></div></div><div id="evidence-triples" class="evidence-triples"><p>Lade den Datenausschnitt, um nachvollziehbare Beziehungen zu sehen.</p></div><a href="../mission.ttl" target="_blank" rel="noopener noreferrer" class="source-link">RDF-Modell der Mission ansehen ↗</a></article>
+      <article class="evidence-card evidence-questions"><div class="card-kicker">02 / DIE WICHTIGSTEN FRAGEN</div><div class="question-line"><span>✓</span><div><strong>Was ist belegbar?</strong><p>Die Lage der registrierten Trinkbrunnen, ihre Metadaten und die historischen Klimaklassen in diesem kleinen Untersuchungsfenster.</p></div></div><div class="question-line"><span>?</span><div><strong>Was muss noch geprüft werden?</strong><p>Fusswege, Betriebsbereitschaft, Barrierefreiheit, Eigentum, Wasseranschluss, Kosten, Nachfrage und kommunale Zuständigkeit.</p></div></div><div class="question-line"><span>↗</span><div><strong>Wer entscheidet?</strong><p>Die zuständigen Fachstellen und Menschen vor Ort. Das System bereitet nur einen überprüfbaren Standortvorschlag vor.</p></div></div></article>
+    </div>
+
+    <div class="report-panel" id="report">
+      <div class="report-copy"><span class="chapter-number">DEIN PRÜFBERICHT</span><h2>Aus einer Idee wird<br><em>eine gute Frage.</em></h2><p>Erzeuge einen kleinen Bericht mit deinem Standort, den Parametern, der Datenherkunft und allen offenen Fragen.</p><div class="report-review"><label><input id="review-checkbox" type="checkbox"> <span>Ich verstehe: Dies ist <strong>keine Bauempfehlung</strong>, sondern ein Vorschlag zur Prüfung durch Menschen.</span></label></div><p id="review-hint" class="review-hint">Ein Mensch muss diesen Vorschlag beurteilen. Der Bericht wird ausschliesslich lokal erstellt und nirgendwo eingereicht.</p><div class="report-actions"><button class="btn btn-blue" id="download-report" type="button">Prüfbericht erstellen <span>↗</span></button><button class="btn btn-outline" id="copy-scenario" type="button">Szenario-Link kopieren <span>↗</span></button></div></div>
+      <div class="report-document"><div class="document-top"><span>✳ CITY THREAD / FIELD NOTE</span><span>BERLIN 004</span></div><div class="document-sheet"><span>PRÜFBERICHT · ENTWURF</span><h3>The Missing Fountain</h3><div class="document-rule"></div><div class="document-row"><span>UNTERSUCHUNG</span><strong>Kreuzberg · Berlin</strong></div><div class="document-row"><span>KOORDINATEN</span><strong id="report-coords">—</strong></div><div class="document-row"><span>PARAMETER</span><strong id="report-radius">300 m Luftlinie</strong></div><div class="document-row"><span>SZENARIO-EFFEKT</span><strong id="report-gain">—</strong></div><div class="document-dots">•••••••••••••••••••••••</div><p>Offene Fragen statt falscher Gewissheit.</p><div class="document-stamp">HUMAN REVIEW REQUIRED <span>✓</span></div></div></div>
+    </div>
+  </section>
+
+  <section class="provenance"><div class="provenance-inner"><div><span class="section-kicker">UNSERE DATEN, UNSERE GRENZEN</span><h2>Offen genug,<br><em>um nachzufragen.</em></h2></div><div class="source-catalog"><div><b>01</b><a href="https://daten.berlin.de/datensaetze/trinkwasserbrunnen-wfs-47dba2c3" target="_blank" rel="noopener noreferrer">Trinkwasserbrunnen · Berlin WFS ↗</a><span>242 Einträge · Abruf 09.10.2026</span></div><div><b>02</b><a href="https://daten.berlin.de/datensaetze/klimabewertungskarten-2022-umweltatlas-wfs-ac0751a2" target="_blank" rel="noopener noreferrer">Planungshinweise Stadtklima 2022 ↗</a><span>154 Polygone · räumlich begrenzter Abruf</span></div><div><b>03</b><a href="https://github.com/mikelninh/COMMONS/tree/main/public/city-thread" target="_blank" rel="noopener noreferrer">Quellcode & Nachvollziehbarkeit ↗</a><span>RDF + SHACL-Regeln & offene Rechenmethode</span></div><p>Quelle: Land Berlin und Berliner Wasserbetriebe · Datenlizenz Deutschland – Zero 2.0. Datenschnitt 09.10.2026. Schematisches Szenario ohne operative Aktualisierung. Kein offizieller Service von DKSR, CIVORA oder Berlin.</p></div></div></section>
+</main>
+<footer class="site-footer"><div class="footer-inner"><div><span class="footer-brand">CITY THREAD <span>✳</span></span><p>Die Stadt ist voller Möglichkeiten. Manche davon verdienen eine genauere Frage.</p></div><div class="footer-links"><a href="../">Zurück zum Atlas ↗</a><a href="../mission.ttl">Knowledge Graph ↗</a><a href="../mission-shapes.ttl">SHACL ↗</a></div><div class="footer-note">CITY THREAD V0.4 · UNABHÄNGIGE LEHR- UND STUDIENDEMO · NICHT ALS REALER STANDORTBESCHLUSS VERWENDEN</div></div></footer>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
