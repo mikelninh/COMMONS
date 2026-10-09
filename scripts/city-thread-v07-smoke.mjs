@@ -42,7 +42,8 @@ async function ready(page){
  assert.equal(await page.locator("#error").isVisible(),false,"Data was rejected; do not show a usable mission");
 }
 async function screenshot(page,part){
- await page.evaluate(()=>window.scrollTo(0,0));
+ await page.evaluate(()=>{document.documentElement.style.scrollBehavior="auto";window.scrollTo({top:0,behavior:"instant"});});
+ await page.waitForFunction(()=>window.scrollY<2,null,{timeout:4000});
  await page.screenshot({path:join(out,"city-thread-v07-"+label+"-"+part+".png"),fullPage:true});
 }
 try{
