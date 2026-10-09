@@ -1,0 +1,66 @@
+@prefix city: <https://commons.local/semantic-city/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+city:ObservationShape a sh:NodeShape ;
+  sh:targetClass city:Observation ;
+  sh:property [
+    sh:path city:metric ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] ;
+  sh:property [
+    sh:path city:value ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] ;
+  sh:property [
+    sh:path city:evidenceSource ;
+    sh:minCount 1
+  ] ;
+  sh:property [
+    sh:path city:evidenceClass ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] ;
+  sh:property [
+    sh:path city:isDemoValue ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] .
+
+city:RecommendationShape a sh:NodeShape ;
+  sh:targetClass city:Recommendation ;
+  sh:property [
+    sh:path city:authority ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] ;
+  sh:property [
+    sh:path city:because ;
+    sh:minCount 1
+  ] ;
+  sh:property [
+    sh:path city:requiresHumanApproval ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:boolean
+  ] .
+
+city:EvidenceRecordShape a sh:NodeShape ;
+  sh:targetClass city:EvidenceRecord ;
+  sh:property [
+    sh:path city:evidenceSource ;
+    sh:minCount 1
+  ] ;
+  sh:property [
+    sh:path city:sourceFeatureType ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] ;
+  sh:property [
+    sh:path city:sourceFeatureId ;
+    sh:minCount 1 ;
+    sh:maxCount 1
+  ] .

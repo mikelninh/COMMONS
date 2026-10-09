@@ -153,6 +153,16 @@ The public research surface is `public/world-model.html`.
 
 See [docs/WORLD_MODEL_V0.md](docs/WORLD_MODEL_V0.md) and [docs/MONETIZATION_V1.md](docs/MONETIZATION_V1.md).
 
+## Semantic City v0.5
+
+COMMONS now includes a reusable municipal knowledge-graph layer for accountable decision support.
+
+The verified Berlin heat-planning proof connects **official climate, environmental-justice, public-green and hospital evidence** through RDF / PROV, validates the graph with SHACL, queries it with SPARQL and preserves a human authority gate.
+
+At the reference point, the public demo explains the evidence chain for the **Alexanderplatzviertel**, shows what is still missing before action, and contains **zero synthetic values** in the cross-domain proof. A second official adapter for Cologne's tree cadastre demonstrates that the semantic contract is not Berlin-specific.
+
+Open the static demo at `public/semantic-city.html` or read [docs/SEMANTIC_CITY.md](docs/SEMANTIC_CITY.md).
+
 ## Principles
 
 1. **Reality is the judge.** Outputs matter only insofar as outcomes improve.

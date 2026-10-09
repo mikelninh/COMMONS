@@ -1,0 +1,85 @@
+@prefix city: <https://commons.local/semantic-city/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+city:SemanticCityOntology a owl:Ontology ;
+  rdfs:label "COMMONS Semantic City Ontology" ;
+  rdfs:comment "Small reusable vocabulary for accountable municipal decision support." .
+
+city:City a owl:Class .
+city:Area a owl:Class .
+city:PopulationGroup a owl:Class .
+city:InfrastructureAsset a owl:Class .
+city:Building a owl:Class ;
+  rdfs:subClassOf city:InfrastructureAsset .
+city:UrbanTree a owl:Class ;
+  rdfs:subClassOf city:InfrastructureAsset .
+city:PublicGreenSpace a owl:Class ;
+  rdfs:subClassOf city:InfrastructureAsset .
+city:EvidenceGap a owl:Class .
+city:Service a owl:Class .
+city:MobilityService a owl:Class ;
+  rdfs:subClassOf city:Service .
+city:CareService a owl:Class ;
+  rdfs:subClassOf city:Service .
+city:Observation a owl:Class .
+city:EvidenceSource a owl:Class .
+city:EvidenceRecord a owl:Class .
+city:Action a owl:Class .
+city:Recommendation a owl:Class .
+city:HumanAuthority a owl:Class .
+
+city:locatedIn a owl:ObjectProperty ;
+  rdfs:range city:City .
+city:livesIn a owl:ObjectProperty ;
+  rdfs:range city:Area .
+city:containsPopulation a owl:ObjectProperty ;
+  rdfs:range city:PopulationGroup .
+city:dependsOn a owl:ObjectProperty .
+city:hasObservation a owl:ObjectProperty ;
+  rdfs:range city:Observation .
+city:about a owl:ObjectProperty .
+city:evidenceSource a owl:ObjectProperty ;
+  rdfs:range city:EvidenceSource .
+city:controlledBy a owl:ObjectProperty ;
+  rdfs:range city:HumanAuthority .
+city:targets a owl:ObjectProperty .
+
+city:metric a owl:DatatypeProperty ;
+  rdfs:range xsd:string .
+city:value a owl:DatatypeProperty .
+city:unit a owl:DatatypeProperty ;
+  rdfs:range xsd:string .
+city:evidenceClass a owl:DatatypeProperty ;
+  rdfs:range xsd:string .
+city:authority a owl:DatatypeProperty ;
+  rdfs:range xsd:string .
+city:because a owl:DatatypeProperty ;
+  rdfs:range xsd:string .
+city:requiresHumanApproval a owl:DatatypeProperty ;
+  rdfs:range xsd:boolean .
+city:isDemoValue a owl:DatatypeProperty ;
+  rdfs:range xsd:boolean .
+
+city:publisher a owl:DatatypeProperty ; rdfs:range xsd:string .
+city:endpoint a owl:DatatypeProperty .
+city:caveat a owl:DatatypeProperty ; rdfs:range xsd:string .
+city:sourceFeatureType a owl:DatatypeProperty ; rdfs:range xsd:string .
+city:sourceFeatureId a owl:DatatypeProperty ; rdfs:range xsd:string .
+city:rawField a owl:DatatypeProperty ; rdfs:range xsd:string .
+city:matchMode a owl:DatatypeProperty ; rdfs:range xsd:string .
+city:joinMode a owl:DatatypeProperty ; rdfs:range xsd:string .
+city:structureType a owl:DatatypeProperty ; rdfs:range xsd:string .
+
+city:sourceObjectId a owl:DatatypeProperty ; rdfs:range xsd:string .
+city:species a owl:DatatypeProperty ; rdfs:range xsd:string .
+city:street a owl:DatatypeProperty ; rdfs:range xsd:string .
+city:sourceStatus a owl:DatatypeProperty ; rdfs:range xsd:string .
+city:rawPropertiesJson a owl:DatatypeProperty ; rdfs:range xsd:string .
+
+city:overlapsPlanningArea a owl:ObjectProperty ; rdfs:range city:Area .
+city:nearestPublicGreen a owl:ObjectProperty ; rdfs:range city:PublicGreenSpace .
+city:nearestHospital a owl:ObjectProperty ; rdfs:range city:CareService .
+city:blockedByEvidenceGap a owl:ObjectProperty ; rdfs:range city:EvidenceGap .

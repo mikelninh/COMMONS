@@ -52,6 +52,7 @@ jobs:
           node --check public/berlin-xray.js
           node --check public/berlin-continuous.js
           node --check public/atlas.js
+          node --check public/semantic-city.js
       - name: Install browser test runner
         run: |
           npm install --no-save --package-lock=false --ignore-scripts playwright@1.55.0

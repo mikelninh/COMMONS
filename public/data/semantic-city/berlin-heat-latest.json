@@ -1,0 +1,91 @@
+{
+  "status": "official_structural_record",
+  "truth_boundary": "Fetched live from Berlin's official WFS, but the underlying Klimaanalysekarten 2022 are structural modeled evidence for a representative summer day, not current weather.",
+  "record": {
+    "feature_type": "multi-layer-wfs",
+    "feature_id": "0000000001000265",
+    "retrieved_at": "2026-10-06T09:38:21.904068Z",
+    "longitude": 13.4132,
+    "latitude": 52.5219,
+    "radius_m": 25.0,
+    "match_mode": "point_bbox",
+    "join_mode": "shared_schl5",
+    "properties": {
+      "pet14h": 40.56,
+      "schl5": "0000000001000265",
+      "utci14h": 36.31,
+      "t2m14h": 32.82,
+      "uhi": 2.18,
+      "typklar": "Straße"
+    },
+    "layers": {
+      "pet14h": {
+        "feature_type": "ua_klimaanalyse_2022:pb_ua_pet_str_2022",
+        "feature_id": "pb_ua_pet_str_2022.0000000001000265",
+        "raw_field": "pet14h",
+        "value": 40.56,
+        "schl5": "0000000001000265",
+        "typklar": null,
+        "match_mode": "point_bbox"
+      },
+      "utci14h": {
+        "feature_type": "ua_klimaanalyse_2022:rb_ua_utci_str_2022",
+        "feature_id": "rb_ua_utci_str_2022.0000000001000265",
+        "raw_field": "utci14h",
+        "value": 36.31,
+        "schl5": "0000000001000265",
+        "typklar": null,
+        "match_mode": "point_bbox"
+      },
+      "t2m14h": {
+        "feature_type": "ua_klimaanalyse_2022:hb_ua_lufttemp_str_t2m_14h_2022",
+        "feature_id": "hb_ua_lufttemp_str_t2m_14h_2022.0000000001000265",
+        "raw_field": "t2m14h",
+        "value": 32.82,
+        "schl5": "0000000001000265",
+        "typklar": null,
+        "match_mode": "point_bbox"
+      },
+      "uhi": {
+        "feature_type": "ua_klimaanalyse_2022:th_kak_verkehrsfl_2022",
+        "feature_id": "th_kak_verkehrsfl_2022.0000000001000265",
+        "raw_field": "uhi",
+        "value": 2.18,
+        "schl5": "0000000001000265",
+        "typklar": "Straße",
+        "match_mode": "point_bbox"
+      }
+    },
+    "source_endpoint": "https://gdi.berlin.de/services/wfs/ua_klimaanalyse_2022",
+    "source_crs": "EPSG:25833",
+    "dataset_model_year": "2022",
+    "dataset_release_date": "2024-06-01",
+    "license": "Datenlizenz Deutschland – Zero – Version 2.0"
+  },
+  "scenario": {
+    "title": "Heat resilience — official Berlin evidence",
+    "question": "What does the official structural heat evidence say about this location, and what is still missing before action?",
+    "authority": "human_decision_required",
+    "recommendation": "Use PET, UTCI, 14:00 air temperature and heat-island evidence for human review. Do not infer a current heat emergency or vulnerable residents without additional evidence.",
+    "caveat": "Klimaanalysekarten 2022 model a representative autochthonous summer day. Retrieval time is not observation time.",
+    "query": "PREFIX city: <https://commons.local/semantic-city/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?area ?label ?pet ?utci ?temp ?uhi WHERE {\n  ?area a city:Area ; rdfs:label ?label .\n  OPTIONAL { ?p city:about ?area ; city:metric \"pet14h\" ; city:value ?pet . }\n  OPTIONAL { ?u city:about ?area ; city:metric \"utci14h\" ; city:value ?utci . }\n  OPTIONAL { ?t city:about ?area ; city:metric \"t2m14h\" ; city:value ?temp . }\n  OPTIONAL { ?h city:about ?area ; city:metric \"uhi\" ; city:value ?uhi . }\n  FILTER(BOUND(?pet) || BOUND(?utci) || BOUND(?temp) || BOUND(?uhi))\n}",
+    "rows": [
+      {
+        "area": "city:area/berlin-heat/0000000001000265",
+        "label": "Berlin climate location 0000000001000265",
+        "pet": 40.56,
+        "utci": 36.31,
+        "temp": 32.82,
+        "uhi": 2.18
+      }
+    ],
+    "validation": {
+      "engine": "pyshacl",
+      "conforms": true,
+      "summary": "Validation Report"
+    },
+    "graph_stats": {
+      "triples": 100
+    }
+  }
+}

@@ -1,0 +1,84 @@
+name: Semantic City - municipal portability proof
+
+on:
+  pull_request:
+    paths:
+      - "src/commons/cologne_tree_wfs.py"
+      - "scripts/fetch_cologne_tree.py"
+      - "tests/test_cologne_tree_wfs.py"
+      - "semantic/adapters/cologne.json"
+      - ".github/workflows/semantic-city-portability.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cologne-tree-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install COMMONS
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Deterministic Cologne adapter tests
+        run: pytest -q tests/test_cologne_tree_wfs.py
+
+      - name: Fetch official Cologne tree feature
+        run: |
+          python scripts/fetch_cologne_tree.py             --output /tmp/cologne-tree-latest.json
+
+      - name: Verify portability truth boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          p = json.loads(
+              Path(
+                  "/tmp/cologne-tree-latest.json"
+              ).read_text()
+          )
+          assert p["status"] == "official_municipal_record"
+          assert p["record"]["feature_id"]
+          assert p["record"]["feature_type"]
+          assert p["scenario"]["validation"]["conforms"] is True
+          assert (
+              "city-managed trees only"
+              in p["truth_boundary"]
+          )
+          print(
+              json.dumps(
+                  {
+                      "feature_type": p["record"][
+                          "feature_type"
+                      ],
+                      "feature_id": p["record"][
+                          "feature_id"
+                      ],
+                      "normalized": p["record"][
+                          "normalized"
+                      ],
+                      "retrieved_at": p["record"][
+                          "retrieved_at"
+                      ],
+                  },
+                  ensure_ascii=False,
+              )
+          )
+          PY
+
+      - name: Upload official-source proof
+        uses: actions/upload-artifact@v4
+        with:
+          name: semantic-city-cologne-tree-proof
+          path: /tmp/cologne-tree-latest.json
+          retention-days: 14

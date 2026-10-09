@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07100e">
+<meta name="description" content="COMMONS City Graph - explainable semantic AI for urban systems.">
+<title>COMMONS / CITY GRAPH</title>
+<link rel="stylesheet" href="./semantic-city.css">
+<script defer src="./semantic-city.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="./index.html" aria-label="COMMONS home">
+    <span class="brand-mark"><i></i><i></i><i></i></span>
+    <span><b>COMMONS / CITY GRAPH</b><small>SEMANTIC CITY INTELLIGENCE</small></span>
+  </a>
+  <div class="standards"><span>RDF</span><span>SPARQL</span><span>SHACL</span><span>HUMAN GATE</span></div>
+  <a class="deep-link" href="./berlin-meaning.html">Deep City ^</a>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <p class="eyebrow"><i></i> BERLIN · CROSS-DOMAIN EVIDENCE VERIFIED</p>
+      <h1>Ask the city<br><em>why.</em></h1>
+      <p class="lede">A reusable knowledge graph connects places, people, infrastructure, observations, rules and responsibility - then keeps consequential decisions with accountable humans.</p>
+    </div>
+    <div class="hero-stats" aria-label="Graph summary">
+      <div><b>4</b><span>decision scenarios</span></div>
+      <div><b>2</b><span>municipal adapters</span></div>
+      <div><b>0</b><span>autonomous high-stakes actions</span></div>
+    </div>
+  </section>
+
+  <section class="scenario-strip" aria-label="Scenario selector">
+    <button class="scenario active" data-scenario="heat"><span>01</span><b>Heat</b><small>Who needs attention?</small></button>
+    <button class="scenario" data-scenario="resilience"><span>02</span><b>Resilience</b><small>What breaks if this breaks?</small></button>
+    <button class="scenario" data-scenario="energy"><span>03</span><b>Energy</b><small>Where should we assess first?</small></button>
+    <button class="scenario" data-scenario="flood"><span>04</span><b>Flood</b><small>What needs attention before impact?</small></button>
+  </section>
+
+  <section class="official-proof" id="officialProof">
+    <div class="proof-copy">
+      <span>OFFICIAL DATA PATH · VERIFIED SNAPSHOT</span>
+      <h2>Heat → justice → green → care</h2>
+      <p>One Berlin point now joins official climate evidence with environmental-justice context, public green space and hospital proximity — while keeping source dates, caveats and human authority visible.</p>
+    </div>
+    <div class="proof-metrics">
+      <div><span>PET · 14:00</span><b id="proofPet">—</b><small>°C · structural model</small></div>
+      <div><span>MULTIPLE BURDEN</span><b id="proofJustice">—</b><small>official planning context</small></div>
+      <div><span>NEAREST PUBLIC GREEN</span><b id="proofGreen">—</b><small>approx. distance</small></div>
+      <div><span>NEAREST HOSPITAL</span><b id="proofHospital">—</b><small>approx. distance</small></div>
+    </div>
+    <div class="proof-foot">
+      <strong id="officialProofStatus">LOADING CROSS-DOMAIN SNAPSHOT…</strong>
+      <small id="officialProofMeta">Four official source families · different reference dates</small>
+    </div>
+  </section>
+
+  <section class="workspace">
+    <article class="graph-card">
+      <div class="card-head">
+        <div><span>KNOWLEDGE GRAPH</span><strong id="graphTitle">Heat resilience</strong></div>
+        <div class="graph-legend"><i class="fact"></i> evidence <i class="entity"></i> entity <i class="rule"></i> rule</div>
+      </div>
+      <div class="graph-stage">
+        <svg id="graphSvg" viewBox="0 0 900 520" role="img" aria-label="Semantic graph"></svg>
+        <div class="graph-question"><span>QUESTION</span><strong id="question"></strong></div>
+      </div>
+      <div class="graph-foot">
+        <span><i></i> Relationships are queryable, not painted into the UI.</span>
+        <button id="showQuery" type="button">VIEW SPARQL</button>
+      </div>
+    </article>
+
+    <aside class="decision-card">
+      <div class="decision-top">
+        <span class="micro">SEMANTIC RESPONSE</span>
+        <div class="authority" id="authority"></div>
+      </div>
+      <h2 id="decisionTitle"></h2>
+      <p id="recommendation"></p>
+
+      <div class="why-block">
+        <div class="why-head"><span>WHY THIS?</span><small>traceable evidence path</small></div>
+        <div id="whyRows"></div>
+      </div>
+
+      <div class="evidence-gaps" id="evidenceGaps"><span>MISSING BEFORE ACTION</span><div id="gapRows"></div></div>
+
+      <div class="human-gate">
+        <div class="gate-icon">H</div>
+        <div><b>Human authority retained</b><p id="gateCopy"></p></div>
+      </div>
+
+      <button class="why-button" id="explainButton" type="button">SHOW FULL PROVENANCE <span>-></span></button>
+    </aside>
+  </section>
+
+  <section class="drawer" id="drawer" aria-live="polite">
+    <div class="drawer-tabs">
+      <button class="active" data-tab="evidence">EVIDENCE</button>
+      <button data-tab="query">SPARQL</button>
+      <button data-tab="model">SEMANTIC MODEL</button>
+      <button class="drawer-close" id="drawerClose">x</button>
+    </div>
+    <div class="drawer-body" id="drawerBody"></div>
+  </section>
+
+  <section class="architecture">
+    <div class="arch-intro"><span>REUSABLE FOUNDATION</span><h2>One graph.<br>Many municipal questions.</h2></div>
+    <div class="pipeline">
+      <div><b>01</b><strong>Sources</strong><small>WFS - APIs - catalogues</small></div><i>-></i>
+      <div><b>02</b><strong>Semantic model</strong><small>RDF - ontology - provenance</small></div><i>-></i>
+      <div><b>03</b><strong>Validation</strong><small>SHACL - freshness - integrity</small></div><i>-></i>
+      <div><b>04</b><strong>Decision support</strong><small>SPARQL - AI - explicit rules</small></div><i>-></i>
+      <div><b>05</b><strong>Authority</strong><small>human decides consequential action</small></div>
+    </div>
+    <div class="adapter-note"><b>City adapter:</b> Berlin and Köln now use the same semantic contract across different domains. The ontology stays stable; source adapters remain replaceable for Düsseldorf or another municipality.</div>
+  </section>
+
+  <section class="truth-note">
+    <b>Truth boundary</b>
+    <p>The Heat scenario joins four official Berlin source families: Klimaanalysekarten 2022, Umweltgerechtigkeit 2023/2024, Grünanlagenbestand and the hospital dataset. These sources have different reference dates and purposes; asset proximity is not live service availability, and structural climate evidence is not current weather. Resilience, Energy and Flood remain explicitly synthetic fixtures.</p>
+  </section>
+</main>
+
+<footer><span>COMMONS - CITY GRAPH v0.5</span><span>information -> understanding -> decision support -> accountable human action</span></footer>
+</body>
+</html>
