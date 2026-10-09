@@ -52,6 +52,7 @@ jobs:
           node --check public/berlin-xray.js
           node --check public/berlin-continuous.js
           node --check public/atlas.js
+          node --check public/city-thread/app.js
       - name: Install browser test runner
         run: |
           npm install --no-save --package-lock=false --ignore-scripts playwright@1.55.0
@@ -62,6 +63,8 @@ jobs:
         run: node scripts/browser-v2-lab-smoke.mjs
       - name: Test Berlin Meaning Engine
         run: node scripts/browser-meaning-smoke.mjs
+      - name: Smoke test CITY THREAD v0.3 desktop and mobile
+        run: node scripts/city-thread-smoke.mjs
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
@@ -78,6 +81,11 @@ jobs:
           SMOKE_BASE_URL: ${{ steps.deployment.outputs.page_url }}
           SMOKE_LABEL: deployed
         run: node scripts/browser-map-smoke.mjs
+      - name: Verify deployed CITY THREAD v0.3
+        env:
+          SMOKE_BASE_URL: ${{ steps.deployment.outputs.page_url }}
+          SMOKE_LABEL: deployed
+        run: node scripts/city-thread-smoke.mjs
       - name: Save browser screenshots and reports
         if: always()
         uses: actions/upload-artifact@v4

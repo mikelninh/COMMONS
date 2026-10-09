@@ -1,8 +1,21 @@
-# CITY THREAD v0.2 — Semantic City Lab
+# CITY THREAD v0.3 — Die Stadt zwischen den Zeilen
 
-An independent, educational civic Knowledge Graph prototype.
+An independent, educational civic Knowledge Graph prototype. **Dawn edition (v0.3):** a warm, editorial, mobile-first redesign that guides a visitor from a real location to a meaningful relationship and then to its evidence.
 
 **Public page:** https://mikelninh.github.io/COMMONS/city-thread/
+
+## v0.3 product and UX improvements
+- A completely renewed visual identity: **warm ivory, expressive ink, indigo and peach**, bespoke hand-drawn Berlin scene, editorial typography and calm depth.
+- Horizontal five-chapter navigation replaces the heavy sidebar. Discover → Verbindungen → Fragen → Vertrauen → Lernen.
+- Clear landing journey with optional quick introduction and a direct path to real water-fountain data.
+- Filter and search 120 points across 12 districts. The list progressively reveals eight at a time, while the coordinate plot retains all filtered points.
+- Selected place persists across the atlas, RDF relationship graph and learning example.
+- SPARQL syntax is an optional disclosure in the question interface, rather than an intimidating initial editor.
+- Trust and evidence shows limitations, provenance and small deliberately falsifiable browser checks.
+- Keyboard-operable SVG nodes, reduced-motion support and a mobile layout.
+- Playwright regression suite: `node scripts/city-thread-smoke.mjs`, exercised in GitHub Pages CI before and after deployment. Desktop/mobile screenshots saved as CI artifacts.
+
+**Important:** Visualising an RDF graph does not mean an AI model or query engine has executed. The public UI uses fixed question evaluators. The exported `data.ttl` and `shapes.ttl` provide real RDF and SHACL definitions for independent execution.
 
 ## What is real
 - Berlin water-fountain WFS records: **120 of 242** at snapshot time, collected **9 October 2026**.
@@ -43,6 +56,12 @@ Dependencies: python 3.11+, rdflib, pyshacl. To examine and develop the Python s
 - This prototype has **not joined** the official Berlin 2022 climate polygons. It cannot responsibly rank locations by heat vulnerability or justify a new fountain.
 - Browser “Trust & evidence” checks are **simple client-side range/provenance checks, not a SHACL execution environment**; the real SHACL definition is in shapes.ttl above.
 - City Thread is **not an official service of Berlin, DKSR or CIVORA**.
+
+## Interview demonstration in 90 seconds
+1. **Discover:** select a real place and show its official WFS origin. Explain the sample-boundary banner.
+2. **Connect:** open "Verbindungen"; click the district node and explain `fountain:f24 ct:inDistrict district:friedrichshain-kreuzberg`.
+3. **Ask:** run a fixed SPARQL-style example, reveal the source query, explain which claims cannot yet be made.
+4. **Verify:** inject a broken coordinate and demonstrate the quality gate. Explain why full SHACL execution is separate.
 
 ## Product hypothesis for DKSR interview
 A modular semantic layer could make municipal assets queryable and traceable across heterogeneous data sources, with quality gates before AI outputs.
