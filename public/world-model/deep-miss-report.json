@@ -1,17 +1,17 @@
 {
   "schema_version": "0.1",
   "source_period": {
-    "start": "2026-07-26",
-    "end": "2026-09-24",
-    "holdout_start": "2026-09-04"
+    "start": "2026-08-02",
+    "end": "2026-10-01",
+    "holdout_start": "2026-09-11"
   },
   "evidence_health": {
     "status": "healthy",
-    "affected_points": 18,
+    "affected_points": 20,
     "request_mode": "batched_multi_coordinate",
-    "forecast_requests_expected": 54,
-    "expected_forecast_bundles": 702,
-    "observed_forecast_bundles": 702,
+    "forecast_requests_expected": 60,
+    "expected_forecast_bundles": 780,
+    "observed_forecast_bundles": 780,
     "forecast_bundle_ratio": 1.0,
     "actual_point_ratio": 1.0
   },
@@ -37,282 +37,106 @@
     "one_model_rescue": true
   },
   "live_semantics_correction": {
-    "h21_exact_day_deep_cases": 45,
-    "evaluable": 45,
-    "no_longer_deep_under_live_72h_window": 15,
-    "would_alert_under_live_72h_window": 13,
+    "h21_exact_day_deep_cases": 47,
+    "evaluable": 47,
+    "no_longer_deep_under_live_72h_window": 14,
+    "would_alert_under_live_72h_window": 12,
     "note": "H21 classified one target day at a 3-day lead. Morning Brief instead looks across the next three target days at lead 1/2/3."
   },
-  "case_count": 324,
+  "case_count": 360,
   "development": {
-    "end_date": "2026-09-12",
+    "end_date": "2026-09-19",
     "baseline": {
-      "cases": 162,
-      "heavy_events": 72,
-      "alerts": 45,
-      "true_positives": 31,
-      "false_alerts": 14,
-      "precision": 0.6889,
-      "recall": 0.4306,
-      "false_alerts_per_100": 8.64,
-      "baseline_deep_misses": 36,
+      "cases": 180,
+      "heavy_events": 76,
+      "alerts": 60,
+      "true_positives": 42,
+      "false_alerts": 18,
+      "precision": 0.7,
+      "recall": 0.5526,
+      "false_alerts_per_100": 10.0,
+      "baseline_deep_misses": 29,
       "deep_misses_recovered": 0,
       "deep_miss_recovery_rate": 0.0
     },
-    "selected_strategy": "spatial_max_100km",
+    "selected_strategy": "spatial_mean_100km",
     "selection": {
       "metrics": {
-        "cases": 162,
-        "heavy_events": 72,
-        "alerts": 94,
-        "true_positives": 58,
-        "false_alerts": 36,
-        "precision": 0.617,
-        "recall": 0.8056,
-        "false_alerts_per_100": 22.22,
-        "baseline_deep_misses": 36,
-        "deep_misses_recovered": 22,
-        "deep_miss_recovery_rate": 0.6111
+        "cases": 180,
+        "heavy_events": 76,
+        "alerts": 62,
+        "true_positives": 47,
+        "false_alerts": 15,
+        "precision": 0.7581,
+        "recall": 0.6184,
+        "false_alerts_per_100": 8.33,
+        "baseline_deep_misses": 29,
+        "deep_misses_recovered": 7,
+        "deep_miss_recovery_rate": 0.2414
       },
       "comparison": {
-        "incremental_false_alerts_per_100": 13.58,
-        "precision_change": -0.0719,
-        "recall_change": 0.375
+        "incremental_false_alerts_per_100": -1.67,
+        "precision_change": 0.0581,
+        "recall_change": 0.0658
       },
-      "passes": false
+      "passes": true
     }
   },
   "test": {
     "baseline": {
-      "cases": 162,
-      "heavy_events": 62,
-      "alerts": 45,
-      "true_positives": 35,
-      "false_alerts": 10,
-      "precision": 0.7778,
-      "recall": 0.5645,
-      "false_alerts_per_100": 6.17,
-      "baseline_deep_misses": 20,
+      "cases": 180,
+      "heavy_events": 91,
+      "alerts": 63,
+      "true_positives": 59,
+      "false_alerts": 4,
+      "precision": 0.9365,
+      "recall": 0.6484,
+      "false_alerts_per_100": 2.22,
+      "baseline_deep_misses": 24,
       "deep_misses_recovered": 0,
       "deep_miss_recovery_rate": 0.0
     },
-    "selected_strategy": "spatial_max_100km",
+    "selected_strategy": "spatial_mean_100km",
     "selected": {
-      "cases": 162,
-      "heavy_events": 62,
-      "alerts": 96,
-      "true_positives": 57,
-      "false_alerts": 39,
-      "precision": 0.5938,
-      "recall": 0.9194,
-      "false_alerts_per_100": 24.07,
-      "baseline_deep_misses": 20,
-      "deep_misses_recovered": 15,
-      "deep_miss_recovery_rate": 0.75
+      "cases": 180,
+      "heavy_events": 91,
+      "alerts": 70,
+      "true_positives": 65,
+      "false_alerts": 5,
+      "precision": 0.9286,
+      "recall": 0.7143,
+      "false_alerts_per_100": 2.78,
+      "baseline_deep_misses": 24,
+      "deep_misses_recovered": 5,
+      "deep_miss_recovery_rate": 0.2083
     },
     "comparison": {
-      "incremental_false_alerts_per_100": 17.9,
-      "precision_change": -0.184,
-      "recall_change": 0.3549
+      "incremental_false_alerts_per_100": 0.56,
+      "precision_change": -0.0079,
+      "recall_change": 0.0659
     },
-    "passes_guardrails": false
+    "passes_guardrails": true
   },
   "failure_taxonomy": {
-    "deep_misses": 20,
+    "deep_misses": 24,
     "counts": {
-      "model_and_spatial": 10,
+      "model_and_spatial": 17,
       "one_model_saw_it": 1,
       "spatial_displacement": 5,
-      "consensus_blind": 4
+      "consensus_blind": 1
     },
-    "low_absolute_gate_misses": 9,
-    "extreme_observed_misses": 5,
+    "low_absolute_gate_misses": 19,
+    "extreme_observed_misses": 12,
     "examples": [
-      {
-        "point_id": "lagos",
-        "decision_date": "2026-09-13",
-        "observed_peak_mm": 44.0,
-        "heavy_gate_mm": 8.96,
-        "baseline_score": 0.279,
-        "any_model_score": 0.7478,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 0.9152,
-        "failure_mode": "consensus_blind"
-      },
-      {
-        "point_id": "istanbul",
-        "decision_date": "2026-09-13",
-        "observed_peak_mm": 1.5,
-        "heavy_gate_mm": 0.9,
-        "baseline_score": 0.2222,
-        "any_model_score": 0.3333,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 3.3333,
-        "failure_mode": "spatial_displacement"
-      },
-      {
-        "point_id": "mexico-city",
-        "decision_date": "2026-09-13",
-        "observed_peak_mm": 10.3,
-        "heavy_gate_mm": 9.04,
-        "baseline_score": 0.6969,
-        "any_model_score": 1.2058,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 1.2389,
-        "failure_mode": "model_and_spatial"
-      },
-      {
-        "point_id": "manila",
-        "decision_date": "2026-09-14",
-        "observed_peak_mm": 37.4,
-        "heavy_gate_mm": 30.96,
-        "baseline_score": 0.491,
-        "any_model_score": 0.6008,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 0.6944,
-        "failure_mode": "consensus_blind"
-      },
-      {
-        "point_id": "manila",
-        "decision_date": "2026-09-15",
-        "observed_peak_mm": 37.4,
-        "heavy_gate_mm": 30.96,
-        "baseline_score": 0.6234,
-        "any_model_score": 0.7623,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 0.6234,
-        "failure_mode": "consensus_blind"
-      },
-      {
-        "point_id": "osaka",
-        "decision_date": "2026-09-15",
-        "observed_peak_mm": 23.1,
-        "heavy_gate_mm": 7.66,
-        "baseline_score": 0.718,
-        "any_model_score": 2.7023,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 3.4204,
-        "failure_mode": "model_and_spatial"
-      },
-      {
-        "point_id": "miami",
-        "decision_date": "2026-09-15",
-        "observed_peak_mm": 17.4,
-        "heavy_gate_mm": 14.13,
-        "baseline_score": 0.5166,
-        "any_model_score": 0.8139,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 1.0403,
-        "failure_mode": "spatial_displacement"
-      },
-      {
-        "point_id": "manila",
-        "decision_date": "2026-09-16",
-        "observed_peak_mm": 37.4,
-        "heavy_gate_mm": 30.96,
-        "baseline_score": 0.6395,
-        "any_model_score": 0.8333,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 0.7106,
-        "failure_mode": "consensus_blind"
-      },
-      {
-        "point_id": "istanbul",
-        "decision_date": "2026-09-16",
-        "observed_peak_mm": 0.9,
-        "heavy_gate_mm": 0.9,
-        "baseline_score": 0.2222,
-        "any_model_score": 1.0,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 6.2222,
-        "failure_mode": "model_and_spatial"
-      },
-      {
-        "point_id": "miami",
-        "decision_date": "2026-09-16",
-        "observed_peak_mm": 17.4,
-        "heavy_gate_mm": 14.13,
-        "baseline_score": 0.4812,
-        "any_model_score": 1.6985,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 0.9837,
-        "failure_mode": "one_model_saw_it"
-      },
-      {
-        "point_id": "singapore",
-        "decision_date": "2026-09-17",
-        "observed_peak_mm": 4.6,
-        "heavy_gate_mm": 4.27,
-        "baseline_score": 0.6089,
-        "any_model_score": 2.178,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 2.7635,
-        "failure_mode": "model_and_spatial"
-      },
-      {
-        "point_id": "istanbul",
-        "decision_date": "2026-09-17",
-        "observed_peak_mm": 0.9,
-        "heavy_gate_mm": 0.9,
-        "baseline_score": 0.3333,
-        "any_model_score": 0.4444,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 8.7778,
-        "failure_mode": "spatial_displacement"
-      },
-      {
-        "point_id": "miami",
-        "decision_date": "2026-09-17",
-        "observed_peak_mm": 22.6,
-        "heavy_gate_mm": 14.13,
-        "baseline_score": 0.4459,
-        "any_model_score": 0.7289,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 1.0545,
-        "failure_mode": "spatial_displacement"
-      },
-      {
-        "point_id": "singapore",
-        "decision_date": "2026-09-18",
-        "observed_peak_mm": 4.6,
-        "heavy_gate_mm": 4.27,
-        "baseline_score": 0.4918,
-        "any_model_score": 4.2155,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 1.6628,
-        "failure_mode": "model_and_spatial"
-      },
-      {
-        "point_id": "miami",
-        "decision_date": "2026-09-18",
-        "observed_peak_mm": 22.6,
-        "heavy_gate_mm": 14.13,
-        "baseline_score": 0.7785,
-        "any_model_score": 1.0191,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 1.2527,
-        "failure_mode": "model_and_spatial"
-      },
-      {
-        "point_id": "singapore",
-        "decision_date": "2026-09-19",
-        "observed_peak_mm": 23.9,
-        "heavy_gate_mm": 4.27,
-        "baseline_score": 0.6557,
-        "any_model_score": 2.3185,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 2.5293,
-        "failure_mode": "model_and_spatial"
-      },
       {
         "point_id": "singapore",
         "decision_date": "2026-09-20",
         "observed_peak_mm": 23.9,
-        "heavy_gate_mm": 4.27,
-        "baseline_score": 0.6792,
-        "any_model_score": 0.7963,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 2.7166,
+        "heavy_gate_mm": 3.82,
+        "baseline_score": 0.7592,
+        "any_model_score": 0.8901,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 0.9203,
         "failure_mode": "spatial_displacement"
       },
       {
@@ -322,8 +146,8 @@
         "heavy_gate_mm": 0.61,
         "baseline_score": 0.1639,
         "any_model_score": 2.459,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 2.459,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 0.9206,
         "failure_mode": "model_and_spatial"
       },
       {
@@ -333,8 +157,8 @@
         "heavy_gate_mm": 32.42,
         "baseline_score": 0.33,
         "any_model_score": 1.1228,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 1.24,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 0.6532,
         "failure_mode": "model_and_spatial"
       },
       {
@@ -344,8 +168,184 @@
         "heavy_gate_mm": 3.87,
         "baseline_score": 0.6977,
         "any_model_score": 2.093,
-        "selected_strategy": "spatial_max_100km",
-        "selected_score": 2.1964,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 0.9024,
+        "failure_mode": "model_and_spatial"
+      },
+      {
+        "point_id": "brisbane",
+        "decision_date": "2026-09-22",
+        "observed_peak_mm": 1.4,
+        "heavy_gate_mm": 1.13,
+        "baseline_score": 0.708,
+        "any_model_score": 1.5929,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 0.8169,
+        "failure_mode": "model_and_spatial"
+      },
+      {
+        "point_id": "berlin",
+        "decision_date": "2026-09-22",
+        "observed_peak_mm": 4.5,
+        "heavy_gate_mm": 3.87,
+        "baseline_score": 0.155,
+        "any_model_score": 0.3876,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 0.3717,
+        "failure_mode": "consensus_blind"
+      },
+      {
+        "point_id": "rome",
+        "decision_date": "2026-09-22",
+        "observed_peak_mm": 6.9,
+        "heavy_gate_mm": 2.74,
+        "baseline_score": 0.438,
+        "any_model_score": 2.4453,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 0.5362,
+        "failure_mode": "model_and_spatial"
+      },
+      {
+        "point_id": "brisbane",
+        "decision_date": "2026-09-23",
+        "observed_peak_mm": 1.4,
+        "heavy_gate_mm": 1.13,
+        "baseline_score": 0.531,
+        "any_model_score": 1.4159,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 0.8441,
+        "failure_mode": "model_and_spatial"
+      },
+      {
+        "point_id": "rome",
+        "decision_date": "2026-09-23",
+        "observed_peak_mm": 6.9,
+        "heavy_gate_mm": 2.74,
+        "baseline_score": 0.0365,
+        "any_model_score": 1.6788,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 0.2077,
+        "failure_mode": "model_and_spatial"
+      },
+      {
+        "point_id": "jakarta",
+        "decision_date": "2026-09-24",
+        "observed_peak_mm": 2.9,
+        "heavy_gate_mm": 1.0,
+        "baseline_score": 0.5,
+        "any_model_score": 4.8,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 1.1538,
+        "failure_mode": "model_and_spatial"
+      },
+      {
+        "point_id": "brisbane",
+        "decision_date": "2026-09-24",
+        "observed_peak_mm": 1.4,
+        "heavy_gate_mm": 1.13,
+        "baseline_score": 0.708,
+        "any_model_score": 1.8584,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 0.7897,
+        "failure_mode": "model_and_spatial"
+      },
+      {
+        "point_id": "lagos",
+        "decision_date": "2026-09-24",
+        "observed_peak_mm": 26.8,
+        "heavy_gate_mm": 11.11,
+        "baseline_score": 0.045,
+        "any_model_score": 1.7822,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 0.144,
+        "failure_mode": "one_model_saw_it"
+      },
+      {
+        "point_id": "istanbul",
+        "decision_date": "2026-09-24",
+        "observed_peak_mm": 6.3,
+        "heavy_gate_mm": 0.45,
+        "baseline_score": 0.2222,
+        "any_model_score": 7.5556,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 5.5385,
+        "failure_mode": "model_and_spatial"
+      },
+      {
+        "point_id": "rome",
+        "decision_date": "2026-09-24",
+        "observed_peak_mm": 6.9,
+        "heavy_gate_mm": 2.74,
+        "baseline_score": 0.5839,
+        "any_model_score": 0.9854,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 0.4857,
+        "failure_mode": "spatial_displacement"
+      },
+      {
+        "point_id": "buenos-aires",
+        "decision_date": "2026-09-24",
+        "observed_peak_mm": 2.8,
+        "heavy_gate_mm": 1.45,
+        "baseline_score": 0.4138,
+        "any_model_score": 15.2414,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 0.6737,
+        "failure_mode": "model_and_spatial"
+      },
+      {
+        "point_id": "singapore",
+        "decision_date": "2026-09-25",
+        "observed_peak_mm": 17.9,
+        "heavy_gate_mm": 3.82,
+        "baseline_score": 0.3141,
+        "any_model_score": 4.555,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 1.1438,
+        "failure_mode": "model_and_spatial"
+      },
+      {
+        "point_id": "lagos",
+        "decision_date": "2026-09-25",
+        "observed_peak_mm": 142.2,
+        "heavy_gate_mm": 11.11,
+        "baseline_score": 0.5311,
+        "any_model_score": 0.9991,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 0.6044,
+        "failure_mode": "spatial_displacement"
+      },
+      {
+        "point_id": "accra",
+        "decision_date": "2026-09-25",
+        "observed_peak_mm": 4.3,
+        "heavy_gate_mm": 3.26,
+        "baseline_score": 0.7669,
+        "any_model_score": 6.9018,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 0.8589,
+        "failure_mode": "model_and_spatial"
+      },
+      {
+        "point_id": "singapore",
+        "decision_date": "2026-09-27",
+        "observed_peak_mm": 12.6,
+        "heavy_gate_mm": 3.82,
+        "baseline_score": 0.7853,
+        "any_model_score": 1.5183,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 1.0814,
+        "failure_mode": "model_and_spatial"
+      },
+      {
+        "point_id": "nairobi",
+        "decision_date": "2026-09-27",
+        "observed_peak_mm": 1.6,
+        "heavy_gate_mm": 0.41,
+        "baseline_score": 0.7317,
+        "any_model_score": 11.7073,
+        "selected_strategy": "spatial_mean_100km",
+        "selected_score": 1.3321,
         "failure_mode": "model_and_spatial"
       }
     ]
@@ -353,9 +353,9 @@
   "hypothesis": {
     "id": "H23",
     "claim": "A predeclared spatial or single-model rescue strategy recovers at least 20% of live-window deep misses while adding no more than 3 false alerts per 100 decisions and losing no more than 5 percentage points of precision.",
-    "status": "not_supported",
-    "effect": "selected spatial_max_100km; test deep-miss recovery 0.75; incremental false alerts 17.9/100; precision change -0.184",
-    "product_update": "Do not add the tested spatial or single-model rescue rule to live ALERT. Deep misses remain a model/physics problem; continue with basin context, convective/local signals and impact-labelled evaluation."
+    "status": "supported",
+    "effect": "selected spatial_mean_100km; test deep-miss recovery 0.2083; incremental false alerts 0.56/100; precision change -0.0079",
+    "product_update": "Promote spatial_mean_100km to a shadow ranking experiment only; it recovered deep misses inside the predefined false-alert and precision budget. Do not change ALERT until it survives another independent window."
   },
   "limitations": [
     "Spatial cells are coarse cardinal samples, not basin polygons or convection-resolving grids.",

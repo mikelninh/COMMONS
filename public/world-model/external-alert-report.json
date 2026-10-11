@@ -3,399 +3,19 @@
   "source": "Global Disaster Alert and Coordination System (GDACS)",
   "source_url": "https://www.gdacs.org/",
   "period": {
-    "start": "2026-09-04",
-    "end": "2026-09-24"
+    "start": "2026-09-11",
+    "end": "2026-10-01"
   },
   "match_radius_km": 250.0,
-  "gdacs_events": 79,
+  "gdacs_events": 84,
   "gdacs_source_errors": [],
   "weather_source_errors": [],
   "weather_full_council_ratio": 1.0,
-  "matched_point_days": 96,
-  "commons_alert_days": 71,
-  "commons_alert_on_matched_days": 16,
-  "overlap_rate": 0.1667,
+  "matched_point_days": 112,
+  "commons_alert_days": 85,
+  "commons_alert_on_matched_days": 21,
+  "overlap_rate": 0.1875,
   "matches": [
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-04",
-      "commons_alert": false,
-      "forecast_mm": 15.2,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-05",
-      "commons_alert": false,
-      "forecast_mm": 9.0,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-06",
-      "commons_alert": false,
-      "forecast_mm": 9.3,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-07",
-      "commons_alert": false,
-      "forecast_mm": 11.2,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-08",
-      "commons_alert": false,
-      "forecast_mm": 11.5,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-09",
-      "commons_alert": false,
-      "forecast_mm": 6.6,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-10",
-      "commons_alert": false,
-      "forecast_mm": 6.6,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-11",
-      "commons_alert": false,
-      "forecast_mm": 10.1,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-12",
-      "commons_alert": false,
-      "forecast_mm": 11.5,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-13",
-      "commons_alert": false,
-      "forecast_mm": 12.0,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-14",
-      "commons_alert": false,
-      "forecast_mm": 11.3,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-15",
-      "commons_alert": false,
-      "forecast_mm": 6.5,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-16",
-      "commons_alert": false,
-      "forecast_mm": 4.8,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-17",
-      "commons_alert": false,
-      "forecast_mm": 1.2,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-18",
-      "commons_alert": false,
-      "forecast_mm": 4.5,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-19",
-      "commons_alert": false,
-      "forecast_mm": 2.6,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-20",
-      "commons_alert": false,
-      "forecast_mm": 3.0,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-21",
-      "commons_alert": false,
-      "forecast_mm": 0.7,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
-    {
-      "point_id": "nuwakot",
-      "name": "Nuwakot",
-      "date": "2026-09-22",
-      "commons_alert": false,
-      "forecast_mm": 4.0,
-      "heavy_gate_mm": 32.42,
-      "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        }
-      ]
-    },
     {
       "point_id": "nuwakot",
       "name": "Nuwakot",
@@ -404,16 +24,6 @@
       "forecast_mm": 5.9,
       "heavy_gate_mm": 32.42,
       "gdacs_events": [
-        {
-          "event_id": 1104121,
-          "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        },
         {
           "event_id": 1104198,
           "event_type": "FL",
@@ -435,15 +45,25 @@
       "heavy_gate_mm": 32.42,
       "gdacs_events": [
         {
-          "event_id": 1104121,
+          "event_id": 1104198,
           "event_type": "FL",
-          "alert_level": "Orange",
-          "name": "Flood in India",
-          "latitude": 26.4211,
-          "longitude": 84.3739,
-          "start_date": "2026-08-09",
-          "end_date": "2026-09-28"
-        },
+          "alert_level": "Green",
+          "name": "Flood in India, Nepal",
+          "latitude": 28.2657,
+          "longitude": 83.5973,
+          "start_date": "2026-09-24",
+          "end_date": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "point_id": "nuwakot",
+      "name": "Nuwakot",
+      "date": "2026-09-25",
+      "commons_alert": true,
+      "forecast_mm": 32.7,
+      "heavy_gate_mm": 32.42,
+      "gdacs_events": [
         {
           "event_id": 1104198,
           "event_type": "FL",
@@ -457,122 +77,342 @@
       ]
     },
     {
-      "point_id": "warsaw",
-      "name": "Warsaw",
-      "date": "2026-09-04",
+      "point_id": "nuwakot",
+      "name": "Nuwakot",
+      "date": "2026-09-26",
       "commons_alert": false,
-      "forecast_mm": 5.9,
-      "heavy_gate_mm": 7.98,
+      "forecast_mm": 22.5,
+      "heavy_gate_mm": 32.42,
       "gdacs_events": [
         {
-          "event_id": 1104144,
+          "event_id": 1104198,
           "event_type": "FL",
           "alert_level": "Green",
-          "name": "Flood in Poland",
-          "latitude": 53.1297,
-          "longitude": 18.0294,
-          "start_date": "2026-09-05",
-          "end_date": "2026-09-06"
+          "name": "Flood in India, Nepal",
+          "latitude": 28.2657,
+          "longitude": 83.5973,
+          "start_date": "2026-09-24",
+          "end_date": "2026-09-26"
         }
       ]
     },
     {
-      "point_id": "warsaw",
-      "name": "Warsaw",
-      "date": "2026-09-05",
+      "point_id": "nuwakot",
+      "name": "Nuwakot",
+      "date": "2026-09-27",
       "commons_alert": false,
-      "forecast_mm": 4.6,
-      "heavy_gate_mm": 7.98,
+      "forecast_mm": 7.6,
+      "heavy_gate_mm": 32.42,
       "gdacs_events": [
         {
-          "event_id": 1104144,
+          "event_id": 1104198,
           "event_type": "FL",
           "alert_level": "Green",
-          "name": "Flood in Poland",
-          "latitude": 53.1297,
-          "longitude": 18.0294,
-          "start_date": "2026-09-05",
-          "end_date": "2026-09-06"
+          "name": "Flood in India, Nepal",
+          "latitude": 28.2657,
+          "longitude": 83.5973,
+          "start_date": "2026-09-24",
+          "end_date": "2026-09-26"
         }
       ]
     },
     {
-      "point_id": "warsaw",
-      "name": "Warsaw",
-      "date": "2026-09-06",
+      "point_id": "manila",
+      "name": "Manila",
+      "date": "2026-09-17",
       "commons_alert": false,
-      "forecast_mm": 0.2,
-      "heavy_gate_mm": 7.98,
+      "forecast_mm": 15.2,
+      "heavy_gate_mm": 33.39,
       "gdacs_events": [
         {
-          "event_id": 1104144,
+          "event_id": 1104176,
           "event_type": "FL",
           "alert_level": "Green",
-          "name": "Flood in Poland",
-          "latitude": 53.1297,
-          "longitude": 18.0294,
-          "start_date": "2026-09-05",
-          "end_date": "2026-09-06"
+          "name": "Flood in Philippines",
+          "latitude": 13.8114,
+          "longitude": 121.1763,
+          "start_date": "2026-09-18",
+          "end_date": "2026-10-04"
         }
       ]
     },
     {
-      "point_id": "warsaw",
-      "name": "Warsaw",
-      "date": "2026-09-07",
+      "point_id": "manila",
+      "name": "Manila",
+      "date": "2026-09-18",
       "commons_alert": false,
-      "forecast_mm": 0.0,
-      "heavy_gate_mm": 7.98,
+      "forecast_mm": 10.1,
+      "heavy_gate_mm": 33.39,
       "gdacs_events": [
         {
-          "event_id": 1104144,
+          "event_id": 1104176,
           "event_type": "FL",
           "alert_level": "Green",
-          "name": "Flood in Poland",
-          "latitude": 53.1297,
-          "longitude": 18.0294,
-          "start_date": "2026-09-05",
-          "end_date": "2026-09-06"
+          "name": "Flood in Philippines",
+          "latitude": 13.8114,
+          "longitude": 121.1763,
+          "start_date": "2026-09-18",
+          "end_date": "2026-10-04"
         }
       ]
     },
     {
-      "point_id": "dhaka",
-      "name": "Dhaka",
-      "date": "2026-09-09",
+      "point_id": "manila",
+      "name": "Manila",
+      "date": "2026-09-19",
       "commons_alert": false,
       "forecast_mm": 9.7,
-      "heavy_gate_mm": 15.28,
+      "heavy_gate_mm": 33.39,
       "gdacs_events": [
         {
-          "event_id": 1104156,
+          "event_id": 1104176,
           "event_type": "FL",
           "alert_level": "Green",
-          "name": "Flood in Bangladesh",
-          "latitude": 23.9479,
-          "longitude": 88.9764,
-          "start_date": "2026-09-10",
-          "end_date": "2026-09-12"
+          "name": "Flood in Philippines",
+          "latitude": 13.8114,
+          "longitude": 121.1763,
+          "start_date": "2026-09-18",
+          "end_date": "2026-10-04"
         }
       ]
     },
     {
-      "point_id": "dhaka",
-      "name": "Dhaka",
-      "date": "2026-09-10",
+      "point_id": "manila",
+      "name": "Manila",
+      "date": "2026-09-20",
       "commons_alert": false,
-      "forecast_mm": 3.9,
-      "heavy_gate_mm": 15.28,
+      "forecast_mm": 5.6,
+      "heavy_gate_mm": 33.39,
       "gdacs_events": [
         {
-          "event_id": 1104156,
+          "event_id": 1104176,
           "event_type": "FL",
           "alert_level": "Green",
-          "name": "Flood in Bangladesh",
-          "latitude": 23.9479,
-          "longitude": 88.9764,
-          "start_date": "2026-09-10",
-          "end_date": "2026-09-12"
+          "name": "Flood in Philippines",
+          "latitude": 13.8114,
+          "longitude": 121.1763,
+          "start_date": "2026-09-18",
+          "end_date": "2026-10-04"
+        }
+      ]
+    },
+    {
+      "point_id": "manila",
+      "name": "Manila",
+      "date": "2026-09-21",
+      "commons_alert": false,
+      "forecast_mm": 4.0,
+      "heavy_gate_mm": 33.39,
+      "gdacs_events": [
+        {
+          "event_id": 1104176,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Philippines",
+          "latitude": 13.8114,
+          "longitude": 121.1763,
+          "start_date": "2026-09-18",
+          "end_date": "2026-10-04"
+        }
+      ]
+    },
+    {
+      "point_id": "manila",
+      "name": "Manila",
+      "date": "2026-09-22",
+      "commons_alert": false,
+      "forecast_mm": 3.8,
+      "heavy_gate_mm": 33.39,
+      "gdacs_events": [
+        {
+          "event_id": 1104176,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Philippines",
+          "latitude": 13.8114,
+          "longitude": 121.1763,
+          "start_date": "2026-09-18",
+          "end_date": "2026-10-04"
+        }
+      ]
+    },
+    {
+      "point_id": "manila",
+      "name": "Manila",
+      "date": "2026-09-23",
+      "commons_alert": false,
+      "forecast_mm": 6.0,
+      "heavy_gate_mm": 33.39,
+      "gdacs_events": [
+        {
+          "event_id": 1104176,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Philippines",
+          "latitude": 13.8114,
+          "longitude": 121.1763,
+          "start_date": "2026-09-18",
+          "end_date": "2026-10-04"
+        }
+      ]
+    },
+    {
+      "point_id": "manila",
+      "name": "Manila",
+      "date": "2026-09-24",
+      "commons_alert": false,
+      "forecast_mm": 7.5,
+      "heavy_gate_mm": 33.39,
+      "gdacs_events": [
+        {
+          "event_id": 1104176,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Philippines",
+          "latitude": 13.8114,
+          "longitude": 121.1763,
+          "start_date": "2026-09-18",
+          "end_date": "2026-10-04"
+        }
+      ]
+    },
+    {
+      "point_id": "manila",
+      "name": "Manila",
+      "date": "2026-09-25",
+      "commons_alert": false,
+      "forecast_mm": 2.9,
+      "heavy_gate_mm": 33.39,
+      "gdacs_events": [
+        {
+          "event_id": 1104176,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Philippines",
+          "latitude": 13.8114,
+          "longitude": 121.1763,
+          "start_date": "2026-09-18",
+          "end_date": "2026-10-04"
+        }
+      ]
+    },
+    {
+      "point_id": "manila",
+      "name": "Manila",
+      "date": "2026-09-26",
+      "commons_alert": false,
+      "forecast_mm": 3.3,
+      "heavy_gate_mm": 33.39,
+      "gdacs_events": [
+        {
+          "event_id": 1104176,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Philippines",
+          "latitude": 13.8114,
+          "longitude": 121.1763,
+          "start_date": "2026-09-18",
+          "end_date": "2026-10-04"
+        }
+      ]
+    },
+    {
+      "point_id": "manila",
+      "name": "Manila",
+      "date": "2026-09-27",
+      "commons_alert": false,
+      "forecast_mm": 1.6,
+      "heavy_gate_mm": 33.39,
+      "gdacs_events": [
+        {
+          "event_id": 1104176,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Philippines",
+          "latitude": 13.8114,
+          "longitude": 121.1763,
+          "start_date": "2026-09-18",
+          "end_date": "2026-10-04"
+        }
+      ]
+    },
+    {
+      "point_id": "manila",
+      "name": "Manila",
+      "date": "2026-09-28",
+      "commons_alert": false,
+      "forecast_mm": 2.7,
+      "heavy_gate_mm": 33.39,
+      "gdacs_events": [
+        {
+          "event_id": 1104176,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Philippines",
+          "latitude": 13.8114,
+          "longitude": 121.1763,
+          "start_date": "2026-09-18",
+          "end_date": "2026-10-04"
+        }
+      ]
+    },
+    {
+      "point_id": "manila",
+      "name": "Manila",
+      "date": "2026-09-29",
+      "commons_alert": false,
+      "forecast_mm": 2.8,
+      "heavy_gate_mm": 33.39,
+      "gdacs_events": [
+        {
+          "event_id": 1104176,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Philippines",
+          "latitude": 13.8114,
+          "longitude": 121.1763,
+          "start_date": "2026-09-18",
+          "end_date": "2026-10-04"
+        }
+      ]
+    },
+    {
+      "point_id": "manila",
+      "name": "Manila",
+      "date": "2026-09-30",
+      "commons_alert": false,
+      "forecast_mm": 1.8,
+      "heavy_gate_mm": 33.39,
+      "gdacs_events": [
+        {
+          "event_id": 1104176,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Philippines",
+          "latitude": 13.8114,
+          "longitude": 121.1763,
+          "start_date": "2026-09-18",
+          "end_date": "2026-10-04"
+        }
+      ]
+    },
+    {
+      "point_id": "manila",
+      "name": "Manila",
+      "date": "2026-10-01",
+      "commons_alert": false,
+      "forecast_mm": 1.8,
+      "heavy_gate_mm": 33.39,
+      "gdacs_events": [
+        {
+          "event_id": 1104176,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Philippines",
+          "latitude": 13.8114,
+          "longitude": 121.1763,
+          "start_date": "2026-09-18",
+          "end_date": "2026-10-04"
         }
       ]
     },
@@ -582,7 +422,7 @@
       "date": "2026-09-11",
       "commons_alert": false,
       "forecast_mm": 1.2,
-      "heavy_gate_mm": 15.28,
+      "heavy_gate_mm": 16.03,
       "gdacs_events": [
         {
           "event_id": 1104156,
@@ -602,7 +442,7 @@
       "date": "2026-09-12",
       "commons_alert": false,
       "forecast_mm": 2.7,
-      "heavy_gate_mm": 15.28,
+      "heavy_gate_mm": 16.03,
       "gdacs_events": [
         {
           "event_id": 1104156,
@@ -622,7 +462,7 @@
       "date": "2026-09-13",
       "commons_alert": false,
       "forecast_mm": 4.3,
-      "heavy_gate_mm": 15.28,
+      "heavy_gate_mm": 16.03,
       "gdacs_events": [
         {
           "event_id": 1104156,
@@ -639,150 +479,10 @@
     {
       "point_id": "bangkok",
       "name": "Bangkok",
-      "date": "2026-09-04",
-      "commons_alert": false,
-      "forecast_mm": 1.1,
-      "heavy_gate_mm": 10.74,
-      "gdacs_events": [
-        {
-          "event_id": 1104122,
-          "event_type": "FL",
-          "alert_level": "Green",
-          "name": "Flood in Thailand",
-          "latitude": 13.6318,
-          "longitude": 99.3558,
-          "start_date": "2026-08-18",
-          "end_date": "2026-10-03"
-        }
-      ]
-    },
-    {
-      "point_id": "bangkok",
-      "name": "Bangkok",
-      "date": "2026-09-05",
-      "commons_alert": false,
-      "forecast_mm": 1.8,
-      "heavy_gate_mm": 10.74,
-      "gdacs_events": [
-        {
-          "event_id": 1104122,
-          "event_type": "FL",
-          "alert_level": "Green",
-          "name": "Flood in Thailand",
-          "latitude": 13.6318,
-          "longitude": 99.3558,
-          "start_date": "2026-08-18",
-          "end_date": "2026-10-03"
-        }
-      ]
-    },
-    {
-      "point_id": "bangkok",
-      "name": "Bangkok",
-      "date": "2026-09-06",
-      "commons_alert": false,
-      "forecast_mm": 3.9,
-      "heavy_gate_mm": 10.74,
-      "gdacs_events": [
-        {
-          "event_id": 1104122,
-          "event_type": "FL",
-          "alert_level": "Green",
-          "name": "Flood in Thailand",
-          "latitude": 13.6318,
-          "longitude": 99.3558,
-          "start_date": "2026-08-18",
-          "end_date": "2026-10-03"
-        }
-      ]
-    },
-    {
-      "point_id": "bangkok",
-      "name": "Bangkok",
-      "date": "2026-09-07",
-      "commons_alert": false,
-      "forecast_mm": 4.6,
-      "heavy_gate_mm": 10.74,
-      "gdacs_events": [
-        {
-          "event_id": 1104122,
-          "event_type": "FL",
-          "alert_level": "Green",
-          "name": "Flood in Thailand",
-          "latitude": 13.6318,
-          "longitude": 99.3558,
-          "start_date": "2026-08-18",
-          "end_date": "2026-10-03"
-        }
-      ]
-    },
-    {
-      "point_id": "bangkok",
-      "name": "Bangkok",
-      "date": "2026-09-08",
-      "commons_alert": false,
-      "forecast_mm": 4.9,
-      "heavy_gate_mm": 10.74,
-      "gdacs_events": [
-        {
-          "event_id": 1104122,
-          "event_type": "FL",
-          "alert_level": "Green",
-          "name": "Flood in Thailand",
-          "latitude": 13.6318,
-          "longitude": 99.3558,
-          "start_date": "2026-08-18",
-          "end_date": "2026-10-03"
-        }
-      ]
-    },
-    {
-      "point_id": "bangkok",
-      "name": "Bangkok",
-      "date": "2026-09-09",
-      "commons_alert": true,
-      "forecast_mm": 14.4,
-      "heavy_gate_mm": 10.74,
-      "gdacs_events": [
-        {
-          "event_id": 1104122,
-          "event_type": "FL",
-          "alert_level": "Green",
-          "name": "Flood in Thailand",
-          "latitude": 13.6318,
-          "longitude": 99.3558,
-          "start_date": "2026-08-18",
-          "end_date": "2026-10-03"
-        }
-      ]
-    },
-    {
-      "point_id": "bangkok",
-      "name": "Bangkok",
-      "date": "2026-09-10",
-      "commons_alert": true,
-      "forecast_mm": 27.6,
-      "heavy_gate_mm": 10.74,
-      "gdacs_events": [
-        {
-          "event_id": 1104122,
-          "event_type": "FL",
-          "alert_level": "Green",
-          "name": "Flood in Thailand",
-          "latitude": 13.6318,
-          "longitude": 99.3558,
-          "start_date": "2026-08-18",
-          "end_date": "2026-10-03"
-        }
-      ]
-    },
-    {
-      "point_id": "bangkok",
-      "name": "Bangkok",
       "date": "2026-09-11",
       "commons_alert": true,
       "forecast_mm": 24.4,
-      "heavy_gate_mm": 10.74,
+      "heavy_gate_mm": 9.88,
       "gdacs_events": [
         {
           "event_id": 1104122,
@@ -802,7 +502,7 @@
       "date": "2026-09-12",
       "commons_alert": true,
       "forecast_mm": 14.0,
-      "heavy_gate_mm": 10.74,
+      "heavy_gate_mm": 9.88,
       "gdacs_events": [
         {
           "event_id": 1104122,
@@ -822,7 +522,7 @@
       "date": "2026-09-13",
       "commons_alert": false,
       "forecast_mm": 4.9,
-      "heavy_gate_mm": 10.74,
+      "heavy_gate_mm": 9.88,
       "gdacs_events": [
         {
           "event_id": 1104122,
@@ -842,7 +542,7 @@
       "date": "2026-09-14",
       "commons_alert": false,
       "forecast_mm": 8.3,
-      "heavy_gate_mm": 10.74,
+      "heavy_gate_mm": 9.88,
       "gdacs_events": [
         {
           "event_id": 1104122,
@@ -862,7 +562,7 @@
       "date": "2026-09-15",
       "commons_alert": true,
       "forecast_mm": 13.0,
-      "heavy_gate_mm": 10.74,
+      "heavy_gate_mm": 9.88,
       "gdacs_events": [
         {
           "event_id": 1104122,
@@ -882,7 +582,7 @@
       "date": "2026-09-16",
       "commons_alert": false,
       "forecast_mm": 9.6,
-      "heavy_gate_mm": 10.74,
+      "heavy_gate_mm": 9.88,
       "gdacs_events": [
         {
           "event_id": 1104122,
@@ -902,7 +602,7 @@
       "date": "2026-09-17",
       "commons_alert": false,
       "forecast_mm": 3.3,
-      "heavy_gate_mm": 10.74,
+      "heavy_gate_mm": 9.88,
       "gdacs_events": [
         {
           "event_id": 1104122,
@@ -922,7 +622,7 @@
       "date": "2026-09-18",
       "commons_alert": false,
       "forecast_mm": 7.6,
-      "heavy_gate_mm": 10.74,
+      "heavy_gate_mm": 9.88,
       "gdacs_events": [
         {
           "event_id": 1104122,
@@ -942,7 +642,7 @@
       "date": "2026-09-19",
       "commons_alert": true,
       "forecast_mm": 26.7,
-      "heavy_gate_mm": 10.74,
+      "heavy_gate_mm": 9.88,
       "gdacs_events": [
         {
           "event_id": 1104122,
@@ -962,7 +662,7 @@
       "date": "2026-09-20",
       "commons_alert": true,
       "forecast_mm": 11.8,
-      "heavy_gate_mm": 10.74,
+      "heavy_gate_mm": 9.88,
       "gdacs_events": [
         {
           "event_id": 1104122,
@@ -982,7 +682,7 @@
       "date": "2026-09-21",
       "commons_alert": false,
       "forecast_mm": 1.8,
-      "heavy_gate_mm": 10.74,
+      "heavy_gate_mm": 9.88,
       "gdacs_events": [
         {
           "event_id": 1104122,
@@ -1002,7 +702,7 @@
       "date": "2026-09-22",
       "commons_alert": false,
       "forecast_mm": 8.3,
-      "heavy_gate_mm": 10.74,
+      "heavy_gate_mm": 9.88,
       "gdacs_events": [
         {
           "event_id": 1104122,
@@ -1022,7 +722,7 @@
       "date": "2026-09-23",
       "commons_alert": true,
       "forecast_mm": 13.3,
-      "heavy_gate_mm": 10.74,
+      "heavy_gate_mm": 9.88,
       "gdacs_events": [
         {
           "event_id": 1104122,
@@ -1052,7 +752,7 @@
       "date": "2026-09-24",
       "commons_alert": true,
       "forecast_mm": 26.7,
-      "heavy_gate_mm": 10.74,
+      "heavy_gate_mm": 9.88,
       "gdacs_events": [
         {
           "event_id": 1104122,
@@ -1077,222 +777,172 @@
       ]
     },
     {
-      "point_id": "osaka",
-      "name": "Osaka",
-      "date": "2026-09-04",
+      "point_id": "bangkok",
+      "name": "Bangkok",
+      "date": "2026-09-25",
       "commons_alert": true,
-      "forecast_mm": 45.1,
-      "heavy_gate_mm": 7.66,
+      "forecast_mm": 26.7,
+      "heavy_gate_mm": 9.88,
       "gdacs_events": [
         {
-          "event_id": 1001318,
-          "event_type": "TC",
-          "alert_level": "Green",
-          "name": "Tropical Cyclone KROVANH-26",
-          "latitude": 34.3,
-          "longitude": 135.9,
-          "start_date": "2026-09-01",
-          "end_date": "2026-09-09"
-        }
-      ]
-    },
-    {
-      "point_id": "osaka",
-      "name": "Osaka",
-      "date": "2026-09-05",
-      "commons_alert": false,
-      "forecast_mm": 3.6,
-      "heavy_gate_mm": 7.66,
-      "gdacs_events": [
-        {
-          "event_id": 1001318,
-          "event_type": "TC",
-          "alert_level": "Green",
-          "name": "Tropical Cyclone KROVANH-26",
-          "latitude": 34.3,
-          "longitude": 135.9,
-          "start_date": "2026-09-01",
-          "end_date": "2026-09-09"
-        }
-      ]
-    },
-    {
-      "point_id": "osaka",
-      "name": "Osaka",
-      "date": "2026-09-06",
-      "commons_alert": false,
-      "forecast_mm": 5.0,
-      "heavy_gate_mm": 7.66,
-      "gdacs_events": [
-        {
-          "event_id": 1001318,
-          "event_type": "TC",
-          "alert_level": "Green",
-          "name": "Tropical Cyclone KROVANH-26",
-          "latitude": 34.3,
-          "longitude": 135.9,
-          "start_date": "2026-09-01",
-          "end_date": "2026-09-09"
-        }
-      ]
-    },
-    {
-      "point_id": "osaka",
-      "name": "Osaka",
-      "date": "2026-09-07",
-      "commons_alert": true,
-      "forecast_mm": 11.4,
-      "heavy_gate_mm": 7.66,
-      "gdacs_events": [
-        {
-          "event_id": 1001318,
-          "event_type": "TC",
-          "alert_level": "Green",
-          "name": "Tropical Cyclone KROVANH-26",
-          "latitude": 34.3,
-          "longitude": 135.9,
-          "start_date": "2026-09-01",
-          "end_date": "2026-09-09"
-        }
-      ]
-    },
-    {
-      "point_id": "osaka",
-      "name": "Osaka",
-      "date": "2026-09-08",
-      "commons_alert": true,
-      "forecast_mm": 26.8,
-      "heavy_gate_mm": 7.66,
-      "gdacs_events": [
-        {
-          "event_id": 1001318,
-          "event_type": "TC",
-          "alert_level": "Green",
-          "name": "Tropical Cyclone KROVANH-26",
-          "latitude": 34.3,
-          "longitude": 135.9,
-          "start_date": "2026-09-01",
-          "end_date": "2026-09-09"
-        }
-      ]
-    },
-    {
-      "point_id": "osaka",
-      "name": "Osaka",
-      "date": "2026-09-09",
-      "commons_alert": true,
-      "forecast_mm": 62.6,
-      "heavy_gate_mm": 7.66,
-      "gdacs_events": [
-        {
-          "event_id": 1001318,
-          "event_type": "TC",
-          "alert_level": "Green",
-          "name": "Tropical Cyclone KROVANH-26",
-          "latitude": 34.3,
-          "longitude": 135.9,
-          "start_date": "2026-09-01",
-          "end_date": "2026-09-09"
-        }
-      ]
-    },
-    {
-      "point_id": "osaka",
-      "name": "Osaka",
-      "date": "2026-09-10",
-      "commons_alert": false,
-      "forecast_mm": 2.9,
-      "heavy_gate_mm": 7.66,
-      "gdacs_events": [
-        {
-          "event_id": 1001318,
-          "event_type": "TC",
-          "alert_level": "Green",
-          "name": "Tropical Cyclone KROVANH-26",
-          "latitude": 34.3,
-          "longitude": 135.9,
-          "start_date": "2026-09-01",
-          "end_date": "2026-09-09"
-        }
-      ]
-    },
-    {
-      "point_id": "accra",
-      "name": "Accra",
-      "date": "2026-09-07",
-      "commons_alert": false,
-      "forecast_mm": 0.0,
-      "heavy_gate_mm": 3.61,
-      "gdacs_events": [
-        {
-          "event_id": 1104158,
+          "event_id": 1104122,
           "event_type": "FL",
           "alert_level": "Green",
-          "name": "Flood in Ghana",
-          "latitude": 5.5571,
-          "longitude": -0.2012,
-          "start_date": "2026-09-08",
-          "end_date": "2026-09-11"
+          "name": "Flood in Thailand",
+          "latitude": 13.6318,
+          "longitude": 99.3558,
+          "start_date": "2026-08-18",
+          "end_date": "2026-10-03"
+        },
+        {
+          "event_id": 1104208,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Thailand",
+          "latitude": 13.3385,
+          "longitude": 100.9951,
+          "start_date": "2026-09-24",
+          "end_date": "2026-09-26"
         }
       ]
     },
     {
-      "point_id": "accra",
-      "name": "Accra",
-      "date": "2026-09-08",
-      "commons_alert": false,
-      "forecast_mm": 0.7,
-      "heavy_gate_mm": 3.61,
+      "point_id": "bangkok",
+      "name": "Bangkok",
+      "date": "2026-09-26",
+      "commons_alert": true,
+      "forecast_mm": 45.2,
+      "heavy_gate_mm": 9.88,
       "gdacs_events": [
         {
-          "event_id": 1104158,
+          "event_id": 1104122,
           "event_type": "FL",
           "alert_level": "Green",
-          "name": "Flood in Ghana",
-          "latitude": 5.5571,
-          "longitude": -0.2012,
-          "start_date": "2026-09-08",
-          "end_date": "2026-09-11"
+          "name": "Flood in Thailand",
+          "latitude": 13.6318,
+          "longitude": 99.3558,
+          "start_date": "2026-08-18",
+          "end_date": "2026-10-03"
+        },
+        {
+          "event_id": 1104208,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Thailand",
+          "latitude": 13.3385,
+          "longitude": 100.9951,
+          "start_date": "2026-09-24",
+          "end_date": "2026-09-26"
         }
       ]
     },
     {
-      "point_id": "accra",
-      "name": "Accra",
-      "date": "2026-09-09",
-      "commons_alert": false,
-      "forecast_mm": 0.0,
-      "heavy_gate_mm": 3.61,
+      "point_id": "bangkok",
+      "name": "Bangkok",
+      "date": "2026-09-27",
+      "commons_alert": true,
+      "forecast_mm": 22.0,
+      "heavy_gate_mm": 9.88,
       "gdacs_events": [
         {
-          "event_id": 1104158,
+          "event_id": 1104122,
           "event_type": "FL",
           "alert_level": "Green",
-          "name": "Flood in Ghana",
-          "latitude": 5.5571,
-          "longitude": -0.2012,
-          "start_date": "2026-09-08",
-          "end_date": "2026-09-11"
+          "name": "Flood in Thailand",
+          "latitude": 13.6318,
+          "longitude": 99.3558,
+          "start_date": "2026-08-18",
+          "end_date": "2026-10-03"
+        },
+        {
+          "event_id": 1104208,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Thailand",
+          "latitude": 13.3385,
+          "longitude": 100.9951,
+          "start_date": "2026-09-24",
+          "end_date": "2026-09-26"
         }
       ]
     },
     {
-      "point_id": "accra",
-      "name": "Accra",
-      "date": "2026-09-10",
-      "commons_alert": false,
-      "forecast_mm": 0.1,
-      "heavy_gate_mm": 3.61,
+      "point_id": "bangkok",
+      "name": "Bangkok",
+      "date": "2026-09-28",
+      "commons_alert": true,
+      "forecast_mm": 19.3,
+      "heavy_gate_mm": 9.88,
       "gdacs_events": [
         {
-          "event_id": 1104158,
+          "event_id": 1104122,
           "event_type": "FL",
           "alert_level": "Green",
-          "name": "Flood in Ghana",
-          "latitude": 5.5571,
-          "longitude": -0.2012,
-          "start_date": "2026-09-08",
-          "end_date": "2026-09-11"
+          "name": "Flood in Thailand",
+          "latitude": 13.6318,
+          "longitude": 99.3558,
+          "start_date": "2026-08-18",
+          "end_date": "2026-10-03"
+        }
+      ]
+    },
+    {
+      "point_id": "bangkok",
+      "name": "Bangkok",
+      "date": "2026-09-29",
+      "commons_alert": false,
+      "forecast_mm": 2.0,
+      "heavy_gate_mm": 9.88,
+      "gdacs_events": [
+        {
+          "event_id": 1104122,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Thailand",
+          "latitude": 13.6318,
+          "longitude": 99.3558,
+          "start_date": "2026-08-18",
+          "end_date": "2026-10-03"
+        }
+      ]
+    },
+    {
+      "point_id": "bangkok",
+      "name": "Bangkok",
+      "date": "2026-09-30",
+      "commons_alert": false,
+      "forecast_mm": 0.4,
+      "heavy_gate_mm": 9.88,
+      "gdacs_events": [
+        {
+          "event_id": 1104122,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Thailand",
+          "latitude": 13.6318,
+          "longitude": 99.3558,
+          "start_date": "2026-08-18",
+          "end_date": "2026-10-03"
+        }
+      ]
+    },
+    {
+      "point_id": "bangkok",
+      "name": "Bangkok",
+      "date": "2026-10-01",
+      "commons_alert": false,
+      "forecast_mm": 3.0,
+      "heavy_gate_mm": 9.88,
+      "gdacs_events": [
+        {
+          "event_id": 1104122,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Thailand",
+          "latitude": 13.6318,
+          "longitude": 99.3558,
+          "start_date": "2026-08-18",
+          "end_date": "2026-10-03"
         }
       ]
     },
@@ -1302,7 +952,7 @@
       "date": "2026-09-11",
       "commons_alert": false,
       "forecast_mm": 0.4,
-      "heavy_gate_mm": 3.61,
+      "heavy_gate_mm": 3.26,
       "gdacs_events": [
         {
           "event_id": 1104158,
@@ -1322,7 +972,7 @@
       "date": "2026-09-12",
       "commons_alert": false,
       "forecast_mm": 0.0,
-      "heavy_gate_mm": 3.61,
+      "heavy_gate_mm": 3.26,
       "gdacs_events": [
         {
           "event_id": 1104158,
@@ -1342,7 +992,7 @@
       "date": "2026-09-22",
       "commons_alert": false,
       "forecast_mm": 1.5,
-      "heavy_gate_mm": 3.61,
+      "heavy_gate_mm": 3.26,
       "gdacs_events": [
         {
           "event_id": 1104196,
@@ -1362,7 +1012,7 @@
       "date": "2026-09-23",
       "commons_alert": false,
       "forecast_mm": 0.9,
-      "heavy_gate_mm": 3.61,
+      "heavy_gate_mm": 3.26,
       "gdacs_events": [
         {
           "event_id": 1104196,
@@ -1382,7 +1032,147 @@
       "date": "2026-09-24",
       "commons_alert": false,
       "forecast_mm": 0.0,
-      "heavy_gate_mm": 3.61,
+      "heavy_gate_mm": 3.26,
+      "gdacs_events": [
+        {
+          "event_id": 1104196,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Ghana",
+          "latitude": 7.1532,
+          "longitude": 0.4777,
+          "start_date": "2026-09-23",
+          "end_date": "2026-09-30"
+        }
+      ]
+    },
+    {
+      "point_id": "accra",
+      "name": "Accra",
+      "date": "2026-09-25",
+      "commons_alert": false,
+      "forecast_mm": 0.6,
+      "heavy_gate_mm": 3.26,
+      "gdacs_events": [
+        {
+          "event_id": 1104196,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Ghana",
+          "latitude": 7.1532,
+          "longitude": 0.4777,
+          "start_date": "2026-09-23",
+          "end_date": "2026-09-30"
+        }
+      ]
+    },
+    {
+      "point_id": "accra",
+      "name": "Accra",
+      "date": "2026-09-26",
+      "commons_alert": false,
+      "forecast_mm": 1.2,
+      "heavy_gate_mm": 3.26,
+      "gdacs_events": [
+        {
+          "event_id": 1104196,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Ghana",
+          "latitude": 7.1532,
+          "longitude": 0.4777,
+          "start_date": "2026-09-23",
+          "end_date": "2026-09-30"
+        }
+      ]
+    },
+    {
+      "point_id": "accra",
+      "name": "Accra",
+      "date": "2026-09-27",
+      "commons_alert": false,
+      "forecast_mm": 0.0,
+      "heavy_gate_mm": 3.26,
+      "gdacs_events": [
+        {
+          "event_id": 1104196,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Ghana",
+          "latitude": 7.1532,
+          "longitude": 0.4777,
+          "start_date": "2026-09-23",
+          "end_date": "2026-09-30"
+        }
+      ]
+    },
+    {
+      "point_id": "accra",
+      "name": "Accra",
+      "date": "2026-09-28",
+      "commons_alert": false,
+      "forecast_mm": 2.5,
+      "heavy_gate_mm": 3.26,
+      "gdacs_events": [
+        {
+          "event_id": 1104196,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Ghana",
+          "latitude": 7.1532,
+          "longitude": 0.4777,
+          "start_date": "2026-09-23",
+          "end_date": "2026-09-30"
+        }
+      ]
+    },
+    {
+      "point_id": "accra",
+      "name": "Accra",
+      "date": "2026-09-29",
+      "commons_alert": false,
+      "forecast_mm": 2.4,
+      "heavy_gate_mm": 3.26,
+      "gdacs_events": [
+        {
+          "event_id": 1104196,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Ghana",
+          "latitude": 7.1532,
+          "longitude": 0.4777,
+          "start_date": "2026-09-23",
+          "end_date": "2026-09-30"
+        }
+      ]
+    },
+    {
+      "point_id": "accra",
+      "name": "Accra",
+      "date": "2026-09-30",
+      "commons_alert": false,
+      "forecast_mm": 0.0,
+      "heavy_gate_mm": 3.26,
+      "gdacs_events": [
+        {
+          "event_id": 1104196,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in Ghana",
+          "latitude": 7.1532,
+          "longitude": 0.4777,
+          "start_date": "2026-09-23",
+          "end_date": "2026-09-30"
+        }
+      ]
+    },
+    {
+      "point_id": "accra",
+      "name": "Accra",
+      "date": "2026-10-01",
+      "commons_alert": false,
+      "forecast_mm": 0.0,
+      "heavy_gate_mm": 3.26,
       "gdacs_events": [
         {
           "event_id": 1104196,
@@ -1402,7 +1192,7 @@
       "date": "2026-09-17",
       "commons_alert": false,
       "forecast_mm": 0.2,
-      "heavy_gate_mm": 0.9,
+      "heavy_gate_mm": 0.45,
       "gdacs_events": [
         {
           "event_id": 1104183,
@@ -1422,7 +1212,7 @@
       "date": "2026-09-18",
       "commons_alert": false,
       "forecast_mm": 0.1,
-      "heavy_gate_mm": 0.9,
+      "heavy_gate_mm": 0.45,
       "gdacs_events": [
         {
           "event_id": 1104183,
@@ -1442,7 +1232,7 @@
       "date": "2026-09-19",
       "commons_alert": false,
       "forecast_mm": 0.0,
-      "heavy_gate_mm": 0.9,
+      "heavy_gate_mm": 0.45,
       "gdacs_events": [
         {
           "event_id": 1104183,
@@ -1462,7 +1252,7 @@
       "date": "2026-09-20",
       "commons_alert": false,
       "forecast_mm": 0.0,
-      "heavy_gate_mm": 0.9,
+      "heavy_gate_mm": 0.45,
       "gdacs_events": [
         {
           "event_id": 1104183,
@@ -1482,7 +1272,7 @@
       "date": "2026-09-21",
       "commons_alert": false,
       "forecast_mm": 0.0,
-      "heavy_gate_mm": 0.9,
+      "heavy_gate_mm": 0.45,
       "gdacs_events": [
         {
           "event_id": 1104183,
@@ -1502,7 +1292,7 @@
       "date": "2026-09-22",
       "commons_alert": true,
       "forecast_mm": 2.9,
-      "heavy_gate_mm": 0.9,
+      "heavy_gate_mm": 0.45,
       "gdacs_events": [
         {
           "event_id": 1104183,
@@ -1522,7 +1312,7 @@
       "date": "2026-09-23",
       "commons_alert": true,
       "forecast_mm": 4.6,
-      "heavy_gate_mm": 0.9,
+      "heavy_gate_mm": 0.45,
       "gdacs_events": [
         {
           "event_id": 1104183,
@@ -1542,7 +1332,127 @@
       "date": "2026-09-24",
       "commons_alert": false,
       "forecast_mm": 0.0,
-      "heavy_gate_mm": 0.9,
+      "heavy_gate_mm": 0.45,
+      "gdacs_events": [
+        {
+          "event_id": 1104183,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in T\u00fcrkiye",
+          "latitude": 41.0707,
+          "longitude": 29.0509,
+          "start_date": "2026-09-18",
+          "end_date": "2026-09-29"
+        }
+      ]
+    },
+    {
+      "point_id": "istanbul",
+      "name": "Istanbul",
+      "date": "2026-09-25",
+      "commons_alert": false,
+      "forecast_mm": 0.0,
+      "heavy_gate_mm": 0.45,
+      "gdacs_events": [
+        {
+          "event_id": 1104183,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in T\u00fcrkiye",
+          "latitude": 41.0707,
+          "longitude": 29.0509,
+          "start_date": "2026-09-18",
+          "end_date": "2026-09-29"
+        }
+      ]
+    },
+    {
+      "point_id": "istanbul",
+      "name": "Istanbul",
+      "date": "2026-09-26",
+      "commons_alert": false,
+      "forecast_mm": 0.0,
+      "heavy_gate_mm": 0.45,
+      "gdacs_events": [
+        {
+          "event_id": 1104183,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in T\u00fcrkiye",
+          "latitude": 41.0707,
+          "longitude": 29.0509,
+          "start_date": "2026-09-18",
+          "end_date": "2026-09-29"
+        }
+      ]
+    },
+    {
+      "point_id": "istanbul",
+      "name": "Istanbul",
+      "date": "2026-09-27",
+      "commons_alert": false,
+      "forecast_mm": 0.1,
+      "heavy_gate_mm": 0.45,
+      "gdacs_events": [
+        {
+          "event_id": 1104183,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in T\u00fcrkiye",
+          "latitude": 41.0707,
+          "longitude": 29.0509,
+          "start_date": "2026-09-18",
+          "end_date": "2026-09-29"
+        }
+      ]
+    },
+    {
+      "point_id": "istanbul",
+      "name": "Istanbul",
+      "date": "2026-09-28",
+      "commons_alert": true,
+      "forecast_mm": 5.1,
+      "heavy_gate_mm": 0.45,
+      "gdacs_events": [
+        {
+          "event_id": 1104183,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in T\u00fcrkiye",
+          "latitude": 41.0707,
+          "longitude": 29.0509,
+          "start_date": "2026-09-18",
+          "end_date": "2026-09-29"
+        }
+      ]
+    },
+    {
+      "point_id": "istanbul",
+      "name": "Istanbul",
+      "date": "2026-09-29",
+      "commons_alert": true,
+      "forecast_mm": 21.5,
+      "heavy_gate_mm": 0.45,
+      "gdacs_events": [
+        {
+          "event_id": 1104183,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in T\u00fcrkiye",
+          "latitude": 41.0707,
+          "longitude": 29.0509,
+          "start_date": "2026-09-18",
+          "end_date": "2026-09-29"
+        }
+      ]
+    },
+    {
+      "point_id": "istanbul",
+      "name": "Istanbul",
+      "date": "2026-09-30",
+      "commons_alert": true,
+      "forecast_mm": 4.4,
+      "heavy_gate_mm": 0.45,
       "gdacs_events": [
         {
           "event_id": 1104183,
@@ -1559,10 +1469,10 @@
     {
       "point_id": "new-york",
       "name": "New York",
-      "date": "2026-09-04",
+      "date": "2026-09-11",
       "commons_alert": false,
-      "forecast_mm": 2.8,
-      "heavy_gate_mm": 12.66,
+      "forecast_mm": 0.1,
+      "heavy_gate_mm": 11.59,
       "gdacs_events": [
         {
           "event_id": 1103888,
@@ -1572,17 +1482,17 @@
           "latitude": 41.119,
           "longitude": -73.3711,
           "start_date": "2026-05-19",
-          "end_date": "2026-10-02"
+          "end_date": "2026-10-11"
         }
       ]
     },
     {
       "point_id": "new-york",
       "name": "New York",
-      "date": "2026-09-05",
+      "date": "2026-09-12",
       "commons_alert": false,
       "forecast_mm": 0.0,
-      "heavy_gate_mm": 12.66,
+      "heavy_gate_mm": 11.59,
       "gdacs_events": [
         {
           "event_id": 1103888,
@@ -1592,17 +1502,17 @@
           "latitude": 41.119,
           "longitude": -73.3711,
           "start_date": "2026-05-19",
-          "end_date": "2026-10-02"
+          "end_date": "2026-10-11"
         }
       ]
     },
     {
       "point_id": "new-york",
       "name": "New York",
-      "date": "2026-09-06",
+      "date": "2026-09-13",
       "commons_alert": false,
-      "forecast_mm": 0.5,
-      "heavy_gate_mm": 12.66,
+      "forecast_mm": 7.2,
+      "heavy_gate_mm": 11.59,
       "gdacs_events": [
         {
           "event_id": 1103888,
@@ -1612,17 +1522,37 @@
           "latitude": 41.119,
           "longitude": -73.3711,
           "start_date": "2026-05-19",
-          "end_date": "2026-10-02"
+          "end_date": "2026-10-11"
         }
       ]
     },
     {
       "point_id": "new-york",
       "name": "New York",
-      "date": "2026-09-07",
+      "date": "2026-09-14",
+      "commons_alert": false,
+      "forecast_mm": 1.1,
+      "heavy_gate_mm": 11.59,
+      "gdacs_events": [
+        {
+          "event_id": 1103888,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in United States",
+          "latitude": 41.119,
+          "longitude": -73.3711,
+          "start_date": "2026-05-19",
+          "end_date": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "point_id": "new-york",
+      "name": "New York",
+      "date": "2026-09-15",
       "commons_alert": false,
       "forecast_mm": 0.0,
-      "heavy_gate_mm": 12.66,
+      "heavy_gate_mm": 11.59,
       "gdacs_events": [
         {
           "event_id": 1103888,
@@ -1632,17 +1562,17 @@
           "latitude": 41.119,
           "longitude": -73.3711,
           "start_date": "2026-05-19",
-          "end_date": "2026-10-02"
+          "end_date": "2026-10-11"
         }
       ]
     },
     {
       "point_id": "new-york",
       "name": "New York",
-      "date": "2026-09-08",
+      "date": "2026-09-16",
       "commons_alert": false,
       "forecast_mm": 0.0,
-      "heavy_gate_mm": 12.66,
+      "heavy_gate_mm": 11.59,
       "gdacs_events": [
         {
           "event_id": 1103888,
@@ -1652,7 +1582,87 @@
           "latitude": 41.119,
           "longitude": -73.3711,
           "start_date": "2026-05-19",
-          "end_date": "2026-10-02"
+          "end_date": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "point_id": "new-york",
+      "name": "New York",
+      "date": "2026-09-17",
+      "commons_alert": false,
+      "forecast_mm": 0.0,
+      "heavy_gate_mm": 11.59,
+      "gdacs_events": [
+        {
+          "event_id": 1103888,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in United States",
+          "latitude": 41.119,
+          "longitude": -73.3711,
+          "start_date": "2026-05-19",
+          "end_date": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "point_id": "new-york",
+      "name": "New York",
+      "date": "2026-09-18",
+      "commons_alert": false,
+      "forecast_mm": 0.0,
+      "heavy_gate_mm": 11.59,
+      "gdacs_events": [
+        {
+          "event_id": 1103888,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in United States",
+          "latitude": 41.119,
+          "longitude": -73.3711,
+          "start_date": "2026-05-19",
+          "end_date": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "point_id": "new-york",
+      "name": "New York",
+      "date": "2026-09-19",
+      "commons_alert": false,
+      "forecast_mm": 0.0,
+      "heavy_gate_mm": 11.59,
+      "gdacs_events": [
+        {
+          "event_id": 1103888,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in United States",
+          "latitude": 41.119,
+          "longitude": -73.3711,
+          "start_date": "2026-05-19",
+          "end_date": "2026-10-11"
+        }
+      ]
+    },
+    {
+      "point_id": "new-york",
+      "name": "New York",
+      "date": "2026-09-20",
+      "commons_alert": true,
+      "forecast_mm": 14.7,
+      "heavy_gate_mm": 11.59,
+      "gdacs_events": [
+        {
+          "event_id": 1103888,
+          "event_type": "FL",
+          "alert_level": "Green",
+          "name": "Flood in United States",
+          "latitude": 41.119,
+          "longitude": -73.3711,
+          "start_date": "2026-05-19",
+          "end_date": "2026-10-11"
         }
       ]
     }
@@ -1661,7 +1671,7 @@
     "id": "H22",
     "claim": "A public external disaster-alert stream can provide a useful independent benchmark for COMMONS attention changes.",
     "status": "insufficient",
-    "effect": "GDACS events 79; matched point-days 96; COMMONS overlap 0.1667",
+    "effect": "GDACS events 84; matched point-days 112; COMMONS overlap 0.1875",
     "product_update": "Keep GDACS as an external audit signal only. It is not a local official warning feed and must not control ALERT."
   },
   "official_warning_gap": {
