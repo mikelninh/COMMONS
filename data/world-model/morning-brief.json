@@ -1,7 +1,7 @@
 {
   "schema_version": "0.1",
-  "generated_at": "2026-10-11T05:54:39.882975Z",
-  "previous_generated_at": "2026-10-10T21:49:13.487820Z",
+  "generated_at": "2026-10-11T12:58:33.509840Z",
+  "previous_generated_at": "2026-10-11T05:54:39.882975Z",
   "product": "COMMONS Morning Brief v1",
   "headline": "Nothing in the validated rainfall pilot needs your attention right now.",
   "close_message": "You are caught up.",
@@ -39,22 +39,22 @@
       "longitude": 120.98,
       "signal": "peak daily rainfall · next 72h",
       "state": "quiet",
-      "rank_score": 0.3327,
-      "forecast_peak_daily_mm": 9.9,
-      "forecast_peak_date": "2026-10-13",
-      "forecast_72h_mm": 23.7,
+      "rank_score": 0.336,
+      "forecast_peak_daily_mm": 10.0,
+      "forecast_peak_date": "2026-10-11",
+      "forecast_72h_mm": 19.0,
       "heavy_rain_gate_mm": 29.76,
-      "gate_ratio": 0.3327,
+      "gate_ratio": 0.336,
       "models_available": 3,
       "models_expected": 3,
       "source_errors": [],
       "why": "Forecast rainfall remains below the current priority band.",
       "next_step": "No review needed from this rainfall monitor.",
       "revision": {
-        "direction": "down",
-        "supporting_models": 3,
+        "direction": "up",
+        "supporting_models": 2,
         "models_compared": 3,
-        "median_delta_mm": -2.7,
+        "median_delta_mm": 0.1,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
@@ -82,15 +82,15 @@
           "infrastructure": {
             "health_facilities": 886,
             "schools": 2112,
-            "power_substations": 90,
-            "bridges": 3120,
+            "power_substations": 93,
+            "bridges": 3117,
             "major_road_segments": 5931,
             "radius_km": 20.0,
             "source": "OpenStreetMap via Overpass API",
             "role": "context_only"
           },
           "historical_consequence": {
-            "nearby_events": 0,
+            "nearby_events": 1,
             "consequential_events": 0,
             "examples": [],
             "source": "GDACS + EM-DAT where available",
@@ -132,22 +132,22 @@
       "longitude": 77.21,
       "signal": "peak daily rainfall · next 72h",
       "state": "quiet",
-      "rank_score": 0.2356,
-      "forecast_peak_daily_mm": 4.1,
+      "rank_score": 0.1322,
+      "forecast_peak_daily_mm": 2.3,
       "forecast_peak_date": "2026-10-11",
-      "forecast_72h_mm": 5.4,
+      "forecast_72h_mm": 3.2,
       "heavy_rain_gate_mm": 17.4,
-      "gate_ratio": 0.2356,
+      "gate_ratio": 0.1322,
       "models_available": 3,
       "models_expected": 3,
       "source_errors": [],
       "why": "Forecast rainfall remains below the current priority band.",
       "next_step": "No review needed from this rainfall monitor.",
       "revision": {
-        "direction": "up",
-        "supporting_models": 2,
+        "direction": "mixed",
+        "supporting_models": 0,
         "models_compared": 3,
-        "median_delta_mm": 3.8,
+        "median_delta_mm": -1.8,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
@@ -176,7 +176,7 @@
             "health_facilities": 1293,
             "schools": 1183,
             "power_substations": 295,
-            "bridges": 3511,
+            "bridges": 3509,
             "major_road_segments": 2464,
             "radius_km": 20.0,
             "source": "OpenStreetMap via Overpass API",
@@ -228,7 +228,7 @@
       "rank_score": 0.002,
       "forecast_peak_daily_mm": 0.1,
       "forecast_peak_date": "2026-10-11",
-      "forecast_72h_mm": 0.1,
+      "forecast_72h_mm": 0.2,
       "heavy_rain_gate_mm": 49.18,
       "gate_ratio": 0.002,
       "models_available": 3,
@@ -237,10 +237,10 @@
       "why": "Forecast rainfall remains below the current priority band.",
       "next_step": "No review needed from this rainfall monitor.",
       "revision": {
-        "direction": "down",
-        "supporting_models": 2,
+        "direction": "mixed",
+        "supporting_models": 0,
         "models_compared": 3,
-        "median_delta_mm": -5.3,
+        "median_delta_mm": 0.0,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
@@ -270,43 +270,11 @@
             "source": "worldpop_R2025A_2026_1km",
             "role": "context_only"
           },
-          "infrastructure": {
-            "health_facilities": 13,
-            "schools": 465,
-            "power_substations": 8,
-            "bridges": 179,
-            "major_road_segments": 56,
-            "radius_km": 20.0,
-            "source": "OpenStreetMap via Overpass API",
-            "role": "context_only"
-          },
+          "infrastructure": null,
           "historical_consequence": {
-            "nearby_events": 3,
-            "consequential_events": 1,
-            "examples": [
-              {
-                "event_id": 1104124,
-                "event_type": "FL",
-                "alert_level": "red",
-                "name": "Flood in Nepal",
-                "country": "Nepal",
-                "latitude": 27.2953,
-                "longitude": 85.3649,
-                "start_date": "2026-08-26",
-                "end_date": "2026-09-01",
-                "hazard_score": 3.0,
-                "population_signal": null,
-                "vulnerability_signal": null,
-                "distance_km": 75.0,
-                "consequence": {
-                  "deaths": 6250.0,
-                  "affected": 84537.0,
-                  "damage_usd": null,
-                  "consequential": true,
-                  "label_source": "EM-DAT via GDACS"
-                }
-              }
-            ],
+            "nearby_events": 1,
+            "consequential_events": 0,
+            "examples": [],
             "source": "GDACS + EM-DAT where available",
             "role": "context_only"
           }
@@ -319,21 +287,9 @@
             "authority": "human"
           },
           {
-            "id": "check-access",
-            "label": "Check critical access and services",
-            "why": "Nearby health, road, bridge or power assets can turn weather into disruption.",
-            "authority": "human"
-          },
-          {
             "id": "review-exposure",
             "label": "Review who may be exposed",
             "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
-            "authority": "human"
-          },
-          {
-            "id": "review-precedent",
-            "label": "Review nearby historical consequences",
-            "why": "Past events in the area provide precedent for what failed or mattered.",
             "authority": "human"
           }
         ],
