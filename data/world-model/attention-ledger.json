@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1",
-  "updated_at": "2026-10-14T17:17:49.914325Z",
+  "updated_at": "2026-10-14T21:46:11.510616Z",
   "observations": [
     {
       "observation_id": "manila|2026-09-20T19:54:40.421641Z|2026-09-22",
@@ -4832,6 +4832,40 @@
       "verification_status": "pending",
       "classification": null,
       "actual_daily_mm": null
+    },
+    {
+      "observation_id": "manila|2026-10-14T21:45:34.707550Z|2026-10-14",
+      "generated_at": "2026-10-14T21:45:34.707550Z",
+      "point_id": "manila",
+      "name": "Manila",
+      "country": "Philippines",
+      "state": "quiet",
+      "forecast_peak_date": "2026-10-14",
+      "forecast_peak_daily_mm": 3.0,
+      "heavy_rain_gate_mm": 29.76,
+      "gate_ratio": 0.1008,
+      "latitude": 14.6,
+      "longitude": 120.98,
+      "verification_status": "pending",
+      "classification": null,
+      "actual_daily_mm": null
+    },
+    {
+      "observation_id": "nuwakot|2026-10-14T21:45:34.707550Z|2026-10-16",
+      "generated_at": "2026-10-14T21:45:34.707550Z",
+      "point_id": "nuwakot",
+      "name": "Nuwakot",
+      "country": "Nepal",
+      "state": "quiet",
+      "forecast_peak_date": "2026-10-16",
+      "forecast_peak_daily_mm": 0.2,
+      "heavy_rain_gate_mm": 49.18,
+      "gate_ratio": 0.0041,
+      "latitude": 27.95,
+      "longitude": 85.18,
+      "verification_status": "pending",
+      "classification": null,
+      "actual_daily_mm": null
     }
   ],
   "verification_cache": {
@@ -5058,8 +5092,8 @@
   },
   "source_errors": [],
   "summary": {
-    "total_observations": 261,
-    "pending": 64,
+    "total_observations": 263,
+    "pending": 66,
     "verified": 197,
     "classifications": {
       "correct_quiet": 185,
