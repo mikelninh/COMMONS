@@ -2037,6 +2037,27 @@
         "transit": "unavailable: TimeoutError",
         "water": "modeled fallback"
       }
+    },
+    {
+      "timestamp": "2026-10-16T21:08:19Z",
+      "metrics": {
+        "temperature_2m": 12.6,
+        "apparent_temperature": 12.1,
+        "precipitation": 0.0,
+        "wind_speed_10m": 3.0,
+        "pm2_5": 19.1,
+        "nitrogen_dioxide": 37.3,
+        "ozone": 17.0,
+        "river_discharge": 0.46,
+        "transit_vehicles": null
+      },
+      "source_health": {
+        "weather": "ready",
+        "air": "ready",
+        "flood": "ready",
+        "transit": "unavailable: TimeoutError",
+        "water": "modeled fallback"
+      }
     }
   ]
 }
