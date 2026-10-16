@@ -1,39 +1,39 @@
 {
   "version": 1,
-  "generated_at": "2026-10-16T21:08:19Z",
+  "generated_at": "2026-10-16T23:35:24Z",
   "status": "recorded",
-  "sample_count": 98,
+  "sample_count": 99,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
     "level": "watch",
-    "title": "Modeled fine-particle air is elevated.",
-    "explanation": "PM2.5 is above a recent median baseline (robust z +2.2, n=48)."
+    "title": "Transit movement is unusually quiet for the tape.",
+    "explanation": "Transit movement is below a recent median baseline (robust z -2.0, n=27)."
   },
   "changes": [
-    {
-      "metric": "pm2_5",
-      "label": "PM2.5",
-      "unit": "µg/m³",
-      "digits": 1,
-      "previous": 14.2,
-      "current": 19.1,
-      "delta": 4.9,
-      "percent": 34.5,
-      "direction": "up",
-      "salience": 3.267,
-      "basis": "since the previous Pulse snapshot"
-    },
     {
       "metric": "temperature_2m",
       "label": "Temperature",
       "unit": "°C",
       "digits": 1,
-      "previous": 17.4,
-      "current": 12.6,
-      "delta": -4.8,
-      "percent": -27.6,
+      "previous": 12.6,
+      "current": 11.0,
+      "delta": -1.6,
+      "percent": -12.7,
       "direction": "down",
-      "salience": 1.627,
+      "salience": 0.533,
+      "basis": "since the previous Pulse snapshot"
+    },
+    {
+      "metric": "pm2_5",
+      "label": "PM2.5",
+      "unit": "µg/m³",
+      "digits": 1,
+      "previous": 19.1,
+      "current": 18.7,
+      "delta": -0.4,
+      "percent": -2.1,
+      "direction": "down",
+      "salience": 0.267,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -76,42 +76,42 @@
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 12.6,
+      "value": 11.0,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
         "label": "usual",
-        "score": 0.238,
+        "score": -0.135,
         "n": 48,
-        "baseline": 11.4,
+        "baseline": 11.65,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 12.8,
+        "value": 11.3,
         "unit": "°C",
         "source": "Open-Meteo",
-        "target_at": "2026-10-17T09:00"
+        "target_at": "2026-10-17T12:00"
       }
     },
     "pm2_5": {
       "label": "PM2.5",
-      "value": 19.1,
+      "value": 18.7,
       "unit": "µg/m³",
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
         "label": "watch",
-        "score": 2.168,
+        "score": 1.799,
         "n": 48,
-        "baseline": 14.6,
+        "baseline": 14.7,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 3.3,
+        "value": 1.9,
         "unit": "µg/m³",
         "source": "CAMS",
-        "target_at": "2026-10-17T09:00"
+        "target_at": "2026-10-17T12:00"
       }
     },
     "river_discharge": {
@@ -129,31 +129,37 @@
     },
     "transit_vehicles": {
       "label": "Transit movement",
-      "value": null,
+      "value": 270.0,
       "unit": "vehicles",
       "source": "VBB realtime radar",
       "anomaly": {
-        "label": "learning",
-        "score": null,
+        "label": "watch",
+        "score": -2.002,
         "n": 27,
-        "baseline": null,
+        "baseline": 600.0,
         "baseline_scope": "recorded Pulse snapshots"
       }
     }
   },
   "forecast_score": {
-    "resolved": 56,
-    "candidate_mae": 0.825,
-    "baseline_mae": 4.4786,
-    "candidate_better_rate": 0.9107
+    "resolved": 58,
+    "candidate_mae": 0.8621,
+    "baseline_mae": 4.4431,
+    "candidate_better_rate": 0.8966
   },
   "source_health": {
     "weather": "ready",
     "air": "ready",
     "flood": "ready",
-    "transit": "unavailable: TimeoutError",
+    "transit": "ready",
     "water": "modeled fallback"
   },
-  "transit_modes": null,
+  "transit_modes": {
+    "bus": 137,
+    "tram": 40,
+    "subway": 40,
+    "train": 51,
+    "other": 2
+  },
   "principle": "Missing evidence stays missing. Forecast skill is compared with persistence before trust is earned."
 }
