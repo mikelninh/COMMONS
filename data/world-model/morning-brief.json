@@ -1,7 +1,7 @@
 {
   "schema_version": "0.1",
-  "generated_at": "2026-10-15T21:28:24.376193Z",
-  "previous_generated_at": "2026-10-15T17:06:25.078195Z",
+  "generated_at": "2026-10-16T04:38:21.786311Z",
+  "previous_generated_at": "2026-10-15T21:28:24.376193Z",
   "product": "COMMONS Morning Brief v1",
   "headline": "Nothing in the validated rainfall pilot needs your attention right now.",
   "close_message": "You are caught up.",
@@ -30,99 +30,6 @@
   },
   "monitors": [
     {
-      "point_id": "delhi",
-      "loop_id": "heat-we-cannot-see",
-      "loop_title": "The Heat We Cannot See",
-      "name": "Delhi",
-      "country": "India",
-      "latitude": 28.61,
-      "longitude": 77.21,
-      "signal": "peak daily rainfall · next 72h",
-      "state": "quiet",
-      "rank_score": 0.5632,
-      "forecast_peak_daily_mm": 9.8,
-      "forecast_peak_date": "2026-10-15",
-      "forecast_72h_mm": 9.8,
-      "heavy_rain_gate_mm": 17.4,
-      "gate_ratio": 0.5632,
-      "models_available": 3,
-      "models_expected": 3,
-      "source_errors": [],
-      "why": "Forecast rainfall remains below the current priority band.",
-      "next_step": "No review needed from this rainfall monitor.",
-      "revision": {
-        "direction": "mixed",
-        "supporting_models": 0,
-        "models_compared": 3,
-        "median_delta_mm": 0.0,
-        "role": "context_only",
-        "note": "Six-hour revision context is visible but does not change priority rank."
-      },
-      "flood_context": null,
-      "exposure_context": {
-        "population": 27159668,
-        "radius_km": 20.0,
-        "data_year": 2026,
-        "source": "worldpop_R2025A_2026_1km",
-        "role": "context_only",
-        "note": "Nearby population is context, not estimated people impacted."
-      },
-      "impact_context": {
-        "components": {
-          "hazard": {
-            "role": "provided live by Morning Brief",
-            "note": "Impact v0 does not replace the validated hazard gate."
-          },
-          "exposure": {
-            "population_within_radius": 27159668.0,
-            "radius_km": 20.0,
-            "source": "worldpop_R2025A_2026_1km",
-            "role": "context_only"
-          },
-          "infrastructure": {
-            "health_facilities": 1293,
-            "schools": 1183,
-            "power_substations": 295,
-            "bridges": 3509,
-            "major_road_segments": 2464,
-            "radius_km": 20.0,
-            "source": "OpenStreetMap via Overpass API",
-            "role": "context_only"
-          },
-          "historical_consequence": {
-            "nearby_events": 0,
-            "consequential_events": 0,
-            "examples": [],
-            "source": "GDACS + EM-DAT where available",
-            "role": "context_only"
-          }
-        },
-        "action_options": [
-          {
-            "id": "verify-local",
-            "label": "Verify local authority warnings",
-            "why": "COMMONS is research guidance, not an emergency authority.",
-            "authority": "human"
-          },
-          {
-            "id": "check-access",
-            "label": "Check critical access and services",
-            "why": "Nearby health, road, bridge or power assets can turn weather into disruption.",
-            "authority": "human"
-          },
-          {
-            "id": "review-exposure",
-            "label": "Review who may be exposed",
-            "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
-            "authority": "human"
-          }
-        ],
-        "role": "context_only",
-        "note": "Impact v0 informs consequence and action context but does not change ALERT."
-      },
-      "rank": 1
-    },
-    {
       "point_id": "manila",
       "loop_id": "storm-arrives",
       "loop_title": "Before the Storm Arrives",
@@ -132,22 +39,22 @@
       "longitude": 120.98,
       "signal": "peak daily rainfall · next 72h",
       "state": "quiet",
-      "rank_score": 0.0269,
-      "forecast_peak_daily_mm": 0.8,
-      "forecast_peak_date": "2026-10-16",
-      "forecast_72h_mm": 1.4,
+      "rank_score": 0.0806,
+      "forecast_peak_daily_mm": 2.4,
+      "forecast_peak_date": "2026-10-18",
+      "forecast_72h_mm": 2.6,
       "heavy_rain_gate_mm": 29.76,
-      "gate_ratio": 0.0269,
+      "gate_ratio": 0.0806,
       "models_available": 3,
       "models_expected": 3,
       "source_errors": [],
       "why": "Forecast rainfall remains below the current priority band.",
       "next_step": "No review needed from this rainfall monitor.",
       "revision": {
-        "direction": "mixed",
-        "supporting_models": 0,
+        "direction": "up",
+        "supporting_models": 2,
         "models_compared": 3,
-        "median_delta_mm": 0.4,
+        "median_delta_mm": 1.6,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
@@ -213,6 +120,104 @@
         "role": "context_only",
         "note": "Impact v0 informs consequence and action context but does not change ALERT."
       },
+      "rank": 1
+    },
+    {
+      "point_id": "delhi",
+      "loop_id": "heat-we-cannot-see",
+      "loop_title": "The Heat We Cannot See",
+      "name": "Delhi",
+      "country": "India",
+      "latitude": 28.61,
+      "longitude": 77.21,
+      "signal": "peak daily rainfall · next 72h",
+      "state": "quiet",
+      "rank_score": 0.0115,
+      "forecast_peak_daily_mm": 0.2,
+      "forecast_peak_date": "2026-10-16",
+      "forecast_72h_mm": 0.2,
+      "heavy_rain_gate_mm": 17.4,
+      "gate_ratio": 0.0115,
+      "models_available": 2,
+      "models_expected": 3,
+      "source_errors": [
+        {
+          "provider": "ecmwf",
+          "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
+        }
+      ],
+      "why": "Forecast rainfall remains below the current priority band.",
+      "next_step": "No review needed from this rainfall monitor.",
+      "revision": {
+        "direction": "mixed",
+        "supporting_models": 0,
+        "models_compared": 2,
+        "median_delta_mm": -9.6,
+        "role": "context_only",
+        "note": "Six-hour revision context is visible but does not change priority rank."
+      },
+      "flood_context": null,
+      "exposure_context": {
+        "population": 27159668,
+        "radius_km": 20.0,
+        "data_year": 2026,
+        "source": "worldpop_R2025A_2026_1km",
+        "role": "context_only",
+        "note": "Nearby population is context, not estimated people impacted."
+      },
+      "impact_context": {
+        "components": {
+          "hazard": {
+            "role": "provided live by Morning Brief",
+            "note": "Impact v0 does not replace the validated hazard gate."
+          },
+          "exposure": {
+            "population_within_radius": 27159668.0,
+            "radius_km": 20.0,
+            "source": "worldpop_R2025A_2026_1km",
+            "role": "context_only"
+          },
+          "infrastructure": {
+            "health_facilities": 1293,
+            "schools": 1183,
+            "power_substations": 295,
+            "bridges": 3509,
+            "major_road_segments": 2464,
+            "radius_km": 20.0,
+            "source": "OpenStreetMap via Overpass API",
+            "role": "context_only"
+          },
+          "historical_consequence": {
+            "nearby_events": 0,
+            "consequential_events": 0,
+            "examples": [],
+            "source": "GDACS + EM-DAT where available",
+            "role": "context_only"
+          }
+        },
+        "action_options": [
+          {
+            "id": "verify-local",
+            "label": "Verify local authority warnings",
+            "why": "COMMONS is research guidance, not an emergency authority.",
+            "authority": "human"
+          },
+          {
+            "id": "check-access",
+            "label": "Check critical access and services",
+            "why": "Nearby health, road, bridge or power assets can turn weather into disruption.",
+            "authority": "human"
+          },
+          {
+            "id": "review-exposure",
+            "label": "Review who may be exposed",
+            "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
+            "authority": "human"
+          }
+        ],
+        "role": "context_only",
+        "note": "Impact v0 informs consequence and action context but does not change ALERT."
+      },
       "rank": 2
     },
     {
@@ -225,28 +230,33 @@
       "longitude": 85.18,
       "signal": "peak daily rainfall · next 72h",
       "state": "quiet",
-      "rank_score": 0.0,
-      "forecast_peak_daily_mm": 0.0,
-      "forecast_peak_date": "2026-10-15",
-      "forecast_72h_mm": 0.0,
+      "rank_score": 0.0041,
+      "forecast_peak_daily_mm": 0.2,
+      "forecast_peak_date": "2026-10-18",
+      "forecast_72h_mm": 0.5,
       "heavy_rain_gate_mm": 49.18,
-      "gate_ratio": 0.0,
-      "models_available": 3,
+      "gate_ratio": 0.0041,
+      "models_available": 2,
       "models_expected": 3,
-      "source_errors": [],
+      "source_errors": [
+        {
+          "provider": "ecmwf",
+          "error": "HTTP Error 503: Service Unavailable"
+        }
+      ],
       "why": "Forecast rainfall remains below the current priority band.",
       "next_step": "No review needed from this rainfall monitor.",
       "revision": {
         "direction": "mixed",
         "supporting_models": 0,
-        "models_compared": 3,
-        "median_delta_mm": 0.0,
+        "models_compared": 2,
+        "median_delta_mm": 0.2,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
       "flood_context": {
-        "historical_percentile": 73.9,
-        "forecast_peak_date": "2026-10-15",
+        "historical_percentile": 73.0,
+        "forecast_peak_date": "2026-10-16",
         "role": "context_only",
         "note": "River percentile is context, not the rainfall alert gate."
       },
