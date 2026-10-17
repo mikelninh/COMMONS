@@ -3074,6 +3074,32 @@
       "candidate_source": "CAMS via Open-Meteo 12h forecast",
       "baseline_source": "persistence",
       "status": "pending"
+    },
+    {
+      "id": "temperature_2m:2026-10-17T04:25:41Z",
+      "issued_at": "2026-10-17T04:25:41Z",
+      "target_at": "2026-10-17T16:00Z",
+      "horizon_hours": 11.6,
+      "metric": "temperature_2m",
+      "unit": "°C",
+      "candidate": 11.2,
+      "baseline": 9.8,
+      "candidate_source": "Open-Meteo 12h forecast",
+      "baseline_source": "persistence",
+      "status": "pending"
+    },
+    {
+      "id": "pm2_5:2026-10-17T04:25:41Z",
+      "issued_at": "2026-10-17T04:25:41Z",
+      "target_at": "2026-10-17T16:00Z",
+      "horizon_hours": 11.6,
+      "metric": "pm2_5",
+      "unit": "µg/m³",
+      "candidate": 3.4,
+      "baseline": 17.5,
+      "candidate_source": "CAMS via Open-Meteo 12h forecast",
+      "baseline_source": "persistence",
+      "status": "pending"
     }
   ]
 }
