@@ -2163,6 +2163,27 @@
         "transit": "ready",
         "water": "modeled fallback"
       }
+    },
+    {
+      "timestamp": "2026-10-17T23:07:56Z",
+      "metrics": {
+        "temperature_2m": 11.7,
+        "apparent_temperature": 10.9,
+        "precipitation": 0.0,
+        "wind_speed_10m": 5.8,
+        "pm2_5": 3.2,
+        "nitrogen_dioxide": 10.8,
+        "ozone": 40.0,
+        "river_discharge": 0.45,
+        "transit_vehicles": 335.0
+      },
+      "source_health": {
+        "weather": "ready",
+        "air": "ready",
+        "flood": "ready",
+        "transit": "ready",
+        "water": "modeled fallback"
+      }
     }
   ]
 }
