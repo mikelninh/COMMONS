@@ -37,7 +37,7 @@
         },
         "30pct": {
           "review_count": 28,
-          "top_k_retention": 0.8929,
+          "top_k_retention": 0.9286,
           "full_catches": 4,
           "dropout_catches": 4,
           "catch_loss": 0
@@ -99,7 +99,7 @@
   },
   "summary": {
     "min_top_k_retention": 0.6316,
-    "mean_top_k_retention": 0.815,
+    "mean_top_k_retention": 0.8189,
     "min_alert_agreement": 0.957,
     "max_heavy_event_catch_loss": 1
   },

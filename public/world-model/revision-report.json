@@ -18,46 +18,46 @@
     "one_off_cases": 32,
     "reversal_cases": 77,
     "persistent_direction_accuracy": 1.0,
-    "persistent_error_improvement_rate": 0.8,
+    "persistent_error_improvement_rate": 0.8222,
     "one_off_direction_accuracy": 0.8462,
     "one_off_error_improvement_rate": 0.6875,
-    "majority_revision_cases": 140,
-    "majority_direction_accuracy": 0.7143,
-    "majority_error_improvement_rate": 0.6643,
+    "majority_revision_cases": 141,
+    "majority_direction_accuracy": 0.7163,
+    "majority_error_improvement_rate": 0.6738,
     "unanimous_revision_cases": 40,
     "unanimous_direction_accuracy": 0.925,
     "no_majority_cases": 49,
     "direction_accuracy_by_rain_regime": {
       "dry": {
-        "samples": 13,
-        "direction_accuracy": 0.8462
+        "samples": 14,
+        "direction_accuracy": 0.7857
       },
       "moderate": {
-        "samples": 45,
-        "direction_accuracy": 0.8222
+        "samples": 46,
+        "direction_accuracy": 0.8261
       },
       "heavy": {
-        "samples": 82,
-        "direction_accuracy": 0.6341
+        "samples": 81,
+        "direction_accuracy": 0.642
       }
     },
     "high_spread_q75": 1.4286,
-    "all_3d_mae_mm": 9.372,
-    "high_spread_3d_mae_mm": 4.022
+    "all_3d_mae_mm": 9.509,
+    "high_spread_3d_mae_mm": 4.412
   },
   "hypotheses": [
     {
       "id": "H8",
       "claim": "A revision sustained across multiple lead checkpoints is more useful than a one-off late jump.",
       "status": "supported",
-      "effect": "persistent direction 100.0%, improvement 80.0%; one-off direction 84.6%, improvement 68.8%",
+      "effect": "persistent direction 100.0%, improvement 82.2%; one-off direction 84.6%, improvement 68.8%",
       "product_update": "Promote sustained multi-checkpoint revisions as a material-change signal."
     },
     {
       "id": "H9",
       "claim": "When at least 2 of 3 models revise in the same direction, that direction is useful for what-changed alerts.",
       "status": "supported",
-      "effect": "direction accuracy 71.4%; next-checkpoint error improved 66.4%",
+      "effect": "direction accuracy 71.6%; next-checkpoint error improved 67.4%",
       "product_update": "Surface \"2/3 models revised upward/downward\" as a directional change signal."
     }
   ],
