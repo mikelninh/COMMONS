@@ -1,39 +1,26 @@
 {
   "version": 1,
-  "generated_at": "2026-10-18T11:04:38Z",
+  "generated_at": "2026-10-18T15:51:54Z",
   "status": "recorded",
-  "sample_count": 106,
+  "sample_count": 107,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
-    "level": "usual",
-    "title": "Nothing unusual is shouting right now.",
-    "explanation": "All scored signals are inside their recent baselines. Quiet is a result too."
+    "level": "unusual",
+    "title": "Berlin is warmer than its recent pattern.",
+    "explanation": "Temperature is above a recent median baseline (robust z +2.6, n=48)."
   },
   "changes": [
-    {
-      "metric": "transit_vehicles",
-      "label": "Transit movement",
-      "unit": "vehicles",
-      "digits": 0,
-      "previous": 380.0,
-      "current": 600.0,
-      "delta": 220.0,
-      "percent": 57.9,
-      "direction": "up",
-      "salience": 4.889,
-      "basis": "since the previous Pulse snapshot"
-    },
     {
       "metric": "pm2_5",
       "label": "PM2.5",
       "unit": "µg/m³",
       "digits": 1,
-      "previous": 4.1,
-      "current": 10.5,
-      "delta": 6.4,
-      "percent": 156.1,
+      "previous": 10.5,
+      "current": 12.7,
+      "delta": 2.2,
+      "percent": 21.0,
       "direction": "up",
-      "salience": 4.267,
+      "salience": 1.467,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -41,12 +28,12 @@
       "label": "Temperature",
       "unit": "°C",
       "digits": 1,
-      "previous": 11.5,
-      "current": 12.5,
-      "delta": 1.0,
-      "percent": 8.7,
+      "previous": 12.5,
+      "current": 14.3,
+      "delta": 1.8,
+      "percent": 14.4,
       "direction": "up",
-      "salience": 0.357,
+      "salience": 0.643,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -56,6 +43,19 @@
       "digits": 2,
       "previous": 0.45,
       "current": 0.45,
+      "delta": 0.0,
+      "percent": 0.0,
+      "direction": "flat",
+      "salience": 0.0,
+      "basis": "since the previous Pulse snapshot"
+    },
+    {
+      "metric": "transit_vehicles",
+      "label": "Transit movement",
+      "unit": "vehicles",
+      "digits": 0,
+      "previous": 600.0,
+      "current": 600.0,
       "delta": 0.0,
       "percent": 0.0,
       "direction": "flat",
@@ -89,42 +89,42 @@
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 12.5,
+      "value": 14.3,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
-        "label": "usual",
-        "score": 0.778,
+        "label": "unusual",
+        "score": 2.646,
         "n": 48,
         "baseline": 11.75,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 10.7,
+        "value": 6.1,
         "unit": "°C",
         "source": "Open-Meteo",
-        "target_at": "2026-10-18T23:00"
+        "target_at": "2026-10-19T04:00"
       }
     },
     "pm2_5": {
       "label": "PM2.5",
-      "value": 10.5,
+      "value": 12.7,
       "unit": "µg/m³",
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
         "label": "usual",
-        "score": 0.229,
+        "score": -0.139,
         "n": 48,
-        "baseline": 8.5,
+        "baseline": 13.75,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 12.7,
+        "value": 4.7,
         "unit": "µg/m³",
         "source": "CAMS",
-        "target_at": "2026-10-18T23:00"
+        "target_at": "2026-10-19T04:00"
       }
     },
     "river_discharge": {
@@ -168,10 +168,10 @@
     "water": "modeled fallback"
   },
   "transit_modes": {
-    "bus": 324,
-    "tram": 142,
+    "bus": 332,
+    "tram": 138,
     "subway": 106,
-    "train": 28,
+    "train": 24,
     "other": 0
   },
   "principle": "Missing evidence stays missing. Forecast skill is compared with persistence before trust is earned."
