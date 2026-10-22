@@ -1,7 +1,7 @@
 {
   "schema_version": "0.1",
-  "generated_at": "2026-10-22T17:15:35.033922Z",
-  "previous_generated_at": "2026-10-22T11:59:53.616992Z",
+  "generated_at": "2026-10-22T21:41:34.948507Z",
+  "previous_generated_at": "2026-10-22T17:15:35.033922Z",
   "product": "COMMONS Morning Brief v1",
   "headline": "Nothing in the validated rainfall pilot needs your attention right now.",
   "close_message": "You are caught up.",
@@ -42,7 +42,7 @@
       "rank_score": 0.0337,
       "forecast_peak_daily_mm": 1.0,
       "forecast_peak_date": "2026-10-22",
-      "forecast_72h_mm": 5.1,
+      "forecast_72h_mm": 2.2,
       "heavy_rain_gate_mm": 29.7,
       "gate_ratio": 0.0337,
       "models_available": 3,
