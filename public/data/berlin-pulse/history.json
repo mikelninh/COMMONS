@@ -2688,6 +2688,27 @@
         "transit": "ready",
         "water": "modeled fallback"
       }
+    },
+    {
+      "timestamp": "2026-10-23T21:24:18Z",
+      "metrics": {
+        "temperature_2m": 11.2,
+        "apparent_temperature": 7.9,
+        "precipitation": 0.0,
+        "wind_speed_10m": 14.6,
+        "pm2_5": 5.7,
+        "nitrogen_dioxide": 12.5,
+        "ozone": 56.0,
+        "river_discharge": 0.71,
+        "transit_vehicles": 600.0
+      },
+      "source_health": {
+        "weather": "ready",
+        "air": "ready",
+        "flood": "ready",
+        "transit": "ready",
+        "water": "modeled fallback"
+      }
     }
   ]
 }
