@@ -16,24 +16,24 @@
   "paths": 201,
   "source_errors": [],
   "thresholds_mm": {
-    "nuwakot": 48.3,
-    "manila": 29.7,
-    "delhi": 18.84
+    "nuwakot": 49.18,
+    "manila": 29.76,
+    "delhi": 17.4
   },
   "policies": {
     "strict": {
       "policy": "strict",
       "days_evaluated": 201,
       "heavy_events": 21,
-      "alerts": 24,
-      "true_positives": 10,
+      "alerts": 25,
+      "true_positives": 11,
       "false_alerts": 14,
-      "precision": 0.4167,
-      "recall": 0.4762,
-      "f1": 0.4444,
-      "miss_rate": 0.5238,
+      "precision": 0.44,
+      "recall": 0.5238,
+      "f1": 0.4783,
+      "miss_rate": 0.4762,
       "false_alerts_per_100_days": 6.97,
-      "mean_true_alert_lead_days": 2.6
+      "mean_true_alert_lead_days": 2.636
     },
     "loose": {
       "policy": "loose",
@@ -68,10 +68,10 @@
     "id": "H12",
     "claim": "A revision-aware material-change rule improves the precision/recall/lead-time trade-off versus fixed forecast thresholds.",
     "status": "not_supported",
-    "f1_gain_vs_strict": 0.0171,
-    "recall_gain_vs_strict": 0.0952,
-    "precision_change_vs_strict": -0.0296,
-    "lead_gain_days_vs_strict": 0.233,
+    "f1_gain_vs_strict": -0.0168,
+    "recall_gain_vs_strict": 0.0476,
+    "precision_change_vs_strict": -0.0529,
+    "lead_gain_days_vs_strict": 0.197,
     "product_update": "Do not replace fixed thresholds with the current revision-aware rule yet."
   },
   "limitations": [

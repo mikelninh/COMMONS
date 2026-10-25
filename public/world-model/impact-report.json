@@ -1,10 +1,10 @@
 {
   "schema_version": "0.1",
   "product": "COMMONS Impact v0",
-  "generated_at": "2026-10-18T10:05:11.202257Z",
+  "generated_at": "2026-10-25T10:21:41.850688Z",
   "period": {
-    "start": "2024-10-18",
-    "end": "2026-10-18"
+    "start": "2024-10-25",
+    "end": "2026-10-25"
   },
   "benchmark_period": {
     "start": "2023-01-01",
@@ -13,39 +13,24 @@
   "principle": "Hazard, exposure, infrastructure and historical consequence stay visible as separate components. No opaque production risk score.",
   "source_health": {
     "gdacs_profile_events": 100,
-    "gdacs_benchmark_events": 298,
+    "gdacs_benchmark_events": 300,
     "emdat_labels": 20,
-    "emdat_coverage": 0.0671,
+    "emdat_coverage": 0.0667,
     "profiles": 3,
     "source_errors": [
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103512",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103532",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103549",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103529",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103526",
+        "event_key": "FL|1103546",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
         "event_key": "TC|1001213",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103529",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -60,6 +45,21 @@
       },
       {
         "source": "EM-DAT",
+        "event_key": "FL|1103532",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103526",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103549",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
         "event_key": "FL|1103524",
         "error": "HTTP Error 404: Not Found"
       },
@@ -70,17 +70,12 @@
       },
       {
         "source": "EM-DAT",
+        "event_key": "TC|1001210",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
         "event_key": "FL|1103521",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103527",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103531",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -90,7 +85,17 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "TC|1001210",
+        "event_key": "FL|1103527",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103517",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103531",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -100,17 +105,12 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103515",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
         "event_key": "FL|1103516",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103517",
+        "event_key": "FL|1103515",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -140,7 +140,7 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103509",
+        "event_key": "FL|1103554",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -150,12 +150,7 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103442",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103554",
+        "event_key": "FL|1103509",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -165,17 +160,17 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103506",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
         "event_key": "FL|1103508",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103503",
+        "event_key": "FL|1103506",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103442",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -190,6 +185,11 @@
       },
       {
         "source": "EM-DAT",
+        "event_key": "FL|1103499",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
         "event_key": "FL|1103488",
         "error": "HTTP Error 404: Not Found"
       },
@@ -200,22 +200,17 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103499",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103498",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103443",
+        "event_key": "FL|1103503",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
         "event_key": "FL|1103454",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103498",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -230,27 +225,7 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "TC|1001207",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103493",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
         "event_key": "FL|1103497",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "TC|1001203",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103490",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -265,12 +240,22 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103487",
+        "event_key": "FL|1103443",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103445",
+        "event_key": "FL|1103493",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "TC|1001203",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103490",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -280,12 +265,27 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "TC|1001206",
+        "event_key": "FL|1103445",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
         "event_key": "FL|1103486",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "TC|1001207",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103487",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "TC|1001206",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -300,6 +300,11 @@
       },
       {
         "source": "EM-DAT",
+        "event_key": "FL|1103451",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
         "event_key": "FL|1103474",
         "error": "HTTP Error 404: Not Found"
       },
@@ -310,7 +315,7 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103451",
+        "event_key": "FL|1103501",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -325,7 +330,7 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103501",
+        "event_key": "FL|1103433",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -335,22 +340,7 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103475",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
         "event_key": "FL|1103485",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103433",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "TC|1001202",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -365,7 +355,7 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "TC|1001200",
+        "event_key": "TC|1001201",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -375,22 +365,12 @@
       },
       {
         "source": "EM-DAT",
+        "event_key": "TC|1001200",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
         "event_key": "FL|1103468",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "TC|1001201",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103467",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103439",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -400,17 +380,17 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103462",
+        "event_key": "FL|1103439",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103463",
+        "event_key": "TC|1001202",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103444",
+        "event_key": "FL|1103475",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -420,12 +400,32 @@
       },
       {
         "source": "EM-DAT",
+        "event_key": "FL|1103463",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
         "event_key": "FL|1103459",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
+        "event_key": "FL|1103462",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103467",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
         "event_key": "TC|1001196",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103444",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -440,22 +440,17 @@
       },
       {
         "source": "EM-DAT",
+        "event_key": "FL|1103457",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
         "event_key": "TC|1001198",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103455",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
         "event_key": "FL|1103453",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
-        "event_key": "FL|1103458",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -470,22 +465,17 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103457",
-        "error": "HTTP Error 404: Not Found"
-      },
-      {
-        "source": "EM-DAT",
         "event_key": "FL|1103409",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "TC|1001197",
+        "event_key": "FL|1103455",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103450",
+        "event_key": "FL|1103458",
         "error": "HTTP Error 404: Not Found"
       },
       {
@@ -495,28 +485,38 @@
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103448",
+        "event_key": "FL|1103449",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "EM-DAT",
-        "event_key": "FL|1103437",
+        "event_key": "TC|1001197",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103465",
+        "error": "HTTP Error 404: Not Found"
+      },
+      {
+        "source": "EM-DAT",
+        "event_key": "FL|1103450",
         "error": "HTTP Error 404: Not Found"
       },
       {
         "source": "OpenStreetMap/Overpass",
         "point_id": "nuwakot",
-        "error": "All Overpass endpoints failed: HTTP Error 500: Internal Server Error"
+        "error": "All Overpass endpoints failed: The read operation timed out"
       },
       {
         "source": "OpenStreetMap/Overpass",
         "point_id": "manila",
-        "error": "All Overpass endpoints failed: HTTP Error 500: Internal Server Error"
+        "error": "All Overpass endpoints failed: The read operation timed out"
       },
       {
         "source": "OpenStreetMap/Overpass",
         "point_id": "delhi",
-        "error": "All Overpass endpoints failed: HTTP Error 500: Internal Server Error"
+        "error": "All Overpass endpoints failed: The read operation timed out"
       }
     ]
   },
