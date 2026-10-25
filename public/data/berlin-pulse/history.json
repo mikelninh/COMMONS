@@ -2835,6 +2835,27 @@
         "transit": "unavailable: TimeoutError",
         "water": "modeled fallback"
       }
+    },
+    {
+      "timestamp": "2026-10-25T11:29:00Z",
+      "metrics": {
+        "temperature_2m": 10.9,
+        "apparent_temperature": 7.6,
+        "precipitation": 0.0,
+        "wind_speed_10m": 18.4,
+        "pm2_5": 1.5,
+        "nitrogen_dioxide": 5.8,
+        "ozone": 60.0,
+        "river_discharge": 0.61,
+        "transit_vehicles": 600.0
+      },
+      "source_health": {
+        "weather": "ready",
+        "air": "ready",
+        "flood": "ready",
+        "transit": "ready",
+        "water": "modeled fallback"
+      }
     }
   ]
 }
