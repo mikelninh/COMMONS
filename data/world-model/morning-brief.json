@@ -1,7 +1,7 @@
 {
   "schema_version": "0.1",
-  "generated_at": "2026-10-25T11:39:33.587921Z",
-  "previous_generated_at": "2026-10-25T04:49:52.590869Z",
+  "generated_at": "2026-10-25T16:29:16.279037Z",
+  "previous_generated_at": "2026-10-25T11:39:33.587921Z",
   "product": "COMMONS Morning Brief v1",
   "headline": "Nothing in the validated rainfall pilot needs your attention right now.",
   "close_message": "You are caught up.",
@@ -54,7 +54,7 @@
         "direction": "mixed",
         "supporting_models": 0,
         "models_compared": 3,
-        "median_delta_mm": 1.7,
+        "median_delta_mm": 0.0,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
@@ -137,7 +137,7 @@
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
       "flood_context": {
-        "historical_percentile": 85.7,
+        "historical_percentile": 72.1,
         "forecast_peak_date": "2026-10-31",
         "role": "context_only",
         "note": "River percentile is context, not the rainfall alert gate."
