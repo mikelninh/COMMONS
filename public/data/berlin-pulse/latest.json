@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "generated_at": "2026-10-24T23:14:10Z",
+  "generated_at": "2026-10-25T04:41:14Z",
   "status": "recorded",
-  "sample_count": 134,
+  "sample_count": 135,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
     "level": "unusual",
@@ -11,29 +11,29 @@
   },
   "changes": [
     {
-      "metric": "temperature_2m",
-      "label": "Temperature",
-      "unit": "°C",
-      "digits": 1,
-      "previous": 8.9,
-      "current": 7.5,
-      "delta": -1.4,
-      "percent": -15.7,
-      "direction": "down",
-      "salience": 0.596,
-      "basis": "since the previous Pulse snapshot"
-    },
-    {
       "metric": "pm2_5",
       "label": "PM2.5",
       "unit": "µg/m³",
       "digits": 1,
-      "previous": 4.9,
-      "current": 5.3,
-      "delta": 0.4,
-      "percent": 8.2,
+      "previous": 5.3,
+      "current": 1.9,
+      "delta": -3.4,
+      "percent": -64.2,
+      "direction": "down",
+      "salience": 2.429,
+      "basis": "since the previous Pulse snapshot"
+    },
+    {
+      "metric": "temperature_2m",
+      "label": "Temperature",
+      "unit": "°C",
+      "digits": 1,
+      "previous": 7.5,
+      "current": 8.8,
+      "delta": 1.3,
+      "percent": 17.3,
       "direction": "up",
-      "salience": 0.276,
+      "salience": 0.565,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -76,42 +76,42 @@
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 7.5,
+      "value": 8.8,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
-        "label": "watch",
-        "score": -1.764,
+        "label": "usual",
+        "score": -1.049,
         "n": 48,
         "baseline": 10.9,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 11.4,
+        "value": 12.4,
         "unit": "°C",
         "source": "Open-Meteo",
-        "target_at": "2026-10-25T11:00"
+        "target_at": "2026-10-25T17:00"
       }
     },
     "pm2_5": {
       "label": "PM2.5",
-      "value": 5.3,
+      "value": 1.9,
       "unit": "µg/m³",
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
         "label": "usual",
-        "score": 0.256,
+        "score": -1.349,
         "n": 48,
-        "baseline": 4.75,
+        "baseline": 4.4,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 1.5,
+        "value": 3.5,
         "unit": "µg/m³",
         "source": "CAMS",
-        "target_at": "2026-10-25T11:00"
+        "target_at": "2026-10-25T17:00"
       }
     },
     "river_discharge": {
@@ -135,23 +135,23 @@
       "anomaly": {
         "label": "learning",
         "score": null,
-        "n": 35,
+        "n": 34,
         "baseline": null,
         "baseline_scope": "recorded Pulse snapshots"
       }
     }
   },
   "forecast_score": {
-    "resolved": 80,
-    "candidate_mae": 0.8675,
-    "baseline_mae": 4.185,
-    "candidate_better_rate": 0.8875
+    "resolved": 82,
+    "candidate_mae": 0.8537,
+    "baseline_mae": 4.1,
+    "candidate_better_rate": 0.8902
   },
   "source_health": {
     "weather": "ready",
     "air": "ready",
     "flood": "ready",
-    "transit": "unavailable: URLError",
+    "transit": "unavailable: TimeoutError",
     "water": "modeled fallback"
   },
   "transit_modes": null,
