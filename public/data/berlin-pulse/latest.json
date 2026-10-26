@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "generated_at": "2026-10-26T13:02:11Z",
+  "generated_at": "2026-10-26T20:28:58Z",
   "status": "recorded",
-  "sample_count": 141,
+  "sample_count": 142,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
     "level": "unusual",
@@ -11,29 +11,29 @@
   },
   "changes": [
     {
-      "metric": "temperature_2m",
-      "label": "Temperature",
-      "unit": "°C",
-      "digits": 1,
-      "previous": 7.7,
-      "current": 12.9,
-      "delta": 5.2,
-      "percent": 67.5,
-      "direction": "up",
-      "salience": 2.261,
-      "basis": "since the previous Pulse snapshot"
-    },
-    {
       "metric": "pm2_5",
       "label": "PM2.5",
       "unit": "µg/m³",
       "digits": 1,
-      "previous": 4.4,
-      "current": 5.9,
-      "delta": 1.5,
-      "percent": 34.1,
+      "previous": 5.9,
+      "current": 8.9,
+      "delta": 3.0,
+      "percent": 50.8,
       "direction": "up",
-      "salience": 1.071,
+      "salience": 2.143,
+      "basis": "since the previous Pulse snapshot"
+    },
+    {
+      "metric": "temperature_2m",
+      "label": "Temperature",
+      "unit": "°C",
+      "digits": 1,
+      "previous": 12.9,
+      "current": 8.3,
+      "delta": -4.6,
+      "percent": -35.7,
+      "direction": "down",
+      "salience": 2.0,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -89,42 +89,42 @@
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 12.9,
+      "value": 8.3,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
-        "label": "watch",
-        "score": 1.939,
+        "label": "usual",
+        "score": -0.53,
         "n": 48,
-        "baseline": 9.45,
+        "baseline": 9.4,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 8.2,
+        "value": 9.2,
         "unit": "°C",
         "source": "Open-Meteo",
-        "target_at": "2026-10-27T01:00"
+        "target_at": "2026-10-27T08:00"
       }
     },
     "pm2_5": {
       "label": "PM2.5",
-      "value": 5.9,
+      "value": 8.9,
       "unit": "µg/m³",
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
-        "label": "usual",
-        "score": 1.202,
+        "label": "watch",
+        "score": 2.12,
         "n": 48,
-        "baseline": 3.85,
+        "baseline": 4.5,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 9.7,
+        "value": 10.8,
         "unit": "µg/m³",
         "source": "CAMS",
-        "target_at": "2026-10-27T01:00"
+        "target_at": "2026-10-27T08:00"
       }
     },
     "river_discharge": {
@@ -148,7 +148,7 @@
       "anomaly": {
         "label": "usual",
         "score": 0.0,
-        "n": 36,
+        "n": 37,
         "baseline": 600.0,
         "baseline_scope": "recorded Pulse snapshots"
       }
@@ -168,10 +168,10 @@
     "water": "modeled fallback"
   },
   "transit_modes": {
-    "bus": 227,
-    "tram": 194,
-    "subway": 111,
-    "train": 68,
+    "bus": 299,
+    "tram": 151,
+    "subway": 89,
+    "train": 61,
     "other": 0
   },
   "principle": "Missing evidence stays missing. Forecast skill is compared with persistence before trust is earned."
