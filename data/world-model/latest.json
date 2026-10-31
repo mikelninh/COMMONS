@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1",
-  "generated_at": "2026-10-30T22:26:06.867933Z",
+  "generated_at": "2026-10-31T05:52:07.681452Z",
   "mode": "research",
   "product": "COMMONS World Model v0",
   "source_contract": {
@@ -28,100 +28,100 @@
           {
             "provider": "ecmwf",
             "label": "ECMWF IFS",
-            "start_date": "2026-10-30",
+            "start_date": "2026-10-31",
             "precip_daily_mm": [
               {
-                "date": "2026-10-30",
-                "mm": 31.1
-              },
-              {
                 "date": "2026-10-31",
-                "mm": 25.2
+                "mm": 22.2
               },
               {
                 "date": "2026-11-01",
-                "mm": 0.5
+                "mm": 0.4
+              },
+              {
+                "date": "2026-11-02",
+                "mm": 0.4
               }
             ],
-            "precip_peak_daily_mm": 31.1,
-            "precip_peak_date": "2026-10-30",
-            "precip_72h_mm": 56.8,
-            "temp_max_72h_c": 25.4,
-            "temp_min_72h_c": 14.4,
+            "precip_peak_daily_mm": 22.2,
+            "precip_peak_date": "2026-10-31",
+            "precip_72h_mm": 23.0,
+            "temp_max_72h_c": 25.3,
+            "temp_min_72h_c": 15.1,
             "gust_max_72h_kmh": 24.1
           },
           {
             "provider": "gfs",
             "label": "NOAA GFS",
-            "start_date": "2026-10-30",
+            "start_date": "2026-10-31",
             "precip_daily_mm": [
               {
-                "date": "2026-10-30",
-                "mm": 15.6
-              },
-              {
                 "date": "2026-10-31",
-                "mm": 9.9
+                "mm": 11.8
               },
               {
                 "date": "2026-11-01",
-                "mm": 0.2
+                "mm": 0.1
+              },
+              {
+                "date": "2026-11-02",
+                "mm": 0.0
               }
             ],
-            "precip_peak_daily_mm": 15.6,
-            "precip_peak_date": "2026-10-30",
-            "precip_72h_mm": 25.7,
-            "temp_max_72h_c": 25.1,
-            "temp_min_72h_c": 15.4,
-            "gust_max_72h_kmh": 12.6
+            "precip_peak_daily_mm": 11.8,
+            "precip_peak_date": "2026-10-31",
+            "precip_72h_mm": 11.9,
+            "temp_max_72h_c": 25.3,
+            "temp_min_72h_c": 14.6,
+            "gust_max_72h_kmh": 14.8
           },
           {
             "provider": "icon",
             "label": "DWD ICON",
-            "start_date": "2026-10-30",
+            "start_date": "2026-10-31",
             "precip_daily_mm": [
               {
-                "date": "2026-10-30",
-                "mm": 20.3
-              },
-              {
                 "date": "2026-10-31",
-                "mm": 14.8
+                "mm": 15.1
               },
               {
                 "date": "2026-11-01",
                 "mm": 0.0
+              },
+              {
+                "date": "2026-11-02",
+                "mm": 0.9
               }
             ],
-            "precip_peak_daily_mm": 20.3,
-            "precip_peak_date": "2026-10-30",
-            "precip_72h_mm": 35.1,
-            "temp_max_72h_c": 24.6,
-            "temp_min_72h_c": 14.4,
-            "gust_max_72h_kmh": 15.5
+            "precip_peak_daily_mm": 15.1,
+            "precip_peak_date": "2026-10-31",
+            "precip_72h_mm": 16.0,
+            "temp_max_72h_c": 24.4,
+            "temp_min_72h_c": 13.7,
+            "gust_max_72h_kmh": 16.9
           }
         ],
         "source_errors": [],
         "consensus": {
           "precip_daily_mm_median": [
             {
-              "date": "2026-10-30",
-              "mm": 20.3
-            },
-            {
               "date": "2026-10-31",
-              "mm": 14.8
+              "mm": 15.1
             },
             {
               "date": "2026-11-01",
-              "mm": 0.2
+              "mm": 0.1
+            },
+            {
+              "date": "2026-11-02",
+              "mm": 0.4
             }
           ],
-          "precip_peak_daily_mm_median": 20.3,
-          "precip_peak_date": "2026-10-30",
-          "precip_72h_mm_median": 35.1,
-          "temp_max_72h_c_median": 25.1,
-          "gust_max_72h_kmh_median": 15.5,
+          "precip_peak_daily_mm_median": 15.1,
+          "precip_peak_date": "2026-10-31",
+          "precip_72h_mm_median": 16.0,
+          "temp_max_72h_c_median": 25.3,
+          "gust_max_72h_kmh_median": 16.9,
           "precip_agreement": "low",
           "temperature_agreement": "high",
           "gust_agreement": "low"
@@ -134,32 +134,32 @@
         "historical_period_start": "1940-01-01",
         "historical_period_end": "2026-09-13",
         "season_window_days": 45,
-        "seasonal_percentile": 93.5,
+        "seasonal_percentile": 78.3,
         "analogues": [
           {
-            "start_date": "1961-09-26",
-            "precip_72h_mm": 35.1,
+            "start_date": "1940-09-15",
+            "precip_72h_mm": 16.0,
             "difference_mm": 0.0
           },
           {
-            "start_date": "2007-10-28",
-            "precip_72h_mm": 35.1,
+            "start_date": "1946-09-27",
+            "precip_72h_mm": 16.0,
             "difference_mm": 0.0
           },
           {
-            "start_date": "1970-09-21",
-            "precip_72h_mm": 35.0,
-            "difference_mm": 0.1
+            "start_date": "1950-09-19",
+            "precip_72h_mm": 16.0,
+            "difference_mm": 0.0
           },
           {
-            "start_date": "1971-11-15",
-            "precip_72h_mm": 35.0,
-            "difference_mm": 0.1
+            "start_date": "1952-11-02",
+            "precip_72h_mm": 16.0,
+            "difference_mm": 0.0
           },
           {
-            "start_date": "1972-11-16",
-            "precip_72h_mm": 35.2,
-            "difference_mm": 0.1
+            "start_date": "1956-11-01",
+            "precip_72h_mm": 16.0,
+            "difference_mm": 0.0
           }
         ],
         "limitation": "Analogues compare seasonal three-day precipitation totals only. They are not full atmospheric analogues and do not imply similar human impact."
@@ -189,103 +189,103 @@
           {
             "provider": "ecmwf",
             "label": "ECMWF IFS",
-            "start_date": "2026-10-30",
+            "start_date": "2026-10-31",
             "precip_daily_mm": [
               {
-                "date": "2026-10-30",
-                "mm": 4.5
-              },
-              {
                 "date": "2026-10-31",
-                "mm": 3.6
+                "mm": 5.4
               },
               {
                 "date": "2026-11-01",
-                "mm": 6.0
+                "mm": 6.1
+              },
+              {
+                "date": "2026-11-02",
+                "mm": 1.6
               }
             ],
-            "precip_peak_daily_mm": 6.0,
+            "precip_peak_daily_mm": 6.1,
             "precip_peak_date": "2026-11-01",
-            "precip_72h_mm": 14.1,
-            "temp_max_72h_c": 32.2,
-            "temp_min_72h_c": 25.3,
-            "gust_max_72h_kmh": 28.1
+            "precip_72h_mm": 13.1,
+            "temp_max_72h_c": 32.4,
+            "temp_min_72h_c": 25.2,
+            "gust_max_72h_kmh": 34.6
           },
           {
             "provider": "gfs",
             "label": "NOAA GFS",
-            "start_date": "2026-10-30",
+            "start_date": "2026-10-31",
             "precip_daily_mm": [
               {
-                "date": "2026-10-30",
-                "mm": 2.3
+                "date": "2026-10-31",
+                "mm": 2.0
               },
+              {
+                "date": "2026-11-01",
+                "mm": 5.9
+              },
+              {
+                "date": "2026-11-02",
+                "mm": 0.0
+              }
+            ],
+            "precip_peak_daily_mm": 5.9,
+            "precip_peak_date": "2026-11-01",
+            "precip_72h_mm": 7.9,
+            "temp_max_72h_c": 33.3,
+            "temp_min_72h_c": 24.4,
+            "gust_max_72h_kmh": 33.1
+          },
+          {
+            "provider": "icon",
+            "label": "DWD ICON",
+            "start_date": "2026-10-31",
+            "precip_daily_mm": [
               {
                 "date": "2026-10-31",
                 "mm": 0.0
               },
               {
                 "date": "2026-11-01",
-                "mm": 1.7
-              }
-            ],
-            "precip_peak_daily_mm": 2.3,
-            "precip_peak_date": "2026-10-30",
-            "precip_72h_mm": 4.0,
-            "temp_max_72h_c": 32.4,
-            "temp_min_72h_c": 24.2,
-            "gust_max_72h_kmh": 25.6
-          },
-          {
-            "provider": "icon",
-            "label": "DWD ICON",
-            "start_date": "2026-10-30",
-            "precip_daily_mm": [
-              {
-                "date": "2026-10-30",
-                "mm": 2.6
+                "mm": 5.4
               },
               {
-                "date": "2026-10-31",
-                "mm": 0.1
-              },
-              {
-                "date": "2026-11-01",
-                "mm": 7.5
+                "date": "2026-11-02",
+                "mm": 1.0
               }
             ],
-            "precip_peak_daily_mm": 7.5,
+            "precip_peak_daily_mm": 5.4,
             "precip_peak_date": "2026-11-01",
-            "precip_72h_mm": 10.2,
-            "temp_max_72h_c": 33.3,
-            "temp_min_72h_c": 25.4,
-            "gust_max_72h_kmh": 26.3
+            "precip_72h_mm": 6.4,
+            "temp_max_72h_c": 33.5,
+            "temp_min_72h_c": 25.3,
+            "gust_max_72h_kmh": 27.0
           }
         ],
         "source_errors": [],
         "consensus": {
           "precip_daily_mm_median": [
             {
-              "date": "2026-10-30",
-              "mm": 2.6
-            },
-            {
               "date": "2026-10-31",
-              "mm": 0.1
+              "mm": 2.0
             },
             {
               "date": "2026-11-01",
-              "mm": 6.0
+              "mm": 5.9
+            },
+            {
+              "date": "2026-11-02",
+              "mm": 1.0
             }
           ],
-          "precip_peak_daily_mm_median": 6.0,
+          "precip_peak_daily_mm_median": 5.9,
           "precip_peak_date": "2026-11-01",
-          "precip_72h_mm_median": 10.2,
-          "temp_max_72h_c_median": 32.4,
-          "gust_max_72h_kmh_median": 26.3,
+          "precip_72h_mm_median": 7.9,
+          "temp_max_72h_c_median": 33.3,
+          "gust_max_72h_kmh_median": 33.1,
           "precip_agreement": "low",
           "temperature_agreement": "high",
-          "gust_agreement": "high"
+          "gust_agreement": "medium"
         },
         "interpretation": "Model agreement is a spread heuristic across deterministic forecasts; it is not a calibrated probability."
       },
@@ -307,37 +307,33 @@
           {
             "provider": "ecmwf",
             "label": "ECMWF IFS",
-            "start_date": "2026-10-30",
+            "start_date": "2026-10-31",
             "precip_daily_mm": [
               {
-                "date": "2026-10-30",
-                "mm": 33.3
-              },
-              {
                 "date": "2026-10-31",
-                "mm": 0.1
+                "mm": 0.0
               },
               {
                 "date": "2026-11-01",
-                "mm": -0.1
+                "mm": 0.0
+              },
+              {
+                "date": "2026-11-02",
+                "mm": 0.0
               }
             ],
-            "precip_peak_daily_mm": 33.3,
-            "precip_peak_date": "2026-10-30",
-            "precip_72h_mm": 33.3,
+            "precip_peak_daily_mm": 0.0,
+            "precip_peak_date": "2026-10-31",
+            "precip_72h_mm": 0.0,
             "temp_max_72h_c": 27.8,
-            "temp_min_72h_c": 18.6,
-            "gust_max_72h_kmh": 22.3
+            "temp_min_72h_c": 18.2,
+            "gust_max_72h_kmh": 21.2
           },
           {
             "provider": "gfs",
             "label": "NOAA GFS",
-            "start_date": "2026-10-30",
+            "start_date": "2026-10-31",
             "precip_daily_mm": [
-              {
-                "date": "2026-10-30",
-                "mm": 0.4
-              },
               {
                 "date": "2026-10-31",
                 "mm": 0.0
@@ -345,24 +341,24 @@
               {
                 "date": "2026-11-01",
                 "mm": 0.0
+              },
+              {
+                "date": "2026-11-02",
+                "mm": 0.0
               }
             ],
-            "precip_peak_daily_mm": 0.4,
-            "precip_peak_date": "2026-10-30",
-            "precip_72h_mm": 0.4,
-            "temp_max_72h_c": 31.5,
-            "temp_min_72h_c": 21.2,
-            "gust_max_72h_kmh": 19.8
+            "precip_peak_daily_mm": 0.0,
+            "precip_peak_date": "2026-10-31",
+            "precip_72h_mm": 0.0,
+            "temp_max_72h_c": 32.3,
+            "temp_min_72h_c": 22.5,
+            "gust_max_72h_kmh": 14.4
           },
           {
             "provider": "icon",
             "label": "DWD ICON",
-            "start_date": "2026-10-30",
+            "start_date": "2026-10-31",
             "precip_daily_mm": [
-              {
-                "date": "2026-10-30",
-                "mm": 0.1
-              },
               {
                 "date": "2026-10-31",
                 "mm": 0.0
@@ -370,23 +366,23 @@
               {
                 "date": "2026-11-01",
                 "mm": 0.0
+              },
+              {
+                "date": "2026-11-02",
+                "mm": 0.0
               }
             ],
-            "precip_peak_daily_mm": 0.1,
-            "precip_peak_date": "2026-10-30",
-            "precip_72h_mm": 0.1,
-            "temp_max_72h_c": 27.5,
-            "temp_min_72h_c": 18.7,
-            "gust_max_72h_kmh": 23.0
+            "precip_peak_daily_mm": 0.0,
+            "precip_peak_date": "2026-10-31",
+            "precip_72h_mm": 0.0,
+            "temp_max_72h_c": 27.9,
+            "temp_min_72h_c": 18.5,
+            "gust_max_72h_kmh": 23.8
           }
         ],
         "source_errors": [],
         "consensus": {
           "precip_daily_mm_median": [
-            {
-              "date": "2026-10-30",
-              "mm": 0.4
-            },
             {
               "date": "2026-10-31",
               "mm": 0.0
@@ -394,16 +390,20 @@
             {
               "date": "2026-11-01",
               "mm": 0.0
+            },
+            {
+              "date": "2026-11-02",
+              "mm": 0.0
             }
           ],
-          "precip_peak_daily_mm_median": 0.4,
-          "precip_peak_date": "2026-10-30",
-          "precip_72h_mm_median": 0.4,
-          "temp_max_72h_c_median": 27.8,
-          "gust_max_72h_kmh_median": 22.3,
-          "precip_agreement": "low",
+          "precip_peak_daily_mm_median": 0.0,
+          "precip_peak_date": "2026-10-31",
+          "precip_72h_mm_median": 0.0,
+          "temp_max_72h_c_median": 27.9,
+          "gust_max_72h_kmh_median": 21.2,
+          "precip_agreement": "high",
           "temperature_agreement": "high",
-          "gust_agreement": "high"
+          "gust_agreement": "medium"
         },
         "interpretation": "Model agreement is a spread heuristic across deterministic forecasts; it is not a calibrated probability."
       },
@@ -425,103 +425,103 @@
           {
             "provider": "ecmwf",
             "label": "ECMWF IFS",
-            "start_date": "2026-10-30",
+            "start_date": "2026-10-31",
             "precip_daily_mm": [
-              {
-                "date": "2026-10-30",
-                "mm": 1.2
-              },
               {
                 "date": "2026-10-31",
                 "mm": 0.1
               },
               {
                 "date": "2026-11-01",
-                "mm": 6.4
+                "mm": 11.1
+              },
+              {
+                "date": "2026-11-02",
+                "mm": 0.0
               }
             ],
-            "precip_peak_daily_mm": 6.4,
+            "precip_peak_daily_mm": 11.1,
             "precip_peak_date": "2026-11-01",
-            "precip_72h_mm": 7.7,
-            "temp_max_72h_c": 22.6,
-            "temp_min_72h_c": 14.6,
-            "gust_max_72h_kmh": 30.2
+            "precip_72h_mm": 11.2,
+            "temp_max_72h_c": 22.2,
+            "temp_min_72h_c": 11.3,
+            "gust_max_72h_kmh": 32.0
           },
           {
             "provider": "gfs",
             "label": "NOAA GFS",
-            "start_date": "2026-10-30",
+            "start_date": "2026-10-31",
             "precip_daily_mm": [
               {
-                "date": "2026-10-30",
+                "date": "2026-10-31",
                 "mm": 2.9
               },
               {
-                "date": "2026-10-31",
-                "mm": 3.7
+                "date": "2026-11-01",
+                "mm": 0.8
               },
               {
-                "date": "2026-11-01",
-                "mm": 1.6
+                "date": "2026-11-02",
+                "mm": 0.0
               }
             ],
-            "precip_peak_daily_mm": 3.7,
+            "precip_peak_daily_mm": 2.9,
             "precip_peak_date": "2026-10-31",
-            "precip_72h_mm": 8.2,
-            "temp_max_72h_c": 21.6,
-            "temp_min_72h_c": 14.8,
-            "gust_max_72h_kmh": 20.5
+            "precip_72h_mm": 3.7,
+            "temp_max_72h_c": 23.6,
+            "temp_min_72h_c": 15.5,
+            "gust_max_72h_kmh": 22.5
           },
           {
             "provider": "icon",
             "label": "DWD ICON",
-            "start_date": "2026-10-30",
+            "start_date": "2026-10-31",
             "precip_daily_mm": [
               {
-                "date": "2026-10-30",
-                "mm": 0.0
-              },
-              {
                 "date": "2026-10-31",
-                "mm": 0.2
+                "mm": 0.1
               },
               {
                 "date": "2026-11-01",
-                "mm": 8.3
+                "mm": 3.8
+              },
+              {
+                "date": "2026-11-02",
+                "mm": 0.0
               }
             ],
-            "precip_peak_daily_mm": 8.3,
+            "precip_peak_daily_mm": 3.8,
             "precip_peak_date": "2026-11-01",
-            "precip_72h_mm": 8.5,
-            "temp_max_72h_c": 22.0,
-            "temp_min_72h_c": 16.4,
-            "gust_max_72h_kmh": 35.6
+            "precip_72h_mm": 3.9,
+            "temp_max_72h_c": 24.7,
+            "temp_min_72h_c": 13.2,
+            "gust_max_72h_kmh": 36.7
           }
         ],
         "source_errors": [],
         "consensus": {
           "precip_daily_mm_median": [
             {
-              "date": "2026-10-30",
-              "mm": 1.2
-            },
-            {
               "date": "2026-10-31",
-              "mm": 0.2
+              "mm": 0.1
             },
             {
               "date": "2026-11-01",
-              "mm": 6.4
+              "mm": 3.8
+            },
+            {
+              "date": "2026-11-02",
+              "mm": 0.0
             }
           ],
-          "precip_peak_daily_mm_median": 6.4,
+          "precip_peak_daily_mm_median": 3.8,
           "precip_peak_date": "2026-11-01",
-          "precip_72h_mm_median": 8.2,
-          "temp_max_72h_c_median": 22.0,
-          "gust_max_72h_kmh_median": 30.2,
-          "precip_agreement": "high",
+          "precip_72h_mm_median": 3.9,
+          "temp_max_72h_c_median": 23.6,
+          "gust_max_72h_kmh_median": 32.0,
+          "precip_agreement": "low",
           "temperature_agreement": "high",
-          "gust_agreement": "low"
+          "gust_agreement": "medium"
         },
         "interpretation": "Model agreement is a spread heuristic across deterministic forecasts; it is not a calibrated probability."
       },
@@ -543,83 +543,103 @@
           {
             "provider": "ecmwf",
             "label": "ECMWF IFS",
-            "start_date": "2026-10-30",
+            "start_date": "2026-10-31",
             "precip_daily_mm": [
               {
-                "date": "2026-10-30",
-                "mm": 0.3
-              },
-              {
                 "date": "2026-10-31",
-                "mm": 2.0
+                "mm": 1.4
               },
               {
                 "date": "2026-11-01",
                 "mm": 0.2
+              },
+              {
+                "date": "2026-11-02",
+                "mm": 0.0
               }
             ],
-            "precip_peak_daily_mm": 2.0,
+            "precip_peak_daily_mm": 1.4,
             "precip_peak_date": "2026-10-31",
-            "precip_72h_mm": 2.5,
-            "temp_max_72h_c": 9.4,
-            "temp_min_72h_c": 3.0,
-            "gust_max_72h_kmh": 27.7
+            "precip_72h_mm": 1.6,
+            "temp_max_72h_c": 9.6,
+            "temp_min_72h_c": 3.4,
+            "gust_max_72h_kmh": 27.0
           },
           {
             "provider": "gfs",
             "label": "NOAA GFS",
-            "start_date": "2026-10-30",
+            "start_date": "2026-10-31",
             "precip_daily_mm": [
               {
-                "date": "2026-10-30",
-                "mm": 0.2
-              },
-              {
                 "date": "2026-10-31",
-                "mm": 3.7
+                "mm": 3.3
               },
               {
                 "date": "2026-11-01",
                 "mm": 0.0
+              },
+              {
+                "date": "2026-11-02",
+                "mm": 0.0
               }
             ],
-            "precip_peak_daily_mm": 3.7,
+            "precip_peak_daily_mm": 3.3,
             "precip_peak_date": "2026-10-31",
-            "precip_72h_mm": 3.9,
-            "temp_max_72h_c": 11.4,
-            "temp_min_72h_c": 5.9,
-            "gust_max_72h_kmh": 31.3
-          }
-        ],
-        "source_errors": [
+            "precip_72h_mm": 3.3,
+            "temp_max_72h_c": 9.8,
+            "temp_min_72h_c": 4.8,
+            "gust_max_72h_kmh": 32.8
+          },
           {
             "provider": "icon",
-            "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
+            "label": "DWD ICON",
+            "start_date": "2026-10-31",
+            "precip_daily_mm": [
+              {
+                "date": "2026-10-31",
+                "mm": 2.4
+              },
+              {
+                "date": "2026-11-01",
+                "mm": 0.0
+              },
+              {
+                "date": "2026-11-02",
+                "mm": 0.0
+              }
+            ],
+            "precip_peak_daily_mm": 2.4,
+            "precip_peak_date": "2026-10-31",
+            "precip_72h_mm": 2.4,
+            "temp_max_72h_c": 9.5,
+            "temp_min_72h_c": 4.5,
+            "gust_max_72h_kmh": 28.4
           }
         ],
+        "source_errors": [],
         "consensus": {
           "precip_daily_mm_median": [
             {
-              "date": "2026-10-30",
-              "mm": 0.2
-            },
-            {
               "date": "2026-10-31",
-              "mm": 2.9
+              "mm": 2.4
             },
             {
               "date": "2026-11-01",
-              "mm": 0.1
+              "mm": 0.0
+            },
+            {
+              "date": "2026-11-02",
+              "mm": 0.0
             }
           ],
-          "precip_peak_daily_mm_median": 2.9,
+          "precip_peak_daily_mm_median": 2.4,
           "precip_peak_date": "2026-10-31",
-          "precip_72h_mm_median": 3.2,
-          "temp_max_72h_c_median": 10.4,
-          "gust_max_72h_kmh_median": 29.5,
-          "precip_agreement": "medium",
+          "precip_72h_mm_median": 2.4,
+          "temp_max_72h_c_median": 9.6,
+          "gust_max_72h_kmh_median": 28.4,
+          "precip_agreement": "low",
           "temperature_agreement": "high",
-          "gust_agreement": "high"
+          "gust_agreement": "medium"
         },
         "interpretation": "Model agreement is a spread heuristic across deterministic forecasts; it is not a calibrated probability."
       },
@@ -639,39 +659,10 @@
       "forecast_council": {
         "members": [
           {
-            "provider": "ecmwf",
-            "label": "ECMWF IFS",
-            "start_date": "2026-10-30",
-            "precip_daily_mm": [
-              {
-                "date": "2026-10-30",
-                "mm": 0.0
-              },
-              {
-                "date": "2026-10-31",
-                "mm": 0.0
-              },
-              {
-                "date": "2026-11-01",
-                "mm": 0.0
-              }
-            ],
-            "precip_peak_daily_mm": 0.0,
-            "precip_peak_date": "2026-10-30",
-            "precip_72h_mm": 0.0,
-            "temp_max_72h_c": 39.6,
-            "temp_min_72h_c": 23.2,
-            "gust_max_72h_kmh": 31.7
-          },
-          {
             "provider": "gfs",
             "label": "NOAA GFS",
-            "start_date": "2026-10-30",
+            "start_date": "2026-10-31",
             "precip_daily_mm": [
-              {
-                "date": "2026-10-30",
-                "mm": 0.0
-              },
               {
                 "date": "2026-10-31",
                 "mm": 0.0
@@ -679,24 +670,24 @@
               {
                 "date": "2026-11-01",
                 "mm": 0.0
+              },
+              {
+                "date": "2026-11-02",
+                "mm": 0.0
               }
             ],
             "precip_peak_daily_mm": 0.0,
-            "precip_peak_date": "2026-10-30",
+            "precip_peak_date": "2026-10-31",
             "precip_72h_mm": 0.0,
-            "temp_max_72h_c": 40.0,
-            "temp_min_72h_c": 28.7,
-            "gust_max_72h_kmh": 20.5
+            "temp_max_72h_c": 40.7,
+            "temp_min_72h_c": 28.0,
+            "gust_max_72h_kmh": 18.7
           },
           {
             "provider": "icon",
             "label": "DWD ICON",
-            "start_date": "2026-10-30",
+            "start_date": "2026-10-31",
             "precip_daily_mm": [
-              {
-                "date": "2026-10-30",
-                "mm": 0.0
-              },
               {
                 "date": "2026-10-31",
                 "mm": 0.0
@@ -704,23 +695,28 @@
               {
                 "date": "2026-11-01",
                 "mm": 0.0
+              },
+              {
+                "date": "2026-11-02",
+                "mm": 0.0
               }
             ],
             "precip_peak_daily_mm": 0.0,
-            "precip_peak_date": "2026-10-30",
+            "precip_peak_date": "2026-10-31",
             "precip_72h_mm": 0.0,
-            "temp_max_72h_c": 40.4,
-            "temp_min_72h_c": 21.9,
-            "gust_max_72h_kmh": 29.9
+            "temp_max_72h_c": 41.5,
+            "temp_min_72h_c": 22.0,
+            "gust_max_72h_kmh": 21.2
           }
         ],
-        "source_errors": [],
+        "source_errors": [
+          {
+            "provider": "ecmwf",
+            "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
+          }
+        ],
         "consensus": {
           "precip_daily_mm_median": [
-            {
-              "date": "2026-10-30",
-              "mm": 0.0
-            },
             {
               "date": "2026-10-31",
               "mm": 0.0
@@ -728,16 +724,20 @@
             {
               "date": "2026-11-01",
               "mm": 0.0
+            },
+            {
+              "date": "2026-11-02",
+              "mm": 0.0
             }
           ],
           "precip_peak_daily_mm_median": 0.0,
-          "precip_peak_date": "2026-10-30",
+          "precip_peak_date": "2026-10-31",
           "precip_72h_mm_median": 0.0,
-          "temp_max_72h_c_median": 40.0,
-          "gust_max_72h_kmh_median": 29.9,
+          "temp_max_72h_c_median": 41.1,
+          "gust_max_72h_kmh_median": 19.9,
           "precip_agreement": "high",
           "temperature_agreement": "high",
-          "gust_agreement": "medium"
+          "gust_agreement": "high"
         },
         "interpretation": "Model agreement is a spread heuristic across deterministic forecasts; it is not a calibrated probability."
       },
@@ -779,12 +779,8 @@
           {
             "provider": "ecmwf",
             "label": "ECMWF IFS",
-            "start_date": "2026-10-30",
+            "start_date": "2026-10-31",
             "precip_daily_mm": [
-              {
-                "date": "2026-10-30",
-                "mm": 0.1
-              },
               {
                 "date": "2026-10-31",
                 "mm": 0.1
@@ -792,24 +788,24 @@
               {
                 "date": "2026-11-01",
                 "mm": 0.1
+              },
+              {
+                "date": "2026-11-02",
+                "mm": 0.0
               }
             ],
             "precip_peak_daily_mm": 0.1,
-            "precip_peak_date": "2026-10-30",
-            "precip_72h_mm": 0.3,
-            "temp_max_72h_c": 31.0,
-            "temp_min_72h_c": 25.0,
-            "gust_max_72h_kmh": 38.5
+            "precip_peak_date": "2026-10-31",
+            "precip_72h_mm": 0.2,
+            "temp_max_72h_c": 30.8,
+            "temp_min_72h_c": 24.3,
+            "gust_max_72h_kmh": 41.0
           },
           {
             "provider": "gfs",
             "label": "NOAA GFS",
-            "start_date": "2026-10-30",
+            "start_date": "2026-10-31",
             "precip_daily_mm": [
-              {
-                "date": "2026-10-30",
-                "mm": 0.0
-              },
               {
                 "date": "2026-10-31",
                 "mm": 0.0
@@ -817,24 +813,24 @@
               {
                 "date": "2026-11-01",
                 "mm": 0.0
+              },
+              {
+                "date": "2026-11-02",
+                "mm": 0.0
               }
             ],
             "precip_peak_daily_mm": 0.0,
-            "precip_peak_date": "2026-10-30",
+            "precip_peak_date": "2026-10-31",
             "precip_72h_mm": 0.0,
-            "temp_max_72h_c": 29.7,
+            "temp_max_72h_c": 29.5,
             "temp_min_72h_c": 26.1,
-            "gust_max_72h_kmh": 33.1
+            "gust_max_72h_kmh": 31.7
           },
           {
             "provider": "icon",
             "label": "DWD ICON",
-            "start_date": "2026-10-30",
+            "start_date": "2026-10-31",
             "precip_daily_mm": [
-              {
-                "date": "2026-10-30",
-                "mm": 0.0
-              },
               {
                 "date": "2026-10-31",
                 "mm": 0.0
@@ -842,23 +838,23 @@
               {
                 "date": "2026-11-01",
                 "mm": 0.0
+              },
+              {
+                "date": "2026-11-02",
+                "mm": 0.1
               }
             ],
-            "precip_peak_daily_mm": 0.0,
-            "precip_peak_date": "2026-10-30",
-            "precip_72h_mm": 0.0,
-            "temp_max_72h_c": 31.7,
-            "temp_min_72h_c": 24.9,
-            "gust_max_72h_kmh": 37.4
+            "precip_peak_daily_mm": 0.1,
+            "precip_peak_date": "2026-11-02",
+            "precip_72h_mm": 0.1,
+            "temp_max_72h_c": 31.5,
+            "temp_min_72h_c": 24.5,
+            "gust_max_72h_kmh": 37.8
           }
         ],
         "source_errors": [],
         "consensus": {
           "precip_daily_mm_median": [
-            {
-              "date": "2026-10-30",
-              "mm": 0.0
-            },
             {
               "date": "2026-10-31",
               "mm": 0.0
@@ -866,16 +862,20 @@
             {
               "date": "2026-11-01",
               "mm": 0.0
+            },
+            {
+              "date": "2026-11-02",
+              "mm": 0.0
             }
           ],
           "precip_peak_daily_mm_median": 0.0,
-          "precip_peak_date": "2026-10-30",
-          "precip_72h_mm_median": 0.0,
-          "temp_max_72h_c_median": 31.0,
-          "gust_max_72h_kmh_median": 37.4,
-          "precip_agreement": "medium",
+          "precip_peak_date": "2026-10-31",
+          "precip_72h_mm_median": 0.1,
+          "temp_max_72h_c_median": 30.8,
+          "gust_max_72h_kmh_median": 37.8,
+          "precip_agreement": "high",
           "temperature_agreement": "high",
-          "gust_agreement": "high"
+          "gust_agreement": "medium"
         },
         "interpretation": "Model agreement is a spread heuristic across deterministic forecasts; it is not a calibrated probability."
       },
