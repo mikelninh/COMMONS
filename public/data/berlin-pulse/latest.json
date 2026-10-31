@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "generated_at": "2026-10-31T05:40:22Z",
+  "generated_at": "2026-10-31T12:29:08Z",
   "status": "recorded",
-  "sample_count": 157,
+  "sample_count": 158,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
-    "level": "usual",
-    "title": "Nothing unusual is shouting right now.",
-    "explanation": "All scored signals are inside their recent baselines. Quiet is a result too."
+    "level": "unusual",
+    "title": "Berlin is warmer than its recent pattern.",
+    "explanation": "Temperature is above a recent median baseline (robust z +3.1, n=48)."
   },
   "changes": [
     {
@@ -15,12 +15,12 @@
       "label": "PM2.5",
       "unit": "µg/m³",
       "digits": 1,
-      "previous": 14.0,
-      "current": 11.8,
-      "delta": -2.2,
-      "percent": -15.7,
+      "previous": 11.8,
+      "current": 9.5,
+      "delta": -2.3,
+      "percent": -19.5,
       "direction": "down",
-      "salience": 1.467,
+      "salience": 1.533,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -28,12 +28,12 @@
       "label": "Temperature",
       "unit": "°C",
       "digits": 1,
-      "previous": 8.6,
-      "current": 9.0,
-      "delta": 0.4,
-      "percent": 4.7,
+      "previous": 9.0,
+      "current": 11.6,
+      "delta": 2.6,
+      "percent": 28.9,
       "direction": "up",
-      "salience": 0.174,
+      "salience": 1.13,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -42,11 +42,11 @@
       "unit": "m³/s",
       "digits": 2,
       "previous": 0.49,
-      "current": 0.49,
-      "delta": 0.0,
-      "percent": 0.0,
-      "direction": "flat",
-      "salience": 0.0,
+      "current": 0.47,
+      "delta": -0.02,
+      "percent": -4.1,
+      "direction": "down",
+      "salience": 0.02,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -89,52 +89,52 @@
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 9.0,
+      "value": 11.6,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
-        "label": "usual",
-        "score": 0.27,
+        "label": "unusual",
+        "score": 3.091,
         "n": 48,
-        "baseline": 8.7,
+        "baseline": 8.85,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 9.1,
+        "value": 5.7,
         "unit": "°C",
         "source": "Open-Meteo",
-        "target_at": "2026-10-31T18:00"
+        "target_at": "2026-11-01T00:00"
       }
     },
     "pm2_5": {
       "label": "PM2.5",
-      "value": 11.8,
+      "value": 9.5,
       "unit": "µg/m³",
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
         "label": "usual",
-        "score": -1.46,
+        "score": -1.267,
         "n": 48,
-        "baseline": 19.7,
+        "baseline": 17.95,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 3.5,
+        "value": 4.8,
         "unit": "µg/m³",
         "source": "CAMS",
-        "target_at": "2026-10-31T18:00"
+        "target_at": "2026-11-01T00:00"
       }
     },
     "river_discharge": {
       "label": "Spree / river",
-      "value": 0.49,
+      "value": 0.47,
       "unit": "m³/s",
       "source": "GloFAS via Open-Meteo · modeled fallback",
       "anomaly": {
         "label": "usual",
-        "score": -0.809,
+        "score": -0.944,
         "n": 40,
         "baseline": 0.61,
         "baseline_scope": "recent water series"
@@ -168,11 +168,11 @@
     "water": "modeled fallback"
   },
   "transit_modes": {
-    "bus": 331,
-    "tram": 98,
-    "subway": 60,
-    "train": 105,
-    "other": 6
+    "bus": 283,
+    "tram": 180,
+    "subway": 109,
+    "train": 28,
+    "other": 0
   },
   "principle": "Missing evidence stays missing. Forecast skill is compared with persistence before trust is earned."
 }
