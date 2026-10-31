@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "generated_at": "2026-10-31T12:29:08Z",
+  "generated_at": "2026-10-31T19:18:00Z",
   "status": "recorded",
-  "sample_count": 158,
+  "sample_count": 159,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
-    "level": "unusual",
-    "title": "Berlin is warmer than its recent pattern.",
-    "explanation": "Temperature is above a recent median baseline (robust z +3.1, n=48)."
+    "level": "watch",
+    "title": "Modeled fine-particle air is unusually low.",
+    "explanation": "PM2.5 is below a recent median baseline (robust z -1.6, n=48)."
   },
   "changes": [
     {
@@ -15,12 +15,12 @@
       "label": "PM2.5",
       "unit": "µg/m³",
       "digits": 1,
-      "previous": 11.8,
-      "current": 9.5,
-      "delta": -2.3,
-      "percent": -19.5,
+      "previous": 9.5,
+      "current": 5.6,
+      "delta": -3.9,
+      "percent": -41.1,
       "direction": "down",
-      "salience": 1.533,
+      "salience": 2.6,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -28,12 +28,12 @@
       "label": "Temperature",
       "unit": "°C",
       "digits": 1,
-      "previous": 9.0,
-      "current": 11.6,
-      "delta": 2.6,
-      "percent": 28.9,
-      "direction": "up",
-      "salience": 1.13,
+      "previous": 11.6,
+      "current": 7.9,
+      "delta": -3.7,
+      "percent": -31.9,
+      "direction": "down",
+      "salience": 1.609,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -41,12 +41,12 @@
       "label": "Spree / river",
       "unit": "m³/s",
       "digits": 2,
-      "previous": 0.49,
+      "previous": 0.47,
       "current": 0.47,
-      "delta": -0.02,
-      "percent": -4.1,
-      "direction": "down",
-      "salience": 0.02,
+      "delta": 0.0,
+      "percent": 0.0,
+      "direction": "flat",
+      "salience": 0.0,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -89,42 +89,42 @@
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 11.6,
+      "value": 7.9,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
-        "label": "unusual",
-        "score": 3.091,
+        "label": "usual",
+        "score": -1.214,
         "n": 48,
-        "baseline": 8.85,
+        "baseline": 8.8,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 5.7,
+        "value": 5.4,
         "unit": "°C",
         "source": "Open-Meteo",
-        "target_at": "2026-11-01T00:00"
+        "target_at": "2026-11-01T07:00"
       }
     },
     "pm2_5": {
       "label": "PM2.5",
-      "value": 9.5,
+      "value": 5.6,
       "unit": "µg/m³",
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
-        "label": "usual",
-        "score": -1.267,
+        "label": "watch",
+        "score": -1.617,
         "n": 48,
-        "baseline": 17.95,
+        "baseline": 14.95,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 4.8,
+        "value": 7.3,
         "unit": "µg/m³",
         "source": "CAMS",
-        "target_at": "2026-11-01T00:00"
+        "target_at": "2026-11-01T07:00"
       }
     },
     "river_discharge": {
@@ -155,10 +155,10 @@
     }
   },
   "forecast_score": {
-    "resolved": 96,
-    "candidate_mae": 0.7885,
-    "baseline_mae": 3.8604,
-    "candidate_better_rate": 0.8854
+    "resolved": 98,
+    "candidate_mae": 0.8061,
+    "baseline_mae": 3.8561,
+    "candidate_better_rate": 0.8776
   },
   "source_health": {
     "weather": "ready",
@@ -168,11 +168,11 @@
     "water": "modeled fallback"
   },
   "transit_modes": {
-    "bus": 283,
-    "tram": 180,
-    "subway": 109,
-    "train": 28,
-    "other": 0
+    "bus": 417,
+    "tram": 120,
+    "subway": 27,
+    "train": 35,
+    "other": 1
   },
   "principle": "Missing evidence stays missing. Forecast skill is compared with persistence before trust is earned."
 }
