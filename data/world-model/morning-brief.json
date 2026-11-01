@@ -1,7 +1,7 @@
 {
   "schema_version": "0.1",
-  "generated_at": "2026-10-31T21:40:52.967828Z",
-  "previous_generated_at": "2026-10-31T12:41:25.976294Z",
+  "generated_at": "2026-11-01T06:16:31.512443Z",
+  "previous_generated_at": "2026-10-31T21:40:52.967828Z",
   "product": "COMMONS Morning Brief v1",
   "headline": "Nothing in the validated rainfall pilot needs your attention right now.",
   "close_message": "You are caught up.",
@@ -30,21 +30,21 @@
   },
   "monitors": [
     {
-      "point_id": "nuwakot",
-      "loop_id": "water-rises",
-      "loop_title": "When the Water Rises",
-      "name": "Nuwakot",
-      "country": "Nepal",
-      "latitude": 27.95,
-      "longitude": 85.18,
+      "point_id": "manila",
+      "loop_id": "storm-arrives",
+      "loop_title": "Before the Storm Arrives",
+      "name": "Manila",
+      "country": "Philippines",
+      "latitude": 14.6,
+      "longitude": 120.98,
       "signal": "peak daily rainfall · next 72h",
       "state": "quiet",
-      "rank_score": 0.3213,
-      "forecast_peak_daily_mm": 15.8,
-      "forecast_peak_date": "2026-10-31",
-      "forecast_72h_mm": 15.8,
-      "heavy_rain_gate_mm": 49.18,
-      "gate_ratio": 0.3213,
+      "rank_score": 0.1243,
+      "forecast_peak_daily_mm": 3.7,
+      "forecast_peak_date": "2026-11-01",
+      "forecast_72h_mm": 3.9,
+      "heavy_rain_gate_mm": 29.76,
+      "gate_ratio": 0.1243,
       "models_available": 3,
       "models_expected": 3,
       "source_errors": [],
@@ -54,7 +54,85 @@
         "direction": "mixed",
         "supporting_models": 0,
         "models_compared": 3,
-        "median_delta_mm": 0.0,
+        "median_delta_mm": 1.4,
+        "role": "context_only",
+        "note": "Six-hour revision context is visible but does not change priority rank."
+      },
+      "flood_context": null,
+      "exposure_context": {
+        "population": 17105184,
+        "radius_km": 20.0,
+        "data_year": 2026,
+        "source": "worldpop_R2025A_2026_1km",
+        "role": "context_only",
+        "note": "Nearby population is context, not estimated people impacted."
+      },
+      "impact_context": {
+        "components": {
+          "hazard": {
+            "role": "provided live by Morning Brief",
+            "note": "Impact v0 does not replace the validated hazard gate."
+          },
+          "exposure": {
+            "population_within_radius": 17105184.0,
+            "radius_km": 20.0,
+            "source": "worldpop_R2025A_2026_1km",
+            "role": "context_only"
+          },
+          "infrastructure": null,
+          "historical_consequence": {
+            "nearby_events": 1,
+            "consequential_events": 0,
+            "examples": [],
+            "source": "GDACS + EM-DAT where available",
+            "role": "context_only"
+          }
+        },
+        "action_options": [
+          {
+            "id": "verify-local",
+            "label": "Verify local authority warnings",
+            "why": "COMMONS is research guidance, not an emergency authority.",
+            "authority": "human"
+          },
+          {
+            "id": "review-exposure",
+            "label": "Review who may be exposed",
+            "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
+            "authority": "human"
+          }
+        ],
+        "role": "context_only",
+        "note": "Impact v0 informs consequence and action context but does not change ALERT."
+      },
+      "rank": 1
+    },
+    {
+      "point_id": "nuwakot",
+      "loop_id": "water-rises",
+      "loop_title": "When the Water Rises",
+      "name": "Nuwakot",
+      "country": "Nepal",
+      "latitude": 27.95,
+      "longitude": 85.18,
+      "signal": "peak daily rainfall · next 72h",
+      "state": "quiet",
+      "rank_score": 0.0102,
+      "forecast_peak_daily_mm": 0.5,
+      "forecast_peak_date": "2026-11-02",
+      "forecast_72h_mm": 0.9,
+      "heavy_rain_gate_mm": 49.18,
+      "gate_ratio": 0.0102,
+      "models_available": 3,
+      "models_expected": 3,
+      "source_errors": [],
+      "why": "Forecast rainfall remains below the current priority band.",
+      "next_step": "No review needed from this rainfall monitor.",
+      "revision": {
+        "direction": "down",
+        "supporting_models": 3,
+        "models_compared": 3,
+        "median_delta_mm": -15.3,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
@@ -110,84 +188,6 @@
         "role": "context_only",
         "note": "Impact v0 informs consequence and action context but does not change ALERT."
       },
-      "rank": 1
-    },
-    {
-      "point_id": "manila",
-      "loop_id": "storm-arrives",
-      "loop_title": "Before the Storm Arrives",
-      "name": "Manila",
-      "country": "Philippines",
-      "latitude": 14.6,
-      "longitude": 120.98,
-      "signal": "peak daily rainfall · next 72h",
-      "state": "quiet",
-      "rank_score": 0.0773,
-      "forecast_peak_daily_mm": 2.3,
-      "forecast_peak_date": "2026-10-31",
-      "forecast_72h_mm": 2.9,
-      "heavy_rain_gate_mm": 29.76,
-      "gate_ratio": 0.0773,
-      "models_available": 3,
-      "models_expected": 3,
-      "source_errors": [],
-      "why": "Forecast rainfall remains below the current priority band.",
-      "next_step": "No review needed from this rainfall monitor.",
-      "revision": {
-        "direction": "mixed",
-        "supporting_models": 0,
-        "models_compared": 3,
-        "median_delta_mm": 0.5,
-        "role": "context_only",
-        "note": "Six-hour revision context is visible but does not change priority rank."
-      },
-      "flood_context": null,
-      "exposure_context": {
-        "population": 17105184,
-        "radius_km": 20.0,
-        "data_year": 2026,
-        "source": "worldpop_R2025A_2026_1km",
-        "role": "context_only",
-        "note": "Nearby population is context, not estimated people impacted."
-      },
-      "impact_context": {
-        "components": {
-          "hazard": {
-            "role": "provided live by Morning Brief",
-            "note": "Impact v0 does not replace the validated hazard gate."
-          },
-          "exposure": {
-            "population_within_radius": 17105184.0,
-            "radius_km": 20.0,
-            "source": "worldpop_R2025A_2026_1km",
-            "role": "context_only"
-          },
-          "infrastructure": null,
-          "historical_consequence": {
-            "nearby_events": 1,
-            "consequential_events": 0,
-            "examples": [],
-            "source": "GDACS + EM-DAT where available",
-            "role": "context_only"
-          }
-        },
-        "action_options": [
-          {
-            "id": "verify-local",
-            "label": "Verify local authority warnings",
-            "why": "COMMONS is research guidance, not an emergency authority.",
-            "authority": "human"
-          },
-          {
-            "id": "review-exposure",
-            "label": "Review who may be exposed",
-            "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
-            "authority": "human"
-          }
-        ],
-        "role": "context_only",
-        "note": "Impact v0 informs consequence and action context but does not change ALERT."
-      },
       "rank": 2
     },
     {
@@ -202,7 +202,7 @@
       "state": "quiet",
       "rank_score": 0.0,
       "forecast_peak_daily_mm": 0.0,
-      "forecast_peak_date": "2026-10-31",
+      "forecast_peak_date": "2026-11-01",
       "forecast_72h_mm": 0.0,
       "heavy_rain_gate_mm": 17.4,
       "gate_ratio": 0.0,
