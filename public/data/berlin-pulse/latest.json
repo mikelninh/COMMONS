@@ -1,39 +1,39 @@
 {
   "version": 1,
-  "generated_at": "2026-11-03T06:47:07Z",
+  "generated_at": "2026-11-03T17:02:59Z",
   "status": "recorded",
-  "sample_count": 167,
+  "sample_count": 168,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
-    "level": "unusual",
-    "title": "Berlin is cooler than its recent pattern.",
-    "explanation": "Temperature is below a recent median baseline (robust z -3.2, n=48)."
+    "level": "usual",
+    "title": "Nothing unusual is shouting right now.",
+    "explanation": "All scored signals are inside their recent baselines. Quiet is a result too."
   },
   "changes": [
-    {
-      "metric": "temperature_2m",
-      "label": "Temperature",
-      "unit": "°C",
-      "digits": 1,
-      "previous": 7.2,
-      "current": 4.1,
-      "delta": -3.1,
-      "percent": -43.1,
-      "direction": "down",
-      "salience": 1.348,
-      "basis": "since the previous Pulse snapshot"
-    },
     {
       "metric": "pm2_5",
       "label": "PM2.5",
       "unit": "µg/m³",
       "digits": 1,
-      "previous": 18.0,
-      "current": 16.2,
-      "delta": -1.8,
-      "percent": -10.0,
+      "previous": 16.2,
+      "current": 11.3,
+      "delta": -4.9,
+      "percent": -30.2,
       "direction": "down",
-      "salience": 1.2,
+      "salience": 3.267,
+      "basis": "since the previous Pulse snapshot"
+    },
+    {
+      "metric": "temperature_2m",
+      "label": "Temperature",
+      "unit": "°C",
+      "digits": 1,
+      "previous": 4.1,
+      "current": 7.4,
+      "delta": 3.3,
+      "percent": 80.5,
+      "direction": "up",
+      "salience": 1.435,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -42,11 +42,11 @@
       "unit": "m³/s",
       "digits": 2,
       "previous": 0.45,
-      "current": 0.45,
-      "delta": 0.0,
-      "percent": 0.0,
-      "direction": "flat",
-      "salience": 0.0,
+      "current": 0.44,
+      "delta": -0.01,
+      "percent": -2.2,
+      "direction": "down",
+      "salience": 0.01,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -89,34 +89,34 @@
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 4.1,
+      "value": 7.4,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
-        "label": "unusual",
-        "score": -3.174,
+        "label": "usual",
+        "score": -0.436,
         "n": 48,
-        "baseline": 8.1,
+        "baseline": 7.95,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 7.7,
+        "value": 5.0,
         "unit": "°C",
         "source": "Open-Meteo",
-        "target_at": "2026-11-03T19:00"
+        "target_at": "2026-11-04T05:00"
       }
     },
     "pm2_5": {
       "label": "PM2.5",
-      "value": 16.2,
+      "value": 11.3,
       "unit": "µg/m³",
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
         "label": "usual",
-        "score": 1.453,
+        "score": -0.405,
         "n": 48,
-        "baseline": 12.0,
+        "baseline": 12.05,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
@@ -124,19 +124,19 @@
         "value": 9.6,
         "unit": "µg/m³",
         "source": "CAMS",
-        "target_at": "2026-11-03T19:00"
+        "target_at": "2026-11-04T05:00"
       }
     },
     "river_discharge": {
       "label": "Spree / river",
-      "value": 0.45,
+      "value": 0.44,
       "unit": "m³/s",
       "source": "GloFAS via Open-Meteo · modeled fallback",
       "anomaly": {
         "label": "usual",
-        "score": -0.899,
+        "score": -0.83,
         "n": 40,
-        "baseline": 0.61,
+        "baseline": 0.6,
         "baseline_scope": "recent water series"
       }
     },
@@ -168,11 +168,11 @@
     "water": "modeled fallback"
   },
   "transit_modes": {
-    "bus": 178,
-    "tram": 215,
+    "bus": 209,
+    "tram": 201,
     "subway": 129,
-    "train": 77,
-    "other": 1
+    "train": 61,
+    "other": 0
   },
   "principle": "Missing evidence stays missing. Forecast skill is compared with persistence before trust is earned."
 }
