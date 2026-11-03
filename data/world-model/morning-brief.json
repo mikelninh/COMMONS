@@ -1,7 +1,7 @@
 {
   "schema_version": "0.1",
-  "generated_at": "2026-11-03T06:54:52.187761Z",
-  "previous_generated_at": "2026-11-02T21:44:36.195973Z",
+  "generated_at": "2026-11-03T19:32:26.391603Z",
+  "previous_generated_at": "2026-11-03T06:54:52.187761Z",
   "product": "COMMONS Morning Brief v1",
   "headline": "Nothing in the validated rainfall pilot needs your attention right now.",
   "close_message": "You are caught up.",
@@ -54,7 +54,7 @@
         "direction": "mixed",
         "supporting_models": 0,
         "models_compared": 3,
-        "median_delta_mm": -0.2,
+        "median_delta_mm": 0.0,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
@@ -129,10 +129,10 @@
       "why": "Forecast rainfall remains below the current priority band.",
       "next_step": "No review needed from this rainfall monitor.",
       "revision": {
-        "direction": "down",
-        "supporting_models": 2,
+        "direction": "mixed",
+        "supporting_models": 0,
         "models_compared": 3,
-        "median_delta_mm": -1.0,
+        "median_delta_mm": 0.0,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
