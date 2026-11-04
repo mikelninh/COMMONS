@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "generated_at": "2026-11-04T17:14:50Z",
+  "generated_at": "2026-11-04T23:39:36Z",
   "status": "recorded",
-  "sample_count": 171,
+  "sample_count": 172,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
     "level": "usual",
@@ -11,16 +11,16 @@
   },
   "changes": [
     {
-      "metric": "pm2_5",
-      "label": "PM2.5",
-      "unit": "µg/m³",
-      "digits": 1,
-      "previous": 10.2,
-      "current": 7.1,
-      "delta": -3.1,
-      "percent": -30.4,
+      "metric": "transit_vehicles",
+      "label": "Transit movement",
+      "unit": "vehicles",
+      "digits": 0,
+      "previous": 600.0,
+      "current": 456.0,
+      "delta": -144.0,
+      "percent": -24.0,
       "direction": "down",
-      "salience": 1.938,
+      "salience": 144.0,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -28,12 +28,25 @@
       "label": "Temperature",
       "unit": "°C",
       "digits": 1,
-      "previous": 6.1,
-      "current": 9.0,
-      "delta": 2.9,
-      "percent": 47.5,
+      "previous": 9.0,
+      "current": 6.6,
+      "delta": -2.4,
+      "percent": -26.7,
+      "direction": "down",
+      "salience": 1.043,
+      "basis": "since the previous Pulse snapshot"
+    },
+    {
+      "metric": "pm2_5",
+      "label": "PM2.5",
+      "unit": "µg/m³",
+      "digits": 1,
+      "previous": 7.1,
+      "current": 8.1,
+      "delta": 1.0,
+      "percent": 14.1,
       "direction": "up",
-      "salience": 1.261,
+      "salience": 0.625,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -43,19 +56,6 @@
       "digits": 2,
       "previous": 0.44,
       "current": 0.44,
-      "delta": 0.0,
-      "percent": 0.0,
-      "direction": "flat",
-      "salience": 0.0,
-      "basis": "since the previous Pulse snapshot"
-    },
-    {
-      "metric": "transit_vehicles",
-      "label": "Transit movement",
-      "unit": "vehicles",
-      "digits": 0,
-      "previous": 600.0,
-      "current": 600.0,
       "delta": 0.0,
       "percent": 0.0,
       "direction": "flat",
@@ -89,42 +89,42 @@
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 9.0,
+      "value": 6.6,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
         "label": "usual",
-        "score": 1.093,
+        "score": -0.075,
         "n": 48,
-        "baseline": 6.65,
+        "baseline": 6.75,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 4.8,
+        "value": 9.7,
         "unit": "°C",
         "source": "Open-Meteo",
-        "target_at": "2026-11-05T05:00"
+        "target_at": "2026-11-05T12:00"
       }
     },
     "pm2_5": {
       "label": "PM2.5",
-      "value": 7.1,
+      "value": 8.1,
       "unit": "µg/m³",
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
         "label": "usual",
-        "score": -0.423,
+        "score": -0.023,
         "n": 48,
-        "baseline": 9.45,
+        "baseline": 8.2,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 12.2,
+        "value": 8.5,
         "unit": "µg/m³",
         "source": "CAMS",
-        "target_at": "2026-11-05T05:00"
+        "target_at": "2026-11-05T12:00"
       }
     },
     "river_discharge": {
@@ -134,20 +134,20 @@
       "source": "GloFAS via Open-Meteo · modeled fallback",
       "anomaly": {
         "label": "usual",
-        "score": -0.809,
+        "score": -0.817,
         "n": 40,
-        "baseline": 0.59,
+        "baseline": 0.555,
         "baseline_scope": "recent water series"
       }
     },
     "transit_vehicles": {
       "label": "Transit movement",
-      "value": 600.0,
+      "value": 456.0,
       "unit": "vehicles",
       "source": "VBB realtime radar",
       "anomaly": {
         "label": "usual",
-        "score": 0.0,
+        "score": -1.139,
         "n": 36,
         "baseline": 600.0,
         "baseline_scope": "recorded Pulse snapshots"
@@ -168,10 +168,10 @@
     "water": "modeled fallback"
   },
   "transit_modes": {
-    "bus": 201,
-    "tram": 194,
-    "subway": 121,
-    "train": 84,
+    "bus": 226,
+    "tram": 88,
+    "subway": 60,
+    "train": 82,
     "other": 0
   },
   "principle": "Missing evidence stays missing. Forecast skill is compared with persistence before trust is earned."
