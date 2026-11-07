@@ -1,7 +1,7 @@
 {
   "schema_version": "0.1",
-  "generated_at": "2026-11-07T13:11:33.179502Z",
-  "previous_generated_at": "2026-11-07T06:06:31.817495Z",
+  "generated_at": "2026-11-07T21:56:10.923335Z",
+  "previous_generated_at": "2026-11-07T13:11:33.179502Z",
   "product": "COMMONS Morning Brief v1",
   "headline": "Nothing in the validated rainfall pilot needs your attention right now.",
   "close_message": "You are caught up.",
@@ -54,7 +54,7 @@
         "direction": "mixed",
         "supporting_models": 0,
         "models_compared": 3,
-        "median_delta_mm": 0.1,
+        "median_delta_mm": 0.0,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
@@ -214,7 +214,7 @@
       "revision": {
         "direction": "mixed",
         "supporting_models": 0,
-        "models_compared": 2,
+        "models_compared": 3,
         "median_delta_mm": 0.0,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
