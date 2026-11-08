@@ -1,7 +1,7 @@
 {
   "schema_version": "0.1",
-  "generated_at": "2026-11-08T06:10:54.191590Z",
-  "previous_generated_at": "2026-11-07T21:56:10.923335Z",
+  "generated_at": "2026-11-08T13:33:01.572273Z",
+  "previous_generated_at": "2026-11-08T06:10:54.191590Z",
   "product": "COMMONS Morning Brief v1",
   "headline": "Nothing in the validated rainfall pilot needs your attention right now.",
   "close_message": "You are caught up.",
@@ -39,12 +39,12 @@
       "longitude": 85.18,
       "signal": "peak daily rainfall · next 72h",
       "state": "quiet",
-      "rank_score": 0.0061,
-      "forecast_peak_daily_mm": 0.3,
+      "rank_score": 0.0102,
+      "forecast_peak_daily_mm": 0.5,
       "forecast_peak_date": "2026-11-08",
-      "forecast_72h_mm": 0.3,
+      "forecast_72h_mm": 0.5,
       "heavy_rain_gate_mm": 49.18,
-      "gate_ratio": 0.0061,
+      "gate_ratio": 0.0102,
       "models_available": 3,
       "models_expected": 3,
       "source_errors": [],
@@ -54,7 +54,7 @@
         "direction": "mixed",
         "supporting_models": 0,
         "models_compared": 3,
-        "median_delta_mm": 0.1,
+        "median_delta_mm": 0.2,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
@@ -65,10 +65,10 @@
         "note": "River percentile is context, not the rainfall alert gate."
       },
       "exposure_context": {
-        "population": 376264,
+        "population": 406896,
         "radius_km": 20.0,
         "data_year": 2026,
-        "source": "worldpop_R2025A_2026_1km",
+        "source": "worldpop_R2025A_2026_100m",
         "role": "context_only",
         "note": "Nearby population is context, not estimated people impacted."
       },
@@ -79,9 +79,9 @@
             "note": "Impact v0 does not replace the validated hazard gate."
           },
           "exposure": {
-            "population_within_radius": 376264.0,
+            "population_within_radius": 406896.0,
             "radius_km": 20.0,
-            "source": "worldpop_R2025A_2026_1km",
+            "source": "worldpop_R2025A_2026_100m",
             "role": "context_only"
           },
           "infrastructure": null,
@@ -125,7 +125,7 @@
       "rank_score": 0.0034,
       "forecast_peak_daily_mm": 0.1,
       "forecast_peak_date": "2026-11-08",
-      "forecast_72h_mm": 0.2,
+      "forecast_72h_mm": 0.1,
       "heavy_rain_gate_mm": 29.76,
       "gate_ratio": 0.0034,
       "models_available": 3,
@@ -137,16 +137,16 @@
         "direction": "mixed",
         "supporting_models": 0,
         "models_compared": 3,
-        "median_delta_mm": 0.1,
+        "median_delta_mm": 0.0,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
       "flood_context": null,
       "exposure_context": {
-        "population": 17105184,
+        "population": 17357446,
         "radius_km": 20.0,
         "data_year": 2026,
-        "source": "worldpop_R2025A_2026_1km",
+        "source": "worldpop_R2025A_2026_100m",
         "role": "context_only",
         "note": "Nearby population is context, not estimated people impacted."
       },
@@ -157,9 +157,9 @@
             "note": "Impact v0 does not replace the validated hazard gate."
           },
           "exposure": {
-            "population_within_radius": 17105184.0,
+            "population_within_radius": 17357446.0,
             "radius_km": 20.0,
-            "source": "worldpop_R2025A_2026_1km",
+            "source": "worldpop_R2025A_2026_100m",
             "role": "context_only"
           },
           "infrastructure": null,
@@ -221,10 +221,10 @@
       },
       "flood_context": null,
       "exposure_context": {
-        "population": 27159668,
+        "population": 27299259,
         "radius_km": 20.0,
         "data_year": 2026,
-        "source": "worldpop_R2025A_2026_1km",
+        "source": "worldpop_R2025A_2026_100m",
         "role": "context_only",
         "note": "Nearby population is context, not estimated people impacted."
       },
@@ -235,9 +235,9 @@
             "note": "Impact v0 does not replace the validated hazard gate."
           },
           "exposure": {
-            "population_within_radius": 27159668.0,
+            "population_within_radius": 27299259.0,
             "radius_km": 20.0,
-            "source": "worldpop_R2025A_2026_1km",
+            "source": "worldpop_R2025A_2026_100m",
             "role": "context_only"
           },
           "infrastructure": null,
