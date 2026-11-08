@@ -17,11 +17,11 @@
         "latitude": 27.95,
         "longitude": 85.18
       },
-      "population": 376264,
+      "population": 406896,
       "area_km2": 1603.1626,
-      "population_density": 234.7,
+      "population_density": 253.81,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -32,11 +32,11 @@
         "latitude": 14.6,
         "longitude": 120.98
       },
-      "population": 17105184,
+      "population": 17357446,
       "area_km2": 1599.8137,
-      "population_density": 10691.98,
+      "population_density": 10849.67,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -47,11 +47,11 @@
         "latitude": 28.61,
         "longitude": 77.21
       },
-      "population": 27159668,
+      "population": 27299259,
       "area_km2": 1603.3691,
-      "population_density": 16939.12,
+      "population_density": 17026.19,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -62,11 +62,11 @@
         "latitude": 52.23,
         "longitude": 21.01
       },
-      "population": 2625878,
+      "population": 2600514,
       "area_km2": 1611.8929,
-      "population_density": 1629.06,
+      "population_density": 1613.33,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -77,11 +77,11 @@
         "latitude": 13.51,
         "longitude": 2.11
       },
-      "population": 1815309,
+      "population": 1813418,
       "area_km2": 1599.6218,
-      "population_density": 1134.84,
+      "population_density": 1133.65,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -92,11 +92,11 @@
         "latitude": 23.81,
         "longitude": 90.41
       },
-      "population": 17342470,
+      "population": 17406371,
       "area_km2": 1601.9453,
-      "population_density": 10825.88,
+      "population_density": 10865.77,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -107,11 +107,11 @@
         "latitude": 19.08,
         "longitude": 72.88
       },
-      "population": 6023495,
+      "population": 6003961,
       "area_km2": 1600.7418,
-      "population_density": 3762.94,
+      "population_density": 3750.74,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -122,11 +122,11 @@
         "latitude": 13.08,
         "longitude": 80.27
       },
-      "population": 5666902,
+      "population": 5618142,
       "area_km2": 1599.5499,
-      "population_density": 3542.81,
+      "population_density": 3512.33,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -137,11 +137,11 @@
         "latitude": 13.76,
         "longitude": 100.5
       },
-      "population": 12765949,
+      "population": 12810701,
       "area_km2": 1599.6646,
-      "population_density": 7980.39,
+      "population_density": 8008.37,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -152,11 +152,11 @@
         "latitude": 21.03,
         "longitude": 105.85
       },
-      "population": 7002109,
+      "population": 6922677,
       "area_km2": 1601.2118,
-      "population_density": 4373.01,
+      "population_density": 4323.4,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -167,11 +167,11 @@
         "latitude": -6.21,
         "longitude": 106.85
       },
-      "population": 17551618,
+      "population": 17913111,
       "area_km2": 1598.7041,
-      "population_density": 10978.65,
+      "population_density": 11204.77,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -182,11 +182,11 @@
         "latitude": 1.35,
         "longitude": 103.82
       },
-      "population": 7028314,
+      "population": 6950583,
       "area_km2": 1598.4657,
-      "population_density": 4396.91,
+      "population_density": 4348.28,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -197,11 +197,11 @@
         "latitude": 34.69,
         "longitude": 135.5
       },
-      "population": 9028582,
+      "population": 9062179,
       "area_km2": 1605.4034,
-      "population_density": 5623.87,
+      "population_density": 5644.8,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -212,11 +212,11 @@
         "latitude": -27.47,
         "longitude": 153.03
       },
-      "population": 1628044,
+      "population": 1630164,
       "area_km2": 1603.0144,
-      "population_density": 1015.61,
+      "population_density": 1016.94,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -227,11 +227,11 @@
         "latitude": -36.85,
         "longitude": 174.76
       },
-      "population": 1395872,
+      "population": 1412397,
       "area_km2": 1606.173,
-      "population_density": 869.07,
+      "population_density": 879.36,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -242,11 +242,11 @@
         "latitude": -1.29,
         "longitude": 36.82
       },
-      "population": 8020732,
+      "population": 7991031,
       "area_km2": 1598.4646,
-      "population_density": 5017.77,
+      "population_density": 4999.19,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -257,11 +257,11 @@
         "latitude": 6.52,
         "longitude": 3.38
       },
-      "population": 12045234,
+      "population": 11525310,
       "area_km2": 1598.7296,
-      "population_density": 7534.25,
+      "population_density": 7209.04,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -272,11 +272,11 @@
         "latitude": 5.56,
         "longitude": -0.19
       },
-      "population": 4773466,
+      "population": 4816204,
       "area_km2": 1598.6546,
-      "population_density": 2985.93,
+      "population_density": 3012.66,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -287,11 +287,11 @@
         "latitude": -33.92,
         "longitude": 18.42
       },
-      "population": 2794450,
+      "population": 2854438,
       "area_km2": 1605.1342,
-      "population_density": 1740.94,
+      "population_density": 1778.32,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -302,11 +302,11 @@
         "latitude": 30.04,
         "longitude": 31.24
       },
-      "population": 22259762,
+      "population": 22285207,
       "area_km2": 1603.827,
-      "population_density": 13879.15,
+      "population_density": 13895.02,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -317,11 +317,11 @@
         "latitude": 41.01,
         "longitude": 28.98
       },
-      "population": 11247632,
+      "population": 11239548,
       "area_km2": 1607.7007,
-      "population_density": 6996.1,
+      "population_density": 6991.07,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -332,11 +332,11 @@
         "latitude": 52.52,
         "longitude": 13.41
       },
-      "population": 4235519,
+      "population": 4228713,
       "area_km2": 1611.9986,
-      "population_density": 2627.5,
+      "population_density": 2623.27,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -347,11 +347,11 @@
         "latitude": 51.51,
         "longitude": -0.13
       },
-      "population": 9168777,
+      "population": 9124763,
       "area_km2": 1611.6293,
-      "population_density": 5689.14,
+      "population_density": 5661.82,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -362,11 +362,11 @@
         "latitude": 41.9,
         "longitude": 12.5
       },
-      "population": 3171093,
+      "population": 3169178,
       "area_km2": 1608.033,
-      "population_density": 1972.03,
+      "population_density": 1970.84,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -377,11 +377,11 @@
         "latitude": 40.71,
         "longitude": -74.01
       },
-      "population": 10579963,
+      "population": 10551410,
       "area_km2": 1607.5891,
-      "population_density": 6581.26,
+      "population_density": 6563.5,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -392,11 +392,11 @@
         "latitude": 25.76,
         "longitude": -80.19
       },
-      "population": 0,
+      "population": 2142386,
       "area_km2": 1602.5012,
-      "population_density": 0.0,
+      "population_density": 1336.9,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -407,11 +407,11 @@
         "latitude": 29.76,
         "longitude": -95.37
       },
-      "population": 0,
+      "population": 2461094,
       "area_km2": 1603.7362,
-      "population_density": 0.0,
+      "population_density": 1534.6,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -422,11 +422,11 @@
         "latitude": 19.43,
         "longitude": -99.13
       },
-      "population": 15477131,
+      "population": 15277571,
       "area_km2": 1600.8233,
-      "population_density": 9668.23,
+      "population_density": 9543.57,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -437,11 +437,11 @@
         "latitude": -8.05,
         "longitude": -34.88
       },
-      "population": 3229200,
+      "population": 3226169,
       "area_km2": 1598.8733,
-      "population_density": 2019.67,
+      "population_density": 2017.78,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     },
     {
@@ -452,11 +452,11 @@
         "latitude": -34.6,
         "longitude": -58.38
       },
-      "population": 8146029,
+      "population": 8246266,
       "area_km2": 1605.3718,
-      "population_density": 5074.23,
+      "population_density": 5136.67,
       "data_year": 2026,
-      "data_source": "worldpop_R2025A_2026_1km",
+      "data_source": "worldpop_R2025A_2026_100m",
       "radius_km": 20.0
     }
   ],

@@ -1,29 +1,29 @@
 {
   "schema_version": "0.1",
   "source_period": {
-    "start": "2026-08-23",
-    "end": "2026-10-22",
-    "holdout_start": "2026-10-02"
+    "start": "2026-08-30",
+    "end": "2026-10-29",
+    "holdout_start": "2026-10-09"
   },
-  "split_date": "2026-10-10",
+  "split_date": "2026-10-17",
   "rain_evidence_health": {
     "status": "healthy",
-    "affected_points": 16,
+    "affected_points": 14,
     "request_mode": "batched_multi_coordinate",
-    "forecast_requests_expected": 48,
-    "expected_forecast_bundles": 624,
-    "observed_forecast_bundles": 624,
+    "forecast_requests_expected": 42,
+    "expected_forecast_bundles": 546,
+    "observed_forecast_bundles": 546,
     "forecast_bundle_ratio": 1.0,
     "actual_point_ratio": 1.0
   },
   "convective_evidence_health": {
     "status": "insufficient",
-    "expected_point_provider_bundles": 48,
-    "observed_point_provider_bundles": 16,
+    "expected_point_provider_bundles": 42,
+    "observed_point_provider_bundles": 14,
     "bundle_ratio": 0.3333,
     "provider_coverage": {
       "ecmwf": 0,
-      "gfs": 16,
+      "gfs": 14,
       "icon": 0
     }
   },
@@ -36,70 +36,70 @@
       "id": "H24",
       "claim": "A minority-model heavy-rain signal becomes trustworthy enough for a shadow rescue only when the same provider is spatially corroborated.",
       "status": "not_supported",
-      "effect": "selected minority_p90_50km; test recovery 0.6957; extra false alerts 9.02/100; precision change -0.1198",
+      "effect": "selected minority_p90_100km; test recovery 1.0; extra false alerts 11.91/100; precision change -0.1653",
       "product_update": "Do not give minority rainfall signals ranking authority yet; keep them inspectable context and continue learning provider/spatial reliability."
     },
     "development": {
-      "selected_rule": "minority_p90_50km",
+      "selected_rule": "minority_p90_100km",
       "selection": {
         "metrics": {
-          "cases": 144,
-          "heavy_events": 58,
-          "alerts": 73,
-          "true_positives": 50,
-          "false_alerts": 23,
-          "precision": 0.6849,
-          "recall": 0.8621,
-          "false_alerts_per_100": 15.97,
-          "target_misses": 21,
-          "target_misses_recovered": 13,
-          "target_recovery_rate": 0.619,
-          "rescue_only_reviews": 31,
-          "rescue_only_precision": 0.5484
+          "cases": 126,
+          "heavy_events": 54,
+          "alerts": 62,
+          "true_positives": 44,
+          "false_alerts": 18,
+          "precision": 0.7097,
+          "recall": 0.8148,
+          "false_alerts_per_100": 14.29,
+          "target_misses": 25,
+          "target_misses_recovered": 15,
+          "target_recovery_rate": 0.6,
+          "rescue_only_reviews": 34,
+          "rescue_only_precision": 0.5588
         },
         "comparison": {
-          "recall_change": 0.2931,
-          "precision_change": -0.1008,
-          "incremental_false_alerts_per_100": 9.72
+          "recall_change": 0.3518,
+          "precision_change": -0.1832,
+          "incremental_false_alerts_per_100": 11.91
         },
         "passes": false
       }
     },
     "test": {
       "baseline": {
-        "cases": 144,
+        "cases": 126,
         "heavy_events": 52,
-        "alerts": 33,
-        "true_positives": 27,
+        "alerts": 49,
+        "true_positives": 43,
         "false_alerts": 6,
-        "precision": 0.8182,
-        "recall": 0.5192,
-        "false_alerts_per_100": 4.17,
-        "target_misses": 23,
+        "precision": 0.8776,
+        "recall": 0.8269,
+        "false_alerts_per_100": 4.76,
+        "target_misses": 5,
         "target_misses_recovered": 0,
         "target_recovery_rate": 0.0,
         "rescue_only_reviews": 0,
         "rescue_only_precision": null
       },
       "selected": {
-        "cases": 144,
+        "cases": 126,
         "heavy_events": 52,
-        "alerts": 63,
-        "true_positives": 44,
-        "false_alerts": 19,
-        "precision": 0.6984,
-        "recall": 0.8462,
-        "false_alerts_per_100": 13.19,
-        "target_misses": 23,
-        "target_misses_recovered": 16,
-        "target_recovery_rate": 0.6957,
-        "rescue_only_reviews": 30,
-        "rescue_only_precision": 0.5667
+        "alerts": 73,
+        "true_positives": 52,
+        "false_alerts": 21,
+        "precision": 0.7123,
+        "recall": 1.0,
+        "false_alerts_per_100": 16.67,
+        "target_misses": 5,
+        "target_misses_recovered": 5,
+        "target_recovery_rate": 1.0,
+        "rescue_only_reviews": 24,
+        "rescue_only_precision": 0.375
       },
       "comparison": {
-        "recall_change": 0.327,
-        "precision_change": -0.1198,
-        "incremental_false_alerts_per_100": 9.02
+        "recall_change": 0.1731,
+        "precision_change": -0.1653,
+        "incremental_false_alerts_per_100": 11.91
       },
       "passes_guardrails": false
     }
@@ -109,7 +109,7 @@
       "id": "H25",
       "claim": "Archived convective instability and shower forecasts recover at least one third of rainfall-consensus-blind heavy events within the same scarcity guardrails.",
       "status": "insufficient",
-      "effect": "selected blind_showers_any50; blind test misses 4; recovery 0.0; extra false alerts 4.16/100; precision change -0.1259",
+      "effect": "selected blind_showers_any50; blind test misses 0; recovery None; extra false alerts 0.0/100; precision change 0.0",
       "product_update": "Convective blindness remains an open hypothesis; archived CAPE/showers coverage or blind-case count is not yet sufficient."
     },
     "development": {
@@ -122,123 +122,66 @@
       "selected_rule": "blind_showers_any50",
       "selection": {
         "metrics": {
-          "cases": 144,
-          "heavy_events": 58,
-          "alerts": 50,
-          "true_positives": 35,
-          "false_alerts": 15,
-          "precision": 0.7,
-          "recall": 0.6034,
-          "false_alerts_per_100": 10.42,
-          "target_misses": 5,
+          "cases": 126,
+          "heavy_events": 54,
+          "alerts": 36,
+          "true_positives": 27,
+          "false_alerts": 9,
+          "precision": 0.75,
+          "recall": 0.5,
+          "false_alerts_per_100": 7.14,
+          "target_misses": 7,
           "target_misses_recovered": 2,
-          "target_recovery_rate": 0.4,
+          "target_recovery_rate": 0.2857,
           "rescue_only_reviews": 8,
           "rescue_only_precision": 0.25
         },
         "comparison": {
-          "recall_change": 0.0344,
-          "precision_change": -0.0857,
-          "incremental_false_alerts_per_100": 4.17
+          "recall_change": 0.037,
+          "precision_change": -0.1429,
+          "incremental_false_alerts_per_100": 4.76
         },
         "passes": false
       }
     },
     "test": {
       "baseline": {
-        "cases": 144,
+        "cases": 126,
         "heavy_events": 52,
-        "alerts": 33,
-        "true_positives": 27,
+        "alerts": 49,
+        "true_positives": 43,
         "false_alerts": 6,
-        "precision": 0.8182,
-        "recall": 0.5192,
-        "false_alerts_per_100": 4.17,
-        "target_misses": 4,
+        "precision": 0.8776,
+        "recall": 0.8269,
+        "false_alerts_per_100": 4.76,
+        "target_misses": 0,
         "target_misses_recovered": 0,
-        "target_recovery_rate": 0.0,
+        "target_recovery_rate": null,
         "rescue_only_reviews": 0,
         "rescue_only_precision": null
       },
       "selected": {
-        "cases": 144,
+        "cases": 126,
         "heavy_events": 52,
-        "alerts": 39,
-        "true_positives": 27,
-        "false_alerts": 12,
-        "precision": 0.6923,
-        "recall": 0.5192,
-        "false_alerts_per_100": 8.33,
-        "target_misses": 4,
+        "alerts": 49,
+        "true_positives": 43,
+        "false_alerts": 6,
+        "precision": 0.8776,
+        "recall": 0.8269,
+        "false_alerts_per_100": 4.76,
+        "target_misses": 0,
         "target_misses_recovered": 0,
-        "target_recovery_rate": 0.0,
-        "rescue_only_reviews": 6,
-        "rescue_only_precision": 0.0
+        "target_recovery_rate": null,
+        "rescue_only_reviews": 0,
+        "rescue_only_precision": null
       },
       "comparison": {
         "recall_change": 0.0,
-        "precision_change": -0.1259,
-        "incremental_false_alerts_per_100": 4.16
+        "precision_change": 0.0,
+        "incremental_false_alerts_per_100": 0.0
       },
       "passes_guardrails": false,
-      "blind_examples": [
-        {
-          "point_id": "singapore",
-          "decision_date": "2026-10-12",
-          "observed_peak_mm": 15.8,
-          "heavy_gate_mm": 12.92,
-          "baseline_score": 0.3947,
-          "convective": {
-            "cape_council_max": null,
-            "cape_any_max": null,
-            "showers_council_ratio": 0.27863777089783287,
-            "showers_any_ratio": 0.3947368421052631
-          },
-          "selected_rule_fired": false
-        },
-        {
-          "point_id": "singapore",
-          "decision_date": "2026-10-13",
-          "observed_peak_mm": 14.6,
-          "heavy_gate_mm": 12.92,
-          "baseline_score": 0.1625,
-          "convective": {
-            "cape_council_max": null,
-            "cape_any_max": null,
-            "showers_council_ratio": 0.06191950464396284,
-            "showers_any_ratio": 0.1625386996904025
-          },
-          "selected_rule_fired": false
-        },
-        {
-          "point_id": "singapore",
-          "decision_date": "2026-10-14",
-          "observed_peak_mm": 22.6,
-          "heavy_gate_mm": 12.92,
-          "baseline_score": 0.0929,
-          "convective": {
-            "cape_council_max": null,
-            "cape_any_max": null,
-            "showers_council_ratio": 0.08513931888544893,
-            "showers_any_ratio": 0.13157894736842105
-          },
-          "selected_rule_fired": false
-        },
-        {
-          "point_id": "singapore",
-          "decision_date": "2026-10-15",
-          "observed_peak_mm": 22.6,
-          "heavy_gate_mm": 12.92,
-          "baseline_score": 0.1161,
-          "convective": {
-            "cape_council_max": null,
-            "cape_any_max": null,
-            "showers_council_ratio": 0.030959752321981428,
-            "showers_any_ratio": 0.18575851393188858
-          },
-          "selected_rule_fired": false
-        }
-      ]
+      "blind_examples": []
     }
   },
   "guardrails": {
