@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1",
-  "updated_at": "2026-11-11T19:40:41.134222Z",
+  "updated_at": "2026-11-12T07:19:38.488725Z",
   "observations": [
     {
       "observation_id": "manila|2026-09-20T19:54:40.421641Z|2026-09-22",
@@ -9000,9 +9000,11 @@
       "gate_ratio": 0.0,
       "latitude": 27.95,
       "longitude": 85.18,
-      "verification_status": "pending",
-      "classification": null,
-      "actual_daily_mm": null
+      "verification_status": "verified",
+      "classification": "correct_quiet",
+      "actual_daily_mm": 3.8,
+      "observed_heavy_event": false,
+      "verified_at": "2026-11-12T07:19:38.088472Z"
     },
     {
       "observation_id": "delhi|2026-11-05T06:55:54.727046Z|2026-11-05",
@@ -9017,9 +9019,11 @@
       "gate_ratio": 0.0,
       "latitude": 28.61,
       "longitude": 77.21,
-      "verification_status": "pending",
-      "classification": null,
-      "actual_daily_mm": null
+      "verification_status": "verified",
+      "classification": "correct_quiet",
+      "actual_daily_mm": 0.0,
+      "observed_heavy_event": false,
+      "verified_at": "2026-11-12T07:19:38.488562Z"
     },
     {
       "observation_id": "nuwakot|2026-11-05T20:01:43.712640Z|2026-11-07",
@@ -9068,9 +9072,11 @@
       "gate_ratio": 0.0,
       "latitude": 28.61,
       "longitude": 77.21,
-      "verification_status": "pending",
-      "classification": null,
-      "actual_daily_mm": null
+      "verification_status": "verified",
+      "classification": "correct_quiet",
+      "actual_daily_mm": 0.0,
+      "observed_heavy_event": false,
+      "verified_at": "2026-11-12T07:19:38.488571Z"
     },
     {
       "observation_id": "manila|2026-11-06T06:56:01.787729Z|2026-11-07",
@@ -9785,6 +9791,57 @@
       "verification_status": "pending",
       "classification": null,
       "actual_daily_mm": null
+    },
+    {
+      "observation_id": "manila|2026-11-12T07:19:30.888827Z|2026-11-14",
+      "generated_at": "2026-11-12T07:19:30.888827Z",
+      "point_id": "manila",
+      "name": "Manila",
+      "country": "Philippines",
+      "state": "quiet",
+      "forecast_peak_date": "2026-11-14",
+      "forecast_peak_daily_mm": 0.7,
+      "heavy_rain_gate_mm": 29.76,
+      "gate_ratio": 0.0235,
+      "latitude": 14.6,
+      "longitude": 120.98,
+      "verification_status": "pending",
+      "classification": null,
+      "actual_daily_mm": null
+    },
+    {
+      "observation_id": "nuwakot|2026-11-12T07:19:30.888827Z|2026-11-14",
+      "generated_at": "2026-11-12T07:19:30.888827Z",
+      "point_id": "nuwakot",
+      "name": "Nuwakot",
+      "country": "Nepal",
+      "state": "quiet",
+      "forecast_peak_date": "2026-11-14",
+      "forecast_peak_daily_mm": 0.1,
+      "heavy_rain_gate_mm": 49.18,
+      "gate_ratio": 0.002,
+      "latitude": 27.95,
+      "longitude": 85.18,
+      "verification_status": "pending",
+      "classification": null,
+      "actual_daily_mm": null
+    },
+    {
+      "observation_id": "delhi|2026-11-12T07:19:30.888827Z|2026-11-12",
+      "generated_at": "2026-11-12T07:19:30.888827Z",
+      "point_id": "delhi",
+      "name": "Delhi",
+      "country": "India",
+      "state": "quiet",
+      "forecast_peak_date": "2026-11-12",
+      "forecast_peak_daily_mm": 0.0,
+      "heavy_rain_gate_mm": 17.4,
+      "gate_ratio": 0.0,
+      "latitude": 28.61,
+      "longitude": 77.21,
+      "verification_status": "pending",
+      "classification": null,
+      "actual_daily_mm": null
     }
   ],
   "verification_cache": {
@@ -10372,15 +10429,25 @@
       "actual_daily_mm": 0.0,
       "source": "ERA5 via Open-Meteo",
       "verified_at": "2026-11-11T06:36:36.983365Z"
+    },
+    "nuwakot|2026-11-05": {
+      "actual_daily_mm": 3.8,
+      "source": "ERA5 via Open-Meteo",
+      "verified_at": "2026-11-12T07:19:38.088450Z"
+    },
+    "delhi|2026-11-05": {
+      "actual_daily_mm": 0.0,
+      "source": "ERA5 via Open-Meteo",
+      "verified_at": "2026-11-12T07:19:38.488541Z"
     }
   },
   "source_errors": [],
   "summary": {
-    "total_observations": 520,
+    "total_observations": 523,
     "pending": 48,
-    "verified": 472,
+    "verified": 475,
     "classifications": {
-      "correct_quiet": 458,
+      "correct_quiet": 461,
       "quiet_miss": 6,
       "priority_no_event": 5,
       "false_alert": 3
