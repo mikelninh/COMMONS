@@ -6131,7 +6131,9 @@
       "baseline": 5.7,
       "candidate_source": "Open-Meteo 12h forecast",
       "baseline_source": "persistence",
-      "status": "pending"
+      "status": "expired",
+      "resolved_at": "2026-11-14T10:25:36Z",
+      "reason": "collection missed the 90-minute scoring window"
     },
     {
       "id": "pm2_5:2026-11-13T19:41:25Z",
@@ -6144,7 +6146,9 @@
       "baseline": 4.3,
       "candidate_source": "CAMS via Open-Meteo 12h forecast",
       "baseline_source": "persistence",
-      "status": "pending"
+      "status": "expired",
+      "resolved_at": "2026-11-14T10:25:36Z",
+      "reason": "collection missed the 90-minute scoring window"
     },
     {
       "id": "pm2_5:2026-11-14T01:26:33Z",
@@ -6155,6 +6159,32 @@
       "unit": "µg/m³",
       "candidate": 8.6,
       "baseline": 5.5,
+      "candidate_source": "CAMS via Open-Meteo 12h forecast",
+      "baseline_source": "persistence",
+      "status": "pending"
+    },
+    {
+      "id": "temperature_2m:2026-11-14T10:25:36Z",
+      "issued_at": "2026-11-14T10:25:36Z",
+      "target_at": "2026-11-14T22:00Z",
+      "horizon_hours": 11.6,
+      "metric": "temperature_2m",
+      "unit": "°C",
+      "candidate": 3.6,
+      "baseline": 5.8,
+      "candidate_source": "Open-Meteo 12h forecast",
+      "baseline_source": "persistence",
+      "status": "pending"
+    },
+    {
+      "id": "pm2_5:2026-11-14T10:25:36Z",
+      "issued_at": "2026-11-14T10:25:36Z",
+      "target_at": "2026-11-14T22:00Z",
+      "horizon_hours": 11.6,
+      "metric": "pm2_5",
+      "unit": "µg/m³",
+      "candidate": 10.9,
+      "baseline": 7.8,
       "candidate_source": "CAMS via Open-Meteo 12h forecast",
       "baseline_source": "persistence",
       "status": "pending"
