@@ -1,7 +1,7 @@
 {
   "schema_version": "0.1",
-  "generated_at": "2026-11-14T18:12:01.557717Z",
-  "previous_generated_at": "2026-11-14T06:34:58.786615Z",
+  "generated_at": "2026-11-14T22:30:27.246780Z",
+  "previous_generated_at": "2026-11-14T18:12:01.557717Z",
   "product": "COMMONS Morning Brief v1",
   "headline": "Nothing in the validated rainfall pilot needs your attention right now.",
   "close_message": "You are caught up.",
@@ -39,22 +39,22 @@
       "longitude": 120.98,
       "signal": "peak daily rainfall · next 72h",
       "state": "quiet",
-      "rank_score": 0.0739,
-      "forecast_peak_daily_mm": 2.2,
+      "rank_score": 0.0773,
+      "forecast_peak_daily_mm": 2.3,
       "forecast_peak_date": "2026-11-14",
-      "forecast_72h_mm": 2.2,
+      "forecast_72h_mm": 2.3,
       "heavy_rain_gate_mm": 29.76,
-      "gate_ratio": 0.0739,
+      "gate_ratio": 0.0773,
       "models_available": 3,
       "models_expected": 3,
       "source_errors": [],
       "why": "Forecast rainfall remains below the current priority band.",
       "next_step": "No review needed from this rainfall monitor.",
       "revision": {
-        "direction": "up",
-        "supporting_models": 2,
+        "direction": "mixed",
+        "supporting_models": 0,
         "models_compared": 3,
-        "median_delta_mm": 1.1,
+        "median_delta_mm": 0.1,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
@@ -108,84 +108,6 @@
       "rank": 1
     },
     {
-      "point_id": "delhi",
-      "loop_id": "heat-we-cannot-see",
-      "loop_title": "The Heat We Cannot See",
-      "name": "Delhi",
-      "country": "India",
-      "latitude": 28.61,
-      "longitude": 77.21,
-      "signal": "peak daily rainfall · next 72h",
-      "state": "quiet",
-      "rank_score": 0.0575,
-      "forecast_peak_daily_mm": 1.0,
-      "forecast_peak_date": "2026-11-15",
-      "forecast_72h_mm": 1.0,
-      "heavy_rain_gate_mm": 17.4,
-      "gate_ratio": 0.0575,
-      "models_available": 3,
-      "models_expected": 3,
-      "source_errors": [],
-      "why": "Forecast rainfall remains below the current priority band.",
-      "next_step": "No review needed from this rainfall monitor.",
-      "revision": {
-        "direction": "up",
-        "supporting_models": 2,
-        "models_compared": 3,
-        "median_delta_mm": 1.0,
-        "role": "context_only",
-        "note": "Six-hour revision context is visible but does not change priority rank."
-      },
-      "flood_context": null,
-      "exposure_context": {
-        "population": 27299259,
-        "radius_km": 20.0,
-        "data_year": 2026,
-        "source": "worldpop_R2025A_2026_100m",
-        "role": "context_only",
-        "note": "Nearby population is context, not estimated people impacted."
-      },
-      "impact_context": {
-        "components": {
-          "hazard": {
-            "role": "provided live by Morning Brief",
-            "note": "Impact v0 does not replace the validated hazard gate."
-          },
-          "exposure": {
-            "population_within_radius": 27299259.0,
-            "radius_km": 20.0,
-            "source": "worldpop_R2025A_2026_100m",
-            "role": "context_only"
-          },
-          "infrastructure": null,
-          "historical_consequence": {
-            "nearby_events": 0,
-            "consequential_events": 0,
-            "examples": [],
-            "source": "GDACS + EM-DAT where available",
-            "role": "context_only"
-          }
-        },
-        "action_options": [
-          {
-            "id": "verify-local",
-            "label": "Verify local authority warnings",
-            "why": "COMMONS is research guidance, not an emergency authority.",
-            "authority": "human"
-          },
-          {
-            "id": "review-exposure",
-            "label": "Review who may be exposed",
-            "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
-            "authority": "human"
-          }
-        ],
-        "role": "context_only",
-        "note": "Impact v0 informs consequence and action context but does not change ALERT."
-      },
-      "rank": 2
-    },
-    {
       "point_id": "nuwakot",
       "loop_id": "water-rises",
       "loop_title": "When the Water Rises",
@@ -195,12 +117,12 @@
       "longitude": 85.18,
       "signal": "peak daily rainfall · next 72h",
       "state": "quiet",
-      "rank_score": 0.0081,
-      "forecast_peak_daily_mm": 0.4,
+      "rank_score": 0.0244,
+      "forecast_peak_daily_mm": 1.2,
       "forecast_peak_date": "2026-11-15",
-      "forecast_72h_mm": 0.4,
+      "forecast_72h_mm": 1.2,
       "heavy_rain_gate_mm": 49.18,
-      "gate_ratio": 0.0081,
+      "gate_ratio": 0.0244,
       "models_available": 3,
       "models_expected": 3,
       "source_errors": [],
@@ -210,7 +132,7 @@
         "direction": "mixed",
         "supporting_models": 0,
         "models_compared": 3,
-        "median_delta_mm": -0.1,
+        "median_delta_mm": 0.8,
         "role": "context_only",
         "note": "Six-hour revision context is visible but does not change priority rank."
       },
@@ -243,6 +165,84 @@
           "infrastructure": null,
           "historical_consequence": {
             "nearby_events": 1,
+            "consequential_events": 0,
+            "examples": [],
+            "source": "GDACS + EM-DAT where available",
+            "role": "context_only"
+          }
+        },
+        "action_options": [
+          {
+            "id": "verify-local",
+            "label": "Verify local authority warnings",
+            "why": "COMMONS is research guidance, not an emergency authority.",
+            "authority": "human"
+          },
+          {
+            "id": "review-exposure",
+            "label": "Review who may be exposed",
+            "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
+            "authority": "human"
+          }
+        ],
+        "role": "context_only",
+        "note": "Impact v0 informs consequence and action context but does not change ALERT."
+      },
+      "rank": 2
+    },
+    {
+      "point_id": "delhi",
+      "loop_id": "heat-we-cannot-see",
+      "loop_title": "The Heat We Cannot See",
+      "name": "Delhi",
+      "country": "India",
+      "latitude": 28.61,
+      "longitude": 77.21,
+      "signal": "peak daily rainfall · next 72h",
+      "state": "quiet",
+      "rank_score": 0.0,
+      "forecast_peak_daily_mm": 0.0,
+      "forecast_peak_date": "2026-11-14",
+      "forecast_72h_mm": 0.0,
+      "heavy_rain_gate_mm": 17.4,
+      "gate_ratio": 0.0,
+      "models_available": 3,
+      "models_expected": 3,
+      "source_errors": [],
+      "why": "Forecast rainfall remains below the current priority band.",
+      "next_step": "No review needed from this rainfall monitor.",
+      "revision": {
+        "direction": "mixed",
+        "supporting_models": 0,
+        "models_compared": 3,
+        "median_delta_mm": -1.0,
+        "role": "context_only",
+        "note": "Six-hour revision context is visible but does not change priority rank."
+      },
+      "flood_context": null,
+      "exposure_context": {
+        "population": 27299259,
+        "radius_km": 20.0,
+        "data_year": 2026,
+        "source": "worldpop_R2025A_2026_100m",
+        "role": "context_only",
+        "note": "Nearby population is context, not estimated people impacted."
+      },
+      "impact_context": {
+        "components": {
+          "hazard": {
+            "role": "provided live by Morning Brief",
+            "note": "Impact v0 does not replace the validated hazard gate."
+          },
+          "exposure": {
+            "population_within_radius": 27299259.0,
+            "radius_km": 20.0,
+            "source": "worldpop_R2025A_2026_100m",
+            "role": "context_only"
+          },
+          "infrastructure": null,
+          "historical_consequence": {
+            "nearby_events": 0,
             "consequential_events": 0,
             "examples": [],
             "source": "GDACS + EM-DAT where available",
