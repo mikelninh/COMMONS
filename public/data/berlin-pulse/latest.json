@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "generated_at": "2026-11-14T22:23:42Z",
+  "generated_at": "2026-11-15T06:31:22Z",
   "status": "recorded",
-  "sample_count": 202,
+  "sample_count": 203,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
-    "level": "watch",
-    "title": "Modeled fine-particle air is elevated.",
-    "explanation": "PM2.5 is above a recent median baseline (robust z +2.4, n=48)."
+    "level": "usual",
+    "title": "Nothing unusual is shouting right now.",
+    "explanation": "All scored signals are inside their recent baselines. Quiet is a result too."
   },
   "changes": [
     {
@@ -15,12 +15,12 @@
       "label": "PM2.5",
       "unit": "µg/m³",
       "digits": 1,
-      "previous": 11.5,
-      "current": 10.9,
-      "delta": -0.6,
-      "percent": -5.2,
+      "previous": 10.9,
+      "current": 9.5,
+      "delta": -1.4,
+      "percent": -12.8,
       "direction": "down",
-      "salience": 0.353,
+      "salience": 0.824,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -76,34 +76,34 @@
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": null,
+      "value": 0.7,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
-        "label": "learning",
-        "score": null,
-        "n": 0,
-        "baseline": null,
+        "label": "usual",
+        "score": -1.495,
+        "n": 48,
+        "baseline": 4.8,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": null,
+        "value": 6.1,
         "unit": "°C",
         "source": "Open-Meteo",
-        "target_at": null
+        "target_at": "2026-11-15T19:00"
       }
     },
     "pm2_5": {
       "label": "PM2.5",
-      "value": 10.9,
+      "value": 9.5,
       "unit": "µg/m³",
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
-        "label": "watch",
-        "score": 2.406,
+        "label": "usual",
+        "score": 0.646,
         "n": 48,
-        "baseline": 5.55,
+        "baseline": 7.2,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
@@ -111,7 +111,7 @@
         "value": 8.2,
         "unit": "µg/m³",
         "source": "CAMS",
-        "target_at": "2026-11-15T10:00"
+        "target_at": "2026-11-15T19:00"
       }
     },
     "river_discharge": {
@@ -142,24 +142,24 @@
     }
   },
   "forecast_score": {
-    "resolved": 113,
-    "candidate_mae": 0.785,
-    "baseline_mae": 3.7628,
-    "candidate_better_rate": 0.885
+    "resolved": 115,
+    "candidate_mae": 0.7757,
+    "baseline_mae": 3.7583,
+    "candidate_better_rate": 0.887
   },
   "source_health": {
-    "weather": "unavailable: URLError",
+    "weather": "ready",
     "air": "ready",
     "flood": "ready",
     "transit": "ready",
     "water": "modeled fallback"
   },
   "transit_modes": {
-    "bus": 390,
-    "tram": 110,
-    "subway": 67,
-    "train": 32,
-    "other": 1
+    "bus": 379,
+    "tram": 90,
+    "subway": 62,
+    "train": 64,
+    "other": 5
   },
   "principle": "Missing evidence stays missing. Forecast skill is compared with persistence before trust is earned."
 }
