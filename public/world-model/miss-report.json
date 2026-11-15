@@ -1,9 +1,9 @@
 {
   "schema_version": "0.1",
   "period": {
-    "start": "2026-08-30",
-    "end": "2026-10-29",
-    "holdout_start": "2026-10-09"
+    "start": "2026-09-06",
+    "end": "2026-11-05",
+    "holdout_start": "2026-10-16"
   },
   "verification": "daily ERA5 precipitation; 90th-percentile gate learned only from the earlier training segment",
   "requested_points": 30,
@@ -14,128 +14,14 @@
     "full_council_records": 5490,
     "full_council_ratio": 1.0
   },
-  "heavy_events": 81,
-  "alerts": 75,
+  "heavy_events": 73,
+  "alerts": 69,
   "true_positives": 52,
-  "misses": 29,
-  "near_threshold_misses": 3,
-  "deep_misses": 26,
-  "near_threshold_share": 0.1034,
+  "misses": 21,
+  "near_threshold_misses": 4,
+  "deep_misses": 17,
+  "near_threshold_share": 0.1905,
   "cases": [
-    {
-      "id": "rome-2026-10-10",
-      "point_id": "rome",
-      "name": "Rome",
-      "country": "Italy",
-      "date": "2026-10-10",
-      "actual_mm": 9.2,
-      "heavy_gate_mm": 7.11,
-      "forecast_3d_mm": 0.0,
-      "gate_ratio": 0.0,
-      "miss_type": "deep",
-      "revision_5d_to_3d_mm": -0.8,
-      "relative_spread": 0.3152,
-      "models": {
-        "ecmwf": 2.9,
-        "gfs": 0.0,
-        "icon": 0.0
-      }
-    },
-    {
-      "id": "delhi-2026-10-11",
-      "point_id": "delhi",
-      "name": "Delhi",
-      "country": "India",
-      "date": "2026-10-11",
-      "actual_mm": 10.2,
-      "heavy_gate_mm": 8.44,
-      "forecast_3d_mm": 0.0,
-      "gate_ratio": 0.0,
-      "miss_type": "deep",
-      "revision_5d_to_3d_mm": -0.2,
-      "relative_spread": 0.0784,
-      "models": {
-        "ecmwf": 0.0,
-        "gfs": 0.0,
-        "icon": 0.8
-      }
-    },
-    {
-      "id": "accra-2026-10-18",
-      "point_id": "accra",
-      "name": "Accra",
-      "country": "Ghana",
-      "date": "2026-10-18",
-      "actual_mm": 5.6,
-      "heavy_gate_mm": 4.9,
-      "forecast_3d_mm": 0.1,
-      "gate_ratio": 0.0204,
-      "miss_type": "deep",
-      "revision_5d_to_3d_mm": 0.1,
-      "relative_spread": 0.9107,
-      "models": {
-        "ecmwf": 5.1,
-        "gfs": 0.1,
-        "icon": 0.0
-      }
-    },
-    {
-      "id": "chennai-2026-10-14",
-      "point_id": "chennai",
-      "name": "Chennai",
-      "country": "India",
-      "date": "2026-10-14",
-      "actual_mm": 5.4,
-      "heavy_gate_mm": 3.02,
-      "forecast_3d_mm": 0.2,
-      "gate_ratio": 0.0662,
-      "miss_type": "deep",
-      "revision_5d_to_3d_mm": 0.2,
-      "relative_spread": 2.0556,
-      "models": {
-        "ecmwf": 11.1,
-        "gfs": 0.2,
-        "icon": 0.0
-      }
-    },
-    {
-      "id": "accra-2026-10-14",
-      "point_id": "accra",
-      "name": "Accra",
-      "country": "Ghana",
-      "date": "2026-10-14",
-      "actual_mm": 12.6,
-      "heavy_gate_mm": 4.9,
-      "forecast_3d_mm": 0.4,
-      "gate_ratio": 0.0816,
-      "miss_type": "deep",
-      "revision_5d_to_3d_mm": 0.4,
-      "relative_spread": 0.4286,
-      "models": {
-        "ecmwf": 5.4,
-        "gfs": 0.4,
-        "icon": 0.0
-      }
-    },
-    {
-      "id": "singapore-2026-10-16",
-      "point_id": "singapore",
-      "name": "Singapore",
-      "country": "Singapore",
-      "date": "2026-10-16",
-      "actual_mm": 14.6,
-      "heavy_gate_mm": 12.92,
-      "forecast_3d_mm": 1.1,
-      "gate_ratio": 0.0851,
-      "miss_type": "deep",
-      "revision_5d_to_3d_mm": 0.3,
-      "relative_spread": 0.4658,
-      "models": {
-        "ecmwf": 7.6,
-        "gfs": 1.1,
-        "icon": 0.8
-      }
-    },
     {
       "id": "singapore-2026-10-17",
       "point_id": "singapore",
@@ -143,9 +29,9 @@
       "country": "Singapore",
       "date": "2026-10-17",
       "actual_mm": 22.6,
-      "heavy_gate_mm": 12.92,
+      "heavy_gate_mm": 15.8,
       "forecast_3d_mm": 1.2,
-      "gate_ratio": 0.0929,
+      "gate_ratio": 0.0759,
       "miss_type": "deep",
       "revision_5d_to_3d_mm": 0.5,
       "relative_spread": 0.2212,
@@ -156,22 +42,60 @@
       }
     },
     {
-      "id": "accra-2026-10-15",
+      "id": "accra-2026-11-03",
       "point_id": "accra",
       "name": "Accra",
       "country": "Ghana",
-      "date": "2026-10-15",
-      "actual_mm": 6.6,
-      "heavy_gate_mm": 4.9,
-      "forecast_3d_mm": 0.9,
-      "gate_ratio": 0.1837,
+      "date": "2026-11-03",
+      "actual_mm": 7.4,
+      "heavy_gate_mm": 6.64,
+      "forecast_3d_mm": 0.6,
+      "gate_ratio": 0.0904,
       "miss_type": "deep",
-      "revision_5d_to_3d_mm": 0.9,
-      "relative_spread": 0.6818,
+      "revision_5d_to_3d_mm": 0.3,
+      "relative_spread": 1.2703,
       "models": {
-        "ecmwf": 4.5,
-        "gfs": 0.9,
-        "icon": 0.0
+        "ecmwf": 9.6,
+        "gfs": 0.6,
+        "icon": 0.2
+      }
+    },
+    {
+      "id": "singapore-2026-11-02",
+      "point_id": "singapore",
+      "name": "Singapore",
+      "country": "Singapore",
+      "date": "2026-11-02",
+      "actual_mm": 23.5,
+      "heavy_gate_mm": 15.8,
+      "forecast_3d_mm": 1.7,
+      "gate_ratio": 0.1076,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 0.3,
+      "relative_spread": 0.3319,
+      "models": {
+        "ecmwf": 8.0,
+        "gfs": 0.2,
+        "icon": 1.7
+      }
+    },
+    {
+      "id": "houston-2026-10-31",
+      "point_id": "houston",
+      "name": "Houston",
+      "country": "United States",
+      "date": "2026-10-31",
+      "actual_mm": 20.1,
+      "heavy_gate_mm": 10.0,
+      "forecast_3d_mm": 1.2,
+      "gate_ratio": 0.12,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -1.5,
+      "relative_spread": 0.3433,
+      "models": {
+        "ecmwf": 7.4,
+        "gfs": 0.5,
+        "icon": 1.2
       }
     },
     {
@@ -181,9 +105,9 @@
       "country": "Ghana",
       "date": "2026-10-27",
       "actual_mm": 10.4,
-      "heavy_gate_mm": 4.9,
+      "heavy_gate_mm": 6.64,
       "forecast_3d_mm": 1.0,
-      "gate_ratio": 0.2041,
+      "gate_ratio": 0.1506,
       "miss_type": "deep",
       "revision_5d_to_3d_mm": 1.0,
       "relative_spread": 1.3558,
@@ -200,9 +124,9 @@
       "country": "Australia",
       "date": "2026-10-20",
       "actual_mm": 10.3,
-      "heavy_gate_mm": 1.31,
+      "heavy_gate_mm": 1.79,
       "forecast_3d_mm": 0.3,
-      "gate_ratio": 0.229,
+      "gate_ratio": 0.1676,
       "miss_type": "deep",
       "revision_5d_to_3d_mm": -1.7,
       "relative_spread": 0.3786,
@@ -213,60 +137,41 @@
       }
     },
     {
-      "id": "singapore-2026-10-13",
-      "point_id": "singapore",
-      "name": "Singapore",
-      "country": "Singapore",
-      "date": "2026-10-13",
-      "actual_mm": 15.8,
-      "heavy_gate_mm": 12.92,
-      "forecast_3d_mm": 3.0,
-      "gate_ratio": 0.2322,
+      "id": "miami-2026-11-03",
+      "point_id": "miami",
+      "name": "Miami",
+      "country": "United States",
+      "date": "2026-11-03",
+      "actual_mm": 18.0,
+      "heavy_gate_mm": 15.87,
+      "forecast_3d_mm": 4.0,
+      "gate_ratio": 0.252,
       "miss_type": "deep",
-      "revision_5d_to_3d_mm": 0.9,
-      "relative_spread": 0.2975,
+      "revision_5d_to_3d_mm": -0.4,
+      "relative_spread": 0.1056,
       "models": {
-        "ecmwf": 3.0,
-        "gfs": 2.4,
-        "icon": 7.1
+        "ecmwf": 4.0,
+        "gfs": 4.0,
+        "icon": 2.1
       }
     },
     {
-      "id": "delhi-2026-10-29",
-      "point_id": "delhi",
-      "name": "Delhi",
-      "country": "India",
-      "date": "2026-10-29",
-      "actual_mm": 9.7,
-      "heavy_gate_mm": 8.44,
-      "forecast_3d_mm": 3.3,
-      "gate_ratio": 0.391,
+      "id": "osaka-2026-10-30",
+      "point_id": "osaka",
+      "name": "Osaka",
+      "country": "Japan",
+      "date": "2026-10-30",
+      "actual_mm": 28.8,
+      "heavy_gate_mm": 22.65,
+      "forecast_3d_mm": 6.2,
+      "gate_ratio": 0.2737,
       "miss_type": "deep",
-      "revision_5d_to_3d_mm": -18.6,
-      "relative_spread": 1.2268,
+      "revision_5d_to_3d_mm": 2.7,
+      "relative_spread": 0.7604,
       "models": {
-        "ecmwf": 3.3,
-        "gfs": 0.1,
-        "icon": 12.0
-      }
-    },
-    {
-      "id": "nairobi-2026-10-28",
-      "point_id": "nairobi",
-      "name": "Nairobi",
-      "country": "Kenya",
-      "date": "2026-10-28",
-      "actual_mm": 2.2,
-      "heavy_gate_mm": 1.64,
-      "forecast_3d_mm": 0.7,
-      "gate_ratio": 0.4268,
-      "miss_type": "deep",
-      "revision_5d_to_3d_mm": -0.2,
-      "relative_spread": 1.9545,
-      "models": {
-        "ecmwf": 4.5,
-        "gfs": 0.2,
-        "icon": 0.7
+        "ecmwf": 25.2,
+        "gfs": 3.3,
+        "icon": 6.2
       }
     },
     {
@@ -276,9 +181,9 @@
       "country": "Australia",
       "date": "2026-10-27",
       "actual_mm": 2.3,
-      "heavy_gate_mm": 1.31,
+      "heavy_gate_mm": 1.79,
       "forecast_3d_mm": 0.6,
-      "gate_ratio": 0.458,
+      "gate_ratio": 0.3352,
       "miss_type": "deep",
       "revision_5d_to_3d_mm": -0.3,
       "relative_spread": 0.8261,
@@ -289,60 +194,22 @@
       }
     },
     {
-      "id": "warsaw-2026-10-10",
-      "point_id": "warsaw",
-      "name": "Warsaw",
-      "country": "Poland",
-      "date": "2026-10-10",
-      "actual_mm": 7.9,
-      "heavy_gate_mm": 5.39,
-      "forecast_3d_mm": 2.5,
-      "gate_ratio": 0.4638,
+      "id": "nairobi-2026-10-28",
+      "point_id": "nairobi",
+      "name": "Nairobi",
+      "country": "Kenya",
+      "date": "2026-10-28",
+      "actual_mm": 2.2,
+      "heavy_gate_mm": 2.01,
+      "forecast_3d_mm": 0.7,
+      "gate_ratio": 0.3483,
       "miss_type": "deep",
-      "revision_5d_to_3d_mm": 1.7,
-      "relative_spread": 0.1646,
+      "revision_5d_to_3d_mm": -0.2,
+      "relative_spread": 1.9545,
       "models": {
-        "ecmwf": 2.5,
-        "gfs": 1.2,
-        "icon": 2.5
-      }
-    },
-    {
-      "id": "berlin-2026-10-22",
-      "point_id": "berlin",
-      "name": "Berlin",
-      "country": "Germany",
-      "date": "2026-10-22",
-      "actual_mm": 4.8,
-      "heavy_gate_mm": 3.69,
-      "forecast_3d_mm": 1.8,
-      "gate_ratio": 0.4878,
-      "miss_type": "deep",
-      "revision_5d_to_3d_mm": -1.0,
-      "relative_spread": 2.6667,
-      "models": {
-        "ecmwf": 13.3,
-        "gfs": 0.5,
-        "icon": 1.8
-      }
-    },
-    {
-      "id": "auckland-2026-10-10",
-      "point_id": "auckland",
-      "name": "Auckland",
-      "country": "New Zealand",
-      "date": "2026-10-10",
-      "actual_mm": 5.4,
-      "heavy_gate_mm": 3.81,
-      "forecast_3d_mm": 2.0,
-      "gate_ratio": 0.5249,
-      "miss_type": "deep",
-      "revision_5d_to_3d_mm": 0.9,
-      "relative_spread": 0.1296,
-      "models": {
-        "ecmwf": 2.0,
-        "gfs": 1.6,
-        "icon": 2.3
+        "ecmwf": 4.5,
+        "gfs": 0.2,
+        "icon": 0.7
       }
     },
     {
@@ -352,9 +219,9 @@
       "country": "Mexico",
       "date": "2026-10-17",
       "actual_mm": 20.2,
-      "heavy_gate_mm": 9.58,
+      "heavy_gate_mm": 10.89,
       "forecast_3d_mm": 5.4,
-      "gate_ratio": 0.5637,
+      "gate_ratio": 0.4959,
       "miss_type": "deep",
       "revision_5d_to_3d_mm": 0.6,
       "relative_spread": 0.4802,
@@ -362,6 +229,44 @@
         "ecmwf": 13.3,
         "gfs": 5.4,
         "icon": 3.6
+      }
+    },
+    {
+      "id": "chennai-2026-10-25",
+      "point_id": "chennai",
+      "name": "Chennai",
+      "country": "India",
+      "date": "2026-10-25",
+      "actual_mm": 19.6,
+      "heavy_gate_mm": 3.42,
+      "forecast_3d_mm": 1.8,
+      "gate_ratio": 0.5263,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 1.8,
+      "relative_spread": 0.6224,
+      "models": {
+        "ecmwf": 13.0,
+        "gfs": 0.8,
+        "icon": 1.8
+      }
+    },
+    {
+      "id": "delhi-2026-10-29",
+      "point_id": "delhi",
+      "name": "Delhi",
+      "country": "India",
+      "date": "2026-10-29",
+      "actual_mm": 9.7,
+      "heavy_gate_mm": 5.92,
+      "forecast_3d_mm": 3.3,
+      "gate_ratio": 0.5574,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": -18.6,
+      "relative_spread": 1.2268,
+      "models": {
+        "ecmwf": 3.3,
+        "gfs": 0.1,
+        "icon": 12.0
       }
     },
     {
@@ -384,15 +289,34 @@
       }
     },
     {
+      "id": "singapore-2026-11-05",
+      "point_id": "singapore",
+      "name": "Singapore",
+      "country": "Singapore",
+      "date": "2026-11-05",
+      "actual_mm": 26.4,
+      "heavy_gate_mm": 15.8,
+      "forecast_3d_mm": 10.2,
+      "gate_ratio": 0.6456,
+      "miss_type": "deep",
+      "revision_5d_to_3d_mm": 5.7,
+      "relative_spread": 0.3674,
+      "models": {
+        "ecmwf": 14.9,
+        "gfs": 5.2,
+        "icon": 10.2
+      }
+    },
+    {
       "id": "miami-2026-10-18",
       "point_id": "miami",
       "name": "Miami",
       "country": "United States",
       "date": "2026-10-18",
       "actual_mm": 38.4,
-      "heavy_gate_mm": 17.82,
+      "heavy_gate_mm": 15.87,
       "forecast_3d_mm": 10.3,
-      "gate_ratio": 0.578,
+      "gate_ratio": 0.649,
       "miss_type": "deep",
       "revision_5d_to_3d_mm": -7.4,
       "relative_spread": 1.1198,
@@ -403,117 +327,79 @@
       }
     },
     {
-      "id": "chennai-2026-10-25",
+      "id": "chennai-2026-11-02",
       "point_id": "chennai",
       "name": "Chennai",
       "country": "India",
-      "date": "2026-10-25",
-      "actual_mm": 19.6,
-      "heavy_gate_mm": 3.02,
-      "forecast_3d_mm": 1.8,
-      "gate_ratio": 0.596,
+      "date": "2026-11-02",
+      "actual_mm": 16.0,
+      "heavy_gate_mm": 3.42,
+      "forecast_3d_mm": 2.4,
+      "gate_ratio": 0.7018,
       "miss_type": "deep",
-      "revision_5d_to_3d_mm": 1.8,
-      "relative_spread": 0.6224,
+      "revision_5d_to_3d_mm": -3.5,
+      "relative_spread": 0.2812,
       "models": {
-        "ecmwf": 13.0,
-        "gfs": 0.8,
+        "ecmwf": 5.6,
+        "gfs": 2.4,
+        "icon": 1.1
+      }
+    },
+    {
+      "id": "berlin-2026-10-22",
+      "point_id": "berlin",
+      "name": "Berlin",
+      "country": "Germany",
+      "date": "2026-10-22",
+      "actual_mm": 4.8,
+      "heavy_gate_mm": 2.23,
+      "forecast_3d_mm": 1.8,
+      "gate_ratio": 0.8072,
+      "miss_type": "near_threshold",
+      "revision_5d_to_3d_mm": -1.0,
+      "relative_spread": 2.6667,
+      "models": {
+        "ecmwf": 13.3,
+        "gfs": 0.5,
         "icon": 1.8
       }
     },
     {
-      "id": "london-2026-10-18",
-      "point_id": "london",
-      "name": "London",
-      "country": "United Kingdom",
-      "date": "2026-10-18",
-      "actual_mm": 3.8,
-      "heavy_gate_mm": 2.23,
-      "forecast_3d_mm": 1.4,
-      "gate_ratio": 0.6278,
-      "miss_type": "deep",
-      "revision_5d_to_3d_mm": 1.4,
-      "relative_spread": 0.7632,
+      "id": "buenos-aires-2026-10-30",
+      "point_id": "buenos-aires",
+      "name": "Buenos Aires",
+      "country": "Argentina",
+      "date": "2026-10-30",
+      "actual_mm": 19.0,
+      "heavy_gate_mm": 6.15,
+      "forecast_3d_mm": 5.1,
+      "gate_ratio": 0.8293,
+      "miss_type": "near_threshold",
+      "revision_5d_to_3d_mm": 5.1,
+      "relative_spread": 0.3526,
       "models": {
-        "ecmwf": 1.4,
-        "gfs": 0.7,
-        "icon": 3.6
+        "ecmwf": 0.4,
+        "gfs": 7.1,
+        "icon": 5.1
       }
     },
     {
-      "id": "london-2026-10-20",
-      "point_id": "london",
-      "name": "London",
-      "country": "United Kingdom",
-      "date": "2026-10-20",
-      "actual_mm": 8.8,
-      "heavy_gate_mm": 2.23,
-      "forecast_3d_mm": 1.5,
-      "gate_ratio": 0.6726,
-      "miss_type": "deep",
-      "revision_5d_to_3d_mm": 1.1,
-      "relative_spread": 0.375,
+      "id": "chennai-2026-10-19",
+      "point_id": "chennai",
+      "name": "Chennai",
+      "country": "India",
+      "date": "2026-10-19",
+      "actual_mm": 6.7,
+      "heavy_gate_mm": 3.42,
+      "forecast_3d_mm": 3.2,
+      "gate_ratio": 0.9357,
+      "miss_type": "near_threshold",
+      "revision_5d_to_3d_mm": -5.3,
+      "relative_spread": 0.8657,
       "models": {
-        "ecmwf": 1.5,
-        "gfs": 4.2,
-        "icon": 0.9
-      }
-    },
-    {
-      "id": "brisbane-2026-10-10",
-      "point_id": "brisbane",
-      "name": "Brisbane",
-      "country": "Australia",
-      "date": "2026-10-10",
-      "actual_mm": 1.7,
-      "heavy_gate_mm": 1.31,
-      "forecast_3d_mm": 0.9,
-      "gate_ratio": 0.687,
-      "miss_type": "deep",
-      "revision_5d_to_3d_mm": 0.3,
-      "relative_spread": 1.2353,
-      "models": {
-        "ecmwf": 0.9,
-        "gfs": 0.0,
-        "icon": 2.1
-      }
-    },
-    {
-      "id": "singapore-2026-10-25",
-      "point_id": "singapore",
-      "name": "Singapore",
-      "country": "Singapore",
-      "date": "2026-10-25",
-      "actual_mm": 13.3,
-      "heavy_gate_mm": 12.92,
-      "forecast_3d_mm": 9.2,
-      "gate_ratio": 0.7121,
-      "miss_type": "deep",
-      "revision_5d_to_3d_mm": -1.9,
-      "relative_spread": 1.0526,
-      "models": {
-        "ecmwf": 21.8,
-        "gfs": 9.2,
-        "icon": 7.8
-      }
-    },
-    {
-      "id": "mexico-city-2026-10-10",
-      "point_id": "mexico-city",
-      "name": "Mexico City",
-      "country": "Mexico",
-      "date": "2026-10-10",
-      "actual_mm": 10.8,
-      "heavy_gate_mm": 9.58,
-      "forecast_3d_mm": 7.0,
-      "gate_ratio": 0.7307,
-      "miss_type": "deep",
-      "revision_5d_to_3d_mm": -6.7,
-      "relative_spread": 1.7778,
-      "models": {
-        "ecmwf": 19.5,
-        "gfs": 7.0,
-        "icon": 0.3
+        "ecmwf": 8.3,
+        "gfs": 2.5,
+        "icon": 3.2
       }
     },
     {
@@ -523,9 +409,9 @@
       "country": "Brazil",
       "date": "2026-10-23",
       "actual_mm": 3.1,
-      "heavy_gate_mm": 2.9,
+      "heavy_gate_mm": 2.6,
       "forecast_3d_mm": 2.5,
-      "gate_ratio": 0.8621,
+      "gate_ratio": 0.9615,
       "miss_type": "near_threshold",
       "revision_5d_to_3d_mm": 0.3,
       "relative_spread": 0.9677,
@@ -534,51 +420,13 @@
         "gfs": 1.4,
         "icon": 2.5
       }
-    },
-    {
-      "id": "london-2026-10-21",
-      "point_id": "london",
-      "name": "London",
-      "country": "United Kingdom",
-      "date": "2026-10-21",
-      "actual_mm": 7.2,
-      "heavy_gate_mm": 2.23,
-      "forecast_3d_mm": 2.0,
-      "gate_ratio": 0.8969,
-      "miss_type": "near_threshold",
-      "revision_5d_to_3d_mm": -0.5,
-      "relative_spread": 0.5417,
-      "models": {
-        "ecmwf": 0.3,
-        "gfs": 4.2,
-        "icon": 2.0
-      }
-    },
-    {
-      "id": "buenos-aires-2026-10-15",
-      "point_id": "buenos-aires",
-      "name": "Buenos Aires",
-      "country": "Argentina",
-      "date": "2026-10-15",
-      "actual_mm": 5.5,
-      "heavy_gate_mm": 5.34,
-      "forecast_3d_mm": 5.2,
-      "gate_ratio": 0.9738,
-      "miss_type": "near_threshold",
-      "revision_5d_to_3d_mm": 4.0,
-      "relative_spread": 3.2,
-      "models": {
-        "ecmwf": 18.8,
-        "gfs": 5.2,
-        "icon": 1.2
-      }
     }
   ],
   "hypothesis": {
     "id": "H21",
     "claim": "Most strict-threshold heavy-event misses are near the decision boundary rather than deep misses.",
     "status": "not_supported",
-    "effect": "near 3; deep 26; near share 0.1034; misses 29",
+    "effect": "near 4; deep 17; near share 0.1905; misses 21",
     "product_update": "Misses are not mainly boundary cases. Audit deep misses for missing physical variables, model failure modes, and spatial context."
   },
   "limitations": [
