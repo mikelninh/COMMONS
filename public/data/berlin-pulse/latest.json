@@ -1,39 +1,39 @@
 {
   "version": 1,
-  "generated_at": "2026-11-15T22:48:07Z",
+  "generated_at": "2026-11-16T06:28:53Z",
   "status": "recorded",
-  "sample_count": 205,
+  "sample_count": 206,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
-    "level": "usual",
-    "title": "Nothing unusual is shouting right now.",
-    "explanation": "All scored signals are inside their recent baselines. Quiet is a result too."
+    "level": "unusual",
+    "title": "Modeled fine-particle air is unusually low.",
+    "explanation": "PM2.5 is below a recent median baseline (robust z -2.6, n=48)."
   },
   "changes": [
-    {
-      "metric": "temperature_2m",
-      "label": "Temperature",
-      "unit": "°C",
-      "digits": 1,
-      "previous": 7.9,
-      "current": 6.9,
-      "delta": -1.0,
-      "percent": -12.7,
-      "direction": "down",
-      "salience": 0.455,
-      "basis": "since the previous Pulse snapshot"
-    },
     {
       "metric": "pm2_5",
       "label": "PM2.5",
       "unit": "µg/m³",
       "digits": 1,
-      "previous": 8.0,
-      "current": 8.7,
-      "delta": 0.7,
+      "previous": 8.7,
+      "current": 5.2,
+      "delta": -3.5,
+      "percent": -40.2,
+      "direction": "down",
+      "salience": 2.059,
+      "basis": "since the previous Pulse snapshot"
+    },
+    {
+      "metric": "temperature_2m",
+      "label": "Temperature",
+      "unit": "°C",
+      "digits": 1,
+      "previous": 6.9,
+      "current": 7.5,
+      "delta": 0.6,
       "percent": 8.7,
       "direction": "up",
-      "salience": 0.412,
+      "salience": 0.273,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -89,42 +89,42 @@
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 6.9,
+      "value": 7.5,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
         "label": "usual",
-        "score": 0.649,
+        "score": 0.259,
         "n": 48,
-        "baseline": 4.4,
+        "baseline": 7.0,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 10.6,
+        "value": 8.9,
         "unit": "°C",
         "source": "Open-Meteo",
-        "target_at": "2026-11-16T11:00"
+        "target_at": "2026-11-16T18:00"
       }
     },
     "pm2_5": {
       "label": "PM2.5",
-      "value": 8.7,
+      "value": 5.2,
       "unit": "µg/m³",
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
-        "label": "usual",
-        "score": -0.161,
+        "label": "unusual",
+        "score": -2.631,
         "n": 48,
-        "baseline": 8.95,
+        "baseline": 9.1,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 2.3,
+        "value": 4.7,
         "unit": "µg/m³",
         "source": "CAMS",
-        "target_at": "2026-11-16T11:00"
+        "target_at": "2026-11-16T18:00"
       }
     },
     "river_discharge": {
@@ -168,11 +168,11 @@
     "water": "modeled fallback"
   },
   "transit_modes": {
-    "bus": 390,
-    "tram": 104,
-    "subway": 61,
-    "train": 42,
-    "other": 3
+    "bus": 200,
+    "tram": 198,
+    "subway": 124,
+    "train": 78,
+    "other": 0
   },
   "principle": "Missing evidence stays missing. Forecast skill is compared with persistence before trust is earned."
 }
