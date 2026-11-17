@@ -1,39 +1,39 @@
 {
   "version": 1,
-  "generated_at": "2026-11-16T19:36:18Z",
+  "generated_at": "2026-11-17T03:53:53Z",
   "status": "recorded",
-  "sample_count": 207,
+  "sample_count": 208,
   "history_basis": "Direct Pulse snapshots accumulate every three hours; weather and air anomaly baselines use the previous 48 model-hours until the tape is deep enough.",
   "headline": {
     "level": "unusual",
     "title": "Spree discharge is above its recent pattern.",
-    "explanation": "Spree / river is above a recent median baseline (robust z +10.9, n=40)."
+    "explanation": "Spree / river is above a recent median baseline (robust z +6.0, n=40)."
   },
   "changes": [
-    {
-      "metric": "pm2_5",
-      "label": "PM2.5",
-      "unit": "µg/m³",
-      "digits": 1,
-      "previous": 5.2,
-      "current": 7.5,
-      "delta": 2.3,
-      "percent": 44.2,
-      "direction": "up",
-      "salience": 1.353,
-      "basis": "since the previous Pulse snapshot"
-    },
     {
       "metric": "temperature_2m",
       "label": "Temperature",
       "unit": "°C",
       "digits": 1,
+      "previous": 8.7,
+      "current": 6.3,
+      "delta": -2.4,
+      "percent": -27.6,
+      "direction": "down",
+      "salience": 1.091,
+      "basis": "since the previous Pulse snapshot"
+    },
+    {
+      "metric": "pm2_5",
+      "label": "PM2.5",
+      "unit": "µg/m³",
+      "digits": 1,
       "previous": 7.5,
-      "current": 8.7,
-      "delta": 1.2,
-      "percent": 16.0,
+      "current": 7.9,
+      "delta": 0.4,
+      "percent": 5.3,
       "direction": "up",
-      "salience": 0.545,
+      "salience": 0.235,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -41,12 +41,12 @@
       "label": "Spree / river",
       "unit": "m³/s",
       "digits": 2,
-      "previous": 0.43,
+      "previous": 0.48,
       "current": 0.48,
-      "delta": 0.05,
-      "percent": 11.6,
-      "direction": "up",
-      "salience": 0.05,
+      "delta": 0.0,
+      "percent": 0.0,
+      "direction": "flat",
+      "salience": 0.0,
       "basis": "since the previous Pulse snapshot"
     },
     {
@@ -89,42 +89,42 @@
   "signals": {
     "temperature_2m": {
       "label": "Temperature",
-      "value": 8.7,
+      "value": 6.3,
       "unit": "°C",
       "source": "Open-Meteo weather model",
       "anomaly": {
         "label": "usual",
-        "score": 0.461,
+        "score": -0.817,
         "n": 48,
-        "baseline": 7.3,
+        "baseline": 7.45,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 4.7,
+        "value": 5.5,
         "unit": "°C",
         "source": "Open-Meteo",
-        "target_at": "2026-11-17T08:00"
+        "target_at": "2026-11-17T16:00"
       }
     },
     "pm2_5": {
       "label": "PM2.5",
-      "value": 7.5,
+      "value": 7.9,
       "unit": "µg/m³",
       "source": "CAMS via Open-Meteo · modeled",
       "anomaly": {
         "label": "usual",
-        "score": -0.752,
+        "score": 0.135,
         "n": 48,
-        "baseline": 8.95,
+        "baseline": 7.6,
         "baseline_scope": "previous 48 model-hours"
       },
       "forecast": {
         "hours": 12,
-        "value": 14.3,
+        "value": 9.1,
         "unit": "µg/m³",
         "source": "CAMS",
-        "target_at": "2026-11-17T08:00"
+        "target_at": "2026-11-17T16:00"
       }
     },
     "river_discharge": {
@@ -134,7 +134,7 @@
       "source": "GloFAS via Open-Meteo · modeled fallback",
       "anomaly": {
         "label": "unusual",
-        "score": 10.911,
+        "score": 5.979,
         "n": 40,
         "baseline": 0.43,
         "baseline_scope": "recent water series"
@@ -168,11 +168,11 @@
     "water": "modeled fallback"
   },
   "transit_modes": {
-    "bus": 256,
-    "tram": 176,
-    "subway": 111,
-    "train": 57,
-    "other": 0
+    "bus": 372,
+    "tram": 118,
+    "subway": 58,
+    "train": 51,
+    "other": 1
   },
   "principle": "Missing evidence stays missing. Forecast skill is compared with persistence before trust is earned."
 }
