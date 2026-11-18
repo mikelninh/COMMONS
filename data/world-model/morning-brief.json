@@ -1,15 +1,15 @@
 {
   "schema_version": "0.1",
-  "generated_at": "2026-11-18T07:37:29.076165Z",
-  "previous_generated_at": "2026-11-17T21:00:03.821252Z",
+  "generated_at": "2026-11-18T20:38:02.154862Z",
+  "previous_generated_at": "2026-11-18T07:37:29.076165Z",
   "product": "COMMONS Morning Brief v1",
   "headline": "Nothing in the validated rainfall pilot needs your attention right now.",
   "close_message": "You are caught up.",
   "summary": {
     "alerts": 0,
     "priority": 0,
-    "quiet": 0,
-    "unavailable": 3,
+    "quiet": 3,
+    "unavailable": 0,
     "ranked_monitors": 3,
     "world_model_loops": 10
   },
@@ -30,6 +30,84 @@
   },
   "monitors": [
     {
+      "point_id": "manila",
+      "loop_id": "storm-arrives",
+      "loop_title": "Before the Storm Arrives",
+      "name": "Manila",
+      "country": "Philippines",
+      "latitude": 14.6,
+      "longitude": 120.98,
+      "signal": "peak daily rainfall · next 72h",
+      "state": "quiet",
+      "rank_score": 0.0034,
+      "forecast_peak_daily_mm": 0.1,
+      "forecast_peak_date": "2026-11-19",
+      "forecast_72h_mm": 0.2,
+      "heavy_rain_gate_mm": 29.76,
+      "gate_ratio": 0.0034,
+      "models_available": 3,
+      "models_expected": 3,
+      "source_errors": [],
+      "why": "Forecast rainfall remains below the current priority band.",
+      "next_step": "No review needed from this rainfall monitor.",
+      "revision": {
+        "direction": "mixed",
+        "supporting_models": 0,
+        "models_compared": 0,
+        "median_delta_mm": null,
+        "role": "context_only",
+        "note": "Six-hour revision context is visible but does not change priority rank."
+      },
+      "flood_context": null,
+      "exposure_context": {
+        "population": 17357446,
+        "radius_km": 20.0,
+        "data_year": 2026,
+        "source": "worldpop_R2025A_2026_100m",
+        "role": "context_only",
+        "note": "Nearby population is context, not estimated people impacted."
+      },
+      "impact_context": {
+        "components": {
+          "hazard": {
+            "role": "provided live by Morning Brief",
+            "note": "Impact v0 does not replace the validated hazard gate."
+          },
+          "exposure": {
+            "population_within_radius": 17357446.0,
+            "radius_km": 20.0,
+            "source": "worldpop_R2025A_2026_100m",
+            "role": "context_only"
+          },
+          "infrastructure": null,
+          "historical_consequence": {
+            "nearby_events": 0,
+            "consequential_events": 0,
+            "examples": [],
+            "source": "GDACS + EM-DAT where available",
+            "role": "context_only"
+          }
+        },
+        "action_options": [
+          {
+            "id": "verify-local",
+            "label": "Verify local authority warnings",
+            "why": "COMMONS is research guidance, not an emergency authority.",
+            "authority": "human"
+          },
+          {
+            "id": "review-exposure",
+            "label": "Review who may be exposed",
+            "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
+            "authority": "human"
+          }
+        ],
+        "role": "context_only",
+        "note": "Impact v0 informs consequence and action context but does not change ALERT."
+      },
+      "rank": 1
+    },
+    {
       "point_id": "nuwakot",
       "loop_id": "water-rises",
       "loop_title": "When the Water Rises",
@@ -38,31 +116,18 @@
       "latitude": 27.95,
       "longitude": 85.18,
       "signal": "peak daily rainfall · next 72h",
-      "state": "unavailable",
-      "rank_score": null,
-      "forecast_peak_daily_mm": null,
-      "forecast_peak_date": null,
-      "forecast_72h_mm": null,
+      "state": "quiet",
+      "rank_score": 0.0,
+      "forecast_peak_daily_mm": 0.0,
+      "forecast_peak_date": "2026-11-18",
+      "forecast_72h_mm": 0.0,
       "heavy_rain_gate_mm": 49.18,
-      "gate_ratio": null,
-      "models_available": 0,
+      "gate_ratio": 0.0,
+      "models_available": 3,
       "models_expected": 3,
-      "source_errors": [
-        {
-          "provider": "ecmwf",
-          "error": "<urlopen error _ssl.c:994: The handshake operation timed out>"
-        },
-        {
-          "provider": "gfs",
-          "error": "<urlopen error _ssl.c:994: The handshake operation timed out>"
-        },
-        {
-          "provider": "icon",
-          "error": "<urlopen error _ssl.c:994: The handshake operation timed out>"
-        }
-      ],
-      "why": "The validated rainfall monitor does not have enough live model data.",
-      "next_step": "Treat this monitor as unavailable until source health recovers.",
+      "source_errors": [],
+      "why": "Forecast rainfall remains below the current priority band.",
+      "next_step": "No review needed from this rainfall monitor.",
       "revision": {
         "direction": "mixed",
         "supporting_models": 0,
@@ -123,97 +188,6 @@
         "role": "context_only",
         "note": "Impact v0 informs consequence and action context but does not change ALERT."
       },
-      "rank": 1
-    },
-    {
-      "point_id": "manila",
-      "loop_id": "storm-arrives",
-      "loop_title": "Before the Storm Arrives",
-      "name": "Manila",
-      "country": "Philippines",
-      "latitude": 14.6,
-      "longitude": 120.98,
-      "signal": "peak daily rainfall · next 72h",
-      "state": "unavailable",
-      "rank_score": null,
-      "forecast_peak_daily_mm": null,
-      "forecast_peak_date": null,
-      "forecast_72h_mm": null,
-      "heavy_rain_gate_mm": 29.76,
-      "gate_ratio": null,
-      "models_available": 0,
-      "models_expected": 3,
-      "source_errors": [
-        {
-          "provider": "ecmwf",
-          "error": "<urlopen error _ssl.c:994: The handshake operation timed out>"
-        },
-        {
-          "provider": "gfs",
-          "error": "<urlopen error _ssl.c:994: The handshake operation timed out>"
-        },
-        {
-          "provider": "icon",
-          "error": "<urlopen error _ssl.c:994: The handshake operation timed out>"
-        }
-      ],
-      "why": "The validated rainfall monitor does not have enough live model data.",
-      "next_step": "Treat this monitor as unavailable until source health recovers.",
-      "revision": {
-        "direction": "mixed",
-        "supporting_models": 0,
-        "models_compared": 0,
-        "median_delta_mm": null,
-        "role": "context_only",
-        "note": "Six-hour revision context is visible but does not change priority rank."
-      },
-      "flood_context": null,
-      "exposure_context": {
-        "population": 17357446,
-        "radius_km": 20.0,
-        "data_year": 2026,
-        "source": "worldpop_R2025A_2026_100m",
-        "role": "context_only",
-        "note": "Nearby population is context, not estimated people impacted."
-      },
-      "impact_context": {
-        "components": {
-          "hazard": {
-            "role": "provided live by Morning Brief",
-            "note": "Impact v0 does not replace the validated hazard gate."
-          },
-          "exposure": {
-            "population_within_radius": 17357446.0,
-            "radius_km": 20.0,
-            "source": "worldpop_R2025A_2026_100m",
-            "role": "context_only"
-          },
-          "infrastructure": null,
-          "historical_consequence": {
-            "nearby_events": 0,
-            "consequential_events": 0,
-            "examples": [],
-            "source": "GDACS + EM-DAT where available",
-            "role": "context_only"
-          }
-        },
-        "action_options": [
-          {
-            "id": "verify-local",
-            "label": "Verify local authority warnings",
-            "why": "COMMONS is research guidance, not an emergency authority.",
-            "authority": "human"
-          },
-          {
-            "id": "review-exposure",
-            "label": "Review who may be exposed",
-            "why": "Nearby population is large enough that distribution matters, not only hazard magnitude.",
-            "authority": "human"
-          }
-        ],
-        "role": "context_only",
-        "note": "Impact v0 informs consequence and action context but does not change ALERT."
-      },
       "rank": 2
     },
     {
@@ -225,31 +199,18 @@
       "latitude": 28.61,
       "longitude": 77.21,
       "signal": "peak daily rainfall · next 72h",
-      "state": "unavailable",
-      "rank_score": null,
-      "forecast_peak_daily_mm": null,
-      "forecast_peak_date": null,
-      "forecast_72h_mm": null,
+      "state": "quiet",
+      "rank_score": 0.0,
+      "forecast_peak_daily_mm": 0.0,
+      "forecast_peak_date": "2026-11-18",
+      "forecast_72h_mm": 0.0,
       "heavy_rain_gate_mm": 17.4,
-      "gate_ratio": null,
-      "models_available": 0,
+      "gate_ratio": 0.0,
+      "models_available": 3,
       "models_expected": 3,
-      "source_errors": [
-        {
-          "provider": "ecmwf",
-          "error": "<urlopen error _ssl.c:994: The handshake operation timed out>"
-        },
-        {
-          "provider": "gfs",
-          "error": "<urlopen error _ssl.c:994: The handshake operation timed out>"
-        },
-        {
-          "provider": "icon",
-          "error": "<urlopen error _ssl.c:994: The handshake operation timed out>"
-        }
-      ],
-      "why": "The validated rainfall monitor does not have enough live model data.",
-      "next_step": "Treat this monitor as unavailable until source health recovers.",
+      "source_errors": [],
+      "why": "Forecast rainfall remains below the current priority band.",
+      "next_step": "No review needed from this rainfall monitor.",
       "revision": {
         "direction": "mixed",
         "supporting_models": 0,
