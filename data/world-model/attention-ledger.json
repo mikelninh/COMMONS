@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1",
-  "updated_at": "2026-11-17T21:00:41.461266Z",
+  "updated_at": "2026-11-18T07:44:04.898927Z",
   "observations": [
     {
       "observation_id": "manila|2026-09-20T19:54:40.421641Z|2026-09-22",
@@ -9553,9 +9553,11 @@
       "gate_ratio": 0.0163,
       "latitude": 27.95,
       "longitude": 85.18,
-      "verification_status": "pending",
-      "classification": null,
-      "actual_daily_mm": null
+      "verification_status": "verified",
+      "classification": "correct_quiet",
+      "actual_daily_mm": 0.4,
+      "observed_heavy_event": false,
+      "verified_at": "2026-11-18T07:44:03.769330Z"
     },
     {
       "observation_id": "manila|2026-11-09T06:44:54.216283Z|2026-11-11",
@@ -9570,9 +9572,11 @@
       "gate_ratio": 0.0101,
       "latitude": 14.6,
       "longitude": 120.98,
-      "verification_status": "pending",
-      "classification": null,
-      "actual_daily_mm": null
+      "verification_status": "verified",
+      "classification": "correct_quiet",
+      "actual_daily_mm": 0.0,
+      "observed_heavy_event": false,
+      "verified_at": "2026-11-18T07:44:04.333033Z"
     },
     {
       "observation_id": "delhi|2026-11-09T06:44:54.216283Z|2026-11-09",
@@ -9606,9 +9610,11 @@
       "gate_ratio": 0.0407,
       "latitude": 27.95,
       "longitude": 85.18,
-      "verification_status": "pending",
-      "classification": null,
-      "actual_daily_mm": null
+      "verification_status": "verified",
+      "classification": "correct_quiet",
+      "actual_daily_mm": 0.4,
+      "observed_heavy_event": false,
+      "verified_at": "2026-11-18T07:44:04.333043Z"
     },
     {
       "observation_id": "manila|2026-11-09T22:26:49.656489Z|2026-11-09",
@@ -9678,9 +9684,11 @@
       "gate_ratio": 0.0142,
       "latitude": 27.95,
       "longitude": 85.18,
-      "verification_status": "pending",
-      "classification": null,
-      "actual_daily_mm": null
+      "verification_status": "verified",
+      "classification": "correct_quiet",
+      "actual_daily_mm": 0.4,
+      "observed_heavy_event": false,
+      "verified_at": "2026-11-18T07:44:04.333049Z"
     },
     {
       "observation_id": "delhi|2026-11-10T07:25:37.363378Z|2026-11-10",
@@ -9714,9 +9722,11 @@
       "gate_ratio": 0.0203,
       "latitude": 27.95,
       "longitude": 85.18,
-      "verification_status": "pending",
-      "classification": null,
-      "actual_daily_mm": null
+      "verification_status": "verified",
+      "classification": "correct_quiet",
+      "actual_daily_mm": 0.4,
+      "observed_heavy_event": false,
+      "verified_at": "2026-11-18T07:44:04.333052Z"
     },
     {
       "observation_id": "manila|2026-11-10T19:48:25.937502Z|2026-11-10",
@@ -9769,9 +9779,11 @@
       "gate_ratio": 0.0305,
       "latitude": 27.95,
       "longitude": 85.18,
-      "verification_status": "pending",
-      "classification": null,
-      "actual_daily_mm": null
+      "verification_status": "verified",
+      "classification": "correct_quiet",
+      "actual_daily_mm": 0.4,
+      "observed_heavy_event": false,
+      "verified_at": "2026-11-18T07:44:04.333055Z"
     },
     {
       "observation_id": "manila|2026-11-11T06:35:54.801635Z|2026-11-12",
@@ -9803,9 +9815,11 @@
       "gate_ratio": 0.0,
       "latitude": 28.61,
       "longitude": 77.21,
-      "verification_status": "pending",
-      "classification": null,
-      "actual_daily_mm": null
+      "verification_status": "verified",
+      "classification": "correct_quiet",
+      "actual_daily_mm": 0.0,
+      "observed_heavy_event": false,
+      "verified_at": "2026-11-18T07:44:04.898728Z"
     },
     {
       "observation_id": "nuwakot|2026-11-11T19:40:02.082015Z|2026-11-11",
@@ -9820,9 +9834,11 @@
       "gate_ratio": 0.0264,
       "latitude": 27.95,
       "longitude": 85.18,
-      "verification_status": "pending",
-      "classification": null,
-      "actual_daily_mm": null
+      "verification_status": "verified",
+      "classification": "correct_quiet",
+      "actual_daily_mm": 0.4,
+      "observed_heavy_event": false,
+      "verified_at": "2026-11-18T07:44:04.898737Z"
     },
     {
       "observation_id": "manila|2026-11-11T19:40:02.082015Z|2026-11-12",
@@ -9854,9 +9870,11 @@
       "gate_ratio": 0.0,
       "latitude": 28.61,
       "longitude": 77.21,
-      "verification_status": "pending",
-      "classification": null,
-      "actual_daily_mm": null
+      "verification_status": "verified",
+      "classification": "correct_quiet",
+      "actual_daily_mm": 0.0,
+      "observed_heavy_event": false,
+      "verified_at": "2026-11-18T07:44:04.898742Z"
     },
     {
       "observation_id": "manila|2026-11-12T07:19:30.888827Z|2026-11-14",
@@ -11172,15 +11190,30 @@
       "actual_daily_mm": 0.3,
       "source": "ERA5 via Open-Meteo",
       "verified_at": "2026-11-17T08:01:10.973779Z"
+    },
+    "nuwakot|2026-11-11": {
+      "actual_daily_mm": 0.4,
+      "source": "ERA5 via Open-Meteo",
+      "verified_at": "2026-11-18T07:44:03.769304Z"
+    },
+    "manila|2026-11-11": {
+      "actual_daily_mm": 0.0,
+      "source": "ERA5 via Open-Meteo",
+      "verified_at": "2026-11-18T07:44:04.333013Z"
+    },
+    "delhi|2026-11-11": {
+      "actual_daily_mm": 0.0,
+      "source": "ERA5 via Open-Meteo",
+      "verified_at": "2026-11-18T07:44:04.898709Z"
     }
   },
   "source_errors": [],
   "summary": {
     "total_observations": 559,
-    "pending": 51,
-    "verified": 508,
+    "pending": 42,
+    "verified": 517,
     "classifications": {
-      "correct_quiet": 494,
+      "correct_quiet": 503,
       "quiet_miss": 6,
       "priority_no_event": 5,
       "false_alert": 3
