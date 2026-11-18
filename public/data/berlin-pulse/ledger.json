@@ -6455,6 +6455,19 @@
       "candidate_source": "CAMS via Open-Meteo 12h forecast",
       "baseline_source": "persistence",
       "status": "pending"
+    },
+    {
+      "id": "pm2_5:2026-11-18T00:57:16Z",
+      "issued_at": "2026-11-18T00:57:16Z",
+      "target_at": "2026-11-18T13:00Z",
+      "horizon_hours": 12.0,
+      "metric": "pm2_5",
+      "unit": "µg/m³",
+      "candidate": 2.6,
+      "baseline": 5.1,
+      "candidate_source": "CAMS via Open-Meteo 12h forecast",
+      "baseline_source": "persistence",
+      "status": "pending"
     }
   ]
 }
