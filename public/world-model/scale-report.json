@@ -1,8 +1,8 @@
 {
   "schema_version": "0.1",
   "period": {
-    "start": "2026-09-06",
-    "end": "2026-11-05"
+    "start": "2026-09-13",
+    "end": "2026-11-12"
   },
   "lead_days": 3,
   "requested_points": 30,
@@ -21,10 +21,10 @@
       "name": "Accra",
       "country": "Ghana",
       "samples": 61,
-      "heavy_samples": 3,
-      "council_mae_mm": 2.131,
-      "average_model_mae_mm": 2.727,
-      "improvement_pct": 21.9,
+      "heavy_samples": 4,
+      "council_mae_mm": 2.146,
+      "average_model_mae_mm": 2.862,
+      "improvement_pct": 25.0,
       "council_better": true
     },
     {
@@ -32,10 +32,10 @@
       "name": "Auckland",
       "country": "New Zealand",
       "samples": 61,
-      "heavy_samples": 0,
-      "council_mae_mm": 0.938,
-      "average_model_mae_mm": 1.145,
-      "improvement_pct": 18.1,
+      "heavy_samples": 4,
+      "council_mae_mm": 1.231,
+      "average_model_mae_mm": 1.573,
+      "improvement_pct": 21.7,
       "council_better": true
     },
     {
@@ -44,9 +44,9 @@
       "country": "Thailand",
       "samples": 61,
       "heavy_samples": 17,
-      "council_mae_mm": 6.275,
-      "average_model_mae_mm": 7.956,
-      "improvement_pct": 21.1,
+      "council_mae_mm": 5.651,
+      "average_model_mae_mm": 7.223,
+      "improvement_pct": 21.8,
       "council_better": true
     },
     {
@@ -55,9 +55,9 @@
       "country": "Germany",
       "samples": 61,
       "heavy_samples": 1,
-      "council_mae_mm": 0.464,
-      "average_model_mae_mm": 0.853,
-      "improvement_pct": 45.6,
+      "council_mae_mm": 0.489,
+      "average_model_mae_mm": 0.847,
+      "improvement_pct": 42.3,
       "council_better": true
     },
     {
@@ -66,9 +66,9 @@
       "country": "Australia",
       "samples": 61,
       "heavy_samples": 7,
-      "council_mae_mm": 2.046,
-      "average_model_mae_mm": 2.839,
-      "improvement_pct": 27.9,
+      "council_mae_mm": 2.779,
+      "average_model_mae_mm": 3.409,
+      "improvement_pct": 18.5,
       "council_better": true
     },
     {
@@ -77,9 +77,9 @@
       "country": "Argentina",
       "samples": 61,
       "heavy_samples": 7,
-      "council_mae_mm": 1.959,
-      "average_model_mae_mm": 2.715,
-      "improvement_pct": 27.9,
+      "council_mae_mm": 1.98,
+      "average_model_mae_mm": 2.826,
+      "improvement_pct": 29.9,
       "council_better": true
     },
     {
@@ -88,9 +88,9 @@
       "country": "Egypt",
       "samples": 61,
       "heavy_samples": 0,
-      "council_mae_mm": 0.0,
-      "average_model_mae_mm": 0.005,
-      "improvement_pct": 100.0,
+      "council_mae_mm": 0.005,
+      "average_model_mae_mm": 0.014,
+      "improvement_pct": 65.4,
       "council_better": true
     },
     {
@@ -99,9 +99,9 @@
       "country": "South Africa",
       "samples": 61,
       "heavy_samples": 2,
-      "council_mae_mm": 0.916,
-      "average_model_mae_mm": 1.11,
-      "improvement_pct": 17.4,
+      "council_mae_mm": 0.921,
+      "average_model_mae_mm": 1.113,
+      "improvement_pct": 17.2,
       "council_better": true
     },
     {
@@ -110,9 +110,9 @@
       "country": "India",
       "samples": 61,
       "heavy_samples": 13,
-      "council_mae_mm": 2.848,
-      "average_model_mae_mm": 4.186,
-      "improvement_pct": 32.0,
+      "council_mae_mm": 2.782,
+      "average_model_mae_mm": 3.937,
+      "improvement_pct": 29.3,
       "council_better": true
     },
     {
@@ -120,10 +120,10 @@
       "name": "Delhi",
       "country": "India",
       "samples": 61,
-      "heavy_samples": 3,
-      "council_mae_mm": 1.252,
-      "average_model_mae_mm": 1.332,
-      "improvement_pct": 6.0,
+      "heavy_samples": 2,
+      "council_mae_mm": 0.911,
+      "average_model_mae_mm": 0.984,
+      "improvement_pct": 7.3,
       "council_better": true
     },
     {
@@ -131,10 +131,10 @@
       "name": "Dhaka",
       "country": "Bangladesh",
       "samples": 61,
-      "heavy_samples": 6,
-      "council_mae_mm": 1.543,
-      "average_model_mae_mm": 2.728,
-      "improvement_pct": 43.5,
+      "heavy_samples": 2,
+      "council_mae_mm": 1.228,
+      "average_model_mae_mm": 2.014,
+      "improvement_pct": 39.0,
       "council_better": true
     },
     {
@@ -143,9 +143,9 @@
       "country": "Vietnam",
       "samples": 61,
       "heavy_samples": 8,
-      "council_mae_mm": 4.621,
-      "average_model_mae_mm": 5.195,
-      "improvement_pct": 11.0,
+      "council_mae_mm": 4.689,
+      "average_model_mae_mm": 5.583,
+      "improvement_pct": 16.0,
       "council_better": true
     },
     {
@@ -154,9 +154,9 @@
       "country": "United States",
       "samples": 61,
       "heavy_samples": 5,
-      "council_mae_mm": 2.352,
-      "average_model_mae_mm": 2.626,
-      "improvement_pct": 10.4,
+      "council_mae_mm": 2.046,
+      "average_model_mae_mm": 2.513,
+      "improvement_pct": 18.6,
       "council_better": true
     },
     {
@@ -165,8 +165,8 @@
       "country": "T\u00fcrkiye",
       "samples": 61,
       "heavy_samples": 10,
-      "council_mae_mm": 2.889,
-      "average_model_mae_mm": 3.433,
+      "council_mae_mm": 3.008,
+      "average_model_mae_mm": 3.575,
       "improvement_pct": 15.9,
       "council_better": true
     },
@@ -176,9 +176,9 @@
       "country": "Indonesia",
       "samples": 61,
       "heavy_samples": 3,
-      "council_mae_mm": 2.116,
-      "average_model_mae_mm": 2.63,
-      "improvement_pct": 19.5,
+      "council_mae_mm": 2.27,
+      "average_model_mae_mm": 2.975,
+      "improvement_pct": 23.7,
       "council_better": true
     },
     {
@@ -186,10 +186,10 @@
       "name": "Lagos",
       "country": "Nigeria",
       "samples": 61,
-      "heavy_samples": 10,
-      "council_mae_mm": 6.515,
-      "average_model_mae_mm": 6.849,
-      "improvement_pct": 4.9,
+      "heavy_samples": 9,
+      "council_mae_mm": 6.451,
+      "average_model_mae_mm": 6.631,
+      "improvement_pct": 2.7,
       "council_better": true
     },
     {
@@ -197,10 +197,10 @@
       "name": "London",
       "country": "United Kingdom",
       "samples": 61,
-      "heavy_samples": 3,
-      "council_mae_mm": 0.934,
-      "average_model_mae_mm": 1.108,
-      "improvement_pct": 15.6,
+      "heavy_samples": 2,
+      "council_mae_mm": 0.695,
+      "average_model_mae_mm": 0.967,
+      "improvement_pct": 28.1,
       "council_better": true
     },
     {
@@ -208,10 +208,10 @@
       "name": "Manila",
       "country": "Philippines",
       "samples": 61,
-      "heavy_samples": 9,
-      "council_mae_mm": 2.98,
-      "average_model_mae_mm": 3.88,
-      "improvement_pct": 23.2,
+      "heavy_samples": 4,
+      "council_mae_mm": 2.723,
+      "average_model_mae_mm": 3.209,
+      "improvement_pct": 15.2,
       "council_better": true
     },
     {
@@ -219,10 +219,10 @@
       "name": "Mexico City",
       "country": "Mexico",
       "samples": 61,
-      "heavy_samples": 7,
-      "council_mae_mm": 2.833,
-      "average_model_mae_mm": 3.466,
-      "improvement_pct": 18.3,
+      "heavy_samples": 8,
+      "council_mae_mm": 2.703,
+      "average_model_mae_mm": 3.217,
+      "improvement_pct": 16.0,
       "council_better": true
     },
     {
@@ -230,10 +230,10 @@
       "name": "Miami",
       "country": "United States",
       "samples": 61,
-      "heavy_samples": 14,
-      "council_mae_mm": 4.21,
-      "average_model_mae_mm": 5.158,
-      "improvement_pct": 18.4,
+      "heavy_samples": 12,
+      "council_mae_mm": 3.623,
+      "average_model_mae_mm": 4.393,
+      "improvement_pct": 17.5,
       "council_better": true
     },
     {
@@ -241,10 +241,10 @@
       "name": "Mumbai",
       "country": "India",
       "samples": 61,
-      "heavy_samples": 2,
-      "council_mae_mm": 1.07,
-      "average_model_mae_mm": 1.486,
-      "improvement_pct": 28.0,
+      "heavy_samples": 1,
+      "council_mae_mm": 0.869,
+      "average_model_mae_mm": 1.225,
+      "improvement_pct": 29.1,
       "council_better": true
     },
     {
@@ -253,9 +253,9 @@
       "country": "Kenya",
       "samples": 61,
       "heavy_samples": 0,
-      "council_mae_mm": 0.777,
-      "average_model_mae_mm": 1.821,
-      "improvement_pct": 57.3,
+      "council_mae_mm": 0.846,
+      "average_model_mae_mm": 2.003,
+      "improvement_pct": 57.8,
       "council_better": true
     },
     {
@@ -263,10 +263,10 @@
       "name": "New York",
       "country": "United States",
       "samples": 61,
-      "heavy_samples": 6,
-      "council_mae_mm": 1.192,
-      "average_model_mae_mm": 1.986,
-      "improvement_pct": 40.0,
+      "heavy_samples": 7,
+      "council_mae_mm": 1.711,
+      "average_model_mae_mm": 2.416,
+      "improvement_pct": 29.2,
       "council_better": true
     },
     {
@@ -275,9 +275,9 @@
       "country": "Niger",
       "samples": 61,
       "heavy_samples": 0,
-      "council_mae_mm": 0.802,
-      "average_model_mae_mm": 1.59,
-      "improvement_pct": 49.6,
+      "council_mae_mm": 0.689,
+      "average_model_mae_mm": 1.327,
+      "improvement_pct": 48.1,
       "council_better": true
     },
     {
@@ -285,10 +285,10 @@
       "name": "Nuwakot",
       "country": "Nepal",
       "samples": 61,
-      "heavy_samples": 17,
-      "council_mae_mm": 4.856,
-      "average_model_mae_mm": 5.481,
-      "improvement_pct": 11.4,
+      "heavy_samples": 13,
+      "council_mae_mm": 3.98,
+      "average_model_mae_mm": 4.578,
+      "improvement_pct": 13.1,
       "council_better": true
     },
     {
@@ -296,10 +296,10 @@
       "name": "Osaka",
       "country": "Japan",
       "samples": 61,
-      "heavy_samples": 16,
-      "council_mae_mm": 4.213,
-      "average_model_mae_mm": 4.991,
-      "improvement_pct": 15.6,
+      "heavy_samples": 11,
+      "council_mae_mm": 3.075,
+      "average_model_mae_mm": 3.639,
+      "improvement_pct": 15.5,
       "council_better": true
     },
     {
@@ -308,9 +308,9 @@
       "country": "Brazil",
       "samples": 61,
       "heavy_samples": 0,
-      "council_mae_mm": 0.974,
-      "average_model_mae_mm": 1.367,
-      "improvement_pct": 28.7,
+      "council_mae_mm": 0.859,
+      "average_model_mae_mm": 1.199,
+      "improvement_pct": 28.4,
       "council_better": true
     },
     {
@@ -319,9 +319,9 @@
       "country": "Italy",
       "samples": 61,
       "heavy_samples": 5,
-      "council_mae_mm": 2.636,
-      "average_model_mae_mm": 3.214,
-      "improvement_pct": 18.0,
+      "council_mae_mm": 2.764,
+      "average_model_mae_mm": 3.235,
+      "improvement_pct": 14.6,
       "council_better": true
     },
     {
@@ -329,10 +329,10 @@
       "name": "Singapore",
       "country": "Singapore",
       "samples": 61,
-      "heavy_samples": 14,
-      "council_mae_mm": 4.743,
-      "average_model_mae_mm": 5.242,
-      "improvement_pct": 9.5,
+      "heavy_samples": 15,
+      "council_mae_mm": 5.198,
+      "average_model_mae_mm": 5.866,
+      "improvement_pct": 11.4,
       "council_better": true
     },
     {
@@ -341,22 +341,22 @@
       "country": "Poland",
       "samples": 61,
       "heavy_samples": 1,
-      "council_mae_mm": 1.008,
-      "average_model_mae_mm": 1.171,
-      "improvement_pct": 13.9,
+      "council_mae_mm": 0.985,
+      "average_model_mae_mm": 1.143,
+      "improvement_pct": 13.8,
       "council_better": true
     }
   ],
   "summary": {
     "council_win_points": 30,
     "council_win_rate": 1.0,
-    "median_improvement_pct": 18.9
+    "median_improvement_pct": 20.1
   },
   "hypothesis": {
     "id": "H20",
     "claim": "The three-model council improves 3-day daily-precipitation accuracy across diverse global climates, not only the original pilot locations.",
     "status": "supported",
-    "effect": "wins 30/30 locations; median improvement 18.9%",
+    "effect": "wins 30/30 locations; median improvement 20.1%",
     "product_update": "The council generalises well enough to justify expanding validated monitoring, while preserving location-specific thresholds."
   },
   "limitations": [
