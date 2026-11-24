@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1",
-  "updated_at": "2026-11-24T09:59:53.283314Z",
+  "updated_at": "2026-11-24T22:34:17.126327Z",
   "observations": [
     {
       "observation_id": "manila|2026-09-20T19:54:40.421641Z|2026-09-22",
@@ -11213,6 +11213,23 @@
       "verification_status": "pending",
       "classification": null,
       "actual_daily_mm": null
+    },
+    {
+      "observation_id": "delhi|2026-11-24T22:31:12.470140Z|2026-11-24",
+      "generated_at": "2026-11-24T22:31:12.470140Z",
+      "point_id": "delhi",
+      "name": "Delhi",
+      "country": "India",
+      "state": "quiet",
+      "forecast_peak_date": "2026-11-24",
+      "forecast_peak_daily_mm": 0.0,
+      "heavy_rain_gate_mm": 17.4,
+      "gate_ratio": 0.0,
+      "latitude": 28.61,
+      "longitude": 77.21,
+      "verification_status": "pending",
+      "classification": null,
+      "actual_daily_mm": null
     }
   ],
   "verification_cache": {
@@ -11959,8 +11976,8 @@
   },
   "source_errors": [],
   "summary": {
-    "total_observations": 594,
-    "pending": 37,
+    "total_observations": 595,
+    "pending": 38,
     "verified": 557,
     "classifications": {
       "correct_quiet": 543,
