@@ -4,127 +4,6 @@
   "frame_count": 48,
   "frames": [
     {
-      "generated_at": "2026-11-04T19:50:01.539979Z",
-      "watchpoint": {
-        "name": "Nuwakot",
-        "country": "Nepal",
-        "latitude": 27.95,
-        "longitude": 85.18
-      },
-      "members": [
-        {
-          "provider": "ecmwf",
-          "label": "ECMWF IFS",
-          "start_date": "2026-11-04",
-          "precip_daily_mm": [
-            {
-              "date": "2026-11-04",
-              "mm": 0.0
-            },
-            {
-              "date": "2026-11-05",
-              "mm": 0.0
-            },
-            {
-              "date": "2026-11-06",
-              "mm": 0.0
-            }
-          ],
-          "precip_peak_daily_mm": 0.0,
-          "precip_peak_date": "2026-11-04",
-          "precip_72h_mm": 0.0,
-          "temp_max_72h_c": 24.1,
-          "temp_min_72h_c": 14.2,
-          "gust_max_72h_kmh": 25.6
-        },
-        {
-          "provider": "gfs",
-          "label": "NOAA GFS",
-          "start_date": "2026-11-04",
-          "precip_daily_mm": [
-            {
-              "date": "2026-11-04",
-              "mm": 0.0
-            },
-            {
-              "date": "2026-11-05",
-              "mm": 0.0
-            },
-            {
-              "date": "2026-11-06",
-              "mm": 0.0
-            }
-          ],
-          "precip_peak_daily_mm": 0.0,
-          "precip_peak_date": "2026-11-04",
-          "precip_72h_mm": 0.0,
-          "temp_max_72h_c": 24.2,
-          "temp_min_72h_c": 13.8,
-          "gust_max_72h_kmh": 11.2
-        },
-        {
-          "provider": "icon",
-          "label": "DWD ICON",
-          "start_date": "2026-11-04",
-          "precip_daily_mm": [
-            {
-              "date": "2026-11-04",
-              "mm": 0.0
-            },
-            {
-              "date": "2026-11-05",
-              "mm": 0.3
-            },
-            {
-              "date": "2026-11-06",
-              "mm": 0.0
-            }
-          ],
-          "precip_peak_daily_mm": 0.3,
-          "precip_peak_date": "2026-11-05",
-          "precip_72h_mm": 0.3,
-          "temp_max_72h_c": 23.7,
-          "temp_min_72h_c": 13.8,
-          "gust_max_72h_kmh": 13.3
-        }
-      ],
-      "consensus": {
-        "precip_daily_mm_median": [
-          {
-            "date": "2026-11-04",
-            "mm": 0.0
-          },
-          {
-            "date": "2026-11-05",
-            "mm": 0.0
-          },
-          {
-            "date": "2026-11-06",
-            "mm": 0.0
-          }
-        ],
-        "precip_peak_daily_mm_median": 0.0,
-        "precip_peak_date": "2026-11-04",
-        "precip_72h_mm_median": 0.0,
-        "temp_max_72h_c_median": 24.1,
-        "gust_max_72h_kmh_median": 13.3,
-        "precip_agreement": "medium",
-        "temperature_agreement": "high",
-        "gust_agreement": "low"
-      },
-      "source_errors": [],
-      "weather_memory": {
-        "status": "insufficient_data",
-        "seasonal_percentile": null
-      },
-      "flood_signal": {
-        "status": "ok",
-        "forecast_peak_date": "2026-11-04",
-        "forecast_peak_discharge_m3s": 10.3,
-        "historical_percentile": 67.0
-      }
-    },
-    {
       "generated_at": "2026-11-05T06:55:54.727046Z",
       "watchpoint": {
         "name": "Nuwakot",
@@ -5561,6 +5440,127 @@
         "forecast_peak_date": "2026-11-26",
         "forecast_peak_discharge_m3s": 4.2,
         "historical_percentile": 49.4
+      }
+    },
+    {
+      "generated_at": "2026-11-27T08:43:15.792740Z",
+      "watchpoint": {
+        "name": "Nuwakot",
+        "country": "Nepal",
+        "latitude": 27.95,
+        "longitude": 85.18
+      },
+      "members": [
+        {
+          "provider": "ecmwf",
+          "label": "ECMWF IFS",
+          "start_date": "2026-11-27",
+          "precip_daily_mm": [
+            {
+              "date": "2026-11-27",
+              "mm": 0.0
+            },
+            {
+              "date": "2026-11-28",
+              "mm": 0.0
+            },
+            {
+              "date": "2026-11-29",
+              "mm": 0.0
+            }
+          ],
+          "precip_peak_daily_mm": 0.0,
+          "precip_peak_date": "2026-11-27",
+          "precip_72h_mm": 0.0,
+          "temp_max_72h_c": 23.3,
+          "temp_min_72h_c": 12.5,
+          "gust_max_72h_kmh": 23.8
+        },
+        {
+          "provider": "gfs",
+          "label": "NOAA GFS",
+          "start_date": "2026-11-27",
+          "precip_daily_mm": [
+            {
+              "date": "2026-11-27",
+              "mm": 0.0
+            },
+            {
+              "date": "2026-11-28",
+              "mm": 0.0
+            },
+            {
+              "date": "2026-11-29",
+              "mm": 0.0
+            }
+          ],
+          "precip_peak_daily_mm": 0.0,
+          "precip_peak_date": "2026-11-27",
+          "precip_72h_mm": 0.0,
+          "temp_max_72h_c": 22.7,
+          "temp_min_72h_c": 12.3,
+          "gust_max_72h_kmh": 10.1
+        },
+        {
+          "provider": "icon",
+          "label": "DWD ICON",
+          "start_date": "2026-11-27",
+          "precip_daily_mm": [
+            {
+              "date": "2026-11-27",
+              "mm": 0.0
+            },
+            {
+              "date": "2026-11-28",
+              "mm": 0.0
+            },
+            {
+              "date": "2026-11-29",
+              "mm": 0.0
+            }
+          ],
+          "precip_peak_daily_mm": 0.0,
+          "precip_peak_date": "2026-11-27",
+          "precip_72h_mm": 0.0,
+          "temp_max_72h_c": 23.0,
+          "temp_min_72h_c": 9.4,
+          "gust_max_72h_kmh": 18.0
+        }
+      ],
+      "consensus": {
+        "precip_daily_mm_median": [
+          {
+            "date": "2026-11-27",
+            "mm": 0.0
+          },
+          {
+            "date": "2026-11-28",
+            "mm": 0.0
+          },
+          {
+            "date": "2026-11-29",
+            "mm": 0.0
+          }
+        ],
+        "precip_peak_daily_mm_median": 0.0,
+        "precip_peak_date": "2026-11-27",
+        "precip_72h_mm_median": 0.0,
+        "temp_max_72h_c_median": 23.0,
+        "gust_max_72h_kmh_median": 18.0,
+        "precip_agreement": "high",
+        "temperature_agreement": "high",
+        "gust_agreement": "low"
+      },
+      "source_errors": [],
+      "weather_memory": {
+        "status": "insufficient_data",
+        "seasonal_percentile": null
+      },
+      "flood_signal": {
+        "status": "ok",
+        "forecast_peak_date": "2026-11-27",
+        "forecast_peak_discharge_m3s": 4.0,
+        "historical_percentile": 48.0
       }
     }
   ],
